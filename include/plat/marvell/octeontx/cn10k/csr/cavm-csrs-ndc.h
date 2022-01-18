@@ -115,7 +115,13 @@ typedef union cavm_ndcx_af_bankx_hit_pc cavm_ndcx_af_bankx_hit_pc_t;
 static inline uint64_t CAVM_NDCX_AF_BANKX_HIT_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NDCX_AF_BANKX_HIT_PC(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15)))
+        return 0x8400c0001000ll + 0x10000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=7)))
+        return 0x8400c0001000ll + 0x10000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=15)))
+        return 0x8400c0001000ll + 0x10000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) && (b<=15)))
         return 0x8400c0001000ll + 0x10000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NDCX_AF_BANKX_HIT_PC", 2, a, b, 0, 0, 0, 0);
 }
@@ -152,7 +158,13 @@ typedef union cavm_ndcx_af_bankx_indexx_busy cavm_ndcx_af_bankx_indexx_busy_t;
 static inline uint64_t CAVM_NDCX_AF_BANKX_INDEXX_BUSY(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NDCX_AF_BANKX_INDEXX_BUSY(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=5) && (b<=15) && (c<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15) && (c<=3)))
+        return 0x8400c0000600ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=7) && (c<=3)))
+        return 0x8400c0000600ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x7) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=15) && (c<=3)))
+        return 0x8400c0000600ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) && (b<=15) && (c<=3)))
         return 0x8400c0000600ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("NDCX_AF_BANKX_INDEXX_BUSY", 3, a, b, c, 0, 0, 0);
 }
@@ -189,7 +201,13 @@ typedef union cavm_ndcx_af_bankx_indexx_dirty cavm_ndcx_af_bankx_indexx_dirty_t;
 static inline uint64_t CAVM_NDCX_AF_BANKX_INDEXX_DIRTY(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NDCX_AF_BANKX_INDEXX_DIRTY(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=5) && (b<=15) && (c<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15) && (c<=3)))
+        return 0x8400c0000800ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=7) && (c<=3)))
+        return 0x8400c0000800ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x7) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=15) && (c<=3)))
+        return 0x8400c0000800ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) && (b<=15) && (c<=3)))
         return 0x8400c0000800ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("NDCX_AF_BANKX_INDEXX_DIRTY", 3, a, b, c, 0, 0, 0);
 }
@@ -226,7 +244,13 @@ typedef union cavm_ndcx_af_bankx_indexx_lock cavm_ndcx_af_bankx_indexx_lock_t;
 static inline uint64_t CAVM_NDCX_AF_BANKX_INDEXX_LOCK(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NDCX_AF_BANKX_INDEXX_LOCK(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=5) && (b<=15) && (c<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15) && (c<=3)))
+        return 0x8400c0000a00ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=7) && (c<=3)))
+        return 0x8400c0000a00ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x7) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=15) && (c<=3)))
+        return 0x8400c0000a00ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) && (b<=15) && (c<=3)))
         return 0x8400c0000a00ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("NDCX_AF_BANKX_INDEXX_LOCK", 3, a, b, c, 0, 0, 0);
 }
@@ -263,7 +287,13 @@ typedef union cavm_ndcx_af_bankx_indexx_vld cavm_ndcx_af_bankx_indexx_vld_t;
 static inline uint64_t CAVM_NDCX_AF_BANKX_INDEXX_VLD(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NDCX_AF_BANKX_INDEXX_VLD(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=5) && (b<=15) && (c<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15) && (c<=3)))
+        return 0x8400c0000400ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=7) && (c<=3)))
+        return 0x8400c0000400ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x7) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=15) && (c<=3)))
+        return 0x8400c0000400ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) && (b<=15) && (c<=3)))
         return 0x8400c0000400ll + 0x10000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0xf) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("NDCX_AF_BANKX_INDEXX_VLD", 3, a, b, c, 0, 0, 0);
 }
@@ -316,7 +346,13 @@ typedef union cavm_ndcx_af_bankx_linex_metadata cavm_ndcx_af_bankx_linex_metadat
 static inline uint64_t CAVM_NDCX_AF_BANKX_LINEX_METADATA(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NDCX_AF_BANKX_LINEX_METADATA(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=5) && (b<=15) && (c<=255))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15) && (c<=255)))
+        return 0x8400c0010000ll + 0x10000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0xf) + 8ll * ((c) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=7) && (c<=255)))
+        return 0x8400c0010000ll + 0x10000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x7) + 8ll * ((c) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=15) && (c<=255)))
+        return 0x8400c0010000ll + 0x10000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0xf) + 8ll * ((c) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) && (b<=15) && (c<=255)))
         return 0x8400c0010000ll + 0x10000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0xf) + 8ll * ((c) & 0xff);
     __cavm_csr_fatal("NDCX_AF_BANKX_LINEX_METADATA", 3, a, b, c, 0, 0, 0);
 }
@@ -353,7 +389,13 @@ typedef union cavm_ndcx_af_bankx_linex_wordx cavm_ndcx_af_bankx_linex_wordx_t;
 static inline uint64_t CAVM_NDCX_AF_BANKX_LINEX_WORDX(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NDCX_AF_BANKX_LINEX_WORDX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if ((a<=5) && (b<=15) && (c<=255) && (d<=15))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15) && (c<=255) && (d<=15)))
+        return 0x8400c0100000ll + 0x10000000ll * ((a) & 0x7) + 0x8000ll * ((b) & 0xf) + 0x80ll * ((c) & 0xff) + 8ll * ((d) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=7) && (c<=255) && (d<=15)))
+        return 0x8400c0100000ll + 0x10000000ll * ((a) & 0x7) + 0x8000ll * ((b) & 0x7) + 0x80ll * ((c) & 0xff) + 8ll * ((d) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=15) && (c<=255) && (d<=15)))
+        return 0x8400c0100000ll + 0x10000000ll * ((a) & 0x7) + 0x8000ll * ((b) & 0xf) + 0x80ll * ((c) & 0xff) + 8ll * ((d) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) && (b<=15) && (c<=255) && (d<=15)))
         return 0x8400c0100000ll + 0x10000000ll * ((a) & 0x7) + 0x8000ll * ((b) & 0xf) + 0x80ll * ((c) & 0xff) + 8ll * ((d) & 0xf);
     __cavm_csr_fatal("NDCX_AF_BANKX_LINEX_WORDX", 4, a, b, c, d, 0, 0);
 }
@@ -388,7 +430,13 @@ typedef union cavm_ndcx_af_bankx_miss_pc cavm_ndcx_af_bankx_miss_pc_t;
 static inline uint64_t CAVM_NDCX_AF_BANKX_MISS_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NDCX_AF_BANKX_MISS_PC(uint64_t a, uint64_t b)
 {
-    if ((a<=5) && (b<=15))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15)))
+        return 0x8400c0001100ll + 0x10000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=7)))
+        return 0x8400c0001100ll + 0x10000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=5) && (b<=15)))
+        return 0x8400c0001100ll + 0x10000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) && (b<=15)))
         return 0x8400c0001100ll + 0x10000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     __cavm_csr_fatal("NDCX_AF_BANKX_MISS_PC", 2, a, b, 0, 0, 0, 0);
 }
@@ -430,7 +478,30 @@ union cavm_ndcx_af_bank_ctl_done
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ndcx_af_bank_ctl_done_s cn; */
+    /* struct cavm_ndcx_af_bank_ctl_done_s cn10; */
+    /* struct cavm_ndcx_af_bank_ctl_done_s cn10ka; */
+    struct cavm_ndcx_af_bank_ctl_done_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t done                  : 8;  /**< [  7:  0](R/W1C/H) Done indication. Each bit represent one NDC bank.
+                                                                 Set by hardware when NDC banks completes the request as was
+                                                                 submitted using NDC_AF_BANKS_CTL[SYNC_ALL] or NDC_AF_BANKS_CTL[FLUSH_ALL].
+                                                                 NDC_AF_BANKS_CTL[SYNC_ALL] or NDC_AF_BANKS_CTL[FLUSH_ALL] operation are completed
+                                                                 when all 8 bits in [DONE] are set. Use W1C before setting NDC_AF_BANKS_CTL[SYNC_ALL]
+                                                                 or NDC_AF_BANKS_CTL[FLUSH_ALL] again. */
+#else /* Word 0 - Little Endian */
+        uint64_t done                  : 8;  /**< [  7:  0](R/W1C/H) Done indication. Each bit represent one NDC bank.
+                                                                 Set by hardware when NDC banks completes the request as was
+                                                                 submitted using NDC_AF_BANKS_CTL[SYNC_ALL] or NDC_AF_BANKS_CTL[FLUSH_ALL].
+                                                                 NDC_AF_BANKS_CTL[SYNC_ALL] or NDC_AF_BANKS_CTL[FLUSH_ALL] operation are completed
+                                                                 when all 8 bits in [DONE] are set. Use W1C before setting NDC_AF_BANKS_CTL[SYNC_ALL]
+                                                                 or NDC_AF_BANKS_CTL[FLUSH_ALL] again. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_ndcx_af_bank_ctl_done_s cnf10ka; */
+    /* struct cavm_ndcx_af_bank_ctl_done_s cnf10kb; */
 };
 typedef union cavm_ndcx_af_bank_ctl_done cavm_ndcx_af_bank_ctl_done_t;
 
@@ -750,7 +821,34 @@ union cavm_ndcx_af_cams_rd_interval
                                                                  NDC_AF_CAMS_RD_INTERVAL[THRESHOLD] in order to find soft single-bit errors. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ndcx_af_cams_rd_interval_s cn; */
+    /* struct cavm_ndcx_af_cams_rd_interval_s cn10; */
+    /* struct cavm_ndcx_af_cams_rd_interval_s cn10ka; */
+    struct cavm_ndcx_af_cams_rd_interval_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) When one, NDC reads all the CAMs entries periodically as specified by
+                                                                 NDC_AF_CAMS_RD_INTERVAL[THRESHOLD] in order to find soft single-bit errors. */
+        uint64_t reserved_40_62        : 23;
+        uint64_t busy                  : 8;  /**< [ 39: 32](RO/H) While one, hardware is busy reading all the CAMs entries. Each bit represents
+                                                                 one of the NDC banks. */
+        uint64_t reserved_16_31        : 16;
+        uint64_t threshold             : 16; /**< [ 15:  0](R/W) Frequency between reading all CAMs entries, in units of 1024 coprocessor-clock
+                                                                 cycles. Minimum possible value of 1 represents 1024 design cycles. Larger values
+                                                                 will reduce power. Only valid when [ENABLE] is one. */
+#else /* Word 0 - Little Endian */
+        uint64_t threshold             : 16; /**< [ 15:  0](R/W) Frequency between reading all CAMs entries, in units of 1024 coprocessor-clock
+                                                                 cycles. Minimum possible value of 1 represents 1024 design cycles. Larger values
+                                                                 will reduce power. Only valid when [ENABLE] is one. */
+        uint64_t reserved_16_31        : 16;
+        uint64_t busy                  : 8;  /**< [ 39: 32](RO/H) While one, hardware is busy reading all the CAMs entries. Each bit represents
+                                                                 one of the NDC banks. */
+        uint64_t reserved_40_62        : 23;
+        uint64_t enable                : 1;  /**< [ 63: 63](R/W) When one, NDC reads all the CAMs entries periodically as specified by
+                                                                 NDC_AF_CAMS_RD_INTERVAL[THRESHOLD] in order to find soft single-bit errors. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_ndcx_af_cams_rd_interval_s cnf10ka; */
+    /* struct cavm_ndcx_af_cams_rd_interval_s cnf10kb; */
 };
 typedef union cavm_ndcx_af_cams_rd_interval cavm_ndcx_af_cams_rd_interval_t;
 
@@ -867,6 +965,171 @@ union cavm_ndcx_af_ctl
     struct cavm_ndcx_af_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t dis_clr_lock_on_poison : 1; /**< [ 21: 21](R/W) Normally, when a poison or fault response occurs on a read, a both the valid bit
+                                                                 and the lock bit associated with a particular index/way will be cleared.
+                                                                 When set, a poison or fault response on a read will clear only the valid bit
+                                                                 associated with the index/way. The lock bit will not be cleared. */
+        uint64_t dis_inval_on_mask_pnd : 1;  /**< [ 20: 20](R/W) When set, invalidate requests will be ignored when pending read requests to the
+                                                                 same cache line are present in the bank pending FIFO. When set, the NDC_AF_PORT()_IT(0)_INVAL_PC
+                                                                 performance counters will overcount the number of successful invalidate requests while the
+                                                                 NDC_AF_PORT()_IT(2)_INVAL_PC performance counters will undercount the number of invalidate
+                                                                 requests that failed due to a read fetch being in flight.
+                                                                 For diagnostic use only. */
+        uint64_t en_flush_on_inval     : 1;  /**< [ 19: 19](R/W) When set, invalidate requests will flush the corresponding entry back to
+                                                                 coherent memory if the entry is dirty.
+                                                                 For diagnostic use only. */
+        uint64_t dis_byp_on_inval_miss : 1;  /**< [ 18: 18](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 When set, cause read miss + invalidate operations to allocate a
+                                                                 cache entry, which could result in flushing a dirty entry.  When clear
+                                                                 clear, read miss + invalidate operations will be treated as bypassed reads and
+                                                                 will not allocate a cache entry nor initiate any flushes.  See the description
+                                                                 of [DIS_INVAL_ON_BUSY] for more information about interactions between read miss
+                                                                 and invalidate requests. */
+        uint64_t dis_inval_on_busy     : 1;  /**< [ 17: 17](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 When set, disable invalidate operations whenever the invalidate is
+                                                                 requested for a Read Hit where a prior read miss to the same cache line has not
+                                                                 yet been filled from coherent memory.  If the reset value of this bit is one,
+                                                                 that indicated that the design does not support invalidates when an entry is
+                                                                 busy (i.e., waiting for a fill to complete).  In that case, setting the bit to
+                                                                 zero will have no effect. */
+        uint64_t dis_inval             : 1;  /**< [ 16: 16](R/W) When one, disable all invalidate operations. For diagnostic use only. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t dis_sync_mods         : 1;  /**< [ 13: 13](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 When set, disable TBD late fixes introduced to
+                                                                 resolve issues with FLR.SYNC operations.  As the design team
+                                                                 adds consumers of this bit, the description will be updated. */
+        uint64_t dis_unjam_w3a         : 1;  /**< [ 12: 12](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 When set, disable the fix for McBuggin 36640.
+                                                                 In short, the deadlock unjam mechanism will be disabled, such that
+                                                                 the particular deadlock described in the bug becomes possible again;
+                                                                 however, any inadvertent bug introduced by the fix could be avoided. */
+        uint64_t perf_mode             : 4;  /**< [ 11:  8](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 These bits will eventually be used to limit performance
+                                                                 -- in some TBD manner -- in hopes that the lower-performance
+                                                                 mode(s) avoid triggering bugs fixed late in the design cycle. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t lock_dis              : 1;  /**< [  4:  4](R/W) Lock disabled. When set, NDC will not execute any command with lock bit set and report an error
+                                                                 back to port if command has lock bit set. Unlock command is not effected by this CSR.
+                                                                 When cleared NDC will process any command with lock bit set. */
+        uint64_t way_select_dis        : 1;  /**< [  3:  3](R/W) Way select disable. Should be clear for normal operation.
+
+                                                                 When clear, the way selected on a cache miss is based on the corresponding
+                                                                 NIX_*[*WAY_MASK]/NPA_*[*WAY_MASK]; if way mask bit N is clear, any of NDC
+                                                                 ways 4*N through 4*N+3 may be selected, otherwise these ways are excluded
+                                                                 from selection.
+
+                                                                 When set on a cache miss with NIX_*[*WAY_MASK]/NPA_*[*WAY_MASK] != 0xFFFF,
+                                                                 NDC ignores the way mask and allows any way to be selected/allocated.
+
+                                                                 Requests with NIX_*[*WAY_MASK]/NPA_*[*WAY_MASK] == 0xFFFF bypass the
+                                                                 NDC cache and are not affected by this bit. */
+        uint64_t reserved_2            : 1;
+        uint64_t hash_dis              : 1;  /**< [  1:  1](R/W) Hash disable. When set, the address hash function defined by NDC_AF_HASH()
+                                                                 is not used.
+
+                                                                 For diagnostic use only. May only be modified when NDC is idle and has no
+                                                                 cached data.
+
+                                                                 Internal:
+                                                                 When set, iova \<18:15\> select the bank and \<14:13\> select the index within
+                                                                 bank. */
+        uint64_t byp_only              : 1;  /**< [  0:  0](R/W) Bypass only.
+                                                                 0 = Bypass only mode is disabled and NDC will steer port requests based on command
+                                                                 bits, either to cache, for cache accesses or to LLC for bypass accesses.
+                                                                 1 = All requests will be directed to LLC, similar to bypass operation. Software
+                                                                 must not use the NDC LOCK feature. */
+#else /* Word 0 - Little Endian */
+        uint64_t byp_only              : 1;  /**< [  0:  0](R/W) Bypass only.
+                                                                 0 = Bypass only mode is disabled and NDC will steer port requests based on command
+                                                                 bits, either to cache, for cache accesses or to LLC for bypass accesses.
+                                                                 1 = All requests will be directed to LLC, similar to bypass operation. Software
+                                                                 must not use the NDC LOCK feature. */
+        uint64_t hash_dis              : 1;  /**< [  1:  1](R/W) Hash disable. When set, the address hash function defined by NDC_AF_HASH()
+                                                                 is not used.
+
+                                                                 For diagnostic use only. May only be modified when NDC is idle and has no
+                                                                 cached data.
+
+                                                                 Internal:
+                                                                 When set, iova \<18:15\> select the bank and \<14:13\> select the index within
+                                                                 bank. */
+        uint64_t reserved_2            : 1;
+        uint64_t way_select_dis        : 1;  /**< [  3:  3](R/W) Way select disable. Should be clear for normal operation.
+
+                                                                 When clear, the way selected on a cache miss is based on the corresponding
+                                                                 NIX_*[*WAY_MASK]/NPA_*[*WAY_MASK]; if way mask bit N is clear, any of NDC
+                                                                 ways 4*N through 4*N+3 may be selected, otherwise these ways are excluded
+                                                                 from selection.
+
+                                                                 When set on a cache miss with NIX_*[*WAY_MASK]/NPA_*[*WAY_MASK] != 0xFFFF,
+                                                                 NDC ignores the way mask and allows any way to be selected/allocated.
+
+                                                                 Requests with NIX_*[*WAY_MASK]/NPA_*[*WAY_MASK] == 0xFFFF bypass the
+                                                                 NDC cache and are not affected by this bit. */
+        uint64_t lock_dis              : 1;  /**< [  4:  4](R/W) Lock disabled. When set, NDC will not execute any command with lock bit set and report an error
+                                                                 back to port if command has lock bit set. Unlock command is not effected by this CSR.
+                                                                 When cleared NDC will process any command with lock bit set. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t perf_mode             : 4;  /**< [ 11:  8](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 These bits will eventually be used to limit performance
+                                                                 -- in some TBD manner -- in hopes that the lower-performance
+                                                                 mode(s) avoid triggering bugs fixed late in the design cycle. */
+        uint64_t dis_unjam_w3a         : 1;  /**< [ 12: 12](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 When set, disable the fix for McBuggin 36640.
+                                                                 In short, the deadlock unjam mechanism will be disabled, such that
+                                                                 the particular deadlock described in the bug becomes possible again;
+                                                                 however, any inadvertent bug introduced by the fix could be avoided. */
+        uint64_t dis_sync_mods         : 1;  /**< [ 13: 13](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 When set, disable TBD late fixes introduced to
+                                                                 resolve issues with FLR.SYNC operations.  As the design team
+                                                                 adds consumers of this bit, the description will be updated. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t dis_inval             : 1;  /**< [ 16: 16](R/W) When one, disable all invalidate operations. For diagnostic use only. */
+        uint64_t dis_inval_on_busy     : 1;  /**< [ 17: 17](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 When set, disable invalidate operations whenever the invalidate is
+                                                                 requested for a Read Hit where a prior read miss to the same cache line has not
+                                                                 yet been filled from coherent memory.  If the reset value of this bit is one,
+                                                                 that indicated that the design does not support invalidates when an entry is
+                                                                 busy (i.e., waiting for a fill to complete).  In that case, setting the bit to
+                                                                 zero will have no effect. */
+        uint64_t dis_byp_on_inval_miss : 1;  /**< [ 18: 18](R/W) For diagnostic use only.
+                                                                 Internal:
+                                                                 When set, cause read miss + invalidate operations to allocate a
+                                                                 cache entry, which could result in flushing a dirty entry.  When clear
+                                                                 clear, read miss + invalidate operations will be treated as bypassed reads and
+                                                                 will not allocate a cache entry nor initiate any flushes.  See the description
+                                                                 of [DIS_INVAL_ON_BUSY] for more information about interactions between read miss
+                                                                 and invalidate requests. */
+        uint64_t en_flush_on_inval     : 1;  /**< [ 19: 19](R/W) When set, invalidate requests will flush the corresponding entry back to
+                                                                 coherent memory if the entry is dirty.
+                                                                 For diagnostic use only. */
+        uint64_t dis_inval_on_mask_pnd : 1;  /**< [ 20: 20](R/W) When set, invalidate requests will be ignored when pending read requests to the
+                                                                 same cache line are present in the bank pending FIFO. When set, the NDC_AF_PORT()_IT(0)_INVAL_PC
+                                                                 performance counters will overcount the number of successful invalidate requests while the
+                                                                 NDC_AF_PORT()_IT(2)_INVAL_PC performance counters will undercount the number of invalidate
+                                                                 requests that failed due to a read fetch being in flight.
+                                                                 For diagnostic use only. */
+        uint64_t dis_clr_lock_on_poison : 1; /**< [ 21: 21](R/W) Normally, when a poison or fault response occurs on a read, a both the valid bit
+                                                                 and the lock bit associated with a particular index/way will be cleared.
+                                                                 When set, a poison or fault response on a read will clear only the valid bit
+                                                                 associated with the index/way. The lock bit will not be cleared. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ndcx_af_ctl_s cn10; */
+    struct cavm_ndcx_af_ctl_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
         uint64_t dis_inval_on_mask_pnd : 1;  /**< [ 20: 20](R/W) When set, invalidate requests will be ignored when pending read requests to the
                                                                  same cache line are present in the bank pending FIFO. When set, the NDC_AF_PORT()_IT(0)_INVAL_PC
@@ -1019,8 +1282,10 @@ union cavm_ndcx_af_ctl
                                                                  For diagnostic use only. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ndcx_af_ctl_s cn; */
+    } cn10ka;
+    /* struct cavm_ndcx_af_ctl_s cn10kb; */
+    /* struct cavm_ndcx_af_ctl_cn10ka cnf10ka; */
+    /* struct cavm_ndcx_af_ctl_cn10ka cnf10kb; */
 };
 typedef union cavm_ndcx_af_ctl cavm_ndcx_af_ctl_t;
 
@@ -1199,7 +1464,38 @@ union cavm_ndcx_af_intr
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ndcx_af_intr_s cn; */
+    /* struct cavm_ndcx_af_intr_s cn10; */
+    /* struct cavm_ndcx_af_intr_s cn10ka; */
+    struct cavm_ndcx_af_intr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_40_47        : 8;
+        uint64_t allocate_error        : 8;  /**< [ 39: 32](R/W1C/H) Allocation interrupt. Each bit corresponds to banks 7..0 respectively. If set,
+                                                                 bank couldn't allocate a way since all ways were locked for a given way select. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t flr_and_busy_error    : 8;  /**< [ 23: 16](R/W1C/H) Interrupt bit per bank. Each bit corresponds to banks 7..0 respectively.
+                                                                 If set, bank got a global FLR.flr request from port for a line that had busy bit set.
+                                                                 Software must request FLR.flr only if all matching lines are quiesced. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t flush_error           : 8;  /**< [  7:  0](R/W1C/H) Interrupt bit per bank. Each bit corresponds to banks 7..0 respectively. If
+                                                                 set, bank got a store fault error when writing a line back to LLC/DRAM. */
+#else /* Word 0 - Little Endian */
+        uint64_t flush_error           : 8;  /**< [  7:  0](R/W1C/H) Interrupt bit per bank. Each bit corresponds to banks 7..0 respectively. If
+                                                                 set, bank got a store fault error when writing a line back to LLC/DRAM. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t flr_and_busy_error    : 8;  /**< [ 23: 16](R/W1C/H) Interrupt bit per bank. Each bit corresponds to banks 7..0 respectively.
+                                                                 If set, bank got a global FLR.flr request from port for a line that had busy bit set.
+                                                                 Software must request FLR.flr only if all matching lines are quiesced. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t allocate_error        : 8;  /**< [ 39: 32](R/W1C/H) Allocation interrupt. Each bit corresponds to banks 7..0 respectively. If set,
+                                                                 bank couldn't allocate a way since all ways were locked for a given way select. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_ndcx_af_intr_s cnf10ka; */
+    /* struct cavm_ndcx_af_intr_s cnf10kb; */
 };
 typedef union cavm_ndcx_af_intr cavm_ndcx_af_intr_t;
 
@@ -1241,7 +1537,30 @@ union cavm_ndcx_af_intr_ena_w1c
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ndcx_af_intr_ena_w1c_s cn; */
+    /* struct cavm_ndcx_af_intr_ena_w1c_s cn10; */
+    /* struct cavm_ndcx_af_intr_ena_w1c_s cn10ka; */
+    struct cavm_ndcx_af_intr_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_40_47        : 8;
+        uint64_t allocate_error        : 8;  /**< [ 39: 32](R/W1C/H) Reads or clears enable for NDC_AF_INTR[ALLOCATE_ERROR]. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t flr_and_busy_error    : 8;  /**< [ 23: 16](R/W1C/H) Reads or clears enable for NDC_AF_INTR[FLR_AND_BUSY_ERROR]. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t flush_error           : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NDC_AF_INTR[FLUSH_ERROR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t flush_error           : 8;  /**< [  7:  0](R/W1C/H) Reads or clears enable for NDC_AF_INTR[FLUSH_ERROR]. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t flr_and_busy_error    : 8;  /**< [ 23: 16](R/W1C/H) Reads or clears enable for NDC_AF_INTR[FLR_AND_BUSY_ERROR]. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t allocate_error        : 8;  /**< [ 39: 32](R/W1C/H) Reads or clears enable for NDC_AF_INTR[ALLOCATE_ERROR]. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_ndcx_af_intr_ena_w1c_s cnf10ka; */
+    /* struct cavm_ndcx_af_intr_ena_w1c_s cnf10kb; */
 };
 typedef union cavm_ndcx_af_intr_ena_w1c cavm_ndcx_af_intr_ena_w1c_t;
 
@@ -1283,7 +1602,30 @@ union cavm_ndcx_af_intr_ena_w1s
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ndcx_af_intr_ena_w1s_s cn; */
+    /* struct cavm_ndcx_af_intr_ena_w1s_s cn10; */
+    /* struct cavm_ndcx_af_intr_ena_w1s_s cn10ka; */
+    struct cavm_ndcx_af_intr_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_40_47        : 8;
+        uint64_t allocate_error        : 8;  /**< [ 39: 32](R/W1S/H) Reads or sets enable for NDC_AF_INTR[ALLOCATE_ERROR]. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t flr_and_busy_error    : 8;  /**< [ 23: 16](R/W1S/H) Reads or sets enable for NDC_AF_INTR[FLR_AND_BUSY_ERROR]. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t flush_error           : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NDC_AF_INTR[FLUSH_ERROR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t flush_error           : 8;  /**< [  7:  0](R/W1S/H) Reads or sets enable for NDC_AF_INTR[FLUSH_ERROR]. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t flr_and_busy_error    : 8;  /**< [ 23: 16](R/W1S/H) Reads or sets enable for NDC_AF_INTR[FLR_AND_BUSY_ERROR]. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t allocate_error        : 8;  /**< [ 39: 32](R/W1S/H) Reads or sets enable for NDC_AF_INTR[ALLOCATE_ERROR]. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_ndcx_af_intr_ena_w1s_s cnf10ka; */
+    /* struct cavm_ndcx_af_intr_ena_w1s_s cnf10kb; */
 };
 typedef union cavm_ndcx_af_intr_ena_w1s cavm_ndcx_af_intr_ena_w1s_t;
 
@@ -1325,7 +1667,30 @@ union cavm_ndcx_af_intr_w1s
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ndcx_af_intr_w1s_s cn; */
+    /* struct cavm_ndcx_af_intr_w1s_s cn10; */
+    /* struct cavm_ndcx_af_intr_w1s_s cn10ka; */
+    struct cavm_ndcx_af_intr_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_40_47        : 8;
+        uint64_t allocate_error        : 8;  /**< [ 39: 32](R/W1S/H) Reads or sets NDC_AF_INTR[ALLOCATE_ERROR]. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t flr_and_busy_error    : 8;  /**< [ 23: 16](R/W1S/H) Reads or sets NDC_AF_INTR[FLR_AND_BUSY_ERROR]. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t flush_error           : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NDC_AF_INTR[FLUSH_ERROR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t flush_error           : 8;  /**< [  7:  0](R/W1S/H) Reads or sets NDC_AF_INTR[FLUSH_ERROR]. */
+        uint64_t reserved_8_15         : 8;
+        uint64_t flr_and_busy_error    : 8;  /**< [ 23: 16](R/W1S/H) Reads or sets NDC_AF_INTR[FLR_AND_BUSY_ERROR]. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t allocate_error        : 8;  /**< [ 39: 32](R/W1S/H) Reads or sets NDC_AF_INTR[ALLOCATE_ERROR]. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_ndcx_af_intr_w1s_s cnf10ka; */
+    /* struct cavm_ndcx_af_intr_w1s_s cnf10kb; */
 };
 typedef union cavm_ndcx_af_intr_w1s cavm_ndcx_af_intr_w1s_t;
 

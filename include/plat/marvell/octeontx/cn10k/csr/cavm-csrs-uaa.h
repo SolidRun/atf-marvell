@@ -1324,6 +1324,41 @@ union cavm_uaax_redirect
     struct cavm_uaax_redirect_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t out_dis               : 1;  /**< [  4:  4](SR/W) 0 = Allow using [IN_ENA] in another UAA block to receive traffic from this UAA.
+                                                                 1 = Disable any other UAA from using [IN_ENA] to receive traffic from this UAA.
+                                                                 It may be desirable to set this on secure UAAs so no other UART can receive traffic. */
+        uint64_t in_ena                : 1;  /**< [  3:  3](SR/W) 0 = UAA receive and modem control inputs are from hard-assigned pins or GPIO virtual pins.
+                                                                 1 = UAA receive and modem control come from the UAA specified by [IN_SEL]. */
+        uint64_t in_sel                : 3;  /**< [  2:  0](SR/W) 0x0 = Inputs from UAA0.
+                                                                 0x1 = Inputs from UAA1.
+                                                                 0x2 = Inputs from UAA2.
+                                                                 0x3 = Inputs from UAA3.
+                                                                 0x4 = Inputs from UAA4.
+                                                                 0x5 = Inputs from UAA5.
+                                                                 0x6 = Inputs from UAA6.
+                                                                 0x7 = Inputs from UAA7. */
+#else /* Word 0 - Little Endian */
+        uint64_t in_sel                : 3;  /**< [  2:  0](SR/W) 0x0 = Inputs from UAA0.
+                                                                 0x1 = Inputs from UAA1.
+                                                                 0x2 = Inputs from UAA2.
+                                                                 0x3 = Inputs from UAA3.
+                                                                 0x4 = Inputs from UAA4.
+                                                                 0x5 = Inputs from UAA5.
+                                                                 0x6 = Inputs from UAA6.
+                                                                 0x7 = Inputs from UAA7. */
+        uint64_t in_ena                : 1;  /**< [  3:  3](SR/W) 0 = UAA receive and modem control inputs are from hard-assigned pins or GPIO virtual pins.
+                                                                 1 = UAA receive and modem control come from the UAA specified by [IN_SEL]. */
+        uint64_t out_dis               : 1;  /**< [  4:  4](SR/W) 0 = Allow using [IN_ENA] in another UAA block to receive traffic from this UAA.
+                                                                 1 = Disable any other UAA from using [IN_ENA] to receive traffic from this UAA.
+                                                                 It may be desirable to set this on secure UAAs so no other UART can receive traffic. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_uaax_redirect_s cn10; */
+    struct cavm_uaax_redirect_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t in_ena                : 1;  /**< [  3:  3](SR/W) 0 = UAA receive and modem control inputs are from hard-assigned pins or GPIO virtual pins.
                                                                  1 = UAA receive and modem control come from the UAA specified by [IN_SEL]. */
@@ -1348,8 +1383,10 @@ union cavm_uaax_redirect
                                                                  1 = UAA receive and modem control come from the UAA specified by [IN_SEL]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_uaax_redirect_s cn; */
+    } cn10ka;
+    /* struct cavm_uaax_redirect_s cn10kb; */
+    /* struct cavm_uaax_redirect_cn10ka cnf10ka; */
+    /* struct cavm_uaax_redirect_cn10ka cnf10kb; */
 };
 typedef union cavm_uaax_redirect cavm_uaax_redirect_t;
 

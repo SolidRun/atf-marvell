@@ -873,7 +873,18 @@ union cavm_rnm_pf_trng
                                                                  Must also read RNM_TRNG_RESULT for result status. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_pf_trng_s cn; */
+    /* struct cavm_rnm_pf_trng_s cn10; */
+    /* struct cavm_rnm_pf_trng_s cn10ka; */
+    struct cavm_rnm_pf_trng_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rnm_pf_trng_s cnf10ka; */
+    /* struct cavm_rnm_pf_trng_s cnf10kb; */
 };
 typedef union cavm_rnm_pf_trng cavm_rnm_pf_trng_t;
 
@@ -890,6 +901,88 @@ static inline uint64_t CAVM_RNM_PF_TRNG_FUNC(void)
 #define device_bar_CAVM_RNM_PF_TRNG 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RNM_PF_TRNG 0
 #define arguments_CAVM_RNM_PF_TRNG -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_pf_trng_dat#
+ *
+ * RNM True Random Number Register
+ */
+union cavm_rnm_pf_trng_datx
+{
+    uint64_t u;
+    struct cavm_rnm_pf_trng_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Will return 0x0 on either a true randomly-generated zero, or on not being ready.
+                                                                 Thus after reading this register software must also read RNM_PF_TRNG_RES to
+                                                                 differentiate between these two 0x0 return cases. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Will return 0x0 on either a true randomly-generated zero, or on not being ready.
+                                                                 Thus after reading this register software must also read RNM_PF_TRNG_RES to
+                                                                 differentiate between these two 0x0 return cases. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_pf_trng_datx_s cn; */
+};
+typedef union cavm_rnm_pf_trng_datx cavm_rnm_pf_trng_datx_t;
+
+static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x87e00f001000ll + 0x10ll * ((a) & 0x7f);
+    __cavm_csr_fatal("RNM_PF_TRNG_DATX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RNM_PF_TRNG_DATX(a) cavm_rnm_pf_trng_datx_t
+#define bustype_CAVM_RNM_PF_TRNG_DATX(a) CSR_TYPE_RSL
+#define basename_CAVM_RNM_PF_TRNG_DATX(a) "RNM_PF_TRNG_DATX"
+#define device_bar_CAVM_RNM_PF_TRNG_DATX(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_PF_TRNG_DATX(a) (a)
+#define arguments_CAVM_RNM_PF_TRNG_DATX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rnm_pf_trng_res#
+ *
+ * RNM Random Result Register
+ */
+union cavm_rnm_pf_trng_resx
+{
+    uint64_t u;
+    struct cavm_rnm_pf_trng_resx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of the most recent RNM_PF_TRNG_DAT() read to the same given register index.
+                                                                 0 = Failure, RNM_PF_TRNG_DAT() also returned 0x0.
+                                                                 1 = Success, RNM_PF_TRNG_DAT() returned true random data, which in 2^64 chance may be a 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of the most recent RNM_PF_TRNG_DAT() read to the same given register index.
+                                                                 0 = Failure, RNM_PF_TRNG_DAT() also returned 0x0.
+                                                                 1 = Success, RNM_PF_TRNG_DAT() returned true random data, which in 2^64 chance may be a 0x0. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_pf_trng_resx_s cn; */
+};
+typedef union cavm_rnm_pf_trng_resx cavm_rnm_pf_trng_resx_t;
+
+static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x87e00f001008ll + 0x10ll * ((a) & 0x7f);
+    __cavm_csr_fatal("RNM_PF_TRNG_RESX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RNM_PF_TRNG_RESX(a) cavm_rnm_pf_trng_resx_t
+#define bustype_CAVM_RNM_PF_TRNG_RESX(a) CSR_TYPE_RSL
+#define basename_CAVM_RNM_PF_TRNG_RESX(a) "RNM_PF_TRNG_RESX"
+#define device_bar_CAVM_RNM_PF_TRNG_RESX(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RNM_PF_TRNG_RESX(a) (a)
+#define arguments_CAVM_RNM_PF_TRNG_RESX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rnm_pf_trng_result
@@ -913,7 +1006,18 @@ union cavm_rnm_pf_trng_result
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_pf_trng_result_s cn; */
+    /* struct cavm_rnm_pf_trng_result_s cn10; */
+    /* struct cavm_rnm_pf_trng_result_s cn10ka; */
+    struct cavm_rnm_pf_trng_result_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rnm_pf_trng_result_s cnf10ka; */
+    /* struct cavm_rnm_pf_trng_result_s cnf10kb; */
 };
 typedef union cavm_rnm_pf_trng_result cavm_rnm_pf_trng_result_t;
 
@@ -983,7 +1087,18 @@ union cavm_rnm_trng
                                                                  Must also read RNM_TRNG_RESULT for result status. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_trng_s cn; */
+    /* struct cavm_rnm_trng_s cn10; */
+    /* struct cavm_rnm_trng_s cn10ka; */
+    struct cavm_rnm_trng_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rnm_trng_s cnf10ka; */
+    /* struct cavm_rnm_trng_s cnf10kb; */
 };
 typedef union cavm_rnm_trng cavm_rnm_trng_t;
 
@@ -1023,7 +1138,18 @@ union cavm_rnm_trng_result
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rnm_trng_result_s cn; */
+    /* struct cavm_rnm_trng_result_s cn10; */
+    /* struct cavm_rnm_trng_result_s cn10ka; */
+    struct cavm_rnm_trng_result_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rnm_trng_result_s cnf10ka; */
+    /* struct cavm_rnm_trng_result_s cnf10kb; */
 };
 typedef union cavm_rnm_trng_result cavm_rnm_trng_result_t;
 
@@ -1188,5 +1314,87 @@ static inline uint64_t CAVM_RNM_VF_EBG_HEALTH_FUNC(void)
 #define device_bar_CAVM_RNM_VF_EBG_HEALTH 0x0 /* VF_BAR0 */
 #define busnum_CAVM_RNM_VF_EBG_HEALTH 0
 #define arguments_CAVM_RNM_VF_EBG_HEALTH -1,-1,-1,-1
+
+/**
+ * Register (NCB) rnm_vf_trng_dat#
+ *
+ * RNM True Random Number Register
+ */
+union cavm_rnm_vf_trng_datx
+{
+    uint64_t u;
+    struct cavm_rnm_vf_trng_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Will return 0x0 on either a true randomly-generated zero, or on not being ready.
+                                                                 Thus after reading this register software must also read RNM_VF_TRNG_RES to
+                                                                 differentiate between these two 0x0 return cases. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Returns a 64-bit true random number.
+                                                                 Will return 0x0 on either a true randomly-generated zero, or on not being ready.
+                                                                 Thus after reading this register software must also read RNM_VF_TRNG_RES to
+                                                                 differentiate between these two 0x0 return cases. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_vf_trng_datx_s cn; */
+};
+typedef union cavm_rnm_vf_trng_datx cavm_rnm_vf_trng_datx_t;
+
+static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x80f000800800ll + 0x10ll * ((a) & 0x7f);
+    __cavm_csr_fatal("RNM_VF_TRNG_DATX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RNM_VF_TRNG_DATX(a) cavm_rnm_vf_trng_datx_t
+#define bustype_CAVM_RNM_VF_TRNG_DATX(a) CSR_TYPE_NCB
+#define basename_CAVM_RNM_VF_TRNG_DATX(a) "RNM_VF_TRNG_DATX"
+#define device_bar_CAVM_RNM_VF_TRNG_DATX(a) 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_VF_TRNG_DATX(a) (a)
+#define arguments_CAVM_RNM_VF_TRNG_DATX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) rnm_vf_trng_res#
+ *
+ * RNM Random Result Register
+ */
+union cavm_rnm_vf_trng_resx
+{
+    uint64_t u;
+    struct cavm_rnm_vf_trng_resx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of the most recent RNM_VF_TRNG_DAT() read to the same given register index.
+                                                                 0 = Failure, RNM_VF_TRNG_DAT() also returned 0x0.
+                                                                 1 = Success, RNM_VF_TRNG_DAT() returned true random data, which in 2^64 chance may be a 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t res                   : 1;  /**< [  0:  0](RO/H) Status of the most recent RNM_VF_TRNG_DAT() read to the same given register index.
+                                                                 0 = Failure, RNM_VF_TRNG_DAT() also returned 0x0.
+                                                                 1 = Success, RNM_VF_TRNG_DAT() returned true random data, which in 2^64 chance may be a 0x0. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rnm_vf_trng_resx_s cn; */
+};
+typedef union cavm_rnm_vf_trng_resx cavm_rnm_vf_trng_resx_t;
+
+static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x80f000800808ll + 0x10ll * ((a) & 0x7f);
+    __cavm_csr_fatal("RNM_VF_TRNG_RESX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RNM_VF_TRNG_RESX(a) cavm_rnm_vf_trng_resx_t
+#define bustype_CAVM_RNM_VF_TRNG_RESX(a) CSR_TYPE_NCB
+#define basename_CAVM_RNM_VF_TRNG_RESX(a) "RNM_VF_TRNG_RESX"
+#define device_bar_CAVM_RNM_VF_TRNG_RESX(a) 0x0 /* VF_BAR0 */
+#define busnum_CAVM_RNM_VF_TRNG_RESX(a) (a)
+#define arguments_CAVM_RNM_VF_TRNG_RESX(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_RNM_H__ */

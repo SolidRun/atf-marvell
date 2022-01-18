@@ -103,6 +103,7 @@
 #define CAVM_DPI_PF_INT_VEC_E_DPI_EPFX_MISC_LINT(a) (0x70 + (a))
 #define CAVM_DPI_PF_INT_VEC_E_DPI_EPFX_PP_VF_LINT(a) (0x68 + (a))
 #define CAVM_DPI_PF_INT_VEC_E_DPI_MBOX_VF_PF_INT (0x75)
+#define CAVM_DPI_PF_INT_VEC_E_DPI_NCBO_ERR_INT (0x76)
 #define CAVM_DPI_PF_INT_VEC_E_DPI_PF_RAS (0x74)
 #define CAVM_DPI_PF_INT_VEC_E_DPI_REQQX_INT(a) (0x40 + (a))
 #define CAVM_DPI_PF_INT_VEC_E_SDP_FLR_RING_LINTX(a) (0x60 + (a))
@@ -680,7 +681,139 @@ union cavm_dpi_dma_ptr_s
                                                                  starts. PTR can be any byte alignment. */
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_dpi_dma_ptr_s_s cn; */
+    /* struct cavm_dpi_dma_ptr_s_s cn10; */
+    /* struct cavm_dpi_dma_ptr_s_s cn10ka; */
+    struct cavm_dpi_dma_ptr_s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t i                     : 1;  /**< [ 63: 63] Invert free. Only used with LLC/DRAM pointers.
+
+                                                                 This bit gives the software the ability to free buffers
+                                                                 independently for a DPI_HDR_XTYPE_E::OUTBOUND DMA transfer when
+                                                                 DPI_DMA_INSTR_HDR_S[II] is clear. See DPI_DMA_INSTR_HDR_S[II] and
+                                                                 DPI_DMA_INSTR_HDR_S[FL].
+
+                                                                 [I] is not used by DPI when DPI_DMA_INSTR_HDR_S[II] is set. [I] must not be set,
+                                                                 and DPI never frees buffers for DPI_HDR_XTYPE_E::INBOUND and
+                                                                 DPI_HDR_XTYPE_E::INTERNAL DPI DMA instructions. */
+        uint64_t f                     : 1;  /**< [ 62: 62] Full-block write operations are allowed.
+                                                                 Only used with LLC/DRAM pointers.
+
+                                                                 When set, the hardware is permitted to write all the bytes in the cache blocks
+                                                                 covered by [PTR] .. [PTR] + [LENGTH] - 1. This can improve memory system performance
+                                                                 when the write misses in the LLC.
+
+                                                                 [F] can only be set for LLC/DRAM pointers that can be written to:
+
+                                                                 * The DPI_DMA_PTR_S's in the first-pointers area that are write pointers
+                                                                   for DPI_HDR_XTYPE_E::INBOUND DPI DMA instructions.
+
+                                                                 * The DPI_DMA_PTR_S's in the last-pointers area that are always write
+                                                                   pointers (when present for DPI_HDR_XTYPE_E::INTERNAL DPI DMA instructions).
+
+                                                                 [F] must not be set for LLC/DRAM pointers that are not written to:
+
+                                                                 * The DPI_DMA_PTR_S's in the first-pointers area for DPI_HDR_XTYPE_E::OUTBOUND
+                                                                   and DPI_HDR_XTYPE_E::INTERNAL DPI DMA instructions. */
+        uint64_t ac                    : 1;  /**< [ 61: 61] Allocate LLC.  Only used with LLC/DRAM Pointers.
+                                                                 This is a hint to DPI that the cache blocks should be allocated in
+                                                                 the LLC (if they were not already). Should typically be set to allocate the
+                                                                 referenced cache blocks into the LLC.
+
+                                                                 When the LLC/DRAM pointer is a source of data (e.g. a DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 DPI DMA instruction), the referenced cache blocks are not allocated into the LLC
+                                                                 as part of completing the DMA (when not already present in the LLC) if [AC]
+                                                                 is clear.
+
+                                                                 When the LLC/DRAM pointer is a destination for data (e.g. a
+                                                                 DPI_HDR_XTYPE_E::INBOUND DPI DMA instruction), the referenced cache blocks are
+                                                                 not allocated into the cache as part of completing the DMA (when not already
+                                                                 present in the LLC) if [AC] is clear, and either:
+
+                                                                 * the entire cache block is written by this LLC/DRAM pointer, or
+
+                                                                 * [F] is set so that the entire cache block can be written. */
+        uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
+                                                                 Only used with LLC/DRAM pointers. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t length                : 24; /**< [ 23:  0] Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+                                                                 illegal.
+
+                                                                 Note that the sum of the sizes in the first-pointers area must always exactly
+                                                                 equal the sum of the sizes/lengths in the last-pointers area. */
+#else /* Word 0 - Little Endian */
+        uint64_t length                : 24; /**< [ 23:  0] Size in bytes of the contiguous space specified by PTR. A SIZE value of 0x0 is
+                                                                 illegal.
+
+                                                                 Note that the sum of the sizes in the first-pointers area must always exactly
+                                                                 equal the sum of the sizes/lengths in the last-pointers area. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bed                   : 1;  /**< [ 60: 60] Big-endian data.
+                                                                 Only used with LLC/DRAM pointers. */
+        uint64_t ac                    : 1;  /**< [ 61: 61] Allocate LLC.  Only used with LLC/DRAM Pointers.
+                                                                 This is a hint to DPI that the cache blocks should be allocated in
+                                                                 the LLC (if they were not already). Should typically be set to allocate the
+                                                                 referenced cache blocks into the LLC.
+
+                                                                 When the LLC/DRAM pointer is a source of data (e.g. a DPI_HDR_XTYPE_E::OUTBOUND
+                                                                 DPI DMA instruction), the referenced cache blocks are not allocated into the LLC
+                                                                 as part of completing the DMA (when not already present in the LLC) if [AC]
+                                                                 is clear.
+
+                                                                 When the LLC/DRAM pointer is a destination for data (e.g. a
+                                                                 DPI_HDR_XTYPE_E::INBOUND DPI DMA instruction), the referenced cache blocks are
+                                                                 not allocated into the cache as part of completing the DMA (when not already
+                                                                 present in the LLC) if [AC] is clear, and either:
+
+                                                                 * the entire cache block is written by this LLC/DRAM pointer, or
+
+                                                                 * [F] is set so that the entire cache block can be written. */
+        uint64_t f                     : 1;  /**< [ 62: 62] Full-block write operations are allowed.
+                                                                 Only used with LLC/DRAM pointers.
+
+                                                                 When set, the hardware is permitted to write all the bytes in the cache blocks
+                                                                 covered by [PTR] .. [PTR] + [LENGTH] - 1. This can improve memory system performance
+                                                                 when the write misses in the LLC.
+
+                                                                 [F] can only be set for LLC/DRAM pointers that can be written to:
+
+                                                                 * The DPI_DMA_PTR_S's in the first-pointers area that are write pointers
+                                                                   for DPI_HDR_XTYPE_E::INBOUND DPI DMA instructions.
+
+                                                                 * The DPI_DMA_PTR_S's in the last-pointers area that are always write
+                                                                   pointers (when present for DPI_HDR_XTYPE_E::INTERNAL DPI DMA instructions).
+
+                                                                 [F] must not be set for LLC/DRAM pointers that are not written to:
+
+                                                                 * The DPI_DMA_PTR_S's in the first-pointers area for DPI_HDR_XTYPE_E::OUTBOUND
+                                                                   and DPI_HDR_XTYPE_E::INTERNAL DPI DMA instructions. */
+        uint64_t i                     : 1;  /**< [ 63: 63] Invert free. Only used with LLC/DRAM pointers.
+
+                                                                 This bit gives the software the ability to free buffers
+                                                                 independently for a DPI_HDR_XTYPE_E::OUTBOUND DMA transfer when
+                                                                 DPI_DMA_INSTR_HDR_S[II] is clear. See DPI_DMA_INSTR_HDR_S[II] and
+                                                                 DPI_DMA_INSTR_HDR_S[FL].
+
+                                                                 [I] is not used by DPI when DPI_DMA_INSTR_HDR_S[II] is set. [I] must not be set,
+                                                                 and DPI never frees buffers for DPI_HDR_XTYPE_E::INBOUND and
+                                                                 DPI_HDR_XTYPE_E::INTERNAL DPI DMA instructions. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t ptr                   : 64; /**< [127: 64] For LLC/DRAM - bits \<52:0\> used for byte pointer. Points to where the packet data
+                                                                 starts. PTR can be any byte alignment. Note that [PTR] is interpreted as a
+                                                                 little-endian byte pointer when BED is clear, a big-endian byte pointer when
+                                                                 [BED] is set. Bits \<63:53\> ignored and should be zero For MAC - 64-bit memory
+                                                                 space pointer */
+#else /* Word 1 - Little Endian */
+        uint64_t ptr                   : 64; /**< [127: 64] For LLC/DRAM - bits \<52:0\> used for byte pointer. Points to where the packet data
+                                                                 starts. PTR can be any byte alignment. Note that [PTR] is interpreted as a
+                                                                 little-endian byte pointer when BED is clear, a big-endian byte pointer when
+                                                                 [BED] is set. Bits \<63:53\> ignored and should be zero For MAC - 64-bit memory
+                                                                 space pointer */
+#endif /* Word 1 - End */
+    } cn10kb;
+    /* struct cavm_dpi_dma_ptr_s_s cnf10ka; */
+    /* struct cavm_dpi_dma_ptr_s_s cnf10kb; */
 };
 
 /**
@@ -1751,6 +1884,7 @@ union cavm_dpix_dmax_qrst
     } s;
     /* struct cavm_dpix_dmax_qrst_s cn10; */
     /* struct cavm_dpix_dmax_qrst_s cn10ka; */
+    /* struct cavm_dpix_dmax_qrst_s cn10kb; */
     struct cavm_dpix_dmax_qrst_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2301,7 +2435,162 @@ union cavm_dpix_dma_control
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dpix_dma_control_s cn; */
+    /* struct cavm_dpix_dma_control_s cn10; */
+    /* struct cavm_dpix_dma_control_s cn10ka; */
+    struct cavm_dpix_dma_control_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
+        uint64_t port1_en              : 1;  /**< [ 57: 57](R/W) Enables port 1 of EBUS when set. If clear, Inbound/External instructions with
+                                                                 FPORT=1 or Outbound/External instructions with LPORT=1 alias to FPORT=0/LPORT=0 */
+        uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface.
+                                                                 When [PKT_EN]=1, software must enable engines 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
+        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the unordered mode for EBUS packet reads. */
+        uint64_t reserved_54           : 1;
+        uint64_t dma_enb               : 6;  /**< [ 53: 48](R/W) DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
+                                                                 should not be disabled while processing instructions.
+                                                                 Engines 4 and 5 are only used for SDP Packet transfers, When [PKT_EN]=1, then
+                                                                 software must enable both
+                                                                 engine 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
+        uint64_t wqecsdis              : 1;  /**< [ 47: 47](R/W) Work queue completion status disable. See DPI_HDR_PT_WQP_E.
+
+                                                                 When [WQECSDIS] is set, DPI never writes completion status into a work queue entry. */
+        uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
+                                                                 or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to
+                                                                 LLC/DRAM address
+                                                                    (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
+
+                                                                 With the reset value 0x7, DPI will write WORD0\<7:0\> of the WQE. */
+        uint64_t zbwcsen               : 1;  /**< [ 39: 39](R/W) Zero-byte-write completion status enable.
+                                                                 See DPI_HDR_PT_E::ZBW_CA and DPI_HDR_PT_E::ZBW_NC. */
+        uint64_t wqecsmode             : 2;  /**< [ 38: 37](R/W) WQE completion status mode. Relevant for DPI DMA instructions with
+                                                                 DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::WQP when [WQECSDIS]=0.
+                                                                 0x0 = Normal behavior. DPI will not write the completion status byte for
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions with DPI_CS_E::NOERR (i.e. zero)
+                                                                       completion status, regardless of the DPI_HDR_PT_WQP_E selection of
+                                                                       DPI_DMA_INSTR_HDR_S[PTR]\<2:0\>. DPI will write the completion
+                                                                       status byte for all other DPI_CS_E (i.e. nonzero) values
+                                                                       when DPI_DMA_INSTR_HDR_S[PTR]\<2:0\> is DPI_HDR_PT_WQP_E::STATUSCA
+                                                                       or DPI_HDR_PT_WQP_E::STATUSNC and [WQECSDIS] is clear.
+                                                                 0x1 = DPI will perform the completion status byte write for all
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions when DPI_DMA_INSTR_HDR_S[PTR]\<2:0\>
+                                                                       is DPI_HDR_PT_WQP_E::STATUSCA or DPI_HDR_PT_WQP_E::STATUSNC
+                                                                       and [WQECSDIS] is clear, regardless of the DPI_CS_E completion
+                                                                       status value for the instruction.
+                                                                 0x2 = DPI will not wait for the completion status write commit before issuing
+                                                                       SSO work queue add.
+                                                                 0x3 = Both debug modes specified above (under 0x1 and 0x2) are enabled. */
+        uint64_t reserved_33_36        : 4;
+        uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load-don't-write-back. When set, the hardware is able to issue LDWB commands for pointers
+                                                                 that are being freed. As a result, the line will not be written back when replaced.
+                                                                 When clear, the hardware issues regular load commands to the cache which cause the
+                                                                 line to be written back before being replaced. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
+                                                                 0 = The number of bytes in the DMA transfer is added to SDP()_EPF()_DMA_CNT().
+                                                                 1 = Add 1 to the SDP()_EPF()_DMA_CNT() DMA counters. */
+        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) If [O_MODE]=1 (DPTR format 0), [O_RO] is the relaxed ordering mode attribute
+                                                                 for PCIe DMA transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_RO] is MACADD\<60\> in the PCIe MAC address and
+                                                                 the relaxed ordering mode attribute comes from DPTR\<60\> in the DMA MAC pointer. */
+        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD\<61\> in the PCIe MAC Address and
+                                                                 the no snoop mode attribute comes from DPTR\<61\> in the DMA MAC pointer. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD\<63:62\> in the PCIe MAC address
+                                                                 and the endian swap mode comes from DPTR\<63:62\> in the DMA MAC pointer.
+
+                                                                 See DPI_ENDIANSWAP_E. */
+        uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select DPTR format mode.
+                                                                 0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
+                                                                 RO.
+                                                                 1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
+                                                                 RO. */
+        uint64_t reserved_0_13         : 14;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_13         : 14;
+        uint64_t o_mode                : 1;  /**< [ 14: 14](R/W) Select DPTR format mode.
+                                                                 0 = DPTR format 1 is used. Use register values for address; use pointer values for ES, NS,
+                                                                 RO.
+                                                                 1 = DPTR format 0 is used. Use pointer values for address; use register values for ES, NS,
+                                                                 RO. */
+        uint64_t o_es                  : 2;  /**< [ 16: 15](R/W) If [O_MODE]=1 (DPTR format 0), [O_ES] is the endian swap mode for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_ES] is MACADD\<63:62\> in the PCIe MAC address
+                                                                 and the endian swap mode comes from DPTR\<63:62\> in the DMA MAC pointer.
+
+                                                                 See DPI_ENDIANSWAP_E. */
+        uint64_t o_ns                  : 1;  /**< [ 17: 17](R/W) If [O_MODE]=1 (DPTR format 0), [O_NS] is the no snoop attribute for PCIe DMA
+                                                                 transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_NS] is MACADD\<61\> in the PCIe MAC Address and
+                                                                 the no snoop mode attribute comes from DPTR\<61\> in the DMA MAC pointer. */
+        uint64_t o_ro                  : 1;  /**< [ 18: 18](R/W) If [O_MODE]=1 (DPTR format 0), [O_RO] is the relaxed ordering mode attribute
+                                                                 for PCIe DMA transactions.
+
+                                                                 If [O_MODE]=0 (DPTR format 1), [O_RO] is MACADD\<60\> in the PCIe MAC address and
+                                                                 the relaxed ordering mode attribute comes from DPTR\<60\> in the DMA MAC pointer. */
+        uint64_t o_add1                : 1;  /**< [ 19: 19](R/W) Add one.
+                                                                 0 = The number of bytes in the DMA transfer is added to SDP()_EPF()_DMA_CNT().
+                                                                 1 = Add 1 to the SDP()_EPF()_DMA_CNT() DMA counters. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t ldwb                  : 1;  /**< [ 32: 32](R/W) Load-don't-write-back. When set, the hardware is able to issue LDWB commands for pointers
+                                                                 that are being freed. As a result, the line will not be written back when replaced.
+                                                                 When clear, the hardware issues regular load commands to the cache which cause the
+                                                                 line to be written back before being replaced. */
+        uint64_t reserved_33_36        : 4;
+        uint64_t wqecsmode             : 2;  /**< [ 38: 37](R/W) WQE completion status mode. Relevant for DPI DMA instructions with
+                                                                 DPI_DMA_INSTR_HDR_S[PT]=DPI_HDR_PT_E::WQP when [WQECSDIS]=0.
+                                                                 0x0 = Normal behavior. DPI will not write the completion status byte for
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions with DPI_CS_E::NOERR (i.e. zero)
+                                                                       completion status, regardless of the DPI_HDR_PT_WQP_E selection of
+                                                                       DPI_DMA_INSTR_HDR_S[PTR]\<2:0\>. DPI will write the completion
+                                                                       status byte for all other DPI_CS_E (i.e. nonzero) values
+                                                                       when DPI_DMA_INSTR_HDR_S[PTR]\<2:0\> is DPI_HDR_PT_WQP_E::STATUSCA
+                                                                       or DPI_HDR_PT_WQP_E::STATUSNC and [WQECSDIS] is clear.
+                                                                 0x1 = DPI will perform the completion status byte write for all
+                                                                       DPI_HDR_PT_E::WQP DPI DMA instructions when DPI_DMA_INSTR_HDR_S[PTR]\<2:0\>
+                                                                       is DPI_HDR_PT_WQP_E::STATUSCA or DPI_HDR_PT_WQP_E::STATUSNC
+                                                                       and [WQECSDIS] is clear, regardless of the DPI_CS_E completion
+                                                                       status value for the instruction.
+                                                                 0x2 = DPI will not wait for the completion status write commit before issuing
+                                                                       SSO work queue add.
+                                                                 0x3 = Both debug modes specified above (under 0x1 and 0x2) are enabled. */
+        uint64_t zbwcsen               : 1;  /**< [ 39: 39](R/W) Zero-byte-write completion status enable.
+                                                                 See DPI_HDR_PT_E::ZBW_CA and DPI_HDR_PT_E::ZBW_NC. */
+        uint64_t wqecsoff              : 7;  /**< [ 46: 40](R/W) Work queue completion status byte offset. For a DPI_HDR_PT_WQP_E::STATUSCA
+                                                                 or DPI_HDR_PT_WQP_E::STATUSNC DPI DMA instruction, DPI writes a
+                                                                 non-DPI_CS_E::NOERR (i.e. nonzero) completion status byte to
+                                                                 LLC/DRAM address
+                                                                    (DPI_DMA_INSTR_HDR_S[PTR] & 0xFFFFFFFFFFFFFFF8) + [WQECSOFF]
+
+                                                                 With the reset value 0x7, DPI will write WORD0\<7:0\> of the WQE. */
+        uint64_t wqecsdis              : 1;  /**< [ 47: 47](R/W) Work queue completion status disable. See DPI_HDR_PT_WQP_E.
+
+                                                                 When [WQECSDIS] is set, DPI never writes completion status into a work queue entry. */
+        uint64_t dma_enb               : 6;  /**< [ 53: 48](R/W) DMA engine enable. Enables the operation of the DMA engine. After being enabled an engine
+                                                                 should not be disabled while processing instructions.
+                                                                 Engines 4 and 5 are only used for SDP Packet transfers, When [PKT_EN]=1, then
+                                                                 software must enable both
+                                                                 engine 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
+        uint64_t reserved_54           : 1;
+        uint64_t uo_dis                : 1;  /**< [ 55: 55](R/W) Disables the use of the unordered mode for EBUS packet reads. */
+        uint64_t pkt_en                : 1;  /**< [ 56: 56](R/W) Enables the packet interface.
+                                                                 When [PKT_EN]=1, software must enable engines 4 and 5. [DMA_ENB]\<5\>=1 and [DMA_ENB]\<4\>=1. */
+        uint64_t port1_en              : 1;  /**< [ 57: 57](R/W) Enables port 1 of EBUS when set. If clear, Inbound/External instructions with
+                                                                 FPORT=1 or Outbound/External instructions with LPORT=1 alias to FPORT=0/LPORT=0 */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_dpix_dma_control_s cnf10ka; */
+    /* struct cavm_dpix_dma_control_s cnf10kb; */
 };
 typedef union cavm_dpix_dma_control cavm_dpix_dma_control_t;
 
@@ -2403,6 +2692,67 @@ static inline uint64_t CAVM_DPIX_DMA_INTL_SEL(uint64_t a)
 #define device_bar_CAVM_DPIX_DMA_INTL_SEL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_DPIX_DMA_INTL_SEL(a) (a)
 #define arguments_CAVM_DPIX_DMA_INTL_SEL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_ebo_wr_arb_ctrl
+ *
+ * DPI EBO Write Arbiter Control Register
+ * This register controls the weights/credits allocated to SDP outbound write traffic
+ * and DPI Outbound/External Write traffic.  The ratio between SDP_OUT_WT and
+ * DMA_EBO_WT determine the bandwidth ratio between both data paths when both are
+ * requesting access and the EBO write path is backed up.
+ */
+union cavm_dpix_ebo_wr_arb_ctrl
+{
+    uint64_t u;
+    struct cavm_dpix_ebo_wr_arb_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t sdp_out_wt            : 8;  /**< [ 15:  8](R/W) SDP Write weight used in DWRR arbitration. The weight is in number of cycles on
+                                                                 the EBO data bus. When an SDP write is granted the number of cycles requested is
+                                                                 subtraced from the arbiter's credit counter. An arbiter refresh adds SDP_OUT_WT
+                                                                 credits to the credit counter. Software should program the weight to a value greater than
+                                                                 the MPS/32. Example - MPS=1, which is 256B. The min value should be \> 256/32 or \> 8. */
+        uint64_t dma_ebo_wt            : 8;  /**< [  7:  0](R/W) DPI DMA EBO Write weight used in DWRR arbitration. The weight is in number of
+                                                                 cycles on the EBO data bus. When a DPI DMA EBO write is granted the number of
+                                                                 cycles requested is subtraced from the arbiter's credit counter. An arbiter
+                                                                 refresh adds DMA_EBO_WT credits to the credit counter. Software should program the
+                                                                 weight to a value greater than the MPS/32. Example - MPS=1, which is 256B.
+                                                                 The min value should be \> 256/32 or \> 8. */
+#else /* Word 0 - Little Endian */
+        uint64_t dma_ebo_wt            : 8;  /**< [  7:  0](R/W) DPI DMA EBO Write weight used in DWRR arbitration. The weight is in number of
+                                                                 cycles on the EBO data bus. When a DPI DMA EBO write is granted the number of
+                                                                 cycles requested is subtraced from the arbiter's credit counter. An arbiter
+                                                                 refresh adds DMA_EBO_WT credits to the credit counter. Software should program the
+                                                                 weight to a value greater than the MPS/32. Example - MPS=1, which is 256B.
+                                                                 The min value should be \> 256/32 or \> 8. */
+        uint64_t sdp_out_wt            : 8;  /**< [ 15:  8](R/W) SDP Write weight used in DWRR arbitration. The weight is in number of cycles on
+                                                                 the EBO data bus. When an SDP write is granted the number of cycles requested is
+                                                                 subtraced from the arbiter's credit counter. An arbiter refresh adds SDP_OUT_WT
+                                                                 credits to the credit counter. Software should program the weight to a value greater than
+                                                                 the MPS/32. Example - MPS=1, which is 256B. The min value should be \> 256/32 or \> 8. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_ebo_wr_arb_ctrl_s cn; */
+};
+typedef union cavm_dpix_ebo_wr_arb_ctrl cavm_dpix_ebo_wr_arb_ctrl_t;
+
+static inline uint64_t CAVM_DPIX_EBO_WR_ARB_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_EBO_WR_ARB_CTRL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x86e000010030ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_EBO_WR_ARB_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_EBO_WR_ARB_CTRL(a) cavm_dpix_ebo_wr_arb_ctrl_t
+#define bustype_CAVM_DPIX_EBO_WR_ARB_CTRL(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_EBO_WR_ARB_CTRL(a) "DPIX_EBO_WR_ARB_CTRL"
+#define device_bar_CAVM_DPIX_EBO_WR_ARB_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_EBO_WR_ARB_CTRL(a) (a)
+#define arguments_CAVM_DPIX_EBO_WR_ARB_CTRL(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) dpi#_ebus_port#_cfg
@@ -3837,6 +4187,204 @@ static inline uint64_t CAVM_DPIX_NCBX_CFG(uint64_t a, uint64_t b)
 #define arguments_CAVM_DPIX_NCBX_CFG(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) dpi#_ncbo_err_info
+ *
+ * DPI NCBO Error Info Register
+ * DPI is a CLASS A NCB device, it does not support certain CLASS B NCBO instructions.
+ * If DPI receives a CLASS B instruction that it does not support, it will drop the
+ * instruction, return zeros for a LD instruction, return credits, raise an error by
+ * setting the bit in DPI_NCBO_ERR_INT[CLB_ERR].
+ */
+union cavm_dpix_ncbo_err_info
+{
+    uint64_t u;
+    struct cavm_dpix_ncbo_err_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t ncbo_ctype            : 8;  /**< [ 62: 55](RO/H) The type of NCBO command type not supported by DPI */
+        uint64_t reserved_52_54        : 3;
+        uint64_t ncbo_addr             : 52; /**< [ 51:  0](RO/H) Records the 52 bit address of the NCBO instruction that is being dropped due
+                                                                 to being unsupported by DPI. */
+#else /* Word 0 - Little Endian */
+        uint64_t ncbo_addr             : 52; /**< [ 51:  0](RO/H) Records the 52 bit address of the NCBO instruction that is being dropped due
+                                                                 to being unsupported by DPI. */
+        uint64_t reserved_52_54        : 3;
+        uint64_t ncbo_ctype            : 8;  /**< [ 62: 55](RO/H) The type of NCBO command type not supported by DPI */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_ncbo_err_info_s cn; */
+};
+typedef union cavm_dpix_ncbo_err_info cavm_dpix_ncbo_err_info_t;
+
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INFO(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x86e000017200ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_NCBO_ERR_INFO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_NCBO_ERR_INFO(a) cavm_dpix_ncbo_err_info_t
+#define bustype_CAVM_DPIX_NCBO_ERR_INFO(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_NCBO_ERR_INFO(a) "DPIX_NCBO_ERR_INFO"
+#define device_bar_CAVM_DPIX_NCBO_ERR_INFO(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_NCBO_ERR_INFO(a) (a)
+#define arguments_CAVM_DPIX_NCBO_ERR_INFO(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_ncbo_err_int
+ *
+ * DPI NCBO CLASS B Error Interrupt Register
+ */
+union cavm_dpix_ncbo_err_int
+{
+    uint64_t u;
+    struct cavm_dpix_ncbo_err_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t clb_err               : 1;  /**< [  0:  0](R/W1C/H) Interrupt bit set when DPI detects an unsupported CLASS B NCBO instruction */
+#else /* Word 0 - Little Endian */
+        uint64_t clb_err               : 1;  /**< [  0:  0](R/W1C/H) Interrupt bit set when DPI detects an unsupported CLASS B NCBO instruction */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_ncbo_err_int_s cn; */
+};
+typedef union cavm_dpix_ncbo_err_int cavm_dpix_ncbo_err_int_t;
+
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INT(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x86e000017300ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_NCBO_ERR_INT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_NCBO_ERR_INT(a) cavm_dpix_ncbo_err_int_t
+#define bustype_CAVM_DPIX_NCBO_ERR_INT(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_NCBO_ERR_INT(a) "DPIX_NCBO_ERR_INT"
+#define device_bar_CAVM_DPIX_NCBO_ERR_INT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_NCBO_ERR_INT(a) (a)
+#define arguments_CAVM_DPIX_NCBO_ERR_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_ncbo_err_int_ena_w1c
+ *
+ * DPI NCBO CLASS B Error Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_dpix_ncbo_err_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_dpix_ncbo_err_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t clb_err               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_NCBO_ERR_INT[CLB_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t clb_err               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_NCBO_ERR_INT[CLB_ERR]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_ncbo_err_int_ena_w1c_s cn; */
+};
+typedef union cavm_dpix_ncbo_err_int_ena_w1c cavm_dpix_ncbo_err_int_ena_w1c_t;
+
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x86e000017310ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_NCBO_ERR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(a) cavm_dpix_ncbo_err_int_ena_w1c_t
+#define bustype_CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(a) "DPIX_NCBO_ERR_INT_ENA_W1C"
+#define device_bar_CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(a) (a)
+#define arguments_CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_ncbo_err_int_ena_w1s
+ *
+ * DPI NCBO CLASS B Error Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_dpix_ncbo_err_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_dpix_ncbo_err_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t clb_err               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_NCBO_ERR_INT[CLB_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t clb_err               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_NCBO_ERR_INT[CLB_ERR]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_ncbo_err_int_ena_w1s_s cn; */
+};
+typedef union cavm_dpix_ncbo_err_int_ena_w1s cavm_dpix_ncbo_err_int_ena_w1s_t;
+
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x86e000017318ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_NCBO_ERR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(a) cavm_dpix_ncbo_err_int_ena_w1s_t
+#define bustype_CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(a) "DPIX_NCBO_ERR_INT_ENA_W1S"
+#define device_bar_CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(a) (a)
+#define arguments_CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) dpi#_ncbo_err_int_w1s
+ *
+ * DPI NCBO CLASS B Error Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_dpix_ncbo_err_int_w1s
+{
+    uint64_t u;
+    struct cavm_dpix_ncbo_err_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t clb_err               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_NCBO_ERR_INT[CLB_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t clb_err               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_NCBO_ERR_INT[CLB_ERR]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_ncbo_err_int_w1s_s cn; */
+};
+typedef union cavm_dpix_ncbo_err_int_w1s cavm_dpix_ncbo_err_int_w1s_t;
+
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_W1S(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x86e000017308ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("DPIX_NCBO_ERR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX_NCBO_ERR_INT_W1S(a) cavm_dpix_ncbo_err_int_w1s_t
+#define bustype_CAVM_DPIX_NCBO_ERR_INT_W1S(a) CSR_TYPE_NCB
+#define basename_CAVM_DPIX_NCBO_ERR_INT_W1S(a) "DPIX_NCBO_ERR_INT_W1S"
+#define device_bar_CAVM_DPIX_NCBO_ERR_INT_W1S(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX_NCBO_ERR_INT_W1S(a) (a)
+#define arguments_CAVM_DPIX_NCBO_ERR_INT_W1S(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) dpi#_pf_msix_pba#
  *
  * DPI MSI-X Pending Bit Array Registers
@@ -3949,7 +4497,13 @@ typedef union cavm_dpix_pf_msix_vecx_addr cavm_dpix_pf_msix_vecx_addr_t;
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=117))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=117)))
+        return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=118)))
+        return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b<=117)))
+        return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=117)))
         return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("DPIX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0, 0, 0);
 }
@@ -3989,7 +4543,13 @@ typedef union cavm_dpix_pf_msix_vecx_ctl cavm_dpix_pf_msix_vecx_ctl_t;
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=117))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=117)))
+        return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=118)))
+        return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b<=117)))
+        return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=117)))
         return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     __cavm_csr_fatal("DPIX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0, 0, 0);
 }
@@ -5253,7 +5813,46 @@ union cavm_dpix_vdmax_reqq_ctl
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_dpix_vdmax_reqq_ctl_s cn; */
+    /* struct cavm_dpix_vdmax_reqq_ctl_s cn10; */
+    /* struct cavm_dpix_vdmax_reqq_ctl_s cn10ka; */
+    struct cavm_dpix_vdmax_reqq_ctl_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction descriptor big-endian mode. When set, instructions data will come from memory
+                                                                 in big-endian format and the bytes will be reversed before being used in DPI. */
+        uint64_t reserved_9_11         : 3;
+        uint64_t st_cmd                : 1;  /**< [  8:  8](R/W) When DPI issues a store full line command to the NCB that is to be cached, this field
+                                                                 select the type of store command to use:
+                                                                 0 = STF.
+                                                                 1 = STY. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t ld_cmd                : 2;  /**< [  1:  0](R/W) When DPI issues a load command to the NCB that is to be cached, this field select the type
+                                                                 of load command to use:
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+#else /* Word 0 - Little Endian */
+        uint64_t ld_cmd                : 2;  /**< [  1:  0](R/W) When DPI issues a load command to the NCB that is to be cached, this field select the type
+                                                                 of load command to use:
+                                                                 0x0 = LDD.
+                                                                 0x1 = LDI.
+                                                                 0x2 = LDE.
+                                                                 0x3 = LDY. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t st_cmd                : 1;  /**< [  8:  8](R/W) When DPI issues a store full line command to the NCB that is to be cached, this field
+                                                                 select the type of store command to use:
+                                                                 0 = STF.
+                                                                 1 = STY. */
+        uint64_t reserved_9_11         : 3;
+        uint64_t des_be                : 1;  /**< [ 12: 12](R/W) Instruction descriptor big-endian mode. When set, instructions data will come from memory
+                                                                 in big-endian format and the bytes will be reversed before being used in DPI. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_dpix_vdmax_reqq_ctl_s cnf10ka; */
+    /* struct cavm_dpix_vdmax_reqq_ctl_s cnf10kb; */
 };
 typedef union cavm_dpix_vdmax_reqq_ctl cavm_dpix_vdmax_reqq_ctl_t;
 
@@ -10035,7 +10634,80 @@ union cavm_sdpx_rx_in_control
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_rx_in_control_s cn; */
+    /* struct cavm_sdpx_rx_in_control_s cn10; */
+    /* struct cavm_sdpx_rx_in_control_s cn10ka; */
+    struct cavm_sdpx_rx_in_control_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_52_63        : 12;
+        uint64_t rpvf                  : 4;  /**< [ 51: 48](RO/H) The number of rings assigned to this VF.
+                                                                 Read only copy of SDP()_EPF()_RINFO[RPVF] */
+        uint64_t reserved_29_47        : 19;
+        uint64_t idle                  : 1;  /**< [ 28: 28](RO/H) Asserted when this ring has no packets in-flight. */
+        uint64_t reserved_27           : 1;
+        uint64_t rdsize                : 2;  /**< [ 26: 25](R/W) Number of instructions to be read in one read request. Two-bit values are:
+                                                                 0x0 = 1 instruction.
+                                                                 0x1 = 2 instructions.
+                                                                 0x2 = 4 instructions.
+                                                                 0x3 = 8 instructions. */
+        uint64_t is64b                 : 1;  /**< [ 24: 24](R/W) If 1, the ring uses 64-byte instructions.
+                                                                 If 0, the ring uses 32-byte instructions. */
+        uint64_t reserved_9_23         : 15;
+        uint64_t d_nsr                 : 1;  /**< [  8:  8](R/W/H) [D_NSR] is ADDRTYPE\<1\> for first direct and gather DPTR reads. ADDRTYPE\<1\> is the
+                                                                 no-snoop attribute for PCIe. */
+        uint64_t d_esr                 : 2;  /**< [  7:  6](R/W/H) [D_ESR] is ES\<1:0\> for first direct and gather DPTR reads.
+                                                                 ES\<1:0\> is the endian-swap attribute for these MAC memory space reads.
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t d_ror                 : 1;  /**< [  5:  5](R/W/H) [D_ROR] is ADDRTYPE\<0\> for first direct and gather DPTR reads. ADDRTYPE\<0\> is the
+                                                                 relaxed-order attribute for PCIe. */
+        uint64_t reserved_4            : 1;
+        uint64_t nsr                   : 1;  /**< [  3:  3](R/W/H) [NSR] is ADDRTYPE\<1\> for input instruction reads (from
+                                                                 SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads. ADDRTYPE\<1\>
+                                                                 is the no-snoop attribute for PCIe. */
+        uint64_t esr                   : 2;  /**< [  2:  1](R/W/H) [ESR] is ES\<1:0\> for input instruction reads (from
+                                                                 SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads. ES\<1:0\> is
+                                                                 the endian-swap attribute for these MAC memory space reads.
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t ror                   : 1;  /**< [  0:  0](R/W/H) [ROR] is ADDRTYPE\<0\> for input instruction reads (from
+                                                                 SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads.
+                                                                 ADDRTYPE\<0\> is the relaxed-order attribute for PCIe. */
+#else /* Word 0 - Little Endian */
+        uint64_t ror                   : 1;  /**< [  0:  0](R/W/H) [ROR] is ADDRTYPE\<0\> for input instruction reads (from
+                                                                 SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads.
+                                                                 ADDRTYPE\<0\> is the relaxed-order attribute for PCIe. */
+        uint64_t esr                   : 2;  /**< [  2:  1](R/W/H) [ESR] is ES\<1:0\> for input instruction reads (from
+                                                                 SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads. ES\<1:0\> is
+                                                                 the endian-swap attribute for these MAC memory space reads.
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t nsr                   : 1;  /**< [  3:  3](R/W/H) [NSR] is ADDRTYPE\<1\> for input instruction reads (from
+                                                                 SDP()_R()_IN_INSTR_BADDR) and first indirect DPTR reads. ADDRTYPE\<1\>
+                                                                 is the no-snoop attribute for PCIe. */
+        uint64_t reserved_4            : 1;
+        uint64_t d_ror                 : 1;  /**< [  5:  5](R/W/H) [D_ROR] is ADDRTYPE\<0\> for first direct and gather DPTR reads. ADDRTYPE\<0\> is the
+                                                                 relaxed-order attribute for PCIe. */
+        uint64_t d_esr                 : 2;  /**< [  7:  6](R/W/H) [D_ESR] is ES\<1:0\> for first direct and gather DPTR reads.
+                                                                 ES\<1:0\> is the endian-swap attribute for these MAC memory space reads.
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t d_nsr                 : 1;  /**< [  8:  8](R/W/H) [D_NSR] is ADDRTYPE\<1\> for first direct and gather DPTR reads. ADDRTYPE\<1\> is the
+                                                                 no-snoop attribute for PCIe. */
+        uint64_t reserved_9_23         : 15;
+        uint64_t is64b                 : 1;  /**< [ 24: 24](R/W) If 1, the ring uses 64-byte instructions.
+                                                                 If 0, the ring uses 32-byte instructions. */
+        uint64_t rdsize                : 2;  /**< [ 26: 25](R/W) Number of instructions to be read in one read request. Two-bit values are:
+                                                                 0x0 = 1 instruction.
+                                                                 0x1 = 2 instructions.
+                                                                 0x2 = 4 instructions.
+                                                                 0x3 = 8 instructions. */
+        uint64_t reserved_27           : 1;
+        uint64_t idle                  : 1;  /**< [ 28: 28](RO/H) Asserted when this ring has no packets in-flight. */
+        uint64_t reserved_29_47        : 19;
+        uint64_t rpvf                  : 4;  /**< [ 51: 48](RO/H) The number of rings assigned to this VF.
+                                                                 Read only copy of SDP()_EPF()_RINFO[RPVF] */
+        uint64_t reserved_52_63        : 12;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sdpx_rx_in_control_s cnf10ka; */
+    /* struct cavm_sdpx_rx_in_control_s cnf10kb; */
 };
 typedef union cavm_sdpx_rx_in_control cavm_sdpx_rx_in_control_t;
 
@@ -11194,7 +11866,120 @@ union cavm_sdpx_rx_out_control
         uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sdpx_rx_out_control_s cn; */
+    /* struct cavm_sdpx_rx_out_control_s cn10; */
+    /* struct cavm_sdpx_rx_out_control_s cn10ka; */
+    struct cavm_sdpx_rx_out_control_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_41_63        : 23;
+        uint64_t idle                  : 1;  /**< [ 40: 40](RO/H) Asserted when this ring has no packets in-flight. If SDP()_OUT_MCAST_CTL[IDLE] is also 1 there are
+                                                                 also no multicast packets that are destined for this ring in flight. */
+        uint64_t drop_cnt              : 4;  /**< [ 39: 36](R/W) Minimum number of buffers needed to send an outbound packet.
+                                                                 This value is in multiples of 16 and should be greater than 0.
+                                                                 If a packet is received by SDP Output from NIXTX and the
+                                                                 SDP()_R()_OUT_SLIST_DBELL[DBELL] \< [DROP_CNT], SDP will set
+                                                                 SDP()_OUT_DROP_STATE()[STATE] to 1 and drop this packet and future packets
+                                                                 until SDP()_OUT_DROP_STATE()[STATE] goes to a 0.
+                                                                 [DROP_CNT] * 16 should be set to a value less than SDP()_OUT_WMARK[WMARK].
+                                                                 If SDP()_OUT_BP_EN()_W1C[ENB] is set to 0 (not enabled) for this ring, then
+                                                                 ([DROP_CNT] * 16) \> (Largest Packet Expected) / SDP()_R()_OUT_CONTROL[BSIZE].
+                                                                 Note if this field is set to 0 SDP will treat it as if it was written to 1. */
+        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES\<1:0\> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
+                                                                 endian-swap attribute for these MAC memory space writes.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR_I] is ADDRTYPE\<1\> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
+                                                                 the no-snoop attribute for PCIe. */
+        uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR_I] is ADDRTYPE\<0\> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
+                                                                 the relaxed-order attribute for PCIe. */
+        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES_D] is ES\<1:0\> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
+                                                                 endian-swap attribute for these MAC memory space writes.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR_D] is ADDRTYPE\<1\> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
+                                                                 the no-snoop attribute for PCIe. */
+        uint64_t ror_d                 : 1;  /**< [ 28: 28](R/W) [ROR_D] is ADDRTYPE\<0\> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
+                                                                 the relaxed-order attribute for PCIe. */
+        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) [ES_P] is ES\<1:0\> for the packet output ring reads that fetch buffer/info pointer pairs
+                                                                 (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ES\<1:0\> is the endian-swap attribute for these
+                                                                 MAC memory space reads.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t nsr_p                 : 1;  /**< [ 25: 25](R/W) [NSR_P] is ADDRTYPE\<1\> for the packet output ring reads that fetch buffer/info pointer
+                                                                 pairs (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ADDRTYPE\<1\> is the no-snoop attribute for PCIe. */
+        uint64_t ror_p                 : 1;  /**< [ 24: 24](R/W) [ROR_P] is ADDRTYPE\<0\> for the packet output ring reads that fetch buffer/info pointer
+                                                                 pairs (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ADDRTYPE\<0\> is the relaxed-order attribute
+                                                                 for PCIe. */
+        uint64_t imode                 : 1;  /**< [ 23: 23](R/W) When IMODE=1, packet output ring is in info-pointer mode; otherwise the packet output ring
+                                                                 is in buffer-pointer-only mode. */
+        uint64_t isize                 : 7;  /**< [ 22: 16](R/W/H) Info bytes size (bytes) for the output port. Legal sizes are 0 to 120. Not used
+                                                                 in buffer-pointer-only mode.  If a value is written that is between 120-127 then
+                                                                 a value of 120 will be forced by hardware. */
+        uint64_t bsize                 : 16; /**< [ 15:  0](R/W/H) Buffer size (bytes) for the output ring.  The minimum size is 128 bytes; if a value
+                                                                 smaller than 128 is written, hardware will force a value of 128. */
+#else /* Word 0 - Little Endian */
+        uint64_t bsize                 : 16; /**< [ 15:  0](R/W/H) Buffer size (bytes) for the output ring.  The minimum size is 128 bytes; if a value
+                                                                 smaller than 128 is written, hardware will force a value of 128. */
+        uint64_t isize                 : 7;  /**< [ 22: 16](R/W/H) Info bytes size (bytes) for the output port. Legal sizes are 0 to 120. Not used
+                                                                 in buffer-pointer-only mode.  If a value is written that is between 120-127 then
+                                                                 a value of 120 will be forced by hardware. */
+        uint64_t imode                 : 1;  /**< [ 23: 23](R/W) When IMODE=1, packet output ring is in info-pointer mode; otherwise the packet output ring
+                                                                 is in buffer-pointer-only mode. */
+        uint64_t ror_p                 : 1;  /**< [ 24: 24](R/W) [ROR_P] is ADDRTYPE\<0\> for the packet output ring reads that fetch buffer/info pointer
+                                                                 pairs (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ADDRTYPE\<0\> is the relaxed-order attribute
+                                                                 for PCIe. */
+        uint64_t nsr_p                 : 1;  /**< [ 25: 25](R/W) [NSR_P] is ADDRTYPE\<1\> for the packet output ring reads that fetch buffer/info pointer
+                                                                 pairs (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ADDRTYPE\<1\> is the no-snoop attribute for PCIe. */
+        uint64_t es_p                  : 2;  /**< [ 27: 26](R/W) [ES_P] is ES\<1:0\> for the packet output ring reads that fetch buffer/info pointer pairs
+                                                                 (from SDP()_R()_OUT_SLIST_BADDR[ADDR]+). ES\<1:0\> is the endian-swap attribute for these
+                                                                 MAC memory space reads.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t ror_d                 : 1;  /**< [ 28: 28](R/W) [ROR_D] is ADDRTYPE\<0\> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
+                                                                 the relaxed-order attribute for PCIe. */
+        uint64_t nsr_d                 : 1;  /**< [ 29: 29](R/W) [NSR_D] is ADDRTYPE\<1\> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
+                                                                 the no-snoop attribute for PCIe. */
+        uint64_t es_d                  : 2;  /**< [ 31: 30](R/W) [ES_D] is ES\<1:0\> for data buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
+                                                                 endian-swap attribute for these MAC memory space writes.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t ror_i                 : 1;  /**< [ 32: 32](R/W) [ROR_I] is ADDRTYPE\<0\> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<0\> is
+                                                                 the relaxed-order attribute for PCIe. */
+        uint64_t nsr_i                 : 1;  /**< [ 33: 33](R/W) [NSR_I] is ADDRTYPE\<1\> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ADDRTYPE\<1\> is
+                                                                 the no-snoop attribute for PCIe. */
+        uint64_t es_i                  : 2;  /**< [ 35: 34](R/W) [ES_I] is ES\<1:0\> for info buffer write operations to buffer/info
+                                                                 pair MAC memory space addresses fetched from packet output ring. ES\<1:0\> is the
+                                                                 endian-swap attribute for these MAC memory space writes.
+
+                                                                 Enumerated by DPI_ENDIANSWAP_E. */
+        uint64_t drop_cnt              : 4;  /**< [ 39: 36](R/W) Minimum number of buffers needed to send an outbound packet.
+                                                                 This value is in multiples of 16 and should be greater than 0.
+                                                                 If a packet is received by SDP Output from NIXTX and the
+                                                                 SDP()_R()_OUT_SLIST_DBELL[DBELL] \< [DROP_CNT], SDP will set
+                                                                 SDP()_OUT_DROP_STATE()[STATE] to 1 and drop this packet and future packets
+                                                                 until SDP()_OUT_DROP_STATE()[STATE] goes to a 0.
+                                                                 [DROP_CNT] * 16 should be set to a value less than SDP()_OUT_WMARK[WMARK].
+                                                                 If SDP()_OUT_BP_EN()_W1C[ENB] is set to 0 (not enabled) for this ring, then
+                                                                 ([DROP_CNT] * 16) \> (Largest Packet Expected) / SDP()_R()_OUT_CONTROL[BSIZE].
+                                                                 Note if this field is set to 0 SDP will treat it as if it was written to 1. */
+        uint64_t idle                  : 1;  /**< [ 40: 40](RO/H) Asserted when this ring has no packets in-flight. If SDP()_OUT_MCAST_CTL[IDLE] is also 1 there are
+                                                                 also no multicast packets that are destined for this ring in flight. */
+        uint64_t reserved_41_63        : 23;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sdpx_rx_out_control_s cnf10ka; */
+    /* struct cavm_sdpx_rx_out_control_s cnf10kb; */
 };
 typedef union cavm_sdpx_rx_out_control cavm_sdpx_rx_out_control_t;
 

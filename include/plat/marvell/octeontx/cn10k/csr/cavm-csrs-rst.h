@@ -103,6 +103,7 @@
 #define CAVM_RST_PLL_E_BCLK (0xc)
 #define CAVM_RST_PLL_E_BCNCLK (0xd)
 #define CAVM_RST_PLL_E_BCRSVD2 (0xd)
+#define CAVM_RST_PLL_E_CPTCLK (5)
 #define CAVM_RST_PLL_E_DFICLK (4)
 #define CAVM_RST_PLL_E_DSPCLK (0xe)
 #define CAVM_RST_PLL_E_IOCLK (3)
@@ -735,6 +736,112 @@ static inline uint64_t CAVM_RST_CKILL_FUNC(void)
 #define arguments_CAVM_RST_CKILL -1,-1,-1,-1
 
 /**
+ * Register (RSL) rst_clk_freq
+ *
+ * RST PLL Clock Frequency Register
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_rst_clk_freq
+{
+    uint64_t u;
+    struct cavm_rst_clk_freq_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_37_63        : 27;
+        uint64_t cnt                   : 37; /**< [ 36:  0](RO) Clock Samples during Window.  Writing the RST_CLK_SAMPLE register automatically clears
+                                                                 this field and the field is incremented by hardware for 32 times every msc_clkout positive clock.
+                                                                 This field is always reinitialized on a chip domain reset.  This field should only be
+                                                                 read when RST_CLK_SAMPLE.WINDOW==0 and RST_CLK_SAMPLE.NOT_DONE==0, otherwise the read value is
+                                                                 unpredictable. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 37; /**< [ 36:  0](RO) Clock Samples during Window.  Writing the RST_CLK_SAMPLE register automatically clears
+                                                                 this field and the field is incremented by hardware for 32 times every msc_clkout positive clock.
+                                                                 This field is always reinitialized on a chip domain reset.  This field should only be
+                                                                 read when RST_CLK_SAMPLE.WINDOW==0 and RST_CLK_SAMPLE.NOT_DONE==0, otherwise the read value is
+                                                                 unpredictable. */
+        uint64_t reserved_37_63        : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_clk_freq_s cn; */
+};
+typedef union cavm_rst_clk_freq cavm_rst_clk_freq_t;
+
+#define CAVM_RST_CLK_FREQ CAVM_RST_CLK_FREQ_FUNC()
+static inline uint64_t CAVM_RST_CLK_FREQ_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RST_CLK_FREQ_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e0060016b8ll;
+    __cavm_csr_fatal("RST_CLK_FREQ", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RST_CLK_FREQ cavm_rst_clk_freq_t
+#define bustype_CAVM_RST_CLK_FREQ CSR_TYPE_RSL
+#define basename_CAVM_RST_CLK_FREQ "RST_CLK_FREQ"
+#define device_bar_CAVM_RST_CLK_FREQ 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RST_CLK_FREQ 0
+#define arguments_CAVM_RST_CLK_FREQ -1,-1,-1,-1
+
+/**
+ * Register (RSL) rst_clk_sample
+ *
+ * RST PLL Clock Sample Period Register
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_rst_clk_sample
+{
+    uint64_t u;
+    struct cavm_rst_clk_sample_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t not_done              : 1;  /**< [ 63: 63](RO/H) Clock Frequency Sampling Not Done. When 0, indicates the clock frequency
+                                                                 sampling mechanism is done (finished).
+                                                                 When 1, indicates the clock frequency sampling mechanism is not done (not
+                                                                 finished). This field is automatically set to 1 shortly after
+                                                                 RST_SAMPLE.WINDOW is written to a non-zero value. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t window                : 32; /**< [ 31:  0](R/W/H) Sample Period Window.  Number of reference clocks used as a sample window.  Writing the
+                                                                 register automatically clears the RST_CLK_FREQ counter and allows the number of
+                                                                 msc_clkout clocks to be accumulated.   The register decrements to zero once written to indicate
+                                                                 the end of the sample period and stops RST_CLK_FREQ from incrementing.
+                                                                 This field is always reinitialized on a chip domain reset.
+                                                                 This field should be set to a value \>= 1000 to handle startup delays for measuring slow clocks. */
+#else /* Word 0 - Little Endian */
+        uint64_t window                : 32; /**< [ 31:  0](R/W/H) Sample Period Window.  Number of reference clocks used as a sample window.  Writing the
+                                                                 register automatically clears the RST_CLK_FREQ counter and allows the number of
+                                                                 msc_clkout clocks to be accumulated.   The register decrements to zero once written to indicate
+                                                                 the end of the sample period and stops RST_CLK_FREQ from incrementing.
+                                                                 This field is always reinitialized on a chip domain reset.
+                                                                 This field should be set to a value \>= 1000 to handle startup delays for measuring slow clocks. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t not_done              : 1;  /**< [ 63: 63](RO/H) Clock Frequency Sampling Not Done. When 0, indicates the clock frequency
+                                                                 sampling mechanism is done (finished).
+                                                                 When 1, indicates the clock frequency sampling mechanism is not done (not
+                                                                 finished). This field is automatically set to 1 shortly after
+                                                                 RST_SAMPLE.WINDOW is written to a non-zero value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_clk_sample_s cn; */
+};
+typedef union cavm_rst_clk_sample cavm_rst_clk_sample_t;
+
+#define CAVM_RST_CLK_SAMPLE CAVM_RST_CLK_SAMPLE_FUNC()
+static inline uint64_t CAVM_RST_CLK_SAMPLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RST_CLK_SAMPLE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e0060016b0ll;
+    __cavm_csr_fatal("RST_CLK_SAMPLE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RST_CLK_SAMPLE cavm_rst_clk_sample_t
+#define bustype_CAVM_RST_CLK_SAMPLE CSR_TYPE_RSL
+#define basename_CAVM_RST_CLK_SAMPLE "RST_CLK_SAMPLE"
+#define device_bar_CAVM_RST_CLK_SAMPLE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RST_CLK_SAMPLE 0
+#define arguments_CAVM_RST_CLK_SAMPLE -1,-1,-1,-1
+
+/**
  * Register (RSL) rst_cold_data#
  *
  * RST Cold Reset Data Registers
@@ -1039,8 +1146,7 @@ union cavm_rst_debug
     } s;
     /* struct cavm_rst_debug_s cn10; */
     /* struct cavm_rst_debug_s cn10ka; */
-    /* struct cavm_rst_debug_s cnf10ka; */
-    struct cavm_rst_debug_cnf10kb
+    struct cavm_rst_debug_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -1099,7 +1205,9 @@ union cavm_rst_debug
                                                                  This field is always reinitialized on a cold domain reset. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cn10kb;
+    /* struct cavm_rst_debug_s cnf10ka; */
+    /* struct cavm_rst_debug_cn10kb cnf10kb; */
 };
 typedef union cavm_rst_debug cavm_rst_debug_t;
 
@@ -2209,7 +2317,7 @@ union cavm_rst_out_ctl
     } s;
     /* struct cavm_rst_out_ctl_s cn10; */
     /* struct cavm_rst_out_ctl_s cn10ka; */
-    struct cavm_rst_out_ctl_cnf10ka
+    struct cavm_rst_out_ctl_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
@@ -2280,8 +2388,9 @@ union cavm_rst_out_ctl
                                                                  This field is always reinitialized on an ECP domain reset. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } cnf10ka;
-    /* struct cavm_rst_out_ctl_cnf10ka cnf10kb; */
+    } cn10kb;
+    /* struct cavm_rst_out_ctl_cn10kb cnf10ka; */
+    /* struct cavm_rst_out_ctl_cn10kb cnf10kb; */
 };
 typedef union cavm_rst_out_ctl cavm_rst_out_ctl_t;
 
@@ -3005,7 +3114,82 @@ union cavm_rst_test_pllx
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rst_test_pllx_s cn; */
+    /* struct cavm_rst_test_pllx_s cn10; */
+    /* struct cavm_rst_test_pllx_s cn10ka; */
+    struct cavm_rst_test_pllx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](R/W) Test bits sent to the PLL.
+                                                                 The following test_rsvd registeers can be accessed and data is supplied
+                                                                 by the STOP_CNT field.
+
+                                                                 0 = test_rsvd0, STOP_CNT
+                                                                 1 = test_rsvd1, STOP_CNT
+                                                                 2-3 = reserved
+                                                                 4 = test_rsvd4, PLL Debug
+                                                                 5-7 = reserved
+
+                                                                 TILE_MSC_DISABLE, when set, disables diagnostic output for the pcl row,
+                                                                 causing the msc_clkout and  msc_lockout to not propagate across
+                                                                 the pcl row.  This bit should be identically programmed across the same PCL row. */
+        uint64_t test_ana              : 5;  /**< [ 44: 40](R/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitialized on a cold domain reset. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a postive
+                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+                                                                 counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
+#else /* Word 0 - Little Endian */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this field is set along with a postive
+                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+                                                                 counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitialized on a cold domain reset. */
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t test_ana              : 5;  /**< [ 44: 40](R/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](R/W) Test bits sent to the PLL.
+                                                                 The following test_rsvd registeers can be accessed and data is supplied
+                                                                 by the STOP_CNT field.
+
+                                                                 0 = test_rsvd0, STOP_CNT
+                                                                 1 = test_rsvd1, STOP_CNT
+                                                                 2-3 = reserved
+                                                                 4 = test_rsvd4, PLL Debug
+                                                                 5-7 = reserved
+
+                                                                 TILE_MSC_DISABLE, when set, disables diagnostic output for the pcl row,
+                                                                 causing the msc_clkout and  msc_lockout to not propagate across
+                                                                 the pcl row.  This bit should be identically programmed across the same PCL row. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rst_test_pllx_s cnf10ka; */
+    /* struct cavm_rst_test_pllx_s cnf10kb; */
 };
 typedef union cavm_rst_test_pllx cavm_rst_test_pllx_t;
 

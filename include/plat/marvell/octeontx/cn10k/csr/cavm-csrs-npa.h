@@ -3325,6 +3325,53 @@ union cavm_npa_af_gen_cfg
     struct cavm_npa_af_gen_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t stash_cmd_ststf       : 1;  /**< [ 16: 16](R/W) Replace the use of STSTP in NCBi commands with STSTF when the stashing command option is selected.
+                                                                 Internal:
+                                                                 Use of STSTP should work, so this is a fallback option that likely won't be used. */
+        uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
+                                                                 alloc/frees are slower. For diagnostic use only.
+
+                                                                 Internal:
+                                                                 Used for OCLA visibility. */
+        uint64_t reserved_11           : 1;
+        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
+                                                                 alloc/frees. See also [RATEM1]. */
+        uint64_t reserved_5_9          : 5;
+        uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
+        uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
+        uint64_t reserved_2            : 1;
+        uint64_t af_be                 : 1;  /**< [  1:  1](R/W) Reserved. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t af_be                 : 1;  /**< [  1:  1](R/W) Reserved. */
+        uint64_t reserved_2            : 1;
+        uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
+        uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
+        uint64_t reserved_5_9          : 5;
+        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
+                                                                 alloc/frees. See also [RATEM1]. */
+        uint64_t reserved_11           : 1;
+        uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
+                                                                 alloc/frees are slower. For diagnostic use only.
+
+                                                                 Internal:
+                                                                 Used for OCLA visibility. */
+        uint64_t stash_cmd_ststf       : 1;  /**< [ 16: 16](R/W) Replace the use of STSTP in NCBi commands with STSTF when the stashing command option is selected.
+                                                                 Internal:
+                                                                 Use of STSTP should work, so this is a fallback option that likely won't be used. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npa_af_gen_cfg_s cn10; */
+    struct cavm_npa_af_gen_cfg_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
                                                                  alloc/frees are slower. For diagnostic use only.
@@ -3361,8 +3408,10 @@ union cavm_npa_af_gen_cfg
                                                                  Used for OCLA visibility. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_gen_cfg_s cn; */
+    } cn10ka;
+    /* struct cavm_npa_af_gen_cfg_s cn10kb; */
+    /* struct cavm_npa_af_gen_cfg_cn10ka cnf10ka; */
+    /* struct cavm_npa_af_gen_cfg_cn10ka cnf10kb; */
 };
 typedef union cavm_npa_af_gen_cfg cavm_npa_af_gen_cfg_t;
 

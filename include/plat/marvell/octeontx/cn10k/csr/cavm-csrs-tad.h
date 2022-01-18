@@ -136,7 +136,56 @@ union cavm_tadx_bp_test1
                                                                  \<60\> = Backpressure DAT DBID response. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_bp_test1_s cn; */
+    /* struct cavm_tadx_bp_test1_s cn10; */
+    /* struct cavm_tadx_bp_test1_s cn10ka; */
+    struct cavm_tadx_bp_test1_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Backpressure DAT data UPD.
+                                                                 \<62\> = Backpressure DAT data read.
+                                                                 \<61\> = Backpressure DAT CompData.
+                                                                 \<60\> = Backpressure DAT DBID response. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Backpressure DAT data UPD.
+                                                                 \<62\> = Backpressure DAT data read.
+                                                                 \<61\> = Backpressure DAT CompData.
+                                                                 \<60\> = Backpressure DAT DBID response. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_bp_test1_s cnf10ka; */
+    /* struct cavm_tadx_bp_test1_s cnf10kb; */
 };
 typedef union cavm_tadx_bp_test1 cavm_tadx_bp_test1_t;
 
@@ -145,6 +194,8 @@ static inline uint64_t CAVM_TADX_BP_TEST1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000010ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000010ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000010ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -213,7 +264,56 @@ union cavm_tadx_bp_test2
                                                                  \<60\> = Backpressure RSP ifb. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_bp_test2_s cn; */
+    /* struct cavm_tadx_bp_test2_s cn10; */
+    /* struct cavm_tadx_bp_test2_s cn10ka; */
+    struct cavm_tadx_bp_test2_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Unused.
+                                                                 \<62\> = Backpressure DAT read/write FIFOs.
+                                                                 \<61\> = Backpressure RSP msw.
+                                                                 \<60\> = Backpressure RSP ifb. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Unused.
+                                                                 \<62\> = Backpressure DAT read/write FIFOs.
+                                                                 \<61\> = Backpressure RSP msw.
+                                                                 \<60\> = Backpressure RSP ifb. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_bp_test2_s cnf10ka; */
+    /* struct cavm_tadx_bp_test2_s cnf10kb; */
 };
 typedef union cavm_tadx_bp_test2 cavm_tadx_bp_test2_t;
 
@@ -222,6 +322,8 @@ static inline uint64_t CAVM_TADX_BP_TEST2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000018ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000018ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000018ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -290,7 +392,56 @@ union cavm_tadx_bp_test3
                                                                  \<60\> = Backpressure TAG write */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_bp_test3_s cn; */
+    /* struct cavm_tadx_bp_test3_s cn10; */
+    /* struct cavm_tadx_bp_test3_s cn10ka; */
+    struct cavm_tadx_bp_test3_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Backpressure RXTBL DAT
+                                                                 \<62\> = Backpressure RXTBL RSP
+                                                                 \<61\> = Backpressure SNP ifb
+                                                                 \<60\> = Backpressure TAG write */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Backpressure RXTBL DAT
+                                                                 \<62\> = Backpressure RXTBL RSP
+                                                                 \<61\> = Backpressure SNP ifb
+                                                                 \<60\> = Backpressure TAG write */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_bp_test3_s cnf10ka; */
+    /* struct cavm_tadx_bp_test3_s cnf10kb; */
 };
 typedef union cavm_tadx_bp_test3 cavm_tadx_bp_test3_t;
 
@@ -299,6 +450,8 @@ static inline uint64_t CAVM_TADX_BP_TEST3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000020ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000020ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000020ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -367,7 +520,56 @@ union cavm_tadx_bp_test4
                                                                  \<60\> = Backpressure TXSNP msw */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_bp_test4_s cn; */
+    /* struct cavm_tadx_bp_test4_s cn10; */
+    /* struct cavm_tadx_bp_test4_s cn10ka; */
+    struct cavm_tadx_bp_test4_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Backpressure TXREQ memrd
+                                                                 \<62\> = Backpressure TXREQ memwr
+                                                                 \<61\> = Backpressure TXREQ memev
+                                                                 \<60\> = Backpressure TXSNP msw */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Backpressure TXREQ memrd
+                                                                 \<62\> = Backpressure TXREQ memwr
+                                                                 \<61\> = Backpressure TXREQ memev
+                                                                 \<60\> = Backpressure TXSNP msw */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_bp_test4_s cnf10ka; */
+    /* struct cavm_tadx_bp_test4_s cnf10kb; */
 };
 typedef union cavm_tadx_bp_test4 cavm_tadx_bp_test4_t;
 
@@ -376,6 +578,8 @@ static inline uint64_t CAVM_TADX_BP_TEST4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000028ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000028ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000028ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -444,7 +648,56 @@ union cavm_tadx_bp_test5
                                                                  \<60\> = Backpressure MN sync */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_bp_test5_s cn; */
+    /* struct cavm_tadx_bp_test5_s cn10; */
+    /* struct cavm_tadx_bp_test5_s cn10ka; */
+    struct cavm_tadx_bp_test5_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Backpressure DSS retry
+                                                                 \<62\> = Backpressure MN retry
+                                                                 \<61\> = Backpressure MN nsync
+                                                                 \<60\> = Backpressure MN sync */
+        uint64_t reserved_24_59        : 36;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update frequency in coprocessor clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 8;  /**< [ 23: 16](SR/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits defined as
+                                                                 0x0=100% of the time, 0x1=99.2% (127/128) of the time,
+                                                                 0x2=96.9% (31/32) of the time, 0x3=87.5% (7/8) of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_24_59        : 36;
+        uint64_t enable                : 4;  /**< [ 63: 60](SR/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Backpressure DSS retry
+                                                                 \<62\> = Backpressure MN retry
+                                                                 \<61\> = Backpressure MN nsync
+                                                                 \<60\> = Backpressure MN sync */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_bp_test5_s cnf10ka; */
+    /* struct cavm_tadx_bp_test5_s cnf10kb; */
 };
 typedef union cavm_tadx_bp_test5 cavm_tadx_bp_test5_t;
 
@@ -453,6 +706,8 @@ static inline uint64_t CAVM_TADX_BP_TEST5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000030ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000030ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000030ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -488,7 +743,22 @@ union cavm_tadx_cache_flush_status
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_cache_flush_status_s cn; */
+    /* struct cavm_tadx_cache_flush_status_s cn10; */
+    /* struct cavm_tadx_cache_flush_status_s cn10ka; */
+    struct cavm_tadx_cache_flush_status_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t done                  : 1;  /**< [  0:  0](SR/W/H) When TAD_CMN_CACHE_FLUSH[START] is asserted this bit is cleared
+                                                                 and will be 0 until the TAD completes the cache flush operation. */
+#else /* Word 0 - Little Endian */
+        uint64_t done                  : 1;  /**< [  0:  0](SR/W/H) When TAD_CMN_CACHE_FLUSH[START] is asserted this bit is cleared
+                                                                 and will be 0 until the TAD completes the cache flush operation. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_cache_flush_status_s cnf10ka; */
+    /* struct cavm_tadx_cache_flush_status_s cnf10kb; */
 };
 typedef union cavm_tadx_cache_flush_status cavm_tadx_cache_flush_status_t;
 
@@ -497,6 +767,8 @@ static inline uint64_t CAVM_TADX_CACHE_FLUSH_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000038ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000038ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000038ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -564,7 +836,44 @@ union cavm_tadx_derr_addr
         uint64_t datmbe                : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_derr_addr_s cn; */
+    /* struct cavm_tadx_derr_addr_s cn10; */
+    /* struct cavm_tadx_derr_addr_s cn10ka; */
+    struct cavm_tadx_derr_addr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t datmbe                : 1;  /**< [ 63: 63](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
+        uint64_t fbfmbe                : 1;  /**< [ 62: 62](SR/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
+        uint64_t sbfmbe                : 1;  /**< [ 61: 61](SR/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
+        uint64_t mnmbe                 : 1;  /**< [ 60: 60](SR/W1C/H) Logged information is for a TAD()_INT_W1C[MNMBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 59: 59](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 58: 58](SR/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 57: 57](SR/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t mnsbe                 : 1;  /**< [ 56: 56](SR/W1C/H) Logged information is for a TAD()_INT_W1C[MNSBE] error. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t nonsec                : 1;  /**< [ 52: 52](SRO/H) The NS bit of the physical address the error was detected in. */
+        uint64_t reserved_48_51        : 4;
+        uint64_t addr                  : 42; /**< [ 47:  6](SRO/H) The physical address of the 64B sub-block the error was detected in. */
+        uint64_t ow                    : 2;  /**< [  5:  4](SRO/H) The 128-bit word within the 64B sub-block in which the error was detected. */
+        uint64_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_3          : 4;
+        uint64_t ow                    : 2;  /**< [  5:  4](SRO/H) The 128-bit word within the 64B sub-block in which the error was detected. */
+        uint64_t addr                  : 42; /**< [ 47:  6](SRO/H) The physical address of the 64B sub-block the error was detected in. */
+        uint64_t reserved_48_51        : 4;
+        uint64_t nonsec                : 1;  /**< [ 52: 52](SRO/H) The NS bit of the physical address the error was detected in. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t mnsbe                 : 1;  /**< [ 56: 56](SR/W1C/H) Logged information is for a TAD()_INT_W1C[MNSBE] error. */
+        uint64_t sbfsbe                : 1;  /**< [ 57: 57](SR/W1C/H) Logged information is for a TAD()_INT_W1C[SBFSBE] error. */
+        uint64_t fbfsbe                : 1;  /**< [ 58: 58](SR/W1C/H) Logged information is for a TAD()_INT_W1C[FBFSBE] error. */
+        uint64_t datsbe                : 1;  /**< [ 59: 59](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DATSBE] error. */
+        uint64_t mnmbe                 : 1;  /**< [ 60: 60](SR/W1C/H) Logged information is for a TAD()_INT_W1C[MNMBE] error. */
+        uint64_t sbfmbe                : 1;  /**< [ 61: 61](SR/W1C/H) Logged information is for a TAD()_INT_W1C[SBFMBE] error. */
+        uint64_t fbfmbe                : 1;  /**< [ 62: 62](SR/W1C/H) Logged information is for a TAD()_INT_W1C[FBFMBE] error. */
+        uint64_t datmbe                : 1;  /**< [ 63: 63](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DATMBE] error. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_derr_addr_s cnf10ka; */
+    /* struct cavm_tadx_derr_addr_s cnf10kb; */
 };
 typedef union cavm_tadx_derr_addr cavm_tadx_derr_addr_t;
 
@@ -573,6 +882,8 @@ static inline uint64_t CAVM_TADX_DERR_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000218ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000218ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000218ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -607,7 +918,20 @@ union cavm_tadx_eco
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_eco_s cn; */
+    /* struct cavm_tadx_eco_s cn10; */
+    /* struct cavm_tadx_eco_s cn10ka; */
+    struct cavm_tadx_eco_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_rw                : 32; /**< [ 31:  0](SR/W) ECO flops. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](SR/W) ECO flops. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_eco_s cnf10ka; */
+    /* struct cavm_tadx_eco_s cnf10kb; */
 };
 typedef union cavm_tadx_eco cavm_tadx_eco_t;
 
@@ -616,6 +940,8 @@ static inline uint64_t CAVM_TADX_ECO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000008ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000008ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -673,6 +999,38 @@ union cavm_tadx_int_ena_w1c
     } s;
     /* struct cavm_tadx_int_ena_w1c_s cn10; */
     /* struct cavm_tadx_int_ena_w1c_s cn10ka; */
+    struct cavm_tadx_int_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[DAT_NDERR]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[FBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[FBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[SBF_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[SBF_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[MN_MBE]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[MN_SBE]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[MN_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[MN_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[SBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[SBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[FBF_SBE]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[FBF_MBE]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1C/H) Reads or clears enable for TAD(0..15)_INT_W1C[DAT_NDERR]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_tadx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -745,6 +1103,8 @@ static inline uint64_t CAVM_TADX_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280008010ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280008010ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280008010ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -802,6 +1162,38 @@ union cavm_tadx_int_ena_w1s
     } s;
     /* struct cavm_tadx_int_ena_w1s_s cn10; */
     /* struct cavm_tadx_int_ena_w1s_s cn10ka; */
+    struct cavm_tadx_int_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[DAT_NDERR]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[FBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[FBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[SBF_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[SBF_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[MN_MBE]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[MN_SBE]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[MN_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[MN_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[SBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[SBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[FBF_SBE]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[FBF_MBE]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1S/H) Reads or sets enable for TAD(0..15)_INT_W1C[DAT_NDERR]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_tadx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -874,6 +1266,8 @@ static inline uint64_t CAVM_TADX_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280008018ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280008018ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280008018ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -947,7 +1341,60 @@ union cavm_tadx_int_w1c
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_int_w1c_s cn; */
+    /* struct cavm_tadx_int_w1c_s cn10; */
+    /* struct cavm_tadx_int_w1c_s cn10ka; */
+    struct cavm_tadx_int_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1C/H) NDERR was received on the DAT mesh. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1C/H) Multiple-bit data error in FBF data. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1C/H) Multiple-bit data error in FBF data. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1C/H) Multiple-bit data error in SBF data. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1C/H) Multiple-bit data error in SBF data. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1C/H) Multiple-bit data error in MN data. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1C/H) Multiple-bit data error in MN data. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1C/H) Data parity error bit. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1C/H) Response parity error bit. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1C/H) Request parity error bit */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1C/H) Write NxM error. Write reference to outside all the defined and enabled address
+                                                                 space control (ASC) regions, or secure write reference to an ASC region
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1C/H) Read NxM error. Read reference to outside all the defined and enabled address
+                                                                 space control (ASC) regions, or secure read reference to an ASC region not
+                                                                 enabled for secure access, or nonsecure read reference to an ASC region not
+                                                                 enabled for nonsecure access.
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
+                                                                 allowed to prefetch to nonexistent memory locations.  Therefore,
+                                                                 [RDNXM] is for informational purposes only. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1C/H) Read NxM error. Read reference to outside all the defined and enabled address
+                                                                 space control (ASC) regions, or secure read reference to an ASC region not
+                                                                 enabled for secure access, or nonsecure read reference to an ASC region not
+                                                                 enabled for nonsecure access.
+                                                                 [RDNXM] interrupts can occur during normal operation as the cores are
+                                                                 allowed to prefetch to nonexistent memory locations.  Therefore,
+                                                                 [RDNXM] is for informational purposes only. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1C/H) Write NxM error. Write reference to outside all the defined and enabled address
+                                                                 space control (ASC) regions, or secure write reference to an ASC region
+                                                                 not enabled for secure access, or nonsecure write reference to an
+                                                                 ASC region not enabled for nonsecure access. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1C/H) Request parity error bit */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1C/H) Response parity error bit. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1C/H) Data parity error bit. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1C/H) Multiple-bit data error in MN data. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1C/H) Multiple-bit data error in MN data. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1C/H) Multiple-bit data error in SBF data. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1C/H) Multiple-bit data error in SBF data. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1C/H) Multiple-bit data error in FBF data. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1C/H) Multiple-bit data error in FBF data. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1C/H) NDERR was received on the DAT mesh. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_int_w1c_s cnf10ka; */
+    /* struct cavm_tadx_int_w1c_s cnf10kb; */
 };
 typedef union cavm_tadx_int_w1c cavm_tadx_int_w1c_t;
 
@@ -956,6 +1403,8 @@ static inline uint64_t CAVM_TADX_INT_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280008000ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280008000ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280008000ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -1013,6 +1462,38 @@ union cavm_tadx_int_w1s
     } s;
     /* struct cavm_tadx_int_w1s_s cn10; */
     /* struct cavm_tadx_int_w1s_s cn10ka; */
+    struct cavm_tadx_int_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[DAT_NDERR]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[FBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[FBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[SBF_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[SBF_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[MN_MBE]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[MN_SBE]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[RDNXM]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdnxm                 : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[WRNXM]. */
+        uint64_t req_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[REQ_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[RSP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[DAT_PERR]. */
+        uint64_t mn_sbe                : 1;  /**< [  5:  5](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[MN_SBE]. */
+        uint64_t mn_mbe                : 1;  /**< [  6:  6](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[MN_MBE]. */
+        uint64_t sbf_sbe               : 1;  /**< [  7:  7](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[SBF_SBE]. */
+        uint64_t sbf_mbe               : 1;  /**< [  8:  8](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[SBF_MBE]. */
+        uint64_t fbf_sbe               : 1;  /**< [  9:  9](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[FBF_SBE]. */
+        uint64_t fbf_mbe               : 1;  /**< [ 10: 10](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[FBF_MBE]. */
+        uint64_t dat_nderr             : 1;  /**< [ 11: 11](SR/W1S/H) Reads or sets TAD(0..15)_INT_W1C[DAT_NDERR]. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_tadx_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1085,6 +1566,8 @@ static inline uint64_t CAVM_TADX_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280008008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280008008ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280008008ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -1121,7 +1604,24 @@ union cavm_tadx_mpamx_rcnt
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_mpamx_rcnt_s cn; */
+    /* struct cavm_tadx_mpamx_rcnt_s cn10; */
+    /* struct cavm_tadx_mpamx_rcnt_s cn10ka; */
+    struct cavm_tadx_mpamx_rcnt_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t cnt                   : 7;  /**< [  6:  0](SRO/H) Counter incremented whenever a request with corresponding MPAMID is stored in
+                                                                 Buffers/IFBs. Decremented when request is deallocated from Buffers/IFBs.
+                                                                 This count is used to determine CBUSY[0] in TAD responses. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 7;  /**< [  6:  0](SRO/H) Counter incremented whenever a request with corresponding MPAMID is stored in
+                                                                 Buffers/IFBs. Decremented when request is deallocated from Buffers/IFBs.
+                                                                 This count is used to determine CBUSY[0] in TAD responses. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_mpamx_rcnt_s cnf10ka; */
+    /* struct cavm_tadx_mpamx_rcnt_s cnf10kb; */
 };
 typedef union cavm_tadx_mpamx_rcnt cavm_tadx_mpamx_rcnt_t;
 
@@ -1130,6 +1630,8 @@ static inline uint64_t CAVM_TADX_MPAMX_RCNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b<=127)))
         return 0x87e280002000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=15) && (b<=127)))
+        return 0x87e280002000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b<=127)))
         return 0x87e280002000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=23) && (b<=127)))
@@ -1164,7 +1666,20 @@ union cavm_tadx_msix_pbax
                                                                  TAD_PF_INT_VEC_E. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_msix_pbax_s cn; */
+    /* struct cavm_tadx_msix_pbax_s cn10; */
+    /* struct cavm_tadx_msix_pbax_s cn10ka; */
+    struct cavm_tadx_msix_pbax_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](SRO) Pending message for the associated TAD_MSIX_VEC(0)_CTL, enumerated by
+                                                                 TAD_PF_INT_VEC_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](SRO) Pending message for the associated TAD_MSIX_VEC(0)_CTL, enumerated by
+                                                                 TAD_PF_INT_VEC_E. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_msix_pbax_s cnf10ka; */
+    /* struct cavm_tadx_msix_pbax_s cnf10kb; */
 };
 typedef union cavm_tadx_msix_pbax cavm_tadx_msix_pbax_t;
 
@@ -1173,6 +1688,8 @@ static inline uint64_t CAVM_TADX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b==0)))
         return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=15) && (b==0)))
+        return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b==0)))
         return 0x87e2808f0000ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=23) && (b==0)))
@@ -1210,7 +1727,24 @@ union cavm_tadx_msix_vecx_addr
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_msix_vecx_addr_s cn; */
+    /* struct cavm_tadx_msix_vecx_addr_s cn10; */
+    /* struct cavm_tadx_msix_vecx_addr_s cn10ka; */
+    struct cavm_tadx_msix_vecx_addr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 51; /**< [ 52:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_msix_vecx_addr_s cnf10ka; */
+    /* struct cavm_tadx_msix_vecx_addr_s cnf10kb; */
 };
 typedef union cavm_tadx_msix_vecx_addr cavm_tadx_msix_vecx_addr_t;
 
@@ -1219,6 +1753,8 @@ static inline uint64_t CAVM_TADX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b==0)))
         return 0x87e280800000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=15) && (b==0)))
+        return 0x87e280800000ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b==0)))
         return 0x87e280800000ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=23) && (b==0)))
@@ -1254,7 +1790,22 @@ union cavm_tadx_msix_vecx_ctl
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_msix_vecx_ctl_s cn; */
+    /* struct cavm_tadx_msix_vecx_ctl_s cn10; */
+    /* struct cavm_tadx_msix_vecx_ctl_s cn10ka; */
+    struct cavm_tadx_msix_vecx_ctl_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](SR/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t data                  : 32; /**< [ 31:  0](SR/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 32; /**< [ 31:  0](SR/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t mask                  : 1;  /**< [ 32: 32](SR/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_msix_vecx_ctl_s cnf10ka; */
+    /* struct cavm_tadx_msix_vecx_ctl_s cnf10kb; */
 };
 typedef union cavm_tadx_msix_vecx_ctl cavm_tadx_msix_vecx_ctl_t;
 
@@ -1263,6 +1814,8 @@ static inline uint64_t CAVM_TADX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b==0)))
         return 0x87e280800008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=15) && (b==0)))
+        return 0x87e280800008ll + 0x1000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b==0)))
         return 0x87e280800008ll + 0x1000000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=23) && (b==0)))
@@ -1306,7 +1859,26 @@ union cavm_tadx_nderr_addr
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_nderr_addr_s cn; */
+    /* struct cavm_tadx_nderr_addr_s cn10; */
+    /* struct cavm_tadx_nderr_addr_s cn10ka; */
+    struct cavm_tadx_nderr_addr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t nonsec                : 1;  /**< [ 52: 52](SRO/H) For [RDNXM], [WRNXM], and [REQ_PERR], the NS bit from REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the NS bit. */
+        uint64_t addr                  : 52; /**< [ 51:  0](SRO/H) For [RDNXM], [WRNXM], and [REQ_PERR], address from the REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the address. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 52; /**< [ 51:  0](SRO/H) For [RDNXM], [WRNXM], and [REQ_PERR], address from the REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the address. */
+        uint64_t nonsec                : 1;  /**< [ 52: 52](SRO/H) For [RDNXM], [WRNXM], and [REQ_PERR], the NS bit from REQ mesh payload causing the
+                                                                 error. Note for [REQ_PERR], the error itself might have corrupted the NS bit. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_nderr_addr_s cnf10ka; */
+    /* struct cavm_tadx_nderr_addr_s cnf10kb; */
 };
 typedef union cavm_tadx_nderr_addr cavm_tadx_nderr_addr_t;
 
@@ -1315,6 +1887,8 @@ static inline uint64_t CAVM_TADX_NDERR_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000208ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000208ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000208ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -1375,7 +1949,42 @@ union cavm_tadx_nderr_info
         uint64_t rdnxm                 : 1;  /**< [ 63: 63](R/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_nderr_info_s cn; */
+    /* struct cavm_tadx_nderr_info_s cn10; */
+    /* struct cavm_tadx_nderr_info_s cn10ka; */
+    struct cavm_tadx_nderr_info_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](SR/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](SR/W1C/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
+        uint64_t req_perr              : 1;  /**< [ 61: 61](SR/W1C/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](SR/W1C/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
+        uint64_t dat_nderr             : 1;  /**< [ 58: 58](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_NDERR] error. */
+        uint64_t reserved_18_57        : 40;
+        uint64_t opcode                : 7;  /**< [ 17: 11](SRO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR]. */
+        uint64_t srcid                 : 11; /**< [ 10:  0](SRO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 srcid. */
+#else /* Word 0 - Little Endian */
+        uint64_t srcid                 : 11; /**< [ 10:  0](SRO/H) The SRCID from the REQ/RSP/DAT mesh header causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 srcid. */
+        uint64_t opcode                : 7;  /**< [ 17: 11](SRO/H) The opcode from the REQ/RSP/DAT mesh payload causing the error. Note for
+                                                                 [REQ_PERR], [RSP_PERR] and [DAT_PERR], the error itself might have corrupted the
+                                                                 opcode. OPCODE[6:4] is 0 for DAT_PERR and OPCODE[6:5] is 0 for [RSP_PERR]. */
+        uint64_t reserved_18_57        : 40;
+        uint64_t dat_nderr             : 1;  /**< [ 58: 58](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_NDERR] error. */
+        uint64_t dat_perr              : 1;  /**< [ 59: 59](SR/W1C/H) Logged information is for a TAD()_INT_W1C[DAT_PERR] error. */
+        uint64_t rsp_perr              : 1;  /**< [ 60: 60](SR/W1C/H) Logged information is for a TAD()_INT_W1C[RSP_PERR] error. */
+        uint64_t req_perr              : 1;  /**< [ 61: 61](SR/W1C/H) Logged information is for a TAD()_INT_W1C[REQ_PERR] error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](SR/W1C/H) Logged information is for a TAD()_INT_W1C[WRNXM] error. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](SR/W1C/H) Logged information is for a TAD()_INT_W1C[RDNXM] error. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_nderr_info_s cnf10ka; */
+    /* struct cavm_tadx_nderr_info_s cnf10kb; */
 };
 typedef union cavm_tadx_nderr_info cavm_tadx_nderr_info_t;
 
@@ -1384,6 +1993,8 @@ static inline uint64_t CAVM_TADX_NDERR_INFO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000200ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000200ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000200ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -1423,6 +2034,8 @@ static inline uint64_t CAVM_TADX_PFCX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b<=7)))
         return 0x87e280000800ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=15) && (b<=7)))
+        return 0x87e280000800ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b<=7)))
         return 0x87e280000800ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=23) && (b<=7)))
@@ -1505,6 +2118,8 @@ static inline uint64_t CAVM_TADX_PRFX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=47) && (b<=7)))
         return 0x87e280000900ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=15) && (b<=7)))
+        return 0x87e280000900ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=35) && (b<=7)))
         return 0x87e280000900ll + 0x1000000ll * ((a) & 0x3f) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=23) && (b<=7)))
@@ -1539,7 +2154,22 @@ union cavm_tadx_req_rcnt
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_req_rcnt_s cn; */
+    /* struct cavm_tadx_req_rcnt_s cn10; */
+    /* struct cavm_tadx_req_rcnt_s cn10ka; */
+    struct cavm_tadx_req_rcnt_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t cnt                   : 7;  /**< [  6:  0](SRO/H) Number of requests stored in Buffers/IFBs.
+                                                                 This count is used to determine CBUSY[1] in TAD responses. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 7;  /**< [  6:  0](SRO/H) Number of requests stored in Buffers/IFBs.
+                                                                 This count is used to determine CBUSY[1] in TAD responses. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_req_rcnt_s cnf10ka; */
+    /* struct cavm_tadx_req_rcnt_s cnf10kb; */
 };
 typedef union cavm_tadx_req_rcnt cavm_tadx_req_rcnt_t;
 
@@ -1548,6 +2178,8 @@ static inline uint64_t CAVM_TADX_REQ_RCNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280002008ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280002008ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280002008ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))
@@ -1583,7 +2215,20 @@ union cavm_tadx_scratch
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tadx_scratch_s cn; */
+    /* struct cavm_tadx_scratch_s cn10; */
+    /* struct cavm_tadx_scratch_s cn10ka; */
+    struct cavm_tadx_scratch_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t scratch               : 8;  /**< [  7:  0](SR/W) General purpose scratch register. */
+#else /* Word 0 - Little Endian */
+        uint64_t scratch               : 8;  /**< [  7:  0](SR/W) General purpose scratch register. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tadx_scratch_s cnf10ka; */
+    /* struct cavm_tadx_scratch_s cnf10kb; */
 };
 typedef union cavm_tadx_scratch cavm_tadx_scratch_t;
 
@@ -1592,6 +2237,8 @@ static inline uint64_t CAVM_TADX_SCRATCH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=47))
         return 0x87e280000000ll + 0x1000000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=15))
+        return 0x87e280000000ll + 0x1000000ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=35))
         return 0x87e280000000ll + 0x1000000ll * ((a) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=23))

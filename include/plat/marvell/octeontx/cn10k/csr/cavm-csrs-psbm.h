@@ -56,6 +56,7 @@
  */
 #define CAVM_PSBM_SYS_MAP_E_CPTX(a) (0xb + (a))
 #define CAVM_PSBM_SYS_MAP_E_GSERX_CN10KA(a) (5 + (a))
+#define CAVM_PSBM_SYS_MAP_E_GSERX_CN10KB(a) (5 + (a))
 #define CAVM_PSBM_SYS_MAP_E_GSERX_CNF10KA(a) (7 + (a))
 #define CAVM_PSBM_SYS_MAP_E_GSERX_CNF10KB(a) (7 + (a))
 #define CAVM_PSBM_SYS_MAP_E_NCBX(a) (0 + (a))
@@ -520,6 +521,8 @@ static inline uint64_t CAVM_PSBM_SYSX_DATAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=11) && (b<=5)))
         return 0x87e0de020000ll + 0x100ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=11) && (b<=5)))
+        return 0x87e0de020000ll + 0x100ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=14) && (b<=5)))
         return 0x87e0de020000ll + 0x100ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=14) && (b<=5)))
@@ -566,6 +569,8 @@ static inline uint64_t CAVM_PSBM_SYSX_HDR(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PSBM_SYSX_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=11))
+        return 0x87e0de028000ll + 0x10ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=11))
         return 0x87e0de028000ll + 0x10ll * ((a) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=14))
         return 0x87e0de028000ll + 0x10ll * ((a) & 0xf);

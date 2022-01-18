@@ -492,7 +492,11 @@ typedef union cavm_smmux_cmdq_control_page_base cavm_smmux_cmdq_control_page_bas
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASE(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x830000001000ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
+        return 0x830000001000ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x830000001000ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_BASE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -503,6 +507,72 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASE(uint64_t a)
 #define device_bar_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASE(a) (a)
 #define arguments_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) smmu#_cmdq_control_page_base#
+ *
+ * INTERNAL: SMMU CMDQ Control Page Base Register
+ *
+ * Provides information about the Enhanced Command queue interface for the SMMU Non-
+ * secure programming interface.
+ *
+ * Internal:
+ * ECMDQ not implemented for CNXXXX, CSR exists for verification compatibility with
+ * Odyssey. Access is RAZ/WI.
+ */
+union cavm_smmux_cmdq_control_page_basex
+{
+    uint64_t u;
+    struct cavm_smmux_cmdq_control_page_basex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_52_63        : 12;
+        uint64_t addr                  : 36; /**< [ 51: 16](RO) Base address of the Command queue control page. The bits [15:0] of the base
+                                                                 address are 0. The value of this field is an offset from the base address of
+                                                                 SMMU Register Page 0, not an absolute address. */
+        uint64_t reserved_3_15         : 13;
+        uint64_t cmdqgs                : 2;  /**< [  2:  1](RO) Granule size to use for the Command queue control page.
+
+                                                                 1 = 64KB */
+        uint64_t cmdq_control_page_preset : 1;/**< [  0:  0](RO) Indicates whether queue controls for this interface are stored in Normal memory or registers.
+
+                                                                 0 = The Command queue controls for this page are stored in Normal memory.
+
+                                                                 1 = The Command queue controls for this page are implemented as registers in the SMMU. */
+#else /* Word 0 - Little Endian */
+        uint64_t cmdq_control_page_preset : 1;/**< [  0:  0](RO) Indicates whether queue controls for this interface are stored in Normal memory or registers.
+
+                                                                 0 = The Command queue controls for this page are stored in Normal memory.
+
+                                                                 1 = The Command queue controls for this page are implemented as registers in the SMMU. */
+        uint64_t cmdqgs                : 2;  /**< [  2:  1](RO) Granule size to use for the Command queue control page.
+
+                                                                 1 = 64KB */
+        uint64_t reserved_3_15         : 13;
+        uint64_t addr                  : 36; /**< [ 51: 16](RO) Base address of the Command queue control page. The bits [15:0] of the base
+                                                                 address are 0. The value of this field is an offset from the base address of
+                                                                 SMMU Register Page 0, not an absolute address. */
+        uint64_t reserved_52_63        : 12;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_cmdq_control_page_basex_s cn; */
+};
+typedef union cavm_smmux_cmdq_control_page_basex cavm_smmux_cmdq_control_page_basex_t;
+
+static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b==0)))
+        return 0x830000004000ll + 0x1000000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x0);
+    __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_BASEX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(a,b) cavm_smmux_cmdq_control_page_basex_t
+#define bustype_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(a,b) "SMMUX_CMDQ_CONTROL_PAGE_BASEX"
+#define device_bar_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(a,b) (a)
+#define arguments_CAVM_SMMUX_CMDQ_CONTROL_PAGE_BASEX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) smmu#_cmdq_control_page_cfg
@@ -531,7 +601,11 @@ typedef union cavm_smmux_cmdq_control_page_cfg cavm_smmux_cmdq_control_page_cfg_
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFG(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x830000001008ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
+        return 0x830000001008ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x830000001008ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -542,6 +616,48 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFG(uint64_t a)
 #define device_bar_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFG(a) (a)
 #define arguments_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) smmu#_cmdq_control_page_cfg#
+ *
+ * INTERNAL: SMMU CMDQ Control Page Configuration Register
+ *
+ * Control for Enhanced Command queue interface for the SMMU Non-secure programming interface.
+ * Internal:
+ * ECMDQ not implemented for CNXXXX, CSR exists for verification compatibility with
+ * Odyssey. Access is RAZ/WI.
+ */
+union cavm_smmux_cmdq_control_page_cfgx
+{
+    uint32_t u;
+    struct cavm_smmux_cmdq_control_page_cfgx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t en                    : 1;  /**< [  0:  0](RO) Command queue control page is enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](RO) Command queue control page is enabled. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_cmdq_control_page_cfgx_s cn; */
+};
+typedef union cavm_smmux_cmdq_control_page_cfgx cavm_smmux_cmdq_control_page_cfgx_t;
+
+static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b==0)))
+        return 0x830000004008ll + 0x1000000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x0);
+    __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_CFGX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(a,b) cavm_smmux_cmdq_control_page_cfgx_t
+#define bustype_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(a,b) "SMMUX_CMDQ_CONTROL_PAGE_CFGX"
+#define device_bar_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(a,b) (a)
+#define arguments_CAVM_SMMUX_CMDQ_CONTROL_PAGE_CFGX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) smmu#_cmdq_control_page_idr
@@ -566,7 +682,11 @@ typedef union cavm_smmux_cmdq_control_page_idr cavm_smmux_cmdq_control_page_idr_
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_IDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_IDR(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x830000001040ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
+        return 0x830000001040ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x830000001040ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_IDR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -605,7 +725,11 @@ typedef union cavm_smmux_cmdq_control_page_sid cavm_smmux_cmdq_control_page_sid_
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_SID(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_SID(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x830000001010ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
+        return 0x830000001010ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x830000001010ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_SID", 1, a, 0, 0, 0, 0, 0);
 }
@@ -616,6 +740,48 @@ static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_SID(uint64_t a)
 #define device_bar_CAVM_SMMUX_CMDQ_CONTROL_PAGE_SID(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_CMDQ_CONTROL_PAGE_SID(a) (a)
 #define arguments_CAVM_SMMUX_CMDQ_CONTROL_PAGE_SID(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) smmu#_cmdq_control_page_status#
+ *
+ * INTERNAL: SMMU CMDQ Control Page Status Register
+ *
+ * Status of Enhanced Command queue interface for the SMMU Non-secure programming interface.
+ * Internal:
+ * ECMDQ not implemented for CNXXXX, CSR exists for verification compatibility with
+ * Odyssey. Access is RAZ/WI.
+ */
+union cavm_smmux_cmdq_control_page_statusx
+{
+    uint32_t u;
+    struct cavm_smmux_cmdq_control_page_statusx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t enack                 : 1;  /**< [  0:  0](RO) Command queue control page is enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t enack                 : 1;  /**< [  0:  0](RO) Command queue control page is enabled. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_cmdq_control_page_statusx_s cn; */
+};
+typedef union cavm_smmux_cmdq_control_page_statusx cavm_smmux_cmdq_control_page_statusx_t;
+
+static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b==0)))
+        return 0x83000000400cll + 0x1000000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x0);
+    __cavm_csr_fatal("SMMUX_CMDQ_CONTROL_PAGE_STATUSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(a,b) cavm_smmux_cmdq_control_page_statusx_t
+#define bustype_CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(a,b) "SMMUX_CMDQ_CONTROL_PAGE_STATUSX"
+#define device_bar_CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(a,b) (a)
+#define arguments_CAVM_SMMUX_CMDQ_CONTROL_PAGE_STATUSX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) smmu#_cmdq_ctrl_page_doorbell
@@ -640,7 +806,11 @@ typedef union cavm_smmux_cmdq_ctrl_page_doorbell cavm_smmux_cmdq_ctrl_page_doorb
 static inline uint64_t CAVM_SMMUX_CMDQ_CTRL_PAGE_DOORBELL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CTRL_PAGE_DOORBELL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x830000001020ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
+        return 0x830000001020ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x830000001020ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CTRL_PAGE_DOORBELL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -685,7 +855,11 @@ typedef union cavm_smmux_cmdq_ctrl_page_status cavm_smmux_cmdq_ctrl_page_status_
 static inline uint64_t CAVM_SMMUX_CMDQ_CTRL_PAGE_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_CMDQ_CTRL_PAGE_STATUS(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x83000000100cll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
+        return 0x83000000100cll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x83000000100cll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_CMDQ_CTRL_PAGE_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1173,6 +1347,168 @@ static inline uint64_t CAVM_SMMUX_CR2(uint64_t a)
 #define device_bar_CAVM_SMMUX_CR2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_CR2(a) (a)
 #define arguments_CAVM_SMMUX_CR2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) smmu#_ecmdq_base#
+ *
+ * INTERNAL: SMMU Enhanced Command Queue Base Register
+ *
+ * Configuration of the Command queue base address.
+ * Internal:
+ * ECMDQ not implemented for CNXXXX, CSR exists for verification compatibility with
+ * Odyssey. Access is RAZ/WI.
+ */
+union cavm_smmux_ecmdq_basex
+{
+    uint64_t u;
+    struct cavm_smmux_ecmdq_basex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) Read-Allocate hint.
+                                                                 0 = No Read-Allocate.
+                                                                 1 = Read-Allocate. */
+        uint64_t reserved_52_61        : 10;
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) PA of Command queue base, bits [51:5]. */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) Queue size as log2(entries). */
+#else /* Word 0 - Little Endian */
+        uint64_t log2size              : 5;  /**< [  4:  0](R/W) Queue size as log2(entries). */
+        uint64_t addr                  : 47; /**< [ 51:  5](R/W) PA of Command queue base, bits [51:5]. */
+        uint64_t reserved_52_61        : 10;
+        uint64_t ra                    : 1;  /**< [ 62: 62](R/W) Read-Allocate hint.
+                                                                 0 = No Read-Allocate.
+                                                                 1 = Read-Allocate. */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_ecmdq_basex_s cn; */
+};
+typedef union cavm_smmux_ecmdq_basex cavm_smmux_ecmdq_basex_t;
+
+static inline uint64_t CAVM_SMMUX_ECMDQ_BASEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_ECMDQ_BASEX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=127)))
+        return 0x830000180000ll + 0x1000000000ll * ((a) & 0x0) + 0x200ll * ((b) & 0x7f);
+    __cavm_csr_fatal("SMMUX_ECMDQ_BASEX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_ECMDQ_BASEX(a,b) cavm_smmux_ecmdq_basex_t
+#define bustype_CAVM_SMMUX_ECMDQ_BASEX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SMMUX_ECMDQ_BASEX(a,b) "SMMUX_ECMDQ_BASEX"
+#define device_bar_CAVM_SMMUX_ECMDQ_BASEX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_ECMDQ_BASEX(a,b) (a)
+#define arguments_CAVM_SMMUX_ECMDQ_BASEX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) smmu#_ecmdq_cons#
+ *
+ * INTERNAL: SMMU Enhanced Command Queue Consumer Register
+ *
+ * Command queue consumer read index.
+ * Internal:
+ * ECMDQ not implemented for CNXXXX, CSR exists for verification compatibility with
+ * Odyssey. Access is RAZ/WI.
+ */
+union cavm_smmux_ecmdq_consx
+{
+    uint32_t u;
+    struct cavm_smmux_ecmdq_consx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t enack                 : 1;  /**< [ 31: 31](R/W/H) Queue enable acknowledge. */
+        uint32_t reserved_27_30        : 4;
+        uint32_t err_reason            : 3;  /**< [ 26: 24](R/W/H) Error reason code. */
+        uint32_t errx                  : 1;  /**< [ 23: 23](R/W/H) Error status. */
+        uint32_t reserved_20_22        : 3;
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) Command queue read index. This field is treated as RD and RD_WRAP sub-fields,
+                                                                 with equivalent meaning to the corresponding fields in SMMU()_CMDQ_CONS. QS is
+                                                                 derived from SMMU()_ECMDQ_BASE[LOG2SIZE] with the same constraints as for other
+                                                                 queues. */
+#else /* Word 0 - Little Endian */
+        uint32_t rd                    : 20; /**< [ 19:  0](R/W/H) Command queue read index. This field is treated as RD and RD_WRAP sub-fields,
+                                                                 with equivalent meaning to the corresponding fields in SMMU()_CMDQ_CONS. QS is
+                                                                 derived from SMMU()_ECMDQ_BASE[LOG2SIZE] with the same constraints as for other
+                                                                 queues. */
+        uint32_t reserved_20_22        : 3;
+        uint32_t errx                  : 1;  /**< [ 23: 23](R/W/H) Error status. */
+        uint32_t err_reason            : 3;  /**< [ 26: 24](R/W/H) Error reason code. */
+        uint32_t reserved_27_30        : 4;
+        uint32_t enack                 : 1;  /**< [ 31: 31](R/W/H) Queue enable acknowledge. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_ecmdq_consx_s cn; */
+};
+typedef union cavm_smmux_ecmdq_consx cavm_smmux_ecmdq_consx_t;
+
+static inline uint64_t CAVM_SMMUX_ECMDQ_CONSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_ECMDQ_CONSX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=127)))
+        return 0x83000018000cll + 0x1000000000ll * ((a) & 0x0) + 0x200ll * ((b) & 0x7f);
+    __cavm_csr_fatal("SMMUX_ECMDQ_CONSX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_ECMDQ_CONSX(a,b) cavm_smmux_ecmdq_consx_t
+#define bustype_CAVM_SMMUX_ECMDQ_CONSX(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_ECMDQ_CONSX(a,b) "SMMUX_ECMDQ_CONSX"
+#define device_bar_CAVM_SMMUX_ECMDQ_CONSX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_ECMDQ_CONSX(a,b) (a)
+#define arguments_CAVM_SMMUX_ECMDQ_CONSX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB32b) smmu#_ecmdq_prod#
+ *
+ * INTERNAL: SMMU Enhanced Command Queue Producer Register
+ *
+ * Allows Command queue producer to update the write index.
+ * Internal:
+ * ECMDQ not implemented for CNXXXX, CSR exists for verification compatibility with
+ * Odyssey. Access is RAZ/WI.
+ */
+union cavm_smmux_ecmdq_prodx
+{
+    uint32_t u;
+    struct cavm_smmux_ecmdq_prodx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t en                    : 1;  /**< [ 31: 31](R/W) Queue enable. */
+        uint32_t reserved_24_30        : 7;
+        uint32_t errack                : 1;  /**< [ 23: 23](R/W) Error status acknowledge. */
+        uint32_t reserved_20_22        : 3;
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W) Command queue write index. This field is treated as WR and WR_WRAP sub-fields,
+                                                                 with equivalent meaning to the corresponding fields in SMMU()_CMDQ_PROD. QS is
+                                                                 derived from SMMU()_ECMDQ_BASE[LOG2SIZE] with the same constraints as for other
+                                                                 queues. */
+#else /* Word 0 - Little Endian */
+        uint32_t wr                    : 20; /**< [ 19:  0](R/W) Command queue write index. This field is treated as WR and WR_WRAP sub-fields,
+                                                                 with equivalent meaning to the corresponding fields in SMMU()_CMDQ_PROD. QS is
+                                                                 derived from SMMU()_ECMDQ_BASE[LOG2SIZE] with the same constraints as for other
+                                                                 queues. */
+        uint32_t reserved_20_22        : 3;
+        uint32_t errack                : 1;  /**< [ 23: 23](R/W) Error status acknowledge. */
+        uint32_t reserved_24_30        : 7;
+        uint32_t en                    : 1;  /**< [ 31: 31](R/W) Queue enable. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_ecmdq_prodx_s cn; */
+};
+typedef union cavm_smmux_ecmdq_prodx cavm_smmux_ecmdq_prodx_t;
+
+static inline uint64_t CAVM_SMMUX_ECMDQ_PRODX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_ECMDQ_PRODX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=127)))
+        return 0x830000180008ll + 0x1000000000ll * ((a) & 0x0) + 0x200ll * ((b) & 0x7f);
+    __cavm_csr_fatal("SMMUX_ECMDQ_PRODX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_ECMDQ_PRODX(a,b) cavm_smmux_ecmdq_prodx_t
+#define bustype_CAVM_SMMUX_ECMDQ_PRODX(a,b) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_ECMDQ_PRODX(a,b) "SMMUX_ECMDQ_PRODX"
+#define device_bar_CAVM_SMMUX_ECMDQ_PRODX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_ECMDQ_PRODX(a,b) (a)
+#define arguments_CAVM_SMMUX_ECMDQ_PRODX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) smmu#_eventq_base
@@ -1781,6 +2117,85 @@ union cavm_smmux_gerror
     struct cavm_smmux_gerror_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_10_31        : 22;
+        uint32_t cmdqp_err             : 1;  /**< [  9:  9](RO/H) When this bit is different to SMMU()_GERRORN[CMDQP_ERR], it indicates that one
+                                                                 or more errors have been encountered on a Command queue control page interface. */
+        uint32_t sfm_err               : 1;  /**< [  8:  8](RAZ) The SMMU has entered service failure mode.
+
+                                                                 * Traffic through the SMMU might be affected. Depending on the origin of the
+                                                                 error, the SMMU might stop processing commands and recording events. The RAS
+                                                                 registers describe the error.
+
+                                                                 * Acknowledgement of this error via GERRORN does not clear this error, which is
+                                                                 cleared in an implementation defined way.
+
+                                                                 * SFM triggers both SMMU()_GERROR[SFM_ERR] and SMMU()_S_GERROR[SFM_ERR]. */
+        uint32_t msi_gerror_abt_err    : 1;  /**< [  7:  7](RAZ) A GERROR MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs. */
+        uint32_t msi_priq_abt_err      : 1;  /**< [  6:  6](RAZ) A PRIQ MSI was terminated with abort. Activation of this error does not affect future
+                                                                 MSIs.
+                                                                 If SMMU()_IDR0[PRI]=0 or SMMU()_IDR0[MSI]=0, this field is RES0.
+
+                                                                 Not implemented in CNXXXX. */
+        uint32_t msi_eventq_abt_err    : 1;  /**< [  5:  5](RAZ) An EVENTQ MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs.
+                                                                 If SMMU()_IDR0[MSI]=0, this field is RES0. */
+        uint32_t msi_cmdq_abt_err      : 1;  /**< [  4:  4](RAZ) A CMD_SYNC MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs.
+                                                                 If SMMU()_IDR0[MSI]=0, this field is RES0. */
+        uint32_t priq_abt_err          : 1;  /**< [  3:  3](RAZ) A write to the PRI queue was terminated with abort and page request records might have
+                                                                 been lost.
+                                                                 If SMMU()_IDR0[PRI]=0, this field is RES0.
+
+                                                                 Not implemented in CNXXXX. */
+        uint32_t eventq_abt_err        : 1;  /**< [  2:  2](RO/H) A write to the event queue was terminated with abort and event records might have been lost. */
+        uint32_t reserved_1            : 1;
+        uint32_t cmdq_err              : 1;  /**< [  0:  0](RO/H) A command has been encountered that cannot be processed. SMMU()_CMDQ_CONS[ERRX] has
+                                                                 been updated with a reason code and command processing has stopped.
+                                                                 Commands are not processed while this error is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmdq_err              : 1;  /**< [  0:  0](RO/H) A command has been encountered that cannot be processed. SMMU()_CMDQ_CONS[ERRX] has
+                                                                 been updated with a reason code and command processing has stopped.
+                                                                 Commands are not processed while this error is active. */
+        uint32_t reserved_1            : 1;
+        uint32_t eventq_abt_err        : 1;  /**< [  2:  2](RO/H) A write to the event queue was terminated with abort and event records might have been lost. */
+        uint32_t priq_abt_err          : 1;  /**< [  3:  3](RAZ) A write to the PRI queue was terminated with abort and page request records might have
+                                                                 been lost.
+                                                                 If SMMU()_IDR0[PRI]=0, this field is RES0.
+
+                                                                 Not implemented in CNXXXX. */
+        uint32_t msi_cmdq_abt_err      : 1;  /**< [  4:  4](RAZ) A CMD_SYNC MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs.
+                                                                 If SMMU()_IDR0[MSI]=0, this field is RES0. */
+        uint32_t msi_eventq_abt_err    : 1;  /**< [  5:  5](RAZ) An EVENTQ MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs.
+                                                                 If SMMU()_IDR0[MSI]=0, this field is RES0. */
+        uint32_t msi_priq_abt_err      : 1;  /**< [  6:  6](RAZ) A PRIQ MSI was terminated with abort. Activation of this error does not affect future
+                                                                 MSIs.
+                                                                 If SMMU()_IDR0[PRI]=0 or SMMU()_IDR0[MSI]=0, this field is RES0.
+
+                                                                 Not implemented in CNXXXX. */
+        uint32_t msi_gerror_abt_err    : 1;  /**< [  7:  7](RAZ) A GERROR MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs. */
+        uint32_t sfm_err               : 1;  /**< [  8:  8](RAZ) The SMMU has entered service failure mode.
+
+                                                                 * Traffic through the SMMU might be affected. Depending on the origin of the
+                                                                 error, the SMMU might stop processing commands and recording events. The RAS
+                                                                 registers describe the error.
+
+                                                                 * Acknowledgement of this error via GERRORN does not clear this error, which is
+                                                                 cleared in an implementation defined way.
+
+                                                                 * SFM triggers both SMMU()_GERROR[SFM_ERR] and SMMU()_S_GERROR[SFM_ERR]. */
+        uint32_t cmdqp_err             : 1;  /**< [  9:  9](RO/H) When this bit is different to SMMU()_GERRORN[CMDQP_ERR], it indicates that one
+                                                                 or more errors have been encountered on a Command queue control page interface. */
+        uint32_t reserved_10_31        : 22;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_gerror_s cn10; */
+    struct cavm_smmux_gerror_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
         uint32_t sfm_err               : 1;  /**< [  8:  8](RAZ) The SMMU has entered service failure mode.
 
@@ -1851,8 +2266,10 @@ union cavm_smmux_gerror
                                                                  * SFM triggers both SMMU()_GERROR[SFM_ERR] and SMMU()_S_GERROR[SFM_ERR]. */
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_gerror_s cn; */
+    } cn10ka;
+    /* struct cavm_smmux_gerror_s cn10kb; */
+    /* struct cavm_smmux_gerror_cn10ka cnf10ka; */
+    /* struct cavm_smmux_gerror_cn10ka cnf10kb; */
 };
 typedef union cavm_smmux_gerror cavm_smmux_gerror_t;
 
@@ -2020,6 +2437,83 @@ union cavm_smmux_gerrorn
     struct cavm_smmux_gerrorn_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_10_31        : 22;
+        uint32_t cmdqp_err             : 1;  /**< [  9:  9](R/W) When this bit is different to SMMU()_GERROR[CMDQP_ERR], it indicates that one or
+                                                                 more errors have been encountered on a Command queue control page interface. */
+        uint32_t sfm_err               : 1;  /**< [  8:  8](R/W) The SMMU has entered service failure mode.
+                                                                 * Traffic through the SMMU might be affected. Depending on the origin of the
+                                                                 error, the SMMU might stop processing commands and recording events. The RAS
+                                                                 registers describe the error.
+
+                                                                 *  Acknowledgement of this error via GERRORN does not clear this error, which is cleared
+                                                                 in an implementation defined way.
+
+                                                                 *  SFM triggers both SMMU()_GERROR[SFM_ERR] and SMMU()_S_GERROR[SFM_ERR]. */
+        uint32_t msi_gerror_abt_err    : 1;  /**< [  7:  7](R/W) A GERROR MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs. */
+        uint32_t msi_priq_abt_err      : 1;  /**< [  6:  6](RAZ) A PRIQ MSI was terminated with abort. Activation of this error does not affect future
+                                                                 MSIs.
+                                                                 If SMMU()_IDR0[PRI]=0 or SMMU()_IDR0[MSI]=0, this field is RES0.
+
+                                                                 Not implemented in CNXXXX. */
+        uint32_t msi_eventq_abt_err    : 1;  /**< [  5:  5](R/W) An EVENTQ MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs.
+                                                                 If SMMU()_IDR0[MSI]=0, this field is RES0. */
+        uint32_t msi_cmdq_abt_err      : 1;  /**< [  4:  4](R/W) A CMD_SYNC MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs.
+                                                                 If SMMU()_IDR0[MSI]=0, this field is RES0. */
+        uint32_t priq_abt_err          : 1;  /**< [  3:  3](RAZ) A write to the PRI queue was terminated with abort and page request records might have
+                                                                 been lost.
+                                                                 If SMMU()_IDR0[PRI]=0, this field is RES0.
+
+                                                                 Not implemented in CNXXXX. */
+        uint32_t eventq_abt_err        : 1;  /**< [  2:  2](R/W) A write to the event queue was terminated with abort and event records might have been lost. */
+        uint32_t reserved_1            : 1;
+        uint32_t cmdq_err              : 1;  /**< [  0:  0](R/W) A command has been encountered that cannot be processed. SMMU()_CMDQ_CONS[ERRX] has
+                                                                 been updated with a reason code and command processing has stopped.
+                                                                 Commands are not processed while this error is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmdq_err              : 1;  /**< [  0:  0](R/W) A command has been encountered that cannot be processed. SMMU()_CMDQ_CONS[ERRX] has
+                                                                 been updated with a reason code and command processing has stopped.
+                                                                 Commands are not processed while this error is active. */
+        uint32_t reserved_1            : 1;
+        uint32_t eventq_abt_err        : 1;  /**< [  2:  2](R/W) A write to the event queue was terminated with abort and event records might have been lost. */
+        uint32_t priq_abt_err          : 1;  /**< [  3:  3](RAZ) A write to the PRI queue was terminated with abort and page request records might have
+                                                                 been lost.
+                                                                 If SMMU()_IDR0[PRI]=0, this field is RES0.
+
+                                                                 Not implemented in CNXXXX. */
+        uint32_t msi_cmdq_abt_err      : 1;  /**< [  4:  4](R/W) A CMD_SYNC MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs.
+                                                                 If SMMU()_IDR0[MSI]=0, this field is RES0. */
+        uint32_t msi_eventq_abt_err    : 1;  /**< [  5:  5](R/W) An EVENTQ MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs.
+                                                                 If SMMU()_IDR0[MSI]=0, this field is RES0. */
+        uint32_t msi_priq_abt_err      : 1;  /**< [  6:  6](RAZ) A PRIQ MSI was terminated with abort. Activation of this error does not affect future
+                                                                 MSIs.
+                                                                 If SMMU()_IDR0[PRI]=0 or SMMU()_IDR0[MSI]=0, this field is RES0.
+
+                                                                 Not implemented in CNXXXX. */
+        uint32_t msi_gerror_abt_err    : 1;  /**< [  7:  7](R/W) A GERROR MSI was terminated with abort. Activation of this error does not affect
+                                                                 future MSIs. */
+        uint32_t sfm_err               : 1;  /**< [  8:  8](R/W) The SMMU has entered service failure mode.
+                                                                 * Traffic through the SMMU might be affected. Depending on the origin of the
+                                                                 error, the SMMU might stop processing commands and recording events. The RAS
+                                                                 registers describe the error.
+
+                                                                 *  Acknowledgement of this error via GERRORN does not clear this error, which is cleared
+                                                                 in an implementation defined way.
+
+                                                                 *  SFM triggers both SMMU()_GERROR[SFM_ERR] and SMMU()_S_GERROR[SFM_ERR]. */
+        uint32_t cmdqp_err             : 1;  /**< [  9:  9](R/W) When this bit is different to SMMU()_GERROR[CMDQP_ERR], it indicates that one or
+                                                                 more errors have been encountered on a Command queue control page interface. */
+        uint32_t reserved_10_31        : 22;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_gerrorn_s cn10; */
+    struct cavm_smmux_gerrorn_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
         uint32_t sfm_err               : 1;  /**< [  8:  8](R/W) The SMMU has entered service failure mode.
                                                                  * Traffic through the SMMU might be affected. Depending on the origin of the
@@ -2088,8 +2582,10 @@ union cavm_smmux_gerrorn
                                                                  *  SFM triggers both SMMU()_GERROR[SFM_ERR] and SMMU()_S_GERROR[SFM_ERR]. */
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_gerrorn_s cn; */
+    } cn10ka;
+    /* struct cavm_smmux_gerrorn_s cn10kb; */
+    /* struct cavm_smmux_gerrorn_cn10ka cnf10ka; */
+    /* struct cavm_smmux_gerrorn_cn10ka cnf10kb; */
 };
 typedef union cavm_smmux_gerrorn cavm_smmux_gerrorn_t;
 
@@ -2505,6 +3001,127 @@ union cavm_smmux_idr1
     struct cavm_smmux_idr1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ecmdq                 : 1;  /**< [ 31: 31](RO) Support for enhanced Command queue interface.
+
+                                                                 0 = Enhanced Command queue interface not supported. SMMU()_IDR6 is RES0.
+
+                                                                 1 = Enhanced Command queue interface details are advertised in SMMU()_IDR6.
+
+                                                                 Internal:
+                                                                 ECMDQ not implemented for CNXXXX */
+        uint32_t tables_preset         : 1;  /**< [ 30: 30](RO) Table base addresses fixed.
+
+                                                                 When set, the contents of the registers SMMU()_(S_)STRTAB_BASE and
+                                                                 SMMU()_(S_)STRTAB_BASE_CFG are fixed and pre-set at initialization
+                                                                 time. Software must use the addresses in these registers in order to access the
+                                                                 tables, rather than allocating system memory and providing a pointer to the
+                                                                 SMMU. Software must use an appropriate memory type for access to these
+                                                                 addresses; the SMMU will not guarantee cache coherency, so software must use
+                                                                 either noncached access or cached access with software cache maintenance. See
+                                                                 [REL]. */
+        uint32_t queues_preset         : 1;  /**< [ 29: 29](RO) Queue base addresses fixed. As with [TABLES_PRESET]: when set, the contents of
+                                                                 SMMU()_CMDQ_BASE, SMMU()_EVENTQ_BASE are fixed and pre-set at initialization time.
+
+                                                                 Internal:
+                                                                 (and optionally SMMU()_PRIQ_BASE, if present) */
+        uint32_t rel                   : 1;  /**< [ 28: 28](RO) Relative base pointers. For embedded implementations, this flag indicates that a
+                                                                 base register affected by [TABLES_PRESET] or [QUEUES_PRESET] being set to 1
+                                                                 contains a preset address relative to the SMMU base address (register offset
+                                                                 0). Otherwise, all addresses in SMMU registers are absolute physical
+                                                                 addresses. Relative addresses are calculated using an addition of the unsigned
+                                                                 ADDR field onto the SMMU base address. When [TABLES_PRESET]=0 &&
+                                                                 [QUEUES_PRESET]=0, the REL value is zero; if base addresses are not fixed, they
+                                                                 are always absolute addresses. */
+        uint32_t attr_types_ovr        : 1;  /**< [ 27: 27](RO) Incoming MemType, shareability, allocation/transient hints override.
+
+                                                                 0 = Incoming attributes cannot be overridden before translation or by global
+                                                                 bypass; effectively, STE and SMMU()_(S_)GBPA MTCFG/SHCFG/ALLOCCFG fields are fixed
+                                                                 as use incoming.
+
+                                                                 1 = Incoming attributes can be overridden. */
+        uint32_t attr_perms_ovr        : 1;  /**< [ 26: 26](RO) Incoming Data/Inst, User/Privileged, NS override.
+
+                                                                 0 = Incoming attributes cannot be overridden before translation or by global
+                                                                 bypass; effectively, INSTCFG/PRIVCFG/NSCFG are fixed as use incoming.
+
+                                                                 1 = Incoming attributes can be overridden. */
+        uint32_t cmdqs                 : 5;  /**< [ 25: 21](RO) Command queue maximum number of entries as log2(entries), max 19. The index
+                                                                 register values include an extra bit for wrap, so a queue with two entries has
+                                                                 indices of N bits but an index register containing (N+1) bits. */
+        uint32_t eventqs               : 5;  /**< [ 20: 16](RO) Event queue maximum number of entries as log2(entries), max 19. */
+        uint32_t priqs                 : 5;  /**< [ 15: 11](RO) PRIQ maximum number of entries as log2(entries), max 19. */
+        uint32_t ssidsize              : 5;  /**< [ 10:  6](RO) Max bits of SubstreamID. Valid range 0 to 20 inclusive, 0 meaning no Substreams
+                                                                 are supported. */
+        uint32_t sidsize               : 6;  /**< [  5:  0](RO) Max bits of StreamID. This value is between 0 and 32 inclusive. This reflects
+                                                                 the physical StreamID size, i.e. an SMMU cannot represent (or be presented with)
+                                                                 StreamIDs greater than SIDSIZE.
+
+                                                                 Internal:
+                                                                 0x0 is a legal value; in this case, the SMMU supports one stream. */
+#else /* Word 0 - Little Endian */
+        uint32_t sidsize               : 6;  /**< [  5:  0](RO) Max bits of StreamID. This value is between 0 and 32 inclusive. This reflects
+                                                                 the physical StreamID size, i.e. an SMMU cannot represent (or be presented with)
+                                                                 StreamIDs greater than SIDSIZE.
+
+                                                                 Internal:
+                                                                 0x0 is a legal value; in this case, the SMMU supports one stream. */
+        uint32_t ssidsize              : 5;  /**< [ 10:  6](RO) Max bits of SubstreamID. Valid range 0 to 20 inclusive, 0 meaning no Substreams
+                                                                 are supported. */
+        uint32_t priqs                 : 5;  /**< [ 15: 11](RO) PRIQ maximum number of entries as log2(entries), max 19. */
+        uint32_t eventqs               : 5;  /**< [ 20: 16](RO) Event queue maximum number of entries as log2(entries), max 19. */
+        uint32_t cmdqs                 : 5;  /**< [ 25: 21](RO) Command queue maximum number of entries as log2(entries), max 19. The index
+                                                                 register values include an extra bit for wrap, so a queue with two entries has
+                                                                 indices of N bits but an index register containing (N+1) bits. */
+        uint32_t attr_perms_ovr        : 1;  /**< [ 26: 26](RO) Incoming Data/Inst, User/Privileged, NS override.
+
+                                                                 0 = Incoming attributes cannot be overridden before translation or by global
+                                                                 bypass; effectively, INSTCFG/PRIVCFG/NSCFG are fixed as use incoming.
+
+                                                                 1 = Incoming attributes can be overridden. */
+        uint32_t attr_types_ovr        : 1;  /**< [ 27: 27](RO) Incoming MemType, shareability, allocation/transient hints override.
+
+                                                                 0 = Incoming attributes cannot be overridden before translation or by global
+                                                                 bypass; effectively, STE and SMMU()_(S_)GBPA MTCFG/SHCFG/ALLOCCFG fields are fixed
+                                                                 as use incoming.
+
+                                                                 1 = Incoming attributes can be overridden. */
+        uint32_t rel                   : 1;  /**< [ 28: 28](RO) Relative base pointers. For embedded implementations, this flag indicates that a
+                                                                 base register affected by [TABLES_PRESET] or [QUEUES_PRESET] being set to 1
+                                                                 contains a preset address relative to the SMMU base address (register offset
+                                                                 0). Otherwise, all addresses in SMMU registers are absolute physical
+                                                                 addresses. Relative addresses are calculated using an addition of the unsigned
+                                                                 ADDR field onto the SMMU base address. When [TABLES_PRESET]=0 &&
+                                                                 [QUEUES_PRESET]=0, the REL value is zero; if base addresses are not fixed, they
+                                                                 are always absolute addresses. */
+        uint32_t queues_preset         : 1;  /**< [ 29: 29](RO) Queue base addresses fixed. As with [TABLES_PRESET]: when set, the contents of
+                                                                 SMMU()_CMDQ_BASE, SMMU()_EVENTQ_BASE are fixed and pre-set at initialization time.
+
+                                                                 Internal:
+                                                                 (and optionally SMMU()_PRIQ_BASE, if present) */
+        uint32_t tables_preset         : 1;  /**< [ 30: 30](RO) Table base addresses fixed.
+
+                                                                 When set, the contents of the registers SMMU()_(S_)STRTAB_BASE and
+                                                                 SMMU()_(S_)STRTAB_BASE_CFG are fixed and pre-set at initialization
+                                                                 time. Software must use the addresses in these registers in order to access the
+                                                                 tables, rather than allocating system memory and providing a pointer to the
+                                                                 SMMU. Software must use an appropriate memory type for access to these
+                                                                 addresses; the SMMU will not guarantee cache coherency, so software must use
+                                                                 either noncached access or cached access with software cache maintenance. See
+                                                                 [REL]. */
+        uint32_t ecmdq                 : 1;  /**< [ 31: 31](RO) Support for enhanced Command queue interface.
+
+                                                                 0 = Enhanced Command queue interface not supported. SMMU()_IDR6 is RES0.
+
+                                                                 1 = Enhanced Command queue interface details are advertised in SMMU()_IDR6.
+
+                                                                 Internal:
+                                                                 ECMDQ not implemented for CNXXXX */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_idr1_s cn10; */
+    struct cavm_smmux_idr1_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
         uint32_t tables_preset         : 1;  /**< [ 30: 30](RO) Table base addresses fixed.
 
@@ -2607,8 +3224,10 @@ union cavm_smmux_idr1
                                                                  [REL]. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_idr1_s cn; */
+    } cn10ka;
+    /* struct cavm_smmux_idr1_s cn10kb; */
+    /* struct cavm_smmux_idr1_cn10ka cnf10ka; */
+    /* struct cavm_smmux_idr1_cn10ka cnf10kb; */
 };
 typedef union cavm_smmux_idr1 cavm_smmux_idr1_t;
 
@@ -2770,7 +3389,88 @@ union cavm_smmux_idr3
                                                                  SMMU_IDR0[MSI] = 1. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_smmux_idr3_s cn; */
+    /* struct cavm_smmux_idr3_s cn10; */
+    /* struct cavm_smmux_idr3_s cn10ka; */
+    struct cavm_smmux_idr3_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_13_31        : 19;
+        uint32_t bbml                  : 2;  /**< [ 12: 11](RO) Break-before-make behavior level:
+                                                                 0x0 = Level 0.
+                                                                 0x1 = Level 1.
+                                                                 0x2 = Level 2. */
+        uint32_t ril                   : 1;  /**< [ 10: 10](RO) Range-based Invalidations and Level hint support
+                                                                 0 = Range-based invalidation and level hint are not supported.
+                                                                 1 = Range-based invalidation and level hint are supported. */
+        uint32_t stt                   : 1;  /**< [  9:  9](RO) Small translation table support
+                                                                 0 = Small translation tables are not supported.
+                                                                 1 = Small translation tables are supported. */
+        uint32_t fwb                   : 1;  /**< [  8:  8](RO) Stage 2 control of memory types and attributes
+                                                                 0 = Stage 2 control of memory types and attributes is not supported and the STE.S2FWB bit
+                                                                     is RES0.
+                                                                 1 = Stage 2 control of memory types and attributes is supported. */
+        uint32_t mpam                  : 1;  /**< [  7:  7](RO) 0x0 = MPAM is not supported.
+                                                                 0x1 = MPAM is supported in at least one Security state and the SMMU_(S)MPAMIDR registers
+                                                                       are present. The SMMU_(S_)MPAMIDR registers indicate whether MPAM is supported by a
+                                                                       corresponding Security state. */
+        uint32_t reserved_6            : 1;
+        uint32_t pps                   : 1;  /**< [  5:  5](RO) 0 = The STE.PPAR field determines whether a PASID is used on a PRI auto-generated response.
+                                                                 1 = If the request had a PASID, it is used on a PRI auto-generated response for PRI queue
+                                                                     overflow, in the same way as when STE.PPAR == 1. The STE.PPAR field is not checked, and
+                                                                     the value is IGNORED. */
+        uint32_t xnx                   : 1;  /**< [  4:  4](RO) 0 = EL0/EL1 execute control distinction at stage 2 not supported.
+                                                                 1 = EL0/EL1 execute control distinction at stage 2 supported for both AArch64 and
+                                                                     AArch32 stage 2 translation tables. */
+        uint32_t pbha                  : 1;  /**< [  3:  3](RO) 0 = Page-Based Hardware Attributes not supported.
+                                                                   SMMU()_IDR3[HAD] determines whether Hierarchical Attribute Disables
+                                                                   supported.
+                                                                 1 = Page-Based Hardware Attributes are supported.
+                                                                   SMMU()_IDR3[HAD] must be 1. */
+        uint32_t had                   : 1;  /**< [  2:  2](RO) Hierarchical attribute disable presence.
+                                                                 0 = No hierarchical attribute disable support; SMMU_CD_S[HAD0,HAD1] are ignored.
+                                                                 1 = SMMU_CD_S[HAD0,HAD1] control hierarchical attribute disable. */
+        uint32_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_1          : 2;
+        uint32_t had                   : 1;  /**< [  2:  2](RO) Hierarchical attribute disable presence.
+                                                                 0 = No hierarchical attribute disable support; SMMU_CD_S[HAD0,HAD1] are ignored.
+                                                                 1 = SMMU_CD_S[HAD0,HAD1] control hierarchical attribute disable. */
+        uint32_t pbha                  : 1;  /**< [  3:  3](RO) 0 = Page-Based Hardware Attributes not supported.
+                                                                   SMMU()_IDR3[HAD] determines whether Hierarchical Attribute Disables
+                                                                   supported.
+                                                                 1 = Page-Based Hardware Attributes are supported.
+                                                                   SMMU()_IDR3[HAD] must be 1. */
+        uint32_t xnx                   : 1;  /**< [  4:  4](RO) 0 = EL0/EL1 execute control distinction at stage 2 not supported.
+                                                                 1 = EL0/EL1 execute control distinction at stage 2 supported for both AArch64 and
+                                                                     AArch32 stage 2 translation tables. */
+        uint32_t pps                   : 1;  /**< [  5:  5](RO) 0 = The STE.PPAR field determines whether a PASID is used on a PRI auto-generated response.
+                                                                 1 = If the request had a PASID, it is used on a PRI auto-generated response for PRI queue
+                                                                     overflow, in the same way as when STE.PPAR == 1. The STE.PPAR field is not checked, and
+                                                                     the value is IGNORED. */
+        uint32_t reserved_6            : 1;
+        uint32_t mpam                  : 1;  /**< [  7:  7](RO) 0x0 = MPAM is not supported.
+                                                                 0x1 = MPAM is supported in at least one Security state and the SMMU_(S)MPAMIDR registers
+                                                                       are present. The SMMU_(S_)MPAMIDR registers indicate whether MPAM is supported by a
+                                                                       corresponding Security state. */
+        uint32_t fwb                   : 1;  /**< [  8:  8](RO) Stage 2 control of memory types and attributes
+                                                                 0 = Stage 2 control of memory types and attributes is not supported and the STE.S2FWB bit
+                                                                     is RES0.
+                                                                 1 = Stage 2 control of memory types and attributes is supported. */
+        uint32_t stt                   : 1;  /**< [  9:  9](RO) Small translation table support
+                                                                 0 = Small translation tables are not supported.
+                                                                 1 = Small translation tables are supported. */
+        uint32_t ril                   : 1;  /**< [ 10: 10](RO) Range-based Invalidations and Level hint support
+                                                                 0 = Range-based invalidation and level hint are not supported.
+                                                                 1 = Range-based invalidation and level hint are supported. */
+        uint32_t bbml                  : 2;  /**< [ 12: 11](RO) Break-before-make behavior level:
+                                                                 0x0 = Level 0.
+                                                                 0x1 = Level 1.
+                                                                 0x2 = Level 2. */
+        uint32_t reserved_13_31        : 19;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_smmux_idr3_s cnf10ka; */
+    /* struct cavm_smmux_idr3_s cnf10kb; */
 };
 typedef union cavm_smmux_idr3 cavm_smmux_idr3_t;
 
@@ -2925,6 +3625,61 @@ static inline uint64_t CAVM_SMMUX_IDR5(uint64_t a)
 #define device_bar_CAVM_SMMUX_IDR5(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SMMUX_IDR5(a) (a)
 #define arguments_CAVM_SMMUX_IDR5(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) smmu#_idr6
+ *
+ * INTERNAL: SMMU Identification 6 Register
+ *
+ * Internal:
+ * ECMDQ not implemented for CNXXXX, CSR exists for verification compatibility with
+ * Odyssey. Access is RAZ/WI.
+ */
+union cavm_smmux_idr6
+{
+    uint32_t u;
+    struct cavm_smmux_idr6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t cmdq_control_page_log2nump : 4;/**< [ 27: 24](RO) Number of Command queue control pages supported. The number of Command queue
+                                                                 control pages supported is 2^CMDQ_CONTROL_PAGE_LOG2NUMP. This field has a
+                                                                 maximum value of 0x8. */
+        uint32_t reserved_20_23        : 4;
+        uint32_t cmdq_control_page_log2numq : 4;/**< [ 19: 16](RO) Number of queues per Command queue control page. The number of queues supported
+                                                                 per Command queue control page is 2^CMDQ_CONTROL_PAGE_LOG2NUMQ. This field has a
+                                                                 maximum value of 0x8. */
+        uint32_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_15         : 16;
+        uint32_t cmdq_control_page_log2numq : 4;/**< [ 19: 16](RO) Number of queues per Command queue control page. The number of queues supported
+                                                                 per Command queue control page is 2^CMDQ_CONTROL_PAGE_LOG2NUMQ. This field has a
+                                                                 maximum value of 0x8. */
+        uint32_t reserved_20_23        : 4;
+        uint32_t cmdq_control_page_log2nump : 4;/**< [ 27: 24](RO) Number of Command queue control pages supported. The number of Command queue
+                                                                 control pages supported is 2^CMDQ_CONTROL_PAGE_LOG2NUMP. This field has a
+                                                                 maximum value of 0x8. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_idr6_s cn; */
+};
+typedef union cavm_smmux_idr6 cavm_smmux_idr6_t;
+
+static inline uint64_t CAVM_SMMUX_IDR6(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SMMUX_IDR6(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x830000000190ll + 0x1000000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("SMMUX_IDR6", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SMMUX_IDR6(a) cavm_smmux_idr6_t
+#define bustype_CAVM_SMMUX_IDR6(a) CSR_TYPE_NCB32b
+#define basename_CAVM_SMMUX_IDR6(a) "SMMUX_IDR6"
+#define device_bar_CAVM_SMMUX_IDR6(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SMMUX_IDR6(a) (a)
+#define arguments_CAVM_SMMUX_IDR6(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_iidr
@@ -4896,7 +5651,11 @@ typedef union cavm_smmux_qcp_cmdq_basex cavm_smmux_qcp_cmdq_basex_t;
 static inline uint64_t CAVM_SMMUX_QCP_CMDQ_BASEX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_QCP_CMDQ_BASEX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=63)))
+        return 0x830000001800ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b<=63)))
+        return 0x830000001800ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=63)))
         return 0x830000001800ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("SMMUX_QCP_CMDQ_BASEX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4949,7 +5708,11 @@ typedef union cavm_smmux_qcp_cmdq_consx cavm_smmux_qcp_cmdq_consx_t;
 static inline uint64_t CAVM_SMMUX_QCP_CMDQ_CONSX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_QCP_CMDQ_CONSX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=63)))
+        return 0x83000000180cll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b<=63)))
+        return 0x83000000180cll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=63)))
         return 0x83000000180cll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("SMMUX_QCP_CMDQ_CONSX", 2, a, b, 0, 0, 0, 0);
 }
@@ -4988,7 +5751,11 @@ typedef union cavm_smmux_qcp_cmdq_prodx cavm_smmux_qcp_cmdq_prodx_t;
 static inline uint64_t CAVM_SMMUX_QCP_CMDQ_PRODX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_QCP_CMDQ_PRODX(uint64_t a, uint64_t b)
 {
-    if ((a==0) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=63)))
+        return 0x830000001808ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b<=63)))
+        return 0x830000001808ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=63)))
         return 0x830000001808ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x3f);
     __cavm_csr_fatal("SMMUX_QCP_CMDQ_PRODX", 2, a, b, 0, 0, 0, 0);
 }
@@ -6759,6 +7526,41 @@ union cavm_smmux_s_idr0
     struct cavm_smmux_s_idr0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ecmdq                 : 1;  /**< [ 31: 31](SRO) Support for enhanced Command queue interface for Secure programming interface.
+
+                                                                 0 = Secure Enhanced Command queue interface not supported. SMMU()_S_IDR6 is RES0.
+
+                                                                 1 = Secure Enhanced Command queue interface details are advertised in SMMU()_S_IDR6. */
+        uint32_t reserved_26_30        : 5;
+        uint32_t stall_model           : 2;  /**< [ 25: 24](SRO) Stalling fault model support. Encoded identically to SMMU()_IDR0[STALL_MODEL],
+                                                                 this field indicates the implementation's support for stall/terminate fault
+                                                                 models.
+
+                                                                 For CNXXXX, no stalling. */
+        uint32_t reserved_14_23        : 10;
+        uint32_t msi                   : 1;  /**< [ 13: 13](SRO) Secure message signaled interrupts are supported. */
+        uint32_t reserved_0_12         : 13;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_12         : 13;
+        uint32_t msi                   : 1;  /**< [ 13: 13](SRO) Secure message signaled interrupts are supported. */
+        uint32_t reserved_14_23        : 10;
+        uint32_t stall_model           : 2;  /**< [ 25: 24](SRO) Stalling fault model support. Encoded identically to SMMU()_IDR0[STALL_MODEL],
+                                                                 this field indicates the implementation's support for stall/terminate fault
+                                                                 models.
+
+                                                                 For CNXXXX, no stalling. */
+        uint32_t reserved_26_30        : 5;
+        uint32_t ecmdq                 : 1;  /**< [ 31: 31](SRO) Support for enhanced Command queue interface for Secure programming interface.
+
+                                                                 0 = Secure Enhanced Command queue interface not supported. SMMU()_S_IDR6 is RES0.
+
+                                                                 1 = Secure Enhanced Command queue interface details are advertised in SMMU()_S_IDR6. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_s_idr0_s cn10; */
+    struct cavm_smmux_s_idr0_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t stall_model           : 2;  /**< [ 25: 24](SRO) Stalling fault model support. Encoded identically to SMMU()_IDR0[STALL_MODEL],
                                                                  this field indicates the implementation's support for stall/terminate fault
@@ -6779,8 +7581,10 @@ union cavm_smmux_s_idr0
                                                                  For CNXXXX, no stalling. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_s_idr0_s cn; */
+    } cn10ka;
+    /* struct cavm_smmux_s_idr0_s cn10kb; */
+    /* struct cavm_smmux_s_idr0_cn10ka cnf10ka; */
+    /* struct cavm_smmux_s_idr0_cn10ka cnf10kb; */
 };
 typedef union cavm_smmux_s_idr0 cavm_smmux_s_idr0_t;
 
@@ -7559,6 +8363,57 @@ union cavm_smmux_s_imp_diag_ctl
     struct cavm_smmux_s_imp_diag_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t force_fxl_clk_active  : 1;  /**< [ 21: 21](SR/W) Forces the FXL conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_inp_clk_active  : 1;  /**< [ 20: 20](SR/W) Forces the INP conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_cra_clk_active  : 1;  /**< [ 19: 19](SR/W) Forces the CRA conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_csr_clk_active  : 1;  /**< [ 18: 18](SR/W) Forces the CSR conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_crs_clk_active  : 1;  /**< [ 17: 17](SR/W) Forces the CRS conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_cmd_clk_active  : 1;  /**< [ 16: 16](SR/W) Forces the CMD conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_out_clk_active  : 1;  /**< [ 15: 15](SR/W) Forces the OUT conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_wlk_clk_active  : 1;  /**< [ 14: 14](SR/W) Forces the per-WLK conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_tlb_clk_active  : 1;  /**< [ 13: 13](SR/W) Forces the TLB conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
+        uint32_t dis_tlb               : 1;  /**< [ 10: 10](SR/W) Disables hitting in the TLB. For diagnostic use only. */
+        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. Supplanted by SMMU_S_IMP_WLK_DIS */
+#else /* Word 0 - Little Endian */
+        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. Supplanted by SMMU_S_IMP_WLK_DIS */
+        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t dis_tlb               : 1;  /**< [ 10: 10](SR/W) Disables hitting in the TLB. For diagnostic use only. */
+        uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
+        uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_tlb_clk_active  : 1;  /**< [ 13: 13](SR/W) Forces the TLB conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_wlk_clk_active  : 1;  /**< [ 14: 14](SR/W) Forces the per-WLK conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_out_clk_active  : 1;  /**< [ 15: 15](SR/W) Forces the OUT conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_cmd_clk_active  : 1;  /**< [ 16: 16](SR/W) Forces the CMD conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_crs_clk_active  : 1;  /**< [ 17: 17](SR/W) Forces the CRS conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_csr_clk_active  : 1;  /**< [ 18: 18](SR/W) Forces the CSR conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_cra_clk_active  : 1;  /**< [ 19: 19](SR/W) Forces the CRA conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_inp_clk_active  : 1;  /**< [ 20: 20](SR/W) Forces the INP conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_fxl_clk_active  : 1;  /**< [ 21: 21](SR/W) Forces the FXL conditional clock to be always on.  For diagnostic use only. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_s_imp_diag_ctl_s cn10; */
+    struct cavm_smmux_s_imp_diag_ctl_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_13_31        : 19;
         uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
         uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
@@ -7587,8 +8442,63 @@ union cavm_smmux_s_imp_diag_ctl
         uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only. */
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_s_imp_diag_ctl_s cn; */
+    } cn10ka;
+    struct cavm_smmux_s_imp_diag_ctl_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t force_fxl_clk_active  : 1;  /**< [ 21: 21](SR/W) Forces the FXL conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_inp_clk_active  : 1;  /**< [ 20: 20](SR/W) Forces the INP conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_cra_clk_active  : 1;  /**< [ 19: 19](SR/W) Forces the CRA conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_csr_clk_active  : 1;  /**< [ 18: 18](SR/W) Forces the CSR conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_crs_clk_active  : 1;  /**< [ 17: 17](SR/W) Forces the CRS conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_cmd_clk_active  : 1;  /**< [ 16: 16](SR/W) Forces the CMD conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_out_clk_active  : 1;  /**< [ 15: 15](SR/W) Forces the OUT conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_wlk_clk_active  : 1;  /**< [ 14: 14](SR/W) Forces the per-WLK conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_tlb_clk_active  : 1;  /**< [ 13: 13](SR/W) Forces the TLB conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only.
+                                                                 Internal:
+                                                                 Remove for Odyssey. */
+        uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
+        uint32_t dis_tlb               : 1;  /**< [ 10: 10](SR/W) Disables hitting in the TLB. For diagnostic use only. */
+        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. Supplanted by SMMU_S_IMP_WLK_DIS */
+#else /* Word 0 - Little Endian */
+        uint32_t walkers               : 6;  /**< [  5:  0](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. Supplanted by SMMU_S_IMP_WLK_DIS */
+        uint32_t dis_wcs2              : 2;  /**< [  7:  6](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t dis_wcs1              : 2;  /**< [  9:  8](SR/W) Reserved.
+                                                                 Internal:
+                                                                 Diagnostic feature from 9x. Not supported. */
+        uint32_t dis_tlb               : 1;  /**< [ 10: 10](SR/W) Disables hitting in the TLB. For diagnostic use only. */
+        uint32_t dis_cfc               : 1;  /**< [ 11: 11](SR/W) Disables hitting in the CFC. For diagnostic use only. */
+        uint32_t force_clks_active     : 1;  /**< [ 12: 12](SR/W) Forces the conditional clocks to be always on.  For diagnostic use only.
+                                                                 Internal:
+                                                                 Remove for Odyssey. */
+        uint32_t force_tlb_clk_active  : 1;  /**< [ 13: 13](SR/W) Forces the TLB conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_wlk_clk_active  : 1;  /**< [ 14: 14](SR/W) Forces the per-WLK conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_out_clk_active  : 1;  /**< [ 15: 15](SR/W) Forces the OUT conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_cmd_clk_active  : 1;  /**< [ 16: 16](SR/W) Forces the CMD conditional clocks to be always on.  For diagnostic use only. */
+        uint32_t force_crs_clk_active  : 1;  /**< [ 17: 17](SR/W) Forces the CRS conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_csr_clk_active  : 1;  /**< [ 18: 18](SR/W) Forces the CSR conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_cra_clk_active  : 1;  /**< [ 19: 19](SR/W) Forces the CRA conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_inp_clk_active  : 1;  /**< [ 20: 20](SR/W) Forces the INP conditional clock to be always on.  For diagnostic use only. */
+        uint32_t force_fxl_clk_active  : 1;  /**< [ 21: 21](SR/W) Forces the FXL conditional clock to be always on.  For diagnostic use only. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_smmux_s_imp_diag_ctl_cn10ka cnf10ka; */
+    /* struct cavm_smmux_s_imp_diag_ctl_cn10ka cnf10kb; */
 };
 typedef union cavm_smmux_s_imp_diag_ctl cavm_smmux_s_imp_diag_ctl_t;
 
@@ -8077,6 +8987,23 @@ union cavm_smmux_s_imp_txn_arb_weight
         uint32_t imp_txn_src_weight    : 1;  /**< [ 16: 16](SR/W) Arbitration option between SMMU clients:
                                                                  0 = Arbiter between clients give higher weight to clients that more active.
                                                                  1 = Arbiter between clients give weight from this register. */
+        uint32_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_15         : 16;
+        uint32_t imp_txn_src_weight    : 1;  /**< [ 16: 16](SR/W) Arbitration option between SMMU clients:
+                                                                 0 = Arbiter between clients give higher weight to clients that more active.
+                                                                 1 = Arbiter between clients give weight from this register. */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_s_imp_txn_arb_weight_s cn10; */
+    struct cavm_smmux_s_imp_txn_arb_weight_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t imp_txn_src_weight    : 1;  /**< [ 16: 16](SR/W) Arbitration option between SMMU clients:
+                                                                 0 = Arbiter between clients give higher weight to clients that more active.
+                                                                 1 = Arbiter between clients give weight from this register. */
         uint32_t txn_iob7              : 2;  /**< [ 15: 14](SR/W) Weight of IOB7's translations. */
         uint32_t txn_iob6              : 2;  /**< [ 13: 12](SR/W) Weight of IOB6's translations. */
         uint32_t txn_iob5              : 2;  /**< [ 11: 10](SR/W) Weight of IOB5's translations. */
@@ -8099,8 +9026,27 @@ union cavm_smmux_s_imp_txn_arb_weight
                                                                  1 = Arbiter between clients give weight from this register. */
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_s_imp_txn_arb_weight_s cn; */
+    } cn10ka;
+    struct cavm_smmux_s_imp_txn_arb_weight_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_17_31        : 15;
+        uint32_t imp_txn_src_weight    : 1;  /**< [ 16: 16](SR/W) Arbitration option between SMMU clients:
+                                                                 0 = Arbiter between clients give higher weight to clients that more active.
+                                                                 1 = Arbiter between clients give weight from this register. */
+        uint32_t txn_iob               : 16; /**< [ 15:  0](SR/W) The weight of each IOB's transaction. Every two bits are dedicated to a port, so
+                                                                 0x55 is a weight of '1' for all ports. */
+#else /* Word 0 - Little Endian */
+        uint32_t txn_iob               : 16; /**< [ 15:  0](SR/W) The weight of each IOB's transaction. Every two bits are dedicated to a port, so
+                                                                 0x55 is a weight of '1' for all ports. */
+        uint32_t imp_txn_src_weight    : 1;  /**< [ 16: 16](SR/W) Arbitration option between SMMU clients:
+                                                                 0 = Arbiter between clients give higher weight to clients that more active.
+                                                                 1 = Arbiter between clients give weight from this register. */
+        uint32_t reserved_17_31        : 15;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_smmux_s_imp_txn_arb_weight_cn10ka cnf10ka; */
+    /* struct cavm_smmux_s_imp_txn_arb_weight_cn10ka cnf10kb; */
 };
 typedef union cavm_smmux_s_imp_txn_arb_weight cavm_smmux_s_imp_txn_arb_weight_t;
 
@@ -8880,7 +9826,13 @@ typedef union cavm_smmux_vatos_sel cavm_smmux_vatos_sel_t;
 static inline uint64_t CAVM_SMMUX_VATOS_SEL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SMMUX_VATOS_SEL(uint64_t a)
 {
-    if (a==0)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+        return 0x830000000140ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x830000000180ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
+        return 0x830000000140ll + 0x1000000000ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
         return 0x830000000140ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("SMMUX_VATOS_SEL", 1, a, 0, 0, 0, 0, 0);
 }

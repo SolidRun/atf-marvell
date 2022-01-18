@@ -38,6 +38,48 @@
 #define CAVM_SSOW_LF_INT_VEC_E_IOP (0)
 
 /**
+ * Register (RVU_PF_BAR0) ssow_af_aw_ext_clk_enable
+ *
+ * INTERNAL:SSO Ext Global Clock Enable Register
+ *
+ * SSO SCK subblock coarse-gating clock force.
+ */
+union cavm_ssow_af_aw_ext_clk_enable
+{
+    uint64_t u;
+    struct cavm_ssow_af_aw_ext_clk_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_aw_ext_clk_enable_s cn; */
+};
+typedef union cavm_ssow_af_aw_ext_clk_enable cavm_ssow_af_aw_ext_clk_enable_t;
+
+#define CAVM_SSOW_AF_AW_EXT_CLK_ENABLE CAVM_SSOW_AF_AW_EXT_CLK_ENABLE_FUNC()
+static inline uint64_t CAVM_SSOW_AF_AW_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_AW_EXT_CLK_ENABLE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840080000600ll;
+    __cavm_csr_fatal("SSOW_AF_AW_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE cavm_ssow_af_aw_ext_clk_enable_t
+#define bustype_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE "SSOW_AF_AW_EXT_CLK_ENABLE"
+#define device_bar_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE 0
+#define arguments_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) ssow_af_bar2_alias#
  *
  * SSO Work Slot Admin Function  BAR2 Alias Registers
@@ -119,6 +161,266 @@ static inline uint64_t CAVM_SSOW_AF_BAR2_SEL_FUNC(void)
 #define device_bar_CAVM_SSOW_AF_BAR2_SEL 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSOW_AF_BAR2_SEL 0
 #define arguments_CAVM_SSOW_AF_BAR2_SEL -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_flr_ggrp_digest#
+ *
+ * SSO AF FLR GGRP Summary Registers
+ * One bit per GGRP to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
+ */
+union cavm_ssow_af_flr_ggrp_digestx
+{
+    uint64_t u;
+    struct cavm_ssow_af_flr_ggrp_digestx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ggrp                  : 64; /**< [ 63:  0](R/W1C/H) One bit per GGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t ggrp                  : 64; /**< [ 63:  0](R/W1C/H) One bit per GGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_flr_ggrp_digestx_s cn; */
+};
+typedef union cavm_ssow_af_flr_ggrp_digestx cavm_ssow_af_flr_ggrp_digestx_t;
+
+static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840080000200ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("SSOW_AF_FLR_GGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) cavm_ssow_af_flr_ggrp_digestx_t
+#define bustype_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) "SSOW_AF_FLR_GGRP_DIGESTX"
+#define device_bar_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) (a)
+#define arguments_CAVM_SSOW_AF_FLR_GGRP_DIGESTX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_flr_gws_digest
+ *
+ * SSO AF FLR GSLT Summary Registers
+ * One bit per GSLT to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
+ */
+union cavm_ssow_af_flr_gws_digest
+{
+    uint64_t u;
+    struct cavm_ssow_af_flr_gws_digest_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t gws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t gws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_flr_gws_digest_s cn; */
+};
+typedef union cavm_ssow_af_flr_gws_digest cavm_ssow_af_flr_gws_digest_t;
+
+#define CAVM_SSOW_AF_FLR_GWS_DIGEST CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC()
+static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840080000400ll;
+    __cavm_csr_fatal("SSOW_AF_FLR_GWS_DIGEST", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_FLR_GWS_DIGEST cavm_ssow_af_flr_gws_digest_t
+#define bustype_CAVM_SSOW_AF_FLR_GWS_DIGEST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_FLR_GWS_DIGEST "SSOW_AF_FLR_GWS_DIGEST"
+#define device_bar_CAVM_SSOW_AF_FLR_GWS_DIGEST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_FLR_GWS_DIGEST 0
+#define arguments_CAVM_SSOW_AF_FLR_GWS_DIGEST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_flr_hwgrp_digest#
+ *
+ * SSO AF FLR HWGRP Summary Registers
+ * One bit per HWGRP to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
+ */
+union cavm_ssow_af_flr_hwgrp_digestx
+{
+    uint64_t u;
+    struct cavm_ssow_af_flr_hwgrp_digestx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1C/H) One bit per HWGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1C/H) One bit per HWGRP. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_flr_hwgrp_digestx_s cn; */
+};
+typedef union cavm_ssow_af_flr_hwgrp_digestx cavm_ssow_af_flr_hwgrp_digestx_t;
+
+static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840080000100ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("SSOW_AF_FLR_HWGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) cavm_ssow_af_flr_hwgrp_digestx_t
+#define bustype_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) "SSOW_AF_FLR_HWGRP_DIGESTX"
+#define device_bar_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) (a)
+#define arguments_CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_flr_hws_digest
+ *
+ * SSO AF FLR HWS Summary Registers
+ * One bit per HWS to indicate which groups are currently mapped to SSOW_AF_LF_FLR[LF].
+ */
+union cavm_ssow_af_flr_hws_digest
+{
+    uint64_t u;
+    struct cavm_ssow_af_flr_hws_digest_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1C/H) One bit per HWS. Only valid after SSOW_AF_LF_FLR[STEP3] has completed. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_flr_hws_digest_s cn; */
+};
+typedef union cavm_ssow_af_flr_hws_digest cavm_ssow_af_flr_hws_digest_t;
+
+#define CAVM_SSOW_AF_FLR_HWS_DIGEST CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC()
+static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840080000300ll;
+    __cavm_csr_fatal("SSOW_AF_FLR_HWS_DIGEST", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_FLR_HWS_DIGEST cavm_ssow_af_flr_hws_digest_t
+#define bustype_CAVM_SSOW_AF_FLR_HWS_DIGEST CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_FLR_HWS_DIGEST "SSOW_AF_FLR_HWS_DIGEST"
+#define device_bar_CAVM_SSOW_AF_FLR_HWS_DIGEST 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_FLR_HWS_DIGEST 0
+#define arguments_CAVM_SSOW_AF_FLR_HWS_DIGEST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_gw_ext_clk_enable
+ *
+ * INTERNAL:SSO Ext Global Clock Enable Register
+ *
+ * SSO SCK subblock coarse-gating clock force.
+ */
+union cavm_ssow_af_gw_ext_clk_enable
+{
+    uint64_t u;
+    struct cavm_ssow_af_gw_ext_clk_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_gw_ext_clk_enable_s cn; */
+};
+typedef union cavm_ssow_af_gw_ext_clk_enable cavm_ssow_af_gw_ext_clk_enable_t;
+
+#define CAVM_SSOW_AF_GW_EXT_CLK_ENABLE CAVM_SSOW_AF_GW_EXT_CLK_ENABLE_FUNC()
+static inline uint64_t CAVM_SSOW_AF_GW_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_GW_EXT_CLK_ENABLE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840080000610ll;
+    __cavm_csr_fatal("SSOW_AF_GW_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE cavm_ssow_af_gw_ext_clk_enable_t
+#define bustype_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE "SSOW_AF_GW_EXT_CLK_ENABLE"
+#define device_bar_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE 0
+#define arguments_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_lf_flr
+ *
+ * SSOW AF LF Reset Register
+ */
+union cavm_ssow_af_lf_flr
+{
+    uint64_t u;
+    struct cavm_ssow_af_lf_flr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
+        uint64_t flr_error             : 1;  /**< [ 31: 31](RO) The last set step bit received an error. Hardware FLR was aborted. */
+        uint64_t reserved_21_30        : 10;
+        uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
+                                                                 GET_WORK operations. Steps 3-6 are performed first if set.
+                                                                 Hardware clears this bit when done. */
+        uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
+                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..1). Steps 3-5 are
+                                                                 performed first if set. Hardware clears this bit when done. */
+        uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
+                                                                 SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
+                                                                 Steps 3-4 are performed first if set. Hardware clears this bit when done. */
+        uint64_t step4                 : 1;  /**< [ 17: 17](R/W1S/H) Step 4 Hardware FLR. When set, hardware will write SSO_AF_GWS_INV,
+                                                                 SSOW_LF_GWS_NW_TIM, and SSO_AF_HWS(0..51)_LSW_CFG. Step 3 is performed
+                                                                 first if set. Hardware clears this bit when done. */
+        uint64_t step3                 : 1;  /**< [ 16: 16](R/W1S/H) Step 3 Hardware FLR. When set, hardware will create 4 map files
+                                                                 Hardware clears this bit when done. */
+        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) Local function that is FLR'd when any STEP bits are set. */
+#else /* Word 0 - Little Endian */
+        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) Local function that is FLR'd when any STEP bits are set. */
+        uint64_t step3                 : 1;  /**< [ 16: 16](R/W1S/H) Step 3 Hardware FLR. When set, hardware will create 4 map files
+                                                                 Hardware clears this bit when done. */
+        uint64_t step4                 : 1;  /**< [ 17: 17](R/W1S/H) Step 4 Hardware FLR. When set, hardware will write SSO_AF_GWS_INV,
+                                                                 SSOW_LF_GWS_NW_TIM, and SSO_AF_HWS(0..51)_LSW_CFG. Step 3 is performed
+                                                                 first if set. Hardware clears this bit when done. */
+        uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
+                                                                 SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
+                                                                 Steps 3-4 are performed first if set. Hardware clears this bit when done. */
+        uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
+                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..1). Steps 3-5 are
+                                                                 performed first if set. Hardware clears this bit when done. */
+        uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
+                                                                 GET_WORK operations. Steps 3-6 are performed first if set.
+                                                                 Hardware clears this bit when done. */
+        uint64_t reserved_21_30        : 10;
+        uint64_t flr_error             : 1;  /**< [ 31: 31](RO) The last set step bit received an error. Hardware FLR was aborted. */
+        uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_lf_flr_s cn; */
+};
+typedef union cavm_ssow_af_lf_flr cavm_ssow_af_lf_flr_t;
+
+#define CAVM_SSOW_AF_LF_FLR CAVM_SSOW_AF_LF_FLR_FUNC()
+static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840080000040ll;
+    __cavm_csr_fatal("SSOW_AF_LF_FLR", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_LF_FLR cavm_ssow_af_lf_flr_t
+#define bustype_CAVM_SSOW_AF_LF_FLR CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_LF_FLR "SSOW_AF_LF_FLR"
+#define device_bar_CAVM_SSOW_AF_LF_FLR 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_LF_FLR 0
+#define arguments_CAVM_SSOW_AF_LF_FLR -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) ssow_af_lf_hws_rst
@@ -347,6 +649,48 @@ static inline uint64_t CAVM_SSOW_AF_SCRATCH_WS_FUNC(void)
 #define device_bar_CAVM_SSOW_AF_SCRATCH_WS 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSOW_AF_SCRATCH_WS 0
 #define arguments_CAVM_SSOW_AF_SCRATCH_WS -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) ssow_af_ws_ext_clk_enable
+ *
+ * INTERNAL:SSO Ext Global Clock Enable Register
+ *
+ * SSO SCK subblock coarse-gating clock force.
+ */
+union cavm_ssow_af_ws_ext_clk_enable
+{
+    uint64_t u;
+    struct cavm_ssow_af_ws_ext_clk_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_ws_ext_clk_enable_s cn; */
+};
+typedef union cavm_ssow_af_ws_ext_clk_enable cavm_ssow_af_ws_ext_clk_enable_t;
+
+#define CAVM_SSOW_AF_WS_EXT_CLK_ENABLE CAVM_SSOW_AF_WS_EXT_CLK_ENABLE_FUNC()
+static inline uint64_t CAVM_SSOW_AF_WS_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSOW_AF_WS_EXT_CLK_ENABLE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840080000620ll;
+    __cavm_csr_fatal("SSOW_AF_WS_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE cavm_ssow_af_ws_ext_clk_enable_t
+#define bustype_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE "SSOW_AF_WS_EXT_CLK_ENABLE"
+#define device_bar_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE 0
+#define arguments_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE -1,-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_grpmsk_chg
@@ -2007,7 +2351,13 @@ typedef union cavm_ssow_priv_lfx_hws_cfg cavm_ssow_priv_lfx_hws_cfg_t;
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_CFG(uint64_t a)
 {
-    if (a<=51)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=51))
+        return 0x840080001000ll + 8ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=17))
+        return 0x840080001000ll + 8ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=51))
+        return 0x840080001000ll + 8ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=51))
         return 0x840080001000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSOW_PRIV_LFX_HWS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2058,7 +2408,13 @@ typedef union cavm_ssow_priv_lfx_hws_int_cfg cavm_ssow_priv_lfx_hws_int_cfg_t;
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_INT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_PRIV_LFX_HWS_INT_CFG(uint64_t a)
 {
-    if (a<=51)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=51))
+        return 0x840080002000ll + 8ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=17))
+        return 0x840080002000ll + 8ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=51))
+        return 0x840080002000ll + 8ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=51))
         return 0x840080002000ll + 8ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSOW_PRIV_LFX_HWS_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }

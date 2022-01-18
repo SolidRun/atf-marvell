@@ -104,6 +104,8 @@ static inline uint64_t CAVM_PCIERCX_ACK_FREQ(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x70c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x70c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x70c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -194,6 +196,8 @@ static inline uint64_t CAVM_PCIERCX_ACK_TIMER(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x700 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x700 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x700 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -280,6 +284,8 @@ static inline uint64_t CAVM_PCIERCX_ACS_CAP_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x22c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x22c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x22c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -328,6 +334,8 @@ static inline uint64_t CAVM_PCIERCX_ACS_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x228 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x228 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x228 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -367,6 +375,8 @@ static inline uint64_t CAVM_PCIERCX_ACS_EGR_CTL_VEC(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PCIERCX_ACS_EGR_CTL_VEC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x230 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x230 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x230 + 0 * ((a) & 0x1);
@@ -422,6 +432,8 @@ static inline uint64_t CAVM_PCIERCX_ADV_ERR_CAP_CNTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x118 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x118 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x118 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -466,6 +478,8 @@ static inline uint64_t CAVM_PCIERCX_AUX_CLK_FREQ(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb40 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xb40 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb40 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -504,6 +518,8 @@ static inline uint64_t CAVM_PCIERCX_BAR0L(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x10 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x10 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -541,6 +557,8 @@ static inline uint64_t CAVM_PCIERCX_BAR0U(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PCIERCX_BAR0U(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x14 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x14 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x14 + 0 * ((a) & 0x1);
@@ -601,6 +619,8 @@ static inline uint64_t CAVM_PCIERCX_BNUM(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PCIERCX_BNUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x18 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x18 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x18 + 0 * ((a) & 0x1);
@@ -697,7 +717,88 @@ union cavm_pciercx_c_rcv_credit
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_c_rcv_credit_s cn; */
+    /* struct cavm_pciercx_c_rcv_credit_s cn10; */
+    /* struct cavm_pciercx_c_rcv_credit_s cn10ka; */
+    struct cavm_pciercx_c_rcv_credit_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t data_sc               : 2;  /**< [ 27: 26](RO/WRSL) VC0 scale completion data credits. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](RO/WRSL) VC0 scale completion header credits.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x2.
+                                                                 _ BPEM:      0x1. */
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 completion TLP queue mode. The operating mode of the completion receive queue for VC0,
+                                                                 used only in the segmented-buffer configuration, writable through
+                                                                 PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward.
+
+                                                                 The application must not change this field. */
+        uint32_t reserved_20           : 1;
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 completion header credits. The number of initial completion header credits for VC0,
+                                                                 used for all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x50.
+                                                                 _ BPEM:      0xA. */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 completion data credits. The number of initial completion data credits for VC0, used
+                                                                 for all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x600.
+                                                                 _ BPEM:      0xC0. */
+#else /* Word 0 - Little Endian */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 completion data credits. The number of initial completion data credits for VC0, used
+                                                                 for all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x600.
+                                                                 _ BPEM:      0xC0. */
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 completion header credits. The number of initial completion header credits for VC0,
+                                                                 used for all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x50.
+                                                                 _ BPEM:      0xA. */
+        uint32_t reserved_20           : 1;
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 completion TLP queue mode. The operating mode of the completion receive queue for VC0,
+                                                                 used only in the segmented-buffer configuration, writable through
+                                                                 PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward.
+
+                                                                 The application must not change this field. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](RO/WRSL) VC0 scale completion header credits.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x2.
+                                                                 _ BPEM:      0x1. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](RO/WRSL) VC0 scale completion data credits. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_c_rcv_credit_s cnf10ka; */
+    /* struct cavm_pciercx_c_rcv_credit_s cnf10kb; */
 };
 typedef union cavm_pciercx_c_rcv_credit cavm_pciercx_c_rcv_credit_t;
 
@@ -705,6 +806,8 @@ static inline uint64_t CAVM_PCIERCX_C_RCV_CREDIT(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_C_RCV_CREDIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x750 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x750 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x750 + 0 * ((a) & 0x1);
@@ -752,6 +855,8 @@ static inline uint64_t CAVM_PCIERCX_C_XMIT_CREDIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x738 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x738 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x738 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -793,6 +898,8 @@ static inline uint64_t CAVM_PCIERCX_CAP_PTR(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_CAP_PTR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x34 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x34 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x34 + 0 * ((a) & 0x1);
@@ -843,6 +950,8 @@ static inline uint64_t CAVM_PCIERCX_CLK_GATING_CTL(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_CLK_GATING_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x88c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x88c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x88c + 0 * ((a) & 0x1);
@@ -895,6 +1004,8 @@ static inline uint64_t CAVM_PCIERCX_CLSIZE(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PCIERCX_CLSIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xc + 0 * ((a) & 0x1);
@@ -982,6 +1093,8 @@ static inline uint64_t CAVM_PCIERCX_CMD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1040,6 +1153,8 @@ static inline uint64_t CAVM_PCIERCX_COR_ERR_MSK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x114 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x114 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x114 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1097,6 +1212,8 @@ static inline uint64_t CAVM_PCIERCX_COR_ERR_STAT(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_COR_ERR_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x110 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x110 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x110 + 0 * ((a) & 0x1);
@@ -1157,6 +1274,8 @@ static inline uint64_t CAVM_PCIERCX_DBG0(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PCIERCX_DBG0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x728 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x728 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x728 + 0 * ((a) & 0x1);
@@ -1240,6 +1359,8 @@ static inline uint64_t CAVM_PCIERCX_DBG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x72c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x72c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x72c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1301,7 +1422,8 @@ union cavm_pciercx_dev_cap
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_pciercx_dev_cap_cn
+    /* struct cavm_pciercx_dev_cap_s cn10; */
+    struct cavm_pciercx_dev_cap_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -1344,7 +1466,61 @@ union cavm_pciercx_dev_cap
         uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } cn;
+    } cn10ka;
+    struct cavm_pciercx_dev_cap_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_29_31        : 3;
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only. */
+        uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
+        uint32_t reserved_16_17        : 2;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_14           : 1;
+        uint32_t reserved_13           : 1;
+        uint32_t reserved_12           : 1;
+        uint32_t el1al                 : 3;  /**< [ 11:  9](RO) Endpoint L1 acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t el0al                 : 3;  /**< [  8:  6](RO) Endpoint L0s acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t etfs                  : 1;  /**< [  5:  5](RO/WRSL) Extended tag field supported. This bit is writable through
+                                                                 PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x1.
+                                                                 _ BPEM:         0x0 (Not Supported). */
+        uint32_t pfs                   : 2;  /**< [  4:  3](RO/WRSL) Phantom function supported. This field is writable through
+                                                                 PEM()_CFG_TBL(). However, phantom function is not supported. Therefore, the application
+                                                                 must not write any value other than 0x0 to this field. */
+        uint32_t mpss                  : 3;  /**< [  2:  0](RO/WRSL) Max_Payload_Size supported, writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t mpss                  : 3;  /**< [  2:  0](RO/WRSL) Max_Payload_Size supported, writable through PEM()_CFG_TBL(). */
+        uint32_t pfs                   : 2;  /**< [  4:  3](RO/WRSL) Phantom function supported. This field is writable through
+                                                                 PEM()_CFG_TBL(). However, phantom function is not supported. Therefore, the application
+                                                                 must not write any value other than 0x0 to this field. */
+        uint32_t etfs                  : 1;  /**< [  5:  5](RO/WRSL) Extended tag field supported. This bit is writable through
+                                                                 PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x1.
+                                                                 _ BPEM:         0x0 (Not Supported). */
+        uint32_t el0al                 : 3;  /**< [  8:  6](RO) Endpoint L0s acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t el1al                 : 3;  /**< [ 11:  9](RO) Endpoint L1 acceptable latency, writable through PEM()_CFG_TBL(). Must be 0x0 for non-
+                                                                 endpoint devices. */
+        uint32_t reserved_12           : 1;
+        uint32_t reserved_13           : 1;
+        uint32_t reserved_14           : 1;
+        uint32_t rber                  : 1;  /**< [ 15: 15](RO/WRSL) Role-based error reporting, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_16_17        : 2;
+        uint32_t csplv                 : 8;  /**< [ 25: 18](RO) Captured slot power limit value. Not applicable for RC port, upstream port only. */
+        uint32_t cspls                 : 2;  /**< [ 27: 26](RO) Captured slot power limit scale. Not applicable for RC port, upstream port only. */
+        uint32_t flr_cap               : 1;  /**< [ 28: 28](RO) Function level reset capability. This bit applies to endpoints only. */
+        uint32_t reserved_29_31        : 3;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_dev_cap_cn10ka cnf10ka; */
+    /* struct cavm_pciercx_dev_cap_cn10ka cnf10kb; */
 };
 typedef union cavm_pciercx_dev_cap cavm_pciercx_dev_cap_t;
 
@@ -1352,6 +1528,8 @@ static inline uint64_t CAVM_PCIERCX_DEV_CAP(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_DEV_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x74 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x74 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x74 + 0 * ((a) & 0x1);
@@ -1438,7 +1616,82 @@ union cavm_pciercx_dev_cap2
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_dev_cap2_s cn; */
+    /* struct cavm_pciercx_dev_cap2_s cn10; */
+    /* struct cavm_pciercx_dev_cap2_s cn10ka; */
+    struct cavm_pciercx_dev_cap2_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes (Not Supported).
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix (Not Supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field (Not Supported). */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF Not Supported). */
+        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
+        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x1.
+                                                                 _ BPEM:         0x0 (Not Supported). */
+        uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (Not Supported). */
+        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer (Not Supported). */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO/WRSL) Latency tolerance reporting (LTR) mechanism supported. */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
+                                                                 permitted in the relaxed ordering model. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
+        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request. */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
+                                                                 permitted in the relaxed ordering model. */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO/WRSL) Latency tolerance reporting (LTR) mechanism supported. */
+        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer (Not Supported). */
+        uint32_t ln_sys_cls            : 2;  /**< [ 15: 14](RO) LN System CLS (Not Supported). */
+        uint32_t tag10b_cpl_supp       : 1;  /**< [ 16: 16](RO) 10-bit tag completer supported.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x1.
+                                                                 _ BPEM:         0x0 (Not Supported). */
+        uint32_t tag10b_req_supp       : 1;  /**< [ 17: 17](RO) 10-bit tag requestor supported (not supported). */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF Not Supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field (Not Supported). */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix (Not Supported). */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes (Not Supported).
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_dev_cap2_s cnf10ka; */
+    /* struct cavm_pciercx_dev_cap2_s cnf10kb; */
 };
 typedef union cavm_pciercx_dev_cap2 cavm_pciercx_dev_cap2_t;
 
@@ -1446,6 +1699,8 @@ static inline uint64_t CAVM_PCIERCX_DEV_CAP2(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_DEV_CAP2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x94 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x94 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x94 + 0 * ((a) & 0x1);
@@ -1572,7 +1827,122 @@ union cavm_pciercx_dev_ctl
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_dev_ctl_s cn; */
+    /* struct cavm_pciercx_dev_ctl_s cn10; */
+    /* struct cavm_pciercx_dev_ctl_s cn10ka; */
+    struct cavm_pciercx_dev_ctl_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_22_31        : 10;
+        uint32_t tp                    : 1;  /**< [ 21: 21](RO) Transaction pending. Hardwired to zero. */
+        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) AUX power detected. Set to one if AUX power detected. */
+        uint32_t ur_d                  : 1;  /**< [ 19: 19](R/W1C/H) Unsupported request detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. [UR_D] occurs when PEM receives
+                                                                 something unsupported. Unsupported requests are nonfatal errors, so [UR_D] should cause
+                                                                 [NFE_D]. Receiving a vendor-defined message should cause an unsupported request. */
+        uint32_t fe_d                  : 1;  /**< [ 18: 18](R/W1C/H) Fatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIERC_UCOR_ERR_MSK that has a severity set to fatal. Malformed
+                                                                 TLPs generally fit into this category. */
+        uint32_t nfe_d                 : 1;  /**< [ 17: 17](R/W1C/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIERC_UCOR_ERR_MSK that has a severity set to Nonfatal and does
+                                                                 not meet advisory nonfatal criteria, which most poisoned TLPs should. */
+        uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. This field is set if we
+                                                                 receive any of the errors in PCIERC_COR_ERR_STAT, for example, a replay timer timeout.
+                                                                 Also, it can be set if we get any of the errors in PCIERC_UCOR_ERR_MSK that has a
+                                                                 severity set to nonfatal and meets the advisory nonfatal criteria, which most ECRC errors should. */
+        uint32_t reserved_15           : 1;
+        uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
+                                                                 0x0 =128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 0x4 = 2048 bytes.
+                                                                 0x5 = 4096 bytes. */
+        uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](R/W) AUX power PM enable. */
+        uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable.
+
+                                                                 To write this bit, PCIERC_DEV_CAP[PFS] must be non-zero, but
+                                                                 CNXXXX requests never uses phantom functions. */
+        uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x1.
+                                                                 _ BPEM:         0x0 (Not Supported). */
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
+                                                                 0x0 = 128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 Larger sizes are not supported by CNXXXX.
+
+                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
+                                                                 functionality. */
+        uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
+        uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
+        uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
+        uint32_t nfe_en                : 1;  /**< [  1:  1](R/W) Nonfatal error reporting enable. */
+        uint32_t ce_en                 : 1;  /**< [  0:  0](R/W) Correctable error reporting enable. */
+#else /* Word 0 - Little Endian */
+        uint32_t ce_en                 : 1;  /**< [  0:  0](R/W) Correctable error reporting enable. */
+        uint32_t nfe_en                : 1;  /**< [  1:  1](R/W) Nonfatal error reporting enable. */
+        uint32_t fe_en                 : 1;  /**< [  2:  2](R/W) Fatal error reporting enable. */
+        uint32_t ur_en                 : 1;  /**< [  3:  3](R/W) Unsupported request reporting enable. */
+        uint32_t ro_en                 : 1;  /**< [  4:  4](R/W) Enable relaxed ordering. */
+        uint32_t mps                   : 3;  /**< [  7:  5](R/W) Max payload size. Legal values:
+                                                                 0x0 = 128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 Larger sizes are not supported by CNXXXX.
+
+                                                                 DPI_SLI_PRT()_CFG[MPS] must be set to the same value as this field for proper
+                                                                 functionality. */
+        uint32_t etf_en                : 1;  /**< [  8:  8](R/W) Extended tag field enable. Set this bit to enable extended tags.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x1.
+                                                                 _ BPEM:         0x0 (Not Supported). */
+        uint32_t pf_en                 : 1;  /**< [  9:  9](R/W/H) Phantom function enable.
+
+                                                                 To write this bit, PCIERC_DEV_CAP[PFS] must be non-zero, but
+                                                                 CNXXXX requests never uses phantom functions. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](R/W) AUX power PM enable. */
+        uint32_t ns_en                 : 1;  /**< [ 11: 11](R/W) Enable no snoop. */
+        uint32_t mrrs                  : 3;  /**< [ 14: 12](R/W) Max read request size.
+                                                                 0x0 =128 bytes.
+                                                                 0x1 = 256 bytes.
+                                                                 0x2 = 512 bytes.
+                                                                 0x3 = 1024 bytes.
+                                                                 0x4 = 2048 bytes.
+                                                                 0x5 = 4096 bytes. */
+        uint32_t reserved_15           : 1;
+        uint32_t ce_d                  : 1;  /**< [ 16: 16](R/W1C/H) Correctable error detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. This field is set if we
+                                                                 receive any of the errors in PCIERC_COR_ERR_STAT, for example, a replay timer timeout.
+                                                                 Also, it can be set if we get any of the errors in PCIERC_UCOR_ERR_MSK that has a
+                                                                 severity set to nonfatal and meets the advisory nonfatal criteria, which most ECRC errors should. */
+        uint32_t nfe_d                 : 1;  /**< [ 17: 17](R/W1C/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIERC_UCOR_ERR_MSK that has a severity set to Nonfatal and does
+                                                                 not meet advisory nonfatal criteria, which most poisoned TLPs should. */
+        uint32_t fe_d                  : 1;  /**< [ 18: 18](R/W1C/H) Fatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIERC_UCOR_ERR_MSK that has a severity set to fatal. Malformed
+                                                                 TLPs generally fit into this category. */
+        uint32_t ur_d                  : 1;  /**< [ 19: 19](R/W1C/H) Unsupported request detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. [UR_D] occurs when PEM receives
+                                                                 something unsupported. Unsupported requests are nonfatal errors, so [UR_D] should cause
+                                                                 [NFE_D]. Receiving a vendor-defined message should cause an unsupported request. */
+        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) AUX power detected. Set to one if AUX power detected. */
+        uint32_t tp                    : 1;  /**< [ 21: 21](RO) Transaction pending. Hardwired to zero. */
+        uint32_t reserved_22_31        : 10;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_dev_ctl_s cnf10ka; */
+    /* struct cavm_pciercx_dev_ctl_s cnf10kb; */
 };
 typedef union cavm_pciercx_dev_ctl cavm_pciercx_dev_ctl_t;
 
@@ -1580,6 +1950,8 @@ static inline uint64_t CAVM_PCIERCX_DEV_CTL(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_DEV_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x78 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x78 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x78 + 0 * ((a) & 0x1);
@@ -1665,6 +2037,8 @@ static inline uint64_t CAVM_PCIERCX_DEV_CTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x98 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x98 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x98 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1708,6 +2082,8 @@ static inline uint64_t CAVM_PCIERCX_DL_FEATURE_CAP(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_DL_FEATURE_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x388 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x388 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x388 + 0 * ((a) & 0x1);
@@ -1757,6 +2133,8 @@ static inline uint64_t CAVM_PCIERCX_DL_FEATURE_EXT_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x384 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x384 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x384 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1798,6 +2176,8 @@ static inline uint64_t CAVM_PCIERCX_DL_FEATURE_STATUS(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PCIERCX_DL_FEATURE_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x38c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x38c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x38c + 0 * ((a) & 0x1);
@@ -1851,6 +2231,8 @@ static inline uint64_t CAVM_PCIERCX_E_CAP_LIST(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x70 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x70 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x70 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1901,6 +2283,8 @@ static inline uint64_t CAVM_PCIERCX_EA_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x50 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x50 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x50 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1946,6 +2330,8 @@ static inline uint64_t CAVM_PCIERCX_EA_ENTRY0(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x54 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x54 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x54 + 0 * ((a) & 0x1);
@@ -2007,6 +2393,8 @@ static inline uint64_t CAVM_PCIERCX_EA_ENTRY1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x58 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x58 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x58 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2048,6 +2436,8 @@ static inline uint64_t CAVM_PCIERCX_EA_ENTRY2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_EA_ENTRY2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x5c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x5c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x5c + 0 * ((a) & 0x1);
@@ -2095,6 +2485,8 @@ static inline uint64_t CAVM_PCIERCX_EA_ENTRY3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x60 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x60 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x60 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2137,6 +2529,8 @@ static inline uint64_t CAVM_PCIERCX_EA_ENTRY4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x64 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x64 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x64 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2174,6 +2568,8 @@ static inline uint64_t CAVM_PCIERCX_EBAR(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PCIERCX_EBAR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x38 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x38 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x38 + 0 * ((a) & 0x1);
@@ -2274,6 +2670,8 @@ static inline uint64_t CAVM_PCIERCX_EQ_CTL01(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x174 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x174 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x174 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2373,6 +2771,8 @@ static inline uint64_t CAVM_PCIERCX_EQ_CTL23(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x178 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x178 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x178 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2412,6 +2812,8 @@ static inline uint64_t CAVM_PCIERCX_ERR_SOURCE(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PCIERCX_ERR_SOURCE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x134 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x134 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x134 + 0 * ((a) & 0x1);
@@ -2460,6 +2862,8 @@ static inline uint64_t CAVM_PCIERCX_EXT_CAP(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_EXT_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x100 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x100 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x100 + 0 * ((a) & 0x1);
@@ -2514,6 +2918,8 @@ static inline uint64_t CAVM_PCIERCX_FILT_MSK2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_FILT_MSK2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x720 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x720 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x720 + 0 * ((a) & 0x1);
@@ -2710,7 +3116,224 @@ union cavm_pciercx_gen2_port
                                                                  the link agree. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_gen2_port_s cn; */
+    /* struct cavm_pciercx_gen2_port_s cn10; */
+    /* struct cavm_pciercx_gen2_port_s cn10ka; */
+    struct cavm_pciercx_gen2_port_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t mod_ts_en             : 1;  /**< [ 31: 31](RO/WRSL) Enable the controller to send the Modified TS OS if both sides of
+                                                                 the link agree.
+
+                                                                 In BPEM, this field is Read-Only. */
+        uint32_t force_lflip           : 1;  /**< [ 30: 30](R/W) Enable to force LANE_UTEST physical lane flips to logical
+                                                                 lane 0.  All the other physical lanes are turned off.
+                                                                 The PCIERC_PORT_CTL[LME] must be set to 0x1.
+
+                                                                 In BPEM, this field is Read-Only. */
+        uint32_t tx_mcmpl_pat_for_lpbk : 1;  /**< [ 29: 29](R/W) Require Loopback slave to transmit Modified Compliance
+                                                                 Pattern in Loopback.Active state at Gen5 rate.
+
+                                                                 In BPEM, this field is Read-Only.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t eq_for_lpbk           : 1;  /**< [ 28: 28](R/W) Perform EQ in Loopback in Gen5 rate.
+                                                                 Loopback master enters Loopback.Active only because
+                                                                 of receiving 2 TS1s with Loopback but asserted.
+
+                                                                 In BPEM, this field is Read-Only.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t lane_utest            : 4;  /**< [ 27: 24](R/W) Lane select for FORCE_LANE_FLIP or for EQ_FOR_LPBK.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1 (not supported in BPEM).
+                                                                 0x2 = Lane2 (not supported in BPEM).
+                                                                 0x3 = Lane3 (not supported in BPEM).
+                                                                 0x4-0xF = Reserved. */
+        uint32_t sel_deemph_bit        : 1;  /**< [ 23: 23](R/W) The select deemphasis bit (Symbol 4 bit 6) of the
+                                                                 transmitted TS2 Ordered Sets for DSP in Recovery.RcvrCfg
+                                                                 state.
+                                                                  0 = from PCIERC_LINK_CTL2[SDE].
+                                                                  1 = Requested by Upstream Port in Recovery.RcvrLock state. */
+        uint32_t sel_deemph_var        : 1;  /**< [ 22: 22](R/W) The select deemphasis variable for DSP on entry to Recovery.RcvrCfg
+                                                                 state.
+                                                                  0 = Requested by Upstream Port in Recovery.RcvrLock state.
+                                                                  1 = from PCIERC_LINK_CTL2[SDE]. */
+        uint32_t gen1_ei_inf           : 1;  /**< [ 21: 21](R/W) Electrical idle inference mode at Gen1 Rate. Programmable mode to determine
+                                                                 inferred electrical idle (EI) in Recovery.Speed or Loopback.Active (as slave)
+                                                                 state at Gen1 speed by looking for a one value on RxElecIdle instead of looking
+                                                                 for a zero on RxValid. If the PHY fails to deassert the RxValid signal in
+                                                                 Recovery.Speed or Loopback.Active (because of corrupted EIOS for example),
+                                                                 then EI cannot be inferred successfully in the controller by just detecting the
+                                                                 condition RxValid=0.
+                                                                   0 = Use RxElecIdle signal to infer electrical idle.
+                                                                   1 = Use RxValid signal to infer electrical idle. */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) Set the deemphasis level for upstream ports.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB. */
+        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to one, signals LTSSM to transmit TS ordered sets
+                                                                 with the compliance receive bit assert (equal to one). */
+        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to one,
+                                                                 indicates low swing. When set to 0, indicates full swing. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of one initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
+        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
+                                                                 physical lane is connected to logical Lane0 by the flip
+                                                                 operation performed in detect.
+
+                                                                 When non-zero, this field is used to restrict the receiver detect
+                                                                 procedure to a particular lane when the default detect and polling
+                                                                 procedure performed on all lanes cannot be successful. A notable
+                                                                 example of when it is useful to program this field to a value
+                                                                 different from the default, is when a lane is asymmetrically
+                                                                 broken, that is, it is detected in Detect LTSSM state but it
+                                                                 cannot exit Electrical Idle in Polling LTSSM state.
+
+                                                                   0x0 = Connect logical Lane0 to physical lane 0 or lane 15,7,3,1
+                                                                         depending on which lane is detected.
+                                                                   0x1 = Connect logical Lane0 to physical lane 1.
+                                                                   0x2 = Connect logical Lane0 to physical lane 3.
+                                                                   0x3 = Connect logical Lane0 to physical lane 7.
+                                                                   0x4 = Connect logical Lane0 to physical lane 15.
+                                                                   0x5 - 0x7 = Reserved. */
+        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
+                                                                 lanes which are connected and not bad. Used to limit the
+                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 detect a receiver. Indicates the number of lanes to check for
+                                                                 exit from electrical idle in Polling.Active and L2.Idle.
+
+                                                                 0x1 = 1 lane.
+                                                                 0x2 = 2 lanes (not supported in BPEM).
+                                                                 0x3 = 3 lanes (not supported in BPEM).
+                                                                 0x4 = 4 lanes (not supported in BPEM).
+                                                                 0x5-0x1F = Reserved.
+
+                                                                 When you have unused lanes in your system, then you must
+                                                                 change the value in this register to reflect the number of
+                                                                 lanes. You must also change PCIERC_PORT_CTL[LME]. */
+        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) Sets the number of fast training sequences (N_FTS) that the core advertises as its
+                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+                                                                 PHY's ability to recover synchronization after a low power state.
+
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery
+                                                                 state when exiting from L0s. */
+#else /* Word 0 - Little Endian */
+        uint32_t n_fts                 : 8;  /**< [  7:  0](R/W) Sets the number of fast training sequences (N_FTS) that the core advertises as its
+                                                                 N_FTS during GEN2 Link training. This value is used to inform the link partner about the
+                                                                 PHY's ability to recover synchronization after a low power state.
+
+                                                                 Do not set [N_FTS] to zero; doing so can cause the LTSSM to go into the recovery
+                                                                 state when exiting from L0s. */
+        uint32_t nlanes                : 5;  /**< [ 12:  8](R/W) Predetermined number of lanes.  Defines the number of
+                                                                 lanes which are connected and not bad. Used to limit the
+                                                                 effective link width to ignore 'broken" or "unused" lanes that
+                                                                 detect a receiver. Indicates the number of lanes to check for
+                                                                 exit from electrical idle in Polling.Active and L2.Idle.
+
+                                                                 0x1 = 1 lane.
+                                                                 0x2 = 2 lanes (not supported in BPEM).
+                                                                 0x3 = 3 lanes (not supported in BPEM).
+                                                                 0x4 = 4 lanes (not supported in BPEM).
+                                                                 0x5-0x1F = Reserved.
+
+                                                                 When you have unused lanes in your system, then you must
+                                                                 change the value in this register to reflect the number of
+                                                                 lanes. You must also change PCIERC_PORT_CTL[LME]. */
+        uint32_t pdetlane              : 3;  /**< [ 15: 13](R/W) Predetermined lane for auto flip. This field defines which
+                                                                 physical lane is connected to logical Lane0 by the flip
+                                                                 operation performed in detect.
+
+                                                                 When non-zero, this field is used to restrict the receiver detect
+                                                                 procedure to a particular lane when the default detect and polling
+                                                                 procedure performed on all lanes cannot be successful. A notable
+                                                                 example of when it is useful to program this field to a value
+                                                                 different from the default, is when a lane is asymmetrically
+                                                                 broken, that is, it is detected in Detect LTSSM state but it
+                                                                 cannot exit Electrical Idle in Polling LTSSM state.
+
+                                                                   0x0 = Connect logical Lane0 to physical lane 0 or lane 15,7,3,1
+                                                                         depending on which lane is detected.
+                                                                   0x1 = Connect logical Lane0 to physical lane 1.
+                                                                   0x2 = Connect logical Lane0 to physical lane 3.
+                                                                   0x3 = Connect logical Lane0 to physical lane 7.
+                                                                   0x4 = Connect logical Lane0 to physical lane 15.
+                                                                   0x5 - 0x7 = Reserved. */
+        uint32_t alaneflip             : 1;  /**< [ 16: 16](R/W) Enable auto flipping of the lanes.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t dsc                   : 1;  /**< [ 17: 17](R/W/H) Directed speed change. A write of one initiates a speed change.
+                                                                 When the speed change occurs, the controller will clear the contents of this field. */
+        uint32_t cpyts                 : 1;  /**< [ 18: 18](R/W) Config PHY TX swing. Indicates the voltage level that the PHY should drive. When set to one,
+                                                                 indicates low swing. When set to 0, indicates full swing. */
+        uint32_t ctcrb                 : 1;  /**< [ 19: 19](R/W) Config TX compliance receive bit. When set to one, signals LTSSM to transmit TS ordered sets
+                                                                 with the compliance receive bit assert (equal to one). */
+        uint32_t s_d_e                 : 1;  /**< [ 20: 20](R/W) Set the deemphasis level for upstream ports.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB. */
+        uint32_t gen1_ei_inf           : 1;  /**< [ 21: 21](R/W) Electrical idle inference mode at Gen1 Rate. Programmable mode to determine
+                                                                 inferred electrical idle (EI) in Recovery.Speed or Loopback.Active (as slave)
+                                                                 state at Gen1 speed by looking for a one value on RxElecIdle instead of looking
+                                                                 for a zero on RxValid. If the PHY fails to deassert the RxValid signal in
+                                                                 Recovery.Speed or Loopback.Active (because of corrupted EIOS for example),
+                                                                 then EI cannot be inferred successfully in the controller by just detecting the
+                                                                 condition RxValid=0.
+                                                                   0 = Use RxElecIdle signal to infer electrical idle.
+                                                                   1 = Use RxValid signal to infer electrical idle. */
+        uint32_t sel_deemph_var        : 1;  /**< [ 22: 22](R/W) The select deemphasis variable for DSP on entry to Recovery.RcvrCfg
+                                                                 state.
+                                                                  0 = Requested by Upstream Port in Recovery.RcvrLock state.
+                                                                  1 = from PCIERC_LINK_CTL2[SDE]. */
+        uint32_t sel_deemph_bit        : 1;  /**< [ 23: 23](R/W) The select deemphasis bit (Symbol 4 bit 6) of the
+                                                                 transmitted TS2 Ordered Sets for DSP in Recovery.RcvrCfg
+                                                                 state.
+                                                                  0 = from PCIERC_LINK_CTL2[SDE].
+                                                                  1 = Requested by Upstream Port in Recovery.RcvrLock state. */
+        uint32_t lane_utest            : 4;  /**< [ 27: 24](R/W) Lane select for FORCE_LANE_FLIP or for EQ_FOR_LPBK.
+                                                                 0x0 = Lane0.
+                                                                 0x1 = Lane1 (not supported in BPEM).
+                                                                 0x2 = Lane2 (not supported in BPEM).
+                                                                 0x3 = Lane3 (not supported in BPEM).
+                                                                 0x4-0xF = Reserved. */
+        uint32_t eq_for_lpbk           : 1;  /**< [ 28: 28](R/W) Perform EQ in Loopback in Gen5 rate.
+                                                                 Loopback master enters Loopback.Active only because
+                                                                 of receiving 2 TS1s with Loopback but asserted.
+
+                                                                 In BPEM, this field is Read-Only.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t tx_mcmpl_pat_for_lpbk : 1;  /**< [ 29: 29](R/W) Require Loopback slave to transmit Modified Compliance
+                                                                 Pattern in Loopback.Active state at Gen5 rate.
+
+                                                                 In BPEM, this field is Read-Only.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t force_lflip           : 1;  /**< [ 30: 30](R/W) Enable to force LANE_UTEST physical lane flips to logical
+                                                                 lane 0.  All the other physical lanes are turned off.
+                                                                 The PCIERC_PORT_CTL[LME] must be set to 0x1.
+
+                                                                 In BPEM, this field is Read-Only. */
+        uint32_t mod_ts_en             : 1;  /**< [ 31: 31](RO/WRSL) Enable the controller to send the Modified TS OS if both sides of
+                                                                 the link agree.
+
+                                                                 In BPEM, this field is Read-Only. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_gen2_port_s cnf10ka; */
+    /* struct cavm_pciercx_gen2_port_s cnf10kb; */
 };
 typedef union cavm_pciercx_gen2_port cavm_pciercx_gen2_port_t;
 
@@ -2718,6 +3341,8 @@ static inline uint64_t CAVM_PCIERCX_GEN2_PORT(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_GEN2_PORT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x80c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x80c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x80c + 0 * ((a) & 0x1);
@@ -2881,6 +3506,8 @@ static inline uint64_t CAVM_PCIERCX_GEN3_EQ_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8a8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8a8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2937,6 +3564,8 @@ static inline uint64_t CAVM_PCIERCX_GEN3_PIPE_LB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8b8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8b8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2988,6 +3617,8 @@ static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_1(uint64_t a) __attribut
 static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xb80 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xb80 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb80 + 0 * ((a) & 0x1);
@@ -3049,6 +3680,8 @@ static inline uint64_t CAVM_PCIERCX_GEN4_LANE_MARGINING_2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb84 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xb84 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb84 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3087,6 +3720,8 @@ static inline uint64_t CAVM_PCIERCX_HDR_LOG1(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_HDR_LOG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x11c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x11c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x11c + 0 * ((a) & 0x1);
@@ -3127,6 +3762,8 @@ static inline uint64_t CAVM_PCIERCX_HDR_LOG2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x120 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x120 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x120 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3166,6 +3803,8 @@ static inline uint64_t CAVM_PCIERCX_HDR_LOG3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x124 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x124 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x124 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3204,6 +3843,8 @@ static inline uint64_t CAVM_PCIERCX_HDR_LOG4(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_HDR_LOG4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x128 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x128 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x128 + 0 * ((a) & 0x1);
@@ -3252,6 +3893,8 @@ static inline uint64_t CAVM_PCIERCX_ID(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_PCIERCX_ID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0 + 0 * ((a) & 0x1);
@@ -3326,6 +3969,8 @@ static inline uint64_t CAVM_PCIERCX_INT(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_PCIERCX_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x3c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3c + 0 * ((a) & 0x1);
@@ -3407,6 +4052,8 @@ static inline uint64_t CAVM_PCIERCX_IOBASEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3446,6 +4093,8 @@ static inline uint64_t CAVM_PCIERCX_IOBASEU(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_IOBASEU(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x30 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x30 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x30 + 0 * ((a) & 0x1);
@@ -3510,6 +4159,8 @@ static inline uint64_t CAVM_PCIERCX_L1_SUBSTATES(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_L1_SUBSTATES(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xb44 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xb44 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb44 + 0 * ((a) & 0x1);
@@ -3589,6 +4240,8 @@ static inline uint64_t CAVM_PCIERCX_L1SUB_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x240 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x240 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x240 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3636,6 +4289,8 @@ static inline uint64_t CAVM_PCIERCX_L1SUB_CAP_HDR(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_L1SUB_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x23c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x23c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x23c + 0 * ((a) & 0x1);
@@ -3700,6 +4355,8 @@ static inline uint64_t CAVM_PCIERCX_L1SUB_CTL1(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PCIERCX_L1SUB_CTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x244 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x244 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x244 + 0 * ((a) & 0x1);
@@ -3771,6 +4428,8 @@ static inline uint64_t CAVM_PCIERCX_L1SUB_CTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x248 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x248 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x248 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3814,6 +4473,8 @@ static inline uint64_t CAVM_PCIERCX_LANE_ERR(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_LANE_ERR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x170 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x170 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x170 + 0 * ((a) & 0x1);
@@ -3880,6 +4541,8 @@ static inline uint64_t CAVM_PCIERCX_LANE_SKEW(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_LANE_SKEW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x714 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x714 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x714 + 0 * ((a) & 0x1);
@@ -3962,7 +4625,78 @@ union cavm_pciercx_link_cap
         uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_link_cap_s cn; */
+    /* struct cavm_pciercx_link_cap_s cn10; */
+    /* struct cavm_pciercx_link_cap_s cn10ka; */
+    struct cavm_pciercx_link_cap_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_TBL(). */
+        uint32_t reserved_23           : 1;
+        uint32_t aspm                  : 1;  /**< [ 22: 22](RO/WRSL) ASPM optionality compliance. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO/WRSL) Link bandwidth notification capability. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Data link layer active reporting capable. Set to one for root complex devices and 0 for
+                                                                 endpoint devices. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO/WRSL) Surprise down error reporting capable.  Set to one for root complex devices and 0 for
+                                                                 endpoint devices. */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO) Clock power management. Set to 0 for root complex devices. */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO/WRSL) L1 exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO/WRSL) L0s exit latency. The default value is the value that software
+                                                                 specifies during hardware configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. Only L1 is supported (L0s not supported).
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.  Legal encodings are 0x1 (l lane), 0x2 (2 lanes), 0x4 (4 lanes),
+                                                                 0x8 (8 lanes), and 0x10 (16 lanes).  Some encodings may not be legal for all PEMs.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL) Maximum link speed.
+
+                                                                 0x1 = 2.5 GHz supported.
+                                                                 0x2 = 5.0 GHz and 2.5 GHz supported.
+                                                                 0x3 = 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+                                                                 0x4 = 16.0 GHz, 8.0 GHz, 5.0 GHz, and 2.5 GHz supported.
+                                                                 0x5 = 32.0 GHz, 16.0 GHz, 8.0 GHz, 5.0 GHz, and 2.5 GHz supported.
+
+                                                                 This field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x5.
+                                                                 _ BPEM:         0x3. */
+#else /* Word 0 - Little Endian */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/WRSL) Maximum link speed.
+
+                                                                 0x1 = 2.5 GHz supported.
+                                                                 0x2 = 5.0 GHz and 2.5 GHz supported.
+                                                                 0x3 = 8.0 GHz, 5.0 GHz and 2.5 GHz supported.
+                                                                 0x4 = 16.0 GHz, 8.0 GHz, 5.0 GHz, and 2.5 GHz supported.
+                                                                 0x5 = 32.0 GHz, 16.0 GHz, 8.0 GHz, 5.0 GHz, and 2.5 GHz supported.
+
+                                                                 This field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x5.
+                                                                 _ BPEM:         0x3. */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/WRSL/H) Maximum link width.  Legal encodings are 0x1 (l lane), 0x2 (2 lanes), 0x4 (4 lanes),
+                                                                 0x8 (8 lanes), and 0x10 (16 lanes).  Some encodings may not be legal for all PEMs.
+                                                                 This field is writable through PEM()_CFG_TBL(). */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO/WRSL) Active state link PM support. Only L1 is supported (L0s not supported).
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO/WRSL) L0s exit latency. The default value is the value that software
+                                                                 specifies during hardware configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO/WRSL) L1 exit latency. The default value is the value that software specifies during hardware
+                                                                 configuration, writable through PEM()_CFG_TBL(). */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO) Clock power management. Set to 0 for root complex devices. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO/WRSL) Surprise down error reporting capable.  Set to one for root complex devices and 0 for
+                                                                 endpoint devices. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Data link layer active reporting capable. Set to one for root complex devices and 0 for
+                                                                 endpoint devices. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO/WRSL) Link bandwidth notification capability. */
+        uint32_t aspm                  : 1;  /**< [ 22: 22](RO/WRSL) ASPM optionality compliance. */
+        uint32_t reserved_23           : 1;
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO/WRSL) Port number, writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_link_cap_s cnf10ka; */
+    /* struct cavm_pciercx_link_cap_s cnf10kb; */
 };
 typedef union cavm_pciercx_link_cap cavm_pciercx_link_cap_t;
 
@@ -3970,6 +4704,8 @@ static inline uint64_t CAVM_PCIERCX_LINK_CAP(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_LINK_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x7c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x7c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x7c + 0 * ((a) & 0x1);
@@ -4044,7 +4780,68 @@ union cavm_pciercx_link_cap2
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_link_cap2_s cn; */
+    /* struct cavm_pciercx_link_cap2_s cn10; */
+    /* struct cavm_pciercx_link_cap2_s cn10ka; */
+    struct cavm_pciercx_link_cap2_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t trtds                 : 1;  /**< [ 24: 24](RO/WRSL) Two retimers presence detect supported.
+
+                                                                 This bit must be set to in a Port when the SLSV indicates support
+                                                                 for a Link speed of 16.0 GT/s or higher.
+
+                                                                 It is permitted to be set to 1b regardless of the SLSV if the RTDS bit
+                                                                 is also set to 1b. */
+        uint32_t rtds                  : 1;  /**< [ 23: 23](RO/WRSL) Retimer presence detect supported.
+
+                                                                 This bit must be set to in a Port when the SLSV indicates support
+                                                                 for a Link speed of 16.0 GT/s or higher. */
+        uint32_t reserved_9_22         : 14;
+        uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
+        uint32_t slsv                  : 7;  /**< [  7:  1](RO/WRSL) Supported link speeds vector. Indicates the supported link speeds of the associated port.
+                                                                 For each bit, a value of 1 b indicates that the corresponding link speed is supported;
+                                                                 otherwise, the link speed is not supported. Bit definitions are:
+
+                                                                 _ Bit \<1\> = 2.5 GT/s.
+                                                                 _ Bit \<2\> = 5.0 GT/s.
+                                                                 _ Bit \<3\> = 8.0 GT/s.
+                                                                 _ Bit \<4\> = 16.0 GT/s
+                                                                 _ Bit \<5\> = 32.0 GT/s
+
+                                                                 _ Bits \<7:6\> are reserved. */
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t slsv                  : 7;  /**< [  7:  1](RO/WRSL) Supported link speeds vector. Indicates the supported link speeds of the associated port.
+                                                                 For each bit, a value of 1 b indicates that the corresponding link speed is supported;
+                                                                 otherwise, the link speed is not supported. Bit definitions are:
+
+                                                                 _ Bit \<1\> = 2.5 GT/s.
+                                                                 _ Bit \<2\> = 5.0 GT/s.
+                                                                 _ Bit \<3\> = 8.0 GT/s.
+                                                                 _ Bit \<4\> = 16.0 GT/s
+                                                                 _ Bit \<5\> = 32.0 GT/s
+
+                                                                 _ Bits \<7:6\> are reserved. */
+        uint32_t cls                   : 1;  /**< [  8:  8](RO) Crosslink supported. */
+        uint32_t reserved_9_22         : 14;
+        uint32_t rtds                  : 1;  /**< [ 23: 23](RO/WRSL) Retimer presence detect supported.
+
+                                                                 This bit must be set to in a Port when the SLSV indicates support
+                                                                 for a Link speed of 16.0 GT/s or higher. */
+        uint32_t trtds                 : 1;  /**< [ 24: 24](RO/WRSL) Two retimers presence detect supported.
+
+                                                                 This bit must be set to in a Port when the SLSV indicates support
+                                                                 for a Link speed of 16.0 GT/s or higher.
+
+                                                                 It is permitted to be set to 1b regardless of the SLSV if the RTDS bit
+                                                                 is also set to 1b. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_link_cap2_s cnf10ka; */
+    /* struct cavm_pciercx_link_cap2_s cnf10kb; */
 };
 typedef union cavm_pciercx_link_cap2 cavm_pciercx_link_cap2_t;
 
@@ -4052,6 +4849,8 @@ static inline uint64_t CAVM_PCIERCX_LINK_CAP2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_LINK_CAP2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x9c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x9c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x9c + 0 * ((a) & 0x1);
@@ -4178,6 +4977,8 @@ static inline uint64_t CAVM_PCIERCX_LINK_CTL(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_LINK_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x80 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x80 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x80 + 0 * ((a) & 0x1);
@@ -4366,7 +5167,194 @@ union cavm_pciercx_link_ctl2
         uint32_t drs_mr                : 1;  /**< [ 31: 31](R/W1C) DRS message received. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_link_ctl2_s cn; */
+    /* struct cavm_pciercx_link_ctl2_s cn10; */
+    /* struct cavm_pciercx_link_ctl2_s cn10ka; */
+    struct cavm_pciercx_link_ctl2_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t drs_mr                : 1;  /**< [ 31: 31](R/W1C) DRS message received. */
+        uint32_t dcp                   : 3;  /**< [ 30: 28](RO) Downstream component presence. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t crossl                : 2;  /**< [ 25: 24](RO) Crosslink resolution.
+
+                                                                 0x0 = Crosslink Resolution is not supported.
+                                                                 0x1 = Crosslink negotiation resolved as a Upstream Port.
+                                                                 0x2 = Crosslink negotiation resolved as a Downstream Port.
+                                                                 0x1 = Crosslink negotiation is not completed.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x2.
+                                                                 _ BPEM:         0x0 (Not Supported). */
+        uint32_t trtd                  : 1;  /**< [ 23: 23](RO) Two retimers presence detected. */
+        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
+        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C/H) Link equalization request 8.0 GT/s. */
+        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization 8.0 GT/s phase 3 successful. */
+        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization 8.0 GT/s phase 2 successful. */
+        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization 8.0 GT/s phase 1 successful. */
+        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization 8.0 GT/s complete. */
+        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+                                                                 the level of deemphasis.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB.
+
+                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
+        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in Polling.Compliance state if
+                                                                 the entry occurred due to the TX compliance receive bit being one.
+                                                                 0x0 = -6 dB.
+                                                                 0x1 = -3.5 dB.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to one, the LTSSM is required to send SKP ordered sets periodically
+                                                                 in between the (modified) compliance patterns.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to one, the device transmits a modified
+                                                                 compliance pattern if the LTSSM enters Polling.Compliance state. */
+        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
+                                                                 the transmitter pins:
+                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
+                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for half-swing.
+                                                                 0x4-0x7 = Reserved.
+
+                                                                 This field is reset to 0x0 on entry to the LTSSM Polling.Compliance substate. When
+                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB.
+
+                                                                 This field is R/W only for PF0.  All other functions this field is Reserved and
+                                                                 will always read zeros. */
+        uint32_t sde                   : 1;  /**< [  6:  6](RO/WRSL) Selectable deemphasis. When the link is operating at 5.0 GT/s speed, selects the level of
+                                                                 deemphasis on the downstream device.  Must be set prior to link training.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB.
+
+                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
+
+                                                                 PCIERC_GEN2_PORT[S_D_E] can be used to change the deemphasis on the upstream ports. */
+        uint32_t hasd                  : 1;  /**< [  5:  5](R/W) Hardware autonomous speed disable. When asserted, the application must disable hardware
+                                                                 from changing the link speed for device-specific reasons other than attempting to correct
+                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
+                                                                 supported common link speed is not blocked by this signal. */
+        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
+                                                                 speed indicated in the target link speed field by setting this bit to one in both components
+                                                                 on a link and then initiating a hot reset on the link. */
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
+                                                                 operational speed by restricting the values advertised by the upstream component in its
+                                                                 training sequences:
+
+                                                                 0x1 = 2.5 Gb/s target link speed.
+                                                                 0x2 = 5 Gb/s target link speed.
+                                                                 0x3 = 8 Gb/s target link speed.
+                                                                 0x4 = 16 Gb/s target link speed.
+                                                                 0x5 = 32 Gb/s target link speed.
+
+                                                                 All other encodings are reserved.
+
+                                                                 If a value is written to this field that does not correspond to a speed included in the
+                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
+                                                                 ports, this field is used to set the target compliance mode speed when software is using
+                                                                 the enter compliance bit to force a link into compliance mode.
+
+                                                                 Reset values:
+                                                                 _ PF0:          0x5.
+                                                                 _ PF1:          0x0.
+
+                                                                 This field is R/W only for PF0.  All other functions this field is Reserved and
+                                                                 will always read zeros. */
+#else /* Word 0 - Little Endian */
+        uint32_t tls                   : 4;  /**< [  3:  0](R/W) Target link speed. For downstream ports, this field sets an upper limit on link
+                                                                 operational speed by restricting the values advertised by the upstream component in its
+                                                                 training sequences:
+
+                                                                 0x1 = 2.5 Gb/s target link speed.
+                                                                 0x2 = 5 Gb/s target link speed.
+                                                                 0x3 = 8 Gb/s target link speed.
+                                                                 0x4 = 16 Gb/s target link speed.
+                                                                 0x5 = 32 Gb/s target link speed.
+
+                                                                 All other encodings are reserved.
+
+                                                                 If a value is written to this field that does not correspond to a speed included in the
+                                                                 supported link speeds field, the result is undefined. For both upstream and downstream
+                                                                 ports, this field is used to set the target compliance mode speed when software is using
+                                                                 the enter compliance bit to force a link into compliance mode.
+
+                                                                 Reset values:
+                                                                 _ PF0:          0x5.
+                                                                 _ PF1:          0x0.
+
+                                                                 This field is R/W only for PF0.  All other functions this field is Reserved and
+                                                                 will always read zeros. */
+        uint32_t ec                    : 1;  /**< [  4:  4](R/W) Enter compliance. Software is permitted to force a link to enter compliance mode at the
+                                                                 speed indicated in the target link speed field by setting this bit to one in both components
+                                                                 on a link and then initiating a hot reset on the link. */
+        uint32_t hasd                  : 1;  /**< [  5:  5](R/W) Hardware autonomous speed disable. When asserted, the application must disable hardware
+                                                                 from changing the link speed for device-specific reasons other than attempting to correct
+                                                                 unreliable link operation by reducing link speed. Initial transition to the highest
+                                                                 supported common link speed is not blocked by this signal. */
+        uint32_t sde                   : 1;  /**< [  6:  6](RO/WRSL) Selectable deemphasis. When the link is operating at 5.0 GT/s speed, selects the level of
+                                                                 deemphasis on the downstream device.  Must be set prior to link training.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB.
+
+                                                                 When the link is operating at 2.5 GT/s speed, the setting of this bit has no effect.
+
+                                                                 PCIERC_GEN2_PORT[S_D_E] can be used to change the deemphasis on the upstream ports. */
+        uint32_t tm                    : 3;  /**< [  9:  7](R/W/H) Transmit margin. This field controls the value of the non-deemphasized voltage level at
+                                                                 the transmitter pins:
+                                                                 0x0 =  800-1200 mV for full swing 400-600 mV for half-swing.
+                                                                 0x1-0x2 = Values must be monotonic with a nonzero slope.
+                                                                 0x3 = 200-400 mV for full-swing and 100-200 mV for half-swing.
+                                                                 0x4-0x7 = Reserved.
+
+                                                                 This field is reset to 0x0 on entry to the LTSSM Polling.Compliance substate. When
+                                                                 operating in 5.0 GT/s mode with full swing, the deemphasis ratio must be maintained within
+                                                                 +/- 1 dB from the specification-defined operational value either -3.5 or -6 dB.
+
+                                                                 This field is R/W only for PF0.  All other functions this field is Reserved and
+                                                                 will always read zeros. */
+        uint32_t emc                   : 1;  /**< [ 10: 10](R/W) Enter modified compliance. When this bit is set to one, the device transmits a modified
+                                                                 compliance pattern if the LTSSM enters Polling.Compliance state. */
+        uint32_t csos                  : 1;  /**< [ 11: 11](R/W) Compliance SOS. When set to one, the LTSSM is required to send SKP ordered sets periodically
+                                                                 in between the (modified) compliance patterns.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t cde                   : 4;  /**< [ 15: 12](R/W) Compliance deemphasis. This bit sets the deemphasis level in Polling.Compliance state if
+                                                                 the entry occurred due to the TX compliance receive bit being one.
+                                                                 0x0 = -6 dB.
+                                                                 0x1 = -3.5 dB.
+
+                                                                 When the link is operating at 2.5 GT/s, the setting of this bit has no effect. */
+        uint32_t cdl                   : 1;  /**< [ 16: 16](RO/H) Current deemphasis level. When the link is operating at 5 GT/s speed, this bit reflects
+                                                                 the level of deemphasis.
+                                                                 0 = -6 dB.
+                                                                 1 = -3.5 dB.
+
+                                                                 The value in this bit is undefined when the link is operating at 2.5 GT/s speed. */
+        uint32_t eqc                   : 1;  /**< [ 17: 17](RO/H) Equalization 8.0 GT/s complete. */
+        uint32_t ep1s                  : 1;  /**< [ 18: 18](RO/H) Equalization 8.0 GT/s phase 1 successful. */
+        uint32_t ep2s                  : 1;  /**< [ 19: 19](RO/H) Equalization 8.0 GT/s phase 2 successful. */
+        uint32_t ep3s                  : 1;  /**< [ 20: 20](RO/H) Equalization 8.0 GT/s phase 3 successful. */
+        uint32_t ler                   : 1;  /**< [ 21: 21](R/W1C/H) Link equalization request 8.0 GT/s. */
+        uint32_t rtd                   : 1;  /**< [ 22: 22](RO) Retimer presence detected. */
+        uint32_t trtd                  : 1;  /**< [ 23: 23](RO) Two retimers presence detected. */
+        uint32_t crossl                : 2;  /**< [ 25: 24](RO) Crosslink resolution.
+
+                                                                 0x0 = Crosslink Resolution is not supported.
+                                                                 0x1 = Crosslink negotiation resolved as a Upstream Port.
+                                                                 0x2 = Crosslink negotiation resolved as a Downstream Port.
+                                                                 0x1 = Crosslink negotiation is not completed.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x2.
+                                                                 _ BPEM:         0x0 (Not Supported). */
+        uint32_t reserved_26_27        : 2;
+        uint32_t dcp                   : 3;  /**< [ 30: 28](RO) Downstream component presence. */
+        uint32_t drs_mr                : 1;  /**< [ 31: 31](R/W1C) DRS message received. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_link_ctl2_s cnf10ka; */
+    /* struct cavm_pciercx_link_ctl2_s cnf10kb; */
 };
 typedef union cavm_pciercx_link_ctl2 cavm_pciercx_link_ctl2_t;
 
@@ -4374,6 +5362,8 @@ static inline uint64_t CAVM_PCIERCX_LINK_CTL2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_LINK_CTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xa0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xa0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xa0 + 0 * ((a) & 0x1);
@@ -4416,6 +5406,8 @@ static inline uint64_t CAVM_PCIERCX_LINK_CTL3(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_LINK_CTL3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x16c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x16c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x16c + 0 * ((a) & 0x1);
@@ -4465,6 +5457,8 @@ static inline uint64_t CAVM_PCIERCX_MARGIN_EXT_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1ac + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1ac + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -4508,6 +5502,8 @@ static inline uint64_t CAVM_PCIERCX_MEM(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_PCIERCX_MEM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x20 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x20 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x20 + 0 * ((a) & 0x1);
@@ -4628,7 +5624,124 @@ union cavm_pciercx_misc_ctl1
         uint32_t reserved_23_31        : 9;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_misc_ctl1_s cn; */
+    /* struct cavm_pciercx_misc_ctl1_s cn10; */
+    /* struct cavm_pciercx_misc_ctl1_s cn10ka; */
+    struct cavm_pciercx_misc_ctl1_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t port_logic_wr_dis     : 1;  /**< [ 22: 22](R/W) Determines port logic register write from wire side. */
+        uint32_t p2p_err_rpt           : 1;  /**< [ 21: 21](R/W) Determines whether to enable P2P error reporting.
+                                                                 0 = Disable P2P error reporting.
+                                                                 1 = Enable P2P error reporting. */
+        uint32_t p2p_track_cpl         : 1;  /**< [ 20: 20](R/W) Determines whether to track completion of transmitted Non-Posted TLPs in
+                                                                 P2P mode. */
+        uint32_t trgt_above_cfg_limit  : 2;  /**< [ 19: 18](R/W) Cfg requests with an address greater then CFG_LIMIT are directed to either
+                                                                 ELBI or TRTG1 based on the setting of this field.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = ELBI.
+                                                                 0x2 - TRGT1.
+                                                                 0x3 = Reserved. */
+        uint32_t cfg_limit             : 10; /**< [ 17:  8](R/W) Cfg requests are directed either to CDM or ELMI/RTRGT1.
+                                                                 - Cfg requests with an address less then CFG_LIMIT are directed to CDM.
+                                                                 - Cfg requests with an address greater then CFG_LIMIT are directed to
+                                                                   ELBI or TRGT1 based on TRGT_ABOVE_CFG_LIMIT. */
+        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the destination of configuration requests.
+                                                                 0 = Cfg TLPs are routed according to TRGT_ABOVE_CFG_LIMIT depending on
+                                                                     the setting of CFG_LIMIT.
+                                                                 1 = CFG TLPs are routed according to TRGT_ABOVE_CFG_LIMIT regardless
+                                                                     of the value of CFG_LIMIT. */
+        uint32_t cplq_mng_en           : 1;  /**< [  6:  6](R/W) This field configures the internal Completion Queue Management
+                                                                 which is not supported. */
+        uint32_t ari_devn              : 1;  /**< [  5:  5](R/W) When ARI is enabled, enables use of the device ID. */
+        uint32_t dis_auto_ltr_clr      : 1;  /**< [  4:  4](R/W) Disable the autonomous generation of LTR clear message in upstream port.
+                                                                 0 = Allow the autonomous generation of LTR clear message.
+                                                                 1 = Disable the autonomous generation of LTR clear message. */
+        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Enables Simplified Replay Timer (Gen4).  Simplified replay timer values are:
+
+                                                                   A value from 24,000 to 31,000 symbol times when extended synch is 0.
+                                                                   A value from 80,000 to 100,000 symbol times when extended synch is 1.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t ur_c4_mask_4_trgt1    : 1;  /**< [  2:  2](R/W) This field only applies to request TLPs (with UR filtering status) that are
+                                                                 chosen to forward to the application (when [DEF_TARGET] is set).
+
+                                                                 When set, the core suppresses error logging, error message generation, and CPL
+                                                                 generation (for non-posted requests). */
+        uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
+                                                                 is sent to be the controller.  Does not apply to DSP.
+                                                                 0x0 = The controller drops all incoming I/O or Mem (after
+                                                                      corresponding error reporting). A completion with
+                                                                      UR status will be generated for non-posted requests.
+                                                                 0x1 = The controller forwards all incoming I/O or MEM
+                                                                      requests with UR/CA/CRS status to your application.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writable from the DBI. */
+#else /* Word 0 - Little Endian */
+        uint32_t dbi_ro_wr_en          : 1;  /**< [  0:  0](R/W) Write to RO registers using DBI.  When you set this bit, then some
+                                                                 RO bits are writable from the DBI. */
+        uint32_t def_target            : 1;  /**< [  1:  1](R/W) Default target a received IO or MEM request with UR/CA/CRS
+                                                                 is sent to be the controller.  Does not apply to DSP.
+                                                                 0x0 = The controller drops all incoming I/O or Mem (after
+                                                                      corresponding error reporting). A completion with
+                                                                      UR status will be generated for non-posted requests.
+                                                                 0x1 = The controller forwards all incoming I/O or MEM
+                                                                      requests with UR/CA/CRS status to your application.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t ur_c4_mask_4_trgt1    : 1;  /**< [  2:  2](R/W) This field only applies to request TLPs (with UR filtering status) that are
+                                                                 chosen to forward to the application (when [DEF_TARGET] is set).
+
+                                                                 When set, the core suppresses error logging, error message generation, and CPL
+                                                                 generation (for non-posted requests). */
+        uint32_t simp_replay_timer     : 1;  /**< [  3:  3](R/W) Enables Simplified Replay Timer (Gen4).  Simplified replay timer values are:
+
+                                                                   A value from 24,000 to 31,000 symbol times when extended synch is 0.
+                                                                   A value from 80,000 to 100,000 symbol times when extended synch is 1.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t dis_auto_ltr_clr      : 1;  /**< [  4:  4](R/W) Disable the autonomous generation of LTR clear message in upstream port.
+                                                                 0 = Allow the autonomous generation of LTR clear message.
+                                                                 1 = Disable the autonomous generation of LTR clear message. */
+        uint32_t ari_devn              : 1;  /**< [  5:  5](R/W) When ARI is enabled, enables use of the device ID. */
+        uint32_t cplq_mng_en           : 1;  /**< [  6:  6](R/W) This field configures the internal Completion Queue Management
+                                                                 which is not supported. */
+        uint32_t cfg_tlp_byp_en        : 1;  /**< [  7:  7](R/W) Determines the destination of configuration requests.
+                                                                 0 = Cfg TLPs are routed according to TRGT_ABOVE_CFG_LIMIT depending on
+                                                                     the setting of CFG_LIMIT.
+                                                                 1 = CFG TLPs are routed according to TRGT_ABOVE_CFG_LIMIT regardless
+                                                                     of the value of CFG_LIMIT. */
+        uint32_t cfg_limit             : 10; /**< [ 17:  8](R/W) Cfg requests are directed either to CDM or ELMI/RTRGT1.
+                                                                 - Cfg requests with an address less then CFG_LIMIT are directed to CDM.
+                                                                 - Cfg requests with an address greater then CFG_LIMIT are directed to
+                                                                   ELBI or TRGT1 based on TRGT_ABOVE_CFG_LIMIT. */
+        uint32_t trgt_above_cfg_limit  : 2;  /**< [ 19: 18](R/W) Cfg requests with an address greater then CFG_LIMIT are directed to either
+                                                                 ELBI or TRTG1 based on the setting of this field.
+                                                                 0x0 = Reserved.
+                                                                 0x1 = ELBI.
+                                                                 0x2 - TRGT1.
+                                                                 0x3 = Reserved. */
+        uint32_t p2p_track_cpl         : 1;  /**< [ 20: 20](R/W) Determines whether to track completion of transmitted Non-Posted TLPs in
+                                                                 P2P mode. */
+        uint32_t p2p_err_rpt           : 1;  /**< [ 21: 21](R/W) Determines whether to enable P2P error reporting.
+                                                                 0 = Disable P2P error reporting.
+                                                                 1 = Enable P2P error reporting. */
+        uint32_t port_logic_wr_dis     : 1;  /**< [ 22: 22](R/W) Determines port logic register write from wire side. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_misc_ctl1_s cnf10ka; */
+    /* struct cavm_pciercx_misc_ctl1_s cnf10kb; */
 };
 typedef union cavm_pciercx_misc_ctl1 cavm_pciercx_misc_ctl1_t;
 
@@ -4636,6 +5749,8 @@ static inline uint64_t CAVM_PCIERCX_MISC_CTL1(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_MISC_CTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8bc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8bc + 0 * ((a) & 0x1);
@@ -4693,6 +5808,8 @@ static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1b4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1b4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -4748,6 +5865,8 @@ static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT1(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x1b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x1b8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1b8 + 0 * ((a) & 0x1);
@@ -4805,6 +5924,8 @@ static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1bc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1bc + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -4861,6 +5982,8 @@ static inline uint64_t CAVM_PCIERCX_MRG_LANE_CTL_STAT3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1c0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1c0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -4906,6 +6029,8 @@ static inline uint64_t CAVM_PCIERCX_MRG_PORT_CAP_STAT(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PCIERCX_MRG_PORT_CAP_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x1b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x1b0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1b0 + 0 * ((a) & 0x1);
@@ -4963,6 +6088,8 @@ static inline uint64_t CAVM_PCIERCX_MSIX_CAP_CNTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xb0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5009,6 +6136,8 @@ static inline uint64_t CAVM_PCIERCX_MSIX_PBA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xb8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xb8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5052,6 +6181,8 @@ static inline uint64_t CAVM_PCIERCX_MSIX_TABLE(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PCIERCX_MSIX_TABLE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xb4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xb4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb4 + 0 * ((a) & 0x1);
@@ -5136,7 +6267,78 @@ union cavm_pciercx_np_rcv_credit
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_np_rcv_credit_s cn; */
+    /* struct cavm_pciercx_np_rcv_credit_s cn10; */
+    /* struct cavm_pciercx_np_rcv_credit_s cn10ka; */
+    struct cavm_pciercx_np_rcv_credit_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale non-posted data credits. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale non-posted header credits. */
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
+                                                                 used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward.
+
+                                                                 The application must not change this field. */
+        uint32_t reserved_20           : 1;
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL) VC0 nonposted header credits. The number of initial nonposted header credits for VC0, used
+                                                                 for all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x3f.
+                                                                 _ BPEM:      0xf. */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL) VC0 nonposted data credits. The number of initial nonposted data credits for VC0, used for
+                                                                 all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x3f.
+                                                                 _ BPEM:      0xf. */
+#else /* Word 0 - Little Endian */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL) VC0 nonposted data credits. The number of initial nonposted data credits for VC0, used for
+                                                                 all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x3f.
+                                                                 _ BPEM:      0xf. */
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL) VC0 nonposted header credits. The number of initial nonposted header credits for VC0, used
+                                                                 for all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x3f.
+                                                                 _ BPEM:      0xf. */
+        uint32_t reserved_20           : 1;
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 nonposted TLP queue mode. The operating mode of the nonposted receive queue for VC0,
+                                                                 used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward.
+
+                                                                 The application must not change this field. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale non-posted header credits. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale non-posted data credits. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_np_rcv_credit_s cnf10ka; */
+    /* struct cavm_pciercx_np_rcv_credit_s cnf10kb; */
 };
 typedef union cavm_pciercx_np_rcv_credit cavm_pciercx_np_rcv_credit_t;
 
@@ -5144,6 +6346,8 @@ static inline uint64_t CAVM_PCIERCX_NP_RCV_CREDIT(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_NP_RCV_CREDIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x74c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x74c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x74c + 0 * ((a) & 0x1);
@@ -5190,6 +6394,8 @@ static inline uint64_t CAVM_PCIERCX_NP_XMIT_CREDIT(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_NP_XMIT_CREDIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x734 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x734 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x734 + 0 * ((a) & 0x1);
@@ -5246,6 +6452,8 @@ static inline uint64_t CAVM_PCIERCX_OMSG_PTR(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_OMSG_PTR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x704 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x704 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x704 + 0 * ((a) & 0x1);
@@ -5304,6 +6512,8 @@ static inline uint64_t CAVM_PCIERCX_ORD_RULE_CTRL(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_ORD_RULE_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8b4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8b4 + 0 * ((a) & 0x1);
@@ -5412,7 +6622,104 @@ union cavm_pciercx_p_rcv_credit
                                                                  1 = Strict ordering, higher numbered VCs have higher priority. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_p_rcv_credit_s cn; */
+    /* struct cavm_pciercx_p_rcv_credit_s cn10; */
+    /* struct cavm_pciercx_p_rcv_credit_s cn10ka; */
+    struct cavm_pciercx_p_rcv_credit_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_queue_order        : 1;  /**< [ 31: 31](R/W) VC ordering for receive queues. Determines the VC ordering rule for the receive queues,
+                                                                 used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL():
+                                                                 0 = Round robin.
+                                                                 1 = Strict ordering, higher numbered VCs have higher priority. */
+        uint32_t type_ordering         : 1;  /**< [ 30: 30](RO/WRSL) TLP type ordering for VC0. Determines the TLP type ordering rule for VC0 receive queues,
+                                                                 used only in the segmented-buffer configuration, writable through
+                                                                 PEM()_CFG_TBL():
+                                                                 0 = Strict ordering for received TLPs: Posted, then completion, then NonPosted.
+                                                                 1 = Ordering of received TLPs follows the rules in PCI Express Base Specification.
+
+                                                                 The application must not change this field. */
+        uint32_t reserved_28_29        : 2;
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale posted data credits. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale posted header credits.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x2.
+                                                                 _ BPEM:      0x1. */
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 posted TLP queue mode. The operating mode of the posted receive queue for VC0, used
+                                                                 only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward. */
+        uint32_t reserved_20           : 1;
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 posted header credits. The number of initial posted header credits for VC0, used for
+                                                                 all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x20.
+                                                                 _ BPEM:      0x8. */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 posted data credits. The number of initial posted data credits for VC0, used for all
+                                                                 receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x200.
+                                                                 _ BPEM:      0x40. */
+#else /* Word 0 - Little Endian */
+        uint32_t data_credits          : 12; /**< [ 11:  0](RO/WRSL/H) VC0 posted data credits. The number of initial posted data credits for VC0, used for all
+                                                                 receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ UPEM:      0x200.
+                                                                 _ BPEM:      0x40. */
+        uint32_t header_credits        : 8;  /**< [ 19: 12](RO/WRSL/H) VC0 posted header credits. The number of initial posted header credits for VC0, used for
+                                                                 all receive queue buffer configurations.
+
+                                                                 In PEM, this field is writable through PEM()_CFG_TBL().
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x20.
+                                                                 _ BPEM:      0x8. */
+        uint32_t reserved_20           : 1;
+        uint32_t queue_mode            : 3;  /**< [ 23: 21](RO/WRSL) VC0 posted TLP queue mode. The operating mode of the posted receive queue for VC0, used
+                                                                 only in the segmented-buffer configuration, writable through PEM()_CFG_TBL().
+                                                                 Only one bit can be set at a time:
+
+                                                                 _ Bit 23 = Bypass.
+
+                                                                 _ Bit 22 = Cut-through.
+
+                                                                 _ Bit 21 = Store-and-forward. */
+        uint32_t hdr_sc                : 2;  /**< [ 25: 24](R/W) VC0 scale posted header credits.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x2.
+                                                                 _ BPEM:      0x1. */
+        uint32_t data_sc               : 2;  /**< [ 27: 26](R/W) VC0 scale posted data credits. */
+        uint32_t reserved_28_29        : 2;
+        uint32_t type_ordering         : 1;  /**< [ 30: 30](RO/WRSL) TLP type ordering for VC0. Determines the TLP type ordering rule for VC0 receive queues,
+                                                                 used only in the segmented-buffer configuration, writable through
+                                                                 PEM()_CFG_TBL():
+                                                                 0 = Strict ordering for received TLPs: Posted, then completion, then NonPosted.
+                                                                 1 = Ordering of received TLPs follows the rules in PCI Express Base Specification.
+
+                                                                 The application must not change this field. */
+        uint32_t rx_queue_order        : 1;  /**< [ 31: 31](R/W) VC ordering for receive queues. Determines the VC ordering rule for the receive queues,
+                                                                 used only in the segmented-buffer configuration, writable through PEM()_CFG_TBL():
+                                                                 0 = Round robin.
+                                                                 1 = Strict ordering, higher numbered VCs have higher priority. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_p_rcv_credit_s cnf10ka; */
+    /* struct cavm_pciercx_p_rcv_credit_s cnf10kb; */
 };
 typedef union cavm_pciercx_p_rcv_credit cavm_pciercx_p_rcv_credit_t;
 
@@ -5420,6 +6727,8 @@ static inline uint64_t CAVM_PCIERCX_P_RCV_CREDIT(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_P_RCV_CREDIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x748 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x748 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x748 + 0 * ((a) & 0x1);
@@ -5467,6 +6776,8 @@ static inline uint64_t CAVM_PCIERCX_P_XMIT_CREDIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x730 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x730 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x730 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5504,6 +6815,8 @@ static inline uint64_t CAVM_PCIERCX_PHY_CTL(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_PHY_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x814 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x814 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x814 + 0 * ((a) & 0x1);
@@ -5667,6 +6980,8 @@ static inline uint64_t CAVM_PCIERCX_PHY_GEN3_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x890 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x890 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x890 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5753,6 +7068,8 @@ static inline uint64_t CAVM_PCIERCX_PHY_INTOP_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8c4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8c4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5790,6 +7107,8 @@ static inline uint64_t CAVM_PCIERCX_PHY_STATUS(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PCIERCX_PHY_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x810 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x810 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x810 + 0 * ((a) & 0x1);
@@ -5844,7 +7163,50 @@ union cavm_pciercx_pipe_rel
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_pipe_rel_s cn; */
+    /* struct cavm_pciercx_pipe_rel_s cn10; */
+    /* struct cavm_pciercx_pipe_rel_s cn10ka; */
+    struct cavm_pciercx_pipe_rel_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t pipe_garbage_dm       : 1;  /**< [  8:  8](R/W) PIPE garbage date mode.
+                                                                 0 = PIPE spec compliant mode. The MAC discards any symbols received
+                                                                 after the electrical idle ordered-set until RxValid is deasserted.
+
+                                                                 1 = Special PHY support mode. The MAC discards any symbols received
+                                                                 after the electrical idle ordered-set until any of the following
+                                                                 three conditions are true:
+                                                                   * RxValid is deasserted.
+                                                                   * a valid RxStartBlock is received at 128b/130b encoding.
+                                                                   * a valid COM symbol is received at 8b/10b encoding. */
+        uint32_t tx_msg_wbuf_depth     : 4;  /**< [  7:  4](RO/H) Tx message bus write buffer depth.
+
+                                                                 For BPEM, TX_MSG_WBUF_DEPTH is not implemented and will always RAZ. */
+        uint32_t rx_msg_wbuf_depth     : 4;  /**< [  3:  0](RO/H) Rx message bus write buffer depth.
+
+                                                                 For BPEM, RX_MSG_WBUF_DEPTH is not implemented and will always RAZ. */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_msg_wbuf_depth     : 4;  /**< [  3:  0](RO/H) Rx message bus write buffer depth.
+
+                                                                 For BPEM, RX_MSG_WBUF_DEPTH is not implemented and will always RAZ. */
+        uint32_t tx_msg_wbuf_depth     : 4;  /**< [  7:  4](RO/H) Tx message bus write buffer depth.
+
+                                                                 For BPEM, TX_MSG_WBUF_DEPTH is not implemented and will always RAZ. */
+        uint32_t pipe_garbage_dm       : 1;  /**< [  8:  8](R/W) PIPE garbage date mode.
+                                                                 0 = PIPE spec compliant mode. The MAC discards any symbols received
+                                                                 after the electrical idle ordered-set until RxValid is deasserted.
+
+                                                                 1 = Special PHY support mode. The MAC discards any symbols received
+                                                                 after the electrical idle ordered-set until any of the following
+                                                                 three conditions are true:
+                                                                   * RxValid is deasserted.
+                                                                   * a valid RxStartBlock is received at 128b/130b encoding.
+                                                                   * a valid COM symbol is received at 8b/10b encoding. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_pipe_rel_s cnf10ka; */
+    /* struct cavm_pciercx_pipe_rel_s cnf10kb; */
 };
 typedef union cavm_pciercx_pipe_rel cavm_pciercx_pipe_rel_t;
 
@@ -5852,6 +7214,8 @@ static inline uint64_t CAVM_PCIERCX_PIPE_REL(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_PIPE_REL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xb90 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xb90 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb90 + 0 * ((a) & 0x1);
@@ -5891,6 +7255,8 @@ static inline uint64_t CAVM_PCIERCX_PL16G_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x18c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x18c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x18c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5928,6 +7294,8 @@ static inline uint64_t CAVM_PCIERCX_PL16G_CTL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_PL16G_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x190 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x190 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x190 + 0 * ((a) & 0x1);
@@ -6028,6 +7396,8 @@ static inline uint64_t CAVM_PCIERCX_PL16G_EQ_CTL0123(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1a8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1a8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6076,6 +7446,8 @@ static inline uint64_t CAVM_PCIERCX_PL16G_EXT_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x188 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x188 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x188 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6115,6 +7487,8 @@ static inline uint64_t CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(uint64_t a) __attribute
 static inline uint64_t CAVM_PCIERCX_PL16G_FRET_DPAR_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x19c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x19c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x19c + 0 * ((a) & 0x1);
@@ -6156,6 +7530,8 @@ static inline uint64_t CAVM_PCIERCX_PL16G_LC_DPAR_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x198 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x198 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x198 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6195,6 +7571,8 @@ static inline uint64_t CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(uint64_t a) __attribute
 static inline uint64_t CAVM_PCIERCX_PL16G_SRET_DPAR_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x1a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x1a0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1a0 + 0 * ((a) & 0x1);
@@ -6243,6 +7621,8 @@ static inline uint64_t CAVM_PCIERCX_PL16G_STATUS(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_PL16G_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x194 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x194 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x194 + 0 * ((a) & 0x1);
@@ -6298,6 +7678,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1c8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1c8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6343,6 +7725,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_CTL(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_PL32G_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x1cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x1cc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1cc + 0 * ((a) & 0x1);
@@ -6435,6 +7819,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_EQ_CTL0123(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1e4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1e4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1e4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6482,6 +7868,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_EXT_CAP_HDR(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PCIERCX_PL32G_EXT_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x1c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x1c4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1c4 + 0 * ((a) & 0x1);
@@ -6553,6 +7941,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1d4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1d4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6620,6 +8010,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(uint64_t a) __attribute_
 static inline uint64_t CAVM_PCIERCX_PL32G_RMOD_TS_DATA2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x1d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x1d8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1d8 + 0 * ((a) & 0x1);
@@ -6705,6 +8097,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1d0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1d0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6781,6 +8175,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1dc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1dc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1dc + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6851,6 +8247,8 @@ static inline uint64_t CAVM_PCIERCX_PL32G_TMOD_TS_DATA2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x1e0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x1e0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x1e0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6902,6 +8300,8 @@ static inline uint64_t CAVM_PCIERCX_PL_LTR_LATENCY(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_PL_LTR_LATENCY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xb30 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xb30 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xb30 + 0 * ((a) & 0x1);
@@ -6991,6 +8391,8 @@ static inline uint64_t CAVM_PCIERCX_PM_CAP_ID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x40 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x40 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x40 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7063,6 +8465,8 @@ static inline uint64_t CAVM_PCIERCX_PM_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x44 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x44 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x44 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7124,6 +8528,8 @@ static inline uint64_t CAVM_PCIERCX_PMEM(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PCIERCX_PMEM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x24 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x24 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x24 + 0 * ((a) & 0x1);
@@ -7248,6 +8654,8 @@ static inline uint64_t CAVM_PCIERCX_PORT_CTL(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_PORT_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x710 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x710 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x710 + 0 * ((a) & 0x1);
@@ -7385,6 +8793,8 @@ static inline uint64_t CAVM_PCIERCX_PORT_FLINK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x708 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x708 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x708 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7425,6 +8835,8 @@ static inline uint64_t CAVM_PCIERCX_PRE_BASE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x28 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x28 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x28 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7464,6 +8876,8 @@ static inline uint64_t CAVM_PCIERCX_PRE_LIMIT(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_PRE_LIMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2c + 0 * ((a) & 0x1);
@@ -7506,7 +8920,38 @@ union cavm_pciercx_ptm_cap
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_ptm_cap_s cn; */
+    /* struct cavm_pciercx_ptm_cap_s cn10; */
+    /* struct cavm_pciercx_ptm_cap_s cn10ka; */
+    struct cavm_pciercx_ptm_cap_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t clkg                  : 8;  /**< [ 15:  8](RO/WRSL) PTM local clock granularity. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t eptm                  : 1;  /**< [  3:  3](RO/WRSL) ePTM capable. */
+        uint32_t rtc                   : 1;  /**< [  2:  2](RO/WRSL) PTM root capable. */
+        uint32_t rsc                   : 1;  /**< [  1:  1](RO/WRSL) PTM responder capable. */
+        uint32_t rqc                   : 1;  /**< [  0:  0](RO/WRSL) PTM requester capable.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x1.
+                                                                 _ BPEM:         0x0. */
+#else /* Word 0 - Little Endian */
+        uint32_t rqc                   : 1;  /**< [  0:  0](RO/WRSL) PTM requester capable.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x1.
+                                                                 _ BPEM:         0x0. */
+        uint32_t rsc                   : 1;  /**< [  1:  1](RO/WRSL) PTM responder capable. */
+        uint32_t rtc                   : 1;  /**< [  2:  2](RO/WRSL) PTM root capable. */
+        uint32_t eptm                  : 1;  /**< [  3:  3](RO/WRSL) ePTM capable. */
+        uint32_t reserved_4_7          : 4;
+        uint32_t clkg                  : 8;  /**< [ 15:  8](RO/WRSL) PTM local clock granularity. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_ptm_cap_s cnf10ka; */
+    /* struct cavm_pciercx_ptm_cap_s cnf10kb; */
 };
 typedef union cavm_pciercx_ptm_cap cavm_pciercx_ptm_cap_t;
 
@@ -7514,6 +8959,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_CAP(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_PTM_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x394 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x394 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x394 + 0 * ((a) & 0x1);
@@ -7554,7 +9001,30 @@ union cavm_pciercx_ptm_ctl
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_ptm_ctl_s cn; */
+    /* struct cavm_pciercx_ptm_ctl_s cn10; */
+    /* struct cavm_pciercx_ptm_ctl_s cn10ka; */
+    struct cavm_pciercx_ptm_ctl_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t eff_gran              : 8;  /**< [ 15:  8](R/W) PTM effective granularity.
+                                                                 This field can only be written when PCIERC_PTM_CAP[RQC] is set. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t rt_sel                : 1;  /**< [  1:  1](R/W) PTM root select. When set this time source is the PTM root.
+                                                                 Writable only when PCIERC_PTM_CAP[RTC] is set. */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) PTM enable. When set, this function is permitted to participate in the PTM mechanism. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) PTM enable. When set, this function is permitted to participate in the PTM mechanism. */
+        uint32_t rt_sel                : 1;  /**< [  1:  1](R/W) PTM root select. When set this time source is the PTM root.
+                                                                 Writable only when PCIERC_PTM_CAP[RTC] is set. */
+        uint32_t reserved_2_7          : 6;
+        uint32_t eff_gran              : 8;  /**< [ 15:  8](R/W) PTM effective granularity.
+                                                                 This field can only be written when PCIERC_PTM_CAP[RQC] is set. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_ptm_ctl_s cnf10ka; */
+    /* struct cavm_pciercx_ptm_ctl_s cnf10kb; */
 };
 typedef union cavm_pciercx_ptm_ctl cavm_pciercx_ptm_ctl_t;
 
@@ -7562,6 +9032,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_CTL(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_PTM_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x398 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x398 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x398 + 0 * ((a) & 0x1);
@@ -7611,6 +9083,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_EXT_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x390 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x390 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x390 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7658,6 +9132,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_CAP_HDR(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PCIERCX_PTM_RES_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x39c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x39c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x39c + 0 * ((a) & 0x1);
@@ -7717,6 +9193,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3a4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3a4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3a4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7759,6 +9237,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3a0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3a0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7797,6 +9277,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_LSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3ac + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3ac + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7834,6 +9316,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_MSB(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_MSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x3b0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3b0 + 0 * ((a) & 0x1);
@@ -7874,6 +9358,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_RX_LATENCY(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_PTM_RES_RX_LATENCY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x3d8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3d8 + 0 * ((a) & 0x1);
@@ -7917,6 +9403,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3a8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3a8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7954,6 +9442,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_LSB(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_LSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x3b4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3b4 + 0 * ((a) & 0x1);
@@ -7993,6 +9483,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_T2_MSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3b8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3b8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -8030,6 +9522,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_LSB(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_LSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x3bc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3bc + 0 * ((a) & 0x1);
@@ -8069,6 +9563,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_T2P_MSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3c0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3c0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -8106,6 +9602,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_LSB(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_LSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x3c4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3c4 + 0 * ((a) & 0x1);
@@ -8145,6 +9643,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_T3_MSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3c8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3c8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -8183,6 +9683,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_LSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x3cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3cc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3cc + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -8220,6 +9722,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_MSB(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PCIERCX_PTM_RES_T3P_MSB(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x3d0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3d0 + 0 * ((a) & 0x1);
@@ -8260,6 +9764,8 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_TX_LATENCY(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_PTM_RES_TX_LATENCY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x3d4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x3d4 + 0 * ((a) & 0x1);
@@ -8337,6 +9843,8 @@ static inline uint64_t CAVM_PCIERCX_QUEUE_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x73c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x73c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x73c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -8384,6 +9892,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_DES_CAP_HDR(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PCIERCX_RAS_DES_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x24c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x24c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x24c + 0 * ((a) & 0x1);
@@ -8493,6 +10003,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EC_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x254 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x254 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x254 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -8534,6 +10046,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EC_DATA(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PCIERCX_RAS_EC_DATA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x258 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x258 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x258 + 0 * ((a) & 0x1);
@@ -8620,6 +10134,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL0(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x280 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x280 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x280 + 0 * ((a) & 0x1);
@@ -8711,6 +10227,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x284 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x284 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x284 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -8776,6 +10294,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL2(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x288 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x288 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x288 + 0 * ((a) & 0x1);
@@ -8850,6 +10370,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL3(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x28c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x28c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x28c + 0 * ((a) & 0x1);
@@ -8957,6 +10479,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x290 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x290 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x290 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9019,6 +10543,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x294 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x294 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x294 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9060,6 +10586,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2b8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2b8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2b8 + 0 * ((a) & 0x1);
@@ -9103,6 +10631,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2bc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2bc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2bc + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9145,6 +10675,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2c0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2c0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9186,6 +10718,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGP3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2c4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2c4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2c4 + 0 * ((a) & 0x1);
@@ -9231,6 +10765,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2c8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2c8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9274,6 +10810,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2cc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2cc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2cc + 0 * ((a) & 0x1);
@@ -9319,6 +10857,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2d0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2d0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2d0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9362,6 +10902,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CHGV3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2d4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2d4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2d4 + 0 * ((a) & 0x1);
@@ -9409,6 +10951,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x298 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x298 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x298 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9454,6 +10998,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x29c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x29c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x29c + 0 * ((a) & 0x1);
@@ -9501,6 +11047,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2a0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2a0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2a0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9547,6 +11095,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPP3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2a4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2a4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2a4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9588,6 +11138,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2a8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2a8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2a8 + 0 * ((a) & 0x1);
@@ -9631,6 +11183,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2ac + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2ac + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2ac + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9673,6 +11227,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2b0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2b0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2b0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9714,6 +11270,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(uint64_t a) __attribute__
 static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6CMPV3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2b4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2b4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2b4 + 0 * ((a) & 0x1);
@@ -9793,6 +11351,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_CTL6PE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2d8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2d8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2d8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9861,6 +11421,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_EINJ_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x27c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x27c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x27c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -9902,6 +11464,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_HDR(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_RAS_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x250 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x250 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x250 + 0 * ((a) & 0x1);
@@ -10023,6 +11587,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x2ec + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x2ec + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2ec + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -10110,6 +11676,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL2(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PCIERCX_RAS_SD_CTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2f0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2f0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2f0 + 0 * ((a) & 0x1);
@@ -10257,6 +11825,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x31c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x31c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x31c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -10347,6 +11917,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x320 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x320 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x320 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -10428,6 +12000,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL3(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_CTL3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x324 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x324 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x324 + 0 * ((a) & 0x1);
@@ -10553,6 +12127,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x32c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x32c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x32c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -10611,6 +12187,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x330 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x330 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x330 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -10668,6 +12246,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT3(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PCIERCX_RAS_SD_EQ_STAT3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x334 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x334 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x334 + 0 * ((a) & 0x1);
@@ -10760,6 +12340,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LANE(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LANE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x2fc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x2fc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x2fc + 0 * ((a) & 0x1);
@@ -10929,6 +12511,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_L1LTSSM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x300 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x300 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x300 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -10990,6 +12574,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL2(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x308 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x308 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x308 + 0 * ((a) & 0x1);
@@ -11072,6 +12658,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x310 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x310 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x310 + 0 * ((a) & 0x1);
@@ -11204,6 +12792,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3FC(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSL3FC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x30c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x30c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x30c + 0 * ((a) & 0x1);
@@ -11371,6 +12961,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_SD_STATUSPM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x304 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x304 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x304 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -11485,6 +13077,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_TBA_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x25c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x25c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x25c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -11526,6 +13120,8 @@ static inline uint64_t CAVM_PCIERCX_RAS_TBA_DATA(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_RAS_TBA_DATA(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x260 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x260 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x260 + 0 * ((a) & 0x1);
@@ -11570,7 +13166,44 @@ union cavm_pciercx_rasdp_cap_hdr
                                                                  Points to the Data Link Feature Extended Capabilities. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_rasdp_cap_hdr_s cn; */
+    /* struct cavm_pciercx_rasdp_cap_hdr_s cn10; */
+    /* struct cavm_pciercx_rasdp_cap_hdr_s cn10ka; */
+    struct cavm_pciercx_rasdp_cap_hdr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x384.
+                                                                 _ BPEM:         0x390.
+
+                                                                 For PEM, this points to the Data Link Feature Extended Capabilities.
+                                                                 For BPEM points to the Precision Time Measurement Capabilities.
+
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x384.
+                                                                 _ BPEM:         0x390.
+
+                                                                 For PEM, this points to the Data Link Feature Extended Capabilities.
+                                                                 For BPEM points to the Precision Time Measurement Capabilities.
+
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_rasdp_cap_hdr_s cnf10ka; */
+    /* struct cavm_pciercx_rasdp_cap_hdr_s cnf10kb; */
 };
 typedef union cavm_pciercx_rasdp_cap_hdr cavm_pciercx_rasdp_cap_hdr_t;
 
@@ -11578,6 +13211,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_CAP_HDR(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_RASDP_CAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x34c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x34c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x34c + 0 * ((a) & 0x1);
@@ -11659,6 +13294,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_CE_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x358 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x358 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x358 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -11724,6 +13361,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_CE_ICTL(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_RASDP_CE_ICTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x368 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x368 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x368 + 0 * ((a) & 0x1);
@@ -11837,6 +13476,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_CE_LOC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x36c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x36c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x36c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -11907,6 +13548,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_CE_RP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x35c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x35c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x35c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -11951,6 +13594,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_DE_MC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x378 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x378 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x378 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -11992,6 +13637,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_DE_ME(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PCIERCX_RASDP_DE_ME(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x374 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x374 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x374 + 0 * ((a) & 0x1);
@@ -12067,6 +13714,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_EP_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x354 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x354 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x354 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12108,6 +13757,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_HDR(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_RASDP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x350 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x350 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x350 + 0 * ((a) & 0x1);
@@ -12151,6 +13802,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_RADR_CE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x37c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x37c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x37c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12192,6 +13845,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_RADR_UCE(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_RASDP_RADR_UCE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x380 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x380 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x380 + 0 * ((a) & 0x1);
@@ -12272,6 +13927,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_UCE_CTL(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PCIERCX_RASDP_UCE_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x360 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x360 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x360 + 0 * ((a) & 0x1);
@@ -12385,6 +14042,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_UCE_LOC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x370 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x370 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x370 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12455,6 +14114,8 @@ static inline uint64_t CAVM_PCIERCX_RASDP_UCE_RP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x364 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x364 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x364 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12517,6 +14178,8 @@ static inline uint64_t CAVM_PCIERCX_REV(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12569,6 +14232,8 @@ static inline uint64_t CAVM_PCIERCX_ROOT_CTL_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12612,6 +14277,8 @@ static inline uint64_t CAVM_PCIERCX_ROOT_ERR_CMD(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_ROOT_ERR_CMD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x12c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x12c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x12c + 0 * ((a) & 0x1);
@@ -12669,6 +14336,8 @@ static inline uint64_t CAVM_PCIERCX_ROOT_ERR_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x130 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x130 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x130 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12713,6 +14382,8 @@ static inline uint64_t CAVM_PCIERCX_ROOT_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x90 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x90 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x90 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12752,7 +14423,44 @@ union cavm_pciercx_scap_hdr
                                                                  Writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_scap_hdr_s cn; */
+    /* struct cavm_pciercx_scap_hdr_s cn10; */
+    /* struct cavm_pciercx_scap_hdr_s cn10ka; */
+    struct cavm_pciercx_scap_hdr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x188.
+                                                                 _ BPEM:         0x228.
+
+                                                                 For PEM, this points to the 16.0 GT/s Capabilities.
+                                                                 For BPEM points to the ACS Extended Capabilities.
+
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieec                : 16; /**< [ 15:  0](RO/WRSL) PCI Express extended capability.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t cv                    : 4;  /**< [ 19: 16](RO/WRSL) Capability version.
+                                                                 Writable through PEM()_CFG_TBL(). */
+        uint32_t nco                   : 12; /**< [ 31: 20](RO/WRSL) Next capability offset.
+
+                                                                 Reset values:
+                                                                 _ PEM:          0x188.
+                                                                 _ BPEM:         0x228.
+
+                                                                 For PEM, this points to the 16.0 GT/s Capabilities.
+                                                                 For BPEM points to the ACS Extended Capabilities.
+
+                                                                 Writable through PEM()_CFG_TBL(). */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_scap_hdr_s cnf10ka; */
+    /* struct cavm_pciercx_scap_hdr_s cnf10kb; */
 };
 typedef union cavm_pciercx_scap_hdr cavm_pciercx_scap_hdr_t;
 
@@ -12760,6 +14468,8 @@ static inline uint64_t CAVM_PCIERCX_SCAP_HDR(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_SCAP_HDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x168 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x168 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x168 + 0 * ((a) & 0x1);
@@ -12799,6 +14509,8 @@ static inline uint64_t CAVM_PCIERCX_SER_NUM_1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x14c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x14c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x14c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12836,6 +14548,8 @@ static inline uint64_t CAVM_PCIERCX_SER_NUM_2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_SER_NUM_2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x150 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x150 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x150 + 0 * ((a) & 0x1);
@@ -12897,6 +14611,8 @@ static inline uint64_t CAVM_PCIERCX_SLOT_CAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x84 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x84 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x84 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -12934,6 +14650,8 @@ static inline uint64_t CAVM_PCIERCX_SLOT_CAP2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_SLOT_CAP2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xa4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xa4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xa4 + 0 * ((a) & 0x1);
@@ -13015,6 +14733,8 @@ static inline uint64_t CAVM_PCIERCX_SLOT_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x88 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x88 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x88 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -13052,6 +14772,8 @@ static inline uint64_t CAVM_PCIERCX_SLOT_CTL_STAT2(uint64_t a) __attribute__ ((p
 static inline uint64_t CAVM_PCIERCX_SLOT_CTL_STAT2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xa8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xa8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xa8 + 0 * ((a) & 0x1);
@@ -13100,6 +14822,8 @@ static inline uint64_t CAVM_PCIERCX_SN_BASE(uint64_t a) __attribute__ ((pure, al
 static inline uint64_t CAVM_PCIERCX_SN_BASE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x148 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x148 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x148 + 0 * ((a) & 0x1);
@@ -13187,6 +14911,8 @@ static inline uint64_t CAVM_PCIERCX_SYMB_TIMER(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x71c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x71c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x71c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -13259,6 +14985,8 @@ static inline uint64_t CAVM_PCIERCX_TIMER_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x718 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x718 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x718 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -13296,6 +15024,8 @@ static inline uint64_t CAVM_PCIERCX_TLP_PLOG1(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x138 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x138 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x138 + 0 * ((a) & 0x1);
@@ -13335,6 +15065,8 @@ static inline uint64_t CAVM_PCIERCX_TLP_PLOG2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x13c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x13c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x13c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -13373,6 +15105,8 @@ static inline uint64_t CAVM_PCIERCX_TLP_PLOG3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x140 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x140 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x140 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -13410,6 +15144,8 @@ static inline uint64_t CAVM_PCIERCX_TLP_PLOG4(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_TLP_PLOG4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x144 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x144 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x144 + 0 * ((a) & 0x1);
@@ -13454,6 +15190,8 @@ static inline uint64_t CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(uint64_t a) __attribute
 static inline uint64_t CAVM_PCIERCX_TRGT_CPL_LUT_DEL_ENT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8c8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8c8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8c8 + 0 * ((a) & 0x1);
@@ -13504,7 +15242,50 @@ union cavm_pciercx_trgt_map_ctl
         uint32_t reserved_21_31        : 11;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_trgt_map_ctl_s cn; */
+    /* struct cavm_pciercx_trgt_map_ctl_s cn10; */
+    /* struct cavm_pciercx_trgt_map_ctl_s cn10ka; */
+    struct cavm_pciercx_trgt_map_ctl_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_21_31        : 11;
+        uint32_t map_idx               : 5;  /**< [ 20: 16](R/W/H) The number of the PF function on which target values are set. This register does
+                                                                 not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t map_vf                : 6;  /**< [ 12:  7](R/W) Target values for each BAR on the VF Function selected by the index number. This register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits.
+
+                                                                 In BPEM, this field is Read-Only.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x3f.
+                                                                 _ BPEM:      0x0. */
+        uint32_t map_rom               : 1;  /**< [  6:  6](R/W) Target values for the ROM page of the PF Function selected by the index number. This
+                                                                 register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_pf                : 6;  /**< [  5:  0](R/W) Target values for each BAR on the PF Function selected by the index number. This register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+#else /* Word 0 - Little Endian */
+        uint32_t map_pf                : 6;  /**< [  5:  0](R/W) Target values for each BAR on the PF Function selected by the index number. This register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_rom               : 1;  /**< [  6:  6](R/W) Target values for the ROM page of the PF Function selected by the index number. This
+                                                                 register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t map_vf                : 6;  /**< [ 12:  7](R/W) Target values for each BAR on the VF Function selected by the index number. This register
+                                                                 does not respect the Byte Enable setting. any write will affect all register bits.
+
+                                                                 In BPEM, this field is Read-Only.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x3f.
+                                                                 _ BPEM:      0x0. */
+        uint32_t reserved_13_15        : 3;
+        uint32_t map_idx               : 5;  /**< [ 20: 16](R/W/H) The number of the PF function on which target values are set. This register does
+                                                                 not respect the Byte Enable setting. any write will affect all register bits. */
+        uint32_t reserved_21_31        : 11;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_trgt_map_ctl_s cnf10ka; */
+    /* struct cavm_pciercx_trgt_map_ctl_s cnf10kb; */
 };
 typedef union cavm_pciercx_trgt_map_ctl cavm_pciercx_trgt_map_ctl_t;
 
@@ -13512,6 +15293,8 @@ static inline uint64_t CAVM_PCIERCX_TRGT_MAP_CTL(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_TRGT_MAP_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x81c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x81c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x81c + 0 * ((a) & 0x1);
@@ -13636,6 +15419,8 @@ static inline uint64_t CAVM_PCIERCX_UCOR_ERR_MSK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x108 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x108 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x108 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -13759,6 +15544,8 @@ static inline uint64_t CAVM_PCIERCX_UCOR_ERR_SEV(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x10c + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x10c + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x10c + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -13878,6 +15665,8 @@ static inline uint64_t CAVM_PCIERCX_UCOR_ERR_STAT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x104 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x104 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x104 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -13919,6 +15708,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP0(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xbc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xbc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xbc + 0 * ((a) & 0x1);
@@ -13962,6 +15753,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xc0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xc0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xc0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14003,6 +15796,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP10(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP10(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xe4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xe4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xe4 + 0 * ((a) & 0x1);
@@ -14046,6 +15841,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP11(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xe8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xe8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xe8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14087,6 +15884,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP12(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP12(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xec + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xec + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xec + 0 * ((a) & 0x1);
@@ -14130,6 +15929,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP13(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xf0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xf0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xf0 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14171,6 +15972,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP14(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP14(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xf4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xf4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xf4 + 0 * ((a) & 0x1);
@@ -14214,6 +16017,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP15(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xf8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xf8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xf8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14255,6 +16060,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP16(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP16(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xfc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xfc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xfc + 0 * ((a) & 0x1);
@@ -14298,6 +16105,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xc4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xc4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xc4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14339,6 +16148,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP3(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xc8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xc8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xc8 + 0 * ((a) & 0x1);
@@ -14382,6 +16193,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xcc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xcc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xcc + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14423,6 +16236,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP5(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xd0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xd0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xd0 + 0 * ((a) & 0x1);
@@ -14466,6 +16281,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xd4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xd4 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xd4 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14507,6 +16324,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP7(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP7(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xd8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xd8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xd8 + 0 * ((a) & 0x1);
@@ -14550,6 +16369,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP8(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0xdc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0xdc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xdc + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14591,6 +16412,8 @@ static inline uint64_t CAVM_PCIERCX_UNUSED_CAP9(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PCIERCX_UNUSED_CAP9(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0xe0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0xe0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0xe0 + 0 * ((a) & 0x1);
@@ -14673,7 +16496,78 @@ union cavm_pciercx_upconfig
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pciercx_upconfig_s cn; */
+    /* struct cavm_pciercx_upconfig_s cn10; */
+    /* struct cavm_pciercx_upconfig_s cn10ka; */
+    struct cavm_pciercx_upconfig_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t upc_supp              : 1;  /**< [  7:  7](R/W) Upconfigure support.
+                                                                 The core sends this value to the link upconfigure capability in TS2 ordered
+                                                                 sets in Configuration.Complete state.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t dir_lnk_wdth_chg      : 1;  /**< [  6:  6](R/W/H) Directed link width change.
+                                                                 The core always moves to configuration state through recovery state
+                                                                 when this bit is set.
+
+                                                                 If PCIERC_RAS_EINJ_CTL6PE[LTSSM_VAR] is set and PCIERC_LINK_CTL2[HASD]
+                                                                 is zero, the core starts upconfigure or autonomous width
+                                                                 downsizing (to the [TRGT_LNK_WDTH] value) in the configuration
+                                                                 state.
+
+                                                                 If [TRGT_LNK_WDTH] is 0x0, the core does not start upconfigure or autonomous
+                                                                 width downsizing in the configuration state.
+
+                                                                 The core self-clears this field when the core accepts this
+                                                                 request. */
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target link width.
+                                                                 0x0  = Core does not start upconfigure or autonomous width downsizing in configuration
+                                                                 state.
+                                                                 0x1  = x1.
+                                                                 0x2  = x2.
+                                                                 0x4  = x4.
+                                                                 0x8  = x8 (Not supported).
+                                                                 0x10 = x16 (Not supported).
+                                                                 0x20 = x32 (Not supported). */
+#else /* Word 0 - Little Endian */
+        uint32_t trgt_lnk_wdth         : 6;  /**< [  5:  0](R/W/H) Target link width.
+                                                                 0x0  = Core does not start upconfigure or autonomous width downsizing in configuration
+                                                                 state.
+                                                                 0x1  = x1.
+                                                                 0x2  = x2.
+                                                                 0x4  = x4.
+                                                                 0x8  = x8 (Not supported).
+                                                                 0x10 = x16 (Not supported).
+                                                                 0x20 = x32 (Not supported). */
+        uint32_t dir_lnk_wdth_chg      : 1;  /**< [  6:  6](R/W/H) Directed link width change.
+                                                                 The core always moves to configuration state through recovery state
+                                                                 when this bit is set.
+
+                                                                 If PCIERC_RAS_EINJ_CTL6PE[LTSSM_VAR] is set and PCIERC_LINK_CTL2[HASD]
+                                                                 is zero, the core starts upconfigure or autonomous width
+                                                                 downsizing (to the [TRGT_LNK_WDTH] value) in the configuration
+                                                                 state.
+
+                                                                 If [TRGT_LNK_WDTH] is 0x0, the core does not start upconfigure or autonomous
+                                                                 width downsizing in the configuration state.
+
+                                                                 The core self-clears this field when the core accepts this
+                                                                 request. */
+        uint32_t upc_supp              : 1;  /**< [  7:  7](R/W) Upconfigure support.
+                                                                 The core sends this value to the link upconfigure capability in TS2 ordered
+                                                                 sets in Configuration.Complete state.
+
+                                                                 Reset values:
+                                                                 _ PEM:       0x1.
+                                                                 _ BPEM:      0x0. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pciercx_upconfig_s cnf10ka; */
+    /* struct cavm_pciercx_upconfig_s cnf10kb; */
 };
 typedef union cavm_pciercx_upconfig cavm_pciercx_upconfig_t;
 
@@ -14681,6 +16575,8 @@ static inline uint64_t CAVM_PCIERCX_UPCONFIG(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_UPCONFIG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8c0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8c0 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8c0 + 0 * ((a) & 0x1);
@@ -14720,6 +16616,8 @@ static inline uint64_t CAVM_PCIERCX_VER_NUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8f8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8f8 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8f8 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14757,6 +16655,8 @@ static inline uint64_t CAVM_PCIERCX_VER_TYPE(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PCIERCX_VER_TYPE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8fc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8fc + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8fc + 0 * ((a) & 0x1);
@@ -14802,6 +16702,8 @@ static inline uint64_t CAVM_PCIERCX_XMIT_ARB1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x740 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x740 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x740 + 0 * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -14845,6 +16747,8 @@ static inline uint64_t CAVM_PCIERCX_XMIT_ARB2(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PCIERCX_XMIT_ARB2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x744 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x744 + 0 * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x744 + 0 * ((a) & 0x1);

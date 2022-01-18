@@ -1072,6 +1072,8 @@ static inline uint64_t CAVM_MDC_RAS_ROMX(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=16383))
         return 0x87e010010000ll + 8ll * ((a) & 0x3fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=16383))
+        return 0x87e010010000ll + 8ll * ((a) & 0x3fff);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=32767))
         return 0x87e010010000ll + 8ll * ((a) & 0x7fff);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=32767))

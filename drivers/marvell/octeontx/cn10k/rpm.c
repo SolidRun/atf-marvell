@@ -365,14 +365,23 @@ void rpm_init(int rpm_id)
 				lmac_mask |= (1 << i);
 		}
 
-		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_rx_lmacs_t,
-				CAVM_RPMX_CMR_RX_LMACS(rpm_id),
-				lmac_exist, (lmac_mask & 0xF));
+		if (cavm_is_model(OCTEONTX_CN10KB)) {
+			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_rx_lmacs_t,
+					CAVM_RPMX_CMR_RX_LMACS(rpm_id),
+					cn10kb, lmac_exist, (lmac_mask & 0xF));
 
-		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_tx_lmacs_t,
-				CAVM_RPMX_CMR_TX_LMACS(rpm_id),
-				lmac_exist, (lmac_mask & 0xF));
+			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_tx_lmacs_t,
+					CAVM_RPMX_CMR_TX_LMACS(rpm_id),
+					cn10kb, lmac_exist, (lmac_mask & 0xF));
+		} else {
+			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_rx_lmacs_t,
+					CAVM_RPMX_CMR_RX_LMACS(rpm_id),
+					cn10ka, lmac_exist, (lmac_mask & 0xF));
 
+			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_tx_lmacs_t,
+					CAVM_RPMX_CMR_TX_LMACS(rpm_id),
+					cn10ka, lmac_exist, (lmac_mask & 0xF));
+		}
 		/* Clear FC-FEC/RS-FEC for all LMACs */
 		CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id),
 				0x0);
@@ -399,13 +408,23 @@ void rpm_init(int rpm_id)
 		/* if RPM not enabled, configure the number of LMACs
 		 * in RPM to be zero. configure the LMAC type as 0
 		 */
-		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_rx_lmacs_t,
-				CAVM_RPMX_CMR_RX_LMACS(rpm_id),
-				lmac_exist, 0x0);
+		if (cavm_is_model(OCTEONTX_CN10KB)) {
+			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_rx_lmacs_t,
+					CAVM_RPMX_CMR_RX_LMACS(rpm_id),
+					cn10kb, lmac_exist, 0x0);
 
-		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmr_tx_lmacs_t,
-				CAVM_RPMX_CMR_TX_LMACS(rpm_id),
-				lmac_exist, 0x0);
+			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_tx_lmacs_t,
+					CAVM_RPMX_CMR_TX_LMACS(rpm_id),
+					cn10kb, lmac_exist, 0x0);
+		} else {
+			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_rx_lmacs_t,
+					CAVM_RPMX_CMR_RX_LMACS(rpm_id),
+					cn10ka, lmac_exist, 0x0);
+
+			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_tx_lmacs_t,
+					CAVM_RPMX_CMR_TX_LMACS(rpm_id),
+					cn10ka, lmac_exist, 0x0);
+		}
 
 	}
 }

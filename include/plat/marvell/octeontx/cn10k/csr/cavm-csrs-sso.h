@@ -340,7 +340,13 @@ typedef union cavm_sso_af_aw_dropped_digestx cavm_sso_af_aw_dropped_digestx_t;
 static inline uint64_t CAVM_SSO_AF_AW_DROPPED_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_AW_DROPPED_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900c00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900c00ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900c00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900c00ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_AW_DROPPED_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -369,14 +375,31 @@ union cavm_sso_af_aw_dropped_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AW_DROPPED_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_aw_dropped_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_aw_dropped_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_aw_dropped_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_aw_dropped_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AW_DROPPED_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AW_DROPPED_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_aw_dropped_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_aw_dropped_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_aw_dropped_digestx_w1s cavm_sso_af_aw_dropped_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_AW_DROPPED_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_AW_DROPPED_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900d00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900d00ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900d00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900d00ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_AW_DROPPED_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -423,6 +446,48 @@ static inline uint64_t CAVM_SSO_AF_AW_ECO_FUNC(void)
 #define device_bar_CAVM_SSO_AF_AW_ECO 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSO_AF_AW_ECO 0
 #define arguments_CAVM_SSO_AF_AW_ECO -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_aw_ext_clk_enable
+ *
+ * INTERNAL:SSO Ext Global Clock Enable Register
+ *
+ * SSO SCK subblock coarse-gating clock force.
+ */
+union cavm_sso_af_aw_ext_clk_enable
+{
+    uint64_t u;
+    struct cavm_sso_af_aw_ext_clk_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_aw_ext_clk_enable_s cn; */
+};
+typedef union cavm_sso_af_aw_ext_clk_enable cavm_sso_af_aw_ext_clk_enable_t;
+
+#define CAVM_SSO_AF_AW_EXT_CLK_ENABLE CAVM_SSO_AF_AW_EXT_CLK_ENABLE_FUNC()
+static inline uint64_t CAVM_SSO_AF_AW_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_AW_EXT_CLK_ENABLE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840070004000ll;
+    __cavm_csr_fatal("SSO_AF_AW_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_AW_EXT_CLK_ENABLE cavm_sso_af_aw_ext_clk_enable_t
+#define bustype_CAVM_SSO_AF_AW_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_AW_EXT_CLK_ENABLE "SSO_AF_AW_EXT_CLK_ENABLE"
+#define device_bar_CAVM_SSO_AF_AW_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_AW_EXT_CLK_ENABLE 0
+#define arguments_CAVM_SSO_AF_AW_EXT_CLK_ENABLE -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) sso_af_aw_inp_ctl
@@ -543,7 +608,34 @@ union cavm_sso_af_aw_we
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_aw_we_s cn; */
+    /* struct cavm_sso_af_aw_we_s cn10; */
+    /* struct cavm_sso_af_aw_we_s cn10ka; */
+    struct cavm_sso_af_aw_we_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_29_63        : 35;
+        uint64_t rsvd_free             : 13; /**< [ 28: 16](R/W/H) Number of free reserved entries. Used to ensure that each hardware group can get
+                                                                 a specific number of entries. Must always be greater than or equal to the sum
+                                                                 across all SSO_AF_HWGRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum
+                                                                 unless changes to SSO_AF_HWGRP()_IAQ_THR[RSVD_THR] are going to be made. To
+                                                                 prevent races, software should not change this register when SSO is being used;
+                                                                 instead use SSO_AF_AW_ADD[RSVD_FREE]. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t free_cnt              : 13; /**< [ 12:  0](RO/H) Number of total free entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t free_cnt              : 13; /**< [ 12:  0](RO/H) Number of total free entries. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t rsvd_free             : 13; /**< [ 28: 16](R/W/H) Number of free reserved entries. Used to ensure that each hardware group can get
+                                                                 a specific number of entries. Must always be greater than or equal to the sum
+                                                                 across all SSO_AF_HWGRP()_IAQ_THR[RSVD_THR], and will generally be equal to that sum
+                                                                 unless changes to SSO_AF_HWGRP()_IAQ_THR[RSVD_THR] are going to be made. To
+                                                                 prevent races, software should not change this register when SSO is being used;
+                                                                 instead use SSO_AF_AW_ADD[RSVD_FREE]. */
+        uint64_t reserved_29_63        : 35;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_aw_we_s cnf10ka; */
+    /* struct cavm_sso_af_aw_we_s cnf10kb; */
 };
 typedef union cavm_sso_af_aw_we cavm_sso_af_aw_we_t;
 
@@ -585,7 +677,13 @@ typedef union cavm_sso_af_awempty_digestx cavm_sso_af_awempty_digestx_t;
 static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900800ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900800ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900800ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900800ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_AWEMPTY_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -614,14 +712,31 @@ union cavm_sso_af_awempty_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AWEMPTY_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_awempty_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_awempty_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_awempty_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_awempty_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AWEMPTY_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_AWEMPTY_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_awempty_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_awempty_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_awempty_digestx_w1s cavm_sso_af_awempty_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900900ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900900ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900900ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900900ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_AWEMPTY_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -632,6 +747,78 @@ static inline uint64_t CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(uint64_t a)
 #define device_bar_CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(a) (a)
 #define arguments_CAVM_SSO_AF_AWEMPTY_DIGESTX_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_bad_stash_digest#
+ *
+ * SSO AF Bad Stash Error Summary Registers
+ * One bit per HWGRP to indicate which groups have reported an SSO_AF_ERR0[BAD_STASH] error.
+ */
+union cavm_sso_af_bad_stash_digestx
+{
+    uint64_t u;
+    struct cavm_sso_af_bad_stash_digestx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1C/H) One bit per HWGRP. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1C/H) One bit per HWGRP. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_bad_stash_digestx_s cn; */
+};
+typedef union cavm_sso_af_bad_stash_digestx cavm_sso_af_bad_stash_digestx_t;
+
+static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x8400702000e0ll + 0x1000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SSO_AF_BAD_STASH_DIGESTX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_BAD_STASH_DIGESTX(a) cavm_sso_af_bad_stash_digestx_t
+#define bustype_CAVM_SSO_AF_BAD_STASH_DIGESTX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_BAD_STASH_DIGESTX(a) "SSO_AF_BAD_STASH_DIGESTX"
+#define device_bar_CAVM_SSO_AF_BAD_STASH_DIGESTX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_BAD_STASH_DIGESTX(a) (a)
+#define arguments_CAVM_SSO_AF_BAD_STASH_DIGESTX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_bad_stash_digest#_w1s
+ *
+ * SSO AF Bad Stash Error Summary W1S Registers
+ * This register reads or sets bits.
+ */
+union cavm_sso_af_bad_stash_digestx_w1s
+{
+    uint64_t u;
+    struct cavm_sso_af_bad_stash_digestx_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_bad_stash_digestx_w1s_s cn; */
+};
+typedef union cavm_sso_af_bad_stash_digestx_w1s cavm_sso_af_bad_stash_digestx_w1s_t;
+
+static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x8400702000f0ll + 0x1000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SSO_AF_BAD_STASH_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(a) cavm_sso_af_bad_stash_digestx_w1s_t
+#define bustype_CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(a) "SSO_AF_BAD_STASH_DIGESTX_W1S"
+#define device_bar_CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(a) (a)
+#define arguments_CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) sso_af_bar2_alias#
@@ -737,7 +924,13 @@ typedef union cavm_sso_af_bfp_digestx cavm_sso_af_bfp_digestx_t;
 static inline uint64_t CAVM_SSO_AF_BFP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BFP_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900200ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_BFP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -766,14 +959,31 @@ union cavm_sso_af_bfp_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFP_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_bfp_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_bfp_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_bfp_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_bfp_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFP_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFP_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_bfp_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_bfp_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_bfp_digestx_w1s cavm_sso_af_bfp_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_BFP_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BFP_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900300ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900300ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900300ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900300ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_BFP_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -809,7 +1019,13 @@ typedef union cavm_sso_af_bfpn_digestx cavm_sso_af_bfpn_digestx_t;
 static inline uint64_t CAVM_SSO_AF_BFPN_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BFPN_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900400ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900400ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900400ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900400ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_BFPN_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -838,14 +1054,31 @@ union cavm_sso_af_bfpn_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFPN_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_bfpn_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_bfpn_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_bfpn_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_bfpn_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFPN_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BFPN_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_bfpn_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_bfpn_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_bfpn_digestx_w1s cavm_sso_af_bfpn_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_BFPN_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BFPN_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900500ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900500ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900500ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900500ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_BFPN_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -917,6 +1150,37 @@ union cavm_sso_af_bp_test0
     struct cavm_sso_af_bp_test0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t bp_cfg                : 16; /**< [ 31: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 16; /**< [ 31: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_bp_test0_s cn10; */
+    struct cavm_sso_af_bp_test0_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
@@ -959,8 +1223,71 @@ union cavm_sso_af_bp_test0
                                                                  \<61\> = Limit the sso_aw_fffwrap fill fifo pop.
                                                                  \<60\> = Limit the aw aq credit decrement returns. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_bp_test0_s cn; */
+    } cn10ka;
+    struct cavm_sso_af_bp_test0_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 8;  /**< [ 63: 56](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Limit the egs.totq.totq_rd fifo pop.
+                                                                 \<62\> = Limit the emc.rlreq.ptr_fifo pop.
+                                                                 \<61\> = Limit the sso_aw_fffwrap fill fifo pop.
+                                                                 \<60\> = Limit the aw aq credit decrement returns.
+                                                                 \<59\> = Limit the IGS FIFO pop.
+                                                                 \<58\> = Limit the EGS FIFO pop.
+                                                                 \<57\> = .
+                                                                 \<56\> = . */
+        uint64_t reserved_32_55        : 24;
+        uint64_t bp_cfg                : 16; /**< [ 31: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<31:30\> = Config 7.
+                                                                   \<29:28\> = Config 6.
+                                                                   \<27:26\> = Config 5.
+                                                                   \<25:24\> = Config 4.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t bp_cfg                : 16; /**< [ 31: 16](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<31:30\> = Config 7.
+                                                                   \<29:28\> = Config 6.
+                                                                   \<27:26\> = Config 5.
+                                                                   \<25:24\> = Config 4.
+                                                                   \<23:22\> = Config 3.
+                                                                   \<21:20\> = Config 2.
+                                                                   \<19:18\> = Config 1.
+                                                                   \<17:16\> = Config 0. */
+        uint64_t reserved_32_55        : 24;
+        uint64_t enable                : 8;  /**< [ 63: 56](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Limit the egs.totq.totq_rd fifo pop.
+                                                                 \<62\> = Limit the emc.rlreq.ptr_fifo pop.
+                                                                 \<61\> = Limit the sso_aw_fffwrap fill fifo pop.
+                                                                 \<60\> = Limit the aw aq credit decrement returns.
+                                                                 \<59\> = Limit the IGS FIFO pop.
+                                                                 \<58\> = Limit the EGS FIFO pop.
+                                                                 \<57\> = .
+                                                                 \<56\> = . */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_bp_test0_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_bp_test0_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_bp_test0 cavm_sso_af_bp_test0_t;
 
@@ -1061,6 +1388,17 @@ union cavm_sso_af_bp_test2
     struct cavm_sso_af_bp_test2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_bp_test2_s cn10; */
+    struct cavm_sso_af_bp_test2_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t enable                : 8;  /**< [ 63: 56](R/W) Enable test mode. For diagnostic use only.
                                                                  Internal:
                                                                  Once a bit is set, random backpressure is generated
@@ -1119,8 +1457,77 @@ union cavm_sso_af_bp_test2
                                                                  \<57\> = Reduce the rate at which NCB/RSL requests are dispatched.
                                                                  \<56\> = Starve the NCBO fifo of credits, forcing it to fill. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_bp_test2_s cn; */
+    } cn10ka;
+    struct cavm_sso_af_bp_test2_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t enable                : 10; /**< [ 63: 54](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Reserved.
+                                                                 \<62\> = Limit the STASH ERT fifo pop.
+                                                                 \<61\> = Limit the STASH fifo pop.
+                                                                 \<60\> = SAI bus stall.
+                                                                 \<59\> = GWMGR unit, GET_WORK request stall.
+                                                                 \<58\> = Issue unit, pipeline issue stall.
+                                                                 \<57\> = ACDQ unit; cq dq stall.
+                                                                 \<56\> = ACDQ unit; addwork stall.
+                                                                 \<55\> = Reduce the rate at which NCB/RSL requests are dispatched.
+                                                                 \<54\> = Starve the NCBO fifo of credits, forcing it to fill. */
+        uint64_t reserved_32_53        : 22;
+        uint64_t bp_cfg                : 20; /**< [ 31: 12](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<31:30\> = Config 9.
+                                                                   \<29:28\> = Config 8.
+                                                                   \<27:26\> = Config 7.
+                                                                   \<25:24\> = Config 6.
+                                                                   \<23:22\> = Config 5.
+                                                                   \<21:20\> = Config 4.
+                                                                   \<19:18\> = Config 3.
+                                                                   \<17:16\> = Config 2.
+                                                                   \<15:14\> = Config 1 (NCB/RSL).
+                                                                   \<13:12\> = Config 0 (NCBO). */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+#else /* Word 0 - Little Endian */
+        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
+        uint64_t bp_cfg                : 20; /**< [ 31: 12](R/W) Backpressure weight. For diagnostic use only.
+                                                                 Internal:
+                                                                 There are 2 backpressure configuration bits per enable, with the two bits
+                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
+                                                                 0x3=25% of the time.
+                                                                   \<31:30\> = Config 9.
+                                                                   \<29:28\> = Config 8.
+                                                                   \<27:26\> = Config 7.
+                                                                   \<25:24\> = Config 6.
+                                                                   \<23:22\> = Config 5.
+                                                                   \<21:20\> = Config 4.
+                                                                   \<19:18\> = Config 3.
+                                                                   \<17:16\> = Config 2.
+                                                                   \<15:14\> = Config 1 (NCB/RSL).
+                                                                   \<13:12\> = Config 0 (NCBO). */
+        uint64_t reserved_32_53        : 22;
+        uint64_t enable                : 10; /**< [ 63: 54](R/W) Enable test mode. For diagnostic use only.
+                                                                 Internal:
+                                                                 Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Reserved.
+                                                                 \<62\> = Limit the STASH ERT fifo pop.
+                                                                 \<61\> = Limit the STASH fifo pop.
+                                                                 \<60\> = SAI bus stall.
+                                                                 \<59\> = GWMGR unit, GET_WORK request stall.
+                                                                 \<58\> = Issue unit, pipeline issue stall.
+                                                                 \<57\> = ACDQ unit; cq dq stall.
+                                                                 \<56\> = ACDQ unit; addwork stall.
+                                                                 \<55\> = Reduce the rate at which NCB/RSL requests are dispatched.
+                                                                 \<54\> = Starve the NCBO fifo of credits, forcing it to fill. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_bp_test2_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_bp_test2_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_bp_test2 cavm_sso_af_bp_test2_t;
 
@@ -1197,6 +1604,37 @@ union cavm_sso_af_const1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t exp_inv_rsp           : 8;  /**< [ 47: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
+        uint64_t reserved_39           : 1;
+        uint64_t hw_flr                : 1;  /**< [ 38: 38](RO) Indicates that the WS hardware FLR logic is present. */
+        uint64_t prf_present           : 1;  /**< [ 37: 37](RO) Indicates that GET_WORK prefetch feature is present. */
+        uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
+        uint64_t no_alloc_we           : 1;  /**< [ 35: 35](RO) Indicates that ALLOC_WE operations are not supported. */
+        uint64_t no_nsched             : 1;  /**< [ 34: 34](RO) Indicates that Noschedule operations are not supported. */
+        uint64_t no_gwi                : 1;  /**< [ 33: 33](RO) Indicates that indexed GET_WORK requests are not supported. */
+        uint64_t fwd                   : 1;  /**< [ 32: 32](RO) Indicates that SSO supports forwarding groups. */
+        uint64_t xae_waes              : 16; /**< [ 31: 16](RO) Number of WAEs (work entries) in a XAQ buffer. */
+        uint64_t xaq_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a XAQ buffer. */
+#else /* Word 0 - Little Endian */
+        uint64_t xaq_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a XAQ buffer. */
+        uint64_t xae_waes              : 16; /**< [ 31: 16](RO) Number of WAEs (work entries) in a XAQ buffer. */
+        uint64_t fwd                   : 1;  /**< [ 32: 32](RO) Indicates that SSO supports forwarding groups. */
+        uint64_t no_gwi                : 1;  /**< [ 33: 33](RO) Indicates that indexed GET_WORK requests are not supported. */
+        uint64_t no_nsched             : 1;  /**< [ 34: 34](RO) Indicates that Noschedule operations are not supported. */
+        uint64_t no_alloc_we           : 1;  /**< [ 35: 35](RO) Indicates that ALLOC_WE operations are not supported. */
+        uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
+        uint64_t prf_present           : 1;  /**< [ 37: 37](RO) Indicates that GET_WORK prefetch feature is present. */
+        uint64_t hw_flr                : 1;  /**< [ 38: 38](RO) Indicates that the WS hardware FLR logic is present. */
+        uint64_t reserved_39           : 1;
+        uint64_t exp_inv_rsp           : 8;  /**< [ 47: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_const1_s cn10; */
+    struct cavm_sso_af_const1_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t exp_inv_rsp           : 8;  /**< [ 47: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
         uint64_t reserved_38_39        : 2;
         uint64_t prf_present           : 1;  /**< [ 37: 37](RO) Indicates that GET_WORK prefetch feature is present. */
         uint64_t lsw_present           : 1;  /**< [ 36: 36](RO) Indicates that LSW feature is present. */
@@ -1219,8 +1657,10 @@ union cavm_sso_af_const1
         uint64_t exp_inv_rsp           : 8;  /**< [ 47: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_const1_s cn; */
+    } cn10ka;
+    /* struct cavm_sso_af_const1_s cn10kb; */
+    /* struct cavm_sso_af_const1_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_const1_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_const1 cavm_sso_af_const1_t;
 
@@ -1250,6 +1690,113 @@ union cavm_sso_af_err0
     struct cavm_sso_af_err0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t bad_stash             : 1;  /**< [ 16: 16](R/W1C/H) Fault when performing a stash request. */
+        uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1C/H) Bad-fill-packet NCB error. NCB detected poison on fill data.  Any
+                                                                 groups that experience this error are reported in SSO_AF_POISON(). */
+        uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1C/H) An FLR was initiated, but SSO_LF_GGRP_AQ_CNT[AQ_CNT] != 0.  Any groups
+                                                                 reporting this error are indicated in SSO_AF_FLR_AQ_DIGEST(). */
+        uint64_t addwq_dropped_xaqen   : 1;  /**< [ 13: 13](R/W1C/H) Add work dropped due to XAQ pointers not yet initialized.  Any groups
+                                                                 reporting this error are indicated in SSO_AF_XAQDIS_DIGEST(). */
+        uint64_t ggrp_multi            : 1;  /**< [ 12: 12](R/W1C/H) PF_FUNC map had double-hit error. Set when a load or store accesses an
+                                                                 SSO LF register in BAR2 and SSO_PRIV_LF()_HWGRP_CFG has a double hit.
+                                                                 When a request thus dropped, even if this bit is already set,
+                                                                 SSO_AF_UNMAP_INFO is loaded. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 11: 11](R/W1C/H) PF_FUNC mapping not found error. Set when a load or store accesses an
+                                                                 SSO LF register in BAR2 and SSO_PRIV_LF()_HWGRP_CFG does not have any
+                                                                 matching entry.  When a request thus dropped, even if this bit is
+                                                                 already set, SSO_AF_UNMAP_INFO is loaded. */
+        uint64_t aw_multi              : 1;  /**< [ 10: 10](R/W1C/H) PF_FUNC map had double-hit error. Set when a coprocessor add-work is
+                                                                 dropped due to SSO_PRIV_LF()_HWGRP_CFG having a double hit.
+                                                                 When a request thus dropped, even if this bit is already set,
+                                                                 SSO_AF_UNMAP_INFO is loaded. */
+        uint64_t aw_unmap              : 1;  /**< [  9:  9](R/W1C/H) PF_FUNC mapping not found error. Set when a coprocessor add-work is
+                                                                 dropped due to SSO_PRIV_LF()_HWGRP_CFG not having any matching mapping.
+                                                                 When a request thus dropped, even if this bit is already set,
+                                                                 SSO_AF_UNMAP_INFO is loaded. */
+        uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1C/H) Add work dropped due to QTL being disabled, 0x0.  Any groups that
+                                                                 experience this error are reported in SSO_AF_QCTLDIS_DIGEST(). */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Add work dropped due to WQP being 0x0.  Any groups that experience
+                                                                 this error are reported in SSO_AF_WQP0_DIGEST(). */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to 64 bit write to SSO_LF_GGRP_OP_ADD_WORK0. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Set when received add work with tag type is specified as EMPTY, or when
+                                                                 SSO_AF_AW_INP_CTL[WA_DIS] is set and work is added from disabled coprocessor. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Add work to disabled hardware group. An ADDWQ was received and dropped
+                                                                 to a hardware group with SSO_AF_HWGRP()_IAQ_THR[RSVD_THR] = 0.  Any
+                                                                 groups that experience this error are reported in
+                                                                 SSO_AF_GRPDIS_DIGEST(). */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Bad-fill-packet NCB error. NCB detected error on fill or spill data.
+                                                                 Any groups that experience this error are reported in
+                                                                 SSO_AF_BFPN_DIGEST(). */
+        uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Bad-fill-packet error. The WAE CRC field was incorrect, or the XAQ
+                                                                 next address was zero.  Any groups that experience this error are
+                                                                 reported in SSO_AF_BFP_DIGEST(). */
+        uint64_t npa                   : 1;  /**< [  1:  1](R/W1C/H) The NPA returned an error indication.  Any groups that experience this
+                                                                 error are reported in SSO_AF_NPA_DIGEST().
+                                                                 During the initialization phase, failure will be reported when receiving
+                                                                 more than 3 null pointer errors for the same group,
+                                                                 see SSO_AF_HWGRP()_AW_STATUS[INIT_FAIL]. Once initialization has
+                                                                 completed, any subsequent NPA errors will be reported immediately,
+                                                                 with no retries.  XAQ operation for the errored group will be disabled
+                                                                 after NPA failures, see SSO_AF_HWGRP()_AW_CFG[RWEN]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t npa                   : 1;  /**< [  1:  1](R/W1C/H) The NPA returned an error indication.  Any groups that experience this
+                                                                 error are reported in SSO_AF_NPA_DIGEST().
+                                                                 During the initialization phase, failure will be reported when receiving
+                                                                 more than 3 null pointer errors for the same group,
+                                                                 see SSO_AF_HWGRP()_AW_STATUS[INIT_FAIL]. Once initialization has
+                                                                 completed, any subsequent NPA errors will be reported immediately,
+                                                                 with no retries.  XAQ operation for the errored group will be disabled
+                                                                 after NPA failures, see SSO_AF_HWGRP()_AW_CFG[RWEN]. */
+        uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Bad-fill-packet error. The WAE CRC field was incorrect, or the XAQ
+                                                                 next address was zero.  Any groups that experience this error are
+                                                                 reported in SSO_AF_BFP_DIGEST(). */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Bad-fill-packet NCB error. NCB detected error on fill or spill data.
+                                                                 Any groups that experience this error are reported in
+                                                                 SSO_AF_BFPN_DIGEST(). */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Add work to disabled hardware group. An ADDWQ was received and dropped
+                                                                 to a hardware group with SSO_AF_HWGRP()_IAQ_THR[RSVD_THR] = 0.  Any
+                                                                 groups that experience this error are reported in
+                                                                 SSO_AF_GRPDIS_DIGEST(). */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Set when received add work with tag type is specified as EMPTY, or when
+                                                                 SSO_AF_AW_INP_CTL[WA_DIS] is set and work is added from disabled coprocessor. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Add work dropped due to 64 bit write to SSO_LF_GGRP_OP_ADD_WORK0. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Add work dropped due to WQP being 0x0.  Any groups that experience
+                                                                 this error are reported in SSO_AF_WQP0_DIGEST(). */
+        uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1C/H) Add work dropped due to QTL being disabled, 0x0.  Any groups that
+                                                                 experience this error are reported in SSO_AF_QCTLDIS_DIGEST(). */
+        uint64_t aw_unmap              : 1;  /**< [  9:  9](R/W1C/H) PF_FUNC mapping not found error. Set when a coprocessor add-work is
+                                                                 dropped due to SSO_PRIV_LF()_HWGRP_CFG not having any matching mapping.
+                                                                 When a request thus dropped, even if this bit is already set,
+                                                                 SSO_AF_UNMAP_INFO is loaded. */
+        uint64_t aw_multi              : 1;  /**< [ 10: 10](R/W1C/H) PF_FUNC map had double-hit error. Set when a coprocessor add-work is
+                                                                 dropped due to SSO_PRIV_LF()_HWGRP_CFG having a double hit.
+                                                                 When a request thus dropped, even if this bit is already set,
+                                                                 SSO_AF_UNMAP_INFO is loaded. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 11: 11](R/W1C/H) PF_FUNC mapping not found error. Set when a load or store accesses an
+                                                                 SSO LF register in BAR2 and SSO_PRIV_LF()_HWGRP_CFG does not have any
+                                                                 matching entry.  When a request thus dropped, even if this bit is
+                                                                 already set, SSO_AF_UNMAP_INFO is loaded. */
+        uint64_t ggrp_multi            : 1;  /**< [ 12: 12](R/W1C/H) PF_FUNC map had double-hit error. Set when a load or store accesses an
+                                                                 SSO LF register in BAR2 and SSO_PRIV_LF()_HWGRP_CFG has a double hit.
+                                                                 When a request thus dropped, even if this bit is already set,
+                                                                 SSO_AF_UNMAP_INFO is loaded. */
+        uint64_t addwq_dropped_xaqen   : 1;  /**< [ 13: 13](R/W1C/H) Add work dropped due to XAQ pointers not yet initialized.  Any groups
+                                                                 reporting this error are indicated in SSO_AF_XAQDIS_DIGEST(). */
+        uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1C/H) An FLR was initiated, but SSO_LF_GGRP_AQ_CNT[AQ_CNT] != 0.  Any groups
+                                                                 reporting this error are indicated in SSO_AF_FLR_AQ_DIGEST(). */
+        uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1C/H) Bad-fill-packet NCB error. NCB detected poison on fill data.  Any
+                                                                 groups that experience this error are reported in SSO_AF_POISON(). */
+        uint64_t bad_stash             : 1;  /**< [ 16: 16](R/W1C/H) Fault when performing a stash request. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_err0_s cn10; */
+    struct cavm_sso_af_err0_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1C/H) Bad-fill-packet NCB error. NCB detected poison on fill data.  Any
                                                                  groups that experience this error are reported in SSO_AF_POISON(). */
@@ -1350,8 +1897,10 @@ union cavm_sso_af_err0
                                                                  groups that experience this error are reported in SSO_AF_POISON(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_err0_s cn; */
+    } cn10ka;
+    /* struct cavm_sso_af_err0_s cn10kb; */
+    /* struct cavm_sso_af_err0_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_err0_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_err0 cavm_sso_af_err0_t;
 
@@ -1381,6 +1930,49 @@ union cavm_sso_af_err0_ena_w1c
     struct cavm_sso_af_err0_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t bad_stash             : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BAD_STASH]. */
+        uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFPP]. */
+        uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[FLR_AQ_CNT]. */
+        uint64_t addwq_dropped_xaqen   : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[ADDWQ_DROPPED_XAQEN]. */
+        uint64_t ggrp_multi            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[GGRP_MULTI]. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[GGRP_UNMAP]. */
+        uint64_t aw_multi              : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[AW_MULTI]. */
+        uint64_t aw_unmap              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[AW_UNMAP]. */
+        uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[ADDWQ_DROPPED_QCTLDIS]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[ADDWQ_DROPPED]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[AWEMPTY]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[GRPDIS]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFPN]. */
+        uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFP]. */
+        uint64_t npa                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[NPA]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t npa                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[NPA]. */
+        uint64_t bfp                   : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFP]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFPN]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[GRPDIS]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[AWEMPTY]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[ADDWQ_DROPPED]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[ADDWQ_DROPPED_QCTLDIS]. */
+        uint64_t aw_unmap              : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[AW_UNMAP]. */
+        uint64_t aw_multi              : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[AW_MULTI]. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[GGRP_UNMAP]. */
+        uint64_t ggrp_multi            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[GGRP_MULTI]. */
+        uint64_t addwq_dropped_xaqen   : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[ADDWQ_DROPPED_XAQEN]. */
+        uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[FLR_AQ_CNT]. */
+        uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFPP]. */
+        uint64_t bad_stash             : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BAD_STASH]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_err0_ena_w1c_s cn10; */
+    struct cavm_sso_af_err0_ena_w1c_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFPP]. */
         uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[FLR_AQ_CNT]. */
@@ -1417,8 +2009,10 @@ union cavm_sso_af_err0_ena_w1c
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFPP]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_err0_ena_w1c_s cn; */
+    } cn10ka;
+    /* struct cavm_sso_af_err0_ena_w1c_s cn10kb; */
+    /* struct cavm_sso_af_err0_ena_w1c_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_err0_ena_w1c_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_err0_ena_w1c cavm_sso_af_err0_ena_w1c_t;
 
@@ -1448,6 +2042,49 @@ union cavm_sso_af_err0_ena_w1s
     struct cavm_sso_af_err0_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t bad_stash             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BAD_STASH]. */
+        uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFPP]. */
+        uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[FLR_AQ_CNT]. */
+        uint64_t addwq_dropped_xaqen   : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[ADDWQ_DROPPED_XAQEN]. */
+        uint64_t ggrp_multi            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[GGRP_MULTI]. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[GGRP_UNMAP]. */
+        uint64_t aw_multi              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[AW_MULTI]. */
+        uint64_t aw_unmap              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[AW_UNMAP]. */
+        uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[ADDWQ_DROPPED_QCTLDIS]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[ADDWQ_DROPPED]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[AWEMPTY]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[GRPDIS]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFPN]. */
+        uint64_t bfp                   : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFP]. */
+        uint64_t npa                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[NPA]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t npa                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[NPA]. */
+        uint64_t bfp                   : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFP]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFPN]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[GRPDIS]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[AWEMPTY]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[ADDWQ_DROPPED]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[ADDWQ_DROPPED_QCTLDIS]. */
+        uint64_t aw_unmap              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[AW_UNMAP]. */
+        uint64_t aw_multi              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[AW_MULTI]. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[GGRP_UNMAP]. */
+        uint64_t ggrp_multi            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[GGRP_MULTI]. */
+        uint64_t addwq_dropped_xaqen   : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[ADDWQ_DROPPED_XAQEN]. */
+        uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[FLR_AQ_CNT]. */
+        uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFPP]. */
+        uint64_t bad_stash             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BAD_STASH]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_err0_ena_w1s_s cn10; */
+    struct cavm_sso_af_err0_ena_w1s_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFPP]. */
         uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[FLR_AQ_CNT]. */
@@ -1484,8 +2121,10 @@ union cavm_sso_af_err0_ena_w1s
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFPP]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_err0_ena_w1s_s cn; */
+    } cn10ka;
+    /* struct cavm_sso_af_err0_ena_w1s_s cn10kb; */
+    /* struct cavm_sso_af_err0_ena_w1s_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_err0_ena_w1s_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_err0_ena_w1s cavm_sso_af_err0_ena_w1s_t;
 
@@ -1513,6 +2152,49 @@ union cavm_sso_af_err0_w1s
 {
     uint64_t u;
     struct cavm_sso_af_err0_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t bad_stash             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets SSO_AF_ERR0[BAD_STASH]. */
+        uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets SSO_AF_ERR0[BFPP]. */
+        uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets SSO_AF_ERR0[FLR_AQ_CNT]. */
+        uint64_t addwq_dropped_xaqen   : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SSO_AF_ERR0[ADDWQ_DROPPED_XAQEN]. */
+        uint64_t ggrp_multi            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SSO_AF_ERR0[GGRP_MULTI]. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SSO_AF_ERR0[GGRP_UNMAP]. */
+        uint64_t aw_multi              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets SSO_AF_ERR0[AW_MULTI]. */
+        uint64_t aw_unmap              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SSO_AF_ERR0[AW_UNMAP]. */
+        uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SSO_AF_ERR0[ADDWQ_DROPPED_QCTLDIS]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SSO_AF_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SSO_AF_ERR0[ADDWQ_DROPPED]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SSO_AF_ERR0[AWEMPTY]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SSO_AF_ERR0[GRPDIS]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_AF_ERR0[BFPN]. */
+        uint64_t bfp                   : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_AF_ERR0[BFP]. */
+        uint64_t npa                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_AF_ERR0[NPA]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t npa                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets SSO_AF_ERR0[NPA]. */
+        uint64_t bfp                   : 1;  /**< [  2:  2](R/W1S/H) Reads or sets SSO_AF_ERR0[BFP]. */
+        uint64_t bfpn                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets SSO_AF_ERR0[BFPN]. */
+        uint64_t grpdis                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets SSO_AF_ERR0[GRPDIS]. */
+        uint64_t awempty               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets SSO_AF_ERR0[AWEMPTY]. */
+        uint64_t addwq_dropped         : 1;  /**< [  6:  6](R/W1S/H) Reads or sets SSO_AF_ERR0[ADDWQ_DROPPED]. */
+        uint64_t addwq_dropped_wqp0    : 1;  /**< [  7:  7](R/W1S/H) Reads or sets SSO_AF_ERR0[ADDWQ_DROPPED_WQP0]. */
+        uint64_t addwq_dropped_qctldis : 1;  /**< [  8:  8](R/W1S/H) Reads or sets SSO_AF_ERR0[ADDWQ_DROPPED_QCTLDIS]. */
+        uint64_t aw_unmap              : 1;  /**< [  9:  9](R/W1S/H) Reads or sets SSO_AF_ERR0[AW_UNMAP]. */
+        uint64_t aw_multi              : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets SSO_AF_ERR0[AW_MULTI]. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets SSO_AF_ERR0[GGRP_UNMAP]. */
+        uint64_t ggrp_multi            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets SSO_AF_ERR0[GGRP_MULTI]. */
+        uint64_t addwq_dropped_xaqen   : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets SSO_AF_ERR0[ADDWQ_DROPPED_XAQEN]. */
+        uint64_t flr_aq_cnt            : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets SSO_AF_ERR0[FLR_AQ_CNT]. */
+        uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets SSO_AF_ERR0[BFPP]. */
+        uint64_t bad_stash             : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets SSO_AF_ERR0[BAD_STASH]. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_err0_w1s_s cn10; */
+    struct cavm_sso_af_err0_w1s_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1551,8 +2233,10 @@ union cavm_sso_af_err0_w1s
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets SSO_AF_ERR0[BFPP]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_err0_w1s_s cn; */
+    } cn10ka;
+    /* struct cavm_sso_af_err0_w1s_s cn10kb; */
+    /* struct cavm_sso_af_err0_w1s_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_err0_w1s_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_err0_w1s cavm_sso_af_err0_w1s_t;
 
@@ -1864,7 +2548,13 @@ typedef union cavm_sso_af_flr_aq_digestx cavm_sso_af_flr_aq_digestx_t;
 static inline uint64_t CAVM_SSO_AF_FLR_AQ_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_FLR_AQ_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070901200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070901200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070901200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070901200ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_FLR_AQ_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1893,14 +2583,31 @@ union cavm_sso_af_flr_aq_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_FLR_AQ_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_flr_aq_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_flr_aq_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_flr_aq_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_flr_aq_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_FLR_AQ_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_FLR_AQ_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_flr_aq_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_flr_aq_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_flr_aq_digestx_w1s cavm_sso_af_flr_aq_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_FLR_AQ_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_FLR_AQ_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070901300ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070901300ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070901300ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070901300ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_FLR_AQ_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1936,7 +2643,13 @@ typedef union cavm_sso_af_grpdis_digestx cavm_sso_af_grpdis_digestx_t;
 static inline uint64_t CAVM_SSO_AF_GRPDIS_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_GRPDIS_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900600ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900600ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900600ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900600ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_GRPDIS_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1965,14 +2678,31 @@ union cavm_sso_af_grpdis_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_GRPDIS_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_grpdis_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_grpdis_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_grpdis_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_grpdis_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_GRPDIS_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_GRPDIS_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_grpdis_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_grpdis_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_grpdis_digestx_w1s cavm_sso_af_grpdis_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_GRPDIS_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_GRPDIS_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900700ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900700ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900700ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900700ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_GRPDIS_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2019,6 +2749,48 @@ static inline uint64_t CAVM_SSO_AF_GW_ECO_FUNC(void)
 #define device_bar_CAVM_SSO_AF_GW_ECO 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSO_AF_GW_ECO 0
 #define arguments_CAVM_SSO_AF_GW_ECO -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_gw_ext_clk_enable
+ *
+ * INTERNAL:SSO Ext Global Clock Enable Register
+ *
+ * SSO SCK subblock coarse-gating clock force.
+ */
+union cavm_sso_af_gw_ext_clk_enable
+{
+    uint64_t u;
+    struct cavm_sso_af_gw_ext_clk_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_gw_ext_clk_enable_s cn; */
+};
+typedef union cavm_sso_af_gw_ext_clk_enable cavm_sso_af_gw_ext_clk_enable_t;
+
+#define CAVM_SSO_AF_GW_EXT_CLK_ENABLE CAVM_SSO_AF_GW_EXT_CLK_ENABLE_FUNC()
+static inline uint64_t CAVM_SSO_AF_GW_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_GW_EXT_CLK_ENABLE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840070004010ll;
+    __cavm_csr_fatal("SSO_AF_GW_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_GW_EXT_CLK_ENABLE cavm_sso_af_gw_ext_clk_enable_t
+#define bustype_CAVM_SSO_AF_GW_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_GW_EXT_CLK_ENABLE "SSO_AF_GW_EXT_CLK_ENABLE"
+#define device_bar_CAVM_SSO_AF_GW_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_GW_EXT_CLK_ENABLE 0
+#define arguments_CAVM_SSO_AF_GW_EXT_CLK_ENABLE -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) sso_af_gwe_cfg
@@ -2213,7 +2985,13 @@ typedef union cavm_sso_af_hwgrpx_aw_cfg cavm_sso_af_hwgrpx_aw_cfg_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_CFG(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200120ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200120ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200120ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200120ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_AW_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2244,14 +3022,33 @@ union cavm_sso_af_hwgrpx_aw_fwd
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_hwgrpx_aw_fwd_s cn; */
+    /* struct cavm_sso_af_hwgrpx_aw_fwd_s cn10; */
+    /* struct cavm_sso_af_hwgrpx_aw_fwd_s cn10ka; */
+    struct cavm_sso_af_hwgrpx_aw_fwd_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t fwgrp                 : 7;  /**< [  6:  0](R/W) The HWGRP this group forwards to. */
+#else /* Word 0 - Little Endian */
+        uint64_t fwgrp                 : 7;  /**< [  6:  0](R/W) The HWGRP this group forwards to. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_hwgrpx_aw_fwd_s cnf10ka; */
+    /* struct cavm_sso_af_hwgrpx_aw_fwd_s cnf10kb; */
 };
 typedef union cavm_sso_af_hwgrpx_aw_fwd cavm_sso_af_hwgrpx_aw_fwd_t;
 
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_FWD(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_FWD(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200030ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200030ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200030ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200030ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_AW_FWD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2273,6 +3070,77 @@ union cavm_sso_af_hwgrpx_aw_status
 {
     uint64_t u;
     struct cavm_sso_af_hwgrpx_aw_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_22_63        : 42;
+        uint64_t aw_inflight           : 6;  /**< [ 21: 16](RO/H) The number of addworks in LWA add-work interfaces and software addworks in the
+                                                                 input FIFOs, which are not yet included in the TAQ count. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t error_recovery_w1s    : 1;  /**< [ 13: 13](R/W1S) Software initiated Error Recovery. Status reflected in ERROR_RECOVERY. */
+        uint64_t error_recovery        : 1;  /**< [ 12: 12](R/W1C/H) The SSO is trying to cleanup this group after receiving an error'd response. */
+        uint64_t npa_return            : 1;  /**< [ 11: 11](RO/H) The SSO buffer pool manager has a pointer return for this group in progress. */
+        uint64_t tptr_next_vld         : 1;  /**< [ 10: 10](R/W1C/H) The tail next pointer in SSO_AF_XAQ()_TAIL_NEXT is valid.
+                                                                 This field is normally written by hardware, but must be cleared by software on
+                                                                 an FLR.
+
+                                                                 SSO_AF_HWGRP()_AW_CFG[RWEN] should be cleared before modifying this field.
+                                                                 In addition, software should wait for [NPA_FETCH] to be clear before modifying this bit. */
+        uint64_t npa_fetch             : 1;  /**< [  9:  9](RO) The SSO buffer pool manager has a pointer fetch for this group in progress.
+
+                                                                 Software should wait for this bit to be clear before clearing [TPTR_VLD]. */
+        uint64_t tptr_vld              : 1;  /**< [  8:  8](R/W1C/H) The tail pointer in SSO_AF_XAQ()_TAIL_PTR is valid.
+                                                                 This field is normally written by hardware, but must be cleared by software on
+                                                                 an FLR.
+
+                                                                 SSO_AF_HWGRP()_AW_CFG[RWEN] should be cleared before modifying this field.
+                                                                 In addition, software should wait for [NPA_FETCH] to be clear before modifying this bit. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t init_fail             : 1;  /**< [  4:  4](R/W1C/H) The NPA pointer initialization for this group failed.
+                                                                 This error is reported after receiving more than 3 null pointers for  the
+                                                                 same group during the initialization phase.
+                                                                 This error is also reported via SSO_AF_ERR0[NPA] interrupt.
+                                                                 XAQ operation for this group will be disabled after this [INIT_FAIL] failure,
+                                                                 see SSO_AF_HWGRP()_AW_CFG[RWEN]. */
+        uint64_t init_done             : 1;  /**< [  3:  3](RO/H) The NPA pointer initialization for this group is done. */
+        uint64_t xaq_buf_cached        : 3;  /**< [  2:  0](RO/H) Indicates number of NPA buffers cached inside SSO for this group. This does not
+                                                                 include pointers in the tail pointer memory. */
+#else /* Word 0 - Little Endian */
+        uint64_t xaq_buf_cached        : 3;  /**< [  2:  0](RO/H) Indicates number of NPA buffers cached inside SSO for this group. This does not
+                                                                 include pointers in the tail pointer memory. */
+        uint64_t init_done             : 1;  /**< [  3:  3](RO/H) The NPA pointer initialization for this group is done. */
+        uint64_t init_fail             : 1;  /**< [  4:  4](R/W1C/H) The NPA pointer initialization for this group failed.
+                                                                 This error is reported after receiving more than 3 null pointers for  the
+                                                                 same group during the initialization phase.
+                                                                 This error is also reported via SSO_AF_ERR0[NPA] interrupt.
+                                                                 XAQ operation for this group will be disabled after this [INIT_FAIL] failure,
+                                                                 see SSO_AF_HWGRP()_AW_CFG[RWEN]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t tptr_vld              : 1;  /**< [  8:  8](R/W1C/H) The tail pointer in SSO_AF_XAQ()_TAIL_PTR is valid.
+                                                                 This field is normally written by hardware, but must be cleared by software on
+                                                                 an FLR.
+
+                                                                 SSO_AF_HWGRP()_AW_CFG[RWEN] should be cleared before modifying this field.
+                                                                 In addition, software should wait for [NPA_FETCH] to be clear before modifying this bit. */
+        uint64_t npa_fetch             : 1;  /**< [  9:  9](RO) The SSO buffer pool manager has a pointer fetch for this group in progress.
+
+                                                                 Software should wait for this bit to be clear before clearing [TPTR_VLD]. */
+        uint64_t tptr_next_vld         : 1;  /**< [ 10: 10](R/W1C/H) The tail next pointer in SSO_AF_XAQ()_TAIL_NEXT is valid.
+                                                                 This field is normally written by hardware, but must be cleared by software on
+                                                                 an FLR.
+
+                                                                 SSO_AF_HWGRP()_AW_CFG[RWEN] should be cleared before modifying this field.
+                                                                 In addition, software should wait for [NPA_FETCH] to be clear before modifying this bit. */
+        uint64_t npa_return            : 1;  /**< [ 11: 11](RO/H) The SSO buffer pool manager has a pointer return for this group in progress. */
+        uint64_t error_recovery        : 1;  /**< [ 12: 12](R/W1C/H) The SSO is trying to cleanup this group after receiving an error'd response. */
+        uint64_t error_recovery_w1s    : 1;  /**< [ 13: 13](R/W1S) Software initiated Error Recovery. Status reflected in ERROR_RECOVERY. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t aw_inflight           : 6;  /**< [ 21: 16](RO/H) The number of addworks in LWA add-work interfaces and software addworks in the
+                                                                 input FIFOs, which are not yet included in the TAQ count. */
+        uint64_t reserved_22_63        : 42;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_hwgrpx_aw_status_s cn10; */
+    struct cavm_sso_af_hwgrpx_aw_status_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
@@ -2335,15 +3203,23 @@ union cavm_sso_af_hwgrpx_aw_status
                                                                  input FIFOs, which are not yet included in the TAQ count. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_hwgrpx_aw_status_s cn; */
+    } cn10ka;
+    /* struct cavm_sso_af_hwgrpx_aw_status_s cn10kb; */
+    /* struct cavm_sso_af_hwgrpx_aw_status_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_hwgrpx_aw_status_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_hwgrpx_aw_status cavm_sso_af_hwgrpx_aw_status_t;
 
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_STATUS(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200110ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200110ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200110ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200110ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_AW_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2389,7 +3265,13 @@ typedef union cavm_sso_af_hwgrpx_aw_tagspace cavm_sso_af_hwgrpx_aw_tagspace_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_TAGSPACE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_AW_TAGSPACE(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200130ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200130ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200130ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200130ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_AW_TAGSPACE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2430,7 +3312,13 @@ typedef union cavm_sso_af_hwgrpx_dq_pc cavm_sso_af_hwgrpx_dq_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_DQ_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_DQ_PC(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x8400702000a0ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x8400702000a0ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x8400702000a0ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x8400702000a0ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_DQ_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2469,7 +3357,13 @@ typedef union cavm_sso_af_hwgrpx_ds_pc cavm_sso_af_hwgrpx_ds_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_DS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_DS_PC(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200090ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200090ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200090ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200090ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_DS_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2510,7 +3404,13 @@ typedef union cavm_sso_af_hwgrpx_ext_pc cavm_sso_af_hwgrpx_ext_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_EXT_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_EXT_PC(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200060ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200060ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200060ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200060ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_EXT_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2571,14 +3471,63 @@ union cavm_sso_af_hwgrpx_iaq_thr
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_hwgrpx_iaq_thr_s cn; */
+    /* struct cavm_sso_af_hwgrpx_iaq_thr_s cn10; */
+    /* struct cavm_sso_af_hwgrpx_iaq_thr_s cn10ka; */
+    struct cavm_sso_af_hwgrpx_iaq_thr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t grp_cnt               : 13; /**< [ 60: 48](RO/H) Hardware group's entry count. Number of internal entries allocated to IAQ,
+                                                                 conflicted work, or CQ in this hardware group.
+
+                                                                 Internal:
+                                                                 Increments on admission to IAQ, decrements on scheduling into
+                                                                 work slot. (48..`SSO_IDX_W+48) */
+        uint64_t reserved_45_47        : 3;
+        uint64_t max_thr               : 13; /**< [ 44: 32](R/W) Max threshold for this internal admission queue. If nonzero, must be \>= [RSVD_THR] + 4.
+                                                                 To ensure full streaming performance to all cores, should be at least 208. Must not be
+                                                                 changed after traffic is sent to this hardware group. */
+        uint64_t reserved_13_31        : 19;
+        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Threshold for reserved entries for this internal hardware group queue. Should be
+                                                                 at least 0x1 for any hardware groups that must make forward progress when other
+                                                                 hardware group's work is pending. Updates to this field must also update
+                                                                 SSO_AF_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
+                                                                 hardware group. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsvd_thr              : 13; /**< [ 12:  0](R/W) Threshold for reserved entries for this internal hardware group queue. Should be
+                                                                 at least 0x1 for any hardware groups that must make forward progress when other
+                                                                 hardware group's work is pending. Updates to this field must also update
+                                                                 SSO_AF_AW_ADD[RSVD_FREE]. Must not be changed after traffic is sent to this
+                                                                 hardware group. */
+        uint64_t reserved_13_31        : 19;
+        uint64_t max_thr               : 13; /**< [ 44: 32](R/W) Max threshold for this internal admission queue. If nonzero, must be \>= [RSVD_THR] + 4.
+                                                                 To ensure full streaming performance to all cores, should be at least 208. Must not be
+                                                                 changed after traffic is sent to this hardware group. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t grp_cnt               : 13; /**< [ 60: 48](RO/H) Hardware group's entry count. Number of internal entries allocated to IAQ,
+                                                                 conflicted work, or CQ in this hardware group.
+
+                                                                 Internal:
+                                                                 Increments on admission to IAQ, decrements on scheduling into
+                                                                 work slot. (48..`SSO_IDX_W+48) */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_hwgrpx_iaq_thr_s cnf10ka; */
+    /* struct cavm_sso_af_hwgrpx_iaq_thr_s cnf10kb; */
 };
 typedef union cavm_sso_af_hwgrpx_iaq_thr cavm_sso_af_hwgrpx_iaq_thr_t;
 
 static inline uint64_t CAVM_SSO_AF_HWGRPX_IAQ_THR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_IAQ_THR(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200000ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200000ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200000ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200000ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_IAQ_THR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2623,14 +3572,47 @@ union cavm_sso_af_hwgrpx_iu_accnt
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_hwgrpx_iu_accnt_s cn; */
+    /* struct cavm_sso_af_hwgrpx_iu_accnt_s cn10; */
+    /* struct cavm_sso_af_hwgrpx_iu_accnt_s cn10ka; */
+    struct cavm_sso_af_hwgrpx_iu_accnt_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enable the use of the in-unit accounting index. When clear, the
+                                                                 hardware group does not participate in any in-unit accounting index.
+
+                                                                 Note that the per-group IAQ thresholds in SSO_AF_HWGRP()_IAQ_THR and
+                                                                 SSO_LF_GGRP_INT_THR[IAQ_THR] always apply, regardless of the in-unit
+                                                                 accounting index. */
+        uint64_t reserved_7_15         : 9;
+        uint64_t accnt_indx            : 7;  /**< [  6:  0](R/W) In-unit accounting index assigned to this hardware group. */
+#else /* Word 0 - Little Endian */
+        uint64_t accnt_indx            : 7;  /**< [  6:  0](R/W) In-unit accounting index assigned to this hardware group. */
+        uint64_t reserved_7_15         : 9;
+        uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enable the use of the in-unit accounting index. When clear, the
+                                                                 hardware group does not participate in any in-unit accounting index.
+
+                                                                 Note that the per-group IAQ thresholds in SSO_AF_HWGRP()_IAQ_THR and
+                                                                 SSO_LF_GGRP_INT_THR[IAQ_THR] always apply, regardless of the in-unit
+                                                                 accounting index. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_hwgrpx_iu_accnt_s cnf10ka; */
+    /* struct cavm_sso_af_hwgrpx_iu_accnt_s cnf10kb; */
 };
 typedef union cavm_sso_af_hwgrpx_iu_accnt cavm_sso_af_hwgrpx_iu_accnt_t;
 
 static inline uint64_t CAVM_SSO_AF_HWGRPX_IU_ACCNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_IU_ACCNT(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200230ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200230ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200230ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200230ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_IU_ACCNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2671,7 +3653,13 @@ typedef union cavm_sso_af_hwgrpx_ls_pc cavm_sso_af_hwgrpx_ls_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_LS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_LS_PC(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x8400702000c0ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x8400702000c0ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x8400702000c0ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x8400702000c0ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_LS_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2712,7 +3700,13 @@ typedef union cavm_sso_af_hwgrpx_page_cnt cavm_sso_af_hwgrpx_page_cnt_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_PAGE_CNT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_PAGE_CNT(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200100ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200100ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200100ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200100ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_PAGE_CNT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2780,7 +3774,13 @@ typedef union cavm_sso_af_hwgrpx_pri cavm_sso_af_hwgrpx_pri_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_PRI(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_PRI(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200020ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200020ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200020ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200020ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_PRI", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2791,6 +3791,54 @@ static inline uint64_t CAVM_SSO_AF_HWGRPX_PRI(uint64_t a)
 #define device_bar_CAVM_SSO_AF_HWGRPX_PRI(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSO_AF_HWGRPX_PRI(a) (a)
 #define arguments_CAVM_SSO_AF_HWGRPX_PRI(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) sso_af_hwgrp#_stash
+ *
+ * SSO AF Hardware Group Stash Control Register
+ * Stash Control Register.
+ */
+union cavm_sso_af_hwgrpx_stash
+{
+    uint64_t u;
+    struct cavm_sso_af_hwgrpx_stash_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t off                   : 4;  /**< [ 11:  8](R/W) Thr offset in units of 128 bytes from WQE where stashing should begin.
+                                                                 This is a two's complement number, and negative values can be used to
+                                                                 start stashing up to 8 cachelines before the WQE. */
+        uint64_t cntm1                 : 4;  /**< [  7:  4](R/W) The number of cachelines to stash minus 1. */
+        uint64_t reserved_1_3          : 3;
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable stashing for this group. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Enable stashing for this group. */
+        uint64_t reserved_1_3          : 3;
+        uint64_t cntm1                 : 4;  /**< [  7:  4](R/W) The number of cachelines to stash minus 1. */
+        uint64_t off                   : 4;  /**< [ 11:  8](R/W) Thr offset in units of 128 bytes from WQE where stashing should begin.
+                                                                 This is a two's complement number, and negative values can be used to
+                                                                 start stashing up to 8 cachelines before the WQE. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_hwgrpx_stash_s cn; */
+};
+typedef union cavm_sso_af_hwgrpx_stash cavm_sso_af_hwgrpx_stash_t;
+
+static inline uint64_t CAVM_SSO_AF_HWGRPX_STASH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_HWGRPX_STASH(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x8400702000d0ll + 0x1000ll * ((a) & 0x7f);
+    __cavm_csr_fatal("SSO_AF_HWGRPX_STASH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_HWGRPX_STASH(a) cavm_sso_af_hwgrpx_stash_t
+#define bustype_CAVM_SSO_AF_HWGRPX_STASH(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_HWGRPX_STASH(a) "SSO_AF_HWGRPX_STASH"
+#define device_bar_CAVM_SSO_AF_HWGRPX_STASH(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_HWGRPX_STASH(a) (a)
+#define arguments_CAVM_SSO_AF_HWGRPX_STASH(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) sso_af_hwgrp#_taq_thr
@@ -2851,7 +3899,13 @@ typedef union cavm_sso_af_hwgrpx_taq_thr cavm_sso_af_hwgrpx_taq_thr_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_TAQ_THR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_TAQ_THR(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200010ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200010ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200010ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200010ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_TAQ_THR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2890,7 +3944,13 @@ typedef union cavm_sso_af_hwgrpx_ts_pc cavm_sso_af_hwgrpx_ts_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_TS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_TS_PC(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200080ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200080ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200080ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200080ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_TS_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2931,7 +3991,13 @@ typedef union cavm_sso_af_hwgrpx_wa_pc cavm_sso_af_hwgrpx_wa_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_WA_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_WA_PC(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200070ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200070ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200070ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200070ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_WA_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2972,7 +4038,13 @@ typedef union cavm_sso_af_hwgrpx_ws_pc cavm_sso_af_hwgrpx_ws_pc_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_WS_PC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_WS_PC(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200050ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200050ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200050ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200050ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_WS_PC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3011,7 +4083,13 @@ typedef union cavm_sso_af_hwgrpx_xaq_aura cavm_sso_af_hwgrpx_xaq_aura_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_XAQ_AURA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_XAQ_AURA(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200140ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200140ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200140ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200140ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_XAQ_AURA", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3056,7 +4134,13 @@ typedef union cavm_sso_af_hwgrpx_xaq_limit cavm_sso_af_hwgrpx_xaq_limit_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_XAQ_LIMIT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_XAQ_LIMIT(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070200220ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070200220ll + 0x1000ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070200220ll + 0x1000ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070200220ll + 0x1000ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_HWGRPX_XAQ_LIMIT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3098,7 +4182,13 @@ typedef union cavm_sso_af_hwsx_arb cavm_sso_af_hwsx_arb_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_ARB(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_ARB(uint64_t a)
 {
-    if (a<=51)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=51))
+        return 0x840070400100ll + 0x1000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=17))
+        return 0x840070400100ll + 0x1000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=51))
+        return 0x840070400100ll + 0x1000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=51))
         return 0x840070400100ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSO_AF_HWSX_ARB", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3135,7 +4225,13 @@ typedef union cavm_sso_af_hwsx_gmctl cavm_sso_af_hwsx_gmctl_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_GMCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_GMCTL(uint64_t a)
 {
-    if (a<=51)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=51))
+        return 0x840070400200ll + 0x1000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=17))
+        return 0x840070400200ll + 0x1000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=51))
+        return 0x840070400200ll + 0x1000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=51))
         return 0x840070400200ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSO_AF_HWSX_GMCTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3182,7 +4278,13 @@ typedef union cavm_sso_af_hwsx_inv cavm_sso_af_hwsx_inv_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_INV(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_INV(uint64_t a)
 {
-    if (a<=51)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=51))
+        return 0x840070400180ll + 0x1000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=17))
+        return 0x840070400180ll + 0x1000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=51))
+        return 0x840070400180ll + 0x1000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=51))
         return 0x840070400180ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSO_AF_HWSX_INV", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3229,7 +4331,13 @@ typedef union cavm_sso_af_hwsx_lsw_cfg cavm_sso_af_hwsx_lsw_cfg_t;
 static inline uint64_t CAVM_SSO_AF_HWSX_LSW_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_LSW_CFG(uint64_t a)
 {
-    if (a<=51)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=51))
+        return 0x840070400300ll + 0x1000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=17))
+        return 0x840070400300ll + 0x1000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=51))
+        return 0x840070400300ll + 0x1000ll * ((a) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=51))
         return 0x840070400300ll + 0x1000ll * ((a) & 0x3f);
     __cavm_csr_fatal("SSO_AF_HWSX_LSW_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3283,14 +4391,51 @@ union cavm_sso_af_hwsx_sx_grpmskx
                                                                  Individual changes must use SSOW_LF_GWS_GRPMSK_CHG. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_hwsx_sx_grpmskx_s cn; */
+    /* struct cavm_sso_af_hwsx_sx_grpmskx_s cn10; */
+    /* struct cavm_sso_af_hwsx_sx_grpmskx_s cn10ka; */
+    struct cavm_sso_af_hwsx_sx_grpmskx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS hardware group mask. A one in any bit position sets the HWS's membership in
+                                                                 the corresponding hardware group for hardware groups \<127:0\>.
+
+                                                                 A value of 0x0 in GRPMSK for a given HWS prevents the HWS from receiving new
+                                                                 work. HWSs that will never receive work should use GRPMSK=0x0; while this
+                                                                 setting is not special in SSO, for backward and forward compatibility this may
+                                                                 enable reallocation of internal resources to the remaining (nonzero-mask)
+                                                                 hardware workslots.
+
+                                                                 This register is intended only for large-scale save-restore of masks by the AF.
+                                                                 Individual changes must use SSOW_LF_GWS_GRPMSK_CHG. */
+#else /* Word 0 - Little Endian */
+        uint64_t grp_msk               : 64; /**< [ 63:  0](R/W) HWS hardware group mask. A one in any bit position sets the HWS's membership in
+                                                                 the corresponding hardware group for hardware groups \<127:0\>.
+
+                                                                 A value of 0x0 in GRPMSK for a given HWS prevents the HWS from receiving new
+                                                                 work. HWSs that will never receive work should use GRPMSK=0x0; while this
+                                                                 setting is not special in SSO, for backward and forward compatibility this may
+                                                                 enable reallocation of internal resources to the remaining (nonzero-mask)
+                                                                 hardware workslots.
+
+                                                                 This register is intended only for large-scale save-restore of masks by the AF.
+                                                                 Individual changes must use SSOW_LF_GWS_GRPMSK_CHG. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_hwsx_sx_grpmskx_s cnf10ka; */
+    /* struct cavm_sso_af_hwsx_sx_grpmskx_s cnf10kb; */
 };
 typedef union cavm_sso_af_hwsx_sx_grpmskx cavm_sso_af_hwsx_sx_grpmskx_t;
 
 static inline uint64_t CAVM_SSO_AF_HWSX_SX_GRPMSKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWSX_SX_GRPMSKX(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=51) && (b<=1) && (c<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=51) && (b<=1) && (c<=3)))
+        return 0x840070400400ll + 0x1000ll * ((a) & 0x3f) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=17) && (b<=1) && (c<=1)))
+        return 0x840070400400ll + 0x1000ll * ((a) & 0x1f) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=51) && (b<=1) && (c<=3)))
+        return 0x840070400400ll + 0x1000ll * ((a) & 0x3f) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=51) && (b<=1) && (c<=3)))
         return 0x840070400400ll + 0x1000ll * ((a) & 0x3f) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("SSO_AF_HWSX_SX_GRPMSKX", 3, a, b, c, 0, 0, 0);
 }
@@ -3338,7 +4483,13 @@ typedef union cavm_sso_af_ientx_grp cavm_sso_af_ientx_grp_t;
 static inline uint64_t CAVM_SSO_AF_IENTX_GRP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_GRP(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070a20000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070a20000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070a20000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070a20000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_GRP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3371,14 +4522,37 @@ union cavm_sso_af_ientx_index
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ientx_index_s cn; */
+    /* struct cavm_sso_af_ientx_index_s cn10; */
+    /* struct cavm_sso_af_ientx_index_s cn10ka; */
+    struct cavm_sso_af_ientx_index_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t tail                  : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the tail of tag stored at SSC line. */
+        uint64_t reserved_12           : 1;
+        uint64_t index                 : 12; /**< [ 11:  0](RO/H) The SSC INDEX for entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t index                 : 12; /**< [ 11:  0](RO/H) The SSC INDEX for entry. */
+        uint64_t reserved_12           : 1;
+        uint64_t tail                  : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the tail of tag stored at SSC line. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ientx_index_s cnf10ka; */
+    /* struct cavm_sso_af_ientx_index_s cnf10kb; */
 };
 typedef union cavm_sso_af_ientx_index cavm_sso_af_ientx_index_t;
 
 static inline uint64_t CAVM_SSO_AF_IENTX_INDEX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_INDEX(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070b00000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070b00000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070b00000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070b00000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_INDEX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3411,14 +4585,37 @@ union cavm_sso_af_ientx_indexc
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ientx_indexc_s cn; */
+    /* struct cavm_sso_af_ientx_indexc_s cn10; */
+    /* struct cavm_sso_af_ientx_indexc_s cn10ka; */
+    struct cavm_sso_af_ientx_indexc_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t tailc                 : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the conflicted tail of tag stored at SSC line. */
+        uint64_t reserved_12           : 1;
+        uint64_t index                 : 12; /**< [ 11:  0](RO/H) The SSC INDEXC for entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t index                 : 12; /**< [ 11:  0](RO/H) The SSC INDEXC for entry. */
+        uint64_t reserved_12           : 1;
+        uint64_t tailc                 : 1;  /**< [ 13: 13](RO/H) The [INDEX] is the conflicted tail of tag stored at SSC line. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ientx_indexc_s cnf10ka; */
+    /* struct cavm_sso_af_ientx_indexc_s cnf10kb; */
 };
 typedef union cavm_sso_af_ientx_indexc cavm_sso_af_ientx_indexc_t;
 
 static inline uint64_t CAVM_SSO_AF_IENTX_INDEXC(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_INDEXC(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070b20000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070b20000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070b20000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070b20000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_INDEXC", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3449,14 +4646,33 @@ union cavm_sso_af_ientx_line
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ientx_line_s cn; */
+    /* struct cavm_sso_af_ientx_line_s cn10; */
+    /* struct cavm_sso_af_ientx_line_s cn10ka; */
+    struct cavm_sso_af_ientx_line_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t line                  : 12; /**< [ 11:  0](RO/H) The SSC line for entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t line                  : 12; /**< [ 11:  0](RO/H) The SSC line for entry. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ientx_line_s cnf10ka; */
+    /* struct cavm_sso_af_ientx_line_s cnf10kb; */
 };
 typedef union cavm_sso_af_ientx_line cavm_sso_af_ientx_line_t;
 
 static inline uint64_t CAVM_SSO_AF_IENTX_LINE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_LINE(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070ae0000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070ae0000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070ae0000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070ae0000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_LINE", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3497,14 +4713,45 @@ union cavm_sso_af_ientx_links
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ientx_links_s cn; */
+    /* struct cavm_sso_af_ientx_links_s cn10; */
+    /* struct cavm_sso_af_ientx_links_s cn10ka; */
+    struct cavm_sso_af_ientx_links_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t prev_index            : 12; /**< [ 27: 16](RO/H) The previous entry in the tag chain. Unpredictable if the entry is at the head of the list
+                                                                 or the head of a conflicted tag chain. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t next_index_vld        : 1;  /**< [ 13: 13](RO/H) The [NEXT_INDEX] is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain. */
+        uint64_t reserved_12           : 1;
+        uint64_t next_index            : 12; /**< [ 11:  0](RO/H) The next entry in the tag chain or conflicted tag chain. Unpredictable if the entry is at
+                                                                 the tail of the list. */
+#else /* Word 0 - Little Endian */
+        uint64_t next_index            : 12; /**< [ 11:  0](RO/H) The next entry in the tag chain or conflicted tag chain. Unpredictable if the entry is at
+                                                                 the tail of the list. */
+        uint64_t reserved_12           : 1;
+        uint64_t next_index_vld        : 1;  /**< [ 13: 13](RO/H) The [NEXT_INDEX] is valid. Unpredictable unless the entry is the tail entry of an atomic tag chain. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t prev_index            : 12; /**< [ 27: 16](RO/H) The previous entry in the tag chain. Unpredictable if the entry is at the head of the list
+                                                                 or the head of a conflicted tag chain. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ientx_links_s cnf10ka; */
+    /* struct cavm_sso_af_ientx_links_s cnf10kb; */
 };
 typedef union cavm_sso_af_ientx_links cavm_sso_af_ientx_links_t;
 
 static inline uint64_t CAVM_SSO_AF_IENTX_LINKS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_LINKS(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070a60000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070a60000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070a60000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070a60000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_LINKS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3548,7 +4795,13 @@ typedef union cavm_sso_af_ientx_lsw cavm_sso_af_ientx_lsw_t;
 static inline uint64_t CAVM_SSO_AF_IENTX_LSW(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_LSW(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070ac0000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070ac0000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070ac0000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070ac0000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_LSW", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3594,7 +4847,13 @@ typedef union cavm_sso_af_ientx_pendtag cavm_sso_af_ientx_pendtag_t;
 static inline uint64_t CAVM_SSO_AF_IENTX_PENDTAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_PENDTAG(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070a40000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070a40000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070a40000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070a40000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_PENDTAG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3625,14 +4884,33 @@ union cavm_sso_af_ientx_qlinks
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ientx_qlinks_s cn; */
+    /* struct cavm_sso_af_ientx_qlinks_s cn10; */
+    /* struct cavm_sso_af_ientx_qlinks_s cn10ka; */
+    struct cavm_sso_af_ientx_qlinks_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t next_index            : 12; /**< [ 11:  0](RO/H) The next entry in the AQ/CQ/DQ. */
+#else /* Word 0 - Little Endian */
+        uint64_t next_index            : 12; /**< [ 11:  0](RO/H) The next entry in the AQ/CQ/DQ. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ientx_qlinks_s cnf10ka; */
+    /* struct cavm_sso_af_ientx_qlinks_s cnf10kb; */
 };
 typedef union cavm_sso_af_ientx_qlinks cavm_sso_af_ientx_qlinks_t;
 
 static inline uint64_t CAVM_SSO_AF_IENTX_QLINKS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_QLINKS(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070a80000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070a80000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070a80000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070a80000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_QLINKS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3672,7 +4950,13 @@ typedef union cavm_sso_af_ientx_tag cavm_sso_af_ientx_tag_t;
 static inline uint64_t CAVM_SSO_AF_IENTX_TAG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_TAG(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070a00000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070a00000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070a00000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070a00000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_TAG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3710,7 +4994,13 @@ typedef union cavm_sso_af_ientx_wqp cavm_sso_af_ientx_wqp_t;
 static inline uint64_t CAVM_SSO_AF_IENTX_WQP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IENTX_WQP(uint64_t a)
 {
-    if (a<=8191)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=8191))
+        return 0x840070aa0000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=4095))
+        return 0x840070aa0000ll + 8ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=8191))
+        return 0x840070aa0000ll + 8ll * ((a) & 0x1fff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8191))
         return 0x840070aa0000ll + 8ll * ((a) & 0x1fff);
     __cavm_csr_fatal("SSO_AF_IENTX_WQP", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3748,14 +5038,43 @@ union cavm_sso_af_ipl_confx
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ipl_confx_s cn; */
+    /* struct cavm_sso_af_ipl_confx_s cn10; */
+    /* struct cavm_sso_af_ipl_confx_s cn10ka; */
+    struct cavm_sso_af_ipl_confx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
+        uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
+        uint64_t reserved_25           : 1;
+        uint64_t queue_head            : 12; /**< [ 24: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t reserved_12           : 1;
+        uint64_t queue_tail            : 12; /**< [ 11:  0](RO/H) Index of entry at the tail of the queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t queue_tail            : 12; /**< [ 11:  0](RO/H) Index of entry at the tail of the queue. */
+        uint64_t reserved_12           : 1;
+        uint64_t queue_head            : 12; /**< [ 24: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t reserved_25           : 1;
+        uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
+        uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ipl_confx_s cnf10ka; */
+    /* struct cavm_sso_af_ipl_confx_s cnf10kb; */
 };
 typedef union cavm_sso_af_ipl_confx cavm_sso_af_ipl_confx_t;
 
 static inline uint64_t CAVM_SSO_AF_IPL_CONFX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IPL_CONFX(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070880000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070880000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070880000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070880000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_IPL_CONFX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3793,14 +5112,43 @@ union cavm_sso_af_ipl_deschedx
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ipl_deschedx_s cn; */
+    /* struct cavm_sso_af_ipl_deschedx_s cn10; */
+    /* struct cavm_sso_af_ipl_deschedx_s cn10ka; */
+    struct cavm_sso_af_ipl_deschedx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
+        uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
+        uint64_t reserved_25           : 1;
+        uint64_t queue_head            : 12; /**< [ 24: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t reserved_12           : 1;
+        uint64_t queue_tail            : 12; /**< [ 11:  0](RO/H) Index of entry at the tail of the queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t queue_tail            : 12; /**< [ 11:  0](RO/H) Index of entry at the tail of the queue. */
+        uint64_t reserved_12           : 1;
+        uint64_t queue_head            : 12; /**< [ 24: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t reserved_25           : 1;
+        uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
+        uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ipl_deschedx_s cnf10ka; */
+    /* struct cavm_sso_af_ipl_deschedx_s cnf10kb; */
 };
 typedef union cavm_sso_af_ipl_deschedx cavm_sso_af_ipl_deschedx_t;
 
 static inline uint64_t CAVM_SSO_AF_IPL_DESCHEDX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IPL_DESCHEDX(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070860000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070860000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070860000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070860000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_IPL_DESCHEDX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3843,7 +5191,38 @@ union cavm_sso_af_ipl_freex
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ipl_freex_s cn; */
+    /* struct cavm_sso_af_ipl_freex_s cn10; */
+    /* struct cavm_sso_af_ipl_freex_s cn10ka; */
+    struct cavm_sso_af_ipl_freex_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t qnum_head             : 2;  /**< [ 59: 58](RO/H) Subqueue with current head. */
+        uint64_t qnum_tail             : 2;  /**< [ 57: 56](RO/H) Subqueue for next tail. */
+        uint64_t reserved_41_55        : 15;
+        uint64_t queue_val             : 1;  /**< [ 40: 40](RO/H) One or more valid entries are in this subqueue. */
+        uint64_t reserved_39           : 1;
+        uint64_t queue_cnt             : 13; /**< [ 38: 26](RO/H) Number of valid entries in this subqueue. */
+        uint64_t reserved_25           : 1;
+        uint64_t queue_head            : 12; /**< [ 24: 13](RO/H) Index of entry at the head of this subqueue. */
+        uint64_t reserved_12           : 1;
+        uint64_t queue_tail            : 12; /**< [ 11:  0](RO/H) Index of entry at the tail of this subqueue. */
+#else /* Word 0 - Little Endian */
+        uint64_t queue_tail            : 12; /**< [ 11:  0](RO/H) Index of entry at the tail of this subqueue. */
+        uint64_t reserved_12           : 1;
+        uint64_t queue_head            : 12; /**< [ 24: 13](RO/H) Index of entry at the head of this subqueue. */
+        uint64_t reserved_25           : 1;
+        uint64_t queue_cnt             : 13; /**< [ 38: 26](RO/H) Number of valid entries in this subqueue. */
+        uint64_t reserved_39           : 1;
+        uint64_t queue_val             : 1;  /**< [ 40: 40](RO/H) One or more valid entries are in this subqueue. */
+        uint64_t reserved_41_55        : 15;
+        uint64_t qnum_tail             : 2;  /**< [ 57: 56](RO/H) Subqueue for next tail. */
+        uint64_t qnum_head             : 2;  /**< [ 59: 58](RO/H) Subqueue with current head. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ipl_freex_s cnf10ka; */
+    /* struct cavm_sso_af_ipl_freex_s cnf10kb; */
 };
 typedef union cavm_sso_af_ipl_freex cavm_sso_af_ipl_freex_t;
 
@@ -3887,14 +5266,43 @@ union cavm_sso_af_ipl_iaqx
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ipl_iaqx_s cn; */
+    /* struct cavm_sso_af_ipl_iaqx_s cn10; */
+    /* struct cavm_sso_af_ipl_iaqx_s cn10ka; */
+    struct cavm_sso_af_ipl_iaqx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
+        uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
+        uint64_t reserved_25           : 1;
+        uint64_t queue_head            : 12; /**< [ 24: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t reserved_12           : 1;
+        uint64_t queue_tail            : 12; /**< [ 11:  0](RO/H) Index of entry at the tail of the queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t queue_tail            : 12; /**< [ 11:  0](RO/H) Index of entry at the tail of the queue. */
+        uint64_t reserved_12           : 1;
+        uint64_t queue_head            : 12; /**< [ 24: 13](RO/H) Index of entry at the head of the queue. */
+        uint64_t reserved_25           : 1;
+        uint64_t queue_one             : 1;  /**< [ 26: 26](RO/H) Exactly one valid entry is in the queue. */
+        uint64_t queue_val             : 1;  /**< [ 27: 27](RO/H) One or more valid entries are in the queue. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ipl_iaqx_s cnf10ka; */
+    /* struct cavm_sso_af_ipl_iaqx_s cnf10kb; */
 };
 typedef union cavm_sso_af_ipl_iaqx cavm_sso_af_ipl_iaqx_t;
 
 static inline uint64_t CAVM_SSO_AF_IPL_IAQX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IPL_IAQX(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070840000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070840000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070840000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070840000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_IPL_IAQX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3941,7 +5349,13 @@ typedef union cavm_sso_af_iu_accntx_cfg cavm_sso_af_iu_accntx_cfg_t;
 static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_CFG(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070050000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070050000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070050000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070050000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_IU_ACCNTX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3978,7 +5392,13 @@ typedef union cavm_sso_af_iu_accntx_rst cavm_sso_af_iu_accntx_rst_t;
 static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_RST(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_IU_ACCNTX_RST(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070060000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070060000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070060000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070060000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_IU_ACCNTX_RST", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4078,7 +5498,13 @@ typedef union cavm_sso_af_npa_digestx cavm_sso_af_npa_digestx_t;
 static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900000ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900000ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_NPA_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4107,14 +5533,31 @@ union cavm_sso_af_npa_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_NPA_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_npa_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_npa_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_npa_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_npa_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_NPA_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_NPA_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_npa_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_npa_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_npa_digestx_w1s cavm_sso_af_npa_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_NPA_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900100ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_NPA_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4151,7 +5594,13 @@ typedef union cavm_sso_af_poisonx cavm_sso_af_poisonx_t;
 static inline uint64_t CAVM_SSO_AF_POISONX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_POISONX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070002100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070002100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070002100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070002100ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_POISONX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4180,14 +5629,31 @@ union cavm_sso_af_poisonx_w1s
         uint64_t hwgrps                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_POISON(0..3)[HWGRPS]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_poisonx_w1s_s cn; */
+    /* struct cavm_sso_af_poisonx_w1s_s cn10; */
+    /* struct cavm_sso_af_poisonx_w1s_s cn10ka; */
+    struct cavm_sso_af_poisonx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrps                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_POISON(0..1)[HWGRPS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrps                : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_POISON(0..1)[HWGRPS]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_poisonx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_poisonx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_poisonx_w1s cavm_sso_af_poisonx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_POISONX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_POISONX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070002200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070002200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070002200ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070002200ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_POISONX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4224,7 +5690,13 @@ typedef union cavm_sso_af_qctldis_digestx cavm_sso_af_qctldis_digestx_t;
 static inline uint64_t CAVM_SSO_AF_QCTLDIS_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_QCTLDIS_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900e00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900e00ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900e00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900e00ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_QCTLDIS_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4253,14 +5725,31 @@ union cavm_sso_af_qctldis_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_QCTLDIS_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_qctldis_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_qctldis_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_qctldis_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_qctldis_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_QCTLDIS_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_QCTLDIS_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_qctldis_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_qctldis_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_qctldis_digestx_w1s cavm_sso_af_qctldis_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_QCTLDIS_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_QCTLDIS_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900f00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900f00ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900f00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900f00ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_QCTLDIS_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4504,7 +5993,13 @@ typedef union cavm_sso_af_taqx_link cavm_sso_af_taqx_link_t;
 static inline uint64_t CAVM_SSO_AF_TAQX_LINK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TAQX_LINK(uint64_t a)
 {
-    if (a<=1279)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1279))
+        return 0x840070c00000ll + 8ll * ((a) & 0x7ff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=639))
+        return 0x840070c00000ll + 8ll * ((a) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1279))
+        return 0x840070c00000ll + 8ll * ((a) & 0x7ff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1279))
         return 0x840070c00000ll + 8ll * ((a) & 0x7ff);
     __cavm_csr_fatal("SSO_AF_TAQX_LINK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4544,7 +6039,13 @@ typedef union cavm_sso_af_taqx_waex_tag cavm_sso_af_taqx_waex_tag_t;
 static inline uint64_t CAVM_SSO_AF_TAQX_WAEX_TAG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TAQX_WAEX_TAG(uint64_t a, uint64_t b)
 {
-    if ((a<=1279) && (b<=10))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=1279) && (b<=10)))
+        return 0x840070e00000ll + 0x100ll * ((a) & 0x7ff) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=639) && (b<=10)))
+        return 0x840070e00000ll + 0x100ll * ((a) & 0x3ff) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1279) && (b<=10)))
+        return 0x840070e00000ll + 0x100ll * ((a) & 0x7ff) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1279) && (b<=10)))
         return 0x840070e00000ll + 0x100ll * ((a) & 0x7ff) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("SSO_AF_TAQX_WAEX_TAG", 2, a, b, 0, 0, 0, 0);
 }
@@ -4582,7 +6083,13 @@ typedef union cavm_sso_af_taqx_waex_wqp cavm_sso_af_taqx_waex_wqp_t;
 static inline uint64_t CAVM_SSO_AF_TAQX_WAEX_WQP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TAQX_WAEX_WQP(uint64_t a, uint64_t b)
 {
-    if ((a<=1279) && (b<=10))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=1279) && (b<=10)))
+        return 0x840070e00008ll + 0x100ll * ((a) & 0x7ff) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=639) && (b<=10)))
+        return 0x840070e00008ll + 0x100ll * ((a) & 0x3ff) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1279) && (b<=10)))
+        return 0x840070e00008ll + 0x100ll * ((a) & 0x7ff) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1279) && (b<=10)))
         return 0x840070e00008ll + 0x100ll * ((a) & 0x7ff) + 0x10ll * ((b) & 0xf);
     __cavm_csr_fatal("SSO_AF_TAQX_WAEX_WQP", 2, a, b, 0, 0, 0, 0);
 }
@@ -4666,7 +6173,34 @@ union cavm_sso_af_taq_cnt
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_taq_cnt_s cn; */
+    /* struct cavm_sso_af_taq_cnt_s cn10; */
+    /* struct cavm_sso_af_taq_cnt_s cn10ka; */
+    struct cavm_sso_af_taq_cnt_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_26_63        : 38;
+        uint64_t rsvd_free             : 10; /**< [ 25: 16](R/W/H) Number of free reserved buffers. Used to ensure each hardware group may get a
+                                                                 specific number of buffers. Must always be greater than or equal to the sum
+                                                                 across all SSO_AF_HWGRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum
+                                                                 unless changes to SSO_AF_HWGRP()_TAQ_THR[RSVD_THR] are going to be made. To
+                                                                 prevent races, software should not change this register when SSO is being used;
+                                                                 instead use SSO_AF_TAQ_ADD[RSVD_FREE]. Legal values are 0..0x4FF. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t free_cnt              : 10; /**< [  9:  0](RO/H) Number of total free buffers. */
+#else /* Word 0 - Little Endian */
+        uint64_t free_cnt              : 10; /**< [  9:  0](RO/H) Number of total free buffers. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t rsvd_free             : 10; /**< [ 25: 16](R/W/H) Number of free reserved buffers. Used to ensure each hardware group may get a
+                                                                 specific number of buffers. Must always be greater than or equal to the sum
+                                                                 across all SSO_AF_HWGRP()_TAQ_THR[RSVD_THR], and will generally be equal to that sum
+                                                                 unless changes to SSO_AF_HWGRP()_TAQ_THR[RSVD_THR] are going to be made. To
+                                                                 prevent races, software should not change this register when SSO is being used;
+                                                                 instead use SSO_AF_TAQ_ADD[RSVD_FREE]. Legal values are 0..0x4FF. */
+        uint64_t reserved_26_63        : 38;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_taq_cnt_s cnf10ka; */
+    /* struct cavm_sso_af_taq_cnt_s cnf10kb; */
 };
 typedef union cavm_sso_af_taq_cnt cavm_sso_af_taq_cnt_t;
 
@@ -4727,14 +6261,57 @@ union cavm_sso_af_tiaqx_status
                                                                  SSO_AF_TAQ()_WAE()_TAG and SSO_AF_TAQ()_WAE()_WQP. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_tiaqx_status_s cn; */
+    /* struct cavm_sso_af_tiaqx_status_s cn10; */
+    /* struct cavm_sso_af_tiaqx_status_s cn10ka; */
+    struct cavm_sso_af_tiaqx_status_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-10. This provides the second index into
+                                                                 SSO_AF_TAQ()_WAE()_TAG and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) When [WAE_USED] is nonzero, this provides the next free WAE number in the cache
+                                                                 line of the tail entry. If 0x0, the next entry will be placed at the beginning of
+                                                                 a new cache line. This provides the second index into SSO_AF_TAQ()_WAE()_TAG and
+                                                                 SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t reserved_47_55        : 9;
+        uint64_t wae_used              : 15; /**< [ 46: 32](RO/H) Number of WAEs in use. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t ent_head              : 10; /**< [ 21: 12](RO/H) Head's entry number. This provides the first index into SSO_AF_TAQ()_WAE()_TAG
+                                                                 and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t ent_tail              : 10; /**< [  9:  0](RO/H) Tail's entry number. This provides the first index into SSO_AF_TAQ()_WAE()_TAG
+                                                                 and SSO_AF_TAQ()_WAE()_WQP. */
+#else /* Word 0 - Little Endian */
+        uint64_t ent_tail              : 10; /**< [  9:  0](RO/H) Tail's entry number. This provides the first index into SSO_AF_TAQ()_WAE()_TAG
+                                                                 and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t ent_head              : 10; /**< [ 21: 12](RO/H) Head's entry number. This provides the first index into SSO_AF_TAQ()_WAE()_TAG
+                                                                 and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t wae_used              : 15; /**< [ 46: 32](RO/H) Number of WAEs in use. */
+        uint64_t reserved_47_55        : 9;
+        uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) When [WAE_USED] is nonzero, this provides the next free WAE number in the cache
+                                                                 line of the tail entry. If 0x0, the next entry will be placed at the beginning of
+                                                                 a new cache line. This provides the second index into SSO_AF_TAQ()_WAE()_TAG and
+                                                                 SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t wae_head              : 4;  /**< [ 63: 60](RO/H) Head's WAE number within current cache line, 0-10. This provides the second index into
+                                                                 SSO_AF_TAQ()_WAE()_TAG and SSO_AF_TAQ()_WAE()_WQP. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_tiaqx_status_s cnf10ka; */
+    /* struct cavm_sso_af_tiaqx_status_s cnf10kb; */
 };
 typedef union cavm_sso_af_tiaqx_status cavm_sso_af_tiaqx_status_t;
 
 static inline uint64_t CAVM_SSO_AF_TIAQX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TIAQX_STATUS(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x8400700c0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x8400700c0000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x8400700c0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x8400700c0000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_TIAQX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4762,6 +6339,37 @@ union cavm_sso_af_tilemapx
     struct cavm_sso_af_tilemapx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pn                    : 6;  /**< [ 63: 58](RO/H) Processor Number of the corresponding tile_id. */
+        uint64_t ngws                  : 7;  /**< [ 57: 51](R/W) GWS being re-mapped to tile NTID if [MV]=1. */
+        uint64_t npf_func              : 16; /**< [ 50: 35](R/W) PF and function being re-mapped to NTID tile if [MV]=1. */
+        uint64_t mv                    : 1;  /**< [ 34: 34](RO/H) Move bit.  Indicates PF, Func and GWS is being moved to another AP tile, NTID. */
+        uint64_t nclid                 : 4;  /**< [ 33: 30](RO/H) New column id; PF, Func and GWS being re-mapped to an AP in this column if
+                                                                 [MV]=1, holds current column id when [MV]=0. */
+        uint64_t ntid                  : 6;  /**< [ 29: 24](RO/H) New tile_id. PF, Func and GWS being re-mapped to this AP tile if [MV]=1. */
+        uint64_t vld                   : 1;  /**< [ 23: 23](R/W) Indicates this entry hold a valid PF,Func,GWS mapping for this AP tile. */
+        uint64_t gws                   : 7;  /**< [ 22: 16](R/W) GWS mapped to this AP tile.
+                                                                 Internal:
+                                                                 (16..`SSO_NUM_WS-1+16) FIXME */
+        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) PF and function mapped to this AP tile. Format specified by RVU_PF_FUNC_S. */
+#else /* Word 0 - Little Endian */
+        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) PF and function mapped to this AP tile. Format specified by RVU_PF_FUNC_S. */
+        uint64_t gws                   : 7;  /**< [ 22: 16](R/W) GWS mapped to this AP tile.
+                                                                 Internal:
+                                                                 (16..`SSO_NUM_WS-1+16) FIXME */
+        uint64_t vld                   : 1;  /**< [ 23: 23](R/W) Indicates this entry hold a valid PF,Func,GWS mapping for this AP tile. */
+        uint64_t ntid                  : 6;  /**< [ 29: 24](RO/H) New tile_id. PF, Func and GWS being re-mapped to this AP tile if [MV]=1. */
+        uint64_t nclid                 : 4;  /**< [ 33: 30](RO/H) New column id; PF, Func and GWS being re-mapped to an AP in this column if
+                                                                 [MV]=1, holds current column id when [MV]=0. */
+        uint64_t mv                    : 1;  /**< [ 34: 34](RO/H) Move bit.  Indicates PF, Func and GWS is being moved to another AP tile, NTID. */
+        uint64_t npf_func              : 16; /**< [ 50: 35](R/W) PF and function being re-mapped to NTID tile if [MV]=1. */
+        uint64_t ngws                  : 7;  /**< [ 57: 51](R/W) GWS being re-mapped to tile NTID if [MV]=1. */
+        uint64_t pn                    : 6;  /**< [ 63: 58](RO/H) Processor Number of the corresponding tile_id. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_tilemapx_s cn10; */
+    struct cavm_sso_af_tilemapx_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
         uint64_t mv                    : 1;  /**< [ 34: 34](RO/H) Move bit.  Indicates PF, Func and GWS is being moved to another AP tile, NTID. */
         uint64_t nclid                 : 4;  /**< [ 33: 30](RO/H) New column id; PF, Func and GWS being re-mapped to an AP in this column if
@@ -4784,8 +6392,10 @@ union cavm_sso_af_tilemapx
         uint64_t mv                    : 1;  /**< [ 34: 34](RO/H) Move bit.  Indicates PF, Func and GWS is being moved to another AP tile, NTID. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_tilemapx_s cn; */
+    } cn10ka;
+    /* struct cavm_sso_af_tilemapx_s cn10kb; */
+    /* struct cavm_sso_af_tilemapx_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_tilemapx_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_tilemapx cavm_sso_af_tilemapx_t;
 
@@ -4849,14 +6459,59 @@ union cavm_sso_af_toaqx_status
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_toaqx_status_s cn; */
+    /* struct cavm_sso_af_toaqx_status_s cn10; */
+    /* struct cavm_sso_af_toaqx_status_s cn10ka; */
+    struct cavm_sso_af_toaqx_status_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t ext_vld               : 1;  /**< [ 61: 61](RO/H) External queuing is in use on this hardware group. */
+        uint64_t partial               : 1;  /**< [ 60: 60](RO/H) Partial cache line is allocated to tail of queue. */
+        uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) If [PARTIAL] is set, this provides the next free WAE number in the cache line of
+                                                                 the tail entry. If [PARTIAL] is clear, the next entry will be placed at the
+                                                                 beginning of a new cache line. This provides the second index into
+                                                                 SSO_AF_TAQ()_WAE()_TAG and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t reserved_42_55        : 14;
+        uint64_t cl_used               : 10; /**< [ 41: 32](RO/H) Number of cache lines in use. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t ent_head              : 10; /**< [ 21: 12](RO/H) Head's entry number. This provides the first index into SSO_AF_TAQ()_WAE()_TAG
+                                                                 and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t ent_tail              : 10; /**< [  9:  0](RO/H) Tail's entry number. This provides the first index into SSO_AF_TAQ()_WAE()_TAG
+                                                                 and SSO_AF_TAQ()_WAE()_WQP. */
+#else /* Word 0 - Little Endian */
+        uint64_t ent_tail              : 10; /**< [  9:  0](RO/H) Tail's entry number. This provides the first index into SSO_AF_TAQ()_WAE()_TAG
+                                                                 and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t ent_head              : 10; /**< [ 21: 12](RO/H) Head's entry number. This provides the first index into SSO_AF_TAQ()_WAE()_TAG
+                                                                 and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t reserved_22_31        : 10;
+        uint64_t cl_used               : 10; /**< [ 41: 32](RO/H) Number of cache lines in use. */
+        uint64_t reserved_42_55        : 14;
+        uint64_t wae_tail              : 4;  /**< [ 59: 56](RO/H) If [PARTIAL] is set, this provides the next free WAE number in the cache line of
+                                                                 the tail entry. If [PARTIAL] is clear, the next entry will be placed at the
+                                                                 beginning of a new cache line. This provides the second index into
+                                                                 SSO_AF_TAQ()_WAE()_TAG and SSO_AF_TAQ()_WAE()_WQP. */
+        uint64_t partial               : 1;  /**< [ 60: 60](RO/H) Partial cache line is allocated to tail of queue. */
+        uint64_t ext_vld               : 1;  /**< [ 61: 61](RO/H) External queuing is in use on this hardware group. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_toaqx_status_s cnf10ka; */
+    /* struct cavm_sso_af_toaqx_status_s cnf10kb; */
 };
 typedef union cavm_sso_af_toaqx_status cavm_sso_af_toaqx_status_t;
 
 static inline uint64_t CAVM_SSO_AF_TOAQX_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_TOAQX_STATUS(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x8400700d0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x8400700d0000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x8400700d0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x8400700d0000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_TOAQX_STATUS", 1, a, 0, 0, 0, 0, 0);
 }
@@ -4884,6 +6539,91 @@ union cavm_sso_af_unmap_info
 {
     uint64_t u;
     struct cavm_sso_af_unmap_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_45_63        : 19;
+        uint64_t wqp0_src              : 13; /**< [ 44: 32](RO/H) Illegal WQP0 error source. This field is updated when
+                                                                 SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
+                                                                 SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
+                                                                 \<11\> = unused
+                                                                 \<10\> = unused
+                                                                 \<9\> = unused
+                                                                 \<8\> = PSM
+                                                                 \<7\> = TIM.
+                                                                 \<6\> = NIXTX0.
+                                                                 \<5\> = DPI0.
+                                                                 \<4\> = unused
+                                                                 \<3\> = ADDWQ.
+                                                                 \<2\> = unused
+                                                                 \<1\> = NIXRX0.
+                                                                 \<0\> = unused */
+        uint64_t ggrp_multi            : 1;  /**< [ 31: 31](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[GGRP_MULTI] is set
+                                                                 and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 30: 30](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR0[GGRP_UNMAP] is set and held
+                                                                 until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI], SSO_AF_ERR0[GGRP_UNMAP], and
+                                                                 SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t aw_multi              : 1;  /**< [ 29: 29](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[AW_MULTI] is set
+                                                                 and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t aw_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR0[AW_UNMAP] is set and held
+                                                                 until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI], SSO_AF_ERR0[GGRP_UNMAP], and
+                                                                 SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t reserved_26_27        : 2;
+        uint64_t ggrp                  : 10; /**< [ 25: 16](RO/H) This field indicates the failing GGRP. This field is updated when
+                                                                 any of he following errors occur: SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP] or SSO_AF_ERR0[GGRP_MULTI] and is held until all four
+                                                                 errors are cleared in
+                                                                 SSO_AF_ERR0. */
+        uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when
+                                                                 any of he following errors occur: SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP] or SSO_AF_ERR0[GGRP_MULTI] and is held until all four
+                                                                 errors are cleared in
+                                                                 SSO_AF_ERR0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when
+                                                                 any of he following errors occur: SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP] or SSO_AF_ERR0[GGRP_MULTI] and is held until all four
+                                                                 errors are cleared in
+                                                                 SSO_AF_ERR0. */
+        uint64_t ggrp                  : 10; /**< [ 25: 16](RO/H) This field indicates the failing GGRP. This field is updated when
+                                                                 any of he following errors occur: SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP] or SSO_AF_ERR0[GGRP_MULTI] and is held until all four
+                                                                 errors are cleared in
+                                                                 SSO_AF_ERR0. */
+        uint64_t reserved_26_27        : 2;
+        uint64_t aw_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR0[AW_UNMAP] is set and held
+                                                                 until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI], SSO_AF_ERR0[GGRP_UNMAP], and
+                                                                 SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t aw_multi              : 1;  /**< [ 29: 29](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[AW_MULTI] is set
+                                                                 and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 30: 30](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR0[GGRP_UNMAP] is set and held
+                                                                 until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI], SSO_AF_ERR0[GGRP_UNMAP], and
+                                                                 SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t ggrp_multi            : 1;  /**< [ 31: 31](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[GGRP_MULTI] is set
+                                                                 and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t wqp0_src              : 13; /**< [ 44: 32](RO/H) Illegal WQP0 error source. This field is updated when
+                                                                 SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
+                                                                 SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
+                                                                 \<11\> = unused
+                                                                 \<10\> = unused
+                                                                 \<9\> = unused
+                                                                 \<8\> = PSM
+                                                                 \<7\> = TIM.
+                                                                 \<6\> = NIXTX0.
+                                                                 \<5\> = DPI0.
+                                                                 \<4\> = unused
+                                                                 \<3\> = ADDWQ.
+                                                                 \<2\> = unused
+                                                                 \<1\> = NIXRX0.
+                                                                 \<0\> = unused */
+        uint64_t reserved_45_63        : 19;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_unmap_info_s cn10; */
+    struct cavm_sso_af_unmap_info_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
@@ -4966,8 +6706,95 @@ union cavm_sso_af_unmap_info
                                                                  \<0\> = unused */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_unmap_info_s cn; */
+    } cn10ka;
+    struct cavm_sso_af_unmap_info_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_45_63        : 19;
+        uint64_t wqp0_src              : 13; /**< [ 44: 32](RO/H) Illegal WQP0 error source (LWA may not be present). This field is updated when
+                                                                 SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
+                                                                 SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
+                                                                 \<12\> = ML1.
+                                                                 \<11\> = NIXTX1.
+                                                                 \<10\> = ML0
+                                                                 \<9\> = CPT1
+                                                                 \<8\> = NIXRX1
+                                                                 \<7\> = PSM
+                                                                 \<6\> = TIM.
+                                                                 \<5\> = NIXTX0.
+                                                                 \<4\> = DPI0.
+                                                                 \<3\> = ADDWQ.
+                                                                 \<2\> = CPT0
+                                                                 \<1\> = NIXRX0.
+                                                                 \<0\> = unused */
+        uint64_t ggrp_multi            : 1;  /**< [ 31: 31](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[GGRP_MULTI] is set
+                                                                 and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 30: 30](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR0[GGRP_UNMAP] is set and held
+                                                                 until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI], SSO_AF_ERR0[GGRP_UNMAP], and
+                                                                 SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t aw_multi              : 1;  /**< [ 29: 29](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[AW_MULTI] is set
+                                                                 and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t aw_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR0[AW_UNMAP] is set and held
+                                                                 until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI], SSO_AF_ERR0[GGRP_UNMAP], and
+                                                                 SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t reserved_26_27        : 2;
+        uint64_t ggrp                  : 10; /**< [ 25: 16](RO/H) This field indicates the failing GGRP. This field is updated when
+                                                                 any of he following errors occur: SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP] or SSO_AF_ERR0[GGRP_MULTI] and is held until all four
+                                                                 errors are cleared in
+                                                                 SSO_AF_ERR0. */
+        uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when
+                                                                 any of he following errors occur: SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP] or SSO_AF_ERR0[GGRP_MULTI] and is held until all four
+                                                                 errors are cleared in
+                                                                 SSO_AF_ERR0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when
+                                                                 any of he following errors occur: SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP] or SSO_AF_ERR0[GGRP_MULTI] and is held until all four
+                                                                 errors are cleared in
+                                                                 SSO_AF_ERR0. */
+        uint64_t ggrp                  : 10; /**< [ 25: 16](RO/H) This field indicates the failing GGRP. This field is updated when
+                                                                 any of he following errors occur: SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP] or SSO_AF_ERR0[GGRP_MULTI] and is held until all four
+                                                                 errors are cleared in
+                                                                 SSO_AF_ERR0. */
+        uint64_t reserved_26_27        : 2;
+        uint64_t aw_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR0[AW_UNMAP] is set and held
+                                                                 until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI], SSO_AF_ERR0[GGRP_UNMAP], and
+                                                                 SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t aw_multi              : 1;  /**< [ 29: 29](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[AW_MULTI] is set
+                                                                 and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t ggrp_unmap            : 1;  /**< [ 30: 30](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR0[GGRP_UNMAP] is set and held
+                                                                 until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI], SSO_AF_ERR0[GGRP_UNMAP], and
+                                                                 SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t ggrp_multi            : 1;  /**< [ 31: 31](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR0[GGRP_MULTI] is set
+                                                                 and held until SSO_AF_ERR0[AW_UNMAP], SSO_AF_ERR0[AW_MULTI],
+                                                                 SSO_AF_ERR0[GGRP_UNMAP], and SSO_AF_ERR0[GGRP_MULTI] are cleared. */
+        uint64_t wqp0_src              : 13; /**< [ 44: 32](RO/H) Illegal WQP0 error source (LWA may not be present). This field is updated when
+                                                                 SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] error occurs, and is held until
+                                                                 SSO_AF_ERR0[ADDWQ_DROPPED_WQP0] is cleared.
+                                                                 \<12\> = ML1.
+                                                                 \<11\> = NIXTX1.
+                                                                 \<10\> = ML0
+                                                                 \<9\> = CPT1
+                                                                 \<8\> = NIXRX1
+                                                                 \<7\> = PSM
+                                                                 \<6\> = TIM.
+                                                                 \<5\> = NIXTX0.
+                                                                 \<4\> = DPI0.
+                                                                 \<3\> = ADDWQ.
+                                                                 \<2\> = CPT0
+                                                                 \<1\> = NIXRX0.
+                                                                 \<0\> = unused */
+        uint64_t reserved_45_63        : 19;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_unmap_info_cn10ka cnf10ka; */
+    /* struct cavm_sso_af_unmap_info_cn10ka cnf10kb; */
 };
 typedef union cavm_sso_af_unmap_info cavm_sso_af_unmap_info_t;
 
@@ -5113,7 +6940,48 @@ union cavm_sso_af_unmap_info3
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_unmap_info3_s cn; */
+    /* struct cavm_sso_af_unmap_info3_s cn10; */
+    /* struct cavm_sso_af_unmap_info3_s cn10ka; */
+    struct cavm_sso_af_unmap_info3_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t cam_src               : 3;  /**< [ 34: 32](RO/H) Failing WCAM error path. This field is updated when one of the following errors
+                                                                 occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both
+                                                                 errors are cleared from SSO_AF_ERR2. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR2[WS_MULTI] is set
+                                                                 and held until SSO_AF_ERR2[WS_MULTI] and SSO_AF_ERR2[WS_UNMAP] are cleared. */
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR2[WS_UNMAP] is set and held
+                                                                 until SSO_AF_ERR2[WS_UNMAP] and SSO_AF_ERR2[WS_MULTI] are cleared. */
+        uint64_t reserved_21_27        : 7;
+        uint64_t gws                   : 5;  /**< [ 20: 16](RO/H) This field indicates the failing GWS. This field is updated when any
+                                                                 of the following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
+                                                                 and is held until all both errors are cleared in SSO_AF_ERR2. */
+        uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when any of the following errors occur:
+                                                                 SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both errors
+                                                                 are cleared from SSO_AF_ERR2. */
+#else /* Word 0 - Little Endian */
+        uint64_t pf_func               : 16; /**< [ 15:  0](RO/H) Failing PF_FUNC. This field is updated when any of the following errors occur:
+                                                                 SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both errors
+                                                                 are cleared from SSO_AF_ERR2. */
+        uint64_t gws                   : 5;  /**< [ 20: 16](RO/H) This field indicates the failing GWS. This field is updated when any
+                                                                 of the following errors occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI]
+                                                                 and is held until all both errors are cleared in SSO_AF_ERR2. */
+        uint64_t reserved_21_27        : 7;
+        uint64_t ws_unmap              : 1;  /**< [ 28: 28](RO/H) PF_FUNC mapping not found error. Set when SSO_AF_ERR2[WS_UNMAP] is set and held
+                                                                 until SSO_AF_ERR2[WS_UNMAP] and SSO_AF_ERR2[WS_MULTI] are cleared. */
+        uint64_t ws_multi              : 1;  /**< [ 29: 29](RO/H) PF_FUNC map had double-hit error. Set when SSO_AF_ERR2[WS_MULTI] is set
+                                                                 and held until SSO_AF_ERR2[WS_MULTI] and SSO_AF_ERR2[WS_UNMAP] are cleared. */
+        uint64_t reserved_30_31        : 2;
+        uint64_t cam_src               : 3;  /**< [ 34: 32](RO/H) Failing WCAM error path. This field is updated when one of the following errors
+                                                                 occur: SSO_AF_ERR2[WS_UNMAP] or SSO_AF_ERR2[WS_MULTI] and is held until both
+                                                                 errors are cleared from SSO_AF_ERR2. */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_unmap_info3_s cnf10ka; */
+    /* struct cavm_sso_af_unmap_info3_s cnf10kb; */
 };
 typedef union cavm_sso_af_unmap_info3 cavm_sso_af_unmap_info3_t;
 
@@ -5202,7 +7070,13 @@ typedef union cavm_sso_af_wqp0_digestx cavm_sso_af_wqp0_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WQP0_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WQP0_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900a00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900a00ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900a00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900a00ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_WQP0_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5231,14 +7105,31 @@ union cavm_sso_af_wqp0_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WQP0_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_wqp0_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_wqp0_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_wqp0_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_wqp0_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WQP0_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WQP0_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_wqp0_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_wqp0_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_wqp0_digestx_w1s cavm_sso_af_wqp0_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_WQP0_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WQP0_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070900b00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070900b00ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070900b00ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070900b00ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_WQP0_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5402,6 +7293,48 @@ static inline uint64_t CAVM_SSO_AF_WS_ECO_FUNC(void)
 #define arguments_CAVM_SSO_AF_WS_ECO -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) sso_af_ws_ext_clk_enable
+ *
+ * INTERNAL:SSO Ext Global Clock Enable Register
+ *
+ * SSO SCK subblock coarse-gating clock force.
+ */
+union cavm_sso_af_ws_ext_clk_enable
+{
+    uint64_t u;
+    struct cavm_sso_af_ws_ext_clk_enable_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_ws_ext_clk_enable_s cn; */
+};
+typedef union cavm_sso_af_ws_ext_clk_enable cavm_sso_af_ws_ext_clk_enable_t;
+
+#define CAVM_SSO_AF_WS_EXT_CLK_ENABLE CAVM_SSO_AF_WS_EXT_CLK_ENABLE_FUNC()
+static inline uint64_t CAVM_SSO_AF_WS_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SSO_AF_WS_EXT_CLK_ENABLE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840070004020ll;
+    __cavm_csr_fatal("SSO_AF_WS_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SSO_AF_WS_EXT_CLK_ENABLE cavm_sso_af_ws_ext_clk_enable_t
+#define bustype_CAVM_SSO_AF_WS_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_SSO_AF_WS_EXT_CLK_ENABLE "SSO_AF_WS_EXT_CLK_ENABLE"
+#define device_bar_CAVM_SSO_AF_WS_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_SSO_AF_WS_EXT_CLK_ENABLE 0
+#define arguments_CAVM_SSO_AF_WS_EXT_CLK_ENABLE -1,-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) sso_af_ws_gmulti_digest#
  *
  * SSO AF WS GRP MULTI Error Summary Registers
@@ -5425,7 +7358,13 @@ typedef union cavm_sso_af_ws_gmulti_digestx cavm_sso_af_ws_gmulti_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_GMULTI_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_GMULTI_DIGESTX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070902000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070902000ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070902000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070902000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_GMULTI_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5454,14 +7393,31 @@ union cavm_sso_af_ws_gmulti_digestx_w1s
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GMULTI_DIGEST(0..1)[HWS]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_ws_gmulti_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GMULTI_DIGEST(0..0)[HWS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GMULTI_DIGEST(0..0)[HWS]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_ws_gmulti_digestx_w1s cavm_sso_af_ws_gmulti_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_WS_GMULTI_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_GMULTI_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070902100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070902100ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070902100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070902100ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_GMULTI_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5497,7 +7453,13 @@ typedef union cavm_sso_af_ws_gunmap_digestx cavm_sso_af_ws_gunmap_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_GUNMAP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_GUNMAP_DIGESTX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070902200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070902200ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070902200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070902200ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_GUNMAP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5526,14 +7488,31 @@ union cavm_sso_af_ws_gunmap_digestx_w1s
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GUNMAP_DIGEST(0..1)[HWS]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_ws_gunmap_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GUNMAP_DIGEST(0..0)[HWS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GUNMAP_DIGEST(0..0)[HWS]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_ws_gunmap_digestx_w1s cavm_sso_af_ws_gunmap_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_WS_GUNMAP_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_GUNMAP_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070902300ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070902300ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070902300ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070902300ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_GUNMAP_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5569,7 +7548,13 @@ typedef union cavm_sso_af_ws_ne_digestx cavm_sso_af_ws_ne_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_NE_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NE_DIGESTX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070902800ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070902800ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070902800ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070902800ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_NE_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5598,14 +7583,31 @@ union cavm_sso_af_ws_ne_digestx_w1s
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NE_DIGEST(0..1)[HWS]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ws_ne_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_ws_ne_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_ws_ne_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_ws_ne_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NE_DIGEST(0..0)[HWS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NE_DIGEST(0..0)[HWS]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ws_ne_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_ws_ne_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_ws_ne_digestx_w1s cavm_sso_af_ws_ne_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_WS_NE_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NE_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070902900ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070902900ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070902900ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070902900ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_NE_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5641,7 +7643,13 @@ typedef union cavm_sso_af_ws_ni_digestx cavm_sso_af_ws_ni_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070903000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070903000ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070903000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070903000ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_NI_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5670,14 +7678,31 @@ union cavm_sso_af_ws_ni_digestx_w1s
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NI_DIGEST(0..1)[HWS]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ws_ni_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_ws_ni_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_ws_ni_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_ws_ni_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NI_DIGEST(0..0)[HWS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NI_DIGEST(0..0)[HWS]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ws_ni_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_ws_ni_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_ws_ni_digestx_w1s cavm_sso_af_ws_ni_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070903100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070903100ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070903100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070903100ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_NI_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5713,7 +7738,13 @@ typedef union cavm_sso_af_ws_nt_digestx cavm_sso_af_ws_nt_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070903200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070903200ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070903200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070903200ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_NT_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5742,14 +7773,31 @@ union cavm_sso_af_ws_nt_digestx_w1s
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NT_DIGEST(0..1)[HWS]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_ws_nt_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_ws_nt_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_ws_nt_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_ws_nt_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NT_DIGEST(0..0)[HWS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NT_DIGEST(0..0)[HWS]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_ws_nt_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_ws_nt_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_ws_nt_digestx_w1s cavm_sso_af_ws_nt_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x840070903300ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x840070903300ll + 8ll * ((a) & 0x0);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x840070903300ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x840070903300ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_WS_NT_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5788,7 +7836,13 @@ typedef union cavm_sso_af_xaqx_gmctl cavm_sso_af_xaqx_gmctl_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_GMCTL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_GMCTL(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x8400700e0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x8400700e0000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x8400700e0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x8400700e0000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_XAQX_GMCTL", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5835,7 +7889,13 @@ typedef union cavm_sso_af_xaqx_head_next cavm_sso_af_xaqx_head_next_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_HEAD_NEXT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_HEAD_NEXT(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x8400700a0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x8400700a0000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x8400700a0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x8400700a0000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_XAQX_HEAD_NEXT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5884,7 +7944,13 @@ typedef union cavm_sso_af_xaqx_head_ptr cavm_sso_af_xaqx_head_ptr_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_HEAD_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_HEAD_PTR(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070080000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070080000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070080000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070080000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_XAQX_HEAD_PTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5932,7 +7998,13 @@ typedef union cavm_sso_af_xaqx_tail_next cavm_sso_af_xaqx_tail_next_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_TAIL_NEXT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_TAIL_NEXT(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x8400700b0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x8400700b0000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x8400700b0000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x8400700b0000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_XAQX_TAIL_NEXT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -5985,7 +8057,13 @@ typedef union cavm_sso_af_xaqx_tail_ptr cavm_sso_af_xaqx_tail_ptr_t;
 static inline uint64_t CAVM_SSO_AF_XAQX_TAIL_PTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQX_TAIL_PTR(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070090000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070090000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070090000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070090000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_AF_XAQX_TAIL_PTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6091,7 +8169,13 @@ typedef union cavm_sso_af_xaqdis_digestx cavm_sso_af_xaqdis_digestx_t;
 static inline uint64_t CAVM_SSO_AF_XAQDIS_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQDIS_DIGESTX(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070901000ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070901000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070901000ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070901000ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_XAQDIS_DIGESTX", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6120,14 +8204,31 @@ union cavm_sso_af_xaqdis_digestx_w1s
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_XAQDIS_DIGEST(0..3)[HWGRP]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_af_xaqdis_digestx_w1s_s cn; */
+    /* struct cavm_sso_af_xaqdis_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_xaqdis_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_xaqdis_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_XAQDIS_DIGEST(0..1)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_XAQDIS_DIGEST(0..1)[HWGRP]. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_af_xaqdis_digestx_w1s_s cnf10ka; */
+    /* struct cavm_sso_af_xaqdis_digestx_w1s_s cnf10kb; */
 };
 typedef union cavm_sso_af_xaqdis_digestx_w1s cavm_sso_af_xaqdis_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_XAQDIS_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_XAQDIS_DIGESTX_W1S(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840070901100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840070901100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840070901100ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840070901100ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("SSO_AF_XAQDIS_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6392,7 +8493,50 @@ union cavm_sso_lf_ggrp_int_cnt
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_lf_ggrp_int_cnt_s cn; */
+    /* struct cavm_sso_lf_ggrp_int_cnt_s cn10; */
+    /* struct cavm_sso_lf_ggrp_int_cnt_s cn10ka; */
+    struct cavm_sso_lf_ggrp_int_cnt_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t tc_cnt                : 13; /**< [ 60: 48](RO/H) Time counter current value. Hardware sets this field to the value of
+                                                                 SSO_LF_GGRP_INT_THR[TC_THR] whenever:
+                                                                 * Corresponding SSO_LF_GGRP_INT_CNT[IAQ_CNT, DS_CNT, CQ_CNT] are all equal to zero.
+                                                                 * Corresponding SSO_LF_GGRP_INT[EXE_INT] is written with a one to clear by software.
+                                                                 * Corresponding SSO_LF_GGRP_EXE_DIS[EXE_DIS] is written with a one to set by software.
+                                                                 * Corresponding SSO_LF_GGRP_INT_THR is written by software.
+                                                                 * [TC_CNT] is equal to one and periodic counter SSO_AF_WQ_INT_PC[PC] is equal to zero.
+
+                                                                 Otherwise, hardware decrements this field whenever the periodic counter SSO_AF_WQ_INT_PC[PC]
+                                                                 is equal to zero. This field is zero whenever SSO_LF_GGRP_INT_THR[TC_THR] is equal to zero. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t cq_cnt                : 13; /**< [ 44: 32](RO/H) Conflicted queue executable count. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ds_cnt                : 13; /**< [ 28: 16](RO/H) Deschedule executable count. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t iaq_cnt               : 13; /**< [ 12:  0](RO/H) Work-queue entries for this in-unit admission queue. */
+#else /* Word 0 - Little Endian */
+        uint64_t iaq_cnt               : 13; /**< [ 12:  0](RO/H) Work-queue entries for this in-unit admission queue. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t ds_cnt                : 13; /**< [ 28: 16](RO/H) Deschedule executable count. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t cq_cnt                : 13; /**< [ 44: 32](RO/H) Conflicted queue executable count. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t tc_cnt                : 13; /**< [ 60: 48](RO/H) Time counter current value. Hardware sets this field to the value of
+                                                                 SSO_LF_GGRP_INT_THR[TC_THR] whenever:
+                                                                 * Corresponding SSO_LF_GGRP_INT_CNT[IAQ_CNT, DS_CNT, CQ_CNT] are all equal to zero.
+                                                                 * Corresponding SSO_LF_GGRP_INT[EXE_INT] is written with a one to clear by software.
+                                                                 * Corresponding SSO_LF_GGRP_EXE_DIS[EXE_DIS] is written with a one to set by software.
+                                                                 * Corresponding SSO_LF_GGRP_INT_THR is written by software.
+                                                                 * [TC_CNT] is equal to one and periodic counter SSO_AF_WQ_INT_PC[PC] is equal to zero.
+
+                                                                 Otherwise, hardware decrements this field whenever the periodic counter SSO_AF_WQ_INT_PC[PC]
+                                                                 is equal to zero. This field is zero whenever SSO_LF_GGRP_INT_THR[TC_THR] is equal to zero. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_lf_ggrp_int_cnt_s cnf10ka; */
+    /* struct cavm_sso_lf_ggrp_int_cnt_s cnf10kb; */
 };
 typedef union cavm_sso_lf_ggrp_int_cnt cavm_sso_lf_ggrp_int_cnt_t;
 
@@ -6544,7 +8688,52 @@ union cavm_sso_lf_ggrp_int_thr
                                                                  when [TC_THR] is zero. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_lf_ggrp_int_thr_s cn; */
+    /* struct cavm_sso_lf_ggrp_int_thr_s cn10; */
+    /* struct cavm_sso_lf_ggrp_int_thr_s cn10ka; */
+    struct cavm_sso_lf_ggrp_int_thr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tc_en                 : 1;  /**< [ 63: 63](R/W) Time counter interrupt enable for this guest group. This field must be zero
+                                                                 when [TC_THR] is zero. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t tc_thr                : 12; /**< [ 59: 48](R/W) Time counter interrupt threshold for this guest group. Compared against
+                                                                 SSO_LF_GGRP_INT_CNT[TC_CNT]. When this field is equal to zero,
+                                                                 SSO_LF_GGRP_INT_CNT[TC_CNT] is zero. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t cq_thr                : 13; /**< [ 44: 32](R/W) Conflicted queue count threshold for this guest group. Compared against
+                                                                 SSO_LF_GGRP_INT_CNT[CQ_CNT]. When this field is zero, the threshold interrupt is
+                                                                 disabled. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ds_thr                : 13; /**< [ 28: 16](R/W) Deschedule count threshold for this guest group. Compared against
+                                                                 SSO_LF_GGRP_INT_CNT[DS_CNT]. When
+                                                                 this field is zero, the threshold interrupt is disabled. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t iaq_thr               : 13; /**< [ 12:  0](R/W) In-unit admission queue threshold for this guest group. Compared against
+                                                                 SSO_LF_GGRP_INT_CNT[IAQ_CNT]. When this field is zero, the threshold interrupt is
+                                                                 disabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t iaq_thr               : 13; /**< [ 12:  0](R/W) In-unit admission queue threshold for this guest group. Compared against
+                                                                 SSO_LF_GGRP_INT_CNT[IAQ_CNT]. When this field is zero, the threshold interrupt is
+                                                                 disabled. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t ds_thr                : 13; /**< [ 28: 16](R/W) Deschedule count threshold for this guest group. Compared against
+                                                                 SSO_LF_GGRP_INT_CNT[DS_CNT]. When
+                                                                 this field is zero, the threshold interrupt is disabled. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t cq_thr                : 13; /**< [ 44: 32](R/W) Conflicted queue count threshold for this guest group. Compared against
+                                                                 SSO_LF_GGRP_INT_CNT[CQ_CNT]. When this field is zero, the threshold interrupt is
+                                                                 disabled. */
+        uint64_t reserved_45_47        : 3;
+        uint64_t tc_thr                : 12; /**< [ 59: 48](R/W) Time counter interrupt threshold for this guest group. Compared against
+                                                                 SSO_LF_GGRP_INT_CNT[TC_CNT]. When this field is equal to zero,
+                                                                 SSO_LF_GGRP_INT_CNT[TC_CNT] is zero. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t tc_en                 : 1;  /**< [ 63: 63](R/W) Time counter interrupt enable for this guest group. This field must be zero
+                                                                 when [TC_THR] is zero. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_lf_ggrp_int_thr_s cnf10ka; */
+    /* struct cavm_sso_lf_ggrp_int_thr_s cnf10kb; */
 };
 typedef union cavm_sso_lf_ggrp_int_thr cavm_sso_lf_ggrp_int_thr_t;
 
@@ -6621,7 +8810,20 @@ union cavm_sso_lf_ggrp_misc_cnt
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_sso_lf_ggrp_misc_cnt_s cn; */
+    /* struct cavm_sso_lf_ggrp_misc_cnt_s cn10; */
+    /* struct cavm_sso_lf_ggrp_misc_cnt_s cn10ka; */
+    struct cavm_sso_lf_ggrp_misc_cnt_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t ds_pend_sw            : 13; /**< [ 12:  0](R/W/H) Number of descheduled pending switches and descheduled pending LSW entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t ds_pend_sw            : 13; /**< [ 12:  0](R/W/H) Number of descheduled pending switches and descheduled pending LSW entries. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_sso_lf_ggrp_misc_cnt_s cnf10ka; */
+    /* struct cavm_sso_lf_ggrp_misc_cnt_s cnf10kb; */
 };
 typedef union cavm_sso_lf_ggrp_misc_cnt cavm_sso_lf_ggrp_misc_cnt_t;
 
@@ -6927,7 +9129,13 @@ typedef union cavm_sso_priv_lfx_hwgrp_cfg cavm_sso_priv_lfx_hwgrp_cfg_t;
 static inline uint64_t CAVM_SSO_PRIV_LFX_HWGRP_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_PRIV_LFX_HWGRP_CFG(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070010000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070010000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070010000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070010000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_PRIV_LFX_HWGRP_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6978,7 +9186,13 @@ typedef union cavm_sso_priv_lfx_hwgrp_int_cfg cavm_sso_priv_lfx_hwgrp_int_cfg_t;
 static inline uint64_t CAVM_SSO_PRIV_LFX_HWGRP_INT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_PRIV_LFX_HWGRP_INT_CFG(uint64_t a)
 {
-    if (a<=255)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=255))
+        return 0x840070020000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
+        return 0x840070020000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=255))
+        return 0x840070020000ll + 8ll * ((a) & 0xff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=255))
         return 0x840070020000ll + 8ll * ((a) & 0xff);
     __cavm_csr_fatal("SSO_PRIV_LFX_HWGRP_INT_CFG", 1, a, 0, 0, 0, 0, 0);
 }

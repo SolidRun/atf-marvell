@@ -473,6 +473,7 @@ union cavm_mio_ptp_clock_cfg
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } cn10ka;
+    /* struct cavm_mio_ptp_clock_cfg_s cn10kb; */
     /* struct cavm_mio_ptp_clock_cfg_cn10ka cnf10ka; */
     /* struct cavm_mio_ptp_clock_cfg_s cnf10kb; */
 };
@@ -628,8 +629,7 @@ union cavm_mio_ptp_clock_sec
     } s;
     /* struct cavm_mio_ptp_clock_sec_s cn10; */
     /* struct cavm_mio_ptp_clock_sec_s cn10ka; */
-    /* struct cavm_mio_ptp_clock_sec_s cnf10ka; */
-    struct cavm_mio_ptp_clock_sec_cnf10kb
+    struct cavm_mio_ptp_clock_sec_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -638,7 +638,9 @@ union cavm_mio_ptp_clock_sec
         uint64_t sec                   : 32; /**< [ 31:  0](RO/H) PTP timestamp seconds counter, bits\<63:32\> of the PTP timestamp. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cn10kb;
+    /* struct cavm_mio_ptp_clock_sec_s cnf10ka; */
+    /* struct cavm_mio_ptp_clock_sec_cn10kb cnf10kb; */
 };
 typedef union cavm_mio_ptp_clock_sec cavm_mio_ptp_clock_sec_t;
 
@@ -655,6 +657,43 @@ static inline uint64_t CAVM_MIO_PTP_CLOCK_SEC_FUNC(void)
 #define device_bar_CAVM_MIO_PTP_CLOCK_SEC 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MIO_PTP_CLOCK_SEC 0
 #define arguments_CAVM_MIO_PTP_CLOCK_SEC -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_cur_rollover_capture
+ *
+ * Current Rollover Value Capture Register
+ * This register is used to capture the time of the most recent second rollover in nanoseconds
+ */
+union cavm_mio_ptp_cur_rollover_capture
+{
+    uint64_t u;
+    struct cavm_mio_ptp_cur_rollover_capture_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t curr_roll_over_value_capture : 64;/**< [ 63:  0](RO/H) Current Roll Over value in nanoseconds. */
+#else /* Word 0 - Little Endian */
+        uint64_t curr_roll_over_value_capture : 64;/**< [ 63:  0](RO/H) Current Roll Over value in nanoseconds. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_cur_rollover_capture_s cn; */
+};
+typedef union cavm_mio_ptp_cur_rollover_capture cavm_mio_ptp_cur_rollover_capture_t;
+
+#define CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC()
+static inline uint64_t CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000001018ll;
+    __cavm_csr_fatal("MIO_PTP_CUR_ROLLOVER_CAPTURE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE cavm_mio_ptp_cur_rollover_capture_t
+#define bustype_CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE "MIO_PTP_CUR_ROLLOVER_CAPTURE"
+#define device_bar_CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE 0
+#define arguments_CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_curr_rollover_set
@@ -683,6 +722,8 @@ typedef union cavm_mio_ptp_curr_rollover_set cavm_mio_ptp_curr_rollover_set_t;
 static inline uint64_t CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000000ff0ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x807000000ff0ll;
     __cavm_csr_fatal("MIO_PTP_CURR_ROLLOVER_SET", 0, 0, 0, 0, 0, 0, 0);
@@ -887,6 +928,8 @@ typedef union cavm_mio_ptp_frns_timestamp cavm_mio_ptp_frns_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000000fe0ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x807000000fe0ll;
     __cavm_csr_fatal("MIO_PTP_FRNS_TIMESTAMP", 0, 0, 0, 0, 0, 0, 0);
@@ -1251,6 +1294,8 @@ typedef union cavm_mio_ptp_nano_timestamp cavm_mio_ptp_nano_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000000ff8ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x807000000ff8ll;
     __cavm_csr_fatal("MIO_PTP_NANO_TIMESTAMP", 0, 0, 0, 0, 0, 0, 0);
@@ -1262,6 +1307,43 @@ static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void)
 #define device_bar_CAVM_MIO_PTP_NANO_TIMESTAMP 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MIO_PTP_NANO_TIMESTAMP 0
 #define arguments_CAVM_MIO_PTP_NANO_TIMESTAMP -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_nxt_rollover_capture
+ *
+ * Next Rollover Value Capture Register
+ * This register is used to capture the time of the next second rollover in nanoseconds
+ */
+union cavm_mio_ptp_nxt_rollover_capture
+{
+    uint64_t u;
+    struct cavm_mio_ptp_nxt_rollover_capture_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t nxt_roll_over_value_capture : 64;/**< [ 63:  0](RO/H) Next roll over, in nanoseconds. */
+#else /* Word 0 - Little Endian */
+        uint64_t nxt_roll_over_value_capture : 64;/**< [ 63:  0](RO/H) Next roll over, in nanoseconds. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_nxt_rollover_capture_s cn; */
+};
+typedef union cavm_mio_ptp_nxt_rollover_capture cavm_mio_ptp_nxt_rollover_capture_t;
+
+#define CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC()
+static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000001010ll;
+    __cavm_csr_fatal("MIO_PTP_NXT_ROLLOVER_CAPTURE", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE cavm_mio_ptp_nxt_rollover_capture_t
+#define bustype_CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE "MIO_PTP_NXT_ROLLOVER_CAPTURE"
+#define device_bar_CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE 0
+#define arguments_CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE -1,-1,-1,-1
 
 /**
  * Register (NCB) mio_ptp_nxt_rollover_set
@@ -1290,6 +1372,8 @@ typedef union cavm_mio_ptp_nxt_rollover_set cavm_mio_ptp_nxt_rollover_set_t;
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000000fe8ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x807000000fe8ll;
     __cavm_csr_fatal("MIO_PTP_NXT_ROLLOVER_SET", 0, 0, 0, 0, 0, 0, 0);
@@ -1489,6 +1573,8 @@ typedef union cavm_mio_ptp_sec_nano_timestamp cavm_mio_ptp_sec_nano_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000001008ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x807000001008ll;
     __cavm_csr_fatal("MIO_PTP_SEC_NANO_TIMESTAMP", 0, 0, 0, 0, 0, 0, 0);
@@ -1528,6 +1614,8 @@ typedef union cavm_mio_ptp_sec_rollover cavm_mio_ptp_sec_rollover_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_ROLLOVER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_ROLLOVER_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000000fd8ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x807000000fd8ll;
     __cavm_csr_fatal("MIO_PTP_SEC_ROLLOVER", 0, 0, 0, 0, 0, 0, 0);
@@ -1567,6 +1655,8 @@ typedef union cavm_mio_ptp_sec_timestamp cavm_mio_ptp_sec_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000001000ll;
     if (cavm_is_model(OCTEONTX_CNF10KB))
         return 0x807000001000ll;
     __cavm_csr_fatal("MIO_PTP_SEC_TIMESTAMP", 0, 0, 0, 0, 0, 0, 0);
@@ -1771,15 +1861,16 @@ union cavm_mio_ptp_timestamp
         uint64_t sec                   : 32; /**< [ 63: 32](R/W/H) Timestamp in seconds. */
 #endif /* Word 0 - End */
     } cn10ka;
-    /* struct cavm_mio_ptp_timestamp_cn10ka cnf10ka; */
-    struct cavm_mio_ptp_timestamp_cnf10kb
+    struct cavm_mio_ptp_timestamp_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t nanosec               : 64; /**< [ 63:  0](R/W/H) Timestamp in nanoseconds. */
 #else /* Word 0 - Little Endian */
         uint64_t nanosec               : 64; /**< [ 63:  0](R/W/H) Timestamp in nanoseconds. */
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cn10kb;
+    /* struct cavm_mio_ptp_timestamp_cn10ka cnf10ka; */
+    /* struct cavm_mio_ptp_timestamp_cn10kb cnf10kb; */
 };
 typedef union cavm_mio_ptp_timestamp cavm_mio_ptp_timestamp_t;
 
@@ -1796,5 +1887,45 @@ static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_FUNC(void)
 #define device_bar_CAVM_MIO_PTP_TIMESTAMP 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MIO_PTP_TIMESTAMP 0
 #define arguments_CAVM_MIO_PTP_TIMESTAMP -1,-1,-1,-1
+
+/**
+ * Register (NCB) mio_ptp_timestamp_2
+ *
+ * PTP Timestamp Register 2
+ * This register contains timestamp latched on MIO_PTP_CLOCK_CFG[TSTMP_EDGE] edge of
+ * MIO_PTP_CLOCK_CFG[TSTMP_IN].
+ */
+union cavm_mio_ptp_timestamp_2
+{
+    uint64_t u;
+    struct cavm_mio_ptp_timestamp_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sec                   : 32; /**< [ 63: 32](R/W/H) Timestamp in seconds. */
+        uint64_t nanosec               : 32; /**< [ 31:  0](R/W/H) Timestamp in nanoseconds. */
+#else /* Word 0 - Little Endian */
+        uint64_t nanosec               : 32; /**< [ 31:  0](R/W/H) Timestamp in nanoseconds. */
+        uint64_t sec                   : 32; /**< [ 63: 32](R/W/H) Timestamp in seconds. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mio_ptp_timestamp_2_s cn; */
+};
+typedef union cavm_mio_ptp_timestamp_2 cavm_mio_ptp_timestamp_2_t;
+
+#define CAVM_MIO_PTP_TIMESTAMP_2 CAVM_MIO_PTP_TIMESTAMP_2_FUNC()
+static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_2_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x807000001020ll;
+    __cavm_csr_fatal("MIO_PTP_TIMESTAMP_2", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MIO_PTP_TIMESTAMP_2 cavm_mio_ptp_timestamp_2_t
+#define bustype_CAVM_MIO_PTP_TIMESTAMP_2 CSR_TYPE_NCB
+#define basename_CAVM_MIO_PTP_TIMESTAMP_2 "MIO_PTP_TIMESTAMP_2"
+#define device_bar_CAVM_MIO_PTP_TIMESTAMP_2 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MIO_PTP_TIMESTAMP_2 0
+#define arguments_CAVM_MIO_PTP_TIMESTAMP_2 -1,-1,-1,-1
 
 #endif /* __CAVM_CSRS_MIO_PTP_H__ */

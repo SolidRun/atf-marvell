@@ -7532,8 +7532,7 @@ union cavm_ehsm_biu_sp_interrupt_rst_rsvd
     } s;
     /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_s cn10; */
     /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_s cn10ka; */
-    /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_s cnf10ka; */
-    struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_cnf10kb
+    struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
@@ -7648,7 +7647,9 @@ union cavm_ehsm_biu_sp_interrupt_rst_rsvd
                                                                  bit 7~15 Reserved.
                                                                  This is for EHSM-71. */
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cn10kb;
+    /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_s cnf10ka; */
+    /* struct cavm_ehsm_biu_sp_interrupt_rst_rsvd_cn10kb cnf10kb; */
 };
 typedef union cavm_ehsm_biu_sp_interrupt_rst_rsvd cavm_ehsm_biu_sp_interrupt_rst_rsvd_t;
 
@@ -7746,8 +7747,7 @@ union cavm_ehsm_biu_sp_interrupt_set_rsvd
     } s;
     /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_s cn10; */
     /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_s cn10ka; */
-    /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_s cnf10ka; */
-    struct cavm_ehsm_biu_sp_interrupt_set_rsvd_cnf10kb
+    struct cavm_ehsm_biu_sp_interrupt_set_rsvd_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t side_channel_sensor   : 16; /**< [ 31: 16](R/W) This is the interrupt from side channel sensors. They can all be clearred by CM3
@@ -7814,7 +7814,9 @@ union cavm_ehsm_biu_sp_interrupt_set_rsvd
                                                                  bit 7~15 Reserved.
                                                                  This is for EHSM-71. */
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cn10kb;
+    /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_s cnf10ka; */
+    /* struct cavm_ehsm_biu_sp_interrupt_set_rsvd_cn10kb cnf10kb; */
 };
 typedef union cavm_ehsm_biu_sp_interrupt_set_rsvd cavm_ehsm_biu_sp_interrupt_set_rsvd_t;
 
@@ -14937,8 +14939,7 @@ union cavm_ehsm_side_sensor_status
     } s;
     /* struct cavm_ehsm_side_sensor_status_s cn10; */
     /* struct cavm_ehsm_side_sensor_status_s cn10ka; */
-    /* struct cavm_ehsm_side_sensor_status_s cnf10ka; */
-    struct cavm_ehsm_side_sensor_status_cnf10kb
+    struct cavm_ehsm_side_sensor_status_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_14_31        : 18;
@@ -14973,7 +14974,9 @@ union cavm_ehsm_side_sensor_status
                                                                  Bit 5 - Low Voltage Detect VDIS. */
         uint32_t reserved_14_31        : 18;
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cn10kb;
+    /* struct cavm_ehsm_side_sensor_status_s cnf10ka; */
+    /* struct cavm_ehsm_side_sensor_status_cn10kb cnf10kb; */
 };
 typedef union cavm_ehsm_side_sensor_status cavm_ehsm_side_sensor_status_t;
 

@@ -46,6 +46,16 @@
 #define CAVM_NPC_ERRLEV_E_RE (0)
 
 /**
+ * Enumeration npc_exact_opc_e
+ *
+ * NPC MCAM Search Key Width Enumeration
+ */
+#define CAVM_NPC_EXACT_OPC_E_INVAL (0)
+#define CAVM_NPC_EXACT_OPC_E_RESERVED (3)
+#define CAVM_NPC_EXACT_OPC_E_VAL_CAM (1)
+#define CAVM_NPC_EXACT_OPC_E_VAL_MEM (2)
+
+/**
  * Enumeration npc_intf_e
  *
  * NPC Interface Enumeration
@@ -94,6 +104,41 @@
  * Enumerates the NPC pkind PTYPEs.
  */
 #define CAVM_NPC_PTYPE_E_PTYPEX(a) (0 + (a))
+
+/**
+ * Structure npc_exact_result_s
+ *
+ * NPC Exact Match Search Results Structure
+ * This structure specifies the format of each of the
+ * exact match search results to kex.
+ */
+union cavm_npc_exact_result_s
+{
+    uint32_t u;
+    struct cavm_npc_exact_result_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t index                 : 11; /**< [ 15:  5] Index where exact match was found. Note that [INDEX] will be set to zero when
+                                                                 [HIT] = 0. */
+        uint32_t way                   : 2;  /**< [  4:  3] Way where exact match was found. Note that [WAY] will be set to zero when [HIT]
+                                                                 = 0. */
+        uint32_t opc                   : 2;  /**< [  2:  1] NPC OPC enumerated by NPC_EXACT_OPC_E. Note that [OPC] will be set to
+                                                                 NPC_EXACT_OPC_E::VAL_MEM when [HIT] = 0. */
+        uint32_t hit                   : 1;  /**< [  0:  0] Hit=1/Miss=0.  Note that [HIT] will be set to zero when [OPC] = NPC_EXACT_OPC_E::INVAL. */
+#else /* Word 0 - Little Endian */
+        uint32_t hit                   : 1;  /**< [  0:  0] Hit=1/Miss=0.  Note that [HIT] will be set to zero when [OPC] = NPC_EXACT_OPC_E::INVAL. */
+        uint32_t opc                   : 2;  /**< [  2:  1] NPC OPC enumerated by NPC_EXACT_OPC_E. Note that [OPC] will be set to
+                                                                 NPC_EXACT_OPC_E::VAL_MEM when [HIT] = 0. */
+        uint32_t way                   : 2;  /**< [  4:  3] Way where exact match was found. Note that [WAY] will be set to zero when [HIT]
+                                                                 = 0. */
+        uint32_t index                 : 11; /**< [ 15:  5] Index where exact match was found. Note that [INDEX] will be set to zero when
+                                                                 [HIT] = 0. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_exact_result_s_s cn; */
+};
 
 /**
  * Structure npc_layer_info_s
@@ -935,6 +980,43 @@ union cavm_npc_af_const3
         uint64_t have_const4           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST4 is present. */
         uint64_t have_exact_match      : 1;  /**< [ 62: 62](RO) Exact Match functionality is present. */
         uint64_t have_sa_lookup        : 1;  /**< [ 61: 61](RO) SPI -\> SA Lookup functionality is present. */
+        uint64_t have_field_hash       : 1;  /**< [ 60: 60](RO) Field Hash functionality is present. */
+        uint64_t reserved_32_59        : 28;
+        uint64_t exact_match_cam_depth : 8;  /**< [ 31: 24](RO) Number of indices in NPC Exact Match CAM.
+                                                                 Internal:
+                                                                 Not present in 106xx, 105xx, 105nxx designs. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t exact_match_mem_ways  : 4;  /**< [ 19: 16](RO) Number of ways at each index in NPC Exact Match memory table.
+                                                                 Internal:
+                                                                 Not present in 106xx, 105xx, 105nxx designs. */
+        uint64_t exact_match_mem_depth : 16; /**< [ 15:  0](RO) Number of indices in NPC Exact Match memory table.
+                                                                 Internal:
+                                                                 Not present in 106xx, 105xx, 105nxx designs. */
+#else /* Word 0 - Little Endian */
+        uint64_t exact_match_mem_depth : 16; /**< [ 15:  0](RO) Number of indices in NPC Exact Match memory table.
+                                                                 Internal:
+                                                                 Not present in 106xx, 105xx, 105nxx designs. */
+        uint64_t exact_match_mem_ways  : 4;  /**< [ 19: 16](RO) Number of ways at each index in NPC Exact Match memory table.
+                                                                 Internal:
+                                                                 Not present in 106xx, 105xx, 105nxx designs. */
+        uint64_t reserved_20_23        : 4;
+        uint64_t exact_match_cam_depth : 8;  /**< [ 31: 24](RO) Number of indices in NPC Exact Match CAM.
+                                                                 Internal:
+                                                                 Not present in 106xx, 105xx, 105nxx designs. */
+        uint64_t reserved_32_59        : 28;
+        uint64_t have_field_hash       : 1;  /**< [ 60: 60](RO) Field Hash functionality is present. */
+        uint64_t have_sa_lookup        : 1;  /**< [ 61: 61](RO) SPI -\> SA Lookup functionality is present. */
+        uint64_t have_exact_match      : 1;  /**< [ 62: 62](RO) Exact Match functionality is present. */
+        uint64_t have_const4           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST4 is present. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_const3_s cn10; */
+    struct cavm_npc_af_const3_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t have_const4           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST4 is present. */
+        uint64_t have_exact_match      : 1;  /**< [ 62: 62](RO) Exact Match functionality is present. */
+        uint64_t have_sa_lookup        : 1;  /**< [ 61: 61](RO) SPI -\> SA Lookup functionality is present. */
         uint64_t reserved_0_60         : 61;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_60         : 61;
@@ -942,8 +1024,10 @@ union cavm_npc_af_const3
         uint64_t have_exact_match      : 1;  /**< [ 62: 62](RO) Exact Match functionality is present. */
         uint64_t have_const4           : 1;  /**< [ 63: 63](RO) NPC_AF_CONST4 is present. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_const3_s cn; */
+    } cn10ka;
+    /* struct cavm_npc_af_const3_s cn10kb; */
+    /* struct cavm_npc_af_const3_cn10ka cnf10ka; */
+    /* struct cavm_npc_af_const3_cn10ka cnf10kb; */
 };
 typedef union cavm_npc_af_const3 cavm_npc_af_const3_t;
 
@@ -1274,6 +1358,301 @@ static inline uint64_t CAVM_NPC_AF_ECO0_FUNC(void)
 #define arguments_CAVM_NPC_AF_ECO0 -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) npc_af_exact_cam#
+ *
+ * NPC AF Exact Match CAM Entry Registers
+ * These registers provide the interface to the exact match lookup cam. The cam is
+ * organized as a fully associative 32 entry lookup. Each exact match search first
+ * search the cam for a match before proceeding to the exact match memory if no match
+ * is found. The depth of the cam is specified by NPC_AF_CONST3[EXACT_MATCH_CAM_DEPTH].
+ */
+union cavm_npc_af_exact_camx
+{
+    uint64_t u;
+    struct cavm_npc_af_exact_camx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W) Enable entry to match the {CTYPE, CHAN, LDATA} of a packet header. */
+        uint64_t reserved_62           : 1;
+        uint64_t ctype                 : 2;  /**< [ 61: 60](R/W) Field to match against packet's NPC_RESULT_S[CTYPE], after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[CTYPE]. */
+        uint64_t chan                  : 12; /**< [ 59: 48](R/W) Field to match against packet's NPC_RESULT_S[CHAN], after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[CHAN]. */
+        uint64_t ldata                 : 48; /**< [ 47:  0](R/W) Field to match against information extracted from packet header as specified by
+                                                                 NPC_AF_INTF()_EXACT_CFG, after application of NPC_AF_INTF()_EXACT_CFG[LDATA].
+
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t ldata                 : 48; /**< [ 47:  0](R/W) Field to match against information extracted from packet header as specified by
+                                                                 NPC_AF_INTF()_EXACT_CFG, after application of NPC_AF_INTF()_EXACT_CFG[LDATA].
+
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+        uint64_t chan                  : 12; /**< [ 59: 48](R/W) Field to match against packet's NPC_RESULT_S[CHAN], after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[CHAN]. */
+        uint64_t ctype                 : 2;  /**< [ 61: 60](R/W) Field to match against packet's NPC_RESULT_S[CTYPE], after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[CTYPE]. */
+        uint64_t reserved_62           : 1;
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W) Enable entry to match the {CTYPE, CHAN, LDATA} of a packet header. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_exact_camx_s cn; */
+};
+typedef union cavm_npc_af_exact_camx cavm_npc_af_exact_camx_t;
+
+static inline uint64_t CAVM_NPC_AF_EXACT_CAMX(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_EXACT_CAMX(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=31))
+        return 0x840060000c00ll + 8ll * ((a) & 0x1f);
+    __cavm_csr_fatal("NPC_AF_EXACT_CAMX", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_EXACT_CAMX(a) cavm_npc_af_exact_camx_t
+#define bustype_CAVM_NPC_AF_EXACT_CAMX(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_EXACT_CAMX(a) "NPC_AF_EXACT_CAMX"
+#define device_bar_CAVM_NPC_AF_EXACT_CAMX(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_EXACT_CAMX(a) (a)
+#define arguments_CAVM_NPC_AF_EXACT_CAMX(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_exact_dbg
+ *
+ * NPC AF Interface Exact Match Debug Register
+ * Capture the Exact Match hash result on a debug packet (NPC_AF_DBG_CTL[INTF_DBG or
+ * LKUP_DBG]).
+ */
+union cavm_npc_af_exact_dbg
+{
+    uint64_t u;
+    struct cavm_npc_af_exact_dbg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t val                   : 1;  /**< [ 63: 63](R/W1C/H) Set by HW to indicate a valid contents. Set by HW and Clear by SW.
+                                                                 Internal:
+                                                                 this is HW SET / SW Clear W1. */
+        uint64_t reserved_27_62        : 36;
+        uint64_t index                 : 11; /**< [ 26: 16](RO/H) Computed Exact Match Post-Mask/Offset Hash Result. Value frozen at capture time
+                                                                 until VAL is cleared by SW. Value will be 0 for a capture of a no-match header.
+
+                                                                 Internal:
+                                                                 this is HW Set / Frozen by VAL until VAL is cleared. */
+        uint64_t result                : 16; /**< [ 15:  0](RO/H) Computed Exact Match Result. Format specified by NPC_EXACT_RESULT_S.
+                                                                 Value frozen at capture time until VAL is cleared by SW. Value will be 0
+                                                                 for a capture of a no-match header.
+
+                                                                 Internal:
+                                                                 this is HW Set / Frozen by VAL until VAL is cleared. */
+#else /* Word 0 - Little Endian */
+        uint64_t result                : 16; /**< [ 15:  0](RO/H) Computed Exact Match Result. Format specified by NPC_EXACT_RESULT_S.
+                                                                 Value frozen at capture time until VAL is cleared by SW. Value will be 0
+                                                                 for a capture of a no-match header.
+
+                                                                 Internal:
+                                                                 this is HW Set / Frozen by VAL until VAL is cleared. */
+        uint64_t index                 : 11; /**< [ 26: 16](RO/H) Computed Exact Match Post-Mask/Offset Hash Result. Value frozen at capture time
+                                                                 until VAL is cleared by SW. Value will be 0 for a capture of a no-match header.
+
+                                                                 Internal:
+                                                                 this is HW Set / Frozen by VAL until VAL is cleared. */
+        uint64_t reserved_27_62        : 36;
+        uint64_t val                   : 1;  /**< [ 63: 63](R/W1C/H) Set by HW to indicate a valid contents. Set by HW and Clear by SW.
+                                                                 Internal:
+                                                                 this is HW SET / SW Clear W1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_exact_dbg_s cn; */
+};
+typedef union cavm_npc_af_exact_dbg cavm_npc_af_exact_dbg_t;
+
+#define CAVM_NPC_AF_EXACT_DBG CAVM_NPC_AF_EXACT_DBG_FUNC()
+static inline uint64_t CAVM_NPC_AF_EXACT_DBG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_EXACT_DBG_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840060000e80ll;
+    __cavm_csr_fatal("NPC_AF_EXACT_DBG", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_EXACT_DBG cavm_npc_af_exact_dbg_t
+#define bustype_CAVM_NPC_AF_EXACT_DBG CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_EXACT_DBG "NPC_AF_EXACT_DBG"
+#define device_bar_CAVM_NPC_AF_EXACT_DBG 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_EXACT_DBG 0
+#define arguments_CAVM_NPC_AF_EXACT_DBG -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_exact_way#_entry#
+ *
+ * NPC AF Exact Match Entry Registers
+ * These registers provide the interface to the exact match memory. The memory is
+ * organized into 4 ways of 2k entries. Each exact match search that misses in the
+ * exact match cam will attempt to match against all ways at the specified entry. The
+ * number of ways and entries are specified by the registers
+ * NPC_AF_CONST3[EXACT_MATCH_MEM_WAYS] and NPC_AF_CONST3[EXACT_MATCH_MEM_DEPTH],
+ * respectively.
+ */
+union cavm_npc_af_exact_wayx_entryx
+{
+    uint64_t u;
+    struct cavm_npc_af_exact_wayx_entryx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W) Enable entry to match the {CHAN, LDATA} of a packet header */
+        uint64_t reserved_62           : 1;
+        uint64_t ctype                 : 2;  /**< [ 61: 60](R/W) Field to match against packet's NPC_RESULT_S[CTYPE], after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[CTYPE]. The corresponding bits that are masked off
+                                                                 (i.e. are set to one) in NPC_AF_INTF()_EXACT_MASK[CTYPE] must be set to zero in
+                                                                 [CTYPE]. */
+        uint64_t chan                  : 12; /**< [ 59: 48](R/W) Field to match against packet's NPC_RESULT_S[CHAN], after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[CHAN]. The corresponding bits that are masked off
+                                                                 (i.e. are set to one) in NPC_AF_INTF()_EXACT_MASK[CHAN] must be set to zero in
+                                                                 [CHAN]. */
+        uint64_t ldata                 : 48; /**< [ 47:  0](R/W) Field to match against information extracted from packet header as specified by
+                                                                 NPC_AF_INTF()_EXACT_CFG, after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[LDATA]. The corresponding bits that are masked off
+                                                                 (i.e. are set to one) in NPC_AF_INTF()_EXACT_MASK[LDATA] must be set to zero in
+                                                                 [LDATA].
+
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t ldata                 : 48; /**< [ 47:  0](R/W) Field to match against information extracted from packet header as specified by
+                                                                 NPC_AF_INTF()_EXACT_CFG, after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[LDATA]. The corresponding bits that are masked off
+                                                                 (i.e. are set to one) in NPC_AF_INTF()_EXACT_MASK[LDATA] must be set to zero in
+                                                                 [LDATA].
+
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+        uint64_t chan                  : 12; /**< [ 59: 48](R/W) Field to match against packet's NPC_RESULT_S[CHAN], after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[CHAN]. The corresponding bits that are masked off
+                                                                 (i.e. are set to one) in NPC_AF_INTF()_EXACT_MASK[CHAN] must be set to zero in
+                                                                 [CHAN]. */
+        uint64_t ctype                 : 2;  /**< [ 61: 60](R/W) Field to match against packet's NPC_RESULT_S[CTYPE], after application of
+                                                                 NPC_AF_INTF()_EXACT_MASK[CTYPE]. The corresponding bits that are masked off
+                                                                 (i.e. are set to one) in NPC_AF_INTF()_EXACT_MASK[CTYPE] must be set to zero in
+                                                                 [CTYPE]. */
+        uint64_t reserved_62           : 1;
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W) Enable entry to match the {CHAN, LDATA} of a packet header */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_exact_wayx_entryx_s cn; */
+};
+typedef union cavm_npc_af_exact_wayx_entryx cavm_npc_af_exact_wayx_entryx_t;
+
+static inline uint64_t CAVM_NPC_AF_EXACT_WAYX_ENTRYX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_EXACT_WAYX_ENTRYX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=3) && (b<=2047)))
+        return 0x840060300000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x7ff);
+    __cavm_csr_fatal("NPC_AF_EXACT_WAYX_ENTRYX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_EXACT_WAYX_ENTRYX(a,b) cavm_npc_af_exact_wayx_entryx_t
+#define bustype_CAVM_NPC_AF_EXACT_WAYX_ENTRYX(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_EXACT_WAYX_ENTRYX(a,b) "NPC_AF_EXACT_WAYX_ENTRYX"
+#define device_bar_CAVM_NPC_AF_EXACT_WAYX_ENTRYX(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_EXACT_WAYX_ENTRYX(a,b) (a)
+#define arguments_CAVM_NPC_AF_EXACT_WAYX_ENTRYX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_gbl_hash_ctl
+ *
+ * NPC AF Interface Field Hash No Match Value Register
+ * This register value is returned as the hash result for either field hash unit
+ * when there is no match for the LID or LTYPE as configured and there is no LDATA extracted.
+ */
+union cavm_npc_af_gbl_hash_ctl
+{
+    uint64_t u;
+    struct cavm_npc_af_gbl_hash_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t nomatch               : 32; /**< [ 31:  0](R/W) No LID/LTYPE Match Hash return value. */
+#else /* Word 0 - Little Endian */
+        uint64_t nomatch               : 32; /**< [ 31:  0](R/W) No LID/LTYPE Match Hash return value. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_gbl_hash_ctl_s cn; */
+};
+typedef union cavm_npc_af_gbl_hash_ctl cavm_npc_af_gbl_hash_ctl_t;
+
+#define CAVM_NPC_AF_GBL_HASH_CTL CAVM_NPC_AF_GBL_HASH_CTL_FUNC()
+static inline uint64_t CAVM_NPC_AF_GBL_HASH_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_GBL_HASH_CTL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840060000a40ll;
+    __cavm_csr_fatal("NPC_AF_GBL_HASH_CTL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_GBL_HASH_CTL cavm_npc_af_gbl_hash_ctl_t
+#define bustype_CAVM_NPC_AF_GBL_HASH_CTL CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_GBL_HASH_CTL "NPC_AF_GBL_HASH_CTL"
+#define device_bar_CAVM_NPC_AF_GBL_HASH_CTL 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_GBL_HASH_CTL 0
+#define arguments_CAVM_NPC_AF_GBL_HASH_CTL -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_hash#_dbg
+ *
+ * NPC AF Interface Field Hash Debug Register
+ * Capture the Field Hash result on a debug packet (NPC_AF_DBG_CTL[INTF_DBG or
+ * LKUP_DBG]).
+ */
+union cavm_npc_af_hashx_dbg
+{
+    uint64_t u;
+    struct cavm_npc_af_hashx_dbg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t val                   : 1;  /**< [ 63: 63](R/W1C/H) Set by HW to indicate a valid contents. Cleared by S.
+                                                                 Internal:
+                                                                 this is HW SET / SW Clear. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t hash                  : 32; /**< [ 31:  0](RO/H) Computed Field Hash with any configured transformations applied.
+                                                                 Value frozen at capture time until VAL is cleared by SW.
+                                                                 Value will be 0 for a capture of a no-match header.
+
+                                                                 Internal:
+                                                                 this is HW SET / Frozen by VAL until VAL is cleared. */
+#else /* Word 0 - Little Endian */
+        uint64_t hash                  : 32; /**< [ 31:  0](RO/H) Computed Field Hash with any configured transformations applied.
+                                                                 Value frozen at capture time until VAL is cleared by SW.
+                                                                 Value will be 0 for a capture of a no-match header.
+
+                                                                 Internal:
+                                                                 this is HW SET / Frozen by VAL until VAL is cleared. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t val                   : 1;  /**< [ 63: 63](R/W1C/H) Set by HW to indicate a valid contents. Cleared by S.
+                                                                 Internal:
+                                                                 this is HW SET / SW Clear. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_hashx_dbg_s cn; */
+};
+typedef union cavm_npc_af_hashx_dbg cavm_npc_af_hashx_dbg_t;
+
+static inline uint64_t CAVM_NPC_AF_HASHX_DBG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_HASHX_DBG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840060000e90ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("NPC_AF_HASHX_DBG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_HASHX_DBG(a) cavm_npc_af_hashx_dbg_t
+#define bustype_CAVM_NPC_AF_HASHX_DBG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_HASHX_DBG(a) "NPC_AF_HASHX_DBG"
+#define device_bar_CAVM_NPC_AF_HASHX_DBG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_HASHX_DBG(a) (a)
+#define arguments_CAVM_NPC_AF_HASHX_DBG(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) npc_af_ikpu_err_ctl
  *
  * NPC AF Initial KPU Error Control Registers
@@ -1372,6 +1751,377 @@ static inline uint64_t CAVM_NPC_AF_IKPU_ERR_CTL_FUNC(void)
 #define arguments_CAVM_NPC_AF_IKPU_ERR_CTL -1,-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) npc_af_intf#_exact_cfg
+ *
+ * NPC AF Interface Exact Match Configuration Registers
+ * These registers control the extraction of layer data (LDATA) into a field that is
+ * compared with values stored in NPC_AF_EXACT_WAY()_ENTRY(). One LDATA value up to 48b
+ * may be extracted from the layer specified by LID or LTYPE. The extracted data is
+ * optionally concatenated with NPC_RESULT_S[CHAN], then hashed to create a lookup
+ * address for the NPC_AF_EXACT_WAY()_ENTRY() array. 4 ways per address are stored at
+ * each index to handle hash collisions.
+ */
+union cavm_npc_af_intfx_exact_cfg
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_exact_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t hdr_offset            : 8;  /**< [ 39: 32](R/W) Starting byte offset for extracting LDATA relative to the start of the matching
+                                                                 later (NPC_LAYER_INFO_S[LPTR]).
+
+                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end of
+                                                                 packet's header (smaller of 256 bytes or end of packet), a byte value of zero is
+                                                                 used. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t bytesm1               : 3;  /**< [ 18: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 5=6 bytes. Legal values
+                                                                 are in the range of (0..5). */
+        uint64_t reserved_13_15        : 3;
+        uint64_t lt_en                 : 1;  /**< [ 12: 12](R/W) If [LT_EN] = 1 enable selection of LDATA on [LTYPE_MATCH] and [LTYPE_MASK]. */
+        uint64_t lid_en                : 1;  /**< [ 11: 11](R/W) Enable selection of LDATA based on [LID]. If [LID_EN] = 1 and [LTYPE_MATCH]
+                                                                 is non-zero, the LID specified in [LID] must match the [LTYPE_MATCH]; if it does
+                                                                 not, no LDATA will be extracted. */
+        uint64_t lid                   : 3;  /**< [ 10:  8](R/W) Layer ID. Enumerated by NPC_LID_E. */
+        uint64_t ltype_match           : 4;  /**< [  7:  4](R/W) Layer type match value. Hardware detects a layer match when
+                                                                 \<pre\>
+                                                                 ([LTYPE_MATCH] & [LTYPE_MASK]) == (NPC_RESULT_S[LX[LTYPE]] & [LTYPE_MASK])
+                                                                 \</pre\>
+
+                                                                 where LX is one of LA, LB, ..., LH as selected by [LID]. */
+        uint64_t ltype_mask            : 4;  /**< [  3:  0](R/W) Layer type mask. See [LTYPE_MATCH]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ltype_mask            : 4;  /**< [  3:  0](R/W) Layer type mask. See [LTYPE_MATCH]. */
+        uint64_t ltype_match           : 4;  /**< [  7:  4](R/W) Layer type match value. Hardware detects a layer match when
+                                                                 \<pre\>
+                                                                 ([LTYPE_MATCH] & [LTYPE_MASK]) == (NPC_RESULT_S[LX[LTYPE]] & [LTYPE_MASK])
+                                                                 \</pre\>
+
+                                                                 where LX is one of LA, LB, ..., LH as selected by [LID]. */
+        uint64_t lid                   : 3;  /**< [ 10:  8](R/W) Layer ID. Enumerated by NPC_LID_E. */
+        uint64_t lid_en                : 1;  /**< [ 11: 11](R/W) Enable selection of LDATA based on [LID]. If [LID_EN] = 1 and [LTYPE_MATCH]
+                                                                 is non-zero, the LID specified in [LID] must match the [LTYPE_MATCH]; if it does
+                                                                 not, no LDATA will be extracted. */
+        uint64_t lt_en                 : 1;  /**< [ 12: 12](R/W) If [LT_EN] = 1 enable selection of LDATA on [LTYPE_MATCH] and [LTYPE_MASK]. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t bytesm1               : 3;  /**< [ 18: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 5=6 bytes. Legal values
+                                                                 are in the range of (0..5). */
+        uint64_t reserved_19_31        : 13;
+        uint64_t hdr_offset            : 8;  /**< [ 39: 32](R/W) Starting byte offset for extracting LDATA relative to the start of the matching
+                                                                 later (NPC_LAYER_INFO_S[LPTR]).
+
+                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end of
+                                                                 packet's header (smaller of 256 bytes or end of packet), a byte value of zero is
+                                                                 used. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_exact_cfg_s cn; */
+};
+typedef union cavm_npc_af_intfx_exact_cfg cavm_npc_af_intfx_exact_cfg_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_EXACT_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_EXACT_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840060000a00ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_EXACT_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_EXACT_CFG(a) cavm_npc_af_intfx_exact_cfg_t
+#define bustype_CAVM_NPC_AF_INTFX_EXACT_CFG(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_EXACT_CFG(a) "NPC_AF_INTFX_EXACT_CFG"
+#define device_bar_CAVM_NPC_AF_INTFX_EXACT_CFG(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_EXACT_CFG(a) (a)
+#define arguments_CAVM_NPC_AF_INTFX_EXACT_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_intf#_exact_mask
+ *
+ * NPC AF INTF Exact Match Mask Registers
+ * These registers allow for precise control over which bits are to be included in a
+ * match operation. A value of one in any of the mask fields [CTYPE, CHAN, LDATA]
+ * indicate that the bit will be treated as zero for the purposes of matching. The
+ * value zero indicates that the data should be used normally.
+ *
+ * Internal:
+ * FIXME - not sure this is true and need to double check.
+ */
+union cavm_npc_af_intfx_exact_mask
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_exact_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t ctype                 : 2;  /**< [ 61: 60](R/W) Field to mask against packet's NPC_RESULT_S[CTYPE], after application of
+                                                                 NPC_AF_INTF()_EXACT_CFG. */
+        uint64_t chan                  : 12; /**< [ 59: 48](R/W) Field to mask against packet's NPC_RESULT_S[CHAN], after application of
+                                                                 NPC_AF_INTF()_EXACT_CFG.
+
+                                                                 Internal:
+                                                                 Alternative description - Bits of NPC_RESULT_S[CHAN] to include in hash
+                                                                 calculation. A '1' in each bit position will include the corresponding bit of
+                                                                 NPC_RESULT_S[CHAN] at bit N+48 of the value input to the hash calculation. */
+        uint64_t ldata                 : 48; /**< [ 47:  0](R/W) Field to mask against information extracted from packet header as specified by
+                                                                 NPC_AF_INTF()_EXACT_CFG.
+
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t ldata                 : 48; /**< [ 47:  0](R/W) Field to mask against information extracted from packet header as specified by
+                                                                 NPC_AF_INTF()_EXACT_CFG.
+
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+        uint64_t chan                  : 12; /**< [ 59: 48](R/W) Field to mask against packet's NPC_RESULT_S[CHAN], after application of
+                                                                 NPC_AF_INTF()_EXACT_CFG.
+
+                                                                 Internal:
+                                                                 Alternative description - Bits of NPC_RESULT_S[CHAN] to include in hash
+                                                                 calculation. A '1' in each bit position will include the corresponding bit of
+                                                                 NPC_RESULT_S[CHAN] at bit N+48 of the value input to the hash calculation. */
+        uint64_t ctype                 : 2;  /**< [ 61: 60](R/W) Field to mask against packet's NPC_RESULT_S[CTYPE], after application of
+                                                                 NPC_AF_INTF()_EXACT_CFG. */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_exact_mask_s cn; */
+};
+typedef union cavm_npc_af_intfx_exact_mask cavm_npc_af_intfx_exact_mask_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_EXACT_MASK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_EXACT_MASK(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840060000660ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_EXACT_MASK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_EXACT_MASK(a) cavm_npc_af_intfx_exact_mask_t
+#define bustype_CAVM_NPC_AF_INTFX_EXACT_MASK(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_EXACT_MASK(a) "NPC_AF_INTFX_EXACT_MASK"
+#define device_bar_CAVM_NPC_AF_INTFX_EXACT_MASK(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_EXACT_MASK(a) (a)
+#define arguments_CAVM_NPC_AF_INTFX_EXACT_MASK(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_intf#_exact_result_ctl
+ *
+ * NPC AF INTF Exact Match Result Control Registers
+ * Provides the ability to adjust the resulting hash value for lookup into
+ * NPC_AF_EXACT_WAY()_ENTRY().
+ */
+union cavm_npc_af_intfx_exact_result_ctl
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_exact_result_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_43_63        : 21;
+        uint64_t mask                  : 11; /**< [ 42: 32](R/W) Field to mask against exact match hash result. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t offset                : 11; /**< [ 10:  0](R/W) Field to add to the post-masked exact match hash result.
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t offset                : 11; /**< [ 10:  0](R/W) Field to add to the post-masked exact match hash result.
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+        uint64_t reserved_11_31        : 21;
+        uint64_t mask                  : 11; /**< [ 42: 32](R/W) Field to mask against exact match hash result. */
+        uint64_t reserved_43_63        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_exact_result_ctl_s cn; */
+};
+typedef union cavm_npc_af_intfx_exact_result_ctl cavm_npc_af_intfx_exact_result_ctl_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840060000680ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_EXACT_RESULT_CTL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(a) cavm_npc_af_intfx_exact_result_ctl_t
+#define bustype_CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(a) "NPC_AF_INTFX_EXACT_RESULT_CTL"
+#define device_bar_CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(a) (a)
+#define arguments_CAVM_NPC_AF_INTFX_EXACT_RESULT_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_intf#_hash#_cfg
+ *
+ * NPC AF Interface Field Hash Configuration Registers
+ * These registers control the extraction of layer data (LDATA) into a field that is
+ * hashed and can be inserted into the MCAM key. See
+ * NPC_AF_INTF()_LID()_LT()_LD()_CFG[USE_HASH]. The LDATA value up to 128b may be
+ * extracted from the layer specified by LID or LTYPE.
+ */
+union cavm_npc_af_intfx_hashx_cfg
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_hashx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t hdr_offset            : 8;  /**< [ 39: 32](R/W) Starting byte offset for extracting LDATA relative to the start of the matching
+                                                                 later (NPC_LAYER_INFO_S[LPTR]).
+
+                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end of
+                                                                 packet's header (smaller of 256 bytes or end of packet), a byte value of zero is
+                                                                 used. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t lt_en                 : 1;  /**< [ 12: 12](R/W) If [LT_EN] = '1' enable selection of LDATA on [LTYPE_MATCH] and [LTYPE_MASK]. */
+        uint64_t lid_en                : 1;  /**< [ 11: 11](R/W) Enable selection of LDATA based on [LID]. If [LID_EN] is '1' and [LTYPE_MATCH]
+                                                                 is non-zero, the LID specified in [LID] must match the [LTYPE_MATCH]; if it does
+                                                                 not, no LDATA will be extracted. */
+        uint64_t lid                   : 3;  /**< [ 10:  8](R/W) Layer ID. Enumerated by NPC_LID_E. */
+        uint64_t ltype_match           : 4;  /**< [  7:  4](R/W) Layer type match value. Hardware detects a layer match when
+                                                                 \<pre\>
+                                                                 ([LTYPE_MATCH] & [LTYPE_MASK]) == (NPC_RESULT_S[LX[LTYPE]] & [LTYPE_MASK])
+                                                                 \</pre\>
+
+                                                                 where LX is one of LA, LB, ..., LH as selected by [LID]. */
+        uint64_t ltype_mask            : 4;  /**< [  3:  0](R/W) Layer type mask. See [LTYPE_MATCH]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ltype_mask            : 4;  /**< [  3:  0](R/W) Layer type mask. See [LTYPE_MATCH]. */
+        uint64_t ltype_match           : 4;  /**< [  7:  4](R/W) Layer type match value. Hardware detects a layer match when
+                                                                 \<pre\>
+                                                                 ([LTYPE_MATCH] & [LTYPE_MASK]) == (NPC_RESULT_S[LX[LTYPE]] & [LTYPE_MASK])
+                                                                 \</pre\>
+
+                                                                 where LX is one of LA, LB, ..., LH as selected by [LID]. */
+        uint64_t lid                   : 3;  /**< [ 10:  8](R/W) Layer ID. Enumerated by NPC_LID_E. */
+        uint64_t lid_en                : 1;  /**< [ 11: 11](R/W) Enable selection of LDATA based on [LID]. If [LID_EN] is '1' and [LTYPE_MATCH]
+                                                                 is non-zero, the LID specified in [LID] must match the [LTYPE_MATCH]; if it does
+                                                                 not, no LDATA will be extracted. */
+        uint64_t lt_en                 : 1;  /**< [ 12: 12](R/W) If [LT_EN] = '1' enable selection of LDATA on [LTYPE_MATCH] and [LTYPE_MASK]. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t hdr_offset            : 8;  /**< [ 39: 32](R/W) Starting byte offset for extracting LDATA relative to the start of the matching
+                                                                 later (NPC_LAYER_INFO_S[LPTR]).
+
+                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end of
+                                                                 packet's header (smaller of 256 bytes or end of packet), a byte value of zero is
+                                                                 used. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_hashx_cfg_s cn; */
+};
+typedef union cavm_npc_af_intfx_hashx_cfg cavm_npc_af_intfx_hashx_cfg_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_CFG(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1)))
+        return 0x840060000b00ll + 0x40ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_HASHX_CFG", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) cavm_npc_af_intfx_hashx_cfg_t
+#define bustype_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) "NPC_AF_INTFX_HASHX_CFG"
+#define device_bar_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) (a)
+#define arguments_CAVM_NPC_AF_INTFX_HASHX_CFG(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_intf#_hash#_mask#
+ *
+ * NPC AF INTF HASH Mask Registers
+ */
+union cavm_npc_af_intfx_hashx_maskx
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_hashx_maskx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Field to mask against information extracted from packet header as specified by
+                                                                 NPC_AF_INTF()_HASH_CFG.
+
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Field to mask against information extracted from packet header as specified by
+                                                                 NPC_AF_INTF()_HASH_CFG.
+
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will correspond to DMAC. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_hashx_maskx_s cn; */
+};
+typedef union cavm_npc_af_intfx_hashx_maskx cavm_npc_af_intfx_hashx_maskx_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_MASKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_MASKX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1) && (c<=1)))
+        return 0x840060000700ll + 0x20ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_HASHX_MASKX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) cavm_npc_af_intfx_hashx_maskx_t
+#define bustype_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) "NPC_AF_INTFX_HASHX_MASKX"
+#define device_bar_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) (a)
+#define arguments_CAVM_NPC_AF_INTFX_HASHX_MASKX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_intf#_hash#_result_ctl
+ *
+ * NPC AF INTF Exact Match Result Control Registers
+ * Provides the ability to adjust the resulting hash value to be inserted into the MCAM
+ * key. See NPC_AF_INTF()_LID()_LT()_LD()_CFG[USE_HASH].
+ */
+union cavm_npc_af_intfx_hashx_result_ctl
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_hashx_result_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mask                  : 32; /**< [ 63: 32](R/W) Field to mask against the field hash result. */
+        uint64_t offset                : 32; /**< [ 31:  0](R/W) Field to add to the post-masked field hash result.
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will
+                                                                 correspond to IPv6 SA/DA. */
+#else /* Word 0 - Little Endian */
+        uint64_t offset                : 32; /**< [ 31:  0](R/W) Field to add to the post-masked field hash result.
+                                                                 Internal:
+                                                                 Initial specification of the exact match feature indicates this field will
+                                                                 correspond to IPv6 SA/DA. */
+        uint64_t mask                  : 32; /**< [ 63: 32](R/W) Field to mask against the field hash result. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_hashx_result_ctl_s cn; */
+};
+typedef union cavm_npc_af_intfx_hashx_result_ctl cavm_npc_af_intfx_hashx_result_ctl_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1)))
+        return 0x8400600006c0ll + 0x10ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_HASHX_RESULT_CTL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) cavm_npc_af_intfx_hashx_result_ctl_t
+#define bustype_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) "NPC_AF_INTFX_HASHX_RESULT_CTL"
+#define device_bar_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) (a)
+#define arguments_CAVM_NPC_AF_INTFX_HASHX_RESULT_CTL(a,b) (a),(b),-1,-1
+
+/**
  * Register (RVU_PF_BAR0) npc_af_intf#_kex_cfg
  *
  * NPC AF Interface Key Extract Configuration Registers
@@ -1380,6 +2130,61 @@ union cavm_npc_af_intfx_kex_cfg
 {
     uint64_t u;
     struct cavm_npc_af_intfx_kex_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t exact_nibble_ena      : 4;  /**< [ 43: 40](R/W) Exact match key extract nibble enable. Enable bit for each nibble in
+                                                                 NPC_EXACT_MATCH_S to be included in the MCAM search key.
+
+                                                                 EXACT_NIBBLE_ENA\<0\> - NPC_EXACT_MATCH_S[3:0]
+                                                                 EXACT_NIBBLE_ENA\<1\> - NPC_EXACT_MATCH_S[7:4]
+                                                                 EXACT_NIBBLE_ENA\<2\> - NPC_EXACT_MATCH_S[11:8]
+                                                                 EXACT_NIBBLE_ENA\<3\> - NPC_EXACT_MATCH_S[15:12]
+
+                                                                 The extracted exact match key nibbles are concatenated with the parse key
+                                                                 extracted nibbles designated by [PARSE_NIBBLE_ENA] and written to
+                                                                 NPC_MCAM_KEY_X*_S.
+
+                                                                 Note that the sum of number of set across both [EXACT_NIBBLE_ENA] and
+                                                                 [PARSE_NIBBLE_ENA] must not exceed 31. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t keyw                  : 3;  /**< [ 34: 32](R/W) MCAM search key width selection for the interface. Enumerated by NPC_MCAMKEYW_E. */
+        uint64_t reserved_31           : 1;
+        uint64_t parse_nibble_ena      : 31; /**< [ 30:  0](R/W) Parse key extract nibble enable. Enable bit for each nibble in
+                                                                 NPC_PARSE_KEX_S to be included in the MCAM search key: bit 0 for
+                                                                 NPC_PARSE_KEX_S[CHAN]\<3:0\>, bit 1 for NPC_PARSE_KEX_S[CHAN]\<7:4\>, ..., bit
+                                                                 30 for NPC_PARSE_KEX_S[LH]\<11..8\>. The extracted nibbles are concatenated
+                                                                 and written to NPC_MCAM_KEY_X*_S, with the first extracted nibble
+                                                                 written to the least significant nibble of the key (NPC_MCAM_KEY_X*_S[KW0]\<3:0\>). */
+#else /* Word 0 - Little Endian */
+        uint64_t parse_nibble_ena      : 31; /**< [ 30:  0](R/W) Parse key extract nibble enable. Enable bit for each nibble in
+                                                                 NPC_PARSE_KEX_S to be included in the MCAM search key: bit 0 for
+                                                                 NPC_PARSE_KEX_S[CHAN]\<3:0\>, bit 1 for NPC_PARSE_KEX_S[CHAN]\<7:4\>, ..., bit
+                                                                 30 for NPC_PARSE_KEX_S[LH]\<11..8\>. The extracted nibbles are concatenated
+                                                                 and written to NPC_MCAM_KEY_X*_S, with the first extracted nibble
+                                                                 written to the least significant nibble of the key (NPC_MCAM_KEY_X*_S[KW0]\<3:0\>). */
+        uint64_t reserved_31           : 1;
+        uint64_t keyw                  : 3;  /**< [ 34: 32](R/W) MCAM search key width selection for the interface. Enumerated by NPC_MCAMKEYW_E. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t exact_nibble_ena      : 4;  /**< [ 43: 40](R/W) Exact match key extract nibble enable. Enable bit for each nibble in
+                                                                 NPC_EXACT_MATCH_S to be included in the MCAM search key.
+
+                                                                 EXACT_NIBBLE_ENA\<0\> - NPC_EXACT_MATCH_S[3:0]
+                                                                 EXACT_NIBBLE_ENA\<1\> - NPC_EXACT_MATCH_S[7:4]
+                                                                 EXACT_NIBBLE_ENA\<2\> - NPC_EXACT_MATCH_S[11:8]
+                                                                 EXACT_NIBBLE_ENA\<3\> - NPC_EXACT_MATCH_S[15:12]
+
+                                                                 The extracted exact match key nibbles are concatenated with the parse key
+                                                                 extracted nibbles designated by [PARSE_NIBBLE_ENA] and written to
+                                                                 NPC_MCAM_KEY_X*_S.
+
+                                                                 Note that the sum of number of set across both [EXACT_NIBBLE_ENA] and
+                                                                 [PARSE_NIBBLE_ENA] must not exceed 31. */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_kex_cfg_s cn10; */
+    struct cavm_npc_af_intfx_kex_cfg_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
@@ -1402,15 +2207,82 @@ union cavm_npc_af_intfx_kex_cfg
         uint64_t keyw                  : 3;  /**< [ 34: 32](R/W) MCAM search key width selection for the interface. Enumerated by NPC_MCAMKEYW_E. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_intfx_kex_cfg_s cn; */
+    } cn10ka;
+    struct cavm_npc_af_intfx_kex_cfg_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t exact_nibble_ena      : 4;  /**< [ 43: 40](R/W) Exact match key extract nibble enable. Enable bit for each nibble in
+                                                                 NPC_EXACT_MATCH_S to be included in the MCAM search key.
+
+                                                                 EXACT_NIBBLE_ENA\<0\> - NPC_EXACT_MATCH_S[3:0]
+                                                                 EXACT_NIBBLE_ENA\<1\> - NPC_EXACT_MATCH_S[7:4]
+                                                                 EXACT_NIBBLE_ENA\<2\> - NPC_EXACT_MATCH_S[11:8]
+                                                                 EXACT_NIBBLE_ENA\<3\> - NPC_EXACT_MATCH_S[15:12]
+
+                                                                 The extracted exact match key nibbles are concatenated with the parse key
+                                                                 extracted nibbles designated by [PARSE_NIBBLE_ENA] and written to
+                                                                 NPC_MCAM_KEY_X*_S.
+
+                                                                 Note that the sum of number of set across both [EXACT_NIBBLE_ENA] and
+                                                                 [PARSE_NIBBLE_ENA] must not exceed 31. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t keyw                  : 3;  /**< [ 34: 32](R/W) MCAM search key width selection for the interface. Enumerated by NPC_MCAMKEYW_E. */
+        uint64_t reserved_31           : 1;
+        uint64_t parse_nibble_ena      : 31; /**< [ 30:  0](R/W) Parse key extract nibble enable. Enable bit for each nibble in
+                                                                 NPC_PARSE_KEX_S to be included in the MCAM search key: bit 0 for
+                                                                 NPC_PARSE_KEX_S[CHAN]\<3:0\>, bit 1 for NPC_PARSE_KEX_S[CHAN]\<7:4\>, ..., bit
+                                                                 30 for NPC_PARSE_KEX_S[LH]\<11..8\>. The extracted nibbles are concatenated
+                                                                 and written to NPC_MCAM_KEY_X*_S, with the first extracted nibble
+                                                                 written to the least significant nibble of the key (NPC_MCAM_KEY_X*_S[KW0]\<3:0\>).
+
+                                                                 Note that the sum of number of set across both [EXACT_NIBBLE_ENA] and
+                                                                 [PARSE_NIBBLE_ENA] must not exceed 31. */
+#else /* Word 0 - Little Endian */
+        uint64_t parse_nibble_ena      : 31; /**< [ 30:  0](R/W) Parse key extract nibble enable. Enable bit for each nibble in
+                                                                 NPC_PARSE_KEX_S to be included in the MCAM search key: bit 0 for
+                                                                 NPC_PARSE_KEX_S[CHAN]\<3:0\>, bit 1 for NPC_PARSE_KEX_S[CHAN]\<7:4\>, ..., bit
+                                                                 30 for NPC_PARSE_KEX_S[LH]\<11..8\>. The extracted nibbles are concatenated
+                                                                 and written to NPC_MCAM_KEY_X*_S, with the first extracted nibble
+                                                                 written to the least significant nibble of the key (NPC_MCAM_KEY_X*_S[KW0]\<3:0\>).
+
+                                                                 Note that the sum of number of set across both [EXACT_NIBBLE_ENA] and
+                                                                 [PARSE_NIBBLE_ENA] must not exceed 31. */
+        uint64_t reserved_31           : 1;
+        uint64_t keyw                  : 3;  /**< [ 34: 32](R/W) MCAM search key width selection for the interface. Enumerated by NPC_MCAMKEYW_E. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t exact_nibble_ena      : 4;  /**< [ 43: 40](R/W) Exact match key extract nibble enable. Enable bit for each nibble in
+                                                                 NPC_EXACT_MATCH_S to be included in the MCAM search key.
+
+                                                                 EXACT_NIBBLE_ENA\<0\> - NPC_EXACT_MATCH_S[3:0]
+                                                                 EXACT_NIBBLE_ENA\<1\> - NPC_EXACT_MATCH_S[7:4]
+                                                                 EXACT_NIBBLE_ENA\<2\> - NPC_EXACT_MATCH_S[11:8]
+                                                                 EXACT_NIBBLE_ENA\<3\> - NPC_EXACT_MATCH_S[15:12]
+
+                                                                 The extracted exact match key nibbles are concatenated with the parse key
+                                                                 extracted nibbles designated by [PARSE_NIBBLE_ENA] and written to
+                                                                 NPC_MCAM_KEY_X*_S.
+
+                                                                 Note that the sum of number of set across both [EXACT_NIBBLE_ENA] and
+                                                                 [PARSE_NIBBLE_ENA] must not exceed 31. */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_npc_af_intfx_kex_cfg_cn10ka cnf10ka; */
+    /* struct cavm_npc_af_intfx_kex_cfg_cn10ka cnf10kb; */
 };
 typedef union cavm_npc_af_intfx_kex_cfg cavm_npc_af_intfx_kex_cfg_t;
 
 static inline uint64_t CAVM_NPC_AF_INTFX_KEX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_INTFX_KEX_CFG(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840060001010ll + 0x100ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840060001010ll + 0x100ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840060001010ll + 0x100ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840060001010ll + 0x100ll * ((a) & 0x3);
     __cavm_csr_fatal("NPC_AF_INTFX_KEX_CFG", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1461,7 +2333,13 @@ typedef union cavm_npc_af_intfx_ldatax_flagsx_cfg cavm_npc_af_intfx_ldatax_flags
 static inline uint64_t CAVM_NPC_AF_INTFX_LDATAX_FLAGSX_CFG(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_INTFX_LDATAX_FLAGSX_CFG(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=3) && (b<=1) && (c<=15))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=3) && (b<=1) && (c<=15)))
+        return 0x840060980000ll + 0x10000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1) && (c<=15)))
+        return 0x840060980000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=1) && (c<=15)))
+        return 0x840060980000ll + 0x10000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=1) && (c<=15)))
         return 0x840060980000ll + 0x10000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
     __cavm_csr_fatal("NPC_AF_INTFX_LDATAX_FLAGSX_CFG", 3, a, b, c, 0, 0, 0);
 }
@@ -1501,6 +2379,73 @@ union cavm_npc_af_intfx_lidx_ltx_ldx_cfg
     struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_21_63        : 43;
+        uint64_t use_hash              : 1;  /**< [ 20: 20](R/W) When set, use the 4B output of the cooresponding field hash to insert into the
+                                                                 key instead of direct LDATA. LD(0) uses field hash(0) output as data. LD(1) uses
+                                                                 field hash(1) output as data. BYTESM1 must be set to 3. */
+        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
+        uint64_t hdr_offset            : 8;  /**< [ 15:  8](R/W) Header offset. Starting byte offset of LDATA relative to the start
+                                                                 of the matching layer (NPC_LAYER_INFO_S[LPTR]).
+
+                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end
+                                                                 of packet's header (smaller of 256 bytes or end of packet), a byte value of
+                                                                 zero is used. */
+        uint64_t ena                   : 1;  /**< [  7:  7](R/W) LDATA extract enable. */
+        uint64_t flags_ena             : 1;  /**< [  6:  6](R/W) Enable FLAGS based extraction. Ignored unless the register's layer
+                                                                 ID (LID index) matches NPC_AF_KEX_LDATA()_FLAGS_CFG[LID]. */
+        uint64_t key_offset            : 6;  /**< [  5:  0](R/W) Key offset. Starting byte offset of LDATA in the MCAM search key. The layer
+                                                                 data is written to the key in network byte order, with the last byte from
+                                                                 the packet header written to the least significant eight bits at the
+                                                                 selected key offset.
+                                                                 For example, when [KEY_OFFSET] = 6 and [BYTESM1] = 3, bytes from the packet
+                                                                 header are written as follows:
+                                                                 * First LDATA byte is written to NPC_MCAM_KEY_X*_S[KW1]\<15:8\>.
+                                                                 * Second LDATA byte is written to NPC_MCAM_KEY_X*_S[KW1]\<7:0\>.
+                                                                 * Third LDATA byte is written to NPC_MCAM_KEY_X*_S[KW0]\<63:56\>.
+                                                                 * Last LDATA byte is written to NPC_MCAM_KEY_X*_S[KW0]\<55:48\>.
+
+                                                                 Software must ensure that the LDATA bytes specified by [KEY_OFFSET] and
+                                                                 [BYTESM1] are within key width selected by NPC_AF_INTF()_KEX_CFG[KEYW].
+
+                                                                 Internal:
+                                                                 Hardware drops LDATA bytes beyond the key width. */
+#else /* Word 0 - Little Endian */
+        uint64_t key_offset            : 6;  /**< [  5:  0](R/W) Key offset. Starting byte offset of LDATA in the MCAM search key. The layer
+                                                                 data is written to the key in network byte order, with the last byte from
+                                                                 the packet header written to the least significant eight bits at the
+                                                                 selected key offset.
+                                                                 For example, when [KEY_OFFSET] = 6 and [BYTESM1] = 3, bytes from the packet
+                                                                 header are written as follows:
+                                                                 * First LDATA byte is written to NPC_MCAM_KEY_X*_S[KW1]\<15:8\>.
+                                                                 * Second LDATA byte is written to NPC_MCAM_KEY_X*_S[KW1]\<7:0\>.
+                                                                 * Third LDATA byte is written to NPC_MCAM_KEY_X*_S[KW0]\<63:56\>.
+                                                                 * Last LDATA byte is written to NPC_MCAM_KEY_X*_S[KW0]\<55:48\>.
+
+                                                                 Software must ensure that the LDATA bytes specified by [KEY_OFFSET] and
+                                                                 [BYTESM1] are within key width selected by NPC_AF_INTF()_KEX_CFG[KEYW].
+
+                                                                 Internal:
+                                                                 Hardware drops LDATA bytes beyond the key width. */
+        uint64_t flags_ena             : 1;  /**< [  6:  6](R/W) Enable FLAGS based extraction. Ignored unless the register's layer
+                                                                 ID (LID index) matches NPC_AF_KEX_LDATA()_FLAGS_CFG[LID]. */
+        uint64_t ena                   : 1;  /**< [  7:  7](R/W) LDATA extract enable. */
+        uint64_t hdr_offset            : 8;  /**< [ 15:  8](R/W) Header offset. Starting byte offset of LDATA relative to the start
+                                                                 of the matching layer (NPC_LAYER_INFO_S[LPTR]).
+
+                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end
+                                                                 of packet's header (smaller of 256 bytes or end of packet), a byte value of
+                                                                 zero is used. */
+        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
+        uint64_t use_hash              : 1;  /**< [ 20: 20](R/W) When set, use the 4B output of the cooresponding field hash to insert into the
+                                                                 key instead of direct LDATA. LD(0) uses field hash(0) output as data. LD(1) uses
+                                                                 field hash(1) output as data. BYTESM1 must be set to 3. */
+        uint64_t reserved_21_63        : 43;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_s cn10; */
+    struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
         uint64_t hdr_offset            : 8;  /**< [ 15:  8](R/W) Header offset. Starting byte offset of LDATA relative to the start
@@ -1557,15 +2502,90 @@ union cavm_npc_af_intfx_lidx_ltx_ldx_cfg
         uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_s cn; */
+    } cn10ka;
+    struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_21_63        : 43;
+        uint64_t use_hash              : 1;  /**< [ 20: 20](R/W) When set, use the 4B output of the cooresponding field hash to insert into the
+                                                                 key instead of direct LDATA. LD(0) uses field hash(0) output as data. LD(1) uses
+                                                                 field hash(1) output as data. BYTESM1 must be set to 3. */
+        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. Must be set
+                                                                 to 3 when [USE_HASH] is set. */
+        uint64_t hdr_offset            : 8;  /**< [ 15:  8](R/W) Header offset. Starting byte offset of LDATA relative to the start
+                                                                 of the matching layer (NPC_LAYER_INFO_S[LPTR]).
+
+                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end
+                                                                 of packet's header (smaller of 256 bytes or end of packet), a byte value of
+                                                                 zero is used. */
+        uint64_t ena                   : 1;  /**< [  7:  7](R/W) LDATA extract enable. */
+        uint64_t flags_ena             : 1;  /**< [  6:  6](R/W) Enable FLAGS based extraction. Ignored unless the register's layer
+                                                                 ID (LID index) matches NPC_AF_KEX_LDATA()_FLAGS_CFG[LID]. */
+        uint64_t key_offset            : 6;  /**< [  5:  0](R/W) Key offset. Starting byte offset of LDATA in the MCAM search key. The layer
+                                                                 data is written to the key in network byte order, with the last byte from
+                                                                 the packet header written to the least significant eight bits at the
+                                                                 selected key offset.
+                                                                 For example, when [KEY_OFFSET] = 6 and [BYTESM1] = 3, bytes from the packet
+                                                                 header are written as follows:
+                                                                 * First LDATA byte is written to NPC_MCAM_KEY_X*_S[KW1]\<15:8\>.
+                                                                 * Second LDATA byte is written to NPC_MCAM_KEY_X*_S[KW1]\<7:0\>.
+                                                                 * Third LDATA byte is written to NPC_MCAM_KEY_X*_S[KW0]\<63:56\>.
+                                                                 * Last LDATA byte is written to NPC_MCAM_KEY_X*_S[KW0]\<55:48\>.
+
+                                                                 Software must ensure that the LDATA bytes specified by [KEY_OFFSET] and
+                                                                 [BYTESM1] are within key width selected by NPC_AF_INTF()_KEX_CFG[KEYW].
+
+                                                                 Internal:
+                                                                 Hardware drops LDATA bytes beyond the key width. */
+#else /* Word 0 - Little Endian */
+        uint64_t key_offset            : 6;  /**< [  5:  0](R/W) Key offset. Starting byte offset of LDATA in the MCAM search key. The layer
+                                                                 data is written to the key in network byte order, with the last byte from
+                                                                 the packet header written to the least significant eight bits at the
+                                                                 selected key offset.
+                                                                 For example, when [KEY_OFFSET] = 6 and [BYTESM1] = 3, bytes from the packet
+                                                                 header are written as follows:
+                                                                 * First LDATA byte is written to NPC_MCAM_KEY_X*_S[KW1]\<15:8\>.
+                                                                 * Second LDATA byte is written to NPC_MCAM_KEY_X*_S[KW1]\<7:0\>.
+                                                                 * Third LDATA byte is written to NPC_MCAM_KEY_X*_S[KW0]\<63:56\>.
+                                                                 * Last LDATA byte is written to NPC_MCAM_KEY_X*_S[KW0]\<55:48\>.
+
+                                                                 Software must ensure that the LDATA bytes specified by [KEY_OFFSET] and
+                                                                 [BYTESM1] are within key width selected by NPC_AF_INTF()_KEX_CFG[KEYW].
+
+                                                                 Internal:
+                                                                 Hardware drops LDATA bytes beyond the key width. */
+        uint64_t flags_ena             : 1;  /**< [  6:  6](R/W) Enable FLAGS based extraction. Ignored unless the register's layer
+                                                                 ID (LID index) matches NPC_AF_KEX_LDATA()_FLAGS_CFG[LID]. */
+        uint64_t ena                   : 1;  /**< [  7:  7](R/W) LDATA extract enable. */
+        uint64_t hdr_offset            : 8;  /**< [ 15:  8](R/W) Header offset. Starting byte offset of LDATA relative to the start
+                                                                 of the matching layer (NPC_LAYER_INFO_S[LPTR]).
+
+                                                                 If any LDATA byte specified by [HDR_OFFSET] and [BYTESM1] is beyond the end
+                                                                 of packet's header (smaller of 256 bytes or end of packet), a byte value of
+                                                                 zero is used. */
+        uint64_t bytesm1               : 4;  /**< [ 19: 16](R/W) LDATA size in bytes minus 1. 0=1 byte; 1=2 bytes, ..., 15=16 bytes. Must be set
+                                                                 to 3 when [USE_HASH] is set. */
+        uint64_t use_hash              : 1;  /**< [ 20: 20](R/W) When set, use the 4B output of the cooresponding field hash to insert into the
+                                                                 key instead of direct LDATA. LD(0) uses field hash(0) output as data. LD(1) uses
+                                                                 field hash(1) output as data. BYTESM1 must be set to 3. */
+        uint64_t reserved_21_63        : 43;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_cn10ka cnf10ka; */
+    /* struct cavm_npc_af_intfx_lidx_ltx_ldx_cfg_cn10ka cnf10kb; */
 };
 typedef union cavm_npc_af_intfx_lidx_ltx_ldx_cfg cavm_npc_af_intfx_lidx_ltx_ldx_cfg_t;
 
 static inline uint64_t CAVM_NPC_AF_INTFX_LIDX_LTX_LDX_CFG(uint64_t a, uint64_t b, uint64_t c, uint64_t d) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_INTFX_LIDX_LTX_LDX_CFG(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
-    if ((a<=3) && (b<=7) && (c<=15) && (d<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=3) && (b<=7) && (c<=15) && (d<=1)))
+        return 0x840060900000ll + 0x10000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x7) + 0x20ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=7) && (c<=15) && (d<=1)))
+        return 0x840060900000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x7) + 0x20ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=7) && (c<=15) && (d<=1)))
+        return 0x840060900000ll + 0x10000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x7) + 0x20ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=7) && (c<=15) && (d<=1)))
         return 0x840060900000ll + 0x10000ll * ((a) & 0x3) + 0x1000ll * ((b) & 0x7) + 0x20ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
     __cavm_csr_fatal("NPC_AF_INTFX_LIDX_LTX_LDX_CFG", 4, a, b, c, d, 0, 0);
 }
@@ -1605,7 +2625,13 @@ typedef union cavm_npc_af_intfx_miss_act cavm_npc_af_intfx_miss_act_t;
 static inline uint64_t CAVM_NPC_AF_INTFX_MISS_ACT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_INTFX_MISS_ACT(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840061a00000ll + 0x10ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840061a00000ll + 0x10ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840061a00000ll + 0x10ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840061a00000ll + 0x10ll * ((a) & 0x3);
     __cavm_csr_fatal("NPC_AF_INTFX_MISS_ACT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1641,14 +2667,37 @@ union cavm_npc_af_intfx_miss_stat_act
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_npc_af_intfx_miss_stat_act_s cn; */
+    /* struct cavm_npc_af_intfx_miss_stat_act_s cn10; */
+    /* struct cavm_npc_af_intfx_miss_stat_act_s cn10ka; */
+    struct cavm_npc_af_intfx_miss_stat_act_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
+        uint64_t reserved_10_62        : 53;
+        uint64_t stat_sel              : 10; /**< [  9:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT()_EXT to
+                                                                 increment on a match to this MCAM entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_sel              : 10; /**< [  9:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT()_EXT to
+                                                                 increment on a match to this MCAM entry. */
+        uint64_t reserved_10_62        : 53;
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_npc_af_intfx_miss_stat_act_s cnf10ka; */
+    /* struct cavm_npc_af_intfx_miss_stat_act_s cnf10kb; */
 };
 typedef union cavm_npc_af_intfx_miss_stat_act cavm_npc_af_intfx_miss_stat_act_t;
 
 static inline uint64_t CAVM_NPC_AF_INTFX_MISS_STAT_ACT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_INTFX_MISS_STAT_ACT(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840061880040ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840061880040ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840061880040ll + 8ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840061880040ll + 8ll * ((a) & 0x3);
     __cavm_csr_fatal("NPC_AF_INTFX_MISS_STAT_ACT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1689,7 +2738,13 @@ typedef union cavm_npc_af_intfx_miss_tag_act cavm_npc_af_intfx_miss_tag_act_t;
 static inline uint64_t CAVM_NPC_AF_INTFX_MISS_TAG_ACT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_INTFX_MISS_TAG_ACT(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840061b00008ll + 0x10ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840061b00008ll + 0x10ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840061b00008ll + 0x10ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840061b00008ll + 0x10ll * ((a) & 0x3);
     __cavm_csr_fatal("NPC_AF_INTFX_MISS_TAG_ACT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -1700,6 +2755,126 @@ static inline uint64_t CAVM_NPC_AF_INTFX_MISS_TAG_ACT(uint64_t a)
 #define device_bar_CAVM_NPC_AF_INTFX_MISS_TAG_ACT(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPC_AF_INTFX_MISS_TAG_ACT(a) (a)
 #define arguments_CAVM_NPC_AF_INTFX_MISS_TAG_ACT(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_intf#_secret_key0
+ *
+ * NPC AF Interface Hash Key0 Registers
+ * First 64 bits of key for the Toeplitz hash of both the exact and field hashes.
+ */
+union cavm_npc_af_intfx_secret_key0
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_secret_key0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash of exact and field match content.
+                                                                 The Exact match hash only uses KEY0 and KEY2 for its 95 bits of hash key.
+                                                                 The field hashes uses KEY0, KEY1 and KEY2 for their 159 bits of key. */
+#else /* Word 0 - Little Endian */
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash of exact and field match content.
+                                                                 The Exact match hash only uses KEY0 and KEY2 for its 95 bits of hash key.
+                                                                 The field hashes uses KEY0, KEY1 and KEY2 for their 159 bits of key. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_secret_key0_s cn; */
+};
+typedef union cavm_npc_af_intfx_secret_key0 cavm_npc_af_intfx_secret_key0_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840060000e00ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_SECRET_KEY0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_SECRET_KEY0(a) cavm_npc_af_intfx_secret_key0_t
+#define bustype_CAVM_NPC_AF_INTFX_SECRET_KEY0(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_SECRET_KEY0(a) "NPC_AF_INTFX_SECRET_KEY0"
+#define device_bar_CAVM_NPC_AF_INTFX_SECRET_KEY0(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_SECRET_KEY0(a) (a)
+#define arguments_CAVM_NPC_AF_INTFX_SECRET_KEY0(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_intf#_secret_key1
+ *
+ * NPC AF Interface Hash Key1 Registers
+ * Second 64 bits of key for Toeplitz hash of exact and field hashes match content.
+ */
+union cavm_npc_af_intfx_secret_key1
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_secret_key1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) Second 64 bits of key for Toeplitz hash of the exact and field hashes content.
+                                                                 The Exact match hash only uses KEY0 and KEY2 for its 95 bits of hash key.
+                                                                 The field hashes uses KEY0, KEY1 and KEY2 for their 159 bits of key. */
+#else /* Word 0 - Little Endian */
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) Second 64 bits of key for Toeplitz hash of the exact and field hashes content.
+                                                                 The Exact match hash only uses KEY0 and KEY2 for its 95 bits of hash key.
+                                                                 The field hashes uses KEY0, KEY1 and KEY2 for their 159 bits of key. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_secret_key1_s cn; */
+};
+typedef union cavm_npc_af_intfx_secret_key1 cavm_npc_af_intfx_secret_key1_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840060000e20ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_SECRET_KEY1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_SECRET_KEY1(a) cavm_npc_af_intfx_secret_key1_t
+#define bustype_CAVM_NPC_AF_INTFX_SECRET_KEY1(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_SECRET_KEY1(a) "NPC_AF_INTFX_SECRET_KEY1"
+#define device_bar_CAVM_NPC_AF_INTFX_SECRET_KEY1(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_SECRET_KEY1(a) (a)
+#define arguments_CAVM_NPC_AF_INTFX_SECRET_KEY1(a) (a),-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_intf#_secret_key2
+ *
+ * NPC AF Interface Hash Key2 Registers
+ * Last 64 bits of key for Toeplitz hash of field hashes match content.
+ */
+union cavm_npc_af_intfx_secret_key2
+{
+    uint64_t u;
+    struct cavm_npc_af_intfx_secret_key2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash. The Exact match hash and the field
+                                                                 hashes use bits 30:00 of KEY2 for the lower 31 bits of the hash key. */
+#else /* Word 0 - Little Endian */
+        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash. The Exact match hash and the field
+                                                                 hashes use bits 30:00 of KEY2 for the lower 31 bits of the hash key. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_intfx_secret_key2_s cn; */
+};
+typedef union cavm_npc_af_intfx_secret_key2 cavm_npc_af_intfx_secret_key2_t;
+
+static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840060000e40ll + 8ll * ((a) & 0x1);
+    __cavm_csr_fatal("NPC_AF_INTFX_SECRET_KEY2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_INTFX_SECRET_KEY2(a) cavm_npc_af_intfx_secret_key2_t
+#define bustype_CAVM_NPC_AF_INTFX_SECRET_KEY2(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_INTFX_SECRET_KEY2(a) "NPC_AF_INTFX_SECRET_KEY2"
+#define device_bar_CAVM_NPC_AF_INTFX_SECRET_KEY2(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_INTFX_SECRET_KEY2(a) (a)
+#define arguments_CAVM_NPC_AF_INTFX_SECRET_KEY2(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npc_af_intf#_stat
@@ -1727,7 +2902,13 @@ typedef union cavm_npc_af_intfx_stat cavm_npc_af_intfx_stat_t;
 static inline uint64_t CAVM_NPC_AF_INTFX_STAT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_INTFX_STAT(uint64_t a)
 {
-    if (a<=3)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=3))
+        return 0x840062000800ll + 0x10ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x840062000800ll + 0x10ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
+        return 0x840062000800ll + 0x10ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
         return 0x840062000800ll + 0x10ll * ((a) & 0x3);
     __cavm_csr_fatal("NPC_AF_INTFX_STAT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2607,7 +3788,13 @@ typedef union cavm_npc_af_match_statx_ext cavm_npc_af_match_statx_ext_t;
 static inline uint64_t CAVM_NPC_AF_MATCH_STATX_EXT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MATCH_STATX_EXT(uint64_t a)
 {
-    if (a<=4095)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=4095))
+        return 0x840068000078ll + 0x100ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1023))
+        return 0x840068000078ll + 0x100ll * ((a) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4095))
+        return 0x840068000078ll + 0x100ll * ((a) & 0xfff);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4095))
         return 0x840068000078ll + 0x100ll * ((a) & 0xfff);
     __cavm_csr_fatal("NPC_AF_MATCH_STATX_EXT", 1, a, 0, 0, 0, 0, 0);
 }
@@ -2660,7 +3847,13 @@ typedef union cavm_npc_af_mcam_bankx_hitx_ext cavm_npc_af_mcam_bankx_hitx_ext_t;
 static inline uint64_t CAVM_NPC_AF_MCAM_BANKX_HITX_EXT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAM_BANKX_HITX_EXT(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=63))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=3) && (b<=63)))
+        return 0x840068000070ll + 0x400000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=3) && (b<=15)))
+        return 0x840068000070ll + 0x400000ll * ((a) & 0x3) + 0x100ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=63)))
+        return 0x840068000070ll + 0x400000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=63)))
         return 0x840068000070ll + 0x400000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3f);
     __cavm_csr_fatal("NPC_AF_MCAM_BANKX_HITX_EXT", 2, a, b, 0, 0, 0, 0);
 }
@@ -2698,7 +3891,28 @@ union cavm_npc_af_mcam_dbg
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_npc_af_mcam_dbg_s cn; */
+    /* struct cavm_npc_af_mcam_dbg_s cn10; */
+    /* struct cavm_npc_af_mcam_dbg_s cn10ka; */
+    struct cavm_npc_af_mcam_dbg_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t miss                  : 1;  /**< [ 16: 16](RO/H) MCAM miss. When set, [HIT_BANK] and [HIT_ENTRY] are not valid. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t hit_bank              : 2;  /**< [ 13: 12](RO/H) MCAM hit bank index. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t hit_entry             : 10; /**< [  9:  0](RO/H) MCAM hit entry index. */
+#else /* Word 0 - Little Endian */
+        uint64_t hit_entry             : 10; /**< [  9:  0](RO/H) MCAM hit entry index. */
+        uint64_t reserved_10_11        : 2;
+        uint64_t hit_bank              : 2;  /**< [ 13: 12](RO/H) MCAM hit bank index. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t miss                  : 1;  /**< [ 16: 16](RO/H) MCAM miss. When set, [HIT_BANK] and [HIT_ENTRY] are not valid. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_npc_af_mcam_dbg_s cnf10ka; */
+    /* struct cavm_npc_af_mcam_dbg_s cnf10kb; */
 };
 typedef union cavm_npc_af_mcam_dbg cavm_npc_af_mcam_dbg_t;
 
@@ -2785,7 +3999,13 @@ typedef union cavm_npc_af_mcam_pwr_intfx_bankx cavm_npc_af_mcam_pwr_intfx_bankx_
 static inline uint64_t CAVM_NPC_AF_MCAM_PWR_INTFX_BANKX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAM_PWR_INTFX_BANKX(uint64_t a, uint64_t b)
 {
-    if ((a<=3) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=3) && (b<=3)))
+        return 0x840063004000ll + 0x10ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=3)))
+        return 0x840063004000ll + 0x10ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
+        return 0x840063004000ll + 0x10ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=3)))
         return 0x840063004000ll + 0x10ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     __cavm_csr_fatal("NPC_AF_MCAM_PWR_INTFX_BANKX", 2, a, b, 0, 0, 0, 0);
 }
@@ -2889,7 +4109,13 @@ typedef union cavm_npc_af_mcamex_bankx_action_ext cavm_npc_af_mcamex_bankx_actio
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_ACTION_EXT(uint64_t a, uint64_t b)
 {
-    if ((a<=4095) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=4095) && (b<=3)))
+        return 0x840068000040ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1023) && (b<=3)))
+        return 0x840068000040ll + 0x100ll * ((a) & 0x3ff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4095) && (b<=3)))
+        return 0x840068000040ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4095) && (b<=3)))
         return 0x840068000040ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
     __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_ACTION_EXT", 2, a, b, 0, 0, 0, 0);
 }
@@ -3004,7 +4230,13 @@ typedef union cavm_npc_af_mcamex_bankx_camx_intf_ext cavm_npc_af_mcamex_bankx_ca
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF_EXT(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_INTF_EXT(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4095) && (b<=3) && (c<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=4095) && (b<=3) && (c<=1)))
+        return 0x840068000000ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1023) && (b<=3) && (c<=1)))
+        return 0x840068000000ll + 0x100ll * ((a) & 0x3ff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4095) && (b<=3) && (c<=1)))
+        return 0x840068000000ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4095) && (b<=3) && (c<=1)))
         return 0x840068000000ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_CAMX_INTF_EXT", 3, a, b, c, 0, 0, 0);
 }
@@ -3040,7 +4272,13 @@ typedef union cavm_npc_af_mcamex_bankx_camx_w0_ext cavm_npc_af_mcamex_bankx_camx
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0_EXT(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W0_EXT(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4095) && (b<=3) && (c<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=4095) && (b<=3) && (c<=1)))
+        return 0x840068000010ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1023) && (b<=3) && (c<=1)))
+        return 0x840068000010ll + 0x100ll * ((a) & 0x3ff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4095) && (b<=3) && (c<=1)))
+        return 0x840068000010ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4095) && (b<=3) && (c<=1)))
         return 0x840068000010ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_CAMX_W0_EXT", 3, a, b, c, 0, 0, 0);
 }
@@ -3078,7 +4316,13 @@ typedef union cavm_npc_af_mcamex_bankx_camx_w1_ext cavm_npc_af_mcamex_bankx_camx
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1_EXT(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CAMX_W1_EXT(uint64_t a, uint64_t b, uint64_t c)
 {
-    if ((a<=4095) && (b<=3) && (c<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=4095) && (b<=3) && (c<=1)))
+        return 0x840068000020ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1023) && (b<=3) && (c<=1)))
+        return 0x840068000020ll + 0x100ll * ((a) & 0x3ff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4095) && (b<=3) && (c<=1)))
+        return 0x840068000020ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4095) && (b<=3) && (c<=1)))
         return 0x840068000020ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_CAMX_W1_EXT", 3, a, b, c, 0, 0, 0);
 }
@@ -3117,7 +4361,13 @@ typedef union cavm_npc_af_mcamex_bankx_cfg_ext cavm_npc_af_mcamex_bankx_cfg_ext_
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CFG_EXT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_CFG_EXT(uint64_t a, uint64_t b)
 {
-    if ((a<=4095) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=4095) && (b<=3)))
+        return 0x840068000038ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1023) && (b<=3)))
+        return 0x840068000038ll + 0x100ll * ((a) & 0x3ff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4095) && (b<=3)))
+        return 0x840068000038ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4095) && (b<=3)))
         return 0x840068000038ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
     __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_CFG_EXT", 2, a, b, 0, 0, 0, 0);
 }
@@ -3153,14 +4403,37 @@ union cavm_npc_af_mcamex_bankx_stat_act_ext
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_npc_af_mcamex_bankx_stat_act_ext_s cn; */
+    /* struct cavm_npc_af_mcamex_bankx_stat_act_ext_s cn10; */
+    /* struct cavm_npc_af_mcamex_bankx_stat_act_ext_s cn10ka; */
+    struct cavm_npc_af_mcamex_bankx_stat_act_ext_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
+        uint64_t reserved_10_62        : 53;
+        uint64_t stat_sel              : 10; /**< [  9:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT()_EXT to
+                                                                 increment on a match to this MCAM entry. */
+#else /* Word 0 - Little Endian */
+        uint64_t stat_sel              : 10; /**< [  9:  0](R/W) Match statistics select. Valid when [ENA] is set. Index of NPC_AF_MATCH_STAT()_EXT to
+                                                                 increment on a match to this MCAM entry. */
+        uint64_t reserved_10_62        : 53;
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W) Enable. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_npc_af_mcamex_bankx_stat_act_ext_s cnf10ka; */
+    /* struct cavm_npc_af_mcamex_bankx_stat_act_ext_s cnf10kb; */
 };
 typedef union cavm_npc_af_mcamex_bankx_stat_act_ext cavm_npc_af_mcamex_bankx_stat_act_ext_t;
 
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT_EXT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_STAT_ACT_EXT(uint64_t a, uint64_t b)
 {
-    if ((a<=4095) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=4095) && (b<=3)))
+        return 0x840068000050ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1023) && (b<=3)))
+        return 0x840068000050ll + 0x100ll * ((a) & 0x3ff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4095) && (b<=3)))
+        return 0x840068000050ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4095) && (b<=3)))
         return 0x840068000050ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
     __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_STAT_ACT_EXT", 2, a, b, 0, 0, 0, 0);
 }
@@ -3199,7 +4472,13 @@ typedef union cavm_npc_af_mcamex_bankx_tag_act_ext cavm_npc_af_mcamex_bankx_tag_
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT_EXT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NPC_AF_MCAMEX_BANKX_TAG_ACT_EXT(uint64_t a, uint64_t b)
 {
-    if ((a<=4095) && (b<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=4095) && (b<=3)))
+        return 0x840068000048ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1023) && (b<=3)))
+        return 0x840068000048ll + 0x100ll * ((a) & 0x3ff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4095) && (b<=3)))
+        return 0x840068000048ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4095) && (b<=3)))
         return 0x840068000048ll + 0x100ll * ((a) & 0xfff) + 0x400000ll * ((b) & 0x3);
     __cavm_csr_fatal("NPC_AF_MCAMEX_BANKX_TAG_ACT_EXT", 2, a, b, 0, 0, 0, 0);
 }
@@ -3671,6 +4950,46 @@ static inline uint64_t CAVM_NPC_AF_PCK_DEF_OL2_FUNC(void)
 #define device_bar_CAVM_NPC_AF_PCK_DEF_OL2 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPC_AF_PCK_DEF_OL2 0
 #define arguments_CAVM_NPC_AF_PCK_DEF_OL2 -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) npc_af_pck_scrub_ctl
+ *
+ * NPC AF PCK Scrub Control Register
+ */
+union cavm_npc_af_pck_scrub_ctl
+{
+    uint64_t u;
+    struct cavm_npc_af_pck_scrub_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t ena_cam               : 1;  /**< [  1:  1](R/W) Enables ECC scrubbing on the the Exact Match CAM. */
+        uint64_t ena_mem               : 1;  /**< [  0:  0](R/W) Enables ECC scrubbing on the the Exact Match memory banks. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena_mem               : 1;  /**< [  0:  0](R/W) Enables ECC scrubbing on the the Exact Match memory banks. */
+        uint64_t ena_cam               : 1;  /**< [  1:  1](R/W) Enables ECC scrubbing on the the Exact Match CAM. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_npc_af_pck_scrub_ctl_s cn; */
+};
+typedef union cavm_npc_af_pck_scrub_ctl cavm_npc_af_pck_scrub_ctl_t;
+
+#define CAVM_NPC_AF_PCK_SCRUB_CTL CAVM_NPC_AF_PCK_SCRUB_CTL_FUNC()
+static inline uint64_t CAVM_NPC_AF_PCK_SCRUB_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NPC_AF_PCK_SCRUB_CTL_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840060000650ll;
+    __cavm_csr_fatal("NPC_AF_PCK_SCRUB_CTL", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NPC_AF_PCK_SCRUB_CTL cavm_npc_af_pck_scrub_ctl_t
+#define bustype_CAVM_NPC_AF_PCK_SCRUB_CTL CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NPC_AF_PCK_SCRUB_CTL "NPC_AF_PCK_SCRUB_CTL"
+#define device_bar_CAVM_NPC_AF_PCK_SCRUB_CTL 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NPC_AF_PCK_SCRUB_CTL 0
+#define arguments_CAVM_NPC_AF_PCK_SCRUB_CTL -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npc_af_pkind#_action0

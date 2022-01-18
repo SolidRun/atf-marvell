@@ -577,6 +577,7 @@ union cavm_avs_lvd_adc0_ctl
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } cn10ka;
+    /* struct cavm_avs_lvd_adc0_ctl_cn10ka cn10kb; */
     /* struct cavm_avs_lvd_adc0_ctl_cn10ka cnf10ka; */
     /* struct cavm_avs_lvd_adc0_ctl_s cnf10kb; */
 };
@@ -648,6 +649,7 @@ union cavm_avs_lvd_adc1_ctl
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } cn10ka;
+    /* struct cavm_avs_lvd_adc1_ctl_cn10ka cn10kb; */
     /* struct cavm_avs_lvd_adc1_ctl_cn10ka cnf10ka; */
     /* struct cavm_avs_lvd_adc1_ctl_s cnf10kb; */
 };
@@ -719,6 +721,7 @@ union cavm_avs_lvd_adc2_ctl
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } cn10ka;
+    /* struct cavm_avs_lvd_adc2_ctl_cn10ka cn10kb; */
     /* struct cavm_avs_lvd_adc2_ctl_cn10ka cnf10ka; */
     /* struct cavm_avs_lvd_adc2_ctl_s cnf10kb; */
 };
@@ -1069,6 +1072,39 @@ union cavm_avs_sts
     struct cavm_avs_sts_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t resync_en             : 1;  /**< [  9:  9](R/W1/H) Write 1 to start transaction RESYNC transaction. */
+        uint64_t busy                  : 1;  /**< [  8:  8](RO/H) Busy.
+                                                                 0 = No AVS transaction in progress.
+                                                                 1 = AVS engine is processing a transaction. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t start                 : 1;  /**< [  4:  4](R/W1/H) Write 1 to start transaction defined by AVS_MDATA[CMD].
+                                                                 Read back value always zero. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t crc_err               : 1;  /**< [  1:  1](R/W1C/H) AVS interrupt on CRC error in receiving data.
+                                                                 If there is CRC error in the read frame, [CRC_ERR] interrupt is generated
+                                                                 at the same time with [DONE] interrupt. */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) AVS interrupt on transaction done. */
+#else /* Word 0 - Little Endian */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) AVS interrupt on transaction done. */
+        uint64_t crc_err               : 1;  /**< [  1:  1](R/W1C/H) AVS interrupt on CRC error in receiving data.
+                                                                 If there is CRC error in the read frame, [CRC_ERR] interrupt is generated
+                                                                 at the same time with [DONE] interrupt. */
+        uint64_t reserved_2_3          : 2;
+        uint64_t start                 : 1;  /**< [  4:  4](R/W1/H) Write 1 to start transaction defined by AVS_MDATA[CMD].
+                                                                 Read back value always zero. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t busy                  : 1;  /**< [  8:  8](RO/H) Busy.
+                                                                 0 = No AVS transaction in progress.
+                                                                 1 = AVS engine is processing a transaction. */
+        uint64_t resync_en             : 1;  /**< [  9:  9](R/W1/H) Write 1 to start transaction RESYNC transaction. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_avs_sts_s cn10; */
+    struct cavm_avs_sts_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t busy                  : 1;  /**< [  8:  8](RO/H) Busy.
                                                                  0 = No AVS transaction in progress.
@@ -1095,8 +1131,10 @@ union cavm_avs_sts
                                                                  1 = AVS engine is processing a transaction. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_avs_sts_s cn; */
+    } cn10ka;
+    /* struct cavm_avs_sts_s cn10kb; */
+    /* struct cavm_avs_sts_cn10ka cnf10ka; */
+    /* struct cavm_avs_sts_cn10ka cnf10kb; */
 };
 typedef union cavm_avs_sts cavm_avs_sts_t;
 

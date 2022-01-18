@@ -106,6 +106,7 @@ union cavm_ecam_cfg_addr_s
     } s;
     /* struct cavm_ecam_cfg_addr_s_s cn10; */
     /* struct cavm_ecam_cfg_addr_s_s cn10ka; */
+    /* struct cavm_ecam_cfg_addr_s_s cn10kb; */
     /* struct cavm_ecam_cfg_addr_s_s cnf10ka; */
     struct cavm_ecam_cfg_addr_s_cnf10kb
     {

@@ -25,8 +25,14 @@
  * TAD Common Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0 (0x87e053000000ll)
-#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_SIZE 0x10000ull
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CN10KA (0x87e053000000ll)
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CN10KA_SIZE 0x10000ull
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CN10KB (0x87e053000000ll)
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CN10KB_SIZE 0x100000ull
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CNF10KA (0x87e053000000ll)
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CNF10KA_SIZE 0x10000ull
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CNF10KB (0x87e053000000ll)
+#define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CNF10KB_SIZE 0x10000ull
 
 /**
  * Register (RSL) tad_cmn_cache_flush
@@ -75,7 +81,48 @@ union cavm_tad_cmn_cache_flush
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_cache_flush_s cn; */
+    /* struct cavm_tad_cmn_cache_flush_s cn10; */
+    /* struct cavm_tad_cmn_cache_flush_s cn10ka; */
+    struct cavm_tad_cmn_cache_flush_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_21_63        : 43;
+        uint64_t idxcnt                : 9;  /**< [ 20: 12](SR/W/H) This register sets the number of cache indices to flush starting from [IDXSTART]. */
+        uint64_t idxstart              : 9;  /**< [ 11:  3](SR/W/H) This register sets the start cache index. */
+        uint64_t flush_type            : 2;  /**< [  2:  1](SR/W/H) This register controls the type of cache flush.
+
+                                                                 0 = CleanInvalid (Invalidate all caches. Write back dirty data to DRAM.)
+                                                                 1 = MakeInvalid  (Invalidate all caches. Throwing away dirty data.)
+                                                                 2 = CleanShared  (Write back all dirty data to DRAM. Transitioning the block to
+                                                                                   the clean state while leaving it in all caches.)
+                                                                 3 = Reserved. */
+        uint64_t start                 : 1;  /**< [  0:  0](SR/W/H) When this bit is set, TADs will block all requests from the mesh and start
+                                                                 issuing dataless transactions to flush the cache. This bit is a one-shot write
+                                                                 and will automatically clear.
+
+                                                                 Software should poll TAD()_CACHE_FLUSH_STATUS[DONE] to determine when the
+                                                                 operation has finished for each TAD. */
+#else /* Word 0 - Little Endian */
+        uint64_t start                 : 1;  /**< [  0:  0](SR/W/H) When this bit is set, TADs will block all requests from the mesh and start
+                                                                 issuing dataless transactions to flush the cache. This bit is a one-shot write
+                                                                 and will automatically clear.
+
+                                                                 Software should poll TAD()_CACHE_FLUSH_STATUS[DONE] to determine when the
+                                                                 operation has finished for each TAD. */
+        uint64_t flush_type            : 2;  /**< [  2:  1](SR/W/H) This register controls the type of cache flush.
+
+                                                                 0 = CleanInvalid (Invalidate all caches. Write back dirty data to DRAM.)
+                                                                 1 = MakeInvalid  (Invalidate all caches. Throwing away dirty data.)
+                                                                 2 = CleanShared  (Write back all dirty data to DRAM. Transitioning the block to
+                                                                                   the clean state while leaving it in all caches.)
+                                                                 3 = Reserved. */
+        uint64_t idxstart              : 9;  /**< [ 11:  3](SR/W/H) This register sets the start cache index. */
+        uint64_t idxcnt                : 9;  /**< [ 20: 12](SR/W/H) This register sets the number of cache indices to flush starting from [IDXSTART]. */
+        uint64_t reserved_21_63        : 43;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_cache_flush_s cnf10ka; */
+    /* struct cavm_tad_cmn_cache_flush_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_cache_flush cavm_tad_cmn_cache_flush_t;
 
@@ -138,7 +185,46 @@ union cavm_tad_cmn_cbusy
                                                                  Values are in units of 20ns. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_cbusy_s cn; */
+    /* struct cavm_tad_cmn_cbusy_s cn10; */
+    /* struct cavm_tad_cmn_cbusy_s cn10ka; */
+    struct cavm_tad_cmn_cbusy_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ddr_timeout           : 32; /**< [ 63: 32](SR/W) DDR CBUSY minimum timeout value. Every DDR PartID CBUSY value is stored and valid
+                                                                 for at least the duration of this value. After which the DDR PartID CBUSY is no
+                                                                 longer part of TAD CBUSY as it is considered stale.
+
+                                                                 Values are in units of 20ns. */
+        uint64_t tad_cbusy1_busy_trsh  : 7;  /**< [ 31: 25](SR/W) This register sets the threshold at which TAD resources are considered busy.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy1_free_trsh  : 7;  /**< [ 24: 18](SR/W) This register sets the threshold at which TAD resources are considered free.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy0_busy_trsh  : 7;  /**< [ 17: 11](SR/W) This register sets the threshold at which MPAM PartID is considered busy.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy0_free_trsh  : 7;  /**< [ 10:  4](SR/W) This register sets the threshold at which MPAM PartID is considered free.
+                                                                 Max value is 72. */
+        uint64_t ddr_cbusy_en          : 2;  /**< [  3:  2](SR/W) This register enables ORing DDR bits into CBUSY responses. */
+        uint64_t tad_cbusy_en          : 2;  /**< [  1:  0](SR/W) This register enables ORing TAD bits into CBUSY responses. */
+#else /* Word 0 - Little Endian */
+        uint64_t tad_cbusy_en          : 2;  /**< [  1:  0](SR/W) This register enables ORing TAD bits into CBUSY responses. */
+        uint64_t ddr_cbusy_en          : 2;  /**< [  3:  2](SR/W) This register enables ORing DDR bits into CBUSY responses. */
+        uint64_t tad_cbusy0_free_trsh  : 7;  /**< [ 10:  4](SR/W) This register sets the threshold at which MPAM PartID is considered free.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy0_busy_trsh  : 7;  /**< [ 17: 11](SR/W) This register sets the threshold at which MPAM PartID is considered busy.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy1_free_trsh  : 7;  /**< [ 24: 18](SR/W) This register sets the threshold at which TAD resources are considered free.
+                                                                 Max value is 72. */
+        uint64_t tad_cbusy1_busy_trsh  : 7;  /**< [ 31: 25](SR/W) This register sets the threshold at which TAD resources are considered busy.
+                                                                 Max value is 72. */
+        uint64_t ddr_timeout           : 32; /**< [ 63: 32](SR/W) DDR CBUSY minimum timeout value. Every DDR PartID CBUSY value is stored and valid
+                                                                 for at least the duration of this value. After which the DDR PartID CBUSY is no
+                                                                 longer part of TAD CBUSY as it is considered stale.
+
+                                                                 Values are in units of 20ns. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_cbusy_s cnf10ka; */
+    /* struct cavm_tad_cmn_cbusy_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_cbusy cavm_tad_cmn_cbusy_t;
 
@@ -187,7 +273,32 @@ union cavm_tad_cmn_const
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_const_s cn; */
+    /* struct cavm_tad_cmn_const_s cn10; */
+    /* struct cavm_tad_cmn_const_s cn10ka; */
+    struct cavm_tad_cmn_const_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t dtgways               : 8;  /**< [ 55: 48](SRO) Specifies the number of DTG ways in a TAD. */
+        uint64_t dtgsets               : 12; /**< [ 47: 36](SRO) Specifies the number of DTG sets in a TAD. */
+        uint64_t ltgways               : 8;  /**< [ 35: 28](SRO) Specifies the number of LTG ways in a TAD. */
+        uint64_t ltgsets               : 12; /**< [ 27: 16](SRO) Specifies the number of LTG sets in a TAD. */
+        uint64_t num_tads              : 8;  /**< [ 15:  8](SRO) Specifies the number of TADs. */
+        uint64_t num_rows              : 4;  /**< [  7:  4](SRO) Specifies the number of row of tiles. */
+        uint64_t num_cols              : 4;  /**< [  3:  0](SRO) Specifies the number of columns of tiles. */
+#else /* Word 0 - Little Endian */
+        uint64_t num_cols              : 4;  /**< [  3:  0](SRO) Specifies the number of columns of tiles. */
+        uint64_t num_rows              : 4;  /**< [  7:  4](SRO) Specifies the number of row of tiles. */
+        uint64_t num_tads              : 8;  /**< [ 15:  8](SRO) Specifies the number of TADs. */
+        uint64_t ltgsets               : 12; /**< [ 27: 16](SRO) Specifies the number of LTG sets in a TAD. */
+        uint64_t ltgways               : 8;  /**< [ 35: 28](SRO) Specifies the number of LTG ways in a TAD. */
+        uint64_t dtgsets               : 12; /**< [ 47: 36](SRO) Specifies the number of DTG sets in a TAD. */
+        uint64_t dtgways               : 8;  /**< [ 55: 48](SRO) Specifies the number of DTG ways in a TAD. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_const_s cnf10ka; */
+    /* struct cavm_tad_cmn_const_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_const cavm_tad_cmn_const_t;
 
@@ -280,7 +391,112 @@ union cavm_tad_cmn_ctl
         uint64_t cclk_dis              : 1;  /**< [ 63: 63](R/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_ctl_s cn; */
+    /* struct cavm_tad_cmn_ctl_s cn10; */
+    /* struct cavm_tad_cmn_ctl_s cn10ka; */
+    struct cavm_tad_cmn_ctl_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cclk_dis              : 1;  /**< [ 63: 63](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t tag_cclk_dis          : 1;  /**< [ 62: 62](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t ltg_cclk_dis          : 1;  /**< [ 61: 61](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t dtg_cclk_dis          : 1;  /**< [ 60: 60](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t ctldat_cclk_dis       : 1;  /**< [ 59: 59](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t dat_cclk_dis          : 1;  /**< [ 58: 58](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t rsp_cclk_dis          : 1;  /**< [ 57: 57](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t snp_cclk_dis          : 1;  /**< [ 56: 56](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t txsnp_cclk_dis        : 1;  /**< [ 55: 55](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t txreq_cclk_dis        : 1;  /**< [ 54: 54](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t rxtbl_cclk_dis        : 1;  /**< [ 53: 53](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t csr_cclk_dis          : 1;  /**< [ 52: 52](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t lnk_tx_cclk_dis       : 1;  /**< [ 51: 51](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t lnk_rx_cclk_dis       : 1;  /**< [ 50: 50](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t req_cclk_dis          : 1;  /**< [ 48: 48](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t mn_cclk_dis           : 1;  /**< [ 47: 47](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t chn_cclk_dis          : 1;  /**< [ 46: 46](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t reserved_15_45        : 31;
+        uint64_t disearlydq            : 1;  /**< [ 14: 14](SR/W) For each request, TAD sends a final message which results in a
+                                                                 completion reaching requester (e.g., a Comp, CompData, RespSepData,
+                                                                 etc. message in the CHI protocol). To prevent races between snoops to
+                                                                 the same 64-byte sub-block, the TAD must wait to receive a CompAck
+                                                                 back from the requester to know when the completion has been received.
+
+                                                                 When [DISEARLYDQ]=0, the TAD will start processing a request once it
+                                                                 has sent the completion message for all preceeding requests to the
+                                                                 same 128-byte cacheline, without waiting to receive the CompAck, but
+                                                                 it will delay sending any snoops until it has received the CompAck for
+                                                                 the preceding request to the same cacheline. Note that TAD uses
+                                                                 128-byte cachelines, and the wait for CompAck applies even for
+                                                                 requests which access different 64-byte sub-blocks within a 128-byte
+                                                                 cacheline.
+
+                                                                 When [DISEARLYDQ]=1, the TAD will not pipeline requests to the same
+                                                                 cacheline, and instead TAD delays all processing of incoming requests
+                                                                 until it has received a CompAck for each preceding request to the same
+                                                                 128-byte cacheline. */
+        uint64_t dismultmpam           : 1;  /**< [ 13: 13](SR/W) When set, MPAM field is forced to zero on all incoming REQs. */
+        uint64_t maxifb                : 5;  /**< [ 12:  8](SR/W) Maximum IFBs in use at once (0, 25-31 interpreted as 24, 1-24 as Expected). */
+        uint64_t diswrstash            : 1;  /**< [  7:  7](SR/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
+        uint64_t disstashonce          : 1;  /**< [  6:  6](SR/W) When set, disable stash behavior for StashOnceUnique/StashOnceShared. */
+        uint64_t discor                : 1;  /**< [  5:  5](SR/W) Disable correction in the mesh ECC checkers/generators. */
+        uint64_t dispsn                : 1;  /**< [  4:  4](SR/W) Disable poison code creation and detection in the mesh ECC checkers/generators. */
+        uint64_t disdmt                : 1;  /**< [  3:  3](SR/W) When set, disable direct memory transfer. */
+        uint64_t disdct                : 1;  /**< [  2:  2](SR/W) When set, disable direct cache transfer. */
+        uint64_t disdwt                : 1;  /**< [  1:  1](SR/W) When set, disable direct write transfer. */
+        uint64_t frcnalc               : 1;  /**< [  0:  0](SR/W) When set, all cache accesses are forced to not allocate in the TAD LTG. */
+#else /* Word 0 - Little Endian */
+        uint64_t frcnalc               : 1;  /**< [  0:  0](SR/W) When set, all cache accesses are forced to not allocate in the TAD LTG. */
+        uint64_t disdwt                : 1;  /**< [  1:  1](SR/W) When set, disable direct write transfer. */
+        uint64_t disdct                : 1;  /**< [  2:  2](SR/W) When set, disable direct cache transfer. */
+        uint64_t disdmt                : 1;  /**< [  3:  3](SR/W) When set, disable direct memory transfer. */
+        uint64_t dispsn                : 1;  /**< [  4:  4](SR/W) Disable poison code creation and detection in the mesh ECC checkers/generators. */
+        uint64_t discor                : 1;  /**< [  5:  5](SR/W) Disable correction in the mesh ECC checkers/generators. */
+        uint64_t disstashonce          : 1;  /**< [  6:  6](SR/W) When set, disable stash behavior for StashOnceUnique/StashOnceShared. */
+        uint64_t diswrstash            : 1;  /**< [  7:  7](SR/W) When set, disable stash behavior for WriteUniqueFullStash/WriteUniquePtlStash. */
+        uint64_t maxifb                : 5;  /**< [ 12:  8](SR/W) Maximum IFBs in use at once (0, 25-31 interpreted as 24, 1-24 as Expected). */
+        uint64_t dismultmpam           : 1;  /**< [ 13: 13](SR/W) When set, MPAM field is forced to zero on all incoming REQs. */
+        uint64_t disearlydq            : 1;  /**< [ 14: 14](SR/W) For each request, TAD sends a final message which results in a
+                                                                 completion reaching requester (e.g., a Comp, CompData, RespSepData,
+                                                                 etc. message in the CHI protocol). To prevent races between snoops to
+                                                                 the same 64-byte sub-block, the TAD must wait to receive a CompAck
+                                                                 back from the requester to know when the completion has been received.
+
+                                                                 When [DISEARLYDQ]=0, the TAD will start processing a request once it
+                                                                 has sent the completion message for all preceeding requests to the
+                                                                 same 128-byte cacheline, without waiting to receive the CompAck, but
+                                                                 it will delay sending any snoops until it has received the CompAck for
+                                                                 the preceding request to the same cacheline. Note that TAD uses
+                                                                 128-byte cachelines, and the wait for CompAck applies even for
+                                                                 requests which access different 64-byte sub-blocks within a 128-byte
+                                                                 cacheline.
+
+                                                                 When [DISEARLYDQ]=1, the TAD will not pipeline requests to the same
+                                                                 cacheline, and instead TAD delays all processing of incoming requests
+                                                                 until it has received a CompAck for each preceding request to the same
+                                                                 128-byte cacheline. */
+        uint64_t reserved_15_45        : 31;
+        uint64_t chn_cclk_dis          : 1;  /**< [ 46: 46](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t mn_cclk_dis           : 1;  /**< [ 47: 47](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t req_cclk_dis          : 1;  /**< [ 48: 48](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t sam_cclk_dis          : 1;  /**< [ 49: 49](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t lnk_rx_cclk_dis       : 1;  /**< [ 50: 50](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t lnk_tx_cclk_dis       : 1;  /**< [ 51: 51](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t csr_cclk_dis          : 1;  /**< [ 52: 52](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t rxtbl_cclk_dis        : 1;  /**< [ 53: 53](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t txreq_cclk_dis        : 1;  /**< [ 54: 54](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t txsnp_cclk_dis        : 1;  /**< [ 55: 55](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t snp_cclk_dis          : 1;  /**< [ 56: 56](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t rsp_cclk_dis          : 1;  /**< [ 57: 57](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t dat_cclk_dis          : 1;  /**< [ 58: 58](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t ctldat_cclk_dis       : 1;  /**< [ 59: 59](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t dtg_cclk_dis          : 1;  /**< [ 60: 60](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t ltg_cclk_dis          : 1;  /**< [ 61: 61](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t tag_cclk_dis          : 1;  /**< [ 62: 62](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+        uint64_t cclk_dis              : 1;  /**< [ 63: 63](SR/W) Disable power saving TAD conditional clocking. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_ctl_s cnf10ka; */
+    /* struct cavm_tad_cmn_ctl_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_ctl cavm_tad_cmn_ctl_t;
 
@@ -343,7 +559,46 @@ union cavm_tad_cmn_mn_ctl
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_mn_ctl_s cn; */
+    /* struct cavm_tad_cmn_mn_ctl_s cn10; */
+    /* struct cavm_tad_cmn_mn_ctl_s cn10ka; */
+    struct cavm_tad_cmn_mn_ctl_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](SR/W) Value to use in QoS field of MN snoops. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
+                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](SR/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
+                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](SR/W) NCB Device of IOB. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is set by a tie cell hardcoded to 3'b0. */
+        uint64_t iid                   : 3;  /**< [  2:  0](SR/W) IOB index that contains SMMU.
+                                                                 Internal:
+                                                                 RTL: Reset is set by a tie cell set by chip-specific ncb_util.vh. Tied to 3'h1 in 106 */
+#else /* Word 0 - Little Endian */
+        uint64_t iid                   : 3;  /**< [  2:  0](SR/W) IOB index that contains SMMU.
+                                                                 Internal:
+                                                                 RTL: Reset is set by a tie cell set by chip-specific ncb_util.vh. Tied to 3'h1 in 106 */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](SR/W) NCB Device of IOB. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is set by a tie cell hardcoded to 3'b0. */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](SR/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
+                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](SR/W) Value to use in QoS field of MN snoops. Reset value is 0.
+                                                                 Internal:
+                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
+                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_mn_ctl_s cnf10ka; */
+    /* struct cavm_tad_cmn_mn_ctl_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_mn_ctl cavm_tad_cmn_mn_ctl_t;
 
@@ -394,7 +649,11 @@ typedef union cavm_tad_cmn_mpamx_mask cavm_tad_cmn_mpamx_mask_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a)
 {
-    if (a<=127)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=127))
+        return 0x87e053005000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=127))
+        return 0x87e053005000ll + 8ll * ((a) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=127))
         return 0x87e053005000ll + 8ll * ((a) & 0x7f);
     __cavm_csr_fatal("TAD_CMN_MPAMX_MASK", 1, a, 0, 0, 0, 0, 0);
 }
@@ -454,7 +713,15 @@ typedef union cavm_tad_cmn_mpamcfg_cpbm_ns cavm_tad_cmn_mpamcfg_cpbm_ns_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_NS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_NS_FUNC(void)
 {
-    return 0x87e053002000ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053002000ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053011000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053002000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053002000ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMCFG_CPBM_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMCFG_CPBM_NS cavm_tad_cmn_mpamcfg_cpbm_ns_t
@@ -512,7 +779,15 @@ typedef union cavm_tad_cmn_mpamcfg_cpbm_s cavm_tad_cmn_mpamcfg_cpbm_s_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_CPBM_S_FUNC(void)
 {
-    return 0x87e053004000ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053004000ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053021000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053004000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053004000ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMCFG_CPBM_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMCFG_CPBM_S cavm_tad_cmn_mpamcfg_cpbm_s_t
@@ -576,7 +851,15 @@ typedef union cavm_tad_cmn_mpamcfg_part_sel_ns cavm_tad_cmn_mpamcfg_part_sel_ns_
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_NS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_NS_FUNC(void)
 {
-    return 0x87e053001100ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053001100ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053010100ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053001100ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053001100ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMCFG_PART_SEL_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMCFG_PART_SEL_NS cavm_tad_cmn_mpamcfg_part_sel_ns_t
@@ -640,7 +923,15 @@ typedef union cavm_tad_cmn_mpamcfg_part_sel_s cavm_tad_cmn_mpamcfg_part_sel_s_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMCFG_PART_SEL_S_FUNC(void)
 {
-    return 0x87e053003100ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053003100ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053020100ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053003100ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053003100ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMCFG_PART_SEL_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMCFG_PART_SEL_S cavm_tad_cmn_mpamcfg_part_sel_s_t
@@ -688,7 +979,15 @@ typedef union cavm_tad_cmn_mpamf_aidr_ns cavm_tad_cmn_mpamf_aidr_ns_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_NS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_NS_FUNC(void)
 {
-    return 0x87e053001020ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053001020ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053010020ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053001020ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053001020ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_AIDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_AIDR_NS cavm_tad_cmn_mpamf_aidr_ns_t
@@ -736,7 +1035,15 @@ typedef union cavm_tad_cmn_mpamf_aidr_s cavm_tad_cmn_mpamf_aidr_s_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_AIDR_S_FUNC(void)
 {
-    return 0x87e053003020ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053003020ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053020020ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053003020ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053003020ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_AIDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_AIDR_S cavm_tad_cmn_mpamf_aidr_s_t
@@ -781,7 +1088,15 @@ typedef union cavm_tad_cmn_mpamf_cpor_idr_ns cavm_tad_cmn_mpamf_cpor_idr_ns_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS_FUNC(void)
 {
-    return 0x87e053001030ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053001030ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053010030ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053001030ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053001030ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_CPOR_IDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_CPOR_IDR_NS cavm_tad_cmn_mpamf_cpor_idr_ns_t
@@ -825,7 +1140,15 @@ typedef union cavm_tad_cmn_mpamf_cpor_idr_s cavm_tad_cmn_mpamf_cpor_idr_s_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_CPOR_IDR_S_FUNC(void)
 {
-    return 0x87e053003030ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053003030ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053020030ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053003030ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053003030ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_CPOR_IDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_CPOR_IDR_S cavm_tad_cmn_mpamf_cpor_idr_s_t
@@ -921,7 +1244,15 @@ typedef union cavm_tad_cmn_mpamf_idr_ns cavm_tad_cmn_mpamf_idr_ns_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_NS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_NS_FUNC(void)
 {
-    return 0x87e053001000ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053001000ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053010000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053001000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053001000ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_IDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_IDR_NS cavm_tad_cmn_mpamf_idr_ns_t
@@ -1017,7 +1348,15 @@ typedef union cavm_tad_cmn_mpamf_idr_s cavm_tad_cmn_mpamf_idr_s_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IDR_S_FUNC(void)
 {
-    return 0x87e053003000ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053003000ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053020000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053003000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053003000ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_IDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_IDR_S cavm_tad_cmn_mpamf_idr_s_t
@@ -1093,7 +1432,15 @@ typedef union cavm_tad_cmn_mpamf_iidr_ns cavm_tad_cmn_mpamf_iidr_ns_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_NS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_NS_FUNC(void)
 {
-    return 0x87e053001018ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053001018ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053010018ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053001018ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053001018ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_IIDR_NS", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_IIDR_NS cavm_tad_cmn_mpamf_iidr_ns_t
@@ -1169,7 +1516,15 @@ typedef union cavm_tad_cmn_mpamf_iidr_s cavm_tad_cmn_mpamf_iidr_s_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_IIDR_S_FUNC(void)
 {
-    return 0x87e053003018ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053003018ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053020018ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053003018ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053003018ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_IIDR_S", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_IIDR_S cavm_tad_cmn_mpamf_iidr_s_t
@@ -1209,7 +1564,15 @@ typedef union cavm_tad_cmn_mpamf_sidr cavm_tad_cmn_mpamf_sidr_t;
 static inline uint64_t CAVM_TAD_CMN_MPAMF_SIDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TAD_CMN_MPAMF_SIDR_FUNC(void)
 {
-    return 0x87e053003008ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x87e053003008ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x87e053020008ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x87e053003008ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x87e053003008ll;
+    __cavm_csr_fatal("TAD_CMN_MPAMF_SIDR", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TAD_CMN_MPAMF_SIDR cavm_tad_cmn_mpamf_sidr_t
@@ -1254,7 +1617,36 @@ union cavm_tad_cmn_req_retry
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_req_retry_s cn; */
+    /* struct cavm_tad_cmn_req_retry_s cn10; */
+    /* struct cavm_tad_cmn_req_retry_s cn10ka; */
+    struct cavm_tad_cmn_req_retry_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t sadr_pcrdtype_dis     : 4;  /**< [ 15: 12](SR/W) This register disables same address retry hardware. */
+        uint64_t sadr_req_high_wmark   : 6;  /**< [ 11:  6](SR/W) This register controls the number of same address REQs that can be stored in
+                                                                 buffers before issuing a same address retry.
+
+                                                                 If set to 0, same address retries are all disabled. */
+        uint64_t sadr_req_low_wmark    : 6;  /**< [  5:  0](SR/W) After same address REQS exceed [SADR_REQ_HIGH_WMARK] and a retry is issued,
+                                                                 this register controls the number of same address REQs allowed in buffers
+                                                                 before issuing PcrdGrants. PcrdGrants are issued whenever the number of
+                                                                 same address REQs in buffers fall below this number. */
+#else /* Word 0 - Little Endian */
+        uint64_t sadr_req_low_wmark    : 6;  /**< [  5:  0](SR/W) After same address REQS exceed [SADR_REQ_HIGH_WMARK] and a retry is issued,
+                                                                 this register controls the number of same address REQs allowed in buffers
+                                                                 before issuing PcrdGrants. PcrdGrants are issued whenever the number of
+                                                                 same address REQs in buffers fall below this number. */
+        uint64_t sadr_req_high_wmark   : 6;  /**< [ 11:  6](SR/W) This register controls the number of same address REQs that can be stored in
+                                                                 buffers before issuing a same address retry.
+
+                                                                 If set to 0, same address retries are all disabled. */
+        uint64_t sadr_pcrdtype_dis     : 4;  /**< [ 15: 12](SR/W) This register disables same address retry hardware. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_req_retry_s cnf10ka; */
+    /* struct cavm_tad_cmn_req_retry_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_req_retry cavm_tad_cmn_req_retry_t;
 
@@ -1293,7 +1685,20 @@ union cavm_tad_cmn_scratch
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_scratch_s cn; */
+    /* struct cavm_tad_cmn_scratch_s cn10; */
+    /* struct cavm_tad_cmn_scratch_s cn10ka; */
+    struct cavm_tad_cmn_scratch_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t scratch               : 8;  /**< [  7:  0](SR/W) General purpose scratch register. */
+#else /* Word 0 - Little Endian */
+        uint64_t scratch               : 8;  /**< [  7:  0](SR/W) General purpose scratch register. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_scratch_s cnf10ka; */
+    /* struct cavm_tad_cmn_scratch_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_scratch cavm_tad_cmn_scratch_t;
 

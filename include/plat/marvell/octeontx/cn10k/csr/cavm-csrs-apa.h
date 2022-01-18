@@ -81,6 +81,16 @@ union cavm_apax_apat_int_ena_w1c
     } s;
     /* struct cavm_apax_apat_int_ena_w1c_s cn10; */
     /* struct cavm_apax_apat_int_ena_w1c_s cn10ka; */
+    struct cavm_apax_apat_int_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_apat_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -109,6 +119,8 @@ static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e10ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -144,6 +156,16 @@ union cavm_apax_apat_int_ena_w1s
     } s;
     /* struct cavm_apax_apat_int_ena_w1s_s cn10; */
     /* struct cavm_apax_apat_int_ena_w1s_s cn10ka; */
+    struct cavm_apax_apat_int_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_apat_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -172,6 +194,8 @@ static inline uint64_t CAVM_APAX_APAT_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e18ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -214,6 +238,8 @@ static inline uint64_t CAVM_APAX_APAT_INT_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e00ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -249,6 +275,16 @@ union cavm_apax_apat_int_w1s
     } s;
     /* struct cavm_apax_apat_int_w1s_s cn10; */
     /* struct cavm_apax_apat_int_w1s_s cn10ka; */
+    struct cavm_apax_apat_int_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_APAT_INT_W1C[APAT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t apat                  : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_APAT_INT_W1C[APAT]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_apat_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -277,6 +313,8 @@ static inline uint64_t CAVM_APAX_APAT_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e08ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -311,7 +349,22 @@ union cavm_apax_apat_rdatx
                                                                  register must be written before APA()_APAT_RSP. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_apat_rdatx_s cn; */
+    /* struct cavm_apax_apat_rdatx_s cn10; */
+    /* struct cavm_apax_apat_rdatx_s cn10ka; */
+    struct cavm_apax_apat_rdatx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Contents of 32B response data packet for trapped request. Within a data packet,
+                                                                 all bytes are located at their natural byte positions. For a transaction that must
+                                                                 return read data, this register must be written before APA()_APAT_RSP. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Contents of 32B response data packet for trapped request. Within a data packet,
+                                                                 all bytes are located at their natural byte positions. For a transaction that must
+                                                                 return read data, this register must be written before APA()_APAT_RSP. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_apax_apat_rdatx_s cnf10ka; */
+    /* struct cavm_apax_apat_rdatx_s cnf10kb; */
 };
 typedef union cavm_apax_apat_rdatx cavm_apax_apat_rdatx_t;
 
@@ -320,6 +373,8 @@ static inline uint64_t CAVM_APAX_APAT_RDATX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=3)))
         return 0x87e340001240ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=3)))
+        return 0x87e340001240ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=3)))
         return 0x87e340001240ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=3)))
@@ -345,6 +400,53 @@ union cavm_apax_apat_req
 {
     uint64_t u;
     struct cavm_apax_apat_req_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
+        uint64_t has_apat_ext          : 1;  /**< [ 62: 62](SRO) If set, indicates that these register fields/registers are implemented. Attempts
+                                                                 to access these fields/register if this bit is zero may result in fault:
+                                                                 APA_APAT_REQ[DEVICE].
+                                                                 APA_APAT_REQ[ENDIAN].
+                                                                 APA_APAT_WDAT_BYTE_EN. */
+        uint64_t reserved_61           : 1;
+        uint64_t index                 : 5;  /**< [ 60: 56](SRO/H) Index of the vector number that matched. */
+        uint64_t reserved_25_55        : 31;
+        uint64_t device                : 1;  /**< [ 24: 24](SRO/H) Indicates if memory type is Device or Normal. 0 = Normal Memory. 1 = Device Memory. */
+        uint64_t endian                : 1;  /**< [ 23: 23](SRO/H) Endian Format of the data. 0 = Little Endian. 1 = Big Endian. */
+        uint64_t opcode                : 7;  /**< [ 22: 16](SRO/H) CHI opcode field. Supported OPCODES:
+                                                                 0x04 = READNOSNP.
+                                                                 0x1c = WRITENOSNPPTL.
+                                                                 0x30 = ATOMICLOADADD.
+                                                                 0x38 = ATOMICSWAP.
+                                                                 0x39 = ATOMICCOMPARE. */
+        uint64_t tracetag              : 1;  /**< [ 15: 15](SRO/H) CHI trace tag. */
+        uint64_t size                  : 3;  /**< [ 14: 12](SRO/H) CHI REQ size. 0x0 = 1 byte. 0x1 = 2 bytes. 0x2 = 4 bytes. 0x3 = 8 bytes. */
+        uint64_t txnid                 : 12; /**< [ 11:  0](SRO/H) CHI transaction id. */
+#else /* Word 0 - Little Endian */
+        uint64_t txnid                 : 12; /**< [ 11:  0](SRO/H) CHI transaction id. */
+        uint64_t size                  : 3;  /**< [ 14: 12](SRO/H) CHI REQ size. 0x0 = 1 byte. 0x1 = 2 bytes. 0x2 = 4 bytes. 0x3 = 8 bytes. */
+        uint64_t tracetag              : 1;  /**< [ 15: 15](SRO/H) CHI trace tag. */
+        uint64_t opcode                : 7;  /**< [ 22: 16](SRO/H) CHI opcode field. Supported OPCODES:
+                                                                 0x04 = READNOSNP.
+                                                                 0x1c = WRITENOSNPPTL.
+                                                                 0x30 = ATOMICLOADADD.
+                                                                 0x38 = ATOMICSWAP.
+                                                                 0x39 = ATOMICCOMPARE. */
+        uint64_t endian                : 1;  /**< [ 23: 23](SRO/H) Endian Format of the data. 0 = Little Endian. 1 = Big Endian. */
+        uint64_t device                : 1;  /**< [ 24: 24](SRO/H) Indicates if memory type is Device or Normal. 0 = Normal Memory. 1 = Device Memory. */
+        uint64_t reserved_25_55        : 31;
+        uint64_t index                 : 5;  /**< [ 60: 56](SRO/H) Index of the vector number that matched. */
+        uint64_t reserved_61           : 1;
+        uint64_t has_apat_ext          : 1;  /**< [ 62: 62](SRO) If set, indicates that these register fields/registers are implemented. Attempts
+                                                                 to access these fields/register if this bit is zero may result in fault:
+                                                                 APA_APAT_REQ[DEVICE].
+                                                                 APA_APAT_REQ[ENDIAN].
+                                                                 APA_APAT_WDAT_BYTE_EN. */
+        uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_apat_req_s cn10; */
+    struct cavm_apax_apat_req_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
@@ -375,8 +477,61 @@ union cavm_apax_apat_req
         uint64_t reserved_61_62        : 2;
         uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_apat_req_s cn; */
+    } cn10ka;
+    struct cavm_apax_apat_req_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
+        uint64_t has_apat_ext          : 1;  /**< [ 62: 62](SRO) If set, indicates that these register fields/registers are implemented. Attempts
+                                                                 to access these fields/register if this bit is zero may result in fault:
+                                                                 APA_APAT_REQ[DEVICE].
+                                                                 APA_APAT_REQ[ENDIAN].
+                                                                 APA_APAT_WDAT_BYTE_EN. */
+        uint64_t reserved_61           : 1;
+        uint64_t index                 : 5;  /**< [ 60: 56](SRO/H) Index of the vector number that matched. */
+        uint64_t reserved_25_55        : 31;
+        uint64_t device                : 1;  /**< [ 24: 24](SRO/H) Indicates if memory type is Device or Normal. 0 = Normal Memory. 1 = Device Memory. */
+        uint64_t endian                : 1;  /**< [ 23: 23](SRO/H) Endian Format of the data. 0 = Little Endian. 1 = Big Endian. */
+        uint64_t opcode                : 7;  /**< [ 22: 16](SRO/H) CHI opcode field. Any opcode not listed will not be trapped.
+                                                                 Supported OPCODES:
+                                                                 0x04 = READNOSNP.
+                                                                 0x1c = WRITENOSNPPTL.
+                                                                 0x30 = ATOMICLOADADD.
+                                                                 0x38 = ATOMICSWAP.
+                                                                 0x39 = ATOMICCOMPARE. */
+        uint64_t tracetag              : 1;  /**< [ 15: 15](SRO/H) CHI trace tag. */
+        uint64_t size                  : 3;  /**< [ 14: 12](SRO/H) CHI REQ size. For AtomicCompare, data size is sum of the Compare and Swap data
+                                                                 sizes. Sizes not listed are not supported and will not be trapped. 0x0 = 1 byte.
+                                                                 0x1 = 2 bytes. 0x2 = 4 bytes. 0x3 = 8 bytes. 0x4 = 16 bytes. 0x5 = 32 bytes. */
+        uint64_t txnid                 : 12; /**< [ 11:  0](SRO/H) CHI transaction id. */
+#else /* Word 0 - Little Endian */
+        uint64_t txnid                 : 12; /**< [ 11:  0](SRO/H) CHI transaction id. */
+        uint64_t size                  : 3;  /**< [ 14: 12](SRO/H) CHI REQ size. For AtomicCompare, data size is sum of the Compare and Swap data
+                                                                 sizes. Sizes not listed are not supported and will not be trapped. 0x0 = 1 byte.
+                                                                 0x1 = 2 bytes. 0x2 = 4 bytes. 0x3 = 8 bytes. 0x4 = 16 bytes. 0x5 = 32 bytes. */
+        uint64_t tracetag              : 1;  /**< [ 15: 15](SRO/H) CHI trace tag. */
+        uint64_t opcode                : 7;  /**< [ 22: 16](SRO/H) CHI opcode field. Any opcode not listed will not be trapped.
+                                                                 Supported OPCODES:
+                                                                 0x04 = READNOSNP.
+                                                                 0x1c = WRITENOSNPPTL.
+                                                                 0x30 = ATOMICLOADADD.
+                                                                 0x38 = ATOMICSWAP.
+                                                                 0x39 = ATOMICCOMPARE. */
+        uint64_t endian                : 1;  /**< [ 23: 23](SRO/H) Endian Format of the data. 0 = Little Endian. 1 = Big Endian. */
+        uint64_t device                : 1;  /**< [ 24: 24](SRO/H) Indicates if memory type is Device or Normal. 0 = Normal Memory. 1 = Device Memory. */
+        uint64_t reserved_25_55        : 31;
+        uint64_t index                 : 5;  /**< [ 60: 56](SRO/H) Index of the vector number that matched. */
+        uint64_t reserved_61           : 1;
+        uint64_t has_apat_ext          : 1;  /**< [ 62: 62](SRO) If set, indicates that these register fields/registers are implemented. Attempts
+                                                                 to access these fields/register if this bit is zero may result in fault:
+                                                                 APA_APAT_REQ[DEVICE].
+                                                                 APA_APAT_REQ[ENDIAN].
+                                                                 APA_APAT_WDAT_BYTE_EN. */
+        uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_apax_apat_req_cn10ka cnf10ka; */
+    /* struct cavm_apax_apat_req_cn10ka cnf10kb; */
 };
 typedef union cavm_apax_apat_req cavm_apax_apat_req_t;
 
@@ -385,6 +540,8 @@ static inline uint64_t CAVM_APAX_APAT_REQ(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001200ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001200ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001200ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -431,6 +588,8 @@ static inline uint64_t CAVM_APAX_APAT_REQ_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001208ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001208ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001208ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -484,6 +643,8 @@ static inline uint64_t CAVM_APAX_APAT_RSP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001210ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001210ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001210ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -532,6 +693,8 @@ static inline uint64_t CAVM_APAX_APAT_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=31)))
         return 0x87e340001000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=31)))
+        return 0x87e340001000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=31)))
         return 0x87e340001000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=31)))
@@ -578,6 +741,8 @@ static inline uint64_t CAVM_APAX_APAT_VECX_MASK(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=31)))
         return 0x87e340001008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=31)))
+        return 0x87e340001008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=31)))
         return 0x87e340001008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=31)))
@@ -610,7 +775,26 @@ union cavm_apax_apat_wdatx
                                                                  all bytes are located at their natural byte positions. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_apat_wdatx_s cn; */
+    /* struct cavm_apax_apat_wdatx_s cn10; */
+    /* struct cavm_apax_apat_wdatx_s cn10ka; */
+    struct cavm_apax_apat_wdatx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of 32B store data packet for trapped request. Within a data packet,
+                                                                 all bytes are located at their natural byte positions. For ATOMICCOMPARE, the
+                                                                 valid data is aligned to the total request size. The compare data is located
+                                                                 in the half which contains the addressed location and the swap data is located
+                                                                 in the remaining half of valid data. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of 32B store data packet for trapped request. Within a data packet,
+                                                                 all bytes are located at their natural byte positions. For ATOMICCOMPARE, the
+                                                                 valid data is aligned to the total request size. The compare data is located
+                                                                 in the half which contains the addressed location and the swap data is located
+                                                                 in the remaining half of valid data. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_apax_apat_wdatx_s cnf10ka; */
+    /* struct cavm_apax_apat_wdatx_s cnf10kb; */
 };
 typedef union cavm_apax_apat_wdatx cavm_apax_apat_wdatx_t;
 
@@ -619,6 +803,8 @@ static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=3)))
         return 0x87e340001220ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=3)))
+        return 0x87e340001220ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=3)))
         return 0x87e340001220ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=3)))
@@ -632,6 +818,49 @@ static inline uint64_t CAVM_APAX_APAT_WDATX(uint64_t a, uint64_t b)
 #define device_bar_CAVM_APAX_APAT_WDATX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_APAT_WDATX(a,b) (a)
 #define arguments_CAVM_APAX_APAT_WDATX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) apa#_apat_wdat_be
+ *
+ * APA APAT Write Data Byte Enable Register
+ */
+union cavm_apax_apat_wdat_be
+{
+    uint64_t u;
+    struct cavm_apax_apat_wdat_be_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t byte_en               : 32; /**< [ 31:  0](SRO/H) Byte enables for the 32B store data packet for trapped request. For Write
+                                                                 transactions, a set byte enable means the corresponding data byte is valid
+                                                                 and must be updated in cache/memory. If the byte enable is zero, the
+                                                                 corresponding data byte must not be used. */
+#else /* Word 0 - Little Endian */
+        uint64_t byte_en               : 32; /**< [ 31:  0](SRO/H) Byte enables for the 32B store data packet for trapped request. For Write
+                                                                 transactions, a set byte enable means the corresponding data byte is valid
+                                                                 and must be updated in cache/memory. If the byte enable is zero, the
+                                                                 corresponding data byte must not be used. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_apat_wdat_be_s cn; */
+};
+typedef union cavm_apax_apat_wdat_be cavm_apax_apat_wdat_be_t;
+
+static inline uint64_t CAVM_APAX_APAT_WDAT_BE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_APAT_WDAT_BE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001218ll + 0x1000000ll * ((a) & 0x7);
+    __cavm_csr_fatal("APAX_APAT_WDAT_BE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_APAT_WDAT_BE(a) cavm_apax_apat_wdat_be_t
+#define bustype_CAVM_APAX_APAT_WDAT_BE(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_APAT_WDAT_BE(a) "APAX_APAT_WDAT_BE"
+#define device_bar_CAVM_APAX_APAT_WDAT_BE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_APAT_WDAT_BE(a) (a)
+#define arguments_CAVM_APAX_APAT_WDAT_BE(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_bp_test0
@@ -742,6 +971,8 @@ static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -779,6 +1010,18 @@ union cavm_apax_core_ecc_int_ena_w1c
     } s;
     /* struct cavm_apax_core_ecc_int_ena_w1c_s cn10; */
     /* struct cavm_apax_core_ecc_int_ena_w1c_s cn10ka; */
+    struct cavm_apax_core_ecc_int_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_core_ecc_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -811,6 +1054,8 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e70ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -848,6 +1093,18 @@ union cavm_apax_core_ecc_int_ena_w1s
     } s;
     /* struct cavm_apax_core_ecc_int_ena_w1s_s cn10; */
     /* struct cavm_apax_core_ecc_int_ena_w1s_s cn10ka; */
+    struct cavm_apax_core_ecc_int_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_core_ecc_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -880,6 +1137,8 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e78ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -930,6 +1189,8 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e60ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -967,6 +1228,18 @@ union cavm_apax_core_ecc_int_w1s
     } s;
     /* struct cavm_apax_core_ecc_int_w1s_s cn10; */
     /* struct cavm_apax_core_ecc_int_w1s_s cn10ka; */
+    struct cavm_apax_core_ecc_int_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t core_err              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_ERR]. */
+        uint64_t core_fault            : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_CORE_ECC_INT_W1C[CORE_FAULT]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_core_ecc_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -999,6 +1272,8 @@ static inline uint64_t CAVM_APAX_CORE_ECC_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e68ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1087,6 +1362,8 @@ static inline uint64_t CAVM_APAX_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001500ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001500ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001500ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1143,6 +1420,8 @@ static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001530ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001530ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001530ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1202,6 +1481,8 @@ static inline uint64_t CAVM_APAX_DIAG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1241,6 +1522,8 @@ static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=63) && (c<=5)))
         return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=63) && (c<=5)))
+        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=63) && (c<=5)))
         return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=63) && (c<=5)))
@@ -1290,6 +1573,8 @@ static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1342,6 +1627,8 @@ static inline uint64_t CAVM_APAX_ECC_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001508ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001508ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001508ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1385,6 +1672,24 @@ union cavm_apax_ecc_int_ena_w1c
     } s;
     /* struct cavm_apax_ecc_int_ena_w1c_s cn10; */
     /* struct cavm_apax_ecc_int_ena_w1c_s cn10ka; */
+    struct cavm_apax_ecc_int_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_ecc_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1429,6 +1734,8 @@ static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e50ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1472,6 +1779,24 @@ union cavm_apax_ecc_int_ena_w1s
     } s;
     /* struct cavm_apax_ecc_int_ena_w1s_s cn10; */
     /* struct cavm_apax_ecc_int_ena_w1s_s cn10ka; */
+    struct cavm_apax_ecc_int_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_ecc_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1516,6 +1841,8 @@ static inline uint64_t CAVM_APAX_ECC_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e58ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1566,6 +1893,8 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e40ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1609,6 +1938,24 @@ union cavm_apax_ecc_int_w1s
     } s;
     /* struct cavm_apax_ecc_int_w1s_s cn10; */
     /* struct cavm_apax_ecc_int_w1s_s cn10ka; */
+    struct cavm_apax_ecc_int_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsp_perr              : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[RSP_PERR]. */
+        uint64_t snp_perr              : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[SNP_PERR]. */
+        uint64_t dat_perr              : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_PERR]. */
+        uint64_t dat_mbe               : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_MBE]. */
+        uint64_t dat_sbe               : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_ECC_INT_W1C[DAT_SBE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_ecc_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1653,6 +2000,8 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e48ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1696,6 +2045,8 @@ static inline uint64_t CAVM_APAX_ECO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -1750,6 +2101,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_COUNTS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=1)))
         return 0x87e340001608ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=1)))
+        return 0x87e340001608ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
         return 0x87e340001608ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=1)))
@@ -1804,6 +2157,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_LMTMAP(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=1)))
         return 0x87e340001618ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=1)))
+        return 0x87e340001618ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
         return 0x87e340001618ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=1)))
@@ -1862,6 +2217,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_REQ(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=1)))
         return 0x87e340001610ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=1)))
+        return 0x87e340001610ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
         return 0x87e340001610ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=1)))
@@ -1950,6 +2307,8 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=1)))
         return 0x87e340001600ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=1)))
+        return 0x87e340001600ll + 0x1000000ll * ((a) & 0x7) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=1)))
         return 0x87e340001600ll + 0x1000000ll * ((a) & 0x1f) + 0x40ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=1)))
@@ -2212,6 +2571,8 @@ static inline uint64_t CAVM_APAX_MAN_PLL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340004008ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340004008ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340004008ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -2254,6 +2615,8 @@ static inline uint64_t CAVM_APAX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b==0)))
         return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b==0)))
+        return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b==0)))
         return 0x87e3401f0000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b==0)))
@@ -2316,6 +2679,8 @@ static inline uint64_t CAVM_APAX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=7)))
         return 0x87e340100000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=7)))
+        return 0x87e340100000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=7)))
         return 0x87e340100000ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=7)))
@@ -2360,6 +2725,8 @@ static inline uint64_t CAVM_APAX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=7)))
         return 0x87e340100008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=7)))
+        return 0x87e340100008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=7)))
         return 0x87e340100008ll + 0x1000000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=7)))
@@ -2422,6 +2789,8 @@ static inline uint64_t CAVM_APAX_NDERR_INFO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001528ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001528ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001528ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -2461,6 +2830,8 @@ static inline uint64_t CAVM_APAX_PFCX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=5)))
         return 0x87e340001540ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=5)))
+        return 0x87e340001540ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=5)))
         return 0x87e340001540ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=5)))
@@ -2693,6 +3064,8 @@ static inline uint64_t CAVM_APAX_PLL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340004000ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340004000ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340004000ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -2752,6 +3125,8 @@ static inline uint64_t CAVM_APAX_PRF(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001520ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001520ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001520ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -2795,6 +3170,8 @@ static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001400ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001400ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001400ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -2892,7 +3269,86 @@ union cavm_apax_test_pll
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_apax_test_pll_s cn; */
+    /* struct cavm_apax_test_pll_s cn10; */
+    /* struct cavm_apax_test_pll_s cn10ka; */
+    struct cavm_apax_test_pll_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Test bits sent to the PLL.
+                                                                 The following test_rsvd registeers can be accessed and data is supplied
+                                                                 by the STOP_CNT field.
+
+                                                                 0 = test_rsvd0, STOP_CNT with TILE_MSC_DISABLE cleared
+                                                                 1 = test_rsvd1, STOP_CNT with TILE_MSC_DISABLE set
+                                                                 2,3  = reserved
+                                                                 4 = test_rsvd4, PLL Debug
+                                                                 5 = test_rsvd5, ARO User Mode Control
+                                                                 6 = test_rsvd6, ARO Calibration Min/Save Values
+                                                                 7 = test_rsvd7, ARO User P1/P2 Settings
+
+                                                                 TILE_MSC_DISABLE, when set, disables diagnostic output for the pcl row,
+                                                                 causing the msc_clkout and  msc_lockout to not propagate across
+                                                                 the pcl row.  This bit should be identically programmed across the same PCL row. */
+        uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitilized on a cold domain reset. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](SR/W/H) PLL output stop control.  When this field is set along with a postive
+                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+                                                                 counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](SR/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
+#else /* Word 0 - Little Endian */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](SR/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](SR/W/H) PLL output stop control.  When this field is set along with a postive
+                                                                 this will start the counter at STOP_CNT and stop the output clock when the
+                                                                 counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitilized on a cold domain reset. */
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Test bits sent to the PLL.
+                                                                 The following test_rsvd registeers can be accessed and data is supplied
+                                                                 by the STOP_CNT field.
+
+                                                                 0 = test_rsvd0, STOP_CNT with TILE_MSC_DISABLE cleared
+                                                                 1 = test_rsvd1, STOP_CNT with TILE_MSC_DISABLE set
+                                                                 2,3  = reserved
+                                                                 4 = test_rsvd4, PLL Debug
+                                                                 5 = test_rsvd5, ARO User Mode Control
+                                                                 6 = test_rsvd6, ARO Calibration Min/Save Values
+                                                                 7 = test_rsvd7, ARO User P1/P2 Settings
+
+                                                                 TILE_MSC_DISABLE, when set, disables diagnostic output for the pcl row,
+                                                                 causing the msc_clkout and  msc_lockout to not propagate across
+                                                                 the pcl row.  This bit should be identically programmed across the same PCL row. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_apax_test_pll_s cnf10ka; */
+    /* struct cavm_apax_test_pll_s cnf10kb; */
 };
 typedef union cavm_apax_test_pll cavm_apax_test_pll_t;
 
@@ -2901,6 +3357,8 @@ static inline uint64_t CAVM_APAX_TEST_PLL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340004010ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340004010ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340004010ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -2945,6 +3403,8 @@ static inline uint64_t CAVM_APAX_WDOG_CORE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001300ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001300ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001300ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3000,6 +3460,8 @@ static inline uint64_t CAVM_APAX_WDOG_CORE_DIAG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001310ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001310ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001310ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3043,6 +3505,24 @@ union cavm_apax_wdog_int_ena_w1c
     } s;
     /* struct cavm_apax_wdog_int_ena_w1c_s cn10; */
     /* struct cavm_apax_wdog_int_ena_w1c_s cn10ka; */
+    struct cavm_apax_wdog_int_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1C/H) Reads or clears enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_wdog_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3087,6 +3567,8 @@ static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e30ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3130,6 +3612,24 @@ union cavm_apax_wdog_int_ena_w1s
     } s;
     /* struct cavm_apax_wdog_int_ena_w1s_s cn10; */
     /* struct cavm_apax_wdog_int_ena_w1s_s cn10ka; */
+    struct cavm_apax_wdog_int_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets enable for APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_wdog_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3174,6 +3674,8 @@ static inline uint64_t CAVM_APAX_WDOG_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e38ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3224,6 +3726,8 @@ static inline uint64_t CAVM_APAX_WDOG_INT_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e20ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3267,6 +3771,24 @@ union cavm_apax_wdog_int_w1s
     } s;
     /* struct cavm_apax_wdog_int_w1s_s cn10; */
     /* struct cavm_apax_wdog_int_w1s_s cn10ka; */
+    struct cavm_apax_wdog_int_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t wdog_core             : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_CORE]. */
+        uint64_t wdog_struct_crd       : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_CRD]. */
+        uint64_t wdog_struct_dat       : 1;  /**< [  2:  2](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_DAT]. */
+        uint64_t wdog_struct_rqb       : 1;  /**< [  3:  3](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_RQB]. */
+        uint64_t wdog_struct_txnid     : 1;  /**< [  4:  4](SR/W1S/H) Reads or sets APA(0..7)_WDOG_INT_W1C[WDOG_STRUCT_TXNID]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_apax_wdog_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3311,6 +3833,8 @@ static inline uint64_t CAVM_APAX_WDOG_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001e28ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3355,6 +3879,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001308ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001308ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001308ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3406,6 +3932,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_CRD_DIAG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001318ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001318ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001318ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3467,6 +3995,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_DAT_DIAG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001330ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001330ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001330ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3524,6 +4054,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_RQB_DIAG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001328ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001328ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001328ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
@@ -3575,6 +4107,8 @@ static inline uint64_t CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
         return 0x87e340001320ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001320ll + 0x1000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
         return 0x87e340001320ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))

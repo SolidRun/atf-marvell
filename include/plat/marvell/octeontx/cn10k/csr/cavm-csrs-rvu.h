@@ -2008,6 +2008,7 @@ union cavm_rvu_af_smmu_addr_req
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } cn10ka;
+    /* struct cavm_rvu_af_smmu_addr_req_s cn10kb; */
     /* struct cavm_rvu_af_smmu_addr_req_s cnf10ka; */
     /* struct cavm_rvu_af_smmu_addr_req_s cnf10kb; */
 };

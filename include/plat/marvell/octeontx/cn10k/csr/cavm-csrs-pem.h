@@ -48,6 +48,25 @@
 #define CAVM_PEM_INT_VEC_E_RST_INT (9)
 
 /**
+ * Enumeration pem_perf_bus_e
+ *
+ * PEM Performance Bus Enumeration
+ * Enumerates the internal bus associated with performance tracking registers.
+ */
+#define CAVM_PEM_PERF_BUS_E_PERF_EBUS (1)
+#define CAVM_PEM_PERF_BUS_E_PERF_NCB (0)
+
+/**
+ * Enumeration pem_perf_tlp_type_e
+ *
+ * PEM Performance TLP Type Enumeration
+ * Enumerates the TLP type associated with performance tracking registers that are by type.
+ */
+#define CAVM_PEM_PERF_TLP_TYPE_E_PERF_CPL (2)
+#define CAVM_PEM_PERF_TLP_TYPE_E_PERF_NPR (0)
+#define CAVM_PEM_PERF_TLP_TYPE_E_PERF_PR (1)
+
+/**
  * Enumeration pem_rst_source_e
  *
  * PEM Reset Cause Enumeration
@@ -135,6 +154,8 @@ static inline uint64_t CAVM_PEMX_BAR2_MASK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000048ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000048ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000048ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -189,6 +210,8 @@ static inline uint64_t CAVM_PEMX_BAR4_INDEXX(uint64_t a, uint64_t b) __attribute
 static inline uint64_t CAVM_PEMX_BAR4_INDEXX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=15)))
+        return 0x8e0000000700ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=15)))
         return 0x8e0000000700ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=15)))
         return 0x8e0000000700ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
@@ -463,6 +486,8 @@ static inline uint64_t CAVM_PEMX_BAR_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000168ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000168ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000168ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -529,6 +554,8 @@ static inline uint64_t CAVM_PEMX_BDNUM(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_PEMX_BDNUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000088ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000088ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000088ll + 0x1000000000ll * ((a) & 0x1);
@@ -614,6 +641,8 @@ static inline uint64_t CAVM_PEMX_BP_TEST0(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PEMX_BP_TEST0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001e0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e00000001e0ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000001e0ll + 0x1000000000ll * ((a) & 0x1);
@@ -703,6 +732,8 @@ static inline uint64_t CAVM_PEMX_BP_TEST1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e00000001e8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e00000001e8ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000001e8ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -787,6 +818,8 @@ static inline uint64_t CAVM_PEMX_BP_TEST2(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PEMX_BP_TEST2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000001f0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e00000001f0ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000001f0ll + 0x1000000000ll * ((a) & 0x1);
@@ -873,6 +906,8 @@ static inline uint64_t CAVM_PEMX_BP_TEST3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e00000001f8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e00000001f8ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000001f8ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -955,6 +990,8 @@ static inline uint64_t CAVM_PEMX_BP_TEST4(uint64_t a) __attribute__ ((pure, alwa
 static inline uint64_t CAVM_PEMX_BP_TEST4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000200ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000200ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000200ll + 0x1000000000ll * ((a) & 0x1);
@@ -1041,6 +1078,8 @@ static inline uint64_t CAVM_PEMX_BP_TEST5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000208ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000208ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000208ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1124,6 +1163,8 @@ static inline uint64_t CAVM_PEMX_BP_TEST6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000210ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000210ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000210ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1152,6 +1193,59 @@ union cavm_pemx_cfg
 {
     uint64_t u;
     struct cavm_pemx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t auto_dp_clr           : 1;  /**< [  8:  8](R/W/H) Auto disable-port clearing of PEM()_DIS_PORT[DIS_PORT] when link LTSSM
+                                                                 state reaches L0 after a MAC reset.
+
+                                                                 0 = Do not auto-clear PEM()_DIS_PORT[DIS_PORT], which will require software to
+                                                                 clear PEM()_DIS_PORT[DIS_PORT] after the link is reset.  Typical setting when in
+                                                                 EP mode (PEM()_CFG[HOSTMD] = 0).
+
+                                                                 1 = Auto-clear PEM()_DIS_PORT[DIS_PORT], which will typically allow outbound
+                                                                 traffic to resume after reset is complete. Typical setting when in RC mode
+                                                                 (PEM()_CFG[HOSTMD] = 1).
+
+                                                                 Resets to 0 when strapped as an endpoint (GPIO_STRAP_PIN_E::PCIEn_EP_MODE is
+                                                                 strapped high), otherwise 1. */
+        uint64_t pipe_grp_ptr          : 3;  /**< [  7:  5](R/W) Configures the PEM to point to the RX Pipe quad containing
+                                                                 Lane 0.
+                                                                 0x0 = grp0 (lane 0).
+                                                                 0x1 - 0x7 = Reserved. */
+        uint64_t reserved_1_4          : 4;
+        uint64_t hostmd                : 1;  /**< [  0:  0](R/W/H) Host mode.
+                                                                 0 = PEM is configured to be an end point (EP mode).
+                                                                 1 = PEM is configured to be a root complex (RC mode).
+                                                                 The reset value for this bit is controlled by a strapping pin. */
+#else /* Word 0 - Little Endian */
+        uint64_t hostmd                : 1;  /**< [  0:  0](R/W/H) Host mode.
+                                                                 0 = PEM is configured to be an end point (EP mode).
+                                                                 1 = PEM is configured to be a root complex (RC mode).
+                                                                 The reset value for this bit is controlled by a strapping pin. */
+        uint64_t reserved_1_4          : 4;
+        uint64_t pipe_grp_ptr          : 3;  /**< [  7:  5](R/W) Configures the PEM to point to the RX Pipe quad containing
+                                                                 Lane 0.
+                                                                 0x0 = grp0 (lane 0).
+                                                                 0x1 - 0x7 = Reserved. */
+        uint64_t auto_dp_clr           : 1;  /**< [  8:  8](R/W/H) Auto disable-port clearing of PEM()_DIS_PORT[DIS_PORT] when link LTSSM
+                                                                 state reaches L0 after a MAC reset.
+
+                                                                 0 = Do not auto-clear PEM()_DIS_PORT[DIS_PORT], which will require software to
+                                                                 clear PEM()_DIS_PORT[DIS_PORT] after the link is reset.  Typical setting when in
+                                                                 EP mode (PEM()_CFG[HOSTMD] = 0).
+
+                                                                 1 = Auto-clear PEM()_DIS_PORT[DIS_PORT], which will typically allow outbound
+                                                                 traffic to resume after reset is complete. Typical setting when in RC mode
+                                                                 (PEM()_CFG[HOSTMD] = 1).
+
+                                                                 Resets to 0 when strapped as an endpoint (GPIO_STRAP_PIN_E::PCIEn_EP_MODE is
+                                                                 strapped high), otherwise 1. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_cfg_s cn10; */
+    struct cavm_pemx_cfg_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
@@ -1220,8 +1314,75 @@ union cavm_pemx_cfg
                                                                  strapped high), otherwise 1. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_cfg_s cn; */
+    } cn10ka;
+    struct cavm_pemx_cfg_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t auto_dp_clr           : 1;  /**< [  8:  8](R/W/H) Auto disable-port clearing of PEM()_DIS_PORT[DIS_PORT] when link LTSSM
+                                                                 state reaches L0 after a MAC reset.
+
+                                                                 0 = Do not auto-clear PEM()_DIS_PORT[DIS_PORT], which will require software to
+                                                                 clear PEM()_DIS_PORT[DIS_PORT] after the link is reset.  Typical setting when in
+                                                                 EP mode (PEM()_CFG[HOSTMD] = 0).
+
+                                                                 1 = Auto-clear PEM()_DIS_PORT[DIS_PORT], which will typically allow outbound
+                                                                 traffic to resume after reset is complete. Typical setting when in RC mode
+                                                                 (PEM()_CFG[HOSTMD] = 1).
+
+                                                                 Resets to 0 when strapped as an endpoint (GPIO_STRAP_PIN_E::PCIEn_EP_MODE is
+                                                                 strapped high), otherwise 1. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t pipe                  : 2;  /**< [  5:  4](R/W) Configures the PEM pipe sources.
+                                                                 0x0 = Pipe 0.
+                                                                 0x1 - 0x3 = Reserved. */
+        uint64_t lanes                 : 3;  /**< [  3:  1](R/W/H) Ties off RX Pipe for unused lanes.
+                                                                 0x0 = 1 lane.
+                                                                 0x1 = 2 lanes (PEM only, not supported for BPEM).
+                                                                 0x2 = 4 lanes (PEM only, not supported for BPEM).
+                                                                 0x3 - 0x7 = Reserved.
+
+                                                                 PCIERC_PORT_CTL[LME]/PCIEEP_PORT_CTL[LME] is required to be
+                                                                 set to a value which is greater then or equal to [LANES]. */
+        uint64_t hostmd                : 1;  /**< [  0:  0](R/W/H) Host mode.
+                                                                 0 = PEM is configured to be an end point (EP mode).
+                                                                 1 = PEM is configured to be a root complex (RC mode).
+                                                                 The reset value for this bit is controlled by a strapping pin. */
+#else /* Word 0 - Little Endian */
+        uint64_t hostmd                : 1;  /**< [  0:  0](R/W/H) Host mode.
+                                                                 0 = PEM is configured to be an end point (EP mode).
+                                                                 1 = PEM is configured to be a root complex (RC mode).
+                                                                 The reset value for this bit is controlled by a strapping pin. */
+        uint64_t lanes                 : 3;  /**< [  3:  1](R/W/H) Ties off RX Pipe for unused lanes.
+                                                                 0x0 = 1 lane.
+                                                                 0x1 = 2 lanes (PEM only, not supported for BPEM).
+                                                                 0x2 = 4 lanes (PEM only, not supported for BPEM).
+                                                                 0x3 - 0x7 = Reserved.
+
+                                                                 PCIERC_PORT_CTL[LME]/PCIEEP_PORT_CTL[LME] is required to be
+                                                                 set to a value which is greater then or equal to [LANES]. */
+        uint64_t pipe                  : 2;  /**< [  5:  4](R/W) Configures the PEM pipe sources.
+                                                                 0x0 = Pipe 0.
+                                                                 0x1 - 0x3 = Reserved. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t auto_dp_clr           : 1;  /**< [  8:  8](R/W/H) Auto disable-port clearing of PEM()_DIS_PORT[DIS_PORT] when link LTSSM
+                                                                 state reaches L0 after a MAC reset.
+
+                                                                 0 = Do not auto-clear PEM()_DIS_PORT[DIS_PORT], which will require software to
+                                                                 clear PEM()_DIS_PORT[DIS_PORT] after the link is reset.  Typical setting when in
+                                                                 EP mode (PEM()_CFG[HOSTMD] = 0).
+
+                                                                 1 = Auto-clear PEM()_DIS_PORT[DIS_PORT], which will typically allow outbound
+                                                                 traffic to resume after reset is complete. Typical setting when in RC mode
+                                                                 (PEM()_CFG[HOSTMD] = 1).
+
+                                                                 Resets to 0 when strapped as an endpoint (GPIO_STRAP_PIN_E::PCIEn_EP_MODE is
+                                                                 strapped high), otherwise 1. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pemx_cfg_cn10ka cnf10ka; */
+    /* struct cavm_pemx_cfg_cn10ka cnf10kb; */
 };
 typedef union cavm_pemx_cfg cavm_pemx_cfg_t;
 
@@ -1229,6 +1390,8 @@ static inline uint64_t CAVM_PEMX_CFG(uint64_t a) __attribute__ ((pure, always_in
 static inline uint64_t CAVM_PEMX_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000d8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e00000000d8ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000d8ll + 0x1000000000ll * ((a) & 0x1);
@@ -1316,6 +1479,8 @@ static inline uint64_t CAVM_PEMX_CFG_TBLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1023)))
         return 0x8e0000002000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1023)))
+        return 0x8e0000002000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3ff);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1023)))
         return 0x8e0000002000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3ff);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=1023)))
@@ -1369,6 +1534,8 @@ static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMX_CFG_TBL_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000220ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000220ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000220ll + 0x1000000000ll * ((a) & 0x1);
@@ -1457,6 +1624,8 @@ static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_PEMX_CLK_EN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000c8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e00000000c8ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000c8ll + 0x1000000000ll * ((a) & 0x1);
@@ -1595,6 +1764,8 @@ static inline uint64_t CAVM_PEMX_CONST_ACC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000218ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000218ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000218ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1641,6 +1812,8 @@ static inline uint64_t CAVM_PEMX_CPL_LUT_VALID(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000040ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000040ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000040ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1684,6 +1857,8 @@ static inline uint64_t CAVM_PEMX_CSCLK_ACTIVE_PC(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_CSCLK_ACTIVE_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000058ll + 0x1000000000ll * ((a) & 0x1);
@@ -1899,6 +2074,8 @@ static inline uint64_t CAVM_PEMX_CTL_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000000ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000000ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000000ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -1982,6 +2159,8 @@ static inline uint64_t CAVM_PEMX_CTL_STATUS2(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_CTL_STATUS2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000130ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000130ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000130ll + 0x1000000000ll * ((a) & 0x1);
@@ -2213,6 +2392,8 @@ static inline uint64_t CAVM_PEMX_DBG_INFO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000108ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000108ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000108ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2306,7 +2487,76 @@ union cavm_pemx_debug
                                                                  \<63:55\> = Reserved. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pemx_debug_s cn; */
+    /* struct cavm_pemx_debug_s cn10; */
+    /* struct cavm_pemx_debug_s cn10ka; */
+    struct cavm_pemx_debug_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ib_drop_why           : 32; /**< [ 63: 32](R/W1C/H) Reasons why inbound TLPs were dropped.
+                                                                 \<32\> = No NCB. The TLP targets NCBI but there is no NCBI connected to PEM in this chip.
+                                                                 \<33\> = No EBUS. The TLP targets EBI but there is no EBI connected to PEM in this chip.
+                                                                 \<34\> = No PSPI. The TLP targets PSPI (ROM) but there is no PSPI connected to PEM in this chip.
+                                                                 \<35\> = Core Reset. The TLP was processed during core reset or core reset recovery process.
+                                                                 \<36\> = IB Drop. A CFG or IO completion was dropped as marked by outbound at time of NP request.
+                                                                 \<37\> = Illegal BAR. BAR miss or improper config to BAR0, BAR2 or BAR4.
+                                                                 \<38\> = Illegal EBAR.  The TLP targets EBAR (EROM) but was NOT a read (writes not supported).
+                                                                 \<39\> = Zero MemWr.  The TLP was a zero-length memory write operation which we do not support.
+                                                                 \<40\> = Illegal PCIe Type.  Inbound TLP is not supported (examples: CFG, IO, RDLOCK).
+                                                                 \<41\> = Unsupported AtomicOp.  The TLP was poisoned, to PSPI bus, or to EBI with atomic disabled.
+                                                                 \<42\> = Malformed AtomicOp.  Unsupported size/alignment restrictions.
+                                                                 \<43\> = Malformed AtomicOp EOT.  The AtomicOp did not indicate EOT on its first beat of data.
+                                                                 \<44\> = Mac Reset. The TLP was processed when the Mac was in reset.
+                                                                 \<45\> = SBRST.  The TLP was processed when the chip as RC initiates hot reset or link down event.
+                                                                 \<46\> = No BME.  The TLP functions PCIEEP_CMD[ME]/PCIEEPVF_CMD[ME] (Bus Master
+                                                                 Enable) set OR it was an AtomicOp and PCIERC_DEV_CTL2[ATOM_OP] (AtomicOp requster
+                                                                 enable) was not set.
+                                                                 \<47\> = In FLR.  The TLP's function (PF/VF) was in Function Level Reset.  Same as bit 54.
+                                                                 \<48\> = IN RASDP.  The TLP was processed when the Mac indiacated RAS Data Protection mode.
+                                                                 \<49\> = Framing.  The TLP was terminated due to incorrect framing (EOT on the expected beat).
+                                                                 \<50\> = Max TLP Size.  The TLP DW length exceeded 256B.
+                                                                 \<51\> = DLLP Error.  The TLP was flagged by the MAC as having a Data Link Error (LCRC) error.
+                                                                 \<52\> = TLP Error.  The TLP was flagged by the MAC as being malformed on TRGT1
+                                                                 (ECRC or LUT failure).
+                                                                 \<53\> = ECRC Error.  The TLP was flagged by the MAC as having an ECRC error on the received TLP.
+                                                                 \<54\> = In FLR.  The TLP's function (PF/VF) was in Function Level Reset.  Same as bit 47.
+                                                                 \<63:55\> = Reserved. */
+        uint64_t reserved_6_31         : 26;
+        uint64_t intval                : 6;  /**< [  5:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
+#else /* Word 0 - Little Endian */
+        uint64_t intval                : 6;  /**< [  5:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
+        uint64_t reserved_6_31         : 26;
+        uint64_t ib_drop_why           : 32; /**< [ 63: 32](R/W1C/H) Reasons why inbound TLPs were dropped.
+                                                                 \<32\> = No NCB. The TLP targets NCBI but there is no NCBI connected to PEM in this chip.
+                                                                 \<33\> = No EBUS. The TLP targets EBI but there is no EBI connected to PEM in this chip.
+                                                                 \<34\> = No PSPI. The TLP targets PSPI (ROM) but there is no PSPI connected to PEM in this chip.
+                                                                 \<35\> = Core Reset. The TLP was processed during core reset or core reset recovery process.
+                                                                 \<36\> = IB Drop. A CFG or IO completion was dropped as marked by outbound at time of NP request.
+                                                                 \<37\> = Illegal BAR. BAR miss or improper config to BAR0, BAR2 or BAR4.
+                                                                 \<38\> = Illegal EBAR.  The TLP targets EBAR (EROM) but was NOT a read (writes not supported).
+                                                                 \<39\> = Zero MemWr.  The TLP was a zero-length memory write operation which we do not support.
+                                                                 \<40\> = Illegal PCIe Type.  Inbound TLP is not supported (examples: CFG, IO, RDLOCK).
+                                                                 \<41\> = Unsupported AtomicOp.  The TLP was poisoned, to PSPI bus, or to EBI with atomic disabled.
+                                                                 \<42\> = Malformed AtomicOp.  Unsupported size/alignment restrictions.
+                                                                 \<43\> = Malformed AtomicOp EOT.  The AtomicOp did not indicate EOT on its first beat of data.
+                                                                 \<44\> = Mac Reset. The TLP was processed when the Mac was in reset.
+                                                                 \<45\> = SBRST.  The TLP was processed when the chip as RC initiates hot reset or link down event.
+                                                                 \<46\> = No BME.  The TLP functions PCIEEP_CMD[ME]/PCIEEPVF_CMD[ME] (Bus Master
+                                                                 Enable) set OR it was an AtomicOp and PCIERC_DEV_CTL2[ATOM_OP] (AtomicOp requster
+                                                                 enable) was not set.
+                                                                 \<47\> = In FLR.  The TLP's function (PF/VF) was in Function Level Reset.  Same as bit 54.
+                                                                 \<48\> = IN RASDP.  The TLP was processed when the Mac indiacated RAS Data Protection mode.
+                                                                 \<49\> = Framing.  The TLP was terminated due to incorrect framing (EOT on the expected beat).
+                                                                 \<50\> = Max TLP Size.  The TLP DW length exceeded 256B.
+                                                                 \<51\> = DLLP Error.  The TLP was flagged by the MAC as having a Data Link Error (LCRC) error.
+                                                                 \<52\> = TLP Error.  The TLP was flagged by the MAC as being malformed on TRGT1
+                                                                 (ECRC or LUT failure).
+                                                                 \<53\> = ECRC Error.  The TLP was flagged by the MAC as having an ECRC error on the received TLP.
+                                                                 \<54\> = In FLR.  The TLP's function (PF/VF) was in Function Level Reset.  Same as bit 47.
+                                                                 \<63:55\> = Reserved. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_pemx_debug_s cnf10ka; */
+    /* struct cavm_pemx_debug_s cnf10kb; */
 };
 typedef union cavm_pemx_debug cavm_pemx_debug_t;
 
@@ -2314,6 +2564,8 @@ static inline uint64_t CAVM_PEMX_DEBUG(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_PEMX_DEBUG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000110ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000110ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000110ll + 0x1000000000ll * ((a) & 0x1);
@@ -2599,6 +2851,8 @@ static inline uint64_t CAVM_PEMX_DIAG_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000010ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000010ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000010ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2663,6 +2917,8 @@ static inline uint64_t CAVM_PEMX_DIS_PORT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000050ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000050ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000050ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -2720,6 +2976,8 @@ static inline uint64_t CAVM_PEMX_EBI_TLP_CREDITS(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_EBI_TLP_CREDITS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000028ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000028ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000028ll + 0x1000000000ll * ((a) & 0x1);
@@ -2846,6 +3104,8 @@ static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_EBO_FIFO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000140ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000140ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000140ll + 0x1000000000ll * ((a) & 0x1);
@@ -2983,6 +3243,8 @@ static inline uint64_t CAVM_PEMX_EBUS_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000080ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000080ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000080ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3028,6 +3290,8 @@ static inline uint64_t CAVM_PEMX_ECO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000008ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000008ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000008ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3072,6 +3336,8 @@ static inline uint64_t CAVM_PEMX_ECO2(uint64_t a) __attribute__ ((pure, always_i
 static inline uint64_t CAVM_PEMX_ECO2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000238ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000238ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000238ll + 0x1000000000ll * ((a) & 0x1);
@@ -3120,6 +3386,8 @@ static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PEMX_END_MERGE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000188ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000188ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000188ll + 0x1000000000ll * ((a) & 0x1);
@@ -3180,6 +3448,8 @@ static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_PEMX_EROM_BAR_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000160ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000160ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000160ll + 0x1000000000ll * ((a) & 0x1);
@@ -3248,6 +3518,8 @@ static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_PEMX_EROM_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000230ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000230ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000230ll + 0x1000000000ll * ((a) & 0x1);
@@ -3327,6 +3599,8 @@ static inline uint64_t CAVM_PEMX_FLR_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000070ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000070ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000070ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3391,6 +3665,8 @@ static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_PEMX_FLR_PFX_STOPREQ(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
+        return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
         return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
         return 0x8e0000000c00ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
@@ -3457,6 +3733,8 @@ static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_FLR_STOPREQ_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000078ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000078ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000078ll + 0x1000000000ll * ((a) & 0x1);
@@ -3527,6 +3805,8 @@ static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000e00ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000e00ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000e00ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -3540,6 +3820,227 @@ static inline uint64_t CAVM_PEMX_FLR_VF_STOPREQ(uint64_t a)
 #define device_bar_CAVM_PEMX_FLR_VF_STOPREQ(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_FLR_VF_STOPREQ(a) (a)
 #define arguments_CAVM_PEMX_FLR_VF_STOPREQ(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_ib_latency_pc#
+ *
+ * PEM Inbound Latency Time Registers
+ * This register resets on core domain reset.  It measures the time portion
+ * of the information set needed by software to calculate average inbound
+ * read latency to the target bus.
+ * Index {a} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ib_latency_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ib_latency_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Number of inbound read requests currently in flight directed to the target bus and
+                                                                 measured within PEMM from receipt of the read to first completion sent back to PEMC
+                                                                 incremented every 10ns.  The intended purpose of this register is to allow latency
+                                                                 measurement of the internal memory subsystem.  So the inherent variable divergence
+                                                                 from PCIe measured latency due to only measuring at PEMM boundaries is considered
+                                                                 acceptable.  This register cannot measure any queuing time of an inbound read held
+                                                                 within PEMC prior to being transferred to PEMM. */
+#else /* Word 0 - Little Endian */
+        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Number of inbound read requests currently in flight directed to the target bus and
+                                                                 measured within PEMM from receipt of the read to first completion sent back to PEMC
+                                                                 incremented every 10ns.  The intended purpose of this register is to allow latency
+                                                                 measurement of the internal memory subsystem.  So the inherent variable divergence
+                                                                 from PCIe measured latency due to only measuring at PEMM boundaries is considered
+                                                                 acceptable.  This register cannot measure any queuing time of an inbound read held
+                                                                 within PEMC prior to being transferred to PEMM. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ib_latency_pcx_s cn; */
+};
+typedef union cavm_pemx_ib_latency_pcx cavm_pemx_ib_latency_pcx_t;
+
+static inline uint64_t CAVM_PEMX_IB_LATENCY_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_IB_LATENCY_PCX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
+        return 0x8e0000005100ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("PEMX_IB_LATENCY_PCX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_IB_LATENCY_PCX(a,b) cavm_pemx_ib_latency_pcx_t
+#define bustype_CAVM_PEMX_IB_LATENCY_PCX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_IB_LATENCY_PCX(a,b) "PEMX_IB_LATENCY_PCX"
+#define device_bar_CAVM_PEMX_IB_LATENCY_PCX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_IB_LATENCY_PCX(a,b) (a)
+#define arguments_CAVM_PEMX_IB_LATENCY_PCX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) pem#_ib_reads_pc#
+ *
+ * PEM Inbound Read Count Registers
+ * This register resets on core domain reset.  It measures the count portion
+ * of the information set needed by software to calculate average inbound
+ * read latency to the target bus.
+ * Index {a} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ib_reads_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ib_reads_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Number of inbound read requests.  Software can calculate the average inbound
+                                                                 read latency with the following calculation:
+                                                                   * Average latency = (PEM()_IB_LATENCY_PC[LATENCY] / PEM()_IB_READS_PC[READS]) * 10 ns */
+#else /* Word 0 - Little Endian */
+        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Number of inbound read requests.  Software can calculate the average inbound
+                                                                 read latency with the following calculation:
+                                                                   * Average latency = (PEM()_IB_LATENCY_PC[LATENCY] / PEM()_IB_READS_PC[READS]) * 10 ns */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ib_reads_pcx_s cn; */
+};
+typedef union cavm_pemx_ib_reads_pcx cavm_pemx_ib_reads_pcx_t;
+
+static inline uint64_t CAVM_PEMX_IB_READS_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_IB_READS_PCX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
+        return 0x8e0000005120ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("PEMX_IB_READS_PCX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_IB_READS_PCX(a,b) cavm_pemx_ib_reads_pcx_t
+#define bustype_CAVM_PEMX_IB_READS_PCX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_IB_READS_PCX(a,b) "PEMX_IB_READS_PCX"
+#define device_bar_CAVM_PEMX_IB_READS_PCX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_IB_READS_PCX(a,b) (a)
+#define arguments_CAVM_PEMX_IB_READS_PCX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) pem#_ib_req_no_ro_pc#
+ *
+ * PEM Inbound No Relaxed Ordering Registers
+ * This register resets on core domain reset.  It measures the number of inbound requests
+ * (non-posted/posted) directed to the target bus with the RO attribute not set.
+ * Index {a} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ib_req_no_ro_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ib_req_no_ro_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of inbound requests with RO attribute not set */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of inbound requests with RO attribute not set */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ib_req_no_ro_pcx_s cn; */
+};
+typedef union cavm_pemx_ib_req_no_ro_pcx cavm_pemx_ib_req_no_ro_pcx_t;
+
+static inline uint64_t CAVM_PEMX_IB_REQ_NO_RO_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_IB_REQ_NO_RO_PCX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
+        return 0x8e0000005140ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("PEMX_IB_REQ_NO_RO_PCX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_IB_REQ_NO_RO_PCX(a,b) cavm_pemx_ib_req_no_ro_pcx_t
+#define bustype_CAVM_PEMX_IB_REQ_NO_RO_PCX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_IB_REQ_NO_RO_PCX(a,b) "PEMX_IB_REQ_NO_RO_PCX"
+#define device_bar_CAVM_PEMX_IB_REQ_NO_RO_PCX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_IB_REQ_NO_RO_PCX(a,b) (a)
+#define arguments_CAVM_PEMX_IB_REQ_NO_RO_PCX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) pem#_ib_tlp#_dwords_pc#
+ *
+ * PEM Inbound TLP DWORDS Registers
+ * This register resets on core domain reset.  Otherwise, it continuously accumulates
+ * the number of DWORDS (including header overhead) in every inbound TLP received
+ * from PCIe and headed to the target bus.
+ * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
+ * Index {b} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ib_tlpx_dwords_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ib_tlpx_dwords_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tlp_dwords            : 64; /**< [ 63:  0](R/W/H) TLP DWORD Count */
+#else /* Word 0 - Little Endian */
+        uint64_t tlp_dwords            : 64; /**< [ 63:  0](R/W/H) TLP DWORD Count */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ib_tlpx_dwords_pcx_s cn; */
+};
+typedef union cavm_pemx_ib_tlpx_dwords_pcx cavm_pemx_ib_tlpx_dwords_pcx_t;
+
+static inline uint64_t CAVM_PEMX_IB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_IB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=2) && (c<=1)))
+        return 0x8e0000005080ll + 0x1000000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("PEMX_IB_TLPX_DWORDS_PCX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) cavm_pemx_ib_tlpx_dwords_pcx_t
+#define bustype_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) "PEMX_IB_TLPX_DWORDS_PCX"
+#define device_bar_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) (a)
+#define arguments_CAVM_PEMX_IB_TLPX_DWORDS_PCX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) pem#_ib_tlp#_pc#
+ *
+ * PEM Inbound TLP Count Registers
+ * This register resets on core domain reset.  Otherwise, it continuously increments
+ * on every inbound TLP received from PCIe and headed to the target bus.
+ * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
+ * Index {b} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ib_tlpx_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ib_tlpx_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) TLP Count */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) TLP Count */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ib_tlpx_pcx_s cn; */
+};
+typedef union cavm_pemx_ib_tlpx_pcx cavm_pemx_ib_tlpx_pcx_t;
+
+static inline uint64_t CAVM_PEMX_IB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_IB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=2) && (c<=1)))
+        return 0x8e0000005000ll + 0x1000000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("PEMX_IB_TLPX_PCX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_IB_TLPX_PCX(a,b,c) cavm_pemx_ib_tlpx_pcx_t
+#define bustype_CAVM_PEMX_IB_TLPX_PCX(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_IB_TLPX_PCX(a,b,c) "PEMX_IB_TLPX_PCX"
+#define device_bar_CAVM_PEMX_IB_TLPX_PCX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_IB_TLPX_PCX(a,b,c) (a)
+#define arguments_CAVM_PEMX_IB_TLPX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (NCB) pem#_int_ena_w1c
@@ -3610,6 +4111,7 @@ union cavm_pemx_int_ena_w1c
     } s;
     /* struct cavm_pemx_int_ena_w1c_s cn10; */
     /* struct cavm_pemx_int_ena_w1c_s cn10ka; */
+    /* struct cavm_pemx_int_ena_w1c_s cn10kb; */
     struct cavm_pemx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3676,6 +4178,8 @@ static inline uint64_t CAVM_PEMX_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000f8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e00000000f8ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000f8ll + 0x1000000000ll * ((a) & 0x1);
@@ -3760,6 +4264,7 @@ union cavm_pemx_int_ena_w1s
     } s;
     /* struct cavm_pemx_int_ena_w1s_s cn10; */
     /* struct cavm_pemx_int_ena_w1s_s cn10ka; */
+    /* struct cavm_pemx_int_ena_w1s_s cn10kb; */
     struct cavm_pemx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3826,6 +4331,8 @@ static inline uint64_t CAVM_PEMX_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000100ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000100ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000100ll + 0x1000000000ll * ((a) & 0x1);
@@ -3955,6 +4462,8 @@ static inline uint64_t CAVM_PEMX_INT_SUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e00000000e8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e00000000e8ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000e8ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -4038,6 +4547,7 @@ union cavm_pemx_int_sum_w1s
     } s;
     /* struct cavm_pemx_int_sum_w1s_s cn10; */
     /* struct cavm_pemx_int_sum_w1s_s cn10ka; */
+    /* struct cavm_pemx_int_sum_w1s_s cn10kb; */
     struct cavm_pemx_int_sum_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4104,6 +4614,8 @@ static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_INT_SUM_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000f0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e00000000f0ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000f0ll + 0x1000000000ll * ((a) & 0x1);
@@ -4294,6 +4806,8 @@ static inline uint64_t CAVM_PEMX_LTR_LATENCY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e00000000c0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e00000000c0ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000c0ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -4342,6 +4856,8 @@ static inline uint64_t CAVM_PEMX_LTR_VALX(uint64_t a, uint64_t b) __attribute__ 
 static inline uint64_t CAVM_PEMX_LTR_VALX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
+        return 0x8e00000000b0ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
         return 0x8e00000000b0ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
         return 0x8e00000000b0ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
@@ -4403,6 +4919,8 @@ static inline uint64_t CAVM_PEMX_MAC_LANEX_EQ(uint64_t a, uint64_t b) __attribut
 static inline uint64_t CAVM_PEMX_MAC_LANEX_EQ(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=3)))
+        return 0x8e0000000780ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=3)))
         return 0x8e0000000780ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=3)))
         return 0x8e0000000780ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
@@ -4617,6 +5135,8 @@ static inline uint64_t CAVM_PEMX_MERGE_TIMER_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000180ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000180ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000180ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -4662,6 +5182,8 @@ static inline uint64_t CAVM_PEMX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_PEMX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b==0)))
+        return 0x8e0f000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b==0)))
         return 0x8e0f000f0000ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b==0)))
         return 0x8e0f000f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
@@ -4757,6 +5279,8 @@ static inline uint64_t CAVM_PEMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=9)))
         return 0x8e0f00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=9)))
+        return 0x8e0f00000000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=9)))
         return 0x8e0f00000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=9)))
@@ -4804,6 +5328,8 @@ static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribu
 static inline uint64_t CAVM_PEMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=9)))
+        return 0x8e0f00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=9)))
         return 0x8e0f00000008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=9)))
         return 0x8e0f00000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xf);
@@ -4961,6 +5487,8 @@ static inline uint64_t CAVM_PEMX_NCBI_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000178ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000178ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000178ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5018,6 +5546,8 @@ static inline uint64_t CAVM_PEMX_NCBI_TLP_CREDITS(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMX_NCBI_TLP_CREDITS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000030ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000030ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000030ll + 0x1000000000ll * ((a) & 0x1);
@@ -5093,6 +5623,8 @@ static inline uint64_t CAVM_PEMX_NCBO_FIFO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000138ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000138ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000138ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5157,6 +5689,8 @@ static inline uint64_t CAVM_PEMX_OB_CMERGE_LIMIT(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_OB_CMERGE_LIMIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000330ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000330ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000330ll + 0x1000000000ll * ((a) & 0x1);
@@ -5228,6 +5762,8 @@ static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000170ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000170ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000170ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5241,6 +5777,218 @@ static inline uint64_t CAVM_PEMX_OB_CPL_FIFO_STATUS(uint64_t a)
 #define device_bar_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) (a)
 #define arguments_CAVM_PEMX_OB_CPL_FIFO_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pem#_ob_latency_pc#
+ *
+ * PEM Outbound Latency Time Registers
+ * This register resets on core domain reset.  It measures the time portion
+ * of the information set needed by software to calculate average outbound
+ * read latency originating from the target bus.
+ * Index {a} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ob_latency_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ob_latency_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Number of outbound read requests currently in flight originating from the target bus and
+                                                                 measured within PEMM from start to first completion sent back internally incremented every 10ns. */
+#else /* Word 0 - Little Endian */
+        uint64_t latency               : 64; /**< [ 63:  0](R/W/H) Number of outbound read requests currently in flight originating from the target bus and
+                                                                 measured within PEMM from start to first completion sent back internally incremented every 10ns. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ob_latency_pcx_s cn; */
+};
+typedef union cavm_pemx_ob_latency_pcx cavm_pemx_ob_latency_pcx_t;
+
+static inline uint64_t CAVM_PEMX_OB_LATENCY_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_OB_LATENCY_PCX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
+        return 0x8e0000005300ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("PEMX_OB_LATENCY_PCX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_OB_LATENCY_PCX(a,b) cavm_pemx_ob_latency_pcx_t
+#define bustype_CAVM_PEMX_OB_LATENCY_PCX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_OB_LATENCY_PCX(a,b) "PEMX_OB_LATENCY_PCX"
+#define device_bar_CAVM_PEMX_OB_LATENCY_PCX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_OB_LATENCY_PCX(a,b) (a)
+#define arguments_CAVM_PEMX_OB_LATENCY_PCX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) pem#_ob_reads_pc#
+ *
+ * PEM Outbound Read Count Registers
+ * This register resets on core domain reset.  It measures the count portion
+ * of the information set needed by software to calculate average outbound
+ * read latency originating from the target bus.
+ * Index {a} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ob_reads_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ob_reads_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Number of outbound read requests.  Software can calculate the average outbound
+                                                                 read latency with the following calculation:
+                                                                   * Average latency = (PEM()_OB_LATENCY_PC[LATENCY] / PEM()_OB_READS_PC[READS]) * 10 ns */
+#else /* Word 0 - Little Endian */
+        uint64_t reads                 : 64; /**< [ 63:  0](R/W/H) Number of outbound read requests.  Software can calculate the average outbound
+                                                                 read latency with the following calculation:
+                                                                   * Average latency = (PEM()_OB_LATENCY_PC[LATENCY] / PEM()_OB_READS_PC[READS]) * 10 ns */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ob_reads_pcx_s cn; */
+};
+typedef union cavm_pemx_ob_reads_pcx cavm_pemx_ob_reads_pcx_t;
+
+static inline uint64_t CAVM_PEMX_OB_READS_PCX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_OB_READS_PCX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
+        return 0x8e0000005320ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("PEMX_OB_READS_PCX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_OB_READS_PCX(a,b) cavm_pemx_ob_reads_pcx_t
+#define bustype_CAVM_PEMX_OB_READS_PCX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_OB_READS_PCX(a,b) "PEMX_OB_READS_PCX"
+#define device_bar_CAVM_PEMX_OB_READS_PCX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_OB_READS_PCX(a,b) (a)
+#define arguments_CAVM_PEMX_OB_READS_PCX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) pem#_ob_tlp#_dwords_pc#
+ *
+ * PEM Outbound TLP DWORDS Registers
+ * This register resets on core domain reset.  Otherwise, it continuously accumulates
+ * the number of DWORDS (including header overhead) in every outbound TLP received
+ * from the target bus and headed to PCIe.
+ * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
+ * Index {b} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ob_tlpx_dwords_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ob_tlpx_dwords_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tlp_dwords            : 64; /**< [ 63:  0](R/W/H) TLP DWORD Count */
+#else /* Word 0 - Little Endian */
+        uint64_t tlp_dwords            : 64; /**< [ 63:  0](R/W/H) TLP DWORD Count */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ob_tlpx_dwords_pcx_s cn; */
+};
+typedef union cavm_pemx_ob_tlpx_dwords_pcx cavm_pemx_ob_tlpx_dwords_pcx_t;
+
+static inline uint64_t CAVM_PEMX_OB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_OB_TLPX_DWORDS_PCX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=2) && (c<=1)))
+        return 0x8e0000005280ll + 0x1000000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("PEMX_OB_TLPX_DWORDS_PCX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) cavm_pemx_ob_tlpx_dwords_pcx_t
+#define bustype_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) "PEMX_OB_TLPX_DWORDS_PCX"
+#define device_bar_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) (a)
+#define arguments_CAVM_PEMX_OB_TLPX_DWORDS_PCX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) pem#_ob_tlp#_merges_pc
+ *
+ * PEM NCB Outbound Merge Count Register
+ * This register resets on core domain reset.  Otherwise, it continuously tracks the
+ * number of outbound transactions from NCBO that are part of a merging sequence.
+ * Currently only NCBO transactions can be merged.
+ * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ob_tlpx_merges_pc
+{
+    uint64_t u;
+    struct cavm_pemx_ob_tlpx_merges_pc_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Transactions included in merging sequences */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Transactions included in merging sequences */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ob_tlpx_merges_pc_s cn; */
+};
+typedef union cavm_pemx_ob_tlpx_merges_pc cavm_pemx_ob_tlpx_merges_pc_t;
+
+static inline uint64_t CAVM_PEMX_OB_TLPX_MERGES_PC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_OB_TLPX_MERGES_PC(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=2)))
+        return 0x8e0000005380ll + 0x1000000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x3);
+    __cavm_csr_fatal("PEMX_OB_TLPX_MERGES_PC", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_OB_TLPX_MERGES_PC(a,b) cavm_pemx_ob_tlpx_merges_pc_t
+#define bustype_CAVM_PEMX_OB_TLPX_MERGES_PC(a,b) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_OB_TLPX_MERGES_PC(a,b) "PEMX_OB_TLPX_MERGES_PC"
+#define device_bar_CAVM_PEMX_OB_TLPX_MERGES_PC(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_OB_TLPX_MERGES_PC(a,b) (a)
+#define arguments_CAVM_PEMX_OB_TLPX_MERGES_PC(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) pem#_ob_tlp#_pc#
+ *
+ * PEM Outbound TLP Count Registers
+ * This register resets on core domain reset.  Otherwise, it continuously increments
+ * on every outbound TLP received from the target bus and headed to PCIe.
+ * Index {a} represents the TLP type and is enumerated by PEM_PERF_TLP_TYPE_E.
+ * Index {b} represents the internal target bus and is enumerated by PEM_PERF_BUS_E.
+ *
+ * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
+ */
+union cavm_pemx_ob_tlpx_pcx
+{
+    uint64_t u;
+    struct cavm_pemx_ob_tlpx_pcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) TLP Count */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) TLP Count */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_ob_tlpx_pcx_s cn; */
+};
+typedef union cavm_pemx_ob_tlpx_pcx cavm_pemx_ob_tlpx_pcx_t;
+
+static inline uint64_t CAVM_PEMX_OB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PEMX_OB_TLPX_PCX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=2) && (c<=1)))
+        return 0x8e0000005200ll + 0x1000000000ll * ((a) & 0x7) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("PEMX_OB_TLPX_PCX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_PEMX_OB_TLPX_PCX(a,b,c) cavm_pemx_ob_tlpx_pcx_t
+#define bustype_CAVM_PEMX_OB_TLPX_PCX(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_PEMX_OB_TLPX_PCX(a,b,c) "PEMX_OB_TLPX_PCX"
+#define device_bar_CAVM_PEMX_OB_TLPX_PCX(a,b,c) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_PEMX_OB_TLPX_PCX(a,b,c) (a)
+#define arguments_CAVM_PEMX_OB_TLPX_PCX(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (NCB) pem#_on
@@ -5294,6 +6042,8 @@ static inline uint64_t CAVM_PEMX_ON(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e00000000e0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e00000000e0ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000e0ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5343,6 +6093,8 @@ static inline uint64_t CAVM_PEMX_P2N_BAR0_START(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_P2N_BAR0_START(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000158ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000158ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000158ll + 0x1000000000ll * ((a) & 0x1);
@@ -5394,6 +6146,8 @@ static inline uint64_t CAVM_PEMX_P2N_BAR2_START(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000150ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000150ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000150ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5441,6 +6195,8 @@ static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_P2N_BAR4_START(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000148ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000148ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000148ll + 0x1000000000ll * ((a) & 0x1);
@@ -5514,6 +6270,8 @@ static inline uint64_t CAVM_PEMX_PERR_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e00000001d8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e00000001d8ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000001d8ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5561,6 +6319,8 @@ static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b) __attri
 static inline uint64_t CAVM_PEMX_PFX_CLR_FLR_REQ(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
+        return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
         return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
         return 0x8e0000000a00ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
@@ -5613,6 +6373,8 @@ static inline uint64_t CAVM_PEMX_PFX_CSX_PFCFGX(uint64_t a, uint64_t b, uint64_t
 static inline uint64_t CAVM_PEMX_PFX_CSX_PFCFGX(uint64_t a, uint64_t b, uint64_t c, uint64_t d)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1) && (c<=1) && (d<=511)))
+        return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1) && (c<=1) && (d<=511)))
         return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1) && (c<=1) && (d<=511)))
         return 0x8e0000008000ll + 0x1000000000ll * ((a) & 0x1) + 0x40000ll * ((b) & 0x1) + 0x10000ll * ((c) & 0x1) + 8ll * ((d) & 0x1ff);
@@ -5705,6 +6467,8 @@ static inline uint64_t CAVM_PEMX_PFX_CTL_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1)))
         return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1)))
+        return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1)))
         return 0x8e0000000800ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=1)))
@@ -5757,6 +6521,8 @@ static inline uint64_t CAVM_PEMX_PFX_VFX_VFCFGX(uint64_t a, uint64_t b, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=1) && (c<=63) && (d<=511)))
         return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=1) && (c<=63) && (d<=511)))
+        return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x7) + 0x40000ll * ((b) & 0x1) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=1) && (c<=63) && (d<=511)))
         return 0x8e0000028000ll + 0x1000000000ll * ((a) & 0x1) + 0x40000ll * ((b) & 0x1) + 0x400000ll * ((c) & 0x3f) + 8ll * ((d) & 0x1ff);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=1) && (c<=63) && (d<=511)))
@@ -5808,6 +6574,8 @@ static inline uint64_t CAVM_PEMX_PSPI_TLP_CREDITS(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_PEMX_PSPI_TLP_CREDITS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000038ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000038ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000038ll + 0x1000000000ll * ((a) & 0x1);
@@ -5915,6 +6683,8 @@ static inline uint64_t CAVM_PEMX_PTM_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000098ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000098ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000098ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -5963,6 +6733,8 @@ static inline uint64_t CAVM_PEMX_PTM_LCL_TIME(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e00000000a0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e00000000a0ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000a0ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6010,6 +6782,8 @@ static inline uint64_t CAVM_PEMX_PTM_MAS_TIME(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_PEMX_PTM_MAS_TIME(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e00000000a8ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e00000000a8ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000a8ll + 0x1000000000ll * ((a) & 0x1);
@@ -6072,6 +6846,8 @@ static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_RAS_TBA_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000068ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000068ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000068ll + 0x1000000000ll * ((a) & 0x1);
@@ -6180,6 +6956,8 @@ static inline uint64_t CAVM_PEMX_REG_CTL(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_REG_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000060ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000060ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000060ll + 0x1000000000ll * ((a) & 0x1);
@@ -6310,6 +7088,8 @@ static inline uint64_t CAVM_PEMX_REG_NORMX_ACC(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=255)))
         return 0x8e0000004000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=255)))
+        return 0x8e0000004000ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=255)))
         return 0x8e0000004000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xff);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=1) && (b<=255)))
@@ -6351,6 +7131,8 @@ static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b) __attrib
 static inline uint64_t CAVM_PEMX_REG_NORMX_ACC2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=5) && (b<=255)))
+        return 0x8e0000004008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=5) && (b<=255)))
         return 0x8e0000004008ll + 0x1000000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xff);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=1) && (b<=255)))
         return 0x8e0000004008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xff);
@@ -6504,6 +7286,8 @@ static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000320ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000320ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000320ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6560,6 +7344,8 @@ static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1S(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_PEMX_RST_COLD_STATE_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000328ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000328ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000328ll + 0x1000000000ll * ((a) & 0x1);
@@ -6635,6 +7421,8 @@ static inline uint64_t CAVM_PEMX_RST_INT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000300ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000300ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000300ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6674,6 +7462,7 @@ union cavm_pemx_rst_int_ena_w1c
     } s;
     /* struct cavm_pemx_rst_int_ena_w1c_s cn10; */
     /* struct cavm_pemx_rst_int_ena_w1c_s cn10ka; */
+    /* struct cavm_pemx_rst_int_ena_w1c_s cn10kb; */
     struct cavm_pemx_rst_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6696,6 +7485,8 @@ static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1C(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1C(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000310ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000310ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000310ll + 0x1000000000ll * ((a) & 0x1);
@@ -6736,6 +7527,7 @@ union cavm_pemx_rst_int_ena_w1s
     } s;
     /* struct cavm_pemx_rst_int_ena_w1s_s cn10; */
     /* struct cavm_pemx_rst_int_ena_w1s_s cn10ka; */
+    /* struct cavm_pemx_rst_int_ena_w1s_s cn10kb; */
     struct cavm_pemx_rst_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6758,6 +7550,8 @@ static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1S(uint64_t a) __attribute__ ((pur
 static inline uint64_t CAVM_PEMX_RST_INT_ENA_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000318ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000318ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000318ll + 0x1000000000ll * ((a) & 0x1);
@@ -6798,6 +7592,7 @@ union cavm_pemx_rst_int_w1s
     } s;
     /* struct cavm_pemx_rst_int_w1s_s cn10; */
     /* struct cavm_pemx_rst_int_w1s_s cn10ka; */
+    /* struct cavm_pemx_rst_int_w1s_s cn10kb; */
     struct cavm_pemx_rst_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6820,6 +7615,8 @@ static inline uint64_t CAVM_PEMX_RST_INT_W1S(uint64_t a) __attribute__ ((pure, a
 static inline uint64_t CAVM_PEMX_RST_INT_W1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000308ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000308ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000308ll + 0x1000000000ll * ((a) & 0x1);
@@ -6871,6 +7668,8 @@ static inline uint64_t CAVM_PEMX_RST_LBOOT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000280ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000280ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000280ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -6901,6 +7700,59 @@ union cavm_pemx_rst_mac
     struct cavm_pemx_rst_mac_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t mac_perst             : 1;  /**< [  7:  7](R/W) When set, asserts PERST input to the MAC. */
+        uint64_t ns_rst                : 1;  /**< [  6:  6](R/W) When set, asserts nonsticky reset which reset the root bridge or endpoint config space.
+                                                                 Internal:
+                                                                 non_sticky_rst_n. */
+        uint64_t ns_mode               : 1;  /**< [  5:  5](R/W) "* If set to 1, and PEM_CFG[HOSTMD] is 1, the nonsticky reset which controls the
+                                                                   PCIe root bridge config space will get reset on a link down. This also enables
+                                                                 PERST to be asserted
+                                                                   to the MAC when asserted to the external device as an RC. This is the legacy behavior.
+                                                                 * If set to 0, and PEM_CFG[HOSTMD] is 1, then the nonsticky reset will not get
+                                                                 asserted on a link down,
+                                                                   and PERST will not get asserted to the MAC. [ACLR] must be 1 in this case for proper operation.
+                                                                 * If PEM_CFG[HOSTMD] is 0, then a link down will always cause a nonsticky reset,
+                                                                 and PERST input will be
+                                                                   driven to the MAC, and this bit has no effect." */
+        uint64_t dis_pipe_rst          : 1;  /**< [  4:  4](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
+                                                                 insure the pipe reset is asserted.   Setting this bit will disable this function. */
+        uint64_t diag_clr_phystatus    : 1;  /**< [  3:  3](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
+        uint64_t pipe_rst_ovrd_en      : 1;  /**< [  2:  2](R/W) When set, [PIPE_RST] can be used to force the state of the reset to the PIPE PCS. */
+        uint64_t pipe_rst              : 1;  /**< [  1:  1](R/W) When [PIPE_RST_OVRD_EN] is set, determines the state of the reset to the PIPE PCS. */
+        uint64_t mac_rst               : 1;  /**< [  0:  0](R/W) When set, resets the PCIe Mac as well as its associated application logic.
+                                                                 Internal:
+                                                                 mac_rst_n. */
+#else /* Word 0 - Little Endian */
+        uint64_t mac_rst               : 1;  /**< [  0:  0](R/W) When set, resets the PCIe Mac as well as its associated application logic.
+                                                                 Internal:
+                                                                 mac_rst_n. */
+        uint64_t pipe_rst              : 1;  /**< [  1:  1](R/W) When [PIPE_RST_OVRD_EN] is set, determines the state of the reset to the PIPE PCS. */
+        uint64_t pipe_rst_ovrd_en      : 1;  /**< [  2:  2](R/W) When set, [PIPE_RST] can be used to force the state of the reset to the PIPE PCS. */
+        uint64_t diag_clr_phystatus    : 1;  /**< [  3:  3](R/W) This is a diagnostic bit to force the pipe phystatus inputs to the Mac low. */
+        uint64_t dis_pipe_rst          : 1;  /**< [  4:  4](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
+                                                                 insure the pipe reset is asserted.   Setting this bit will disable this function. */
+        uint64_t ns_mode               : 1;  /**< [  5:  5](R/W) "* If set to 1, and PEM_CFG[HOSTMD] is 1, the nonsticky reset which controls the
+                                                                   PCIe root bridge config space will get reset on a link down. This also enables
+                                                                 PERST to be asserted
+                                                                   to the MAC when asserted to the external device as an RC. This is the legacy behavior.
+                                                                 * If set to 0, and PEM_CFG[HOSTMD] is 1, then the nonsticky reset will not get
+                                                                 asserted on a link down,
+                                                                   and PERST will not get asserted to the MAC. [ACLR] must be 1 in this case for proper operation.
+                                                                 * If PEM_CFG[HOSTMD] is 0, then a link down will always cause a nonsticky reset,
+                                                                 and PERST input will be
+                                                                   driven to the MAC, and this bit has no effect." */
+        uint64_t ns_rst                : 1;  /**< [  6:  6](R/W) When set, asserts nonsticky reset which reset the root bridge or endpoint config space.
+                                                                 Internal:
+                                                                 non_sticky_rst_n. */
+        uint64_t mac_perst             : 1;  /**< [  7:  7](R/W) When set, asserts PERST input to the MAC. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pemx_rst_mac_s cn10; */
+    struct cavm_pemx_rst_mac_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
         uint64_t dis_pipe_rst          : 1;  /**< [  4:  4](R/W) For LTSSM transitions into DETECT_QUIET after reaching CONFIG, the application will
                                                                  insure the pipe reset is asserted.   Setting this bit will disable this function. */
@@ -6921,8 +7773,10 @@ union cavm_pemx_rst_mac
                                                                  insure the pipe reset is asserted.   Setting this bit will disable this function. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pemx_rst_mac_s cn; */
+    } cn10ka;
+    /* struct cavm_pemx_rst_mac_s cn10kb; */
+    /* struct cavm_pemx_rst_mac_cn10ka cnf10ka; */
+    /* struct cavm_pemx_rst_mac_cn10ka cnf10kb; */
 };
 typedef union cavm_pemx_rst_mac cavm_pemx_rst_mac_t;
 
@@ -6930,6 +7784,8 @@ static inline uint64_t CAVM_PEMX_RST_MAC(uint64_t a) __attribute__ ((pure, alway
 static inline uint64_t CAVM_PEMX_RST_MAC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000290ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000290ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000290ll + 0x1000000000ll * ((a) & 0x1);
@@ -7022,6 +7878,8 @@ static inline uint64_t CAVM_PEMX_RST_SOFT_PERST(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_RST_SOFT_PERST(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000298ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000298ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000298ll + 0x1000000000ll * ((a) & 0x1);
@@ -7305,6 +8163,8 @@ static inline uint64_t CAVM_PEMX_S_RST_CTL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e0000000288ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e0000000288ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000288ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7355,6 +8215,8 @@ static inline uint64_t CAVM_PEMX_STRAP(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
         return 0x8e00000000d0ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x8e00000000d0ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e00000000d0ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
@@ -7404,6 +8266,8 @@ static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_PEMX_VF_CLR_FLR_REQ(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x8e0000000228ll + 0x1000000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
         return 0x8e0000000228ll + 0x1000000000ll * ((a) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8e0000000228ll + 0x1000000000ll * ((a) & 0x1);

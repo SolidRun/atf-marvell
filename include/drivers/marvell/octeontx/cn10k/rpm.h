@@ -63,6 +63,14 @@ typedef struct rpm_tsu_config {
 } rpm_tsu_config_t;
 
 /* Read-Modify-Write APIs for RPM CSRs */
+#define CAVM_MODIFY_RPM_CHIP_CSR(type, csr, chip, field, val)   \
+	do {                                                    \
+		type c;                                         \
+		c.u = CSR_READ(csr);			\
+		c.chip.field = val;				\
+		CSR_WRITE(csr, c.u);			\
+	} while (0)
+
 #define CAVM_MODIFY_RPM_CSR(type, csr, field, val)        \
 	do {                                                    \
 		type c;                                         \

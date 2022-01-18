@@ -918,7 +918,44 @@ union cavm_gti_cc_cntcr
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gti_cc_cntcr_s cn; */
+    /* struct cavm_gti_cc_cntcr_s cn10; */
+    /* struct cavm_gti_cc_cntcr_s cn10ka; */
+    struct cavm_gti_cc_cntcr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t fcreq                 : 1;  /**< [  8:  8](SR/W) Frequency change request. Indicates the number of the entry in the frequency
+                                                                 table to select. Selecting an unimplemented entry, or an entry that contains
+                                                                 0x0, has no effect on the counter.
+
+                                                                 For CNXXXX, which implements a single frequency table entry, must be 0x0. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t scen                  : 1;  /**< [  2:  2](SR/W) Scale Enable.
+                                                                 0 = counter is incremented by one for each counter tick.
+                                                                 1 = counter is incremented by CNTSR for each counter tick. */
+        uint32_t hdbg                  : 1;  /**< [  1:  1](SR/W) System counter halt-on-debug enable.
+                                                                 0 = System counter ignores halt-on-debug.
+                                                                 1 = Asserted halt-on-debug signal halts system counter update. */
+        uint32_t en                    : 1;  /**< [  0:  0](SR/W) Enables the system counter. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](SR/W) Enables the system counter. */
+        uint32_t hdbg                  : 1;  /**< [  1:  1](SR/W) System counter halt-on-debug enable.
+                                                                 0 = System counter ignores halt-on-debug.
+                                                                 1 = Asserted halt-on-debug signal halts system counter update. */
+        uint32_t scen                  : 1;  /**< [  2:  2](SR/W) Scale Enable.
+                                                                 0 = counter is incremented by one for each counter tick.
+                                                                 1 = counter is incremented by CNTSR for each counter tick. */
+        uint32_t reserved_3_7          : 5;
+        uint32_t fcreq                 : 1;  /**< [  8:  8](SR/W) Frequency change request. Indicates the number of the entry in the frequency
+                                                                 table to select. Selecting an unimplemented entry, or an entry that contains
+                                                                 0x0, has no effect on the counter.
+
+                                                                 For CNXXXX, which implements a single frequency table entry, must be 0x0. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_gti_cc_cntcr_s cnf10ka; */
+    /* struct cavm_gti_cc_cntcr_s cnf10kb; */
 };
 typedef union cavm_gti_cc_cntcr cavm_gti_cc_cntcr_t;
 

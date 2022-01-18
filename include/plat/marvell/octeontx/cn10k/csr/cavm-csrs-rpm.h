@@ -36,13 +36,23 @@
  * RPM MSI-X Vector Enumeration
  * Enumeration the MSI-X interrupt vectors.
  */
-#define CAVM_RPM_INT_VEC_E_ANX_INT(a) (0xe + (a))
+#define CAVM_RPM_INT_VEC_E_ANX_INT_CN10KA(a) (0xe + (a))
+#define CAVM_RPM_INT_VEC_E_ANX_INT_CN10KB(a) (0x1a + (a))
+#define CAVM_RPM_INT_VEC_E_ANX_INT_CNF10KA(a) (0xe + (a))
+#define CAVM_RPM_INT_VEC_E_ANX_INT_CNF10KB(a) (0xe + (a))
 #define CAVM_RPM_INT_VEC_E_CMRX_INT(a) (0 + 2 * (a))
-#define CAVM_RPM_INT_VEC_E_CMRX_SW(a) (0xa + (a))
-#define CAVM_RPM_INT_VEC_E_CMR_GLOBAL_INT (8)
+#define CAVM_RPM_INT_VEC_E_CMRX_SW_CN10KA(a) (0xa + (a))
+#define CAVM_RPM_INT_VEC_E_CMRX_SW_CN10KB(a) (0x12 + (a))
+#define CAVM_RPM_INT_VEC_E_CMRX_SW_CNF10KA(a) (0xa + (a))
+#define CAVM_RPM_INT_VEC_E_CMRX_SW_CNF10KB(a) (0xa + (a))
+#define CAVM_RPM_INT_VEC_E_CMR_GLOBAL_INT_CN10KB (0x10)
+#define CAVM_RPM_INT_VEC_E_CMR_GLOBAL_INT_CNF10KB (8)
 #define CAVM_RPM_INT_VEC_E_CMR_MEM_INT (8)
 #define CAVM_RPM_INT_VEC_E_EXT_MTI_PORTX_INT(a) (1 + 2 * (a))
-#define CAVM_RPM_INT_VEC_E_SW (9)
+#define CAVM_RPM_INT_VEC_E_SW_CN10KA (9)
+#define CAVM_RPM_INT_VEC_E_SW_CN10KB (0x11)
+#define CAVM_RPM_INT_VEC_E_SW_CNF10KA (9)
+#define CAVM_RPM_INT_VEC_E_SW_CNF10KB (9)
 
 /**
  * Enumeration rpm_opcode_e
@@ -85,6 +95,8 @@ static inline uint64_t CAVM_RPMX_ACTIVE_PC(uint64_t a) __attribute__ ((pure, alw
 static inline uint64_t CAVM_RPMX_ACTIVE_PC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0002010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0002010ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0002010ll + 0x1000000ll * ((a) & 0x3);
@@ -136,7 +148,36 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_0
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_0_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_0_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_0_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_0_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t rg_eee_xnp_sel_s      : 1;  /**< [ 15: 15](R/W) 0: Select IEEE XNP register bit 31:16 from 7.001A;1: Select IEEE XNP register bit 31:16 from 7.003C */
+        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state;if override_ctrl_s[0] = 0, this field gives the status of the
+                                                                 internal AP Aneg state machine,;else, the last written value */
+        uint64_t ap_aneg_bp_reached_s  : 1;  /**< [  3:  3](RO) AP Aneg state break point reached.;If override_ctrl_s[1] = 1 and internal state
+                                                                 reaches the value of bit [14:4], this bit is set. */
+        uint64_t ap_aneg_amdisam_s     : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint
+                                                                 Self clearing bit. */
+        uint64_t override_ctrl_s       : 2;  /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+                                                                 breakpoint/read state;11 = State breakpoint/read override state; */
+#else /* Word 0 - Little Endian */
+        uint64_t override_ctrl_s       : 2;  /**< [  1:  0](R/W) 00 = Normal Operation/read state;01 = Force state/read override state;10 = State
+                                                                 breakpoint/read state;11 = State breakpoint/read override state; */
+        uint64_t ap_aneg_amdisam_s     : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint
+                                                                 Self clearing bit. */
+        uint64_t ap_aneg_bp_reached_s  : 1;  /**< [  3:  3](RO) AP Aneg state break point reached.;If override_ctrl_s[1] = 1 and internal state
+                                                                 reaches the value of bit [14:4], this bit is set. */
+        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state;if override_ctrl_s[0] = 0, this field gives the status of the
+                                                                 internal AP Aneg state machine,;else, the last written value */
+        uint64_t rg_eee_xnp_sel_s      : 1;  /**< [ 15: 15](R/W) 0: Select IEEE XNP register bit 31:16 from 7.001A;1: Select IEEE XNP register bit 31:16 from 7.003C */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_0_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_0_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_0 cavm_rpmx_anx_aneg_lane_0_control_register_0_t;
 
@@ -144,6 +185,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_0(uint64_t a, 
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -197,7 +240,40 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_1
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_1_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_1_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_1_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_1_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t rg_link_fail_timer_off_s : 1;/**< [ 15: 15](R/W) 1: Turn off link fail timer in AN_GOOD_CK state */
+        uint64_t rg_link_fail_timer_sel50_s : 2;/**< [ 14: 13](R/W) 00 = 50ms;01 = 100ms;10 = 200ms ;11 = 500ms */
+        uint64_t rg_link_fail_timer_sel500_s : 2;/**< [ 12: 11](R/W) 00 = 500ms;01 = 1s;10 = 2s ;11 = 5s */
+        uint64_t rg_link_fail_timer_sel1500_s : 2;/**< [ 10:  9](R/W) 00 = 1.65s;01 = 3s;10 = 5s ;11 = 5.11s */
+        uint64_t rg_as_nonce_match_s   : 1;  /**< [  8:  8](R/W) Override value of nonce_match. In AP self loopback testing, need to force
+                                                                 nonce_match=0 so arbiter can proceed. */
+        uint64_t ow_as_nonce_match_s   : 1;  /**< [  7:  7](R/W) 1= override nonce_match enable. */
+        uint64_t rg_no_ringosc_s       : 1;  /**< [  6:  6](R/W) 1: Turn off using ringosc */
+        uint64_t cg_aneg_test3_s       : 1;  /**< [  5:  5](R/W) 1= speed up arb break link timer;0 = default */
+        uint64_t cg_aneg_test0_s       : 1;  /**< [  4:  4](R/W) 1 = speed up arb wait timer;0 = default */
+        uint64_t ag_lgth_match_cnt_s3_0 : 4; /**< [  3:  0](R/W) Parallel detect match count */
+#else /* Word 0 - Little Endian */
+        uint64_t ag_lgth_match_cnt_s3_0 : 4; /**< [  3:  0](R/W) Parallel detect match count */
+        uint64_t cg_aneg_test0_s       : 1;  /**< [  4:  4](R/W) 1 = speed up arb wait timer;0 = default */
+        uint64_t cg_aneg_test3_s       : 1;  /**< [  5:  5](R/W) 1= speed up arb break link timer;0 = default */
+        uint64_t rg_no_ringosc_s       : 1;  /**< [  6:  6](R/W) 1: Turn off using ringosc */
+        uint64_t ow_as_nonce_match_s   : 1;  /**< [  7:  7](R/W) 1= override nonce_match enable. */
+        uint64_t rg_as_nonce_match_s   : 1;  /**< [  8:  8](R/W) Override value of nonce_match. In AP self loopback testing, need to force
+                                                                 nonce_match=0 so arbiter can proceed. */
+        uint64_t rg_link_fail_timer_sel1500_s : 2;/**< [ 10:  9](R/W) 00 = 1.65s;01 = 3s;10 = 5s ;11 = 5.11s */
+        uint64_t rg_link_fail_timer_sel500_s : 2;/**< [ 12: 11](R/W) 00 = 500ms;01 = 1s;10 = 2s ;11 = 5s */
+        uint64_t rg_link_fail_timer_sel50_s : 2;/**< [ 14: 13](R/W) 00 = 50ms;01 = 100ms;10 = 200ms ;11 = 500ms */
+        uint64_t rg_link_fail_timer_off_s : 1;/**< [ 15: 15](R/W) 1: Turn off link fail timer in AN_GOOD_CK state */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_1_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_1_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_1 cavm_rpmx_anx_aneg_lane_0_control_register_1_t;
 
@@ -205,6 +281,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_1(uint64_t a, 
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -255,6 +333,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_10(uint64_t a,
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -303,7 +383,32 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_11
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_11_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_11_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_11_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_11_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t symbol_lock_select    : 1;  /**< [ 15: 15](R/W) 1: symbol lock uses block (symbol) lock;0: symbol lock uses pcs link */
+        uint64_t reg11_reserved12      : 3;  /**< [ 14: 12](R/W) Value always 0, writes ignored */
+        uint64_t chk_dsp_lock_s        : 1;  /**< [ 11: 11](R/W) 1: dsp_lock will AND with symbol lock;0: normal */
+        uint64_t reg11_reserved7       : 4;  /**< [ 10:  7](R/W) Value always 0, writes ignored */
+        uint64_t reg11_reserved4       : 3;  /**< [  6:  4](R/W) Value always 0, writes ignored */
+        uint64_t symbol_lock_override_value : 1;/**< [  3:  3](R/W) Symbol lock override value */
+        uint64_t reg11_reserved        : 3;  /**< [  2:  0](R/W) Value always 0, writes ignored */
+#else /* Word 0 - Little Endian */
+        uint64_t reg11_reserved        : 3;  /**< [  2:  0](R/W) Value always 0, writes ignored */
+        uint64_t symbol_lock_override_value : 1;/**< [  3:  3](R/W) Symbol lock override value */
+        uint64_t reg11_reserved4       : 3;  /**< [  6:  4](R/W) Value always 0, writes ignored */
+        uint64_t reg11_reserved7       : 4;  /**< [ 10:  7](R/W) Value always 0, writes ignored */
+        uint64_t chk_dsp_lock_s        : 1;  /**< [ 11: 11](R/W) 1: dsp_lock will AND with symbol lock;0: normal */
+        uint64_t reg11_reserved12      : 3;  /**< [ 14: 12](R/W) Value always 0, writes ignored */
+        uint64_t symbol_lock_select    : 1;  /**< [ 15: 15](R/W) 1: symbol lock uses block (symbol) lock;0: symbol lock uses pcs link */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_11_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_11_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_11 cavm_rpmx_anx_aneg_lane_0_control_register_11_t;
 
@@ -311,6 +416,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_11(uint64_t a,
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_11(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -360,7 +467,34 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_12
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_12_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_12_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_12_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_12_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t intel_fec_mode        : 1;  /**< [ 15: 15](R/W) 1: Use Intel FEC mode; 0: normal */
+        uint64_t re_agstart_use_n_link_s : 1;/**< [ 14: 14](R/W) Use other side to re-start Autoneg */
+        uint64_t adv_use_n_agmode_s    : 1;  /**< [ 13: 13](R/W) Use other side ag_mode_s for advertisement */
+        uint64_t n_ag_mode_s           : 5;  /**< [ 12:  8](RO) Otherside ag_mode_s
+                                                                 driven by RPM_ANP_PORT(0..3)_AN_TIED_IN.N_AG_MODE_S */
+        uint64_t reg12_my_reserved4    : 4;  /**< [  7:  4](R/W) Value always 0, writes ignored */
+        uint64_t symbol_lock_override_enable : 1;/**< [  3:  3](R/W) 1: enable override of 7.800B.3 */
+        uint64_t reg12_reserved        : 3;  /**< [  2:  0](R/W) Value always 0, writes ignored */
+#else /* Word 0 - Little Endian */
+        uint64_t reg12_reserved        : 3;  /**< [  2:  0](R/W) Value always 0, writes ignored */
+        uint64_t symbol_lock_override_enable : 1;/**< [  3:  3](R/W) 1: enable override of 7.800B.3 */
+        uint64_t reg12_my_reserved4    : 4;  /**< [  7:  4](R/W) Value always 0, writes ignored */
+        uint64_t n_ag_mode_s           : 5;  /**< [ 12:  8](RO) Otherside ag_mode_s
+                                                                 driven by RPM_ANP_PORT(0..3)_AN_TIED_IN.N_AG_MODE_S */
+        uint64_t adv_use_n_agmode_s    : 1;  /**< [ 13: 13](R/W) Use other side ag_mode_s for advertisement */
+        uint64_t re_agstart_use_n_link_s : 1;/**< [ 14: 14](R/W) Use other side to re-start Autoneg */
+        uint64_t intel_fec_mode        : 1;  /**< [ 15: 15](R/W) 1: Use Intel FEC mode; 0: normal */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_12_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_12_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_12 cavm_rpmx_anx_aneg_lane_0_control_register_12_t;
 
@@ -368,6 +502,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_12(uint64_t a,
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_12(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -403,7 +539,20 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_13
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_13_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_13_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_13_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_13_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t ap_interrupt          : 1;  /**< [  0:  0](RO) 1: AP interrupt set; 0: AP interrupt unset */
+#else /* Word 0 - Little Endian */
+        uint64_t ap_interrupt          : 1;  /**< [  0:  0](RO) 1: AP interrupt set; 0: AP interrupt unset */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_13_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_13_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_13 cavm_rpmx_anx_aneg_lane_0_control_register_13_t;
 
@@ -411,6 +560,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_13(uint64_t a,
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_13(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -468,7 +619,38 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_14
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_14_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_14_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_14_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_14_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t interrupt_mask        : 1;  /**< [ 15: 15](R/W) 1: enable AP interrupt; 0 : mask out AP interrupt */
+        uint64_t interrupt_time_select : 1;  /**< [ 14: 14](R/W) 1: until AN GOOD; 0: until AN GOOD CHECK */
+        uint64_t ap_interrupt_type     : 1;  /**< [ 13: 13](R/W) 1:  Pulse only; 0: Ap interrupt read clear */
+        uint64_t cfg_40gr2_prio_higher_than_40gr4_s : 1;/**< [ 12: 12](R/W) When set to 0x1, 40G-R2 gets higher priority than 40G-R4. */
+        uint64_t advertised_40g_r2_mode_a15_to_a22_bit_location_select : 3;/**< [ 11:  9](R/W) 000 : D32;001:  D33;010:  D34;...... Until;111:  D39 */
+        uint64_t reserved_8            : 1;
+        uint64_t advertised_50g_r4_marvell_mode_a15_to_a22_bit_location_select : 2;/**< [  7:  6](R/W) 000 : A16;001:  A17;010:  A18;...... Until;110:  A22 */
+        uint64_t advertised_800g_r8_marvell_mode_a15_to_a22_bit_location_select : 2;/**< [  5:  4](R/W) 000 : A16;001:  A17;010:  A18;...... Until;110:  A22 */
+        uint64_t advertised_25r2_mode_a15_to_a22_bit_location_select : 2;/**< [  3:  2](R/W) 000 : A16;001:  A17;010:  A18;...... Until;110:  A22 */
+        uint64_t advertised_200g_r8_marvell_mode_a15_to_a22_bit_location_select : 2;/**< [  1:  0](R/W) 000 : A16;001:  A17;010:  A18;...... Until;110:  A22 */
+#else /* Word 0 - Little Endian */
+        uint64_t advertised_200g_r8_marvell_mode_a15_to_a22_bit_location_select : 2;/**< [  1:  0](R/W) 000 : A16;001:  A17;010:  A18;...... Until;110:  A22 */
+        uint64_t advertised_25r2_mode_a15_to_a22_bit_location_select : 2;/**< [  3:  2](R/W) 000 : A16;001:  A17;010:  A18;...... Until;110:  A22 */
+        uint64_t advertised_800g_r8_marvell_mode_a15_to_a22_bit_location_select : 2;/**< [  5:  4](R/W) 000 : A16;001:  A17;010:  A18;...... Until;110:  A22 */
+        uint64_t advertised_50g_r4_marvell_mode_a15_to_a22_bit_location_select : 2;/**< [  7:  6](R/W) 000 : A16;001:  A17;010:  A18;...... Until;110:  A22 */
+        uint64_t reserved_8            : 1;
+        uint64_t advertised_40g_r2_mode_a15_to_a22_bit_location_select : 3;/**< [ 11:  9](R/W) 000 : D32;001:  D33;010:  D34;...... Until;111:  D39 */
+        uint64_t cfg_40gr2_prio_higher_than_40gr4_s : 1;/**< [ 12: 12](R/W) When set to 0x1, 40G-R2 gets higher priority than 40G-R4. */
+        uint64_t ap_interrupt_type     : 1;  /**< [ 13: 13](R/W) 1:  Pulse only; 0: Ap interrupt read clear */
+        uint64_t interrupt_time_select : 1;  /**< [ 14: 14](R/W) 1: until AN GOOD; 0: until AN GOOD CHECK */
+        uint64_t interrupt_mask        : 1;  /**< [ 15: 15](R/W) 1: enable AP interrupt; 0 : mask out AP interrupt */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_14_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_14_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_14 cavm_rpmx_anx_aneg_lane_0_control_register_14_t;
 
@@ -476,6 +658,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_14(uint64_t a,
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_14(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -530,6 +714,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_15(uint64_t a,
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -581,6 +767,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_16_CONSORTIUM_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -624,6 +812,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_17_CONSORTIUM_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -666,6 +856,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_18_CONSORTIUM_
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_18_CONSORTIUM_MP5_REGISTER_2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -711,7 +903,32 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t reg19_next_page       : 1;  /**< [ 15: 15](R/W) Receive Code Word Bit 15 */
+        uint64_t reg19_acknowledge     : 1;  /**< [ 14: 14](R/W) Receive Code Word Bit 14 */
+        uint64_t reg19_message_page    : 1;  /**< [ 13: 13](R/W) Receive Code Word Bit 13 */
+        uint64_t reg19_acknowledge2    : 1;  /**< [ 12: 12](R/W) Receive Code Word Bit 12 */
+        uint64_t reg19_toggle          : 1;  /**< [ 11: 11](R/W) Receive Code Word Bit 11 */
+        uint64_t reg19_oui_1_0         : 2;  /**< [ 10:  9](R/W) Organization Unique Identifier (OUI) code bit 1:0 */
+        uint64_t reg19_messageunformatted_field : 9;/**< [  8:  0](R/W) Code for extended technology abilities */
+#else /* Word 0 - Little Endian */
+        uint64_t reg19_messageunformatted_field : 9;/**< [  8:  0](R/W) Code for extended technology abilities */
+        uint64_t reg19_oui_1_0         : 2;  /**< [ 10:  9](R/W) Organization Unique Identifier (OUI) code bit 1:0 */
+        uint64_t reg19_toggle          : 1;  /**< [ 11: 11](R/W) Receive Code Word Bit 11 */
+        uint64_t reg19_acknowledge2    : 1;  /**< [ 12: 12](R/W) Receive Code Word Bit 12 */
+        uint64_t reg19_message_page    : 1;  /**< [ 13: 13](R/W) Receive Code Word Bit 13 */
+        uint64_t reg19_acknowledge     : 1;  /**< [ 14: 14](R/W) Receive Code Word Bit 14 */
+        uint64_t reg19_next_page       : 1;  /**< [ 15: 15](R/W) Receive Code Word Bit 15 */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0 cavm_rpmx_anx_aneg_lane_0_control_register_19_consortium_et_register_0_t;
 
@@ -719,6 +936,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_19_CONSORTIUM_
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_19_CONSORTIUM_ET_REGISTER_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -781,6 +1000,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_2(uint64_t a, 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -833,6 +1054,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_20_CONSORTIUM_
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_20_CONSORTIUM_ET_REGISTER_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00490a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00490a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00490a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -899,6 +1122,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_21_CONSORTIUM_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00490a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e00490a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00490a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -950,6 +1175,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_22_LINK_PARTNE
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00490b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e00490b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00490b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -990,6 +1217,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_23_LINK_PARTNE
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_23_LINK_PARTNER_CONSORTIUM_MP5_REGISTER_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00490b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00490b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00490b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1033,6 +1262,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_24_LINK_PARTNE
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_24_LINK_PARTNER_CONSORTIUM_MP5_REGISTER_2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00490c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00490c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00490c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1078,7 +1309,32 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_r
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_register_0_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_register_0_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_register_0_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_register_0_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t reg25_next_page       : 1;  /**< [ 15: 15](RO) Receive Code Word Bit 15 */
+        uint64_t reg25_acknowledge     : 1;  /**< [ 14: 14](RO) Receive Code Word Bit 14 */
+        uint64_t reg25_message_page    : 1;  /**< [ 13: 13](RO) Receive Code Word Bit 13 */
+        uint64_t reg25_acknowledge2    : 1;  /**< [ 12: 12](RO) Receive Code Word Bit 12 */
+        uint64_t reg25_toggle          : 1;  /**< [ 11: 11](RO) Receive Code Word Bit 11 */
+        uint64_t reg25_oui_1_0         : 2;  /**< [ 10:  9](RO) Organization Unique Identifier (OUI) code bit 1:0 */
+        uint64_t reg25_messageunformatted_field : 9;/**< [  8:  0](RO) Receive Code Word Bit 10:0 */
+#else /* Word 0 - Little Endian */
+        uint64_t reg25_messageunformatted_field : 9;/**< [  8:  0](RO) Receive Code Word Bit 10:0 */
+        uint64_t reg25_oui_1_0         : 2;  /**< [ 10:  9](RO) Organization Unique Identifier (OUI) code bit 1:0 */
+        uint64_t reg25_toggle          : 1;  /**< [ 11: 11](RO) Receive Code Word Bit 11 */
+        uint64_t reg25_acknowledge2    : 1;  /**< [ 12: 12](RO) Receive Code Word Bit 12 */
+        uint64_t reg25_message_page    : 1;  /**< [ 13: 13](RO) Receive Code Word Bit 13 */
+        uint64_t reg25_acknowledge     : 1;  /**< [ 14: 14](RO) Receive Code Word Bit 14 */
+        uint64_t reg25_next_page       : 1;  /**< [ 15: 15](RO) Receive Code Word Bit 15 */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_register_0_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_register_0_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_register_0 cavm_rpmx_anx_aneg_lane_0_control_register_25_link_partner_consortium_et_register_0_t;
 
@@ -1086,6 +1342,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_25_LINK_PARTNE
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_25_LINK_PARTNER_CONSORTIUM_ET_REGISTER_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00490c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00490c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00490c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1139,6 +1397,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_26_LINK_PARTER
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_26_LINK_PARTERN_CONSORTIUM_ET_REGISTER_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00490d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00490d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00490d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1204,6 +1464,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_27_LINK_PARTNE
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_27_LINK_PARTNER_CONSORTIUM_ET_REGISTER_2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00490d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00490d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00490d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1273,6 +1535,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_3(uint64_t a, 
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_3(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1344,6 +1608,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_4(uint64_t a, 
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_4(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1439,7 +1705,44 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_5
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_5_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_5_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_5_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_5_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t pwrup_modes_ow_s      : 1;  /**< [ 15: 15](R/W) 1= enable ap power up mode override */
+        uint64_t selected_modes_to_overwrite : 5;/**< [ 14: 10](R/W) 0 : GKX;1:  2.5GKX;2:  5GKR;3:  Reserved;4:  10GKR;5:  Consortium 25GKR;6:
+                                                                 Consortium 25GCR;7:  IEEE 25G KRCRS;8:  IEEE 25G KRCR;9:  40G KR;10:  40GCR;11:
+                                                                 Consortium 50G KR2;12:  Consortium 50G CR2;13:  Reserved;14:  Reserved;15: 100G
+                                                                 KR4;16:  100G CR4;17:  Marvell IEEE 25GR4;18: Marvell IEEE 25GR2;19: Marvell
+                                                                 Consortium 40GR2;20: Marvell IEEE 50GR4;21 : 50G KRCR;22: 100G KRCR2;23: 200G
+                                                                 KRCR4;others : reserved */
+        uint64_t my_reserved5          : 5;  /**< [  9:  5](R/W) Value always 0, writes ignored */
+        uint64_t aa_pwrup_40gr2        : 1;  /**< [  4:  4](RO) Aneg pwrup to Marvell consortium 40GR2 */
+        uint64_t aa_pwrup_25gkr2_s     : 1;  /**< [  3:  3](RO) Aneg pwrup to Marvell Consortium 25GR2 */
+        uint64_t aa_pwrup_50gkr4_s     : 1;  /**< [  2:  2](RO) Aneg pwrup to Marvell IEEE 50GR4 */
+        uint64_t aa_pwrup_25gkr4_s     : 1;  /**< [  1:  1](RO) Aneg pwrup to Marvell IEEE 25GR4 */
+        uint64_t aa_pwrup_200grcr4_s   : 1;  /**< [  0:  0](RO) Aneg pwrup to IEEE 200GCRKR4 */
+#else /* Word 0 - Little Endian */
+        uint64_t aa_pwrup_200grcr4_s   : 1;  /**< [  0:  0](RO) Aneg pwrup to IEEE 200GCRKR4 */
+        uint64_t aa_pwrup_25gkr4_s     : 1;  /**< [  1:  1](RO) Aneg pwrup to Marvell IEEE 25GR4 */
+        uint64_t aa_pwrup_50gkr4_s     : 1;  /**< [  2:  2](RO) Aneg pwrup to Marvell IEEE 50GR4 */
+        uint64_t aa_pwrup_25gkr2_s     : 1;  /**< [  3:  3](RO) Aneg pwrup to Marvell Consortium 25GR2 */
+        uint64_t aa_pwrup_40gr2        : 1;  /**< [  4:  4](RO) Aneg pwrup to Marvell consortium 40GR2 */
+        uint64_t my_reserved5          : 5;  /**< [  9:  5](R/W) Value always 0, writes ignored */
+        uint64_t selected_modes_to_overwrite : 5;/**< [ 14: 10](R/W) 0 : GKX;1:  2.5GKX;2:  5GKR;3:  Reserved;4:  10GKR;5:  Consortium 25GKR;6:
+                                                                 Consortium 25GCR;7:  IEEE 25G KRCRS;8:  IEEE 25G KRCR;9:  40G KR;10:  40GCR;11:
+                                                                 Consortium 50G KR2;12:  Consortium 50G CR2;13:  Reserved;14:  Reserved;15: 100G
+                                                                 KR4;16:  100G CR4;17:  Marvell IEEE 25GR4;18: Marvell IEEE 25GR2;19: Marvell
+                                                                 Consortium 40GR2;20: Marvell IEEE 50GR4;21 : 50G KRCR;22: 100G KRCR2;23: 200G
+                                                                 KRCR4;others : reserved */
+        uint64_t pwrup_modes_ow_s      : 1;  /**< [ 15: 15](R/W) 1= enable ap power up mode override */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_5_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_5_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_5 cavm_rpmx_anx_aneg_lane_0_control_register_5_t;
 
@@ -1447,6 +1750,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_5(uint64_t a, 
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_5(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1509,6 +1814,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_6(uint64_t a, 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -1563,6 +1870,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_7(uint64_t a, 
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_7(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1639,6 +1948,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_8(uint64_t a, 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -1699,7 +2010,46 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_9
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_9_s cn; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_9_s cn10; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_9_s cn10ka; */
+    struct cavm_rpmx_anx_aneg_lane_0_control_register_9_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t sw_ap_enable          : 1;  /**< [ 15: 15](R/W) 1: Enable SW control Autoneg */
+        uint64_t z80_io_resolved       : 1;  /**< [ 14: 14](R/W) 1: Use Z80 I/O for 7:0, 0: Use 7:0 here */
+        uint64_t sw_lp_selector_enable_s : 1;/**< [ 13: 13](R/W) SW override for lp_selector to enable resolution without receiving base page. */
+        uint64_t my_reserved9          : 4;  /**< [ 12:  9](R/W) Value always 0, writes ignored */
+        uint64_t sw_llfec_enable_s     : 1;  /**< [  8:  8](R/W) SW final llfec_enable_set */
+        uint64_t sw_resolved_s         : 1;  /**< [  7:  7](R/W) SW final resolve bit set */
+        uint64_t sw_rsfec_enable_s     : 1;  /**< [  6:  6](R/W) SW final rsfec_enable_set */
+        uint64_t sw_fec_enable_s       : 1;  /**< [  5:  5](R/W) SW final fec_enable_set */
+        uint64_t sw_ag_mode            : 5;  /**< [  4:  0](R/W) SW final_ag_mode;00000 : 1GKX;00001 : 10GKR;00010 :  2P5GKX;00100 :  5GKR;00101
+                                                                 :  40GCR4;00110 :  40GKR4;00111 :  IEEE 25GKRCRS;01000 :  CONS 25GKR;01001 :
+                                                                 CONS 25GCR;01010 :  100GCR4;01011 :  100GKR4;01101 :  CON 50GKR;01110 :  CON
+                                                                 50GCR;01111 :  IEEE25GKRCR;10010 : 50GKRCR;10011 : 100GKRCR2;10100 :
+                                                                 200GKRCR4;10101 : Marvell IEEE 25GR4;10110 : Marvell IEEE 50GR4;10111 : Marvell
+                                                                 IEEE 25GR2;11000 : Marvell Consortium 40GRw;others : reserved */
+#else /* Word 0 - Little Endian */
+        uint64_t sw_ag_mode            : 5;  /**< [  4:  0](R/W) SW final_ag_mode;00000 : 1GKX;00001 : 10GKR;00010 :  2P5GKX;00100 :  5GKR;00101
+                                                                 :  40GCR4;00110 :  40GKR4;00111 :  IEEE 25GKRCRS;01000 :  CONS 25GKR;01001 :
+                                                                 CONS 25GCR;01010 :  100GCR4;01011 :  100GKR4;01101 :  CON 50GKR;01110 :  CON
+                                                                 50GCR;01111 :  IEEE25GKRCR;10010 : 50GKRCR;10011 : 100GKRCR2;10100 :
+                                                                 200GKRCR4;10101 : Marvell IEEE 25GR4;10110 : Marvell IEEE 50GR4;10111 : Marvell
+                                                                 IEEE 25GR2;11000 : Marvell Consortium 40GRw;others : reserved */
+        uint64_t sw_fec_enable_s       : 1;  /**< [  5:  5](R/W) SW final fec_enable_set */
+        uint64_t sw_rsfec_enable_s     : 1;  /**< [  6:  6](R/W) SW final rsfec_enable_set */
+        uint64_t sw_resolved_s         : 1;  /**< [  7:  7](R/W) SW final resolve bit set */
+        uint64_t sw_llfec_enable_s     : 1;  /**< [  8:  8](R/W) SW final llfec_enable_set */
+        uint64_t my_reserved9          : 4;  /**< [ 12:  9](R/W) Value always 0, writes ignored */
+        uint64_t sw_lp_selector_enable_s : 1;/**< [ 13: 13](R/W) SW override for lp_selector to enable resolution without receiving base page. */
+        uint64_t z80_io_resolved       : 1;  /**< [ 14: 14](R/W) 1: Use Z80 I/O for 7:0, 0: Use 7:0 here */
+        uint64_t sw_ap_enable          : 1;  /**< [ 15: 15](R/W) 1: Enable SW control Autoneg */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_9_s cnf10ka; */
+    /* struct cavm_rpmx_anx_aneg_lane_0_control_register_9_s cnf10kb; */
 };
 typedef union cavm_rpmx_anx_aneg_lane_0_control_register_9 cavm_rpmx_anx_aneg_lane_0_control_register_9_t;
 
@@ -1707,6 +2057,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_9(uint64_t a, 
 static inline uint64_t CAVM_RPMX_ANX_ANEG_LANE_0_CONTROL_REGISTER_9(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1749,6 +2101,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_Z80_MESSAGE_REG_0(uint64_t a, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -1789,6 +2143,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_Z80_MESSAGE_REG_1(uint64_t a, uint64_t
 static inline uint64_t CAVM_RPMX_ANX_ANEG_Z80_MESSAGE_REG_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1831,6 +2187,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_Z80_MESSAGE_REG_2(uint64_t a, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0049110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -1871,6 +2229,8 @@ static inline uint64_t CAVM_RPMX_ANX_ANEG_Z80_MESSAGE_REG_3(uint64_t a, uint64_t
 static inline uint64_t CAVM_RPMX_ANX_ANEG_Z80_MESSAGE_REG_3(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0049118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0049118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0049118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1914,6 +2274,8 @@ static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_DEVICE_IDENTIFIER_1(uint64
 static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_DEVICE_IDENTIFIER_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -1961,6 +2323,8 @@ static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_DEVICE_IDENTIFIER_2(uint64
 static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_DEVICE_IDENTIFIER_2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -2049,6 +2413,8 @@ static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_DEVICES_IN_PACKAGE_1(uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0048028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -2096,6 +2462,8 @@ static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_DEVICES_IN_PACKAGE_2(uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0048030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -2138,6 +2506,8 @@ static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_PACKAGE_IDENTIFIER_1(uint6
 static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_PACKAGE_IDENTIFIER_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -2185,6 +2555,8 @@ static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_PACKAGE_IDENTIFIER_2(uint6
 static inline uint64_t CAVM_RPMX_ANX_AUTO_NEGOTIATION_PACKAGE_IDENTIFIER_2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -2248,6 +2620,8 @@ static inline uint64_t CAVM_RPMX_ANX_BACKPLANE_ETHERNET_STATUS2_REGISTER(uint64_
 static inline uint64_t CAVM_RPMX_ANX_BACKPLANE_ETHERNET_STATUS2_REGISTER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048188ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048188ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048188ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -2341,6 +2715,8 @@ static inline uint64_t CAVM_RPMX_ANX_BACKPLANE_ETHERNET_STATUS_REGISTER(uint64_t
 static inline uint64_t CAVM_RPMX_ANX_BACKPLANE_ETHERNET_STATUS_REGISTER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048180ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048180ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048180ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -2461,6 +2837,8 @@ static inline uint64_t CAVM_RPMX_ANX_INT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0062000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0062000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0062000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -2564,6 +2942,7 @@ union cavm_rpmx_anx_int_ena_w1c
     } s;
     /* struct cavm_rpmx_anx_int_ena_w1c_s cn10; */
     /* struct cavm_rpmx_anx_int_ena_w1c_s cn10ka; */
+    /* struct cavm_rpmx_anx_int_ena_w1c_s cn10kb; */
     struct cavm_rpmx_anx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2728,6 +3107,8 @@ static inline uint64_t CAVM_RPMX_ANX_INT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0062010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0062010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0062010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -2831,6 +3212,7 @@ union cavm_rpmx_anx_int_ena_w1s
     } s;
     /* struct cavm_rpmx_anx_int_ena_w1s_s cn10; */
     /* struct cavm_rpmx_anx_int_ena_w1s_s cn10ka; */
+    /* struct cavm_rpmx_anx_int_ena_w1s_s cn10kb; */
     struct cavm_rpmx_anx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2995,6 +3377,8 @@ static inline uint64_t CAVM_RPMX_ANX_INT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0062018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0062018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0062018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -3098,6 +3482,7 @@ union cavm_rpmx_anx_int_w1s
     } s;
     /* struct cavm_rpmx_anx_int_w1s_s cn10; */
     /* struct cavm_rpmx_anx_int_w1s_s cn10ka; */
+    /* struct cavm_rpmx_anx_int_w1s_s cn10kb; */
     struct cavm_rpmx_anx_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3262,6 +3647,8 @@ static inline uint64_t CAVM_RPMX_ANX_INT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0062008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0062008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0062008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -3320,6 +3707,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_AUTO_NEGOTIATION_CONTROL(uint64
 static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_AUTO_NEGOTIATION_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -3390,6 +3779,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_AUTO_NEGOTIATION_STATUS(uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0048008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -3431,6 +3822,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_EXTENDED_NEXT_PAGE_TRANSMIT_REG
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00480b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e00480b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00480b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -3471,6 +3864,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_EXTENDED_NEXT_PAGE_TRANSMIT_REG
 static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_EXTENDED_NEXT_PAGE_TRANSMIT_REGISTER_UNFORMATTED_CODE_FIELD_U16_TO_U31(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00480c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00480c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00480c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -3526,6 +3921,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_BASE_PAGE_ABILITY_
 static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_BASE_PAGE_ABILITY_REGISTER_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -3589,6 +3986,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_BASE_PAGE_ABILITY_
 static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_BASE_PAGE_ABILITY_REGISTER_2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00480a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00480a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00480a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -3655,6 +4054,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_BASE_PAGE_ABILITY_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00480a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e00480a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00480a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -3697,6 +4098,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_EXTENDED_NEXT_PAGE
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00480d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e00480d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00480d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -3738,6 +4141,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_EXTENDED_NEXT_PAGE
 static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_EXTENDED_NEXT_PAGE_ABILITY_REGISTER_UNFORMATTED_CODE_FIELD_U16_TO_U31(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00480d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00480d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00480d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -3790,6 +4195,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_NEXT_PAGE_REGISTER
 static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LINK_PARTNER_NEXT_PAGE_REGISTER_LINK_PARTNER_EXTENDED_NEXT_PAGE_ABILITY_REGISTER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e00480c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e00480c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00480c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -3845,6 +4252,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LOCAL_DEVICE_BASE_PAGE_ABILITY_
 static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LOCAL_DEVICE_BASE_PAGE_ABILITY_REGISTER_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -3908,6 +4317,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LOCAL_DEVICE_BASE_PAGE_ABILITY_
 static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LOCAL_DEVICE_BASE_PAGE_ABILITY_REGISTER_2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0048088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
@@ -3974,6 +4385,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_LOCAL_DEVICE_BASE_PAGE_ABILITY_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0048090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0048090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0048090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -4025,6 +4438,8 @@ static inline uint64_t CAVM_RPMX_ANX_REG_802_3AP_NEXT_PAGE_TRANSMIT_REGISTER_EXT
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00480b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e00480b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00480b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -4068,6 +4483,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(uint64_t a) __attribute
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_ABILITIES(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00580e0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00580e0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580e0ll + 0x1000000ll * ((a) & 0x3);
@@ -4116,6 +4533,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_REVISION(uint64_t a) __attribute_
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_REVISION(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00580e8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00580e8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580e8ll + 0x1000000ll * ((a) & 0x3);
@@ -4270,6 +4689,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_AN_TRAIN_TYPE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580f0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580f0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580f0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -4422,6 +4843,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CLOCK_AND_RESET(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058008ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058008ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -4446,6 +4869,59 @@ union cavm_rpmx_anp_global_control
 {
     uint64_t u;
     struct cavm_rpmx_anp_global_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t divide_sd_clocks      : 1;  /**< [ 31: 31](R/W) Asserted will enable SD Clock Dividers. */
+        uint64_t reg_dsp_lock_loss_latch_en : 1;/**< [ 30: 30](R/W) Enable latch of dsp_lock loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_sigdet_loss_latch_en : 1;/**< [ 29: 29](R/W) Enable latch of dsp_sigdet loss until SD SMs get reset/ STR request. */
+        uint64_t reg_tx_ready_loss_latch_en : 1;/**< [ 28: 28](R/W) Enable latch of tx_ready loss until SD SMs get reset/ STR request. */
+        uint64_t reg_rx_sm_cnt_saturate : 1; /**< [ 27: 27](R/W) When set, SD RX SM counters will saturate and not wraparound. */
+        uint64_t reg_tx_sm_cnt_saturate : 1; /**< [ 26: 26](R/W) When set, SD TX SM counters will saturate and not wraparound. */
+        uint64_t reg_txstr_rxsd_clear_cnt : 1;/**< [ 25: 25](R/W) When CH SM moves from TXSTR_RXSD back to RX_SD,
+                                                                 if configuration is set, SM counter is cleared, else it is not cleared. */
+        uint64_t reg_ch_sm_cnt_saturate : 1; /**< [ 24: 24](R/W) When set, CH SM counters will saturate and not wraparound. */
+        uint64_t reg_reset_pulse_conf_delay : 10;/**< [ 23: 14](R/W) Number of cycles since client (AN/PCS) TX reset released, until a reset pulse
+                                                                 will be generated towards SDW TX phase fifo. */
+        uint64_t reg_train_type_mx_samp : 2; /**< [ 13: 12](R/W) Sets the number of additional samples on train_type_mx before going to logic. */
+        uint64_t reg_train_type_samp   : 2;  /**< [ 11: 10](R/W) Sets the number of additional samples on train_type before going to logic. */
+        uint64_t reg_txclk_sync_en_width_s : 8;/**< [  9:  2](R/W) Time to wait before starting TX clk synchronization. */
+        uint64_t an_ap_train_type      : 2;  /**< [  1:  0](R/W) Set training type to perform prior to AN.
+                                                                 0x0 = KR TRAINING.
+                                                                 0x1 = RX TRAINING.
+                                                                 0x2 = NO TRAINING.
+                                                                 0x3 = RESERVED. */
+#else /* Word 0 - Little Endian */
+        uint64_t an_ap_train_type      : 2;  /**< [  1:  0](R/W) Set training type to perform prior to AN.
+                                                                 0x0 = KR TRAINING.
+                                                                 0x1 = RX TRAINING.
+                                                                 0x2 = NO TRAINING.
+                                                                 0x3 = RESERVED. */
+        uint64_t reg_txclk_sync_en_width_s : 8;/**< [  9:  2](R/W) Time to wait before starting TX clk synchronization. */
+        uint64_t reg_train_type_samp   : 2;  /**< [ 11: 10](R/W) Sets the number of additional samples on train_type before going to logic. */
+        uint64_t reg_train_type_mx_samp : 2; /**< [ 13: 12](R/W) Sets the number of additional samples on train_type_mx before going to logic. */
+        uint64_t reg_reset_pulse_conf_delay : 10;/**< [ 23: 14](R/W) Number of cycles since client (AN/PCS) TX reset released, until a reset pulse
+                                                                 will be generated towards SDW TX phase fifo. */
+        uint64_t reg_ch_sm_cnt_saturate : 1; /**< [ 24: 24](R/W) When set, CH SM counters will saturate and not wraparound. */
+        uint64_t reg_txstr_rxsd_clear_cnt : 1;/**< [ 25: 25](R/W) When CH SM moves from TXSTR_RXSD back to RX_SD,
+                                                                 if configuration is set, SM counter is cleared, else it is not cleared. */
+        uint64_t reg_tx_sm_cnt_saturate : 1; /**< [ 26: 26](R/W) When set, SD TX SM counters will saturate and not wraparound. */
+        uint64_t reg_rx_sm_cnt_saturate : 1; /**< [ 27: 27](R/W) When set, SD RX SM counters will saturate and not wraparound. */
+        uint64_t reg_tx_ready_loss_latch_en : 1;/**< [ 28: 28](R/W) Enable latch of tx_ready loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_sigdet_loss_latch_en : 1;/**< [ 29: 29](R/W) Enable latch of dsp_sigdet loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_lock_loss_latch_en : 1;/**< [ 30: 30](R/W) Enable latch of dsp_lock loss until SD SMs get reset/ STR request. */
+        uint64_t divide_sd_clocks      : 1;  /**< [ 31: 31](R/W) Asserted will enable SD Clock Dividers. */
+        uint64_t reserved_32_62        : 31;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_anp_global_control_s cn10; */
+    struct cavm_rpmx_anp_global_control_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -4490,8 +4966,10 @@ union cavm_rpmx_anp_global_control
         uint64_t divide_sd_clocks      : 1;  /**< [ 31: 31](R/W) Asserted will enable SD Clock Dividers. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_anp_global_control_s cn; */
+    } cn10ka;
+    /* struct cavm_rpmx_anp_global_control_s cn10kb; */
+    /* struct cavm_rpmx_anp_global_control_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_anp_global_control_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_anp_global_control cavm_rpmx_anp_global_control_t;
 
@@ -4499,6 +4977,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL(uint64_t a) __attribute__ ((
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058000ll + 0x1000000ll * ((a) & 0x3);
@@ -4555,6 +5035,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL2(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058140ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058140ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058140ll + 0x1000000ll * ((a) & 0x3);
@@ -4615,6 +5097,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL3(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058148ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058148ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058148ll + 0x1000000ll * ((a) & 0x3);
@@ -4704,6 +5188,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_CONTROL4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058150ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058150ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058150ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -4750,6 +5236,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_LANE_DELAY(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058020ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058020ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -4791,6 +5279,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(uint64_t a
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_PHY_GEN_LOAD_TO_PUP_TIMER(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058170ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058170ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058170ll + 0x1000000ll * ((a) & 0x3);
@@ -4834,6 +5324,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_PHY_GEN_PDN_TO_LOAD_TIMER(uint64_t a
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058168ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058168ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058168ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -4876,6 +5368,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_RX_IDLE_MIN_WAIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058160ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058160ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058160ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -4917,6 +5411,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(uint64_t a) __at
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SD_TX_IDLE_MIN_WAIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058158ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058158ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058158ll + 0x1000000ll * ((a) & 0x3);
@@ -4970,6 +5466,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580f8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580f8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580f8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5022,6 +5520,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058100ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058100ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058100ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5063,6 +5563,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(uint64_t a) __attribute
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_SPEED_TABLE2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058108ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058108ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058108ll + 0x1000000ll * ((a) & 0x3);
@@ -5106,6 +5608,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_100MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058050ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058050ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058050ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5147,6 +5651,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(uint64_t a) __attribute__
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_10MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058028ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058028ll + 0x1000000ll * ((a) & 0x3);
@@ -5197,6 +5703,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_20S_HIGH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580d0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580d0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580d0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5241,6 +5749,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(uint64_t a) __attr
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12600MS_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00580a8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00580a8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580a8ll + 0x1000000ll * ((a) & 0x3);
@@ -5287,6 +5797,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_12S_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580a0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580a0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580a0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5329,6 +5841,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_1S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058070ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058070ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058070ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5370,6 +5884,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(uint64_t a) __attribute_
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_200MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058058ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058058ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058058ll + 0x1000000ll * ((a) & 0x3);
@@ -5416,6 +5932,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_20S_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580b0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580b0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580b0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5458,6 +5976,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_2S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058078ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058078ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058078ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5499,6 +6019,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(uint64_t a) __attribute_
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_300MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058060ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058060ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058060ll + 0x1000000ll * ((a) & 0x3);
@@ -5549,6 +6071,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_30S_40S_HIGH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580d8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580d8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580d8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5594,6 +6118,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_30S_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580b8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580b8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580b8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5635,6 +6161,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(uint64_t a) __attribute
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_3150MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058080ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058080ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058080ll + 0x1000000ll * ((a) & 0x3);
@@ -5678,6 +6206,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_35MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058030ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058030ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058030ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5719,6 +6249,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(uint64_t a) __attribute__
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_40MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058038ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058038ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058038ll + 0x1000000ll * ((a) & 0x3);
@@ -5765,6 +6297,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_40S_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580c0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580c0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580c0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5806,6 +6340,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(uint64_t a) __attribute_
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_500MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058068ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058068ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058068ll + 0x1000000ll * ((a) & 0x3);
@@ -5849,6 +6385,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_50MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058040ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058040ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058040ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5890,6 +6428,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_5S(uint64_t a) __attribute__ (
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_5S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058088ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058088ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058088ll + 0x1000000ll * ((a) & 0x3);
@@ -5933,6 +6473,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_6S(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0058090ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0058090ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058090ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -5974,6 +6516,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(uint64_t a) __attribute__
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_70MS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058048ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058048ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058048ll + 0x1000000ll * ((a) & 0x3);
@@ -6024,6 +6568,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_9S_12S_HIGH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00580c8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00580c8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00580c8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -6068,6 +6614,8 @@ static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(uint64_t a) __attribute
 static inline uint64_t CAVM_RPMX_ANP_GLOBAL_TIMER_9S_LOW(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0058098ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0058098ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0058098ll + 0x1000000ll * ((a) & 0x3);
@@ -6171,6 +6719,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c038ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c038ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c038ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -6235,6 +6785,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_HANG_OUT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c058ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c058ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c058ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -6278,6 +6830,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(uint64_t a, uint64
 static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_RESTART_COUNTER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c070ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c070ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c070ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -6377,6 +6931,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_STATUS1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c060ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c060ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c060ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -6442,6 +6998,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_STATUS2(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_STATUS2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c068ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c068ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c068ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -6544,6 +7102,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIED_IN(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c050ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c050ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c050ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -6587,6 +7147,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIMERS(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIMERS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c040ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c040ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c040ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -6633,6 +7195,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIMERS1(uint64_t a, uint64_t b) __
 static inline uint64_t CAVM_RPMX_ANP_PORTX_AN_TIMERS1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c048ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c048ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c048ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -6684,6 +7248,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_DSP_RXUP_MAX_TIMER(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0d8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0d8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0d8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -6730,6 +7296,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PCS_LOST_MIN_TIMER(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0a0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0a0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0a0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -6775,6 +7343,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(uint64_t a, uint64_
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PROG_MAX_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0e0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0e0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0e0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -6824,6 +7394,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_PWRDN_MIN_TIMER(uint64_t a, uint64
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c078ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c078ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c078ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -6870,6 +7442,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_RXON_MAX_TIMER(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0b8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0b8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0b8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -6913,6 +7487,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(uint64_t a, uint64_t 
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_ST_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0b0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0b0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0b0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -6960,6 +7536,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_ST_RESET_MIN_TIMER(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0a8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0a8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0a8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -7005,6 +7583,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(uint64_t a, uint64_
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXON_MAX_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0c0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0c0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0c0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -7054,6 +7634,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXRX_MAX_TIMER(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c098ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c098ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c098ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -7097,6 +7679,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(uint64_t a, uint64_
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_TXRX_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c090ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c090ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c090ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -7144,6 +7728,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MAX_TIMER(uint64_t a, u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c080ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c080ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c080ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -7187,6 +7773,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(uint64_t a, u
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CH_WAIT_PWRDN_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c088ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c088ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c088ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -7243,6 +7831,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CHANNEL_SM_CONTROL(uint64_t a, uint64
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c020ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c020ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c020ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -7290,6 +7880,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CMD_LINEX_HI(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=31)))
+        return 0x87e0e005c600ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3) && (c<=31)))
         return 0x87e0e005c600ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=31)))
         return 0x87e0e005c600ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x1f);
@@ -7346,6 +7938,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(uint64_t a, uint64_t b, 
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CMD_LINEX_LO(uint64_t a, uint64_t b, uint64_t c)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=63)))
+        return 0x87e0e005c400ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3) && (c<=63)))
         return 0x87e0e005c400ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=63)))
         return 0x87e0e005c400ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3) + 8ll * ((c) & 0x3f);
@@ -7435,6 +8029,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c178ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c178ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c178ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -7539,6 +8135,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL1(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c180ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c180ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c180ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -7694,6 +8292,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL10(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1c8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1c8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1c8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -7773,6 +8373,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL11(uint64_t a, uint64_t b) __a
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL11(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1d0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1d0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1d0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -7861,6 +8463,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL2(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c188ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c188ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c188ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -7955,6 +8559,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL3(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL3(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c190ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c190ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c190ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -8059,6 +8665,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL4(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL4(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c198ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c198ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c198ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -8187,6 +8795,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL5(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL5(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1a0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1a0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1a0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -8342,6 +8952,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL6(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1a8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1a8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1a8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8454,6 +9066,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL7(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1b0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1b0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1b0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8558,6 +9172,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL8(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1b8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1b8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1b8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8606,6 +9222,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_CONTROL9(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1c0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1c0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1c0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8647,6 +9265,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c208ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c208ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c208ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -8690,6 +9310,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c210ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c210ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c210ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8731,6 +9353,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER2(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c218ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c218ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c218ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -8780,6 +9404,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER3(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c220ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c220ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c220ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8828,6 +9454,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER4(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c228ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c228ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c228ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8874,6 +9502,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_COUNTER5(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c230ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c230ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c230ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8916,6 +9546,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_DSP_LOCK_FAIL_COUNTER(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c238ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c238ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c238ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -8957,6 +9589,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(uint64_t a, uint64_
 static inline uint64_t CAVM_RPMX_ANP_PORTX_LINK_FAIL_COUNTER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c240ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c240ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c240ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9003,6 +9637,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(uint64_t a, uin
 static inline uint64_t CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_AP(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0d0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0d0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0d0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9052,6 +9688,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_PCS_LINK_MAX_TIMER_NORM(uint64_t a, u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0c8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0c8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0c8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9095,6 +9733,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(uint64_t a, uint
 static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_AP_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c130ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c130ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c130ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9140,6 +9780,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_NAP_MIN_TIMER(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c138ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c138ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c138ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9183,6 +9825,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(uint64_t a, uint
 static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_IDLE_RM_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c128ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c128ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c128ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9238,6 +9882,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_PLL_UP_MAX_TIMER(uint64_t a, uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0e8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0e8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0e8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9286,6 +9932,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_PROG_MAX_TIMER(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0f0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0f0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0f0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9332,6 +9980,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MAX_TIMER(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c100ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c100ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c100ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9376,6 +10026,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_INIT_MIN_TIMER(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c0f8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c0f8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c0f8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9419,6 +10071,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(uint64_t a, ui
 static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_PLL_UP_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c108ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c108ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c108ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9467,6 +10121,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_RETRAIN_MIN_TIMER(uint64_t a, u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c160ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c160ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c160ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9511,6 +10167,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_PLUG_MIN_TIMER(uint64_t a,
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c168ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c168ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c168ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9554,6 +10212,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(uint64_t 
 static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RX_WAIT_SQ_DET_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c170ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c170ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c170ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9603,6 +10263,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_MAX_TIMER(uint64_t a, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c120ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c120ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c120ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9646,6 +10308,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(uint64_t a, uint64_t
 static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c110ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c110ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c110ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9691,6 +10355,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_RXT_OK_MAX_TIMER(uint64_t a, uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c118ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c118ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c118ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9734,6 +10400,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(uint64_t a, ui
 static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TX_PLL_UP_MIN_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c140ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c140ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c140ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9783,6 +10451,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_MAX_TIMER(uint64_t a, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c158ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c158ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c158ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9827,6 +10497,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_MIN_TIMER(uint64_t a, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c148ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c148ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c148ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9870,6 +10542,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(uint64_t a, uint6
 static inline uint64_t CAVM_RPMX_ANP_PORTX_SD_TXT_OK_MAX_TIMER(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c150ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c150ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c150ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -9926,6 +10600,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SERDES_RX_SM_CONTROL(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c030ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c030ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c030ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -9980,6 +10656,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(uint64_t a, uint
 static inline uint64_t CAVM_RPMX_ANP_PORTX_SERDES_TX_SM_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c028ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c028ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c028ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -10052,6 +10730,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS(uint64_t a, uint64_t b) __attr
 static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1d8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1d8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1d8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -10157,6 +10837,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1e0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1e0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1e0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -10240,6 +10922,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS2(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1e8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1e8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1e8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -10339,6 +11023,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS3(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1f0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1f0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1f0ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -10425,6 +11111,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS4(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e005c1f8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c1f8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c1f8ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -10478,6 +11166,8 @@ static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS5(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_ANP_PORTX_STATUS5(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e005c200ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e005c200ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e005c200ll + 0x1000000ll * ((a) & 0x3) + 0x800ll * ((b) & 0x3);
@@ -10542,6 +11232,8 @@ static inline uint64_t CAVM_RPMX_CAR_CKEN_OVRD(uint64_t a) __attribute__ ((pure,
 static inline uint64_t CAVM_RPMX_CAR_CKEN_OVRD(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0061000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0061000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0061000ll + 0x1000000ll * ((a) & 0x3);
@@ -10608,6 +11300,8 @@ static inline uint64_t CAVM_RPMX_CMRX_ACTIVITY(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005d80ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006a00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005d80ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -10621,6 +11315,51 @@ static inline uint64_t CAVM_RPMX_CMRX_ACTIVITY(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_ACTIVITY(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_ACTIVITY(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_ACTIVITY(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_bad
+ *
+ * RPM CMR Bad Registers
+ */
+union cavm_rpmx_cmrx_bad
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_bad_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rxb_nxl               : 1;  /**< [  0:  0](R/W1C/H) RX channel was disabled during traffic from this LMAC.
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST[lmac]==0 */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_nxl               : 1;  /**< [  0:  0](R/W1C/H) RX channel was disabled during traffic from this LMAC.
+                                                                 This is due to:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_RX_LMACS.LMAC_EXIST[lmac]==0 */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_bad_s cn; */
+};
+typedef union cavm_rpmx_cmrx_bad cavm_rpmx_cmrx_bad_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_BAD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_BAD(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006a10ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_BAD", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_BAD(a,b) cavm_rpmx_cmrx_bad_t
+#define bustype_CAVM_RPMX_CMRX_BAD(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_BAD(a,b) "RPMX_CMRX_BAD"
+#define device_bar_CAVM_RPMX_CMRX_BAD(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_BAD(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_BAD(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_bp_test
@@ -10738,6 +11477,8 @@ static inline uint64_t CAVM_RPMX_CMRX_BP_TEST(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0001100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0001100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0001100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -10753,6 +11494,98 @@ static inline uint64_t CAVM_RPMX_CMRX_BP_TEST(uint64_t a, uint64_t b)
 #define arguments_CAVM_RPMX_CMRX_BP_TEST(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) rpm#_cmr#_chan_msk_and
+ *
+ * RPM CMR Backpressure Channel Mask AND Registers
+ */
+union cavm_rpmx_cmrx_chan_msk_and
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_chan_msk_and_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t msk_and               : 16; /**< [ 15:  0](R/W) Relevant for PFC_MODE==0 only (e.g. Link Pause mode).
+                                                                 Assert physical backpressure to MAC, when the backpressure channel vector
+                                                                 (signaled on X2P) combined with [MSK_AND] indicates backpressure as follows:
+                                                                 _ phys_bp_msk_and = [MSK_AND]!=0 && ((chan_vector&[MSK_AND])==[MSK_AND])
+                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and */
+#else /* Word 0 - Little Endian */
+        uint64_t msk_and               : 16; /**< [ 15:  0](R/W) Relevant for PFC_MODE==0 only (e.g. Link Pause mode).
+                                                                 Assert physical backpressure to MAC, when the backpressure channel vector
+                                                                 (signaled on X2P) combined with [MSK_AND] indicates backpressure as follows:
+                                                                 _ phys_bp_msk_and = [MSK_AND]!=0 && ((chan_vector&[MSK_AND])==[MSK_AND])
+                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_chan_msk_and_s cn; */
+};
+typedef union cavm_rpmx_cmrx_chan_msk_and cavm_rpmx_cmrx_chan_msk_and_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_CHAN_MSK_AND(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_CHAN_MSK_AND(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_CHAN_MSK_AND", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_CHAN_MSK_AND(a,b) cavm_rpmx_cmrx_chan_msk_and_t
+#define bustype_CAVM_RPMX_CMRX_CHAN_MSK_AND(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_CHAN_MSK_AND(a,b) "RPMX_CMRX_CHAN_MSK_AND"
+#define device_bar_CAVM_RPMX_CMRX_CHAN_MSK_AND(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_CHAN_MSK_AND(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_CHAN_MSK_AND(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_chan_msk_or
+ *
+ * RPM Backpressure Channel Mask OR Registers
+ */
+union cavm_rpmx_cmrx_chan_msk_or
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_chan_msk_or_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t msk_or                : 16; /**< [ 15:  0](R/W) Relevant for PFC_MODE==0 only (e.g. Link Pause mode).
+                                                                 Assert physical backpressure to MAC, when the backpressure channel vector
+                                                                 (signaled on X2P) combined with [MSK_OR] indicates backpressure as follows:
+
+                                                                 _ phys_bp_msk_or = ((chan_vector & [MSK_OR]) != 0)
+                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and */
+#else /* Word 0 - Little Endian */
+        uint64_t msk_or                : 16; /**< [ 15:  0](R/W) Relevant for PFC_MODE==0 only (e.g. Link Pause mode).
+                                                                 Assert physical backpressure to MAC, when the backpressure channel vector
+                                                                 (signaled on X2P) combined with [MSK_OR] indicates backpressure as follows:
+
+                                                                 _ phys_bp_msk_or = ((chan_vector & [MSK_OR]) != 0)
+                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_chan_msk_or_s cn; */
+};
+typedef union cavm_rpmx_cmrx_chan_msk_or cavm_rpmx_cmrx_chan_msk_or_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_CHAN_MSK_OR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_CHAN_MSK_OR(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003120ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_CHAN_MSK_OR", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_CHAN_MSK_OR(a,b) cavm_rpmx_cmrx_chan_msk_or_t
+#define bustype_CAVM_RPMX_CMRX_CHAN_MSK_OR(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_CHAN_MSK_OR(a,b) "RPMX_CMRX_CHAN_MSK_OR"
+#define device_bar_CAVM_RPMX_CMRX_CHAN_MSK_OR(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_CHAN_MSK_OR(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_CHAN_MSK_OR(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) rpm#_cmr#_config
  *
  * RPM CMR Configuration Registers
@@ -10765,6 +11598,469 @@ union cavm_rpmx_cmrx_config
 {
     uint64_t u;
     struct cavm_rpmx_cmrx_config_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects P2X interface over which the LMAC will communicate.
+                                                                 \<pre\>
+                                                                   [P2X_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 --        Reserved
+                                                                   1                 P2X1      NIX0
+                                                                   2..7              --        Reserved
+                                                                 \</pre\> */
+        uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects X2P interface over which the LMAC will communicate.
+                                                                 \<pre\>
+                                                                   [X2P_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 --        Reserved
+                                                                   1                 X2P1      NIX0
+                                                                   2..7              --        Reserved
+                                                                 \</pre\> */
+        uint64_t enable                : 1;  /**< [ 55: 55](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
+                                                                 dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
+                                                                 and LMAC access to shared RPM resources (data path, SerDes lanes) is disabled.
+
+                                                                 Any enabled LMAC index must have its LMAC_EXIST set, either in RPM_CMR_RX_LMACS
+                                                                 or RPM_CMR_TX_LMACS.
+                                                                 Indices of enabled LMACs may be chosen at any combination.
+
+                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
+                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
+                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
+                                                                 setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 54: 54](R/W) Reserved.
+                                                                 Internal:
+                                                                 In CGX this bit was only used by GMP and SMU (unconnected in RPM).
+                                                                 Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+                                                                 data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the
+                                                                 MAC layer drops received data and flow-control packets. */
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 53: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 In CGX this bit was only used by GMP and SMU (unconnected in RPM).
+                                                                 Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0,
+                                                                 the MAC layer suppresses the transmission of new data and packets for the LMAC. */
+        uint64_t reserved_40_52        : 13;
+        uint64_t pch_crc_calc_bu_reverse : 1;/**< [ 39: 39](R/W) Reserved.
+                                                                 Internal:
+                                                                 This is relevant only when PCH_CRC_CALC_BU_EN==1.
+                                                                 Calibration: feed the "reverse" input port of the backup circuit of PCH CRC-8 calculation.
+                                                                 This input means flipping the order of the bits inside each Byte.
+                                                                 See from original RTL: "algorithm assumes x^47 is bit 47, but PCH's x^47 is bit 40" */
+        uint64_t pch_crc_calc_bu_en    : 1;  /**< [ 38: 38](R/W) Reserved.
+                                                                 Internal:
+                                                                 Chicken bit. Set high in order to use a backup HW circuit for calculating the
+                                                                 PCH CRC-8 (for both Tx and Rx). This requires also setting PCH_CRC_CALC_BYTE_FLIP. */
+        uint64_t pch_crc_calc_byte_flip : 1; /**< [ 37: 37](R/W) Reserved.
+                                                                 Internal:
+                                                                 Calibrated value (chicken bit). This configuration is here in case CRC-8
+                                                                 calculation unit has a byte-ordering bug.
+                                                                 If setting PCH_CRC_CALC_BU_EN, this bit should also be set.
+                                                                 When PCH_SUPPORT_EN is high, and PCH_RX_CRC_HW_CHECK or PCH_TX_CRC_HW_CALC are high,
+                                                                 flip the PCH Byte order for calculating CRC-8 for valid PCH packets (flip only
+                                                                 the CRC calculation module input).
+                                                                 The design expects that MAC's User Preamble input/output ports have their LS
+                                                                 Byte (rightmost) containing the
+                                                                 first network-order Byte; when PCH_CRC_CALC_BYTE_FLIP is low (default), the PCH payload (6B) is fed
+                                                                 to CRC calculation in the same byte order as it's input to the MAC (i.e. LSB
+                                                                 (rightmost Byte) is the 1st
+                                                                 network order byte). */
+        uint64_t pch_rx_crc_hw_check   : 1;  /**< [ 36: 36](R/W) When high, and RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, valid Rx PCH packets'
+                                                                 CRC-8 field is checked by RPM.
+                                                                 If CRC error is found, packet is output to NIX with RE_CRC8_PCH error.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_tx_crc_err_gen    : 1;  /**< [ 35: 35](R/W) When PCH[CRC] is calculated for a valid PCH packet in Tx (see PCH_TX_CRC_HW_CALC),
+                                                                 CRC[0] bit is flipped, to generate artificial error. This might be used for debug.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_tx_crc_hw_calc    : 1;  /**< [ 34: 34](R/W) When high, and RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, valid Tx PCH packets'
+                                                                 CRC-8 field is calculated by RPM.
+                                                                 The calculated value replaces the original value that RPM gets from NIX.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_ext_field_type    : 2;  /**< [ 33: 32](R/W) Must keep 2'h1. Relevant only when PCH_EXT_FIELD_TYPE_CHECK==1.
+                                                                 When RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, User Preamble Byte [1] (network
+                                                                 order: the byte after SOP/0xFB) bits [1:0]
+                                                                 (Header [41:40] - per PCH documentation) are compared to this value, to qualify
+                                                                 as a valid PCH packet.
+                                                                 To qualify as a valid PCH packet, RPM also compares
+                                                                 RPM_CMR()_CONFIG[PCH_PACKET_TYPE] to the PCH[PCH_PACKET_TYPE] field.
+                                                                 Note: values 0 and 3 are Ignore and Reserved respectively; value 2 is preemption+ptp -
+                                                                 all of which are Not considered valid PCH packets by RPM.
+                                                                 For valid Tx PCH packets, RPM might need to calculate and replace the PCH[CRC]
+                                                                 field (see PCH_TX_CRC_HW_CALC).
+                                                                 For valid Rx PCH packets, RPM might need to check the PCH[CRC] field for error
+                                                                 (see PCH_RX_CRC_HW_CHECK).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_ext_field_type_check : 1;/**< [ 31: 31](R/W) Enable for PCE Ext Field Type check - see PCH_EXT_FIELD_TYPE. When low, this check will be skipped.
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_packet_type       : 2;  /**< [ 30: 29](R/W) Must keep 2'h0.
+                                                                 When RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, User Preamble Byte [1] (network
+                                                                 order: the byte after SOP/0xFB) bits [7:6]
+                                                                 (Header [47:46] - per PCH documentation) are compared to this value, to identify a PCH packet.
+                                                                 To qualify as valid PCH packet, RPM also compares
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE] to the PCH[PCH_EXT_FIELD_TYPE] field.
+                                                                 Note: value 3 is Reserved, 2 is Idle packet, 1 is non-PCH packet - all of which
+                                                                 are Not considered valid PCH packets by RPM.
+                                                                 For valid Tx PCH packets, RPM might need to calculate and replace the PCH[CRC]
+                                                                 field (see PCH_TX_CRC_HW_CALC).
+                                                                 For valid Rx PCH packets, RPM might need to check the PCH[CRC] field for error
+                                                                 (see PCH_RX_CRC_HW_CHECK).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_user_pream_strip_ptp_only : 1;/**< [ 28: 28](R/W) When 1, only PTP packets will contain 8 Byte User Preamble.
+                                                                 Non-PTP packets will Not contain those additional 8 Bytes.
+                                                                 This mode is more efficient when User Preamble is used strictly for PCH,
+                                                                 and merely for PTP (Timestamp signature transmission); thus, it spares 8B
+                                                                 overhead between NIX and MAC for all the non-PTP packets.
+                                                                 For Non PTP packets, RPM will feed the standard Preamble value
+                                                                 to the MAC as User Preamble (56'hd5555555555555).
+                                                                 This CSR is in fact similar to TX_USER_PREAM_STRIP, but only applies to PTP packets.
+                                                                 Note: if TX_USER_PREAM_STRIP is high, TX_USER_PREAM_STRIP_PTP_ONLY will be irrelevant,
+                                                                 and RPM will strip 8B User Preamble from Every packet.
+                                                                 When PCH_SUPPORT_EN is high, either TX_USER_PREAM_STRIP_PTP_ONLY or TX_USER_PREAM_STRIP
+                                                                 must be high (but not both).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_support_en        : 1;  /**< [ 27: 27](R/W) When high, PCH logic is applied to the User Preamble field which is input/output
+                                                                 from MAC. See relevant CSRs:
+                                                                 RPM_CMR()_CONFIG[RX_USER_PREAM_PREPEND] - prepend User Preamble to packet.
+                                                                 Must be high when PCH_SUPPORT_EN is high.
+                                                                 RPM_CMR()_CONFIG[TX_USER_PREAM_STRIP_PTP_ONLY] - strip User Preamble only for
+                                                                 PTP packets in Tx (BW-efficient PCH mode), and feed as User Premable to MAC.
+                                                                 RPM_CMR()_CONFIG[TX_USER_PREAM_STRIP] - strip User Preamble for all packets in Tx,
+                                                                 and feed as User Preamble to MAC.
+                                                                 RPM_CMR()_CONFIG[PCH_PACKET_TYPE] - PCH[PktType] value to qualify as PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE_CHECK] - enable check PCH[ExtFieldType] to
+                                                                 qualify as valid PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE] - PCH[ExtFieldType] value to qualify as
+                                                                 valid PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_TX_CRC_HW_CALC] - enable PCH[CRC] calculation and replacement in Tx
+                                                                 RPM_CMR()_CONFIG[PCH_TX_CRC_ERR_GEN] - generate artificial PCH[CRC] error in Tx packet (for debug)
+                                                                 RPM_CMR()_CONFIG[PCH_RX_CRC_HW_CHECK] - enable PCH[CRC] check in Rx.
+                                                                 from 32b_ns to {2b_s, 30b_ns}
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 See also relevant internal CSRs:
+                                                                 RPM_CMR()_CONFIG[PCH_CRC_CALC_BYTE_FLIP] - chicken bit: in case PCH CRC
+                                                                 calculation unit has a byte-ordering bug
+                                                                 RPM_CMR()_CONFIG[PCH_CRC_CALC_BU_EN] - chicken bit: use backup circuit for PCH
+                                                                 CRC calculation (both Tx and Rx) */
+        uint64_t crc_inv_en            : 1;  /**< [ 26: 26](R/W) When high, errors from NIX-Tx are indicated to MAC, so as to cause inverted-CRC
+                                                                 on transmission to peer.
+                                                                 On Rx, inverted CRC frames are indicated by MAC, and counted separately, in RX_STAT9 counter.
+
+                                                                 Internal:
+                                                                 This mode is used in 103 for Cisco Clear-Tags potocol, in order to mark decryption-error frames. */
+        uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
+                                                                 inband signal to/from NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
+                                                                 Rx line), as the first 8 Bytes of
+                                                                 the frame towards NIX. Note that if RX_TS_PREPEND is also 1, then Timestamp will
+                                                                 be prepended as the actual first
+                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, then followed by the payload.
+                                                                 The User Preamble value from MAC is applied USER_PREAM_BYTE_FLIP, since it is inband to NIX.
+                                                                 Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
+                                                                 Byte will be hardwired assigned 8'hFB.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
+                                                                 an inband signal to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
+                                                                 arrival), as the first 8 Bytes of the frame towards NIX.
+                                                                 Note that if RX_USER_PREAM_PREPEND is also 1, then
+                                                                 Timestamp will be prepended as the first 8 Bytes,
+                                                                 followed by the 8 Bytes of the User Preamble, followed by the payload.
+                                                                 The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
+                                                                 Default is flip, because MTI outputs 1st byte on the right, while CMR expects it on
+                                                                 the left (see also DMAC_CAM CSRs).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 20: 20](R/W) When set to 1, RPM will use RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as User Preamble.
+                                                                 When 0, RPM will use the stripped Preamble value from the packet (Arriving from
+                                                                 NIX-Tx). However, in case
+                                                                 TX_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
+                                                                 (oxd5dddddddddd) to MAC as User Preamble.
+                                                                 This field may only change value at idle time. */
+        uint64_t reserved_19           : 1;
+        uint64_t tx_ptp_1s_ts_byte_flip : 1; /**< [ 18: 18](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Calibrate-once value.
+                                                                 Only relevant when TX_PTP_1S_SUPPORT==1. For PTP packets arriving from NIX-Tx
+                                                                 (i.e. packets with ptp==1), byte-flip the TS_8B inband field (i.e. the first 8B
+                                                                 of the packet), before extracting its sub-fields and pushing them to MAC as
+                                                                 ff_tx_rx_ts_ns and ff_tx_id (latter includes step_type as bit [4]). Note that
+                                                                 for 2-step packets it still has an effect, since it determines the location of
+                                                                 step_type field. This field may only change value at idle time. */
+        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for 1-step PTP.
+                                                                 When set, packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
+                                                                 where TS_8B exists only for a PTP packet.
+                                                                 When bit is not set, only 2-step PTP is supported, and packet structure is {[PREAM_8B], PLD}.
+                                                                 In both cases, PREAM_8B exists only when TX_PREAM_STRIP==1.
+                                                                 TS_8B is 8 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
+                                                                 (other bits are reserved).
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 Note: setting this bit does not mean that this LMAC Has to work in 1-step mode, however
+                                                                 it does change PTP packet handling by RPM. When this bit is set,
+                                                                 the RPM will always get from NIX additional TS_8B with step_type indicating 2-step or 1_step.
+                                                                 In any case, RPM would not change its behavior according to step_type; when TX_PTP_1S_SUPPORT==1
+                                                                 RPM will strip TS_8B and feed it to MAC (ff_tx_id), and when TX_PTP_1S_SUPPORT==0 RPM will
+                                                                 feed 0 to ff_tx_id. */
+        uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
+                                                                 This field may only change value at idle time. */
+        uint64_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_15         : 16;
+        uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for 1-step PTP.
+                                                                 When set, packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
+                                                                 where TS_8B exists only for a PTP packet.
+                                                                 When bit is not set, only 2-step PTP is supported, and packet structure is {[PREAM_8B], PLD}.
+                                                                 In both cases, PREAM_8B exists only when TX_PREAM_STRIP==1.
+                                                                 TS_8B is 8 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
+                                                                 (other bits are reserved).
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 Note: setting this bit does not mean that this LMAC Has to work in 1-step mode, however
+                                                                 it does change PTP packet handling by RPM. When this bit is set,
+                                                                 the RPM will always get from NIX additional TS_8B with step_type indicating 2-step or 1_step.
+                                                                 In any case, RPM would not change its behavior according to step_type; when TX_PTP_1S_SUPPORT==1
+                                                                 RPM will strip TS_8B and feed it to MAC (ff_tx_id), and when TX_PTP_1S_SUPPORT==0 RPM will
+                                                                 feed 0 to ff_tx_id. */
+        uint64_t tx_ptp_1s_ts_byte_flip : 1; /**< [ 18: 18](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Calibrate-once value.
+                                                                 Only relevant when TX_PTP_1S_SUPPORT==1. For PTP packets arriving from NIX-Tx
+                                                                 (i.e. packets with ptp==1), byte-flip the TS_8B inband field (i.e. the first 8B
+                                                                 of the packet), before extracting its sub-fields and pushing them to MAC as
+                                                                 ff_tx_rx_ts_ns and ff_tx_id (latter includes step_type as bit [4]). Note that
+                                                                 for 2-step packets it still has an effect, since it determines the location of
+                                                                 step_type field. This field may only change value at idle time. */
+        uint64_t reserved_19           : 1;
+        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 20: 20](R/W) When set to 1, RPM will use RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as User Preamble.
+                                                                 When 0, RPM will use the stripped Preamble value from the packet (Arriving from
+                                                                 NIX-Tx). However, in case
+                                                                 TX_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
+                                                                 (oxd5dddddddddd) to MAC as User Preamble.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
+                                                                 Default is flip, because MTI outputs 1st byte on the right, while CMR expects it on
+                                                                 the left (see also DMAC_CAM CSRs).
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
+                                                                 arrival), as the first 8 Bytes of the frame towards NIX.
+                                                                 Note that if RX_USER_PREAM_PREPEND is also 1, then
+                                                                 Timestamp will be prepended as the first 8 Bytes,
+                                                                 followed by the 8 Bytes of the User Preamble, followed by the payload.
+                                                                 The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
+                                                                 an inband signal to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
+                                                                 Rx line), as the first 8 Bytes of
+                                                                 the frame towards NIX. Note that if RX_TS_PREPEND is also 1, then Timestamp will
+                                                                 be prepended as the actual first
+                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, then followed by the payload.
+                                                                 The User Preamble value from MAC is applied USER_PREAM_BYTE_FLIP, since it is inband to NIX.
+                                                                 Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
+                                                                 Byte will be hardwired assigned 8'hFB.
+                                                                 This field may only change value at idle time. */
+        uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
+                                                                 inband signal to/from NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t crc_inv_en            : 1;  /**< [ 26: 26](R/W) When high, errors from NIX-Tx are indicated to MAC, so as to cause inverted-CRC
+                                                                 on transmission to peer.
+                                                                 On Rx, inverted CRC frames are indicated by MAC, and counted separately, in RX_STAT9 counter.
+
+                                                                 Internal:
+                                                                 This mode is used in 103 for Cisco Clear-Tags potocol, in order to mark decryption-error frames. */
+        uint64_t pch_support_en        : 1;  /**< [ 27: 27](R/W) When high, PCH logic is applied to the User Preamble field which is input/output
+                                                                 from MAC. See relevant CSRs:
+                                                                 RPM_CMR()_CONFIG[RX_USER_PREAM_PREPEND] - prepend User Preamble to packet.
+                                                                 Must be high when PCH_SUPPORT_EN is high.
+                                                                 RPM_CMR()_CONFIG[TX_USER_PREAM_STRIP_PTP_ONLY] - strip User Preamble only for
+                                                                 PTP packets in Tx (BW-efficient PCH mode), and feed as User Premable to MAC.
+                                                                 RPM_CMR()_CONFIG[TX_USER_PREAM_STRIP] - strip User Preamble for all packets in Tx,
+                                                                 and feed as User Preamble to MAC.
+                                                                 RPM_CMR()_CONFIG[PCH_PACKET_TYPE] - PCH[PktType] value to qualify as PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE_CHECK] - enable check PCH[ExtFieldType] to
+                                                                 qualify as valid PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE] - PCH[ExtFieldType] value to qualify as
+                                                                 valid PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_TX_CRC_HW_CALC] - enable PCH[CRC] calculation and replacement in Tx
+                                                                 RPM_CMR()_CONFIG[PCH_TX_CRC_ERR_GEN] - generate artificial PCH[CRC] error in Tx packet (for debug)
+                                                                 RPM_CMR()_CONFIG[PCH_RX_CRC_HW_CHECK] - enable PCH[CRC] check in Rx.
+                                                                 from 32b_ns to {2b_s, 30b_ns}
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 See also relevant internal CSRs:
+                                                                 RPM_CMR()_CONFIG[PCH_CRC_CALC_BYTE_FLIP] - chicken bit: in case PCH CRC
+                                                                 calculation unit has a byte-ordering bug
+                                                                 RPM_CMR()_CONFIG[PCH_CRC_CALC_BU_EN] - chicken bit: use backup circuit for PCH
+                                                                 CRC calculation (both Tx and Rx) */
+        uint64_t tx_user_pream_strip_ptp_only : 1;/**< [ 28: 28](R/W) When 1, only PTP packets will contain 8 Byte User Preamble.
+                                                                 Non-PTP packets will Not contain those additional 8 Bytes.
+                                                                 This mode is more efficient when User Preamble is used strictly for PCH,
+                                                                 and merely for PTP (Timestamp signature transmission); thus, it spares 8B
+                                                                 overhead between NIX and MAC for all the non-PTP packets.
+                                                                 For Non PTP packets, RPM will feed the standard Preamble value
+                                                                 to the MAC as User Preamble (56'hd5555555555555).
+                                                                 This CSR is in fact similar to TX_USER_PREAM_STRIP, but only applies to PTP packets.
+                                                                 Note: if TX_USER_PREAM_STRIP is high, TX_USER_PREAM_STRIP_PTP_ONLY will be irrelevant,
+                                                                 and RPM will strip 8B User Preamble from Every packet.
+                                                                 When PCH_SUPPORT_EN is high, either TX_USER_PREAM_STRIP_PTP_ONLY or TX_USER_PREAM_STRIP
+                                                                 must be high (but not both).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_packet_type       : 2;  /**< [ 30: 29](R/W) Must keep 2'h0.
+                                                                 When RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, User Preamble Byte [1] (network
+                                                                 order: the byte after SOP/0xFB) bits [7:6]
+                                                                 (Header [47:46] - per PCH documentation) are compared to this value, to identify a PCH packet.
+                                                                 To qualify as valid PCH packet, RPM also compares
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE] to the PCH[PCH_EXT_FIELD_TYPE] field.
+                                                                 Note: value 3 is Reserved, 2 is Idle packet, 1 is non-PCH packet - all of which
+                                                                 are Not considered valid PCH packets by RPM.
+                                                                 For valid Tx PCH packets, RPM might need to calculate and replace the PCH[CRC]
+                                                                 field (see PCH_TX_CRC_HW_CALC).
+                                                                 For valid Rx PCH packets, RPM might need to check the PCH[CRC] field for error
+                                                                 (see PCH_RX_CRC_HW_CHECK).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_ext_field_type_check : 1;/**< [ 31: 31](R/W) Enable for PCE Ext Field Type check - see PCH_EXT_FIELD_TYPE. When low, this check will be skipped.
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_ext_field_type    : 2;  /**< [ 33: 32](R/W) Must keep 2'h1. Relevant only when PCH_EXT_FIELD_TYPE_CHECK==1.
+                                                                 When RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, User Preamble Byte [1] (network
+                                                                 order: the byte after SOP/0xFB) bits [1:0]
+                                                                 (Header [41:40] - per PCH documentation) are compared to this value, to qualify
+                                                                 as a valid PCH packet.
+                                                                 To qualify as a valid PCH packet, RPM also compares
+                                                                 RPM_CMR()_CONFIG[PCH_PACKET_TYPE] to the PCH[PCH_PACKET_TYPE] field.
+                                                                 Note: values 0 and 3 are Ignore and Reserved respectively; value 2 is preemption+ptp -
+                                                                 all of which are Not considered valid PCH packets by RPM.
+                                                                 For valid Tx PCH packets, RPM might need to calculate and replace the PCH[CRC]
+                                                                 field (see PCH_TX_CRC_HW_CALC).
+                                                                 For valid Rx PCH packets, RPM might need to check the PCH[CRC] field for error
+                                                                 (see PCH_RX_CRC_HW_CHECK).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_tx_crc_hw_calc    : 1;  /**< [ 34: 34](R/W) When high, and RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, valid Tx PCH packets'
+                                                                 CRC-8 field is calculated by RPM.
+                                                                 The calculated value replaces the original value that RPM gets from NIX.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_tx_crc_err_gen    : 1;  /**< [ 35: 35](R/W) When PCH[CRC] is calculated for a valid PCH packet in Tx (see PCH_TX_CRC_HW_CALC),
+                                                                 CRC[0] bit is flipped, to generate artificial error. This might be used for debug.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_rx_crc_hw_check   : 1;  /**< [ 36: 36](R/W) When high, and RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, valid Rx PCH packets'
+                                                                 CRC-8 field is checked by RPM.
+                                                                 If CRC error is found, packet is output to NIX with RE_CRC8_PCH error.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_crc_calc_byte_flip : 1; /**< [ 37: 37](R/W) Reserved.
+                                                                 Internal:
+                                                                 Calibrated value (chicken bit). This configuration is here in case CRC-8
+                                                                 calculation unit has a byte-ordering bug.
+                                                                 If setting PCH_CRC_CALC_BU_EN, this bit should also be set.
+                                                                 When PCH_SUPPORT_EN is high, and PCH_RX_CRC_HW_CHECK or PCH_TX_CRC_HW_CALC are high,
+                                                                 flip the PCH Byte order for calculating CRC-8 for valid PCH packets (flip only
+                                                                 the CRC calculation module input).
+                                                                 The design expects that MAC's User Preamble input/output ports have their LS
+                                                                 Byte (rightmost) containing the
+                                                                 first network-order Byte; when PCH_CRC_CALC_BYTE_FLIP is low (default), the PCH payload (6B) is fed
+                                                                 to CRC calculation in the same byte order as it's input to the MAC (i.e. LSB
+                                                                 (rightmost Byte) is the 1st
+                                                                 network order byte). */
+        uint64_t pch_crc_calc_bu_en    : 1;  /**< [ 38: 38](R/W) Reserved.
+                                                                 Internal:
+                                                                 Chicken bit. Set high in order to use a backup HW circuit for calculating the
+                                                                 PCH CRC-8 (for both Tx and Rx). This requires also setting PCH_CRC_CALC_BYTE_FLIP. */
+        uint64_t pch_crc_calc_bu_reverse : 1;/**< [ 39: 39](R/W) Reserved.
+                                                                 Internal:
+                                                                 This is relevant only when PCH_CRC_CALC_BU_EN==1.
+                                                                 Calibration: feed the "reverse" input port of the backup circuit of PCH CRC-8 calculation.
+                                                                 This input means flipping the order of the bits inside each Byte.
+                                                                 See from original RTL: "algorithm assumes x^47 is bit 47, but PCH's x^47 is bit 40" */
+        uint64_t reserved_40_52        : 13;
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 53: 53](R/W) Reserved.
+                                                                 Internal:
+                                                                 In CGX this bit was only used by GMP and SMU (unconnected in RPM).
+                                                                 Data packet transmit enable. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 1, the transmission
+                                                                 of data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_TX_EN] = 0,
+                                                                 the MAC layer suppresses the transmission of new data and packets for the LMAC. */
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 54: 54](R/W) Reserved.
+                                                                 Internal:
+                                                                 In CGX this bit was only used by GMP and SMU (unconnected in RPM).
+                                                                 Data packet receive enable. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 1, the reception of
+                                                                 data packets is enabled in the MAC layer. When [ENABLE] = 1 and [DATA_PKT_RX_EN] = 0, the
+                                                                 MAC layer drops received data and flow-control packets. */
+        uint64_t enable                : 1;  /**< [ 55: 55](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
+                                                                 dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
+                                                                 and LMAC access to shared RPM resources (data path, SerDes lanes) is disabled.
+
+                                                                 Any enabled LMAC index must have its LMAC_EXIST set, either in RPM_CMR_RX_LMACS
+                                                                 or RPM_CMR_TX_LMACS.
+                                                                 Indices of enabled LMACs may be chosen at any combination.
+
+                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
+                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
+                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
+                                                                 setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
+        uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects X2P interface over which the LMAC will communicate.
+                                                                 \<pre\>
+                                                                   [X2P_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 --        Reserved
+                                                                   1                 X2P1      NIX0
+                                                                   2..7              --        Reserved
+                                                                 \</pre\> */
+        uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects P2X interface over which the LMAC will communicate.
+                                                                 \<pre\>
+                                                                   [P2X_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 --        Reserved
+                                                                   1                 P2X1      NIX0
+                                                                   2..7              --        Reserved
+                                                                 \</pre\> */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_config_s cn10; */
+    struct cavm_rpmx_cmrx_config_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
@@ -11011,10 +12307,498 @@ union cavm_rpmx_cmrx_config
                                                                  \</pre\> */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_config_s cn10; */
-    /* struct cavm_rpmx_cmrx_config_s cn10ka; */
-    /* struct cavm_rpmx_cmrx_config_s cnf10ka; */
+    } cn10ka;
+    struct cavm_rpmx_cmrx_config_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_62_63        : 2;
+        uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects P2X interface over which the LMAC will communicate.
+                                                                 Default value must Not be overwritten, as the LMAC=\>NIX mapping is static for
+                                                                 current implementation:
+                                                                 For LMACs[3:0] the value must be 3'h1 (mapped to NIX0)
+                                                                 For LMACs[7:4] the value must be 3'h2 (mapped to NIX1)
+                                                                 \<pre\>
+                                                                   [P2X_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 --        Reserved
+                                                                   1                 P2X1      NIX0
+                                                                   2                 P2X2      NIX1
+                                                                   3..7              --        Reserved
+                                                                 \</pre\> */
+        uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects X2P interface over which the LMAC will communicate.
+                                                                 Default value must Not be overwritten, as the LMAC=\>NIX mapping is static for
+                                                                 current implementation:
+                                                                 For LMACs[3:0] the value must be 3'h1 (mapped to NIX0)
+                                                                 For LMACs[7:4] the value must be 3'h2 (mapped to NIX1)
+                                                                 \<pre\>
+                                                                   [X2P_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 --        Reserved
+                                                                   1                 X2P1      NIX0
+                                                                   2                 X2P2      NIX1
+                                                                   3..7              --        Reserved
+                                                                 \</pre\> */
+        uint64_t enable                : 1;  /**< [ 55: 55](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
+                                                                 dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
+                                                                 and LMAC access to shared RPM resources (data path, SerDes lanes) is disabled.
+
+                                                                 Any enabled LMAC index must have its LMAC_EXIST set, either in RPM_CMR_RX_LMACS
+                                                                 or RPM_CMR_TX_LMACS.
+                                                                 Indices of enabled LMACs may be chosen at any combination.
+
+                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
+                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
+                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
+                                                                 setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
+        uint64_t reserved_40_54        : 15;
+        uint64_t pch_crc_calc_bu_reverse : 1;/**< [ 39: 39](R/W) Reserved.
+                                                                 Internal:
+                                                                 This is relevant only when PCH_CRC_CALC_BU_EN==1.
+                                                                 Calibration: feed the "reverse" input port of the backup circuit of PCH CRC-8 calculation.
+                                                                 This input means flipping the order of the bits inside each Byte.
+                                                                 See from original RTL: "algorithm assumes x^47 is bit 47, but PCH's x^47 is bit 40" */
+        uint64_t pch_crc_calc_bu_en    : 1;  /**< [ 38: 38](R/W) Reserved.
+                                                                 Internal:
+                                                                 Chicken bit. Set high in order to use a backup HW circuit for calculating the
+                                                                 PCH CRC-8 (for both Tx and Rx). This requires also setting PCH_CRC_CALC_BYTE_FLIP. */
+        uint64_t pch_crc_calc_byte_flip : 1; /**< [ 37: 37](R/W) Reserved.
+                                                                 Internal:
+                                                                 Calibrated value (chicken bit). This configuration is here in case CRC-8
+                                                                 calculation unit has a byte-ordering bug.
+                                                                 If setting PCH_CRC_CALC_BU_EN, this bit should also be set.
+                                                                 When PCH_SUPPORT_EN is high, and PCH_RX_CRC_HW_CHECK or PCH_TX_CRC_HW_CALC are high,
+                                                                 flip the PCH Byte order for calculating CRC-8 for valid PCH packets (flip only
+                                                                 the CRC calculation module input).
+                                                                 The design expects that MAC's User Preamble input/output ports have their LS
+                                                                 Byte (rightmost) containing the
+                                                                 first network-order Byte; when PCH_CRC_CALC_BYTE_FLIP is low (default), the PCH payload (6B) is fed
+                                                                 to CRC calculation in the same byte order as it's input to the MAC (i.e. LSB
+                                                                 (rightmost Byte) is the 1st
+                                                                 network order byte). */
+        uint64_t pch_rx_crc_hw_check   : 1;  /**< [ 36: 36](R/W) When high, and RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, valid Rx PCH packets'
+                                                                 CRC-8 field is checked by RPM.
+                                                                 If CRC error is found, packet is output to NIX with RE_CRC8_PCH error.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_tx_crc_err_gen    : 1;  /**< [ 35: 35](R/W) When PCH[CRC] is calculated for a valid PCH packet in Tx (see PCH_TX_CRC_HW_CALC),
+                                                                 CRC[0] bit is flipped, to generate artificial error. This might be used for debug.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_tx_crc_hw_calc    : 1;  /**< [ 34: 34](R/W) When high, and RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, valid Tx PCH packets'
+                                                                 CRC-8 field is calculated by RPM.
+                                                                 The calculated value replaces the original value that RPM gets from NIX.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_ext_field_type    : 2;  /**< [ 33: 32](R/W) Must keep 2'h1. Relevant only when PCH_EXT_FIELD_TYPE_CHECK==1.
+                                                                 When RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, User Preamble Byte [1] (network
+                                                                 order: the byte after SOP/0xFB) bits [1:0]
+                                                                 (Header [41:40] - per PCH documentation) are compared to this value, to qualify
+                                                                 as a valid PCH packet.
+                                                                 To qualify as a valid PCH packet, RPM also compares
+                                                                 RPM_CMR()_CONFIG[PCH_PACKET_TYPE] to the PCH[PCH_PACKET_TYPE] field.
+                                                                 Note: values 0 and 3 are Ignore and Reserved respectively; value 2 is preemption+ptp -
+                                                                 all of which are Not considered valid PCH packets by RPM.
+                                                                 For valid Tx PCH packets, RPM might need to calculate and replace the PCH[CRC]
+                                                                 field (see PCH_TX_CRC_HW_CALC).
+                                                                 For valid Rx PCH packets, RPM might need to check the PCH[CRC] field for error
+                                                                 (see PCH_RX_CRC_HW_CHECK).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_ext_field_type_check : 1;/**< [ 31: 31](R/W) Enable for PCE Ext Field Type check - see PCH_EXT_FIELD_TYPE. When low, this check will be skipped.
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_packet_type       : 2;  /**< [ 30: 29](R/W) Must keep 2'h0.
+                                                                 When RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, User Preamble Byte [1] (network
+                                                                 order: the byte after SOP/0xFB) bits [7:6]
+                                                                 (Header [47:46] - per PCH documentation) are compared to this value, to identify a PCH packet.
+                                                                 To qualify as valid PCH packet, RPM also compares
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE] to the PCH[PCH_EXT_FIELD_TYPE] field.
+                                                                 Note: value 3 is Reserved, 2 is Idle packet, 1 is non-PCH packet - all of which
+                                                                 are Not considered valid PCH packets by RPM.
+                                                                 For valid Tx PCH packets, RPM might need to calculate and replace the PCH[CRC]
+                                                                 field (see PCH_TX_CRC_HW_CALC).
+                                                                 For valid Rx PCH packets, RPM might need to check the PCH[CRC] field for error
+                                                                 (see PCH_RX_CRC_HW_CHECK).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_user_pream_strip_ptp_only : 1;/**< [ 28: 28](R/W) When 1, only PTP packets will contain 8 Byte User Preamble.
+                                                                 Non-PTP packets will Not contain those additional 8 Bytes.
+                                                                 This mode is more efficient when User Preamble is used strictly for PCH,
+                                                                 and merely for PTP (Timestamp signature transmission); thus, it spares 8B
+                                                                 overhead between NIX and MAC for all the non-PTP packets.
+                                                                 For Non PTP packets, RPM will feed the standard Preamble value
+                                                                 to the MAC as User Preamble (56'hd5555555555555).
+                                                                 This CSR is in fact similar to TX_USER_PREAM_STRIP, but only applies to PTP packets.
+                                                                 Note: if TX_USER_PREAM_STRIP is high, TX_USER_PREAM_STRIP_PTP_ONLY will be irrelevant,
+                                                                 and RPM will strip 8B User Preamble from Every packet.
+                                                                 When PCH_SUPPORT_EN is high, either TX_USER_PREAM_STRIP_PTP_ONLY or TX_USER_PREAM_STRIP
+                                                                 must be high (but not both).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_support_en        : 1;  /**< [ 27: 27](R/W) When high, PCH logic is applied to the User Preamble field which is input/output
+                                                                 from MAC. See relevant CSRs:
+                                                                 RPM_CMR()_CONFIG[RX_USER_PREAM_PREPEND] - prepend User Preamble to packet.
+                                                                 Must be high when PCH_SUPPORT_EN is high.
+                                                                 RPM_CMR()_CONFIG[TX_USER_PREAM_STRIP_PTP_ONLY] - strip User Preamble only for
+                                                                 PTP packets in Tx (BW-efficient PCH mode), and feed as User Premable to MAC.
+                                                                 RPM_CMR()_CONFIG[TX_USER_PREAM_STRIP] - strip User Preamble for all packets in Tx,
+                                                                 and feed as User Preamble to MAC.
+                                                                 RPM_CMR()_CONFIG[PCH_PACKET_TYPE] - PCH[PktType] value to qualify as PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE_CHECK] - enable check PCH[ExtFieldType] to
+                                                                 qualify as valid PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE] - PCH[ExtFieldType] value to qualify as
+                                                                 valid PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_TX_CRC_HW_CALC] - enable PCH[CRC] calculation and replacement in Tx
+                                                                 RPM_CMR()_CONFIG[PCH_TX_CRC_ERR_GEN] - generate artificial PCH[CRC] error in Tx packet (for debug)
+                                                                 RPM_CMR()_CONFIG[PCH_RX_CRC_HW_CHECK] - enable PCH[CRC] check in Rx.
+                                                                 from 32b_ns to {2b_s, 30b_ns}
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 See also relevant internal CSRs:
+                                                                 RPM_CMR()_CONFIG[PCH_CRC_CALC_BYTE_FLIP] - chicken bit: in case PCH CRC
+                                                                 calculation unit has a byte-ordering bug
+                                                                 RPM_CMR()_CONFIG[PCH_CRC_CALC_BU_EN] - chicken bit: use backup circuit for PCH
+                                                                 CRC calculation (both Tx and Rx) */
+        uint64_t crc_inv_en            : 1;  /**< [ 26: 26](R/W) When high, errors from NIX-Tx are indicated to MAC, so as to cause inverted-CRC
+                                                                 on transmission to peer.
+                                                                 On Rx, inverted CRC frames are indicated by MAC, and counted separately, in RX_STAT9 counter.
+
+                                                                 Internal:
+                                                                 This mode is used in 103 for Cisco Clear-Tags potocol, in order to mark decryption-error frames. */
+        uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
+                                                                 inband signal to/from NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
+                                                                 Rx line), as the first 8 Bytes of the frame towards NIX.
+                                                                 Note that if RX_TS_PREPEND is also 1, then Timestamp will be prepended as the actual first
+                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, then followed by the payload.
+                                                                 The User Preamble value from MAC is applied USER_PREAM_BYTE_FLIP, since it is inband to NIX.
+                                                                 Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
+                                                                 Byte will be hardwired assigned 8'hFB (SOP).
+                                                                 When RPM_CMR_GLOBAL_CONFIG[PCH_SUPPORT_EN] is high, this bit must be high too; in this case,
+                                                                 User Preamble may contain PCH.
+                                                                 Rx PCH.CRC might be checked by RPM (see PCH_SUPPORT_EN for information).
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
+                                                                 an inband signal to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
+                                                                 arrival), as the first 8 Bytes of the frame towards NIX.
+                                                                 Note that if RX_USER_PREAM_PREPEND is also 1, then
+                                                                 Timestamp will be prepended as the first 8 Bytes,
+                                                                 followed by the 8 Bytes of the User Preamble, followed by the payload.
+                                                                 The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
+                                                                 Default is flip, because MTI outputs 1st byte on the right, while CMR expects it on
+                                                                 the left (see also DMAC_CAM CSRs).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 20: 20](R/W) When set to 1, RPM will use RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as User Preamble.
+                                                                 When 0, RPM will use the stripped Preamble value from the packet (Arriving from
+                                                                 NIX-Tx). However, in case
+                                                                 TX_USER_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
+                                                                 (oxd5dddddddddd) to MAC as User Preamble.
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_user_pream_strip   : 1;  /**< [ 19: 19](R/W) When 1, there will be 8 Bytes of Preamble just preceding the packet payload,
+                                                                 for all packets arriving from NIX-Tx to RPM.
+                                                                 The Preamble is expected to arrive from NIX-Tx aligned to the left, such that
+                                                                 first Byte of the Preamble is tx_data[MSB]; RPM will strip the Preamble from the frame.
+                                                                 If TX_USER_PREAM_OVRD is 0, RPM will use the stripped Preamble to feed it to the
+                                                                 MAC as User Preamble.
+                                                                 When RPM_CMR_GLOBAL_CONFIG[PCH_SUPPORT_EN] is high, User Preamble may contain PCH,
+                                                                 in which case PCH.CRC might be calculated by RPM (see PCH_SUPPORT_EN for information).
+                                                                 Note: before feeding the stripped Preamble to the MAC, USER_PREAM_BYTE_FLIP will be
+                                                                 applied to it, since it is inband from NIX.
+                                                                 Note: in fact, first byte is discarded while the last 7 Bytes are actually fed to MAC;
+                                                                 this is because first Byte is later assigned with SPD according to Standard.
+                                                                 When PCH_SUPPORT_EN is high, either TX_USER_PREAM_STRIP_PTP_ONLY or TX_USER_PREAM_STRIP
+                                                                 must be high (but not both).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_ptp_1s_ts_byte_flip : 1; /**< [ 18: 18](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Calibrate-once value.
+                                                                 Only relevant when TX_PTP_1S_SUPPORT==1. For PTP packets arriving from NIX-Tx
+                                                                 (i.e. packets with ptp==1), byte-flip the TS_8B inband field (i.e. the first 8B
+                                                                 of the packet), before extracting its sub-fields and pushing them to MAC as
+                                                                 ff_tx_rx_ts_ns and ff_tx_id (latter includes step_type as bit [4]). Note that
+                                                                 for 2-step packets it still has an effect, since it determines the location of
+                                                                 step_type field. This field may only change value at idle time. */
+        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for 1-step PTP.
+                                                                 When set, packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
+                                                                 where TS_8B exists only for a PTP packet.
+                                                                 When bit is not set, only 2-step PTP is supported, and packet structure is {[PREAM_8B], PLD}.
+                                                                 In both cases, PREAM_8B exists only when TX_USER_PREAM_STRIP==1.
+                                                                 TS_8B is 8 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
+                                                                 (other bits are reserved).
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 Note: setting this bit does not mean that this LMAC Has to work in 1-step mode, however
+                                                                 it does change PTP packet handling by RPM. When this bit is set,
+                                                                 the RPM will always get from NIX additional TS_8B with step_type indicating 2-step or 1_step.
+                                                                 In any case, RPM would not change its behavior according to step_type; when TX_PTP_1S_SUPPORT==1
+                                                                 RPM will strip TS_8B and feed it to MAC (ff_tx_id), and when TX_PTP_1S_SUPPORT==0 RPM will
+                                                                 feed 0 to ff_tx_id. */
+        uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
+                                                                 This field may only change value at idle time. */
+        uint64_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_15         : 16;
+        uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes just before trasnmitting to MTI MAC (0..15 flipped to 15..0).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for 1-step PTP.
+                                                                 When set, packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
+                                                                 where TS_8B exists only for a PTP packet.
+                                                                 When bit is not set, only 2-step PTP is supported, and packet structure is {[PREAM_8B], PLD}.
+                                                                 In both cases, PREAM_8B exists only when TX_USER_PREAM_STRIP==1.
+                                                                 TS_8B is 8 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
+                                                                 (other bits are reserved).
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 Note: setting this bit does not mean that this LMAC Has to work in 1-step mode, however
+                                                                 it does change PTP packet handling by RPM. When this bit is set,
+                                                                 the RPM will always get from NIX additional TS_8B with step_type indicating 2-step or 1_step.
+                                                                 In any case, RPM would not change its behavior according to step_type; when TX_PTP_1S_SUPPORT==1
+                                                                 RPM will strip TS_8B and feed it to MAC (ff_tx_id), and when TX_PTP_1S_SUPPORT==0 RPM will
+                                                                 feed 0 to ff_tx_id. */
+        uint64_t tx_ptp_1s_ts_byte_flip : 1; /**< [ 18: 18](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Calibrate-once value.
+                                                                 Only relevant when TX_PTP_1S_SUPPORT==1. For PTP packets arriving from NIX-Tx
+                                                                 (i.e. packets with ptp==1), byte-flip the TS_8B inband field (i.e. the first 8B
+                                                                 of the packet), before extracting its sub-fields and pushing them to MAC as
+                                                                 ff_tx_rx_ts_ns and ff_tx_id (latter includes step_type as bit [4]). Note that
+                                                                 for 2-step packets it still has an effect, since it determines the location of
+                                                                 step_type field. This field may only change value at idle time. */
+        uint64_t tx_user_pream_strip   : 1;  /**< [ 19: 19](R/W) When 1, there will be 8 Bytes of Preamble just preceding the packet payload,
+                                                                 for all packets arriving from NIX-Tx to RPM.
+                                                                 The Preamble is expected to arrive from NIX-Tx aligned to the left, such that
+                                                                 first Byte of the Preamble is tx_data[MSB]; RPM will strip the Preamble from the frame.
+                                                                 If TX_USER_PREAM_OVRD is 0, RPM will use the stripped Preamble to feed it to the
+                                                                 MAC as User Preamble.
+                                                                 When RPM_CMR_GLOBAL_CONFIG[PCH_SUPPORT_EN] is high, User Preamble may contain PCH,
+                                                                 in which case PCH.CRC might be calculated by RPM (see PCH_SUPPORT_EN for information).
+                                                                 Note: before feeding the stripped Preamble to the MAC, USER_PREAM_BYTE_FLIP will be
+                                                                 applied to it, since it is inband from NIX.
+                                                                 Note: in fact, first byte is discarded while the last 7 Bytes are actually fed to MAC;
+                                                                 this is because first Byte is later assigned with SPD according to Standard.
+                                                                 When PCH_SUPPORT_EN is high, either TX_USER_PREAM_STRIP_PTP_ONLY or TX_USER_PREAM_STRIP
+                                                                 must be high (but not both).
+                                                                 This field may only change value at idle time. */
+        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 20: 20](R/W) When set to 1, RPM will use RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as User Preamble.
+                                                                 When 0, RPM will use the stripped Preamble value from the packet (Arriving from
+                                                                 NIX-Tx). However, in case
+                                                                 TX_USER_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
+                                                                 (oxd5dddddddddd) to MAC as User Preamble.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Data Bytes received from MTI MAC (0..15 flipped to 15..0).
+                                                                 Default is flip, because MTI outputs 1st byte on the right, while CMR expects it on
+                                                                 the left (see also DMAC_CAM CSRs).
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
+                                                                 arrival), as the first 8 Bytes of the frame towards NIX.
+                                                                 Note that if RX_USER_PREAM_PREPEND is also 1, then
+                                                                 Timestamp will be prepended as the first 8 Bytes,
+                                                                 followed by the 8 Bytes of the User Preamble, followed by the payload.
+                                                                 The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip Timestamp field Bytes (output from MAC) before sending to NIX-Rx, as it is
+                                                                 an inband signal to NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
+                                                                 Rx line), as the first 8 Bytes of the frame towards NIX.
+                                                                 Note that if RX_TS_PREPEND is also 1, then Timestamp will be prepended as the actual first
+                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, then followed by the payload.
+                                                                 The User Preamble value from MAC is applied USER_PREAM_BYTE_FLIP, since it is inband to NIX.
+                                                                 Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
+                                                                 Byte will be hardwired assigned 8'hFB (SOP).
+                                                                 When RPM_CMR_GLOBAL_CONFIG[PCH_SUPPORT_EN] is high, this bit must be high too; in this case,
+                                                                 User Preamble may contain PCH.
+                                                                 Rx PCH.CRC might be checked by RPM (see PCH_SUPPORT_EN for information).
+                                                                 This field may only change value at idle time. */
+        uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Reserved, keep 1.
+                                                                 Internal:
+                                                                 Flip User Preamble Bytes between NIX and MAC (both Rx and Tx), as it is an
+                                                                 inband signal to/from NIX.
+                                                                 This field may only change value at idle time. */
+        uint64_t crc_inv_en            : 1;  /**< [ 26: 26](R/W) When high, errors from NIX-Tx are indicated to MAC, so as to cause inverted-CRC
+                                                                 on transmission to peer.
+                                                                 On Rx, inverted CRC frames are indicated by MAC, and counted separately, in RX_STAT9 counter.
+
+                                                                 Internal:
+                                                                 This mode is used in 103 for Cisco Clear-Tags potocol, in order to mark decryption-error frames. */
+        uint64_t pch_support_en        : 1;  /**< [ 27: 27](R/W) When high, PCH logic is applied to the User Preamble field which is input/output
+                                                                 from MAC. See relevant CSRs:
+                                                                 RPM_CMR()_CONFIG[RX_USER_PREAM_PREPEND] - prepend User Preamble to packet.
+                                                                 Must be high when PCH_SUPPORT_EN is high.
+                                                                 RPM_CMR()_CONFIG[TX_USER_PREAM_STRIP_PTP_ONLY] - strip User Preamble only for
+                                                                 PTP packets in Tx (BW-efficient PCH mode), and feed as User Premable to MAC.
+                                                                 RPM_CMR()_CONFIG[TX_USER_PREAM_STRIP] - strip User Preamble for all packets in Tx,
+                                                                 and feed as User Preamble to MAC.
+                                                                 RPM_CMR()_CONFIG[PCH_PACKET_TYPE] - PCH[PktType] value to qualify as PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE_CHECK] - enable check PCH[ExtFieldType] to
+                                                                 qualify as valid PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE] - PCH[ExtFieldType] value to qualify as
+                                                                 valid PCH packet for RPM
+                                                                 RPM_CMR()_CONFIG[PCH_TX_CRC_HW_CALC] - enable PCH[CRC] calculation and replacement in Tx
+                                                                 RPM_CMR()_CONFIG[PCH_TX_CRC_ERR_GEN] - generate artificial PCH[CRC] error in Tx packet (for debug)
+                                                                 RPM_CMR()_CONFIG[PCH_RX_CRC_HW_CHECK] - enable PCH[CRC] check in Rx.
+                                                                 from 32b_ns to {2b_s, 30b_ns}
+                                                                 This field may only change value at idle time.
+
+                                                                 Internal:
+                                                                 See also relevant internal CSRs:
+                                                                 RPM_CMR()_CONFIG[PCH_CRC_CALC_BYTE_FLIP] - chicken bit: in case PCH CRC
+                                                                 calculation unit has a byte-ordering bug
+                                                                 RPM_CMR()_CONFIG[PCH_CRC_CALC_BU_EN] - chicken bit: use backup circuit for PCH
+                                                                 CRC calculation (both Tx and Rx) */
+        uint64_t tx_user_pream_strip_ptp_only : 1;/**< [ 28: 28](R/W) When 1, only PTP packets will contain 8 Byte User Preamble.
+                                                                 Non-PTP packets will Not contain those additional 8 Bytes.
+                                                                 This mode is more efficient when User Preamble is used strictly for PCH,
+                                                                 and merely for PTP (Timestamp signature transmission); thus, it spares 8B
+                                                                 overhead between NIX and MAC for all the non-PTP packets.
+                                                                 For Non PTP packets, RPM will feed the standard Preamble value
+                                                                 to the MAC as User Preamble (56'hd5555555555555).
+                                                                 This CSR is in fact similar to TX_USER_PREAM_STRIP, but only applies to PTP packets.
+                                                                 Note: if TX_USER_PREAM_STRIP is high, TX_USER_PREAM_STRIP_PTP_ONLY will be irrelevant,
+                                                                 and RPM will strip 8B User Preamble from Every packet.
+                                                                 When PCH_SUPPORT_EN is high, either TX_USER_PREAM_STRIP_PTP_ONLY or TX_USER_PREAM_STRIP
+                                                                 must be high (but not both).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_packet_type       : 2;  /**< [ 30: 29](R/W) Must keep 2'h0.
+                                                                 When RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, User Preamble Byte [1] (network
+                                                                 order: the byte after SOP/0xFB) bits [7:6]
+                                                                 (Header [47:46] - per PCH documentation) are compared to this value, to identify a PCH packet.
+                                                                 To qualify as valid PCH packet, RPM also compares
+                                                                 RPM_CMR()_CONFIG[PCH_EXT_FIELD_TYPE] to the PCH[PCH_EXT_FIELD_TYPE] field.
+                                                                 Note: value 3 is Reserved, 2 is Idle packet, 1 is non-PCH packet - all of which
+                                                                 are Not considered valid PCH packets by RPM.
+                                                                 For valid Tx PCH packets, RPM might need to calculate and replace the PCH[CRC]
+                                                                 field (see PCH_TX_CRC_HW_CALC).
+                                                                 For valid Rx PCH packets, RPM might need to check the PCH[CRC] field for error
+                                                                 (see PCH_RX_CRC_HW_CHECK).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_ext_field_type_check : 1;/**< [ 31: 31](R/W) Enable for PCE Ext Field Type check - see PCH_EXT_FIELD_TYPE. When low, this check will be skipped.
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_ext_field_type    : 2;  /**< [ 33: 32](R/W) Must keep 2'h1. Relevant only when PCH_EXT_FIELD_TYPE_CHECK==1.
+                                                                 When RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, User Preamble Byte [1] (network
+                                                                 order: the byte after SOP/0xFB) bits [1:0]
+                                                                 (Header [41:40] - per PCH documentation) are compared to this value, to qualify
+                                                                 as a valid PCH packet.
+                                                                 To qualify as a valid PCH packet, RPM also compares
+                                                                 RPM_CMR()_CONFIG[PCH_PACKET_TYPE] to the PCH[PCH_PACKET_TYPE] field.
+                                                                 Note: values 0 and 3 are Ignore and Reserved respectively; value 2 is preemption+ptp -
+                                                                 all of which are Not considered valid PCH packets by RPM.
+                                                                 For valid Tx PCH packets, RPM might need to calculate and replace the PCH[CRC]
+                                                                 field (see PCH_TX_CRC_HW_CALC).
+                                                                 For valid Rx PCH packets, RPM might need to check the PCH[CRC] field for error
+                                                                 (see PCH_RX_CRC_HW_CHECK).
+                                                                 This field may only change value at idle time. */
+        uint64_t pch_tx_crc_hw_calc    : 1;  /**< [ 34: 34](R/W) When high, and RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, valid Tx PCH packets'
+                                                                 CRC-8 field is calculated by RPM.
+                                                                 The calculated value replaces the original value that RPM gets from NIX.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_tx_crc_err_gen    : 1;  /**< [ 35: 35](R/W) When PCH[CRC] is calculated for a valid PCH packet in Tx (see PCH_TX_CRC_HW_CALC),
+                                                                 CRC[0] bit is flipped, to generate artificial error. This might be used for debug.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_rx_crc_hw_check   : 1;  /**< [ 36: 36](R/W) When high, and RPM_CMR()_CONFIG[PCH_SUPPORT_EN] is high, valid Rx PCH packets'
+                                                                 CRC-8 field is checked by RPM.
+                                                                 If CRC error is found, packet is output to NIX with RE_CRC8_PCH error.
+
+                                                                 Internal:
+                                                                 PCH.CRC field location is the last Byte of the User Preamble (i.e. SFD location
+                                                                 in standard Preamble). */
+        uint64_t pch_crc_calc_byte_flip : 1; /**< [ 37: 37](R/W) Reserved.
+                                                                 Internal:
+                                                                 Calibrated value (chicken bit). This configuration is here in case CRC-8
+                                                                 calculation unit has a byte-ordering bug.
+                                                                 If setting PCH_CRC_CALC_BU_EN, this bit should also be set.
+                                                                 When PCH_SUPPORT_EN is high, and PCH_RX_CRC_HW_CHECK or PCH_TX_CRC_HW_CALC are high,
+                                                                 flip the PCH Byte order for calculating CRC-8 for valid PCH packets (flip only
+                                                                 the CRC calculation module input).
+                                                                 The design expects that MAC's User Preamble input/output ports have their LS
+                                                                 Byte (rightmost) containing the
+                                                                 first network-order Byte; when PCH_CRC_CALC_BYTE_FLIP is low (default), the PCH payload (6B) is fed
+                                                                 to CRC calculation in the same byte order as it's input to the MAC (i.e. LSB
+                                                                 (rightmost Byte) is the 1st
+                                                                 network order byte). */
+        uint64_t pch_crc_calc_bu_en    : 1;  /**< [ 38: 38](R/W) Reserved.
+                                                                 Internal:
+                                                                 Chicken bit. Set high in order to use a backup HW circuit for calculating the
+                                                                 PCH CRC-8 (for both Tx and Rx). This requires also setting PCH_CRC_CALC_BYTE_FLIP. */
+        uint64_t pch_crc_calc_bu_reverse : 1;/**< [ 39: 39](R/W) Reserved.
+                                                                 Internal:
+                                                                 This is relevant only when PCH_CRC_CALC_BU_EN==1.
+                                                                 Calibration: feed the "reverse" input port of the backup circuit of PCH CRC-8 calculation.
+                                                                 This input means flipping the order of the bits inside each Byte.
+                                                                 See from original RTL: "algorithm assumes x^47 is bit 47, but PCH's x^47 is bit 40" */
+        uint64_t reserved_40_54        : 15;
+        uint64_t enable                : 1;  /**< [ 55: 55](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
+                                                                 dedicated RPM context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
+                                                                 and LMAC access to shared RPM resources (data path, SerDes lanes) is disabled.
+
+                                                                 Any enabled LMAC index must have its LMAC_EXIST set, either in RPM_CMR_RX_LMACS
+                                                                 or RPM_CMR_TX_LMACS.
+                                                                 Indices of enabled LMACs may be chosen at any combination.
+
+                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
+                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
+                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
+                                                                 setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
+        uint64_t x2p_select            : 3;  /**< [ 58: 56](R/W) Selects X2P interface over which the LMAC will communicate.
+                                                                 Default value must Not be overwritten, as the LMAC=\>NIX mapping is static for
+                                                                 current implementation:
+                                                                 For LMACs[3:0] the value must be 3'h1 (mapped to NIX0)
+                                                                 For LMACs[7:4] the value must be 3'h2 (mapped to NIX1)
+                                                                 \<pre\>
+                                                                   [X2P_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 --        Reserved
+                                                                   1                 X2P1      NIX0
+                                                                   2                 X2P2      NIX1
+                                                                   3..7              --        Reserved
+                                                                 \</pre\> */
+        uint64_t p2x_select            : 3;  /**< [ 61: 59](R/W) Selects P2X interface over which the LMAC will communicate.
+                                                                 Default value must Not be overwritten, as the LMAC=\>NIX mapping is static for
+                                                                 current implementation:
+                                                                 For LMACs[3:0] the value must be 3'h1 (mapped to NIX0)
+                                                                 For LMACs[7:4] the value must be 3'h2 (mapped to NIX1)
+                                                                 \<pre\>
+                                                                   [P2X_SELECT]      Name      Connected block
+                                                                   -------------------------------------------
+                                                                   0                 --        Reserved
+                                                                   1                 P2X1      NIX0
+                                                                   2                 P2X2      NIX1
+                                                                   3..7              --        Reserved
+                                                                 \</pre\> */
+        uint64_t reserved_62_63        : 2;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmrx_config_cn10ka cnf10ka; */
     struct cavm_rpmx_cmrx_config_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11247,6 +13031,8 @@ static inline uint64_t CAVM_RPMX_CMRX_CONFIG(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0000000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -11302,6 +13088,8 @@ static inline uint64_t CAVM_RPMX_CMRX_FC_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005d88ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006a08ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005d88ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -11386,7 +13174,68 @@ union cavm_rpmx_cmrx_int
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_int_s cn; */
+    /* struct cavm_rpmx_cmrx_int_s cn10; */
+    /* struct cavm_rpmx_cmrx_int_s cn10ka; */
+    struct cavm_rpmx_cmrx_int_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) TX channel was disabled during traffic, from NIX0 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX0_NXC_ADR. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) TX channel was disabled during traffic, from NIX0 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX0_NXC_ADR. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) TX channel was disabled during traffic, from NIX1 interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX1_NXC_ADR. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmrx_int_s cnf10ka; */
+    /* struct cavm_rpmx_cmrx_int_s cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_int cavm_rpmx_cmrx_int_t;
 
@@ -11395,6 +13244,8 @@ static inline uint64_t CAVM_RPMX_CMRX_INT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0000040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -11470,6 +13321,40 @@ union cavm_rpmx_cmrx_int_ena_w1c
     } s;
     /* struct cavm_rpmx_cmrx_int_ena_w1c_s cn10; */
     /* struct cavm_rpmx_cmrx_int_ena_w1c_s cn10ka; */
+    struct cavm_rpmx_cmrx_int_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_cmrx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11578,6 +13463,8 @@ static inline uint64_t CAVM_RPMX_CMRX_INT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0000050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -11653,6 +13540,40 @@ union cavm_rpmx_cmrx_int_ena_w1s
     } s;
     /* struct cavm_rpmx_cmrx_int_ena_w1s_s cn10; */
     /* struct cavm_rpmx_cmrx_int_ena_w1s_s cn10ka; */
+    struct cavm_rpmx_cmrx_int_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_cmrx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11761,6 +13682,8 @@ static inline uint64_t CAVM_RPMX_CMRX_INT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0000058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -11836,6 +13759,40 @@ union cavm_rpmx_cmrx_int_w1s
     } s;
     /* struct cavm_rpmx_cmrx_int_w1s_s cn10; */
     /* struct cavm_rpmx_cmrx_int_w1s_s cn10ka; */
+    struct cavm_rpmx_cmrx_int_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC].
+                                                                 Internal:
+                                                                 TX channel was disabled during traffic, from NIC interface.
+                                                                 Got packet with matching ch_id (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 - either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0
+                                                                 - or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0
+                                                                 - or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIC_NXC_ADR. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_cmrx_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11944,6 +13901,8 @@ static inline uint64_t CAVM_RPMX_CMRX_INT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0000048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -11991,8 +13950,7 @@ union cavm_rpmx_cmrx_link_cfg
     } s;
     /* struct cavm_rpmx_cmrx_link_cfg_s cn10; */
     /* struct cavm_rpmx_cmrx_link_cfg_s cn10ka; */
-    /* struct cavm_rpmx_cmrx_link_cfg_s cnf10ka; */
-    struct cavm_rpmx_cmrx_link_cfg_cnf10kb
+    struct cavm_rpmx_cmrx_link_cfg_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
@@ -12011,7 +13969,9 @@ union cavm_rpmx_cmrx_link_cfg
                                                                  Values other than 0 or 4 are illegal. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cn10kb;
+    /* struct cavm_rpmx_cmrx_link_cfg_s cnf10ka; */
+    /* struct cavm_rpmx_cmrx_link_cfg_cn10kb cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_link_cfg cavm_rpmx_cmrx_link_cfg_t;
 
@@ -12020,6 +13980,8 @@ static inline uint64_t CAVM_RPMX_CMRX_LINK_CFG(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0001070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0001070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0001070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12133,8 +14095,7 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
     } s;
     /* struct cavm_rpmx_cmrx_prt_cbfc_ctl_s cn10; */
     /* struct cavm_rpmx_cmrx_prt_cbfc_ctl_s cn10ka; */
-    /* struct cavm_rpmx_cmrx_prt_cbfc_ctl_s cnf10ka; */
-    struct cavm_rpmx_cmrx_prt_cbfc_ctl_cnf10kb
+    struct cavm_rpmx_cmrx_prt_cbfc_ctl_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
@@ -12225,7 +14186,9 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
                                                                  replaces SMU_CBFC_CTL.LOGL_EN */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cn10kb;
+    /* struct cavm_rpmx_cmrx_prt_cbfc_ctl_s cnf10ka; */
+    /* struct cavm_rpmx_cmrx_prt_cbfc_ctl_cn10kb cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_prt_cbfc_ctl cavm_rpmx_cmrx_prt_cbfc_ctl_t;
 
@@ -12234,6 +14197,8 @@ static inline uint64_t CAVM_RPMX_CMRX_PRT_CBFC_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005b08ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006510ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005b08ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12259,6 +14224,27 @@ union cavm_rpmx_cmrx_rx_bp_drop
     struct cavm_rpmx_cmrx_rx_bp_drop_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) Number of sixteen byte cycles to reserve in the RX FIFO. When the number of free
+                                                                 entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
+                                                                 dropped. [MARK] additionally indicates the number of entries to reserve in the RX FIFO for
+                                                                 closing partially received packets. [MARK] should typically be programmed to its reset
+                                                                 value; failure to program correctly can lead to system instability.
+                                                                 Exit from BP_DROP state happens when FIFO level gets below RX_BP_OFF level. */
+#else /* Word 0 - Little Endian */
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) Number of sixteen byte cycles to reserve in the RX FIFO. When the number of free
+                                                                 entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
+                                                                 dropped. [MARK] additionally indicates the number of entries to reserve in the RX FIFO for
+                                                                 closing partially received packets. [MARK] should typically be programmed to its reset
+                                                                 value; failure to program correctly can lead to system instability.
+                                                                 Exit from BP_DROP state happens when FIFO level gets below RX_BP_OFF level. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_rx_bp_drop_s cn10; */
+    struct cavm_rpmx_cmrx_rx_bp_drop_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t mark                  : 7;  /**< [  6:  0](R/W) Number of sixteen byte cycles to reserve in the RX FIFO. When the number of free
                                                                  entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
@@ -12275,8 +14261,41 @@ union cavm_rpmx_cmrx_rx_bp_drop
                                                                  Exit from BP_DROP state happens when FIFO level gets below RX_BP_OFF level. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_rx_bp_drop_s cn; */
+    } cn10ka;
+    struct cavm_rpmx_cmrx_rx_bp_drop_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) Number of sixteen byte cycles to reserve in the RX FIFO. When the number of free
+                                                                 entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
+                                                                 dropped. [MARK] additionally indicates the number of entries to reserve in the RX FIFO for
+                                                                 closing partially received packets. After entering drop state, a partial (truncated) packet
+                                                                 might be output to client on X2P, marked by RE_PARTIAL error code. Further packets will be
+                                                                 dropped by RPM internally, until normal operation is resumed when BP_OFF threshold is crossed.
+                                                                 [MARK] should typically be programmed to its reset value; failure to program correctly
+                                                                 can lead to system instability. Note: not all values in range are legal; must satisfy:
+                                                                 RPM()_CMR()_RX_BP_OFF[MARK] \<= RPM()_CMR()_RX_BP_ON[MARK] \< (fifo_size -
+                                                                 RPM()_CMR()_RX_BP_DROP[MARK])
+                                                                 Exit from BP_DROP state happens when FIFO level gets below RX_BP_OFF level.
+                                                                 This field should always be set to a positive value, but smaller than FIFO size. */
+#else /* Word 0 - Little Endian */
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) Number of sixteen byte cycles to reserve in the RX FIFO. When the number of free
+                                                                 entries in the RX FIFO is less than or equal to [MARK], incoming packet data is
+                                                                 dropped. [MARK] additionally indicates the number of entries to reserve in the RX FIFO for
+                                                                 closing partially received packets. After entering drop state, a partial (truncated) packet
+                                                                 might be output to client on X2P, marked by RE_PARTIAL error code. Further packets will be
+                                                                 dropped by RPM internally, until normal operation is resumed when BP_OFF threshold is crossed.
+                                                                 [MARK] should typically be programmed to its reset value; failure to program correctly
+                                                                 can lead to system instability. Note: not all values in range are legal; must satisfy:
+                                                                 RPM()_CMR()_RX_BP_OFF[MARK] \<= RPM()_CMR()_RX_BP_ON[MARK] \< (fifo_size -
+                                                                 RPM()_CMR()_RX_BP_DROP[MARK])
+                                                                 Exit from BP_DROP state happens when FIFO level gets below RX_BP_OFF level.
+                                                                 This field should always be set to a positive value, but smaller than FIFO size. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmrx_rx_bp_drop_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_cmrx_rx_bp_drop_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_rx_bp_drop cavm_rpmx_cmrx_rx_bp_drop_t;
 
@@ -12285,6 +14304,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_BP_DROP(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00040e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00030e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00040e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12310,6 +14331,19 @@ union cavm_rpmx_cmrx_rx_bp_off
     struct cavm_rpmx_cmrx_rx_bp_off_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) Low watermark (number of sixteen byte cycles to deassert backpressure). Level is also used
+                                                                 to exit the overflow dropping state. */
+#else /* Word 0 - Little Endian */
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) Low watermark (number of sixteen byte cycles to deassert backpressure). Level is also used
+                                                                 to exit the overflow dropping state. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_rx_bp_off_s cn10; */
+    struct cavm_rpmx_cmrx_rx_bp_off_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t mark                  : 7;  /**< [  6:  0](R/W) Low watermark (number of sixteen byte cycles to deassert backpressure). Level is also used
                                                                  to exit the overflow dropping state. */
@@ -12318,8 +14352,25 @@ union cavm_rpmx_cmrx_rx_bp_off
                                                                  to exit the overflow dropping state. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmrx_rx_bp_off_s cn; */
+    } cn10ka;
+    struct cavm_rpmx_cmrx_rx_bp_off_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) Low watermark (number of sixteen byte cycles), used by 2 hysteresis mechanisms
+                                                                 applied on Rx buffer fill:
+                                                                 - deassertion of backpressure to peer (triggered by BP_ON crossing)
+                                                                 - exit the overflow dropping state (triggered by BP_DROP crossing) */
+#else /* Word 0 - Little Endian */
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) Low watermark (number of sixteen byte cycles), used by 2 hysteresis mechanisms
+                                                                 applied on Rx buffer fill:
+                                                                 - deassertion of backpressure to peer (triggered by BP_ON crossing)
+                                                                 - exit the overflow dropping state (triggered by BP_DROP crossing) */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmrx_rx_bp_off_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_cmrx_rx_bp_off_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_rx_bp_off cavm_rpmx_cmrx_rx_bp_off_t;
 
@@ -12328,6 +14379,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_BP_OFF(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00040f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00030f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00040f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12384,7 +14437,46 @@ union cavm_rpmx_cmrx_rx_bp_on
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_rx_bp_on_s cn; */
+    /* struct cavm_rpmx_cmrx_rx_bp_on_s cn10; */
+    /* struct cavm_rpmx_cmrx_rx_bp_on_s cn10ka; */
+    struct cavm_rpmx_cmrx_rx_bp_on_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) High watermark. Rx Buffer fill level (in multiples of 16-bytes), at which RPM will
+                                                                 assert backpressure for each individual LMAC. Must satisfy:
+
+                                                                 RPM()_CMR()_RX_BP_OFF[MARK] \<= RPM()_CMR()_RX_BP_ON[MARK] \< (fifo_size -
+                                                                 RPM()_CMR()_RX_BP_DROP[MARK])
+
+                                                                 A value of 0x0 immediately asserts backpressure.
+                                                                 A value bigger than FIFO size will never trigger BP to peer.
+
+                                                                 The recommended value is 1/4 the size of the per-LMAC RX FIFO size,
+                                                                 as determined by RPM()_CMR_RX_LMACS. For example, when 4 LMACs exist in the group
+                                                                 (e.g. sum of asserted bits in RPM()_CMR_RX_LMACS[LMAC_EXIST[3:0]] is 4), there is
+                                                                 (RPM()_CONST[RX_FIFOSZ]/8) KB of buffering per LMAC (among LMACs 0..3). The recommended 1/4 size
+                                                                 of that buffering is (RPM()_CONST[RX_FIFOSZ]/8)/4. */
+#else /* Word 0 - Little Endian */
+        uint64_t mark                  : 14; /**< [ 13:  0](R/W) High watermark. Rx Buffer fill level (in multiples of 16-bytes), at which RPM will
+                                                                 assert backpressure for each individual LMAC. Must satisfy:
+
+                                                                 RPM()_CMR()_RX_BP_OFF[MARK] \<= RPM()_CMR()_RX_BP_ON[MARK] \< (fifo_size -
+                                                                 RPM()_CMR()_RX_BP_DROP[MARK])
+
+                                                                 A value of 0x0 immediately asserts backpressure.
+                                                                 A value bigger than FIFO size will never trigger BP to peer.
+
+                                                                 The recommended value is 1/4 the size of the per-LMAC RX FIFO size,
+                                                                 as determined by RPM()_CMR_RX_LMACS. For example, when 4 LMACs exist in the group
+                                                                 (e.g. sum of asserted bits in RPM()_CMR_RX_LMACS[LMAC_EXIST[3:0]] is 4), there is
+                                                                 (RPM()_CONST[RX_FIFOSZ]/8) KB of buffering per LMAC (among LMACs 0..3). The recommended 1/4 size
+                                                                 of that buffering is (RPM()_CONST[RX_FIFOSZ]/8)/4. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmrx_rx_bp_on_s cnf10ka; */
+    /* struct cavm_rpmx_cmrx_rx_bp_on_s cnf10kb; */
 };
 typedef union cavm_rpmx_cmrx_rx_bp_on cavm_rpmx_cmrx_rx_bp_on_t;
 
@@ -12393,6 +14485,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_BP_ON(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00040e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00030e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00040e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12487,6 +14581,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_DMAC_CTL0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004ff8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003ff8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004ff8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12532,6 +14628,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_FIFO_LEN(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12602,6 +14700,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_ID_MAP(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0000080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12651,6 +14751,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_LOGL_XOFF(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00040f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00030f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00040f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12696,6 +14798,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_LOGL_XON(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12709,6 +14813,88 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_LOGL_XON(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_RX_LOGL_XON(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_RX_LOGL_XON(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_RX_LOGL_XON(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_rx_ovr_bp
+ *
+ * RPM CMR Receive-Ports Backpressure Override Registers
+ * Per-LMAC backpressure override register.
+ */
+union cavm_rpmx_cmrx_rx_ovr_bp
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_rx_ovr_bp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t en                    : 1;  /**< [  2:  2](R/W) Per-LMAC enable backpressure override (for Link Pause mode only).
+                                                                 0 = Don't enable.
+                                                                 1 = Enable override.
+                                                                 When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
+        uint64_t bp                    : 1;  /**< [  1:  1](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only).
+                                                                 0 = LMAC is available.
+                                                                 1 = LMAC should be backpressured.
+                                                                 When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
+        uint64_t ign_fifo_bp           : 1;  /**< [  0:  0](R/W) Ignore RPM()_CMR()_RX_BP_ON[MARK] when computing backpressure. CMR does not
+                                                                 backpressure the MAC due to the FIFO fill passing RPM()_CMR()_RX_BP_ON[MARK].
+                                                                 This field applies both for PFC and Link Pause modes (either values of PFC_MODE CSR).
+                                                                 When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
+                                                                 cause XOFF for priority 0 to be asserted.
+                                                                 When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
+                                                                 XOFF for all priorities to be asserted, if the respective bit in
+                                                                 PRT_CBFC_CTL.LOGL_EN_RX is high as well.
+
+                                                                 Internal:
+                                                                 When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
+                                                                 cause xoff_gen[0] to be asserted.
+                                                                 When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
+                                                                 all xoff_gen[15:0] bits to be asserted, if the respective bit in
+                                                                 PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
+#else /* Word 0 - Little Endian */
+        uint64_t ign_fifo_bp           : 1;  /**< [  0:  0](R/W) Ignore RPM()_CMR()_RX_BP_ON[MARK] when computing backpressure. CMR does not
+                                                                 backpressure the MAC due to the FIFO fill passing RPM()_CMR()_RX_BP_ON[MARK].
+                                                                 This field applies both for PFC and Link Pause modes (either values of PFC_MODE CSR).
+                                                                 When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
+                                                                 cause XOFF for priority 0 to be asserted.
+                                                                 When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
+                                                                 XOFF for all priorities to be asserted, if the respective bit in
+                                                                 PRT_CBFC_CTL.LOGL_EN_RX is high as well.
+
+                                                                 Internal:
+                                                                 When PFC_MODE==0 (Link Pause mode), and IGN_FIFO_BP==0, then high FIFO fill will
+                                                                 cause xoff_gen[0] to be asserted.
+                                                                 When PFC_MODE==1 (PFC mode), and IGN_FIFO_BP==0, then high FIFO fill will cause
+                                                                 all xoff_gen[15:0] bits to be asserted, if the respective bit in
+                                                                 PRT_CBFC_CTL.LOGL_EN_RX is high as well. */
+        uint64_t bp                    : 1;  /**< [  1:  1](R/W) Per-LMAC backpressure status to use, when override is enabled (for Link Pause mode only).
+                                                                 0 = LMAC is available.
+                                                                 1 = LMAC should be backpressured.
+                                                                 When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
+        uint64_t en                    : 1;  /**< [  2:  2](R/W) Per-LMAC enable backpressure override (for Link Pause mode only).
+                                                                 0 = Don't enable.
+                                                                 1 = Enable override.
+                                                                 When working in PFC mode (PFC_MODE == 1), this field has no effect (see PRT_CBFC_CTL.LOGL_EN_RX). */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_rx_ovr_bp_s cn; */
+};
+typedef union cavm_rpmx_cmrx_rx_ovr_bp cavm_rpmx_cmrx_rx_ovr_bp_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_RX_OVR_BP(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_RX_OVR_BP(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_RX_OVR_BP", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_RX_OVR_BP(a,b) cavm_rpmx_cmrx_rx_ovr_bp_t
+#define bustype_CAVM_RPMX_CMRX_RX_OVR_BP(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_RX_OVR_BP(a,b) "RPMX_CMRX_RX_OVR_BP"
+#define device_bar_CAVM_RPMX_CMRX_RX_OVR_BP(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_RX_OVR_BP(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_RX_OVR_BP(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_rx_stat0
@@ -12760,6 +14946,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12804,6 +14992,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12817,6 +15007,92 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT1(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_RX_STAT1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_RX_STAT1(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_RX_STAT1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_rx_stat10
+ *
+ * RPM Receive Statistics Register 10
+ * These registers provide a count of received packets that meet the following conditions:
+ *  * are recognized as Good packet that contain PCH with no CRC-8 error.
+ * Note that RX_STAT0 also counts these packets, since it counts all Good packets.
+ */
+union cavm_rpmx_cmrx_rx_stat10
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_rx_stat10_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of good packets containing PCH. [CNT] will wrap and is cleared if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of good packets containing PCH. [CNT] will wrap and is cleared if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_rx_stat10_s cn; */
+};
+typedef union cavm_rpmx_cmrx_rx_stat10 cavm_rpmx_cmrx_rx_stat10_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_RX_STAT10(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_RX_STAT10(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_RX_STAT10", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_RX_STAT10(a,b) cavm_rpmx_cmrx_rx_stat10_t
+#define bustype_CAVM_RPMX_CMRX_RX_STAT10(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_RX_STAT10(a,b) "RPMX_CMRX_RX_STAT10"
+#define device_bar_CAVM_RPMX_CMRX_RX_STAT10(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_RX_STAT10(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_RX_STAT10(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_rx_stat11
+ *
+ * RPM Receive Statistics Register 11
+ * These registers provide a count of received packets that meet the following conditions:
+ *  * are recognized as Error packet containing PCH with CRC-8 error.
+ * Note that RX_STAT6 also counts these packets, since it counts all Error codes.
+ */
+union cavm_rpmx_cmrx_rx_stat11
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_rx_stat11_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of packets containing PCH with CRC-8 error. [CNT] will wrap and is cleared
+                                                                 if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of packets containing PCH with CRC-8 error. [CNT] will wrap and is cleared
+                                                                 if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_rx_stat11_s cn; */
+};
+typedef union cavm_rpmx_cmrx_rx_stat11 cavm_rpmx_cmrx_rx_stat11_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_RX_STAT11(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_RX_STAT11(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_RX_STAT11", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_RX_STAT11(a,b) cavm_rpmx_cmrx_rx_stat11_t
+#define bustype_CAVM_RPMX_CMRX_RX_STAT11(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_RX_STAT11(a,b) "RPMX_CMRX_RX_STAT11"
+#define device_bar_CAVM_RPMX_CMRX_RX_STAT11(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_RX_STAT11(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_RX_STAT11(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_rx_stat2
@@ -12854,6 +15130,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12901,6 +15179,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT3(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12954,6 +15234,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT4(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -12998,6 +15280,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT5(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13044,6 +15328,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT6(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13088,6 +15374,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT7(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13132,6 +15420,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT8(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0004040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0004040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13145,6 +15435,48 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT8(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_RX_STAT8(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_RX_STAT8(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_RX_STAT8(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_rx_stat9
+ *
+ * RPM Receive Statistics Register 9
+ * These registers provide a count of received packets that meet the following conditions:
+ *  * are recognized as Inverted-CRC ERROR packets.
+ * Note that RX_STAT6 (Error counter) also counts these packets, since it counts all opcodes.
+ */
+union cavm_rpmx_cmrx_rx_stat9
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_rx_stat9_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of Inverted-CRC error packets. [CNT] will wrap and is cleared if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of Inverted-CRC error packets. [CNT] will wrap and is cleared if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_rx_stat9_s cn; */
+};
+typedef union cavm_rpmx_cmrx_rx_stat9 cavm_rpmx_cmrx_rx_stat9_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_RX_STAT9(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_RX_STAT9(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0003048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_RX_STAT9", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_RX_STAT9(a,b) cavm_rpmx_cmrx_rx_stat9_t
+#define bustype_CAVM_RPMX_CMRX_RX_STAT9(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_RX_STAT9(a,b) "RPMX_CMRX_RX_STAT9"
+#define device_bar_CAVM_RPMX_CMRX_RX_STAT9(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_RX_STAT9(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_RX_STAT9(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_rx_stat_defer_xoff
@@ -13181,6 +15513,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_DEFER_XOFF(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005c80ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006900ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005c80ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13228,6 +15562,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=15)))
         return 0x87e0e0005c00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=15)))
+        return 0x87e0e0006880ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=15)))
         return 0x87e0e0005c00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3) && (c<=15)))
@@ -13287,6 +15623,8 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_UNDERSIZE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005910ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006500ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005910ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13326,6 +15664,8 @@ static inline uint64_t CAVM_RPMX_CMRX_SCRATCHX(uint64_t a, uint64_t b, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=1)))
         return 0x87e0e0001050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=1)))
+        return 0x87e0e0001050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=1)))
         return 0x87e0e0001050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3) && (c<=1)))
@@ -13367,6 +15707,8 @@ static inline uint64_t CAVM_RPMX_CMRX_SW_INT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000180ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00001b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000180ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13402,6 +15744,16 @@ union cavm_rpmx_cmrx_sw_int_ena_w1c
     } s;
     /* struct cavm_rpmx_cmrx_sw_int_ena_w1c_s cn10; */
     /* struct cavm_rpmx_cmrx_sw_int_ena_w1c_s cn10ka; */
+    struct cavm_rpmx_cmrx_sw_int_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t sw_set                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_SW_INT[SW_SET]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sw_set                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_SW_INT[SW_SET]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_cmrx_sw_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -13430,6 +15782,8 @@ static inline uint64_t CAVM_RPMX_CMRX_SW_INT_ENA_W1C(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000190ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00001c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000190ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13465,6 +15819,16 @@ union cavm_rpmx_cmrx_sw_int_ena_w1s
     } s;
     /* struct cavm_rpmx_cmrx_sw_int_ena_w1s_s cn10; */
     /* struct cavm_rpmx_cmrx_sw_int_ena_w1s_s cn10ka; */
+    struct cavm_rpmx_cmrx_sw_int_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t sw_set                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_SW_INT[SW_SET]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sw_set                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_SW_INT[SW_SET]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_cmrx_sw_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -13493,6 +15857,8 @@ static inline uint64_t CAVM_RPMX_CMRX_SW_INT_ENA_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000198ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00001c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000198ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13528,6 +15894,16 @@ union cavm_rpmx_cmrx_sw_int_w1s
     } s;
     /* struct cavm_rpmx_cmrx_sw_int_w1s_s cn10; */
     /* struct cavm_rpmx_cmrx_sw_int_w1s_s cn10ka; */
+    struct cavm_rpmx_cmrx_sw_int_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t sw_set                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_SW_INT[SW_SET]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sw_set                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_SW_INT[SW_SET]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_cmrx_sw_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -13556,6 +15932,8 @@ static inline uint64_t CAVM_RPMX_CMRX_SW_INT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0000188ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00001b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0000188ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13629,6 +16007,7 @@ union cavm_rpmx_cmrx_tx_channel
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn10ka;
+    /* struct cavm_rpmx_cmrx_tx_channel_s cn10kb; */
     /* struct cavm_rpmx_cmrx_tx_channel_cn10ka cnf10ka; */
     /* struct cavm_rpmx_cmrx_tx_channel_s cnf10kb; */
 };
@@ -13639,6 +16018,8 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_CHANNEL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005b00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006508ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005b00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13686,6 +16067,8 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_FIFO_LEN(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005b18ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006800ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005b18ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13733,6 +16116,8 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_OVR_BP(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005b10ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006518ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005b10ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13746,6 +16131,90 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_OVR_BP(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_CMRX_TX_OVR_BP(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_CMRX_TX_OVR_BP(a,b) (a)
 #define arguments_CAVM_RPMX_CMRX_TX_OVR_BP(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_tx_stat0
+ *
+ * RPM Transmit Statistics Register 0
+ * These registers provide a count of transmit packets that meet the following conditions:
+ *  * are recognized as inverted-CRC packets.
+ */
+union cavm_rpmx_cmrx_tx_stat0
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_tx_stat0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of CRC-inverted packets sent. [CNT] will wrap and is cleared if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0.
+                                                                 When RPM_CMR()_CONFIG[CRC_INV_EN] is 0, this counter is irrelevant (should be 0). */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of CRC-inverted packets sent. [CNT] will wrap and is cleared if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0.
+                                                                 When RPM_CMR()_CONFIG[CRC_INV_EN] is 0, this counter is irrelevant (should be 0). */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_tx_stat0_s cn; */
+};
+typedef union cavm_rpmx_cmrx_tx_stat0 cavm_rpmx_cmrx_tx_stat0_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_TX_STAT0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_TX_STAT0(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006600ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_TX_STAT0", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_TX_STAT0(a,b) cavm_rpmx_cmrx_tx_stat0_t
+#define bustype_CAVM_RPMX_CMRX_TX_STAT0(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_TX_STAT0(a,b) "RPMX_CMRX_TX_STAT0"
+#define device_bar_CAVM_RPMX_CMRX_TX_STAT0(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_TX_STAT0(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_TX_STAT0(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_cmr#_tx_stat1
+ *
+ * RPM Transmit Statistics Register 1
+ * These registers provide a count of transmit packets that meet the following conditions:
+ *  * are recognized as a packet that contain PCH
+ */
+union cavm_rpmx_cmrx_tx_stat1
+{
+    uint64_t u;
+    struct cavm_rpmx_cmrx_tx_stat1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of packets with PCH sent. [CNT] will wrap and is cleared if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of packets with PCH sent. [CNT] will wrap and is cleared if LMAC is disabled with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmrx_tx_stat1_s cn; */
+};
+typedef union cavm_rpmx_cmrx_tx_stat1 cavm_rpmx_cmrx_tx_stat1_t;
+
+static inline uint64_t CAVM_RPMX_CMRX_TX_STAT1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMRX_TX_STAT1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006608ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_CMRX_TX_STAT1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMRX_TX_STAT1(a,b) cavm_rpmx_cmrx_tx_stat1_t
+#define bustype_CAVM_RPMX_CMRX_TX_STAT1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMRX_TX_STAT1(a,b) "RPMX_CMRX_TX_STAT1"
+#define device_bar_CAVM_RPMX_CMRX_TX_STAT1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMRX_TX_STAT1(a,b) (a)
+#define arguments_CAVM_RPMX_CMRX_TX_STAT1(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_cmr#_tx_stat_pri#_xoff
@@ -13800,6 +16269,8 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=15)))
         return 0x87e0e0005d00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=15)))
+        return 0x87e0e0006980ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=15)))
         return 0x87e0e0005d00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3) && (c<=15)))
@@ -13907,6 +16378,8 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_THRESH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005b20ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006808ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005b20ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -13954,6 +16427,8 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_USER_PREAM_VALUE(uint64_t a, uint64_t b
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0005b28ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0006810ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0005b28ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -14196,6 +16671,8 @@ static inline uint64_t CAVM_RPMX_CMR_ECO_NCK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0006000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0007000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0006000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -14237,6 +16714,8 @@ static inline uint64_t CAVM_RPMX_CMR_ECO_SCK(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0001080ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0001080ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0001080ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -14263,7 +16742,11 @@ union cavm_rpmx_cmr_global_config
     struct cavm_rpmx_cmr_global_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_16_63        : 48;
+        uint64_t ts_rls_filter_en      : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Set to 1 to enable the timestamp RLS filter. This has the potential to further
+                                                                 reduce timestamp jitter, but not for all clock frequency combinations. */
         uint64_t ts_prescale_factor    : 4;  /**< [ 14: 11](R/W) Reserved.
                                                                  Internal:
                                                                  This field is relevant only if TS_VAL_BU_SYNC_EN==1.
@@ -14292,14 +16775,7 @@ union cavm_rpmx_cmr_global_config
                                                                  This should be kept 0 unless otherwise specified.
                                                                  Set to 1 to use the backup circuit to resync the timestamp towards MAC.
                                                                  This is a safety measure, in case the proprietary circuit has a bug. */
-        uint64_t reserved_9            : 1;
-        uint64_t ts_val_fb_sync_en     : 1;  /**< [  8:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 This should be kept 0 unless otherwise specified.
-                                                                 Set to 1 to use a simple feedback-based circuit to resync the timestamp towards MAC.
-                                                                 This is a safety measure, in case the proprietary circuit has issues. */
-        uint64_t cmr_clken_ovrd        : 1;  /**< [  7:  7](R/W) Override X2P clocks to always be on. For diagnostic use only.
-                                                                 When high, x2p.clk_en output is always active. */
+        uint64_t reserved_7_9          : 3;
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) Reserved.
                                                                  Internal:
                                                                  A setting of 1 means the RPM strips the four FCS bytes of every packet.  For packets less
@@ -14361,14 +16837,7 @@ union cavm_rpmx_cmr_global_config
                                                                  than four bytes, the packet will be removed.
                                                                  A setting of 0 means the RPM will not modify or remove the FCS bytes.
                                                                  Note: this is now obsolete, as it is done by MTI MAC. */
-        uint64_t cmr_clken_ovrd        : 1;  /**< [  7:  7](R/W) Override X2P clocks to always be on. For diagnostic use only.
-                                                                 When high, x2p.clk_en output is always active. */
-        uint64_t ts_val_fb_sync_en     : 1;  /**< [  8:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 This should be kept 0 unless otherwise specified.
-                                                                 Set to 1 to use a simple feedback-based circuit to resync the timestamp towards MAC.
-                                                                 This is a safety measure, in case the proprietary circuit has issues. */
-        uint64_t reserved_9            : 1;
+        uint64_t reserved_7_9          : 3;
         uint64_t ts_val_bu_sync_en     : 1;  /**< [ 10: 10](R/W) Reserved.
                                                                  Internal:
                                                                  This should be kept 0 unless otherwise specified.
@@ -14397,7 +16866,11 @@ union cavm_rpmx_cmr_global_config
                                                                  In case sclk is the slower clock among the two, set this field to 1.
                                                                  Note: RPM_CMR_GLOBAL_INT.TS_BU_SYNC_FIFO_OF will indicate overflow of the backup circuit's
                                                                  async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
-        uint64_t reserved_15_63        : 49;
+        uint64_t ts_rls_filter_en      : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Set to 1 to enable the timestamp RLS filter. This has the potential to further
+                                                                 reduce timestamp jitter, but not for all clock frequency combinations. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rpmx_cmr_global_config_s cn10; */
@@ -14483,6 +16956,148 @@ union cavm_rpmx_cmr_global_config
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn10ka;
+    struct cavm_rpmx_cmr_global_config_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t ts_rls_filter_en      : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Set to 1 to enable the timestamp RLS filter. This has the potential to further
+                                                                 reduce timestamp jitter, but not for all clock frequency combinations. */
+        uint64_t ts_prescale_factor    : 4;  /**< [ 14: 11](R/W) Reserved.
+                                                                 Internal:
+                                                                 This field is relevant only if TS_VAL_BU_SYNC_EN==1.
+                                                                 Timestamp value is continuously synchroinzed from system clock (sclk) domain to
+                                                                 MAC clock (netclk) domain.
+                                                                 When using the backup circuit, and MAC clock is slower than system clock, a prescaler is needed
+                                                                 in order to thin out the density of samples, before feeding them to a small async-FIFO (o/w the
+                                                                 FIFO will certainly overflow at some point).
+                                                                 TS_PRESCALE_FACTOR specifies the prescaler factor, namely
+                                                                 how many system clock cycles to count before sampling the timestamp value again.
+                                                                 These samples are then input to async-FIFO, and then input to MAC.
+                                                                 The default is to sample once every four system clocks.
+                                                                 Setting this field to 1 will sample the timestamp every system clock, effectively
+                                                                 not doing actual prescaling.
+                                                                 Setting this field to 0 will sample the timestamp every 16th system clock.
+                                                                 SW should set this field such that:
+                                                                         (iclk_period*ts_prescale_factor \> oclk_period)
+                                                                 where iclk is the clock in which Timestamp is generated (sclk), and oclk is the clock in which
+                                                                 Timestamp is used - i.e. MAC clock (netclk). TS_PRESCALE_FACTOR should be the smallest possible
+                                                                 value which satisfies the equation, to achieve maximum accuracy.
+                                                                 In case sclk is the slower clock among the two, set this field to 1.
+                                                                 Note: RPM_CMR_GLOBAL_INT.TS_BU_SYNC_FIFO_OF will indicate overflow of the backup circuit's
+                                                                 async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t ts_val_bu_sync_en     : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 This should be kept 0 unless otherwise specified.
+                                                                 Set to 1 to use the backup circuit to resync the timestamp towards MAC.
+                                                                 This is a safety measure, in case the proprietary circuit has a bug. */
+        uint64_t cmr_clken_ovrd        : 3;  /**< [  9:  7](R/W) Force-clock bit per X2P interface. When high, affects x2p.clk_en output to
+                                                                 always be on. For diagnostic use only.
+
+                                                                 \<pre\>
+                                                                 [CMR_CLKEN_OVRD]  Connected block in reset
+                                                                 ---------------  ------------------------
+                                                                   [0]            Reserved
+                                                                   [1]            NIX0 (mapped to LMACs 0..3)
+                                                                   [2]            NIX1 (mapped to LMACs 4..7)
+                                                                 \</pre\> */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 A setting of 1 means the RPM strips the four FCS bytes of every packet.  For packets less
+                                                                 than four bytes, the packet will be removed.
+                                                                 A setting of 0 means the RPM will not modify or remove the FCS bytes.
+                                                                 Note: this is now obsolete, as it is done by MTI MAC. */
+        uint64_t reserved_5            : 1;
+        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface (affects X2P interface, and Rx SKID FIFO controls and data).
+                                                                 see also RPM()_CMR()_CONFIG[X2P_SELECT].
+
+                                                                 \<pre\>
+                                                                 [CMR_X2P_RESET]  Connected block in reset
+                                                                 ---------------  ------------------------
+                                                                   [0]            Reserved
+                                                                   [1]            NIX0 (mapped to LMACs 0..3)
+                                                                   [2]            NIX1 (mapped to LMACs 4..7)
+                                                                 \</pre\>
+
+                                                                 If the master block connected to X2P interface N is reset, software also needs
+                                                                 to reset the X2P interface in the RPM by setting this bit. It resets the X2P
+                                                                 interface state in the RPM (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the interface. */
+        uint64_t rpm_clk_enable        : 1;  /**< [  1:  1](R/W) The global force-clock for RPM. Setting this bit to 1 overrides clock enables set by
+                                                                 RPM()_CMR()_CONFIG[ENABLE], essentially turning on clocks for the entire RPM. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t rpm_clk_enable        : 1;  /**< [  1:  1](R/W) The global force-clock for RPM. Setting this bit to 1 overrides clock enables set by
+                                                                 RPM()_CMR()_CONFIG[ENABLE], essentially turning on clocks for the entire RPM. */
+        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface (affects X2P interface, and Rx SKID FIFO controls and data).
+                                                                 see also RPM()_CMR()_CONFIG[X2P_SELECT].
+
+                                                                 \<pre\>
+                                                                 [CMR_X2P_RESET]  Connected block in reset
+                                                                 ---------------  ------------------------
+                                                                   [0]            Reserved
+                                                                   [1]            NIX0 (mapped to LMACs 0..3)
+                                                                   [2]            NIX1 (mapped to LMACs 4..7)
+                                                                 \</pre\>
+
+                                                                 If the master block connected to X2P interface N is reset, software also needs
+                                                                 to reset the X2P interface in the RPM by setting this bit. It resets the X2P
+                                                                 interface state in the RPM (skid FIFO and pending requests to the master block)
+                                                                 and prevents the RXB FIFOs for all LMACs from pushing data to the interface. */
+        uint64_t reserved_5            : 1;
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 A setting of 1 means the RPM strips the four FCS bytes of every packet.  For packets less
+                                                                 than four bytes, the packet will be removed.
+                                                                 A setting of 0 means the RPM will not modify or remove the FCS bytes.
+                                                                 Note: this is now obsolete, as it is done by MTI MAC. */
+        uint64_t cmr_clken_ovrd        : 3;  /**< [  9:  7](R/W) Force-clock bit per X2P interface. When high, affects x2p.clk_en output to
+                                                                 always be on. For diagnostic use only.
+
+                                                                 \<pre\>
+                                                                 [CMR_CLKEN_OVRD]  Connected block in reset
+                                                                 ---------------  ------------------------
+                                                                   [0]            Reserved
+                                                                   [1]            NIX0 (mapped to LMACs 0..3)
+                                                                   [2]            NIX1 (mapped to LMACs 4..7)
+                                                                 \</pre\> */
+        uint64_t ts_val_bu_sync_en     : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 This should be kept 0 unless otherwise specified.
+                                                                 Set to 1 to use the backup circuit to resync the timestamp towards MAC.
+                                                                 This is a safety measure, in case the proprietary circuit has a bug. */
+        uint64_t ts_prescale_factor    : 4;  /**< [ 14: 11](R/W) Reserved.
+                                                                 Internal:
+                                                                 This field is relevant only if TS_VAL_BU_SYNC_EN==1.
+                                                                 Timestamp value is continuously synchroinzed from system clock (sclk) domain to
+                                                                 MAC clock (netclk) domain.
+                                                                 When using the backup circuit, and MAC clock is slower than system clock, a prescaler is needed
+                                                                 in order to thin out the density of samples, before feeding them to a small async-FIFO (o/w the
+                                                                 FIFO will certainly overflow at some point).
+                                                                 TS_PRESCALE_FACTOR specifies the prescaler factor, namely
+                                                                 how many system clock cycles to count before sampling the timestamp value again.
+                                                                 These samples are then input to async-FIFO, and then input to MAC.
+                                                                 The default is to sample once every four system clocks.
+                                                                 Setting this field to 1 will sample the timestamp every system clock, effectively
+                                                                 not doing actual prescaling.
+                                                                 Setting this field to 0 will sample the timestamp every 16th system clock.
+                                                                 SW should set this field such that:
+                                                                         (iclk_period*ts_prescale_factor \> oclk_period)
+                                                                 where iclk is the clock in which Timestamp is generated (sclk), and oclk is the clock in which
+                                                                 Timestamp is used - i.e. MAC clock (netclk). TS_PRESCALE_FACTOR should be the smallest possible
+                                                                 value which satisfies the equation, to achieve maximum accuracy.
+                                                                 In case sclk is the slower clock among the two, set this field to 1.
+                                                                 Note: RPM_CMR_GLOBAL_INT.TS_BU_SYNC_FIFO_OF will indicate overflow of the backup circuit's
+                                                                 async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t ts_rls_filter_en      : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Set to 1 to enable the timestamp RLS filter. This has the potential to further
+                                                                 reduce timestamp jitter, but not for all clock frequency combinations. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
     /* struct cavm_rpmx_cmr_global_config_cn10ka cnf10ka; */
     struct cavm_rpmx_cmr_global_config_cnf10kb
     {
@@ -14612,6 +17227,8 @@ static inline uint64_t CAVM_RPMX_CMR_GLOBAL_CONFIG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0000008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0000008ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0000008ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -14637,6 +17254,62 @@ union cavm_rpmx_cmr_global_int
     struct cavm_rpmx_cmr_global_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1C/H) RSL Rd or Wr access with illegal address. The faulty address will reside in
+                                                                 RPM_CMR_RSL_NXC_LMAC_SYND.
+
+                                                                 Internal:
+                                                                 SW tried to access non-existing LMAC: when RPM supports only 4 LMACs
+                                                                 (LMAC[0-3]), then CSR access addr[22]
+                                                                 must be 0 (because each LAMC CSRs are offset by 0x100000, and so LMAC[4] base address is 0x400000,
+                                                                 and LMAC[7] base address is 0x700000).
+                                                                 Note that in this case RPM will return RSL error response immediately.
+                                                                 This interrupt is irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 Relevant only when RPM_CMR_GLOBAL_CONFIG.TS_VAL_BU_SYNC_EN==1, i.e. when Timestamp value is
+                                                                 synchronized using the backup circuit.
+                                                                 Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1C/H) RX INFIFO 7 overflow. */
+        uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1C/H) RX INFIFO 6 overflow. */
+        uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1C/H) RX INFIFO 5 overflow. */
+        uint64_t infifo_4_overfl       : 1;  /**< [  4:  4](R/W1C/H) RX INFIFO 4 overflow. */
+        uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1C/H) RX INFIFO 3 overflow. */
+        uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1C/H) RX INFIFO 2 overflow. */
+        uint64_t infifo_1_overfl       : 1;  /**< [  1:  1](R/W1C/H) RX INFIFO 1 overflow. */
+        uint64_t infifo_0_overfl       : 1;  /**< [  0:  0](R/W1C/H) RX INFIFO 0 overflow. */
+#else /* Word 0 - Little Endian */
+        uint64_t infifo_0_overfl       : 1;  /**< [  0:  0](R/W1C/H) RX INFIFO 0 overflow. */
+        uint64_t infifo_1_overfl       : 1;  /**< [  1:  1](R/W1C/H) RX INFIFO 1 overflow. */
+        uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1C/H) RX INFIFO 2 overflow. */
+        uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1C/H) RX INFIFO 3 overflow. */
+        uint64_t infifo_4_overfl       : 1;  /**< [  4:  4](R/W1C/H) RX INFIFO 4 overflow. */
+        uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1C/H) RX INFIFO 5 overflow. */
+        uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1C/H) RX INFIFO 6 overflow. */
+        uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1C/H) RX INFIFO 7 overflow. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reserved.
+                                                                 Internal:
+                                                                 Relevant only when RPM_CMR_GLOBAL_CONFIG.TS_VAL_BU_SYNC_EN==1, i.e. when Timestamp value is
+                                                                 synchronized using the backup circuit.
+                                                                 Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1C/H) RSL Rd or Wr access with illegal address. The faulty address will reside in
+                                                                 RPM_CMR_RSL_NXC_LMAC_SYND.
+
+                                                                 Internal:
+                                                                 SW tried to access non-existing LMAC: when RPM supports only 4 LMACs
+                                                                 (LMAC[0-3]), then CSR access addr[22]
+                                                                 must be 0 (because each LAMC CSRs are offset by 0x100000, and so LMAC[4] base address is 0x400000,
+                                                                 and LMAC[7] base address is 0x700000).
+                                                                 Note that in this case RPM will return RSL error response immediately.
+                                                                 This interrupt is irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_global_int_s cn10; */
+    /* struct cavm_rpmx_cmr_global_int_s cn10kb; */
+    struct cavm_rpmx_cmr_global_int_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reserved.
                                                                  Internal:
@@ -14661,14 +17334,15 @@ union cavm_rpmx_cmr_global_int
                                                                  Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_global_int_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_global_int cavm_rpmx_cmr_global_int_t;
 
 static inline uint64_t CAVM_RPMX_CMR_GLOBAL_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_CMR_GLOBAL_INT(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0000010ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
         return 0x87e0e0000010ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("RPMX_CMR_GLOBAL_INT", 1, a, 0, 0, 0, 0, 0);
@@ -14693,6 +17367,58 @@ union cavm_rpmx_cmr_global_int_ena_w1c
     struct cavm_rpmx_cmr_global_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR].
+                                                                 Internal:
+                                                                 SW tried to access non-existing LMAC: when RPM supports only 4 LMACs
+                                                                 (LMAC[0-3]), then CSR access addr[22]
+                                                                 must be 0 (because each LAMC CSRs are offset by 0x100000, and so LMAC[4] base address is 0x400000,
+                                                                 and LMAC[7] base address is 0x700000).
+                                                                 Note that in this case RPM will return RSL error response immediately.
+                                                                 This interrupt is irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF].
+                                                                 Internal:
+                                                                 Relevant only when RPM_CMR_GLOBAL_CONFIG.TS_VAL_BU_SYNC_EN==1, i.e. when Timestamp value is
+                                                                 synchronized using the backup circuit.
+                                                                 Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
+        uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
+        uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
+        uint64_t infifo_4_overfl       : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_4_OVERFL]. */
+        uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
+        uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
+        uint64_t infifo_1_overfl       : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_1_OVERFL]. */
+        uint64_t infifo_0_overfl       : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_0_OVERFL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t infifo_0_overfl       : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_0_OVERFL]. */
+        uint64_t infifo_1_overfl       : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_1_OVERFL]. */
+        uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
+        uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
+        uint64_t infifo_4_overfl       : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_4_OVERFL]. */
+        uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
+        uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
+        uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF].
+                                                                 Internal:
+                                                                 Relevant only when RPM_CMR_GLOBAL_CONFIG.TS_VAL_BU_SYNC_EN==1, i.e. when Timestamp value is
+                                                                 synchronized using the backup circuit.
+                                                                 Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR].
+                                                                 Internal:
+                                                                 SW tried to access non-existing LMAC: when RPM supports only 4 LMACs
+                                                                 (LMAC[0-3]), then CSR access addr[22]
+                                                                 must be 0 (because each LAMC CSRs are offset by 0x100000, and so LMAC[4] base address is 0x400000,
+                                                                 and LMAC[7] base address is 0x700000).
+                                                                 Note that in this case RPM will return RSL error response immediately.
+                                                                 This interrupt is irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_global_int_ena_w1c_s cn10; */
+    /* struct cavm_rpmx_cmr_global_int_ena_w1c_s cn10kb; */
+    struct cavm_rpmx_cmr_global_int_ena_w1c_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF].
                                                                  Internal:
@@ -14717,14 +17443,15 @@ union cavm_rpmx_cmr_global_int_ena_w1c
                                                                  Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_global_int_ena_w1c_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_global_int_ena_w1c cavm_rpmx_cmr_global_int_ena_w1c_t;
 
 static inline uint64_t CAVM_RPMX_CMR_GLOBAL_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_CMR_GLOBAL_INT_ENA_W1C(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0000020ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
         return 0x87e0e0000020ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("RPMX_CMR_GLOBAL_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
@@ -14749,6 +17476,58 @@ union cavm_rpmx_cmr_global_int_ena_w1s
     struct cavm_rpmx_cmr_global_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR].
+                                                                 Internal:
+                                                                 SW tried to access non-existing LMAC: when RPM supports only 4 LMACs
+                                                                 (LMAC[0-3]), then CSR access addr[22]
+                                                                 must be 0 (because each LAMC CSRs are offset by 0x100000, and so LMAC[4] base address is 0x400000,
+                                                                 and LMAC[7] base address is 0x700000).
+                                                                 Note that in this case RPM will return RSL error response immediately.
+                                                                 This interrupt is irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF].
+                                                                 Internal:
+                                                                 Relevant only when RPM_CMR_GLOBAL_CONFIG.TS_VAL_BU_SYNC_EN==1, i.e. when Timestamp value is
+                                                                 synchronized using the backup circuit.
+                                                                 Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
+        uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
+        uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
+        uint64_t infifo_4_overfl       : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_4_OVERFL]. */
+        uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
+        uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
+        uint64_t infifo_1_overfl       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_1_OVERFL]. */
+        uint64_t infifo_0_overfl       : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_0_OVERFL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t infifo_0_overfl       : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_0_OVERFL]. */
+        uint64_t infifo_1_overfl       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_1_OVERFL]. */
+        uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
+        uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
+        uint64_t infifo_4_overfl       : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_4_OVERFL]. */
+        uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
+        uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
+        uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF].
+                                                                 Internal:
+                                                                 Relevant only when RPM_CMR_GLOBAL_CONFIG.TS_VAL_BU_SYNC_EN==1, i.e. when Timestamp value is
+                                                                 synchronized using the backup circuit.
+                                                                 Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR].
+                                                                 Internal:
+                                                                 SW tried to access non-existing LMAC: when RPM supports only 4 LMACs
+                                                                 (LMAC[0-3]), then CSR access addr[22]
+                                                                 must be 0 (because each LAMC CSRs are offset by 0x100000, and so LMAC[4] base address is 0x400000,
+                                                                 and LMAC[7] base address is 0x700000).
+                                                                 Note that in this case RPM will return RSL error response immediately.
+                                                                 This interrupt is irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_global_int_ena_w1s_s cn10; */
+    /* struct cavm_rpmx_cmr_global_int_ena_w1s_s cn10kb; */
+    struct cavm_rpmx_cmr_global_int_ena_w1s_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
         uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF].
                                                                  Internal:
@@ -14773,14 +17552,15 @@ union cavm_rpmx_cmr_global_int_ena_w1s
                                                                  Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_global_int_ena_w1s_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_global_int_ena_w1s cavm_rpmx_cmr_global_int_ena_w1s_t;
 
 static inline uint64_t CAVM_RPMX_CMR_GLOBAL_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_CMR_GLOBAL_INT_ENA_W1S(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0000028ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
         return 0x87e0e0000028ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("RPMX_CMR_GLOBAL_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
@@ -14803,6 +17583,58 @@ union cavm_rpmx_cmr_global_int_w1s
 {
     uint64_t u;
     struct cavm_rpmx_cmr_global_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR].
+                                                                 Internal:
+                                                                 SW tried to access non-existing LMAC: when RPM supports only 4 LMACs
+                                                                 (LMAC[0-3]), then CSR access addr[22]
+                                                                 must be 0 (because each LAMC CSRs are offset by 0x100000, and so LMAC[4] base address is 0x400000,
+                                                                 and LMAC[7] base address is 0x700000).
+                                                                 Note that in this case RPM will return RSL error response immediately.
+                                                                 This interrupt is irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF].
+                                                                 Internal:
+                                                                 Relevant only when RPM_CMR_GLOBAL_CONFIG.TS_VAL_BU_SYNC_EN==1, i.e. when Timestamp value is
+                                                                 synchronized using the backup circuit.
+                                                                 Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
+        uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
+        uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
+        uint64_t infifo_4_overfl       : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_4_OVERFL]. */
+        uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
+        uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
+        uint64_t infifo_1_overfl       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_1_OVERFL]. */
+        uint64_t infifo_0_overfl       : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_0_OVERFL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t infifo_0_overfl       : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_0_OVERFL]. */
+        uint64_t infifo_1_overfl       : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_1_OVERFL]. */
+        uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
+        uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
+        uint64_t infifo_4_overfl       : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_4_OVERFL]. */
+        uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
+        uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
+        uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF].
+                                                                 Internal:
+                                                                 Relevant only when RPM_CMR_GLOBAL_CONFIG.TS_VAL_BU_SYNC_EN==1, i.e. when Timestamp value is
+                                                                 synchronized using the backup circuit.
+                                                                 Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
+        uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR].
+                                                                 Internal:
+                                                                 SW tried to access non-existing LMAC: when RPM supports only 4 LMACs
+                                                                 (LMAC[0-3]), then CSR access addr[22]
+                                                                 must be 0 (because each LAMC CSRs are offset by 0x100000, and so LMAC[4] base address is 0x400000,
+                                                                 and LMAC[7] base address is 0x700000).
+                                                                 Note that in this case RPM will return RSL error response immediately.
+                                                                 This interrupt is irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_global_int_w1s_s cn10; */
+    /* struct cavm_rpmx_cmr_global_int_w1s_s cn10kb; */
+    struct cavm_rpmx_cmr_global_int_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
@@ -14829,14 +17661,15 @@ union cavm_rpmx_cmr_global_int_w1s
                                                                  Indicates overflow of the async-FIFO, in case TS_PRESCALE_FACTOR is not configured correctly. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_global_int_w1s_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_global_int_w1s cavm_rpmx_cmr_global_int_w1s_t;
 
 static inline uint64_t CAVM_RPMX_CMR_GLOBAL_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_CMR_GLOBAL_INT_W1S(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0000018ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
         return 0x87e0e0000018ll + 0x1000000ll * ((a) & 0xf);
     __cavm_csr_fatal("RPMX_CMR_GLOBAL_INT_W1S", 1, a, 0, 0, 0, 0, 0);
@@ -15084,6 +17917,47 @@ static inline uint64_t CAVM_RPMX_CMR_MEM_INT_W1S(uint64_t a)
 #define arguments_CAVM_RPMX_CMR_MEM_INT_W1S(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) rpm#_cmr_nck_csr_coarse
+ *
+ * INTERNAL: RPM CMR_NCK Subblock Coarse Clock Enable Register
+ *
+ * CMR_NCK subblock coarse-gating clock force.
+ */
+union cavm_rpmx_cmr_nck_csr_coarse
+{
+    uint64_t u;
+    struct cavm_rpmx_cmr_nck_csr_coarse_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_nck_csr_coarse_s cn; */
+};
+typedef union cavm_rpmx_cmr_nck_csr_coarse cavm_rpmx_cmr_nck_csr_coarse_t;
+
+static inline uint64_t CAVM_RPMX_CMR_NCK_CSR_COARSE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMR_NCK_CSR_COARSE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0006a20ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_CMR_NCK_CSR_COARSE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMR_NCK_CSR_COARSE(a) cavm_rpmx_cmr_nck_csr_coarse_t
+#define bustype_CAVM_RPMX_CMR_NCK_CSR_COARSE(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMR_NCK_CSR_COARSE(a) "RPMX_CMR_NCK_CSR_COARSE"
+#define device_bar_CAVM_RPMX_CMR_NCK_CSR_COARSE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMR_NCK_CSR_COARSE(a) (a)
+#define arguments_CAVM_RPMX_CMR_NCK_CSR_COARSE(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) rpm#_cmr_p2x#_count
  *
  * RPM P2X Activity Register
@@ -15108,6 +17982,8 @@ static inline uint64_t CAVM_RPMX_CMR_P2XX_COUNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=2)))
         return 0x87e0e0000140ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=2)))
+        return 0x87e0e0000140ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=2)))
         return 0x87e0e0000140ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=2)))
@@ -15142,7 +18018,22 @@ union cavm_rpmx_cmr_p2x_nic_nxc_adr
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmr_p2x_nic_nxc_adr_s cn; */
+    /* struct cavm_rpmx_cmr_p2x_nic_nxc_adr_s cn10; */
+    /* struct cavm_rpmx_cmr_p2x_nic_nxc_adr_s cn10ka; */
+    struct cavm_rpmx_cmr_p2x_nic_nxc_adr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t lmac_id               : 3;  /**< [ 14: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIC (see P2X_NIC_NXC). */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIC (see P2X_NIC_NXC). */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIC (see P2X_NIC_NXC). */
+        uint64_t lmac_id               : 3;  /**< [ 14: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIC (see P2X_NIC_NXC). */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmr_p2x_nic_nxc_adr_s cnf10ka; */
+    /* struct cavm_rpmx_cmr_p2x_nic_nxc_adr_s cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_p2x_nic_nxc_adr cavm_rpmx_cmr_p2x_nic_nxc_adr_t;
 
@@ -15151,6 +18042,8 @@ static inline uint64_t CAVM_RPMX_CMR_P2X_NIC_NXC_ADR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0001010ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -15185,7 +18078,22 @@ union cavm_rpmx_cmr_p2x_nix0_nxc_adr
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s cn; */
+    /* struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s cn10; */
+    /* struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s cn10ka; */
+    struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t lmac_id               : 3;  /**< [ 14: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX0 (see P2X_NIX0_NXC). */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX0 (see P2X_NIX0_NXC). */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX0 (see P2X_NIX0_NXC). */
+        uint64_t lmac_id               : 3;  /**< [ 14: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX0 (see P2X_NIX0_NXC). */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s cnf10ka; */
+    /* struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_p2x_nix0_nxc_adr cavm_rpmx_cmr_p2x_nix0_nxc_adr_t;
 
@@ -15194,6 +18102,8 @@ static inline uint64_t CAVM_RPMX_CMR_P2X_NIX0_NXC_ADR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0001038ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0001038ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -15228,7 +18138,22 @@ union cavm_rpmx_cmr_p2x_nix1_nxc_adr
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s cn; */
+    /* struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s cn10; */
+    /* struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s cn10ka; */
+    struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t lmac_id               : 3;  /**< [ 14: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
+        uint64_t lmac_id               : 3;  /**< [ 14: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX1 (see P2X_NIX1_NXC) */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s cnf10ka; */
+    /* struct cavm_rpmx_cmr_p2x_nix1_nxc_adr_s cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_p2x_nix1_nxc_adr cavm_rpmx_cmr_p2x_nix1_nxc_adr_t;
 
@@ -15237,6 +18162,8 @@ static inline uint64_t CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0001040ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0001040ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -15252,6 +18179,47 @@ static inline uint64_t CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(uint64_t a)
 #define arguments_CAVM_RPMX_CMR_P2X_NIX1_NXC_ADR(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) rpm#_cmr_rsl_nxc_lmac_synd
+ *
+ * RPM CMR Bad RSL Address Interrupt Syndrome Register
+ */
+union cavm_rpmx_cmr_rsl_nxc_lmac_synd
+{
+    uint64_t u;
+    struct cavm_rpmx_cmr_rsl_nxc_lmac_synd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t bad_addr              : 24; /**< [ 23:  0](RO/H) The last bad address which caused RSL_NXC_LMAC_ERR interrupt.
+                                                                 Internal:
+                                                                 irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+#else /* Word 0 - Little Endian */
+        uint64_t bad_addr              : 24; /**< [ 23:  0](RO/H) The last bad address which caused RSL_NXC_LMAC_ERR interrupt.
+                                                                 Internal:
+                                                                 irrelevant for 2-slices RPM (i.e. when 8 LMACs exist, case RPM_USX). */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_rsl_nxc_lmac_synd_s cn; */
+};
+typedef union cavm_rpmx_cmr_rsl_nxc_lmac_synd cavm_rpmx_cmr_rsl_nxc_lmac_synd_t;
+
+static inline uint64_t CAVM_RPMX_CMR_RSL_NXC_LMAC_SYND(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMR_RSL_NXC_LMAC_SYND(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0000070ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_CMR_RSL_NXC_LMAC_SYND", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMR_RSL_NXC_LMAC_SYND(a) cavm_rpmx_cmr_rsl_nxc_lmac_synd_t
+#define bustype_CAVM_RPMX_CMR_RSL_NXC_LMAC_SYND(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMR_RSL_NXC_LMAC_SYND(a) "RPMX_CMR_RSL_NXC_LMAC_SYND"
+#define device_bar_CAVM_RPMX_CMR_RSL_NXC_LMAC_SYND(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMR_RSL_NXC_LMAC_SYND(a) (a)
+#define arguments_CAVM_RPMX_CMR_RSL_NXC_LMAC_SYND(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) rpm#_cmr_rx_dmac#_cam0
  *
  * RPM CMR Receive CAM Registers
@@ -15262,6 +18230,49 @@ union cavm_rpmx_cmr_rx_dmacx_cam0
 {
     uint64_t u;
     struct cavm_rpmx_cmr_rx_dmacx_cam0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_52_63        : 12;
+        uint64_t id                    : 3;  /**< [ 51: 49](R/W) Logical MAC ID that this DMAC CAM address applies to. RPM has 32 DMAC CAM0 entries that
+                                                                 can be accessed with the RPM()_CMR_RX_DMAC()_CAM0 CSRs. These 32 DMAC entries can be used
+                                                                 by any of the four SGMII MACs or the 10G/40G MACs using these register bits.
+
+                                                                 A typical configuration is to provide eight CAM entries per LMAC ID, which is configured
+                                                                 using the following settings:
+                                                                 * LMAC interface 0: RPM()_CMR_RX_DMAC(0..7)_CAM0[ID] = 0x0.
+                                                                 * LMAC interface 1: RPM()_CMR_RX_DMAC(8..15)_CAM0[ID] = 0x1.
+                                                                 * LMAC interface 2: RPM()_CMR_RX_DMAC(16..23)_CAM0[ID] = 0x2.
+                                                                 * LMAC interface 3: RPM()_CMR_RX_DMAC(24..31)_CAM0[ID] = 0x3. */
+        uint64_t en                    : 1;  /**< [ 48: 48](R/W) CAM entry enable for this DMAC address.
+                                                                 0 = Don't include this address in the matching algorithm.
+                                                                 1 = Include this address in the matching algorithm. */
+        uint64_t adr                   : 48; /**< [ 47:  0](R/W) DMAC address in the CAM used for matching. Specified in network byte order, i.e.
+                                                                 ADR\<47:40\> is for the first DMAC byte on the wire. The CAM matches against unicast or
+                                                                 multicast DMAC addresses. All RPM()_CMR_RX_DMAC()_CAM0 CSRs can be used in any of the LMAC
+                                                                 combinations such that any RPM MAC can use any of the 32 common DMAC0 entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t adr                   : 48; /**< [ 47:  0](R/W) DMAC address in the CAM used for matching. Specified in network byte order, i.e.
+                                                                 ADR\<47:40\> is for the first DMAC byte on the wire. The CAM matches against unicast or
+                                                                 multicast DMAC addresses. All RPM()_CMR_RX_DMAC()_CAM0 CSRs can be used in any of the LMAC
+                                                                 combinations such that any RPM MAC can use any of the 32 common DMAC0 entries. */
+        uint64_t en                    : 1;  /**< [ 48: 48](R/W) CAM entry enable for this DMAC address.
+                                                                 0 = Don't include this address in the matching algorithm.
+                                                                 1 = Include this address in the matching algorithm. */
+        uint64_t id                    : 3;  /**< [ 51: 49](R/W) Logical MAC ID that this DMAC CAM address applies to. RPM has 32 DMAC CAM0 entries that
+                                                                 can be accessed with the RPM()_CMR_RX_DMAC()_CAM0 CSRs. These 32 DMAC entries can be used
+                                                                 by any of the four SGMII MACs or the 10G/40G MACs using these register bits.
+
+                                                                 A typical configuration is to provide eight CAM entries per LMAC ID, which is configured
+                                                                 using the following settings:
+                                                                 * LMAC interface 0: RPM()_CMR_RX_DMAC(0..7)_CAM0[ID] = 0x0.
+                                                                 * LMAC interface 1: RPM()_CMR_RX_DMAC(8..15)_CAM0[ID] = 0x1.
+                                                                 * LMAC interface 2: RPM()_CMR_RX_DMAC(16..23)_CAM0[ID] = 0x2.
+                                                                 * LMAC interface 3: RPM()_CMR_RX_DMAC(24..31)_CAM0[ID] = 0x3. */
+        uint64_t reserved_52_63        : 12;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_rx_dmacx_cam0_s cn10; */
+    struct cavm_rpmx_cmr_rx_dmacx_cam0_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_51_63        : 13;
@@ -15302,8 +18313,45 @@ union cavm_rpmx_cmr_rx_dmacx_cam0
                                                                  * LMAC interface 3: RPM()_CMR_RX_DMAC(24..31)_CAM0[ID] = 0x3. */
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_rx_dmacx_cam0_s cn; */
+    } cn10ka;
+    struct cavm_rpmx_cmr_rx_dmacx_cam0_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_52_63        : 12;
+        uint64_t id                    : 3;  /**< [ 51: 49](R/W) Logical MAC ID that this DMAC CAM address applies to. RPM has 64 DMAC CAM0 entries that
+                                                                 can be accessed with the RPM()_CMR_RX_DMAC()_CAM0 CSRs. Any DMAC entry can be used
+                                                                 by any of the LMACs, by assigning ID to that LMAC ID.
+
+                                                                 A typical configuration is to provide equal CAM entries per LMAC ID,
+                                                                 which is configured using the following settings (n = 0..7):
+                                                                   * for LMAC \<n\>: RPM()_CMR_RX_DMAC(\<n*8\>...\<(n+1)*8-1\>)_CAM0[ID] = n. */
+        uint64_t en                    : 1;  /**< [ 48: 48](R/W) CAM entry enable for this DMAC address.
+                                                                 0 = Don't include this address in the matching algorithm.
+                                                                 1 = Include this address in the matching algorithm. */
+        uint64_t adr                   : 48; /**< [ 47:  0](R/W) DMAC address in the CAM used for matching. Specified in network byte order, i.e.
+                                                                 ADR\<47:40\> is for the first DMAC byte on the wire. The CAM matches against unicast or
+                                                                 multicast DMAC addresses. All RPM()_CMR_RX_DMAC()_CAM0 CSRs can be used in any of the LMAC
+                                                                 combinations such that any RPM MAC can use any of the 32 common DMAC0 entries. */
+#else /* Word 0 - Little Endian */
+        uint64_t adr                   : 48; /**< [ 47:  0](R/W) DMAC address in the CAM used for matching. Specified in network byte order, i.e.
+                                                                 ADR\<47:40\> is for the first DMAC byte on the wire. The CAM matches against unicast or
+                                                                 multicast DMAC addresses. All RPM()_CMR_RX_DMAC()_CAM0 CSRs can be used in any of the LMAC
+                                                                 combinations such that any RPM MAC can use any of the 32 common DMAC0 entries. */
+        uint64_t en                    : 1;  /**< [ 48: 48](R/W) CAM entry enable for this DMAC address.
+                                                                 0 = Don't include this address in the matching algorithm.
+                                                                 1 = Include this address in the matching algorithm. */
+        uint64_t id                    : 3;  /**< [ 51: 49](R/W) Logical MAC ID that this DMAC CAM address applies to. RPM has 64 DMAC CAM0 entries that
+                                                                 can be accessed with the RPM()_CMR_RX_DMAC()_CAM0 CSRs. Any DMAC entry can be used
+                                                                 by any of the LMACs, by assigning ID to that LMAC ID.
+
+                                                                 A typical configuration is to provide equal CAM entries per LMAC ID,
+                                                                 which is configured using the following settings (n = 0..7):
+                                                                   * for LMAC \<n\>: RPM()_CMR_RX_DMAC(\<n*8\>...\<(n+1)*8-1\>)_CAM0[ID] = n. */
+        uint64_t reserved_52_63        : 12;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmr_rx_dmacx_cam0_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_cmr_rx_dmacx_cam0_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_rx_dmacx_cam0 cavm_rpmx_cmr_rx_dmacx_cam0_t;
 
@@ -15312,6 +18360,8 @@ static inline uint64_t CAVM_RPMX_CMR_RX_DMACX_CAM0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=31)))
         return 0x87e0e0005000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=63)))
+        return 0x87e0e0004000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=31)))
         return 0x87e0e0005000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=31)))
@@ -15340,6 +18390,41 @@ union cavm_rpmx_cmr_rx_lmacs
     struct cavm_rpmx_cmr_rx_lmacs_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t hi_perf_lmac_4_7      : 2;  /**< [ 11: 10](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST[7:4]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_4_7 + 4]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t hi_perf_lmac_0_3      : 2;  /**< [  9:  8](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST[3:0]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_0_3]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_7          : 8;
+        uint64_t hi_perf_lmac_0_3      : 2;  /**< [  9:  8](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST[3:0]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_0_3]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t hi_perf_lmac_4_7      : 2;  /**< [ 11: 10](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST[7:4]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_4_7 + 4]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_rx_lmacs_s cn10; */
+    struct cavm_rpmx_cmr_rx_lmacs_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
         uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST])==3, in which case it determines which LMAC
                                                                  of the three existing LMACs gets the bigger memory allocation for its Rx buffer.
@@ -15384,8 +18469,87 @@ union cavm_rpmx_cmr_rx_lmacs
                                                                  This CSR may be configured only once, at initialization (before enabling the LMAC). */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_rx_lmacs_s cn; */
+    } cn10ka;
+    struct cavm_rpmx_cmr_rx_lmacs_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t hi_perf_lmac_4_7      : 2;  /**< [ 11: 10](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST[7:4]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_4_7 + 4]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t hi_perf_lmac_0_3      : 2;  /**< [  9:  8](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST[3:0]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_0_3]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t lmac_exist            : 8;  /**< [  7:  0](R/W) Number of LMACS: Specifies which LMACs can be enabled for Rx traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for Rx traffic.
+                                                                 This field determines the logical RX buffer size allocated to each LMAC.
+                                                                 Note: RPM has a prior partitioning of the entire Rx Bulk memory into two equal
+                                                                 parts, for two LMAC groups: LMACs (0..3), (4..7).
+                                                                 This prior partitioning is unchangable; on top of that, a configurable memory
+                                                                 allocation inside each group is applied:
+
+                                                                 When all LMAC group bits are 0 : no LMAC may be enabled for Rx traffic.
+                                                                 When 1 LMAC exists inside group: all the memory partition is assigned to that
+                                                                 LMAC (RPM()_CONST[RX_FIFOSZ]/2 bytes).
+                                                                 When 2 LMACs exist inside group: RPM()_CONST[RX_FIFOSZ]/4 bytes are assigned per LMAC in the group.
+                                                                 When 3 LMACs exist inside group: RPM_CMR_RX_LMACS[\<x\>] gets assigned
+                                                                 RPM()_CONST[RX_FIFOSZ]/4 bytes,
+                                                                    where \<x\> is either HI_PERF_LMAC_0_3, or (HI_PERF_LMAC_4_7 + 4), respectively.
+                                                                    RPM()_CONST[RX_FIFOSZ]/8 bytes are assigned to the other 2 existing LMACs in the group.
+                                                                 When all 4 LMACs exist inside group: RPM()_CONST[RX_FIFOSZ]/8 bytes are assigned
+                                                                 per LMAC in the group.
+
+                                                                 To be able to change the number of LMACs without affecting currently
+                                                                 active LMACs, this should be set to the maximum number of possible
+                                                                 LMACs desired in any re-configuration. */
+#else /* Word 0 - Little Endian */
+        uint64_t lmac_exist            : 8;  /**< [  7:  0](R/W) Number of LMACS: Specifies which LMACs can be enabled for Rx traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for Rx traffic.
+                                                                 This field determines the logical RX buffer size allocated to each LMAC.
+                                                                 Note: RPM has a prior partitioning of the entire Rx Bulk memory into two equal
+                                                                 parts, for two LMAC groups: LMACs (0..3), (4..7).
+                                                                 This prior partitioning is unchangable; on top of that, a configurable memory
+                                                                 allocation inside each group is applied:
+
+                                                                 When all LMAC group bits are 0 : no LMAC may be enabled for Rx traffic.
+                                                                 When 1 LMAC exists inside group: all the memory partition is assigned to that
+                                                                 LMAC (RPM()_CONST[RX_FIFOSZ]/2 bytes).
+                                                                 When 2 LMACs exist inside group: RPM()_CONST[RX_FIFOSZ]/4 bytes are assigned per LMAC in the group.
+                                                                 When 3 LMACs exist inside group: RPM_CMR_RX_LMACS[\<x\>] gets assigned
+                                                                 RPM()_CONST[RX_FIFOSZ]/4 bytes,
+                                                                    where \<x\> is either HI_PERF_LMAC_0_3, or (HI_PERF_LMAC_4_7 + 4), respectively.
+                                                                    RPM()_CONST[RX_FIFOSZ]/8 bytes are assigned to the other 2 existing LMACs in the group.
+                                                                 When all 4 LMACs exist inside group: RPM()_CONST[RX_FIFOSZ]/8 bytes are assigned
+                                                                 per LMAC in the group.
+
+                                                                 To be able to change the number of LMACs without affecting currently
+                                                                 active LMACs, this should be set to the maximum number of possible
+                                                                 LMACs desired in any re-configuration. */
+        uint64_t hi_perf_lmac_0_3      : 2;  /**< [  9:  8](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST[3:0]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_0_3]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t hi_perf_lmac_4_7      : 2;  /**< [ 11: 10](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST[7:4]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_4_7 + 4]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmr_rx_lmacs_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_cmr_rx_lmacs_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_rx_lmacs cavm_rpmx_cmr_rx_lmacs_t;
 
@@ -15394,6 +18558,8 @@ static inline uint64_t CAVM_RPMX_CMR_RX_LMACS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0000128ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0000100ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0000128ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -15575,6 +18741,8 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING0X(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=7)))
         return 0x87e0e0005800ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=15)))
+        return 0x87e0e0006000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=7)))
         return 0x87e0e0005800ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=7)))
@@ -15622,6 +18790,8 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_DEFAULT0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0005900ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0006400ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0005900ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -15685,6 +18855,8 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_VETYPE0X(uint64_t a, uint64_t b
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=7)))
         return 0x87e0e0005880ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=15)))
+        return 0x87e0e0006200ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=7)))
         return 0x87e0e0005880ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=7)))
@@ -15700,6 +18872,47 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_VETYPE0X(uint64_t a, uint64_t b
 #define arguments_CAVM_RPMX_CMR_RX_STEERING_VETYPE0X(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) rpm#_cmr_sck_csr_coarse
+ *
+ * INTERNAL: RPM CMR_SCK Subblock Coarse Clock Enable Register
+ *
+ * CMR_SCK subblock coarse-gating clock force.
+ */
+union cavm_rpmx_cmr_sck_csr_coarse
+{
+    uint64_t u;
+    struct cavm_rpmx_cmr_sck_csr_coarse_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_sck_csr_coarse_s cn; */
+};
+typedef union cavm_rpmx_cmr_sck_csr_coarse cavm_rpmx_cmr_sck_csr_coarse_t;
+
+static inline uint64_t CAVM_RPMX_CMR_SCK_CSR_COARSE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_CMR_SCK_CSR_COARSE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0001108ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_CMR_SCK_CSR_COARSE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_CMR_SCK_CSR_COARSE(a) cavm_rpmx_cmr_sck_csr_coarse_t
+#define bustype_CAVM_RPMX_CMR_SCK_CSR_COARSE(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_CMR_SCK_CSR_COARSE(a) "RPMX_CMR_SCK_CSR_COARSE"
+#define device_bar_CAVM_RPMX_CMR_SCK_CSR_COARSE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_CMR_SCK_CSR_COARSE(a) (a)
+#define arguments_CAVM_RPMX_CMR_SCK_CSR_COARSE(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) rpm#_cmr_tx_lmacs
  *
  * RPM CMR Transmit Logical MACs Registers
@@ -15711,6 +18924,41 @@ union cavm_rpmx_cmr_tx_lmacs
 {
     uint64_t u;
     struct cavm_rpmx_cmr_tx_lmacs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t hi_perf_lmac_4_7      : 2;  /**< [ 11: 10](R/W) Relevant only when sum(RPM_CMR_TX_LMACS[LMAC_EXIST[7:4]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_4_7 + 4]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t hi_perf_lmac_0_3      : 2;  /**< [  9:  8](R/W) Relevant only when sum(RPM_CMR_TX_LMACS[LMAC_EXIST[3:0]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_0_3]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_7          : 8;
+        uint64_t hi_perf_lmac_0_3      : 2;  /**< [  9:  8](R/W) Relevant only when sum(RPM_CMR_TX_LMACS[LMAC_EXIST[3:0]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_0_3]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t hi_perf_lmac_4_7      : 2;  /**< [ 11: 10](R/W) Relevant only when sum(RPM_CMR_TX_LMACS[LMAC_EXIST[7:4]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_4_7 + 4]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_cmr_tx_lmacs_s cn10; */
+    struct cavm_rpmx_cmr_tx_lmacs_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_6_63         : 58;
@@ -15757,8 +19005,87 @@ union cavm_rpmx_cmr_tx_lmacs
                                                                  This CSR may be configured only once, at initialization (before enabling the LMAC). */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_cmr_tx_lmacs_s cn; */
+    } cn10ka;
+    struct cavm_rpmx_cmr_tx_lmacs_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t hi_perf_lmac_4_7      : 2;  /**< [ 11: 10](R/W) Relevant only when sum(RPM_CMR_TX_LMACS[LMAC_EXIST[7:4]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_4_7 + 4]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t hi_perf_lmac_0_3      : 2;  /**< [  9:  8](R/W) Relevant only when sum(RPM_CMR_TX_LMACS[LMAC_EXIST[3:0]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_0_3]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t lmac_exist            : 8;  /**< [  7:  0](R/W) Number of LMACS: Specifies which LMACs can be enabled for Tx traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for Tx traffic.
+                                                                 This field determines the logical TX buffer size allocated to each LMAC.
+                                                                 Note: RPM has a prior partitioning of the entire Tx Bulk memory into two equal
+                                                                 parts, for two LMAC groups: LMACs (0..3), (4..7).
+                                                                 This prior partitioning is unchangable; on top of that, a configurable memory
+                                                                 allocation inside each group is applied:
+
+                                                                 When all LMAC group bits are 0 : no LMAC may be enabled for Tx traffic.
+                                                                 When 1 LMAC exists inside group: all the memory partition is assigned to that
+                                                                 LMAC (RPM()_CONST[TX_FIFOSZ]/2 bytes).
+                                                                 When 2 LMACs exist inside group: RPM()_CONST[TX_FIFOSZ]/4 bytes are assigned per LMAC in the group.
+                                                                 When 3 LMACs exist inside group: RPM_CMR_TX_LMACS[\<x\>] gets assigned
+                                                                 RPM()_CONST[TX_FIFOSZ]/4 bytes,
+                                                                    where \<x\> is either HI_PERF_LMAC_0_3, or (HI_PERF_LMAC_4_7 + 4), respectively.
+                                                                    RPM()_CONST[TX_FIFOSZ]/8 bytes are assigned to the other 2 existing LMACs in the group.
+                                                                 When all 4 LMACs exist inside group: RPM()_CONST[TX_FIFOSZ]/8 bytes are assigned
+                                                                 per LMAC in the group.
+
+                                                                 To be able to change the number of LMACs without affecting currently
+                                                                 active LMACs, this should be set to the maximum number of possible
+                                                                 LMACs desired in any re-configuration. */
+#else /* Word 0 - Little Endian */
+        uint64_t lmac_exist            : 8;  /**< [  7:  0](R/W) Number of LMACS: Specifies which LMACs can be enabled for Tx traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for Tx traffic.
+                                                                 This field determines the logical TX buffer size allocated to each LMAC.
+                                                                 Note: RPM has a prior partitioning of the entire Tx Bulk memory into two equal
+                                                                 parts, for two LMAC groups: LMACs (0..3), (4..7).
+                                                                 This prior partitioning is unchangable; on top of that, a configurable memory
+                                                                 allocation inside each group is applied:
+
+                                                                 When all LMAC group bits are 0 : no LMAC may be enabled for Tx traffic.
+                                                                 When 1 LMAC exists inside group: all the memory partition is assigned to that
+                                                                 LMAC (RPM()_CONST[TX_FIFOSZ]/2 bytes).
+                                                                 When 2 LMACs exist inside group: RPM()_CONST[TX_FIFOSZ]/4 bytes are assigned per LMAC in the group.
+                                                                 When 3 LMACs exist inside group: RPM_CMR_TX_LMACS[\<x\>] gets assigned
+                                                                 RPM()_CONST[TX_FIFOSZ]/4 bytes,
+                                                                    where \<x\> is either HI_PERF_LMAC_0_3, or (HI_PERF_LMAC_4_7 + 4), respectively.
+                                                                    RPM()_CONST[TX_FIFOSZ]/8 bytes are assigned to the other 2 existing LMACs in the group.
+                                                                 When all 4 LMACs exist inside group: RPM()_CONST[TX_FIFOSZ]/8 bytes are assigned
+                                                                 per LMAC in the group.
+
+                                                                 To be able to change the number of LMACs without affecting currently
+                                                                 active LMACs, this should be set to the maximum number of possible
+                                                                 LMACs desired in any re-configuration. */
+        uint64_t hi_perf_lmac_0_3      : 2;  /**< [  9:  8](R/W) Relevant only when sum(RPM_CMR_TX_LMACS[LMAC_EXIST[3:0]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_0_3]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t hi_perf_lmac_4_7      : 2;  /**< [ 11: 10](R/W) Relevant only when sum(RPM_CMR_TX_LMACS[LMAC_EXIST[7:4]])==3, in which case it determines which
+                                                                 LMAC of these three existing LMACs (in the group) gets the bigger memory
+                                                                 allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal
+                                                                 (i.e. LMAC_EXIST[HI_PERF_LMAC_4_7 + 4]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_cmr_tx_lmacs_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_cmr_tx_lmacs_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_cmr_tx_lmacs cavm_rpmx_cmr_tx_lmacs_t;
 
@@ -15766,6 +19093,8 @@ static inline uint64_t CAVM_RPMX_CMR_TX_LMACS(uint64_t a) __attribute__ ((pure, 
 static inline uint64_t CAVM_RPMX_CMR_TX_LMACS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0001000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0001000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0001000ll + 0x1000000ll * ((a) & 0x3);
@@ -15806,6 +19135,8 @@ static inline uint64_t CAVM_RPMX_CMR_X2PX_COUNT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=2)))
         return 0x87e0e0000160ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=2)))
+        return 0x87e0e0000180ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=2)))
         return 0x87e0e0000160ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=2)))
@@ -15857,6 +19188,34 @@ union cavm_rpmx_const
     } s;
     /* struct cavm_rpmx_const_s cn10; */
     /* struct cavm_rpmx_const_s cn10ka; */
+    struct cavm_rpmx_const_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ver                   : 8;  /**< [ 63: 56](RO) HW Major version
+                                                                 Internal:
+                                                                 0 - CGX
+                                                                 1 - RPM for 106, 105, 105N
+                                                                 2 - RPM for 103
+                                                                 See RPM_CONST1.RPM_SUB_VERSION and RPM_CONST1.MINOR_VER */
+        uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of Receive buffering (Rx Bulk FIFO) in entire RPM. This buffering may be split
+                                                                 between LMACs; see RPM()_CMR_RX_LMACS. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of Transmit buffering (Tx Bulk FIFO) in entire RPM. This buffering may be split
+                                                                 between LMACs; see RPM()_CMR_TX_LMACS. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of Transmit buffering (Tx Bulk FIFO) in entire RPM. This buffering may be split
+                                                                 between LMACs; see RPM()_CMR_TX_LMACS. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of Receive buffering (Rx Bulk FIFO) in entire RPM. This buffering may be split
+                                                                 between LMACs; see RPM()_CMR_RX_LMACS. */
+        uint64_t ver                   : 8;  /**< [ 63: 56](RO) HW Major version
+                                                                 Internal:
+                                                                 0 - CGX
+                                                                 1 - RPM for 106, 105, 105N
+                                                                 2 - RPM for 103
+                                                                 See RPM_CONST1.RPM_SUB_VERSION and RPM_CONST1.MINOR_VER */
+#endif /* Word 0 - End */
+    } cn10kb;
     /* struct cavm_rpmx_const_s cnf10ka; */
     struct cavm_rpmx_const_cnf10kb
     {
@@ -15891,6 +19250,8 @@ static inline uint64_t CAVM_RPMX_CONST(uint64_t a) __attribute__ ((pure, always_
 static inline uint64_t CAVM_RPMX_CONST(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0002000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0002000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0002000ll + 0x1000000ll * ((a) & 0x3);
@@ -15947,6 +19308,46 @@ union cavm_rpmx_const1
     } s;
     /* struct cavm_rpmx_const1_s cn10; */
     /* struct cavm_rpmx_const1_s cn10ka; */
+    struct cavm_rpmx_const1_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t rpm_sub_version       : 11; /**< [ 10:  0](RO) RPM sub-version.
+                                                                 Internal:
+                                                                 RPM_CONST.VER[7:0]    RPM_SUB_VERSION[10:8]   RPM_SUB_VERSION[7:0]      Description
+                                                                 HW Major version      HW Minor version        Instance type             flavor/device/cluster/lanes
+                                                                 (RO)                  (per param MTI100)      (tie__rpm_inst_type[7:0])
+                                                                 --------------        --------------------    ---------------------    ---------------------------
+                                                                   0                       0                        0                    CGX
+                                                                   1                       0                        0                    RPM_100/106/ROC/QLM
+                                                                   1                       0                        1                    RPM_100/106/ROC/SLM
+                                                                   1                       0                        2                    RPM_100/105/ROC/QLM
+                                                                   1                       0                        3                    RPM_100/105/BPHY/QLM
+                                                                   1                       1                        0                    RPM_100/105N/ROC/QLM
+                                                                   1                       1                        1                    RPM_100/105N/ROC/DLM
+                                                                   1                       1                        2                    RPM_100/105N/BPHY/QLM
+                                                                   2                       0                        0                    RPM_100/103/ROC/QLM
+                                                                   2                       1                        0                    RPM_USX/103/ROC/SLM */
+#else /* Word 0 - Little Endian */
+        uint64_t rpm_sub_version       : 11; /**< [ 10:  0](RO) RPM sub-version.
+                                                                 Internal:
+                                                                 RPM_CONST.VER[7:0]    RPM_SUB_VERSION[10:8]   RPM_SUB_VERSION[7:0]      Description
+                                                                 HW Major version      HW Minor version        Instance type             flavor/device/cluster/lanes
+                                                                 (RO)                  (per param MTI100)      (tie__rpm_inst_type[7:0])
+                                                                 --------------        --------------------    ---------------------    ---------------------------
+                                                                   0                       0                        0                    CGX
+                                                                   1                       0                        0                    RPM_100/106/ROC/QLM
+                                                                   1                       0                        1                    RPM_100/106/ROC/SLM
+                                                                   1                       0                        2                    RPM_100/105/ROC/QLM
+                                                                   1                       0                        3                    RPM_100/105/BPHY/QLM
+                                                                   1                       1                        0                    RPM_100/105N/ROC/QLM
+                                                                   1                       1                        1                    RPM_100/105N/ROC/DLM
+                                                                   1                       1                        2                    RPM_100/105N/BPHY/QLM
+                                                                   2                       0                        0                    RPM_100/103/ROC/QLM
+                                                                   2                       1                        0                    RPM_USX/103/ROC/SLM */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } cn10kb;
     /* struct cavm_rpmx_const1_s cnf10ka; */
     struct cavm_rpmx_const1_cnf10kb
     {
@@ -15991,6 +19392,8 @@ static inline uint64_t CAVM_RPMX_CONST1(uint64_t a) __attribute__ ((pure, always
 static inline uint64_t CAVM_RPMX_CONST1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0002008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0002008ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0002008ll + 0x1000000ll * ((a) & 0x3);
@@ -16044,6 +19447,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_AMPS_LOCK_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0050038ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0050038ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050038ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -16086,6 +19491,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_BLOCK_LOCK_STATUS(uint64_t a) __
 static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_BLOCK_LOCK_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0050050ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0050050ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050050ll + 0x1000000ll * ((a) & 0x3);
@@ -16173,6 +19580,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_CHANNEL_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0050010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0050010ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050010ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -16233,6 +19642,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_CLOCK_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0050018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0050018ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050018ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -16259,7 +19670,10 @@ union cavm_rpmx_ext_mti_global_clock_enable
     struct cavm_rpmx_ext_mti_global_clock_enable_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_15_62        : 48;
         uint64_t reg_clken_ovrd        : 1;  /**< [ 14: 14](R/W) Override registers clock to always be on. For diagnostic use only.
                                                                  Internal:
                                                                  reg_clk */
@@ -16276,15 +19690,13 @@ union cavm_rpmx_ext_mti_global_clock_enable
         uint64_t mac_pcs_cmn_clken_ovrd : 1; /**< [  8:  8](R/W) Override common MAC/PCS clock to always be on. For diagnostic use only.
                                                                  Internal:
                                                                  ref_clk */
-        uint64_t reserved_4_7          : 4;
-        uint64_t mac_clken_ovrd        : 4;  /**< [  3:  0](R/W) Override MAC clocks to always be on. For diagnostic use only.
+        uint64_t mac_clken_ovrd        : 8;  /**< [  7:  0](R/W) Override MAC clocks to always be on. For diagnostic use only.
                                                                  Internal:
                                                                  mac_ref_clk[3:0] and mac_ff_clk[3:0] */
 #else /* Word 0 - Little Endian */
-        uint64_t mac_clken_ovrd        : 4;  /**< [  3:  0](R/W) Override MAC clocks to always be on. For diagnostic use only.
+        uint64_t mac_clken_ovrd        : 8;  /**< [  7:  0](R/W) Override MAC clocks to always be on. For diagnostic use only.
                                                                  Internal:
                                                                  mac_ref_clk[3:0] and mac_ff_clk[3:0] */
-        uint64_t reserved_4_7          : 4;
         uint64_t mac_pcs_cmn_clken_ovrd : 1; /**< [  8:  8](R/W) Override common MAC/PCS clock to always be on. For diagnostic use only.
                                                                  Internal:
                                                                  ref_clk */
@@ -16301,10 +19713,14 @@ union cavm_rpmx_ext_mti_global_clock_enable
         uint64_t reg_clken_ovrd        : 1;  /**< [ 14: 14](R/W) Override registers clock to always be on. For diagnostic use only.
                                                                  Internal:
                                                                  reg_clk */
-        uint64_t reserved_15_63        : 49;
+        uint64_t reserved_15_62        : 48;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_rpmx_ext_mti_global_clock_enable_cn
+    /* struct cavm_rpmx_ext_mti_global_clock_enable_s cn10; */
+    struct cavm_rpmx_ext_mti_global_clock_enable_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
@@ -16353,7 +19769,63 @@ union cavm_rpmx_ext_mti_global_clock_enable
                                                                  reg_clk */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
-    } cn;
+    } cn10ka;
+    struct cavm_rpmx_ext_mti_global_clock_enable_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_15_62        : 48;
+        uint64_t reg_clken_ovrd        : 1;  /**< [ 14: 14](R/W) Override registers clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 reg_clk */
+        uint64_t lpcs_clken_ovrd       : 1;  /**< [ 13: 13](R/W) Override low-rate PCS clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 sgref_ref_clk */
+        uint64_t reserved_12           : 1;
+        uint64_t reserved_11           : 1;
+        uint64_t pcs_clken_ovrd        : 1;  /**< [ 10: 10](R/W) Override quad PCS clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 xpcs_ref_clk[0] */
+        uint64_t fec91_clken_ovrd      : 1;  /**< [  9:  9](R/W) Override RS-FEC PCS clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 f91_ref_clk */
+        uint64_t mac_pcs_cmn_clken_ovrd : 1; /**< [  8:  8](R/W) Override common MAC/PCS clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 ref_clk */
+        uint64_t mac_clken_ovrd        : 8;  /**< [  7:  0](R/W) Override MAC clocks to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 mac_ref_clk[3:0] and mac_ff_clk[3:0] */
+#else /* Word 0 - Little Endian */
+        uint64_t mac_clken_ovrd        : 8;  /**< [  7:  0](R/W) Override MAC clocks to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 mac_ref_clk[3:0] and mac_ff_clk[3:0] */
+        uint64_t mac_pcs_cmn_clken_ovrd : 1; /**< [  8:  8](R/W) Override common MAC/PCS clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 ref_clk */
+        uint64_t fec91_clken_ovrd      : 1;  /**< [  9:  9](R/W) Override RS-FEC PCS clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 f91_ref_clk */
+        uint64_t pcs_clken_ovrd        : 1;  /**< [ 10: 10](R/W) Override quad PCS clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 xpcs_ref_clk[0] */
+        uint64_t reserved_11           : 1;
+        uint64_t reserved_12           : 1;
+        uint64_t lpcs_clken_ovrd       : 1;  /**< [ 13: 13](R/W) Override low-rate PCS clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 sgref_ref_clk */
+        uint64_t reg_clken_ovrd        : 1;  /**< [ 14: 14](R/W) Override registers clock to always be on. For diagnostic use only.
+                                                                 Internal:
+                                                                 reg_clk */
+        uint64_t reserved_15_62        : 48;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_ext_mti_global_clock_enable_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_ext_mti_global_clock_enable_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_global_clock_enable cavm_rpmx_ext_mti_global_clock_enable_t;
 
@@ -16361,6 +19833,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_CLOCK_ENABLE(uint64_t a) __attri
 static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_CLOCK_ENABLE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0050020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0050020ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050020ll + 0x1000000ll * ((a) & 0x3);
@@ -16441,6 +19915,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(uint64_t a) __attrib
 static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0050008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0050008ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050008ll + 0x1000000ll * ((a) & 0x3);
@@ -16537,6 +20013,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_FEC_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0050040ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0050040ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050040ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -16563,6 +20041,27 @@ union cavm_rpmx_ext_mti_global_pma_control
     struct cavm_rpmx_ext_mti_global_pma_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t gc_sd_8x              : 8;  /**< [ 15:  8](R/W) For sdN to work with:
+                                                                 80 bits - gc_sd_8x[N] = 1 , gc_sd_n2[N] = 0
+                                                                 40 bits - gc_sd_8x[N] = 0 , gc_sd_n2[N] = 0 */
+        uint64_t gc_sd_n2              : 8;  /**< [  7:  0](R/W) For sdN to work with:
+                                                                 80 bits - gc_sd_8x[N] = 1 , gc_sd_n2[N] = 0
+                                                                 40 bits - gc_sd_8x[N] = 0 , gc_sd_n2[N] = 0 */
+#else /* Word 0 - Little Endian */
+        uint64_t gc_sd_n2              : 8;  /**< [  7:  0](R/W) For sdN to work with:
+                                                                 80 bits - gc_sd_8x[N] = 1 , gc_sd_n2[N] = 0
+                                                                 40 bits - gc_sd_8x[N] = 0 , gc_sd_n2[N] = 0 */
+        uint64_t gc_sd_8x              : 8;  /**< [ 15:  8](R/W) For sdN to work with:
+                                                                 80 bits - gc_sd_8x[N] = 1 , gc_sd_n2[N] = 0
+                                                                 40 bits - gc_sd_8x[N] = 0 , gc_sd_n2[N] = 0 */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_ext_mti_global_pma_control_s cn10; */
+    struct cavm_rpmx_ext_mti_global_pma_control_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
         uint64_t gc_sd_8x              : 4;  /**< [ 11:  8](R/W) For sdN to work with:
                                                                  80 bits - gc_sd_8x[N] = 1 , gc_sd_n2[N] = 0
@@ -16581,8 +20080,10 @@ union cavm_rpmx_ext_mti_global_pma_control
                                                                  40 bits - gc_sd_8x[N] = 0 , gc_sd_n2[N] = 0 */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_ext_mti_global_pma_control_s cn; */
+    } cn10ka;
+    /* struct cavm_rpmx_ext_mti_global_pma_control_s cn10kb; */
+    /* struct cavm_rpmx_ext_mti_global_pma_control_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_ext_mti_global_pma_control_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_global_pma_control cavm_rpmx_ext_mti_global_pma_control_t;
 
@@ -16590,6 +20091,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_PMA_CONTROL(uint64_t a) __attrib
 static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_PMA_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0050000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0050000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050000ll + 0x1000000ll * ((a) & 0x3);
@@ -16634,8 +20137,8 @@ union cavm_rpmx_ext_mti_global_reset_control
         uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_xpcs_ref_clk[0] */
-        uint64_t reserved_20_26        : 7;
-        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high.
+        uint64_t reserved_24_26        : 3;
+        uint64_t mac_reset             : 8;  /**< [ 23: 16](R/W) MAC logic reset. Active high.
                                                                  Internal:
                                                                  reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
         uint64_t reserved_12_15        : 4;
@@ -16655,10 +20158,10 @@ union cavm_rpmx_ext_mti_global_reset_control
                                                                  Internal:
                                                                  reset_sd_tx_clk[3:0] */
         uint64_t reserved_12_15        : 4;
-        uint64_t mac_reset             : 4;  /**< [ 19: 16](R/W) MAC logic reset. Active high.
+        uint64_t mac_reset             : 8;  /**< [ 23: 16](R/W) MAC logic reset. Active high.
                                                                  Internal:
                                                                  reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
-        uint64_t reserved_20_26        : 7;
+        uint64_t reserved_24_26        : 3;
         uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high.
                                                                  Internal:
                                                                  reset_xpcs_ref_clk[0] */
@@ -16678,7 +20181,8 @@ union cavm_rpmx_ext_mti_global_reset_control
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_rpmx_ext_mti_global_reset_control_cn
+    /* struct cavm_rpmx_ext_mti_global_reset_control_s cn10; */
+    struct cavm_rpmx_ext_mti_global_reset_control_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -16745,7 +20249,75 @@ union cavm_rpmx_ext_mti_global_reset_control
                                                                  reset_reg_clk */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } cn;
+    } cn10ka;
+    struct cavm_rpmx_ext_mti_global_reset_control_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_reg_clk */
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_ref_clk */
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_sgref_ref_clk */
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_f91_ref_clk */
+        uint64_t reserved_28           : 1;
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_xpcs_ref_clk[0] */
+        uint64_t reserved_26           : 1;
+        uint64_t reserved_24_25        : 2;
+        uint64_t mac_reset             : 8;  /**< [ 23: 16](R/W) MAC logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
+        uint64_t reserved_12_15        : 4;
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For USX only LSB applies.
+                                                                 Internal:
+                                                                 reset_sd_tx_clk[3:0] */
+        uint64_t reserved_4_7          : 4;
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high.  For USX only LSB applies.
+                                                                 Internal:
+                                                                 reset_sd_rx_clk[3:0] */
+#else /* Word 0 - Little Endian */
+        uint64_t serdes_rx_reset       : 4;  /**< [  3:  0](R/W) SerDes RX lane logic reset. Active high.  For USX only LSB applies.
+                                                                 Internal:
+                                                                 reset_sd_rx_clk[3:0] */
+        uint64_t reserved_4_7          : 4;
+        uint64_t serdes_tx_reset       : 4;  /**< [ 11:  8](R/W) SerDes TX lane logic reset. Active high. For USX only LSB applies.
+                                                                 Internal:
+                                                                 reset_sd_tx_clk[3:0] */
+        uint64_t reserved_12_15        : 4;
+        uint64_t mac_reset             : 8;  /**< [ 23: 16](R/W) MAC logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_mac_ref_clk[3:0] and reset_mac_ff_clk[3:0] */
+        uint64_t reserved_24_25        : 2;
+        uint64_t reserved_26           : 1;
+        uint64_t pcs_reset             : 1;  /**< [ 27: 27](R/W) Quad PCS logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_xpcs_ref_clk[0] */
+        uint64_t reserved_28           : 1;
+        uint64_t fec91_reset           : 1;  /**< [ 29: 29](R/W) PCS RS-FEC logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_f91_ref_clk */
+        uint64_t lpcs_reset            : 1;  /**< [ 30: 30](R/W) Low-rate PCS logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_sgref_ref_clk */
+        uint64_t cmn_mac_pcs_reset     : 1;  /**< [ 31: 31](R/W) Common MAC/PCS logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_ref_clk */
+        uint64_t reg_reset             : 1;  /**< [ 32: 32](R/W) MAC/PCS registers logic reset. Active high.
+                                                                 Internal:
+                                                                 reset_reg_clk */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_ext_mti_global_reset_control_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_ext_mti_global_reset_control_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_global_reset_control cavm_rpmx_ext_mti_global_reset_control_t;
 
@@ -16753,6 +20325,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_RESET_CONTROL(uint64_t a) __attr
 static inline uint64_t CAVM_RPMX_EXT_MTI_GLOBAL_RESET_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0050028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0050028ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0050028ll + 0x1000000ll * ((a) & 0x3);
@@ -16780,6 +20354,161 @@ union cavm_rpmx_ext_mti_portx_control
     struct cavm_rpmx_ext_mti_portx_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t ff_tx_crc_ovr         : 1;  /**< [ 27: 27](R/W) When FF_TX_CRC_OVR_MODE==1, This bit determines the value of the signal
+                                                                 ff_tx_crc_ovr connected to MTI core. */
+        uint64_t ff_tx_crc_ovr_mode    : 1;  /**< [ 26: 26](R/W) 0 - FF_TX_CRC_OVR signal is tied to FF_TX_CRC_INV (From CMR). When CRC Invert is
+                                                                 used Override is enabled.
+                                                                 1 - FF_TX_CRC_OVR signal is determined by the value of FF_TX_CRC_OVD field (this register bit 27). */
+        uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When LOOP_ENA is set, defines whether CMR TX data is backpressured or dropped.
+                                                                 0x0 CMR TX data is backpressured
+                                                                 0x1 CMR TX data is dropped */
+        uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented.
+                                                                 When LOOP_ENA is set, this bit controls whether to transmit RX data to CMR as well.
+                                                                 0x0 transmit to CMR
+                                                                 0x1 block transmission to CMR (by dval=0 always) */
+        uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 0x0: The value configured in the PORT_RES_SPEED is used
+                                                                 0x1: The value from the PCS is used */
+        uint64_t port_res_speed        : 4;  /**< [ 22: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Set resolution speed for the port. */
+        uint64_t force_link_ok_dis     : 1;  /**< [ 18: 18](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x0 (Not Active).
+                                                                 Informal only, does not affect the link logic of the MAC.
+                                                                 *for debug purpose* */
+        uint64_t force_link_ok_en      : 1;  /**< [ 17: 17](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x1 (Active).
+                                                                 Informal only, does not affect the link logic of the MAC.
+                                                                 Can be used to have RPM_EXT_MTI_PORT()_STATUS[LINK_OK] Active when operating MAC
+                                                                 loopback (MII TX-\>RX). */
+        uint64_t ff_tx_crc             : 1;  /**< [ 16: 16](R/W) When set MAC adds CRC at the end of the frame.
+                                                                  0x0 =  MAC transmits frame without CRC addition.
+                                                                  0x1 =  MAC adds CRC at the end of the frame's payload. */
+        uint64_t led_port_en           : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Enable for the led port that collects led indication from the port. */
+        uint64_t led_port_num          : 6;  /**< [ 14:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Port number for led port unit. */
+        uint64_t mask_sw_reset         : 1;  /**< [  8:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Mask SW reset to the MIF. */
+        uint64_t loop_ena              : 1;  /**< [  7:  7](R/W) Enables MAC application RX to TX loop.
+                                                                 When enabled, need to also configure the CRC_FWD in COMMAD_CONFIG register of relevant MAC100. */
+        uint64_t pause_802_3_reflect   : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 When set and flow control mode is 802.3x, pause[0] is reflected to all priorities. */
+        uint64_t rx_pause_ow_val       : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Override value for pause control */
+        uint64_t rx_pause_control      : 1;  /**< [  4:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Stop_tx control:
+                                                                 0x0 = mac is stopped as long as pause_on[0] is high and working mode is 802.3x
+                                                                 0x1 = gets the value of pause_ow_val (bit[5] of this register). */
+        uint64_t tod_select            : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Select if TOD used by the MAC arrives from TAI0 or TAI1. */
+        uint64_t tx_li_fault           : 1;  /**< [  2:  2](R/W) Force link interruption fault on the TX MII.
+                                                                 can't be set together with tx_loc_fault or tx_rem_fault.
+
+                                                                 Relevant only for XGMII (10G/25G) */
+        uint64_t tx_rem_fault          : 1;  /**< [  1:  1](R/W) Force remote fault on the TX MII.
+                                                                 can't be set together with tx_loc_fault or tx_li_fault. */
+        uint64_t tx_loc_fault          : 1;  /**< [  0:  0](R/W) Force local fault on the TX MII.
+                                                                 can't be set together with tx_rem_fault pr tx_li_fault. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_loc_fault          : 1;  /**< [  0:  0](R/W) Force local fault on the TX MII.
+                                                                 can't be set together with tx_rem_fault pr tx_li_fault. */
+        uint64_t tx_rem_fault          : 1;  /**< [  1:  1](R/W) Force remote fault on the TX MII.
+                                                                 can't be set together with tx_loc_fault or tx_li_fault. */
+        uint64_t tx_li_fault           : 1;  /**< [  2:  2](R/W) Force link interruption fault on the TX MII.
+                                                                 can't be set together with tx_loc_fault or tx_rem_fault.
+
+                                                                 Relevant only for XGMII (10G/25G) */
+        uint64_t tod_select            : 1;  /**< [  3:  3](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Select if TOD used by the MAC arrives from TAI0 or TAI1. */
+        uint64_t rx_pause_control      : 1;  /**< [  4:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Stop_tx control:
+                                                                 0x0 = mac is stopped as long as pause_on[0] is high and working mode is 802.3x
+                                                                 0x1 = gets the value of pause_ow_val (bit[5] of this register). */
+        uint64_t rx_pause_ow_val       : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Override value for pause control */
+        uint64_t pause_802_3_reflect   : 1;  /**< [  6:  6](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 When set and flow control mode is 802.3x, pause[0] is reflected to all priorities. */
+        uint64_t loop_ena              : 1;  /**< [  7:  7](R/W) Enables MAC application RX to TX loop.
+                                                                 When enabled, need to also configure the CRC_FWD in COMMAD_CONFIG register of relevant MAC100. */
+        uint64_t mask_sw_reset         : 1;  /**< [  8:  8](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Mask SW reset to the MIF. */
+        uint64_t led_port_num          : 6;  /**< [ 14:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Port number for led port unit. */
+        uint64_t led_port_en           : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Enable for the led port that collects led indication from the port. */
+        uint64_t ff_tx_crc             : 1;  /**< [ 16: 16](R/W) When set MAC adds CRC at the end of the frame.
+                                                                  0x0 =  MAC transmits frame without CRC addition.
+                                                                  0x1 =  MAC adds CRC at the end of the frame's payload. */
+        uint64_t force_link_ok_en      : 1;  /**< [ 17: 17](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x1 (Active).
+                                                                 Informal only, does not affect the link logic of the MAC.
+                                                                 Can be used to have RPM_EXT_MTI_PORT()_STATUS[LINK_OK] Active when operating MAC
+                                                                 loopback (MII TX-\>RX). */
+        uint64_t force_link_ok_dis     : 1;  /**< [ 18: 18](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x0 (Not Active).
+                                                                 Informal only, does not affect the link logic of the MAC.
+                                                                 *for debug purpose* */
+        uint64_t port_res_speed        : 4;  /**< [ 22: 19](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 Set resolution speed for the port. */
+        uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented (Switches legacy).
+                                                                 0x0: The value configured in the PORT_RES_SPEED is used
+                                                                 0x1: The value from the PCS is used */
+        uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented.
+                                                                 When LOOP_ENA is set, this bit controls whether to transmit RX data to CMR as well.
+                                                                 0x0 transmit to CMR
+                                                                 0x1 block transmission to CMR (by dval=0 always) */
+        uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When LOOP_ENA is set, defines whether CMR TX data is backpressured or dropped.
+                                                                 0x0 CMR TX data is backpressured
+                                                                 0x1 CMR TX data is dropped */
+        uint64_t ff_tx_crc_ovr_mode    : 1;  /**< [ 26: 26](R/W) 0 - FF_TX_CRC_OVR signal is tied to FF_TX_CRC_INV (From CMR). When CRC Invert is
+                                                                 used Override is enabled.
+                                                                 1 - FF_TX_CRC_OVR signal is determined by the value of FF_TX_CRC_OVD field (this register bit 27). */
+        uint64_t ff_tx_crc_ovr         : 1;  /**< [ 27: 27](R/W) When FF_TX_CRC_OVR_MODE==1, This bit determines the value of the signal
+                                                                 ff_tx_crc_ovr connected to MTI core. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_ext_mti_portx_control_s cn10; */
+    struct cavm_rpmx_ext_mti_portx_control_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
         uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When LOOP_ENA is set, defines whether CMR TX data is backpressured or dropped.
                                                                  0x0 CMR TX data is backpressured
@@ -16920,8 +20649,155 @@ union cavm_rpmx_ext_mti_portx_control
                                                                  0x1 CMR TX data is dropped */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_ext_mti_portx_control_s cn; */
+    } cn10ka;
+    struct cavm_rpmx_ext_mti_portx_control_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t ff_tx_crc_ovr         : 1;  /**< [ 27: 27](R/W) When FF_TX_CRC_OVR_MODE==1, This bit determines the value of the signal
+                                                                 ff_tx_crc_ovr connected to MTI core. */
+        uint64_t ff_tx_crc_ovr_mode    : 1;  /**< [ 26: 26](R/W) 0 - FF_TX_CRC_OVR signal is tied to FF_TX_CRC_INV (From CMR). When CRC Invert is
+                                                                 used Override is enabled.
+                                                                 1 - FF_TX_CRC_OVR signal is determined by the value of FF_TX_CRC_OVD field (this register bit 27). */
+        uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When LOOP_ENA is set, defines whether CMR TX data is backpressured or dropped.
+                                                                 0x0 CMR TX data is backpressured
+                                                                 0x1 CMR TX data is dropped */
+        uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented.
+                                                                 When LOOP_ENA is set, this bit controls whether to transmit RX data to CMR as well.
+                                                                 0x0 transmit to CMR
+                                                                 0x1 block transmission to CMR (by dval=0 always) */
+        uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Port_res_speed From HW
+                                                                 0x0: The value configured in the port_res_speed is used
+                                                                 0x1: The value from the PCS is used */
+        uint64_t port_res_speed        : 4;  /**< [ 22: 19](R/W) Set resolution speed for the port.
+                                                                 0xf = Reset.
+                                                                 0x1 = SGMII (set internally 10M/100M/1000M)
+                                                                 0x3 = 1000BASE-X.
+                                                                 0x5 = 10GBASE-R
+                                                                 0x6 = 25GBASE-R
+                                                                 0x7 = 40GBASE-R
+                                                                 0x8 = 50GBASE-R
+                                                                 0x9 = 100GBASE-R
+                                                                 0xa = 400GBASE-R
+                                                                 0xb = 200GBASE-R */
+        uint64_t force_link_ok_dis     : 1;  /**< [ 18: 18](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x0 (Not Active).
+                                                                 Informal only, does not affect the link logic of the MAC.
+                                                                 *for debug purpose* */
+        uint64_t force_link_ok_en      : 1;  /**< [ 17: 17](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x1 (Active).
+                                                                 Informal only, does not affect the link logic of the MAC.
+                                                                 Can be used to have RPM_EXT_MTI_PORT()_STATUS[LINK_OK] Active when operating MAC
+                                                                 loopback (MII TX-\>RX). */
+        uint64_t ff_tx_crc             : 1;  /**< [ 16: 16](R/W) When set MAC adds CRC at the end of the frame.
+                                                                  0x0 =  MAC transmits frame without CRC addition.
+                                                                  0x1 =  MAC adds CRC at the end of the frame's payload. */
+        uint64_t led_port_en           : 1;  /**< [ 15: 15](R/W) Enable for the led port that collects led indication from the port.
+                                                                 NOTE: Currently the way of setting inactive port is by setting the led_port_num to 0x3f.
+                                                                 This field should be enabled also when the port is not enabled.
+                                                                  0x0 = Bypass; Bypass; Bypass the led port.
+                                                                 This means output is driven directly by the input, which shortens the chain time
+                                                                 for the led server.
+                                                                  0x1 = Enabled; Enabled; Led port is enabled.
+                                                                 takes part of the led chain and transmits the port indications when it is the port turn. */
+        uint64_t led_port_num          : 6;  /**< [ 14:  9](R/W) Port number for led port unit.
+                                                                 for a port which is not active,
+                                                                 the value 0x3f needs to be set. */
+        uint64_t mask_sw_reset         : 1;  /**< [  8:  8](R/W) Mask SW reset to the MIF
+                                                                 0: MAC SW reset resets the MIF as well
+                                                                 1: MAC SW reset doesn't reset the MIF */
+        uint64_t loop_ena              : 1;  /**< [  7:  7](R/W) Enables MAC application RX to TX loop.
+                                                                 When enabled, need to also configure the CRC_FWD in COMMAD_CONFIG register of relevant MAC100. */
+        uint64_t pause_802_3_reflect   : 1;  /**< [  6:  6](R/W) When set and flow control mode is 802.3x ,
+                                                                 pause[0] is reflected to all priorities. */
+        uint64_t rx_pause_ow_val       : 1;  /**< [  5:  5](R/W) Override value for pause control */
+        uint64_t rx_pause_control      : 1;  /**< [  4:  4](R/W) Stop_tx control:
+                                                                 0x0 = mac is stopped as long as pause_on[0] is high and working mode is 802.3x
+                                                                 0x1 = gets the value of pause_ow_val (bit[5] of this register). */
+        uint64_t tod_select            : 1;  /**< [  3:  3](R/W) Select if TOD used by the MAC arrives from TAI0 or TAI1. */
+        uint64_t tx_li_fault           : 1;  /**< [  2:  2](R/W) Force link interruption fault on the TX MII.
+                                                                 can't be set together with tx_loc_fault or tx_rem_fault.
+
+                                                                 Relevant only for XGMII (10G/25G) */
+        uint64_t tx_rem_fault          : 1;  /**< [  1:  1](R/W) Force remote fault on the TX MII.
+                                                                 can't be set together with tx_loc_fault or tx_li_fault. */
+        uint64_t tx_loc_fault          : 1;  /**< [  0:  0](R/W) Force local fault on the TX MII.
+                                                                 can't be set together with tx_rem_fault pr tx_li_fault. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_loc_fault          : 1;  /**< [  0:  0](R/W) Force local fault on the TX MII.
+                                                                 can't be set together with tx_rem_fault pr tx_li_fault. */
+        uint64_t tx_rem_fault          : 1;  /**< [  1:  1](R/W) Force remote fault on the TX MII.
+                                                                 can't be set together with tx_loc_fault or tx_li_fault. */
+        uint64_t tx_li_fault           : 1;  /**< [  2:  2](R/W) Force link interruption fault on the TX MII.
+                                                                 can't be set together with tx_loc_fault or tx_rem_fault.
+
+                                                                 Relevant only for XGMII (10G/25G) */
+        uint64_t tod_select            : 1;  /**< [  3:  3](R/W) Select if TOD used by the MAC arrives from TAI0 or TAI1. */
+        uint64_t rx_pause_control      : 1;  /**< [  4:  4](R/W) Stop_tx control:
+                                                                 0x0 = mac is stopped as long as pause_on[0] is high and working mode is 802.3x
+                                                                 0x1 = gets the value of pause_ow_val (bit[5] of this register). */
+        uint64_t rx_pause_ow_val       : 1;  /**< [  5:  5](R/W) Override value for pause control */
+        uint64_t pause_802_3_reflect   : 1;  /**< [  6:  6](R/W) When set and flow control mode is 802.3x ,
+                                                                 pause[0] is reflected to all priorities. */
+        uint64_t loop_ena              : 1;  /**< [  7:  7](R/W) Enables MAC application RX to TX loop.
+                                                                 When enabled, need to also configure the CRC_FWD in COMMAD_CONFIG register of relevant MAC100. */
+        uint64_t mask_sw_reset         : 1;  /**< [  8:  8](R/W) Mask SW reset to the MIF
+                                                                 0: MAC SW reset resets the MIF as well
+                                                                 1: MAC SW reset doesn't reset the MIF */
+        uint64_t led_port_num          : 6;  /**< [ 14:  9](R/W) Port number for led port unit.
+                                                                 for a port which is not active,
+                                                                 the value 0x3f needs to be set. */
+        uint64_t led_port_en           : 1;  /**< [ 15: 15](R/W) Enable for the led port that collects led indication from the port.
+                                                                 NOTE: Currently the way of setting inactive port is by setting the led_port_num to 0x3f.
+                                                                 This field should be enabled also when the port is not enabled.
+                                                                  0x0 = Bypass; Bypass; Bypass the led port.
+                                                                 This means output is driven directly by the input, which shortens the chain time
+                                                                 for the led server.
+                                                                  0x1 = Enabled; Enabled; Led port is enabled.
+                                                                 takes part of the led chain and transmits the port indications when it is the port turn. */
+        uint64_t ff_tx_crc             : 1;  /**< [ 16: 16](R/W) When set MAC adds CRC at the end of the frame.
+                                                                  0x0 =  MAC transmits frame without CRC addition.
+                                                                  0x1 =  MAC adds CRC at the end of the frame's payload. */
+        uint64_t force_link_ok_en      : 1;  /**< [ 17: 17](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x1 (Active).
+                                                                 Informal only, does not affect the link logic of the MAC.
+                                                                 Can be used to have RPM_EXT_MTI_PORT()_STATUS[LINK_OK] Active when operating MAC
+                                                                 loopback (MII TX-\>RX). */
+        uint64_t force_link_ok_dis     : 1;  /**< [ 18: 18](R/W) Force RPM_EXT_MTI_PORT()_STATUS[LINK_OK] to 0x0 (Not Active).
+                                                                 Informal only, does not affect the link logic of the MAC.
+                                                                 *for debug purpose* */
+        uint64_t port_res_speed        : 4;  /**< [ 22: 19](R/W) Set resolution speed for the port.
+                                                                 0xf = Reset.
+                                                                 0x1 = SGMII (set internally 10M/100M/1000M)
+                                                                 0x3 = 1000BASE-X.
+                                                                 0x5 = 10GBASE-R
+                                                                 0x6 = 25GBASE-R
+                                                                 0x7 = 40GBASE-R
+                                                                 0x8 = 50GBASE-R
+                                                                 0x9 = 100GBASE-R
+                                                                 0xa = 400GBASE-R
+                                                                 0xb = 200GBASE-R */
+        uint64_t port_res_speed_from_hw : 1; /**< [ 23: 23](R/W) Port_res_speed From HW
+                                                                 0x0: The value configured in the port_res_speed is used
+                                                                 0x1: The value from the PCS is used */
+        uint64_t loop_rx_block_out     : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not implemented.
+                                                                 When LOOP_ENA is set, this bit controls whether to transmit RX data to CMR as well.
+                                                                 0x0 transmit to CMR
+                                                                 0x1 block transmission to CMR (by dval=0 always) */
+        uint64_t loop_tx_rdy_out       : 1;  /**< [ 25: 25](R/W) When LOOP_ENA is set, defines whether CMR TX data is backpressured or dropped.
+                                                                 0x0 CMR TX data is backpressured
+                                                                 0x1 CMR TX data is dropped */
+        uint64_t ff_tx_crc_ovr_mode    : 1;  /**< [ 26: 26](R/W) 0 - FF_TX_CRC_OVR signal is tied to FF_TX_CRC_INV (From CMR). When CRC Invert is
+                                                                 used Override is enabled.
+                                                                 1 - FF_TX_CRC_OVR signal is determined by the value of FF_TX_CRC_OVD field (this register bit 27). */
+        uint64_t ff_tx_crc_ovr         : 1;  /**< [ 27: 27](R/W) When FF_TX_CRC_OVR_MODE==1, This bit determines the value of the signal
+                                                                 ff_tx_crc_ovr connected to MTI core. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_ext_mti_portx_control_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_ext_mti_portx_control_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_portx_control cavm_rpmx_ext_mti_portx_control_t;
 
@@ -16930,6 +20806,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -16974,6 +20852,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_FRC_DELTA(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00510a8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00510a8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00510a8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17067,6 +20947,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051800ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051800ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051800ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17130,6 +21012,44 @@ union cavm_rpmx_ext_mti_portx_int_ena_w1c
     } s;
     /* struct cavm_rpmx_ext_mti_portx_int_ena_w1c_s cn10; */
     /* struct cavm_rpmx_ext_mti_portx_int_ena_w1c_s cn10ka; */
+    struct cavm_rpmx_ext_mti_portx_int_ena_w1c_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t reserved_11           : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[HI_BER]. */
+        uint64_t reserved_9            : 1;
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LOC_FAULT]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_OK_CHANGE]. */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_AN_DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_AN_DONE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_OK_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LOC_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t reserved_9            : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[HI_BER]. */
+        uint64_t reserved_11           : 1;
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_ext_mti_portx_int_ena_w1c_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -17214,6 +21134,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1C(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051810ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051810ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051810ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17277,6 +21199,44 @@ union cavm_rpmx_ext_mti_portx_int_ena_w1s
     } s;
     /* struct cavm_rpmx_ext_mti_portx_int_ena_w1s_s cn10; */
     /* struct cavm_rpmx_ext_mti_portx_int_ena_w1s_s cn10ka; */
+    struct cavm_rpmx_ext_mti_portx_int_ena_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t reserved_11           : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[HI_BER]. */
+        uint64_t reserved_9            : 1;
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LOC_FAULT]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_OK_CHANGE]. */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_AN_DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_AN_DONE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_OK_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LOC_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t reserved_9            : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[HI_BER]. */
+        uint64_t reserved_11           : 1;
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_ext_mti_portx_int_ena_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -17361,6 +21321,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_ENA_W1S(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051818ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051818ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051818ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17424,6 +21386,44 @@ union cavm_rpmx_ext_mti_portx_int_w1s
     } s;
     /* struct cavm_rpmx_ext_mti_portx_int_w1s_s cn10; */
     /* struct cavm_rpmx_ext_mti_portx_int_w1s_s cn10ka; */
+    struct cavm_rpmx_ext_mti_portx_int_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t reserved_11           : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[HI_BER]. */
+        uint64_t reserved_9            : 1;
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LOC_FAULT]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_OK_CHANGE]. */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_AN_DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpcs_an_done          : 1;  /**< [  0:  0](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_AN_DONE]. */
+        uint64_t link_ok_change        : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_OK_CHANGE]. */
+        uint64_t link_status_change    : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LINK_STATUS_CHANGE]. */
+        uint64_t lpcs_link_status_change : 1;/**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[LPCS_LINK_STATUS_CHANGE]. */
+        uint64_t mac_loc_fault         : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LOC_FAULT]. */
+        uint64_t mac_rem_fault         : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_REM_FAULT]. */
+        uint64_t mac_li_fault          : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_LI_FAULT]. */
+        uint64_t mac_tx_underflow      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_UNDERFLOW]. */
+        uint64_t mac_tx_overflow       : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[MAC_TX_OVERFLOW]. */
+        uint64_t reserved_9            : 1;
+        uint64_t hi_ber                : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[HI_BER]. */
+        uint64_t reserved_11           : 1;
+        uint64_t tsu_rx_dff_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_DFF_ERR]. */
+        uint64_t tsu_rx_am_err         : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_RX_AM_ERR]. */
+        uint64_t tsu_tx_sync_err       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets RPM(0..2)_EXT_MTI_PORT(0..7)_INT[TSU_TX_SYNC_ERR]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_rpmx_ext_mti_portx_int_w1s_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -17508,6 +21508,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_INT_W1S(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051808ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051808ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051808ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17561,6 +21563,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_MARKER_STATUS(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051020ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051020ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051020ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17586,6 +21590,41 @@ union cavm_rpmx_ext_mti_portx_pause_and_err_stat
 {
     uint64_t u;
     struct cavm_rpmx_ext_mti_portx_pause_and_err_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_41_63        : 23;
+        uint64_t ff_rx_err_stat        : 25; /**< [ 40: 16](RO/H) This bus holds status bits of the last received packet (sampled on EOP).
+                                                                 The below refers to bit offest in this field.
+                                                                 [0] - too large frame
+                                                                 [1] - crc error
+                                                                 [2] - illegal code during the frame
+                                                                 [3] - overrun
+                                                                 [4] - ordered sequence
+                                                                 [5] - stacked vlan tag
+                                                                 [6] - frame received with an errord control
+                                                                 [7] - implements vlan tag
+                                                                 [0] and [4] together - short frame */
+        uint64_t pause_on              : 16; /**< [ 15:  0](RO/H) Current value of RX pause per priority.
+                                                                 when running 802.3x only bit[0] is relevant. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_on              : 16; /**< [ 15:  0](RO/H) Current value of RX pause per priority.
+                                                                 when running 802.3x only bit[0] is relevant. */
+        uint64_t ff_rx_err_stat        : 25; /**< [ 40: 16](RO/H) This bus holds status bits of the last received packet (sampled on EOP).
+                                                                 The below refers to bit offest in this field.
+                                                                 [0] - too large frame
+                                                                 [1] - crc error
+                                                                 [2] - illegal code during the frame
+                                                                 [3] - overrun
+                                                                 [4] - ordered sequence
+                                                                 [5] - stacked vlan tag
+                                                                 [6] - frame received with an errord control
+                                                                 [7] - implements vlan tag
+                                                                 [0] and [4] together - short frame */
+        uint64_t reserved_41_63        : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_ext_mti_portx_pause_and_err_stat_s cn10; */
+    struct cavm_rpmx_ext_mti_portx_pause_and_err_stat_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -17618,8 +21657,47 @@ union cavm_rpmx_ext_mti_portx_pause_and_err_stat
                                                                  [0] and [4] together - short frame */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_ext_mti_portx_pause_and_err_stat_s cn; */
+    } cn10ka;
+    struct cavm_rpmx_ext_mti_portx_pause_and_err_stat_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_41_63        : 23;
+        uint64_t ff_rx_err_stat        : 25; /**< [ 40: 16](RO/H) This bus holds status bits of the last received packet (sampled on EOP).
+                                                                 The below refers to bit offest in this field.
+                                                                 [0] - too large frame
+                                                                 [1] - crc error
+                                                                 [2] - illegal code during the frame
+                                                                 [3] - overrun
+                                                                 [4] - ordered sequence
+                                                                 [5] - stacked vlan tag
+                                                                 [6] - frame received with an errord control
+                                                                 [7] - implements vlan tag
+                                                                 [0] and [4] together - short frame
+                                                                 [23:8] - Frame Length/Type field.
+                                                                 [24]   - Inverted CRC match indication. */
+        uint64_t pause_on              : 16; /**< [ 15:  0](RO/H) Current value of RX pause per priority.
+                                                                 when running 802.3x only bit[0] is relevant. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_on              : 16; /**< [ 15:  0](RO/H) Current value of RX pause per priority.
+                                                                 when running 802.3x only bit[0] is relevant. */
+        uint64_t ff_rx_err_stat        : 25; /**< [ 40: 16](RO/H) This bus holds status bits of the last received packet (sampled on EOP).
+                                                                 The below refers to bit offest in this field.
+                                                                 [0] - too large frame
+                                                                 [1] - crc error
+                                                                 [2] - illegal code during the frame
+                                                                 [3] - overrun
+                                                                 [4] - ordered sequence
+                                                                 [5] - stacked vlan tag
+                                                                 [6] - frame received with an errord control
+                                                                 [7] - implements vlan tag
+                                                                 [0] and [4] together - short frame
+                                                                 [23:8] - Frame Length/Type field.
+                                                                 [24]   - Inverted CRC match indication. */
+        uint64_t reserved_41_63        : 23;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_ext_mti_portx_pause_and_err_stat_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_ext_mti_portx_pause_and_err_stat_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_portx_pause_and_err_stat cavm_rpmx_ext_mti_portx_pause_and_err_stat_t;
 
@@ -17628,6 +21706,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_PAUSE_AND_ERR_STAT(uint64_t a, ui
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17678,6 +21758,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_PAUSE_OVERRIDE(uint64_t a, uint64
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051048ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051048ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051048ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17728,6 +21810,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_PEER_DELAY(uint64_t a, uint64_t b
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051038ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051038ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051038ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17849,6 +21933,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_PTP_1STEP_CONTROL(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00510b8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00510b8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00510b8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -17914,6 +22000,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_PTP_1STEP_CONTROL_OVRD(uint64_t a
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00510b0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00510b0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00510b0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18027,7 +22115,102 @@ union cavm_rpmx_ext_mti_portx_status
         uint64_t reserved_27_63        : 37;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_ext_mti_portx_status_s cn; */
+    /* struct cavm_rpmx_ext_mti_portx_status_s cn10; */
+    /* struct cavm_rpmx_ext_mti_portx_status_s cn10ka; */
+    struct cavm_rpmx_ext_mti_portx_status_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t link_ok_clean         : 1;  /**< [ 26: 26](RO/H) Same as LINK_OK, but not affected by
+                                                                 RPM_EXT_MTI_PORT()_CONTROL[FORCE_LINK_OK_DIS] or
+                                                                 RPM_EXT_MTI_PORT()_CONTROL[FORCE_LINK_OK_EN]. */
+        uint64_t ff_rx_dsav            : 1;  /**< [ 25: 25](RO/H) MAC RX fifo fill level is higher than configurable threshold. */
+        uint64_t ff_rx_empty           : 1;  /**< [ 24: 24](RO/H) MAC RX fifo is empty. */
+        uint64_t ff_tx_septy           : 1;  /**< [ 23: 23](RO/H) MAC TX fifo fill level is lower than configurable threshold. */
+        uint64_t pfc_mode              : 1;  /**< [ 22: 22](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Relevant for 200/400G only.
+                                                                 Indicates the flow control working mode:
+                                                                 0x0 = 802.3x
+                                                                 0x1 = Priority flow control. */
+        uint64_t mac_tx_ts_frm_out     : 1;  /**< [ 21: 21](RO/H) Asserts for PTP frames.
+                                                                 Internal:
+                                                                 If the frame had ff_tx_ts_frm set */
+        uint64_t mac_tx_isidle         : 1;  /**< [ 20: 20](RO/H) MAC transmit is idle - no transmission. */
+        uint64_t mac_tx_empty          : 1;  /**< [ 19: 19](RO/H) MAC transmit fifo is empty. */
+        uint64_t tx_traffic_ind        : 1;  /**< [ 18: 18](RO/H) Traffic detected on the TX MII. */
+        uint64_t rx_traffic_ind        : 1;  /**< [ 17: 17](RO/H) Traffic detected on the RX MII. */
+        uint64_t rsfec_aligned         : 1;  /**< [ 16: 16](RO/H) RS-FEC alignment status. */
+        uint64_t hi_ber                : 1;  /**< [ 15: 15](RO/H) Indicates high bit error rate. */
+        uint64_t ber_timer_done        : 1;  /**< [ 14: 14](RO/H) This is a pulse indicating the end of BER window */
+        uint64_t align_done            : 1;  /**< [ 13: 13](RO/H) 100G Eth Alignment Marker Lock indication.
+                                                                 Relevant only for even ports (0,2,4,6) and only when set to 100G. */
+        uint64_t mac_res_speed         : 8;  /**< [ 12:  5](RO/H) Port speed:
+                                                                 0x1 = 10M
+                                                                 0x2 = 100M
+                                                                 0x3 = 1G/2.5G
+                                                                 0x5 = 10G
+                                                                 0x6 = 25G
+                                                                 0x7 = 40G
+                                                                 0x8 = 50G
+                                                                 0x9 = 100G
+                                                                 0xFF = reset value / channel unusable. */
+        uint64_t lpcs_an_done          : 1;  /**< [  4:  4](RO/H) Asserts (1) when the internal (Clause 37) autonegotiation function completed.
+                                                                 The application can then inspect the ability registers as needed to set speed
+                                                                 for the link. */
+        uint64_t lpcs_rx_sync          : 1;  /**< [  3:  3](RO/H) Asserts (1) when the receiver detected comma characters and 10B alignment has been achieved. */
+        uint64_t lpcs_link_status      : 1;  /**< [  2:  2](RO/H) Low rates PCS link. */
+        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high ser is present. */
+        uint64_t link_ok               : 1;  /**< [  0:  0](RO/H) LINK_STATUS (or LPCS_LINK_STATUS in case of low rates - up to 2.5G)
+                                                                 AND no faults are present. */
+#else /* Word 0 - Little Endian */
+        uint64_t link_ok               : 1;  /**< [  0:  0](RO/H) LINK_STATUS (or LPCS_LINK_STATUS in case of low rates - up to 2.5G)
+                                                                 AND no faults are present. */
+        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high ser is present. */
+        uint64_t lpcs_link_status      : 1;  /**< [  2:  2](RO/H) Low rates PCS link. */
+        uint64_t lpcs_rx_sync          : 1;  /**< [  3:  3](RO/H) Asserts (1) when the receiver detected comma characters and 10B alignment has been achieved. */
+        uint64_t lpcs_an_done          : 1;  /**< [  4:  4](RO/H) Asserts (1) when the internal (Clause 37) autonegotiation function completed.
+                                                                 The application can then inspect the ability registers as needed to set speed
+                                                                 for the link. */
+        uint64_t mac_res_speed         : 8;  /**< [ 12:  5](RO/H) Port speed:
+                                                                 0x1 = 10M
+                                                                 0x2 = 100M
+                                                                 0x3 = 1G/2.5G
+                                                                 0x5 = 10G
+                                                                 0x6 = 25G
+                                                                 0x7 = 40G
+                                                                 0x8 = 50G
+                                                                 0x9 = 100G
+                                                                 0xFF = reset value / channel unusable. */
+        uint64_t align_done            : 1;  /**< [ 13: 13](RO/H) 100G Eth Alignment Marker Lock indication.
+                                                                 Relevant only for even ports (0,2,4,6) and only when set to 100G. */
+        uint64_t ber_timer_done        : 1;  /**< [ 14: 14](RO/H) This is a pulse indicating the end of BER window */
+        uint64_t hi_ber                : 1;  /**< [ 15: 15](RO/H) Indicates high bit error rate. */
+        uint64_t rsfec_aligned         : 1;  /**< [ 16: 16](RO/H) RS-FEC alignment status. */
+        uint64_t rx_traffic_ind        : 1;  /**< [ 17: 17](RO/H) Traffic detected on the RX MII. */
+        uint64_t tx_traffic_ind        : 1;  /**< [ 18: 18](RO/H) Traffic detected on the TX MII. */
+        uint64_t mac_tx_empty          : 1;  /**< [ 19: 19](RO/H) MAC transmit fifo is empty. */
+        uint64_t mac_tx_isidle         : 1;  /**< [ 20: 20](RO/H) MAC transmit is idle - no transmission. */
+        uint64_t mac_tx_ts_frm_out     : 1;  /**< [ 21: 21](RO/H) Asserts for PTP frames.
+                                                                 Internal:
+                                                                 If the frame had ff_tx_ts_frm set */
+        uint64_t pfc_mode              : 1;  /**< [ 22: 22](RO/H) Reserved.
+                                                                 Internal:
+                                                                 Relevant for 200/400G only.
+                                                                 Indicates the flow control working mode:
+                                                                 0x0 = 802.3x
+                                                                 0x1 = Priority flow control. */
+        uint64_t ff_tx_septy           : 1;  /**< [ 23: 23](RO/H) MAC TX fifo fill level is lower than configurable threshold. */
+        uint64_t ff_rx_empty           : 1;  /**< [ 24: 24](RO/H) MAC RX fifo is empty. */
+        uint64_t ff_rx_dsav            : 1;  /**< [ 25: 25](RO/H) MAC RX fifo fill level is higher than configurable threshold. */
+        uint64_t link_ok_clean         : 1;  /**< [ 26: 26](RO/H) Same as LINK_OK, but not affected by
+                                                                 RPM_EXT_MTI_PORT()_CONTROL[FORCE_LINK_OK_DIS] or
+                                                                 RPM_EXT_MTI_PORT()_CONTROL[FORCE_LINK_OK_EN]. */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_ext_mti_portx_status_s cnf10ka; */
+    /* struct cavm_rpmx_ext_mti_portx_status_s cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_portx_status cavm_rpmx_ext_mti_portx_status_t;
 
@@ -18036,6 +22219,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18094,6 +22279,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_STATUS_2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18148,7 +22335,38 @@ union cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0
         uint64_t reserved_30_63        : 34;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0_s cn; */
+    /* struct cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0_s cn10; */
+    /* struct cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0_s cn10ka; */
+    struct cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t minimal_tx_stop_toggle : 5; /**< [ 29: 25](R/W) De-bouncing protection to the TX_STOP signal */
+        uint64_t amd_cnt_type_sel      : 1;  /**< [ 24: 24](R/W) AM Counter Type selector, according to the Port's speed.
+                                                                 0: 25/50G
+                                                                 1: 100G */
+        uint64_t reserved_20_23        : 4;
+        uint64_t fsu_rnd_delta         : 8;  /**< [ 19: 12](R/W) Granularity of TAI - used as part of matching condition, between running TOD and FS TOD from CTSU */
+        uint64_t fsu_offset            : 10; /**< [ 11:  2](R/W) Future Timestamp offset from the time of stop_tx de-assertion, till first bit is
+                                                                 transmitted on SerDes */
+        uint64_t amd_enable            : 1;  /**< [  1:  1](R/W) Alignment Marker Dispatcher - Feature enable */
+        uint64_t fsu_enable            : 1;  /**< [  0:  0](R/W) Future Timestamp feature enable */
+#else /* Word 0 - Little Endian */
+        uint64_t fsu_enable            : 1;  /**< [  0:  0](R/W) Future Timestamp feature enable */
+        uint64_t amd_enable            : 1;  /**< [  1:  1](R/W) Alignment Marker Dispatcher - Feature enable */
+        uint64_t fsu_offset            : 10; /**< [ 11:  2](R/W) Future Timestamp offset from the time of stop_tx de-assertion, till first bit is
+                                                                 transmitted on SerDes */
+        uint64_t fsu_rnd_delta         : 8;  /**< [ 19: 12](R/W) Granularity of TAI - used as part of matching condition, between running TOD and FS TOD from CTSU */
+        uint64_t reserved_20_23        : 4;
+        uint64_t amd_cnt_type_sel      : 1;  /**< [ 24: 24](R/W) AM Counter Type selector, according to the Port's speed.
+                                                                 0: 25/50G
+                                                                 1: 100G */
+        uint64_t minimal_tx_stop_toggle : 5; /**< [ 29: 25](R/W) De-bouncing protection to the TX_STOP signal */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0_s cnf10ka; */
+    /* struct cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0_s cnf10kb; */
 };
 typedef union cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0 cavm_rpmx_ext_mti_portx_time_stamp_dispatcher_control_0_t;
 
@@ -18157,6 +22375,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TIME_STAMP_DISPATCHER_CONTROL_0(u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051058ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051058ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051058ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18204,6 +22424,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TIME_STAMP_DISPATCHER_CONTROL_1(u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051060ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051060ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051060ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18248,6 +22470,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TIME_STAMP_DISPATCHER_CONTROL_2(u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051068ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051068ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051068ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18422,6 +22646,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_0(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051080ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051080ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051080ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18480,6 +22706,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_1(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051088ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051088ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051088ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18553,6 +22781,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_2(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051090ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051090ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051090ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18595,6 +22825,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_CONTROL_3(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051098ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051098ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051098ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18637,6 +22869,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_MODULO_RX(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051078ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051078ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051078ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18679,6 +22913,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_MODULO_TX(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051070ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051070ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051070ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18727,6 +22963,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_STATUS(uint64_t a, uint64_t b
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00510a0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00510a0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00510a0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18777,6 +23015,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_XOFF_OVERRIDE(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051050ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051050ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051050ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18820,6 +23060,8 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_XOFF_STATUS(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0051040ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0051040ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0051040ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -18862,6 +23104,8 @@ static inline uint64_t CAVM_RPMX_MSIX_PBAX(uint64_t a, uint64_t b) __attribute__
 static inline uint64_t CAVM_RPMX_MSIX_PBAX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b==0)))
+        return 0x87e0e08f0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b==0)))
         return 0x87e0e08f0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b==0)))
         return 0x87e0e08f0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
@@ -18951,6 +23195,8 @@ static inline uint64_t CAVM_RPMX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=17)))
         return 0x87e0e0800000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=29)))
+        return 0x87e0e0800000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=17)))
         return 0x87e0e0800000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=17)))
@@ -18995,6 +23241,8 @@ static inline uint64_t CAVM_RPMX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=17)))
         return 0x87e0e0800008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=29)))
+        return 0x87e0e0800008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=17)))
         return 0x87e0e0800008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=17)))
@@ -19038,6 +23286,8 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_CW_HI(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0038638ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038638ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038638ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19072,7 +23322,24 @@ union cavm_rpmx_mti_fcfecx_fec_ability
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_fcfecx_fec_ability_s cn; */
+    /* struct cavm_rpmx_mti_fcfecx_fec_ability_s cn10; */
+    /* struct cavm_rpmx_mti_fcfecx_fec_ability_s cn10ka; */
+    struct cavm_rpmx_mti_fcfecx_fec_ability_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t fec_error_indication_ability : 1;/**< [  1:  1](RO) 0x1 when Base-R FEC is capable of performing error propagation to the PCS ,
+                                                                 reset value for MTI400 = 1,reset value for USX = 0 */
+        uint64_t fec_ability           : 1;  /**< [  0:  0](RO) 0x1 when Base-R FEC is available. reset value for MTI400 = 1.  reset value for USX = 0 */
+#else /* Word 0 - Little Endian */
+        uint64_t fec_ability           : 1;  /**< [  0:  0](RO) 0x1 when Base-R FEC is available. reset value for MTI400 = 1.  reset value for USX = 0 */
+        uint64_t fec_error_indication_ability : 1;/**< [  1:  1](RO) 0x1 when Base-R FEC is capable of performing error propagation to the PCS ,
+                                                                 reset value for MTI400 = 1,reset value for USX = 0 */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_fcfecx_fec_ability_s cnf10ka; */
+    /* struct cavm_rpmx_mti_fcfecx_fec_ability_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_fcfecx_fec_ability cavm_rpmx_mti_fcfecx_fec_ability_t;
 
@@ -19080,6 +23347,8 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_FEC_ABILITY(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_RPMX_MTI_FCFECX_FEC_ABILITY(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038600ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0038600ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038600ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
@@ -19125,6 +23394,8 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_FEC_CONTROL(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_RPMX_MTI_FCFECX_FEC_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038608ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0038608ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038608ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
@@ -19179,6 +23450,8 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_FEC_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0038610ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038610ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038610ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19224,6 +23497,8 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_VL0_CCW_LO(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0038618ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038618ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038618ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19268,6 +23543,8 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_VL0_NCCW_LO(uint64_t a, uint64_t b) 
 static inline uint64_t CAVM_RPMX_MTI_FCFECX_VL0_NCCW_LO(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038620ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0038620ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038620ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
@@ -19316,6 +23593,8 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_VL1_CCW_LO(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0038628ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038628ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038628ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19363,6 +23642,8 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_VL1_NCCW_LO(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0038630ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038630ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038630ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19409,6 +23690,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_AN_EXPANSION(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030030ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030030ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030030ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19499,6 +23782,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19547,6 +23832,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_DECODE_ERRORS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00300a8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00300a8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00300a8ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19607,6 +23894,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_DEV_ABILITY(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030020ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030020ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030020ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19679,6 +23968,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_IF_MODE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00300a0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00300a0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00300a0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19721,6 +24012,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_LINK_TIMER_HI(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030098ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030098ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030098ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19765,6 +24058,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_LINK_TIMER_LO(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030090ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030090ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030090ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19817,6 +24112,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_LP_NP_RX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030040ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030040ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030040ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19869,6 +24166,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_NP_TX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030038ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030038ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030038ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19931,6 +24230,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_PARTNER_ABILITY(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030028ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030028ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030028ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -19973,6 +24274,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_PHY_ID_HI(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030018ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20015,6 +24318,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_PHY_ID_LO(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030010ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20057,6 +24362,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_REV(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030088ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030088ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030088ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20099,6 +24406,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_SCRATCH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030080ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030080ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030080ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20151,6 +24460,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0030008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0030008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0030008ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20225,6 +24536,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_USXGMII_REP(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00300b0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00300b0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00300b0ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20266,6 +24579,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCS_CFG_CLOCK_RATE(uint64_t a) __attribute
 static inline uint64_t CAVM_RPMX_MTI_LPCS_CFG_CLOCK_RATE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00307e0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00307e0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00307e0ll + 0x1000000ll * ((a) & 0x3);
@@ -20326,7 +24641,46 @@ union cavm_rpmx_mti_lpcs_gmode
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_lpcs_gmode_s cn; */
+    /* struct cavm_rpmx_mti_lpcs_gmode_s cn10; */
+    /* struct cavm_rpmx_mti_lpcs_gmode_s cn10ka; */
+    struct cavm_rpmx_mti_lpcs_gmode_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t usgmii_scramble_enable : 1; /**< [ 11: 11](R/W) Enable x58 scrambler/descrambler for USXGMII */
+        uint64_t usgmii8_enable        : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable 8-Channel USGMII mode (O-USGMII) of operation over serdes lane 0. When
+                                                                 set, all 8 channels are configured for SGMII and are multiplexed over lane 0
+                                                                 operating with a 10.0Gbps serdes link. The application has to initialize the
+                                                                 serdes accordingly. When this bit is set, bits 8, 9 (QSGMII) must be 0. */
+        uint64_t qsgmii_4_enable       : 1;  /**< [  9:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable QSGMII for Channels 4..7 over serdes lane 4 */
+        uint64_t qsgmii_0_enable       : 1;  /**< [  8:  8](R/W) Enable QSGMII for Channels 0..3 over serdes lane 0 */
+        uint64_t lpcs_enable           : 8;  /**< [  7:  0](R/W) Per channel 1G PCS enable.
+                                                                 Internal:
+                                                                 RPM100: Bits [7:4] should not be used. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpcs_enable           : 8;  /**< [  7:  0](R/W) Per channel 1G PCS enable.
+                                                                 Internal:
+                                                                 RPM100: Bits [7:4] should not be used. */
+        uint64_t qsgmii_0_enable       : 1;  /**< [  8:  8](R/W) Enable QSGMII for Channels 0..3 over serdes lane 0 */
+        uint64_t qsgmii_4_enable       : 1;  /**< [  9:  9](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable QSGMII for Channels 4..7 over serdes lane 4 */
+        uint64_t usgmii8_enable        : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enable 8-Channel USGMII mode (O-USGMII) of operation over serdes lane 0. When
+                                                                 set, all 8 channels are configured for SGMII and are multiplexed over lane 0
+                                                                 operating with a 10.0Gbps serdes link. The application has to initialize the
+                                                                 serdes accordingly. When this bit is set, bits 8, 9 (QSGMII) must be 0. */
+        uint64_t usgmii_scramble_enable : 1; /**< [ 11: 11](R/W) Enable x58 scrambler/descrambler for USXGMII */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_lpcs_gmode_s cnf10ka; */
+    /* struct cavm_rpmx_mti_lpcs_gmode_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_lpcs_gmode cavm_rpmx_mti_lpcs_gmode_t;
 
@@ -20334,6 +24688,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCS_GMODE(uint64_t a) __attribute__ ((pure
 static inline uint64_t CAVM_RPMX_MTI_LPCS_GMODE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00307c0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00307c0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00307c0ll + 0x1000000ll * ((a) & 0x3);
@@ -20379,6 +24735,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCS_GSTATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00307c8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00307c8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00307c8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -20421,6 +24779,8 @@ static inline uint64_t CAVM_RPMX_MTI_LPCS_USXGMII_ENABLE_INDICATION(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00307e8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00307e8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00307e8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -20462,6 +24822,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CF_GEN_STATUS(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20506,6 +24868,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL01_PAUSE_QUANTA(uint64_t a, uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20551,6 +24915,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL01_QUANTA_THRESH(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20595,6 +24961,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL1011_PAUSE_QUANTA(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20639,6 +25007,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL1011_QUANTA_THRESH(uint64_t a, ui
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20683,6 +25053,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL1213_PAUSE_QUANTA(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20727,6 +25099,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL1213_QUANTA_THRESH(uint64_t a, ui
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008138ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008138ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008138ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20771,6 +25145,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL1415_PAUSE_QUANTA(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008120ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008120ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008120ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20815,6 +25191,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL1415_QUANTA_THRESH(uint64_t a, ui
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008140ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008140ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008140ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20859,6 +25237,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL23_PAUSE_QUANTA(uint64_t a, uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20903,6 +25283,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL23_QUANTA_THRESH(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20947,6 +25329,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL45_PAUSE_QUANTA(uint64_t a, uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -20991,6 +25375,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL45_QUANTA_THRESH(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21035,6 +25421,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL67_PAUSE_QUANTA(uint64_t a, uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21079,6 +25467,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL67_QUANTA_THRESH(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21123,6 +25513,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL89_PAUSE_QUANTA(uint64_t a, uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21167,6 +25559,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL89_QUANTA_THRESH(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008128ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008128ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008128ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21434,7 +25828,8 @@ union cavm_rpmx_mti_mac100x_command_config
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_rpmx_mti_mac100x_command_config_cn
+    /* struct cavm_rpmx_mti_mac100x_command_config_s cn10; */
+    struct cavm_rpmx_mti_mac100x_command_config_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -21679,7 +26074,255 @@ union cavm_rpmx_mti_mac100x_command_config
         uint64_t no_preamble           : 1;  /**< [ 31: 31](R/W) Set preamble to 1Bytes (Frame Begin). */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn;
+    } cn10ka;
+    struct cavm_rpmx_mti_mac100x_command_config_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t no_preamble           : 1;  /**< [ 31: 31](R/W) Set preamble to 1Bytes (Frame Begin). */
+        uint64_t short_preamble        : 1;  /**< [ 30: 30](R/W) Shorten preamble to 4Bytes (3 Bytes + Frame Begin). */
+        uint64_t rx_p_disable          : 1;  /**< [ 29: 29](R/W) RX Pause Disable
+                                                                 0: RX Pause enabled
+                                                                 1: RX Pause disabled
+                                                                 Disables the RX PAUSE function (both FC and PFC). When set to 1, the
+                                                                 RX MAC will not cause the TX MAC to be paused (in the case of FC) and
+                                                                 will not assert any of the pause_on(n:0) priorities (in the case of PFC)
+                                                                 when PAUSE frames are received. Setting RX_PAUSE_DIS does not
+                                                                 change the functionality of PAUSE_FWD and PAUSE_IGNORE. The
+                                                                 difference with PAUSE_IGNORE is that the underlying pause timers are
+                                                                 still operational when PAUSE_IGNORE is set whereas setting
+                                                                 RX_PAUSE_DIS is immediate and will cause pause_on(n:0) to
+                                                                 deassert and reset the internal timers.
+
+                                                                 Internal:
+                                                                 The reset state of the PAUSE function can be changed via the parameter PAUSE_ENABLE_RESET_VALUE */
+        uint64_t tx_p_disable          : 1;  /**< [ 28: 28](R/W) TX Pause Disable
+                                                                 0: TX Pause enabled
+                                                                 1: TX Pause disabled
+                                                                 Disables the TX PAUSE function (both FC and PFC). When set to 1, the
+                                                                 TX MAC will not react to XOFF requests from CMR in order to generate PAUSE
+                                                                 frames. If a priority was paused (i.e. the pause timer had not expired) an
+                                                                 Xon frame will be transmitted when setting this bit to 1.
+
+                                                                 Internal:
+                                                                 The reset state of the PAUSE function can be changed via the parameter PAUSE_ENABLE_RESET_VALUE. */
+        uint64_t flt_hdl_dis           : 1;  /**< [ 27: 27](R/W) Disable RS fault handling. When set to '0' (default), the MAC automatically
+                                                                 inserts remote faults and idles in egress direction on detection of local faults
+                                                                 and remote faults, respectively, on ingress direction. When set to '1', this
+                                                                 feature is disabled. */
+        uint64_t tx_fifo_reset         : 1;  /**< [ 26: 26](R/W/H) Self-Clearing TX FIFO reset command.
+                                                                 Internal:
+                                                                 May not be supported in all Core variants. */
+        uint64_t reserved_25           : 1;
+        uint64_t reg_lowp_rxempty      : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not documented in CIDER.
+                                                                 Mask top-level pin reg_lowp with RX FIFO empty.
+                                                                 When set '1' the top-level pin reg_lowp will assert only when the RX FIFO is
+                                                                 empty. That is, the assertion of the low power indication is delayed until all
+                                                                 data has been retrieved by the application.
+                                                                 When set '0' (default) the top-level pin reg_lowp is asserted as soon as the RS
+                                                                 layer detects the LowPowerIdle sequence from the line. */
+        uint64_t tx_lowp_ena           : 1;  /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not sure if supported on our core variant.
+                                                                 Instruct RS Layer to transmit LPI. */
+        uint64_t tx_flush              : 1;  /**< [ 22: 22](R/W) Egress Flush Enable.
+                                                                 If set to 1, the MAC reads out the TX FIFO and drops the data (data is not sent
+                                                                 out on the line). The associated pause signals (link pause or priority flow
+                                                                 control) are masked.
+                                                                 In addition, statistics and timestamp return indications may not occur for the
+                                                                 flushed frames (inconsistent).
+                                                                 Note: Operates independent from the RX link state. */
+        uint64_t rx_sfd_any            : 1;  /**< [ 21: 21](R/W) Disable check for SFD (0xd5) and accept frame with any character. */
+        uint64_t pause_pfc_comp        : 1;  /**< [ 20: 20](R/W) Link Pause compatible with PFC mode. Pause is only indicated but does not stop TX. */
+        uint64_t pfc_mode              : 1;  /**< [ 19: 19](R/W) Priority Flow Control Mode enable. If set to 1, the Core generates and processes
+                                                                 PFC control frames according to the Priority Flow Control Interface signals. If
+                                                                 set to 0 (Reset Value), the Core operates in legacy Pause Frame mode and
+                                                                 generates and processes standard Pause Frames. */
+        uint64_t reserved_17_18        : 2;
+        uint64_t send_idle             : 1;  /**< [ 16: 16](R/W) Suppresses any frame transmissions and forces IDLE on the transmit interface
+                                                                 instead of frames. This control affects the MAC's reconciliation layer (RS)
+                                                                 which acts after all MAC datapath has processed the frame.
+                                                                 Note: does not have an effect on fault handling (i.e. reception of local fault
+                                                                 will still cause transmit of remote fault).
+                                                                 Must be 0 for normal operation. */
+        uint64_t phy_txena             : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Controls MAC toplevel pin phy_txena. No internal function. */
+        uint64_t reserved_14           : 1;
+        uint64_t cntl_frame_ena        : 1;  /**< [ 13: 13](R/W) Enable Reception of all Control Frames. If set to '1', all control frames are
+                                                                 accepted. If set to '0', only Pause frames are accepted and all other command
+                                                                 frames are rejected. */
+        uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
+        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Enable padding of frames in transmit direction (1, default).
+                                                                 When disabled (0) the MAC will not extend frames from the application to a
+                                                                 minimum of 64 bytes, allowing to transmit too short frames (violating the
+                                                                 Ethernet minimum size requirement).
+                                                                 Must be 1 for normal operation.
+
+                                                                 Internal:
+                                                                 When set to 1, all frames from the application which are less than 64-bytes must
+                                                                 assert ff_tx_crc, otherwise they are sent as is, potentially with an invalid
+                                                                 frame length. */
+        uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Controls MAC top-level pin loop_ena. Has no effect within the MAC Core. */
+        uint64_t tx_addr_ins           : 1;  /**< [  9:  9](R/W) Set Source MAC Address on Transmit. If set to '1', the MAC overwrites the source
+                                                                 MAC address received from the client interface with the MAC address programmed
+                                                                 in registers MAC_ADDR_0 and MAC_ADDR_1 . If set to '0' (Reset value), the source
+                                                                 MAC address from the client interface is transmitted unmodified to the line. */
+        uint64_t pause_ignore          : 1;  /**< [  8:  8](R/W) Ignore received Pause frame quanta. If set to '1', received pause frames are
+                                                                 ignored by the MAC. If set to '0' (Reset value), the transmit process is stopped
+                                                                 for the amount of time specified in the pause quanta received within a pause
+                                                                 frame. */
+        uint64_t pause_fwd             : 1;  /**< [  7:  7](R/W) Terminate / Forward Pause Frames. If set to '1', pause frames are forwarded to
+                                                                 the user application. If set to '0' (Reset value), pause frames are terminated
+                                                                 and discarded within the MAC. */
+        uint64_t crc_fwd               : 1;  /**< [  6:  6](R/W) Terminate / Forward Received CRC. If set to '1', the CRC field of received
+                                                                 frames is forwarded with the frame to the user application. If set to '0' (Reset
+                                                                 value), the CRC field is stripped from the frame. Note - if padding is enabled (bit PAD_EN
+                                                                 set to '1'), CRC_FWD is ignored. */
+        uint64_t pad_en                : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Documented in CIDER, not documented in MTI doc ("reserved"). Bit is writeable but has no effect. */
+        uint64_t promis_en             : 1;  /**< [  4:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enables MAC promiscuous operation. When set, all frames are received without any
+                                                                 MAC address filtering.
+                                                                 Note: This bit has effect only if the synthesis option
+                                                                 MTIP_M128_RX_FILTER_SUPPORT is enabled - which is not in our core variant! */
+        uint64_t reserved_3            : 1;
+        uint64_t reserved_2            : 1;
+        uint64_t rx_ena                : 1;  /**< [  1:  1](R/W) MAC Receive Path Enable. Should be set to '1' to enable the MAC receive path,
+                                                                 should be set to '0' (Reset value) to disable the MAC receive path. */
+        uint64_t tx_ena                : 1;  /**< [  0:  0](R/W) MAC Transmit Path Enable. Should be set to '1' to enable the MAC transmit path,
+                                                                 should be set to '0' (Reset value) to disable the MAC transmit path. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_ena                : 1;  /**< [  0:  0](R/W) MAC Transmit Path Enable. Should be set to '1' to enable the MAC transmit path,
+                                                                 should be set to '0' (Reset value) to disable the MAC transmit path. */
+        uint64_t rx_ena                : 1;  /**< [  1:  1](R/W) MAC Receive Path Enable. Should be set to '1' to enable the MAC receive path,
+                                                                 should be set to '0' (Reset value) to disable the MAC receive path. */
+        uint64_t reserved_2            : 1;
+        uint64_t reserved_3            : 1;
+        uint64_t promis_en             : 1;  /**< [  4:  4](R/W) Reserved.
+                                                                 Internal:
+                                                                 Enables MAC promiscuous operation. When set, all frames are received without any
+                                                                 MAC address filtering.
+                                                                 Note: This bit has effect only if the synthesis option
+                                                                 MTIP_M128_RX_FILTER_SUPPORT is enabled - which is not in our core variant! */
+        uint64_t pad_en                : 1;  /**< [  5:  5](R/W) Reserved.
+                                                                 Internal:
+                                                                 Documented in CIDER, not documented in MTI doc ("reserved"). Bit is writeable but has no effect. */
+        uint64_t crc_fwd               : 1;  /**< [  6:  6](R/W) Terminate / Forward Received CRC. If set to '1', the CRC field of received
+                                                                 frames is forwarded with the frame to the user application. If set to '0' (Reset
+                                                                 value), the CRC field is stripped from the frame. Note - if padding is enabled (bit PAD_EN
+                                                                 set to '1'), CRC_FWD is ignored. */
+        uint64_t pause_fwd             : 1;  /**< [  7:  7](R/W) Terminate / Forward Pause Frames. If set to '1', pause frames are forwarded to
+                                                                 the user application. If set to '0' (Reset value), pause frames are terminated
+                                                                 and discarded within the MAC. */
+        uint64_t pause_ignore          : 1;  /**< [  8:  8](R/W) Ignore received Pause frame quanta. If set to '1', received pause frames are
+                                                                 ignored by the MAC. If set to '0' (Reset value), the transmit process is stopped
+                                                                 for the amount of time specified in the pause quanta received within a pause
+                                                                 frame. */
+        uint64_t tx_addr_ins           : 1;  /**< [  9:  9](R/W) Set Source MAC Address on Transmit. If set to '1', the MAC overwrites the source
+                                                                 MAC address received from the client interface with the MAC address programmed
+                                                                 in registers MAC_ADDR_0 and MAC_ADDR_1 . If set to '0' (Reset value), the source
+                                                                 MAC address from the client interface is transmitted unmodified to the line. */
+        uint64_t loopback_en           : 1;  /**< [ 10: 10](R/W) Reserved.
+                                                                 Internal:
+                                                                 Controls MAC top-level pin loop_ena. Has no effect within the MAC Core. */
+        uint64_t tx_pad_en             : 1;  /**< [ 11: 11](R/W) Enable padding of frames in transmit direction (1, default).
+                                                                 When disabled (0) the MAC will not extend frames from the application to a
+                                                                 minimum of 64 bytes, allowing to transmit too short frames (violating the
+                                                                 Ethernet minimum size requirement).
+                                                                 Must be 1 for normal operation.
+
+                                                                 Internal:
+                                                                 When set to 1, all frames from the application which are less than 64-bytes must
+                                                                 assert ff_tx_crc, otherwise they are sent as is, potentially with an invalid
+                                                                 frame length. */
+        uint64_t sw_reset              : 1;  /**< [ 12: 12](R/W/H) Self-Clearing Software Reset. When written with '1', all Statistics Counters are reset to 0. */
+        uint64_t cntl_frame_ena        : 1;  /**< [ 13: 13](R/W) Enable Reception of all Control Frames. If set to '1', all control frames are
+                                                                 accepted. If set to '0', only Pause frames are accepted and all other command
+                                                                 frames are rejected. */
+        uint64_t reserved_14           : 1;
+        uint64_t phy_txena             : 1;  /**< [ 15: 15](R/W) Reserved.
+                                                                 Internal:
+                                                                 Controls MAC toplevel pin phy_txena. No internal function. */
+        uint64_t send_idle             : 1;  /**< [ 16: 16](R/W) Suppresses any frame transmissions and forces IDLE on the transmit interface
+                                                                 instead of frames. This control affects the MAC's reconciliation layer (RS)
+                                                                 which acts after all MAC datapath has processed the frame.
+                                                                 Note: does not have an effect on fault handling (i.e. reception of local fault
+                                                                 will still cause transmit of remote fault).
+                                                                 Must be 0 for normal operation. */
+        uint64_t reserved_17_18        : 2;
+        uint64_t pfc_mode              : 1;  /**< [ 19: 19](R/W) Priority Flow Control Mode enable. If set to 1, the Core generates and processes
+                                                                 PFC control frames according to the Priority Flow Control Interface signals. If
+                                                                 set to 0 (Reset Value), the Core operates in legacy Pause Frame mode and
+                                                                 generates and processes standard Pause Frames. */
+        uint64_t pause_pfc_comp        : 1;  /**< [ 20: 20](R/W) Link Pause compatible with PFC mode. Pause is only indicated but does not stop TX. */
+        uint64_t rx_sfd_any            : 1;  /**< [ 21: 21](R/W) Disable check for SFD (0xd5) and accept frame with any character. */
+        uint64_t tx_flush              : 1;  /**< [ 22: 22](R/W) Egress Flush Enable.
+                                                                 If set to 1, the MAC reads out the TX FIFO and drops the data (data is not sent
+                                                                 out on the line). The associated pause signals (link pause or priority flow
+                                                                 control) are masked.
+                                                                 In addition, statistics and timestamp return indications may not occur for the
+                                                                 flushed frames (inconsistent).
+                                                                 Note: Operates independent from the RX link state. */
+        uint64_t tx_lowp_ena           : 1;  /**< [ 23: 23](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not sure if supported on our core variant.
+                                                                 Instruct RS Layer to transmit LPI. */
+        uint64_t reg_lowp_rxempty      : 1;  /**< [ 24: 24](R/W) Reserved.
+                                                                 Internal:
+                                                                 Not documented in CIDER.
+                                                                 Mask top-level pin reg_lowp with RX FIFO empty.
+                                                                 When set '1' the top-level pin reg_lowp will assert only when the RX FIFO is
+                                                                 empty. That is, the assertion of the low power indication is delayed until all
+                                                                 data has been retrieved by the application.
+                                                                 When set '0' (default) the top-level pin reg_lowp is asserted as soon as the RS
+                                                                 layer detects the LowPowerIdle sequence from the line. */
+        uint64_t reserved_25           : 1;
+        uint64_t tx_fifo_reset         : 1;  /**< [ 26: 26](R/W/H) Self-Clearing TX FIFO reset command.
+                                                                 Internal:
+                                                                 May not be supported in all Core variants. */
+        uint64_t flt_hdl_dis           : 1;  /**< [ 27: 27](R/W) Disable RS fault handling. When set to '0' (default), the MAC automatically
+                                                                 inserts remote faults and idles in egress direction on detection of local faults
+                                                                 and remote faults, respectively, on ingress direction. When set to '1', this
+                                                                 feature is disabled. */
+        uint64_t tx_p_disable          : 1;  /**< [ 28: 28](R/W) TX Pause Disable
+                                                                 0: TX Pause enabled
+                                                                 1: TX Pause disabled
+                                                                 Disables the TX PAUSE function (both FC and PFC). When set to 1, the
+                                                                 TX MAC will not react to XOFF requests from CMR in order to generate PAUSE
+                                                                 frames. If a priority was paused (i.e. the pause timer had not expired) an
+                                                                 Xon frame will be transmitted when setting this bit to 1.
+
+                                                                 Internal:
+                                                                 The reset state of the PAUSE function can be changed via the parameter PAUSE_ENABLE_RESET_VALUE. */
+        uint64_t rx_p_disable          : 1;  /**< [ 29: 29](R/W) RX Pause Disable
+                                                                 0: RX Pause enabled
+                                                                 1: RX Pause disabled
+                                                                 Disables the RX PAUSE function (both FC and PFC). When set to 1, the
+                                                                 RX MAC will not cause the TX MAC to be paused (in the case of FC) and
+                                                                 will not assert any of the pause_on(n:0) priorities (in the case of PFC)
+                                                                 when PAUSE frames are received. Setting RX_PAUSE_DIS does not
+                                                                 change the functionality of PAUSE_FWD and PAUSE_IGNORE. The
+                                                                 difference with PAUSE_IGNORE is that the underlying pause timers are
+                                                                 still operational when PAUSE_IGNORE is set whereas setting
+                                                                 RX_PAUSE_DIS is immediate and will cause pause_on(n:0) to
+                                                                 deassert and reset the internal timers.
+
+                                                                 Internal:
+                                                                 The reset state of the PAUSE function can be changed via the parameter PAUSE_ENABLE_RESET_VALUE */
+        uint64_t short_preamble        : 1;  /**< [ 30: 30](R/W) Shorten preamble to 4Bytes (3 Bytes + Frame Begin). */
+        uint64_t no_preamble           : 1;  /**< [ 31: 31](R/W) Set preamble to 1Bytes (Frame Begin). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_mac100x_command_config_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_mti_mac100x_command_config_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_mti_mac100x_command_config cavm_rpmx_mti_mac100x_command_config_t;
 
@@ -21688,6 +26331,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(uint64_t a, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21701,6 +26346,44 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(uint64_t a, uint64_t
 #define device_bar_CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(a,b) (a)
 #define arguments_CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_mti_mac100#_crc_inv_mask
+ *
+ * RPM Mti Mac100  Crc Mode Register
+ * Reserved.
+ */
+union cavm_rpmx_mti_mac100x_crc_inv_mask
+{
+    uint64_t u;
+    struct cavm_rpmx_mti_mac100x_crc_inv_mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t crc_inv_mask          : 32; /**< [ 31:  0](R/W) Defines the invert mask to use for the CRC-inverse function. See section 8.3.2 on page 45. */
+#else /* Word 0 - Little Endian */
+        uint64_t crc_inv_mask          : 32; /**< [ 31:  0](R/W) Defines the invert mask to use for the CRC-inverse function. See section 8.3.2 on page 45. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_mti_mac100x_crc_inv_mask_s cn; */
+};
+typedef union cavm_rpmx_mti_mac100x_crc_inv_mask cavm_rpmx_mti_mac100x_crc_inv_mask_t;
+
+static inline uint64_t CAVM_RPMX_MTI_MAC100X_CRC_INV_MASK(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_MAC100X_CRC_INV_MASK(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008098ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_MTI_MAC100X_CRC_INV_MASK", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_MTI_MAC100X_CRC_INV_MASK(a,b) cavm_rpmx_mti_mac100x_crc_inv_mask_t
+#define bustype_CAVM_RPMX_MTI_MAC100X_CRC_INV_MASK(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_MAC100X_CRC_INV_MASK(a,b) "RPMX_MTI_MAC100X_CRC_INV_MASK"
+#define device_bar_CAVM_RPMX_MTI_MAC100X_CRC_INV_MASK(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_MAC100X_CRC_INV_MASK(a,b) (a)
+#define arguments_CAVM_RPMX_MTI_MAC100X_CRC_INV_MASK(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) rpm#_mti_mac100#_crc_mode
@@ -21740,6 +26423,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CRC_MODE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008090ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21779,7 +26464,26 @@ union cavm_rpmx_mti_mac100x_frm_length
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_mac100x_frm_length_s cn; */
+    /* struct cavm_rpmx_mti_mac100x_frm_length_s cn10; */
+    /* struct cavm_rpmx_mti_mac100x_frm_length_s cn10ka; */
+    struct cavm_rpmx_mti_mac100x_frm_length_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t tx_mtu                : 16; /**< [ 31: 16](R/W) Optional maximum frame size setting for transmit statistics use if it should be
+                                                                 different from receive statistics. When set to 0 the FRM_LENGTH value is used
+                                                                 (i.e. statistics symmetric for TX and RX). */
+        uint64_t frm_length            : 16; /**< [ 15:  0](R/W) Maximum Frame Size. Should not be set to less than 'd512. */
+#else /* Word 0 - Little Endian */
+        uint64_t frm_length            : 16; /**< [ 15:  0](R/W) Maximum Frame Size. Should not be set to less than 'd512. */
+        uint64_t tx_mtu                : 16; /**< [ 31: 16](R/W) Optional maximum frame size setting for transmit statistics use if it should be
+                                                                 different from receive statistics. When set to 0 the FRM_LENGTH value is used
+                                                                 (i.e. statistics symmetric for TX and RX). */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_mac100x_frm_length_s cnf10ka; */
+    /* struct cavm_rpmx_mti_mac100x_frm_length_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_mac100x_frm_length cavm_rpmx_mti_mac100x_frm_length_t;
 
@@ -21788,6 +26492,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_FRM_LENGTH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21830,6 +26536,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_MAC_ADDR_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21872,6 +26580,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_MAC_ADDR_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21935,6 +26645,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_MDIO_CFG_STATUS(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -21988,6 +26700,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_MDIO_COMMAND(uint64_t a, uint64_t b
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22041,6 +26755,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_MDIO_DATA(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22086,6 +26802,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_MDIO_REGADDR(uint64_t a, uint64_t b
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22132,6 +26850,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_REVISION(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22192,6 +26912,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_RX_FIFO_SECTIONS(uint64_t a, uint64
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22236,6 +26958,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_RX_PAUSE_STATUS(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22278,6 +27002,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCF_CONFIG0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0009000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0009000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0009000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22322,6 +27048,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCF_CONFIG1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0009008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0009008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0009008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22362,6 +27090,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCF_CONFIG2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0009010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0009010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0009010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22406,6 +27136,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCF_CONTROL(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0009018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0009018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0009018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22448,6 +27180,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCRATCH(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22505,7 +27239,44 @@ union cavm_rpmx_mti_mac100x_status
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_mac100x_status_s cn; */
+    /* struct cavm_rpmx_mti_mac100x_status_s cn10; */
+    /* struct cavm_rpmx_mti_mac100x_status_s cn10ka; */
+    struct cavm_rpmx_mti_mac100x_status_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t tx_is_idle            : 1;  /**< [  8:  8](RO/H) TX MAC datapath (statemachine) is idle */
+        uint64_t rx_lint_fault         : 1;  /**< [  7:  7](RO/H) Special Link Interruption Fault Sequence detected in receive */
+        uint64_t rx_empty              : 1;  /**< [  6:  6](RO/H) RX FIFO is empty */
+        uint64_t tx_empty              : 1;  /**< [  5:  5](RO/H) TX FIFO is empty */
+        uint64_t rx_lowp               : 1;  /**< [  4:  4](RO/H) Receiving Low Power Idle (LPI) */
+        uint64_t ts_avail              : 1;  /**< [  3:  3](R/W/H) Transmit Timestamp Available. Indicates that the timestamp of the last
+                                                                 transmitted 1588 event frame is available in the register TS_TIMESTAMP.  To
+                                                                 clear TS_AVAIL, the bit must be written with a '1'. */
+        uint64_t phy_los               : 1;  /**< [  2:  2](RO/H) PHY indicates loss-of-signal. on USX only mac0 is relevant. (single serdes lane) */
+        uint64_t rx_rem_fault          : 1;  /**< [  1:  1](RO/H) Remote Fault Status. Set to '1' when the MAC detects Rx Remote Fault Sequences
+                                                                 on the CGMII receive interface */
+        uint64_t rx_loc_fault          : 1;  /**< [  0:  0](RO/H) Local Fault Status. Set to '1' when the MAC detects Rx Local Fault Sequences on
+                                                                 the CGMII receive interface. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_loc_fault          : 1;  /**< [  0:  0](RO/H) Local Fault Status. Set to '1' when the MAC detects Rx Local Fault Sequences on
+                                                                 the CGMII receive interface. */
+        uint64_t rx_rem_fault          : 1;  /**< [  1:  1](RO/H) Remote Fault Status. Set to '1' when the MAC detects Rx Remote Fault Sequences
+                                                                 on the CGMII receive interface */
+        uint64_t phy_los               : 1;  /**< [  2:  2](RO/H) PHY indicates loss-of-signal. on USX only mac0 is relevant. (single serdes lane) */
+        uint64_t ts_avail              : 1;  /**< [  3:  3](R/W/H) Transmit Timestamp Available. Indicates that the timestamp of the last
+                                                                 transmitted 1588 event frame is available in the register TS_TIMESTAMP.  To
+                                                                 clear TS_AVAIL, the bit must be written with a '1'. */
+        uint64_t rx_lowp               : 1;  /**< [  4:  4](RO/H) Receiving Low Power Idle (LPI) */
+        uint64_t tx_empty              : 1;  /**< [  5:  5](RO/H) TX FIFO is empty */
+        uint64_t rx_empty              : 1;  /**< [  6:  6](RO/H) RX FIFO is empty */
+        uint64_t rx_lint_fault         : 1;  /**< [  7:  7](RO/H) Special Link Interruption Fault Sequence detected in receive */
+        uint64_t tx_is_idle            : 1;  /**< [  8:  8](RO/H) TX MAC datapath (statemachine) is idle */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_mac100x_status_s cnf10ka; */
+    /* struct cavm_rpmx_mti_mac100x_status_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_mac100x_status cavm_rpmx_mti_mac100x_status_t;
 
@@ -22514,6 +27285,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_STATUS(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22564,6 +27337,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_TS_TIMESTAMP(uint64_t a, uint64_t b
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00080f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00080f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00080f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22628,6 +27403,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_TX_FIFO_SECTIONS(uint64_t a, uint64
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22682,6 +27459,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_TX_IPG_LENGTH(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008088ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22706,6 +27485,131 @@ union cavm_rpmx_mti_mac100x_xif_mode
 {
     uint64_t u;
     struct cavm_rpmx_mti_mac100x_xif_mode_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_21_63        : 43;
+        uint64_t ts_sfd_ena            : 1;  /**< [ 20: 20](R/W) Indicates whether the MAC is configure to timestamp frames at the cycle when the First
+                                                                 Byte of the frame (first bit after the SFD) is present in the MII interface when set to 0.
+                                                                 When set to 1 it indicates that the MAC timestamp the frames at the cycle when the SFD
+                                                                 is present in the MII interface. The value reflects the value of TS_SFD_ENA in the
+                                                                 XIF_MODE register. */
+        uint64_t pfc_lp_16pri          : 1;  /**< [ 19: 19](R/W) PFC LinkPause frame support: 16-priorities mode
+
+                                                                 This register is functional when 16-priorities are supported.
+                                                                 When set to 1 the PFC-LP frames are generated with all 16-priorities enabled.
+                                                                 When set to 0 the PFC-LP frame is generated with the lower 8-priorities enabled.
+                                                                 On receive, if PFC_LP_MODE is set to 1, the link gets paused when either 8
+                                                                 ('0', the lower 8 priorities) or 16 ('1') priorities have pause_on asserted. */
+        uint64_t pfc_lp_mode           : 1;  /**< [ 18: 18](R/W) PFC LinkPause frame support:
+                                                                 When set to 1 and PFC_MODE is set to 1 in the COMMAND_CONFIG register, the MAC
+                                                                 will pause itself (akin to a Link Pause) when all pause_on bits are set to 1. */
+        uint64_t pfc_pulse_mode        : 1;  /**< [ 17: 17](R/W) Pulse mode:
+                                                                 When set to 1 the XOFF indication from CMR is sampled on the rising edge and no XON frames
+                                                                 are generated. Set it to 0 for normal PFC operation.
+
+                                                                 Internal:
+                                                                 xoff_gen */
+        uint64_t rx_cnt_mode           : 1;  /**< [ 16: 16](R/W) When set to 0, filtered frames (when PROMIS_EN is set to 0) are counted as good frames.
+                                                                 When set to 1, filtered frames are counted as dropped frames. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t ts_64upd_mode         : 1;  /**< [ 12: 12](R/W) Selects between timestamping using frc_in[63:0], or {rx_ts, frc_in[31:0]}. When
+                                                                 also delay_mode==1, timestamp is {rx_ts, frc_delta[31:0]}
+                                                                 When set to 1, update64 mode in 1-step operations timestamps the frame using the
+                                                                 received and current timestamp as {rx_ts[31:0], frc_in[31:0]}. When
+                                                                 TS_DELAY_MODE is also set, frc_delta[31:0] is used instead of frc_in[31:0]. */
+        uint64_t ts_binary_mode        : 1;  /**< [ 11: 11](R/W) When set to 1, all 1-step calculations for the correction field are done in
+                                                                 32-bit mode, without 10^9 overflow.
+                                                                 When set to 0, overflows occur at 10^9 */
+        uint64_t ts_delay_mode         : 1;  /**< [ 10: 10](R/W) When set to 1 and cfg_1step_delta_mode is 1, a line delay measurement uses the
+                                                                 value in frc_delta instead of frc_in
+
+                                                                 When TS_DELTA_MODE is set to 1, setting TS_DELAY_MODE to 1 causes a line delay
+                                                                 calculation (ff_tx_id(16)=1) to use the value from
+                                                                 frc_delta(47:0) instead of frc_in(29:0) as the current timestamp */
+        uint64_t ts_delta_mode         : 1;  /**< [  9:  9](R/W) When set to 1, the id.delta pin is used to do line delay measurements with 2^30 roll overs
+
+                                                                 Configures the behavior of the delta bit in ff_tx_id(16). When set to 0, the
+                                                                 delta value is used to calculate the correction field. When set to 1, this bit
+                                                                 is used to enable line delay measurements. Line delay measurements wrap at 2^30
+                                                                 nanoseconds instead of
+                                                                 10^9 */
+        uint64_t tx_mac_rs_err         : 1;  /**< [  8:  8](R/W) When this bit is set to 1, transmit errors such as underflow, overflow are
+                                                                 propagated as RS errors to the peer port (the RS generates ERROR codegroups).
+                                                                 When cleared to 0, the errors are indicated by corrupting the CRC of the frame. */
+        uint64_t reserved_7            : 1;
+        uint64_t rx_pause_bypass       : 1;  /**< [  6:  6](R/W) When set to 1, the receive path bypasses one pipestage at the pause frame
+                                                                 processing stage. The advantage is that a 1-cycle latency is gained (64-bits in
+                                                                 10/25/40/50Geth speeds and 128-bits in 100Geth), but the drawback is that pause
+                                                                 frames can no longer be discarded and will always be forwarded to the
+                                                                 application. */
+        uint64_t onestepena            : 1;  /**< [  5:  5](R/W) Enable 1-step capable datapath (if available) */
+        uint64_t pausetimerx8          : 1;  /**< [  4:  4](R/W) Enable Pause Timer Compensation when using external XLGMII/GMII Converter */
+        uint64_t reserved_1_3          : 3;
+        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment) */
+#else /* Word 0 - Little Endian */
+        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment) */
+        uint64_t reserved_1_3          : 3;
+        uint64_t pausetimerx8          : 1;  /**< [  4:  4](R/W) Enable Pause Timer Compensation when using external XLGMII/GMII Converter */
+        uint64_t onestepena            : 1;  /**< [  5:  5](R/W) Enable 1-step capable datapath (if available) */
+        uint64_t rx_pause_bypass       : 1;  /**< [  6:  6](R/W) When set to 1, the receive path bypasses one pipestage at the pause frame
+                                                                 processing stage. The advantage is that a 1-cycle latency is gained (64-bits in
+                                                                 10/25/40/50Geth speeds and 128-bits in 100Geth), but the drawback is that pause
+                                                                 frames can no longer be discarded and will always be forwarded to the
+                                                                 application. */
+        uint64_t reserved_7            : 1;
+        uint64_t tx_mac_rs_err         : 1;  /**< [  8:  8](R/W) When this bit is set to 1, transmit errors such as underflow, overflow are
+                                                                 propagated as RS errors to the peer port (the RS generates ERROR codegroups).
+                                                                 When cleared to 0, the errors are indicated by corrupting the CRC of the frame. */
+        uint64_t ts_delta_mode         : 1;  /**< [  9:  9](R/W) When set to 1, the id.delta pin is used to do line delay measurements with 2^30 roll overs
+
+                                                                 Configures the behavior of the delta bit in ff_tx_id(16). When set to 0, the
+                                                                 delta value is used to calculate the correction field. When set to 1, this bit
+                                                                 is used to enable line delay measurements. Line delay measurements wrap at 2^30
+                                                                 nanoseconds instead of
+                                                                 10^9 */
+        uint64_t ts_delay_mode         : 1;  /**< [ 10: 10](R/W) When set to 1 and cfg_1step_delta_mode is 1, a line delay measurement uses the
+                                                                 value in frc_delta instead of frc_in
+
+                                                                 When TS_DELTA_MODE is set to 1, setting TS_DELAY_MODE to 1 causes a line delay
+                                                                 calculation (ff_tx_id(16)=1) to use the value from
+                                                                 frc_delta(47:0) instead of frc_in(29:0) as the current timestamp */
+        uint64_t ts_binary_mode        : 1;  /**< [ 11: 11](R/W) When set to 1, all 1-step calculations for the correction field are done in
+                                                                 32-bit mode, without 10^9 overflow.
+                                                                 When set to 0, overflows occur at 10^9 */
+        uint64_t ts_64upd_mode         : 1;  /**< [ 12: 12](R/W) Selects between timestamping using frc_in[63:0], or {rx_ts, frc_in[31:0]}. When
+                                                                 also delay_mode==1, timestamp is {rx_ts, frc_delta[31:0]}
+                                                                 When set to 1, update64 mode in 1-step operations timestamps the frame using the
+                                                                 received and current timestamp as {rx_ts[31:0], frc_in[31:0]}. When
+                                                                 TS_DELAY_MODE is also set, frc_delta[31:0] is used instead of frc_in[31:0]. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t rx_cnt_mode           : 1;  /**< [ 16: 16](R/W) When set to 0, filtered frames (when PROMIS_EN is set to 0) are counted as good frames.
+                                                                 When set to 1, filtered frames are counted as dropped frames. */
+        uint64_t pfc_pulse_mode        : 1;  /**< [ 17: 17](R/W) Pulse mode:
+                                                                 When set to 1 the XOFF indication from CMR is sampled on the rising edge and no XON frames
+                                                                 are generated. Set it to 0 for normal PFC operation.
+
+                                                                 Internal:
+                                                                 xoff_gen */
+        uint64_t pfc_lp_mode           : 1;  /**< [ 18: 18](R/W) PFC LinkPause frame support:
+                                                                 When set to 1 and PFC_MODE is set to 1 in the COMMAND_CONFIG register, the MAC
+                                                                 will pause itself (akin to a Link Pause) when all pause_on bits are set to 1. */
+        uint64_t pfc_lp_16pri          : 1;  /**< [ 19: 19](R/W) PFC LinkPause frame support: 16-priorities mode
+
+                                                                 This register is functional when 16-priorities are supported.
+                                                                 When set to 1 the PFC-LP frames are generated with all 16-priorities enabled.
+                                                                 When set to 0 the PFC-LP frame is generated with the lower 8-priorities enabled.
+                                                                 On receive, if PFC_LP_MODE is set to 1, the link gets paused when either 8
+                                                                 ('0', the lower 8 priorities) or 16 ('1') priorities have pause_on asserted. */
+        uint64_t ts_sfd_ena            : 1;  /**< [ 20: 20](R/W) Indicates whether the MAC is configure to timestamp frames at the cycle when the First
+                                                                 Byte of the frame (first bit after the SFD) is present in the MII interface when set to 0.
+                                                                 When set to 1 it indicates that the MAC timestamp the frames at the cycle when the SFD
+                                                                 is present in the MII interface. The value reflects the value of TS_SFD_ENA in the
+                                                                 XIF_MODE register. */
+        uint64_t reserved_21_63        : 43;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_mti_mac100x_xif_mode_s cn10; */
+    struct cavm_rpmx_mti_mac100x_xif_mode_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
@@ -22818,8 +27722,10 @@ union cavm_rpmx_mti_mac100x_xif_mode
                                                                  ('0', the lower 8 priorities) or 16 ('1') priorities have pause_on asserted. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_mac100x_xif_mode_s cn; */
+    } cn10ka;
+    /* struct cavm_rpmx_mti_mac100x_xif_mode_s cn10kb; */
+    /* struct cavm_rpmx_mti_mac100x_xif_mode_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_mti_mac100x_xif_mode_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_mti_mac100x_xif_mode cavm_rpmx_mti_mac100x_xif_mode_t;
 
@@ -22828,6 +27734,8 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_XIF_MODE(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0008100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0008100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0008100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22876,6 +27784,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_BASER_STATUS1(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22924,6 +27834,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_BASER_STATUS2(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -22976,6 +27888,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_BASER_TEST_CONTROL(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23018,6 +27932,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_BASER_TEST_ERR_CNT(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23060,6 +27976,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_BER_HIGH_ORDER_CNT(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23106,6 +28024,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_BIP_ERR_CNT_LANEX(uint64_t a, uint6
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=7)))
         return 0x87e0e0020640ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=7)))
+        return 0x87e0e0020640ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=7)))
         return 0x87e0e0020640ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3) && (c<=7)))
@@ -23152,6 +28072,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_BIP_ERR_CNT_LANE2X(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=7)))
         return 0x87e0e0020680ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=7)))
+        return 0x87e0e0020680ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=7)))
         return 0x87e0e0020680ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3) && (c<=7)))
@@ -23198,6 +28120,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_BIP_ERR_CNT_LANE3X(uint64_t a, uint
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=3)))
         return 0x87e0e00206c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=7)))
+        return 0x87e0e00206c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=3)))
         return 0x87e0e00206c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3) && (c<=3)))
@@ -23256,6 +28180,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_CONTROL1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23320,6 +28246,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_CONTROL2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23366,6 +28294,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_DEVICE_ID0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23408,6 +28338,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_DEVICE_ID1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23462,6 +28394,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_DEVICES_IN_PKG1(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23510,6 +28444,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_DEVICES_IN_PKG2(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23556,6 +28492,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_ERR_BLK_HIGH_ORDER_CNT(uint64_t a, 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23602,6 +28540,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_LANE_MAPPINGX(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=15)))
         return 0x87e0e0020c80ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=15)))
+        return 0x87e0e0020c80ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=15)))
         return 0x87e0e0020c80ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0xf);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3) && (c<=15)))
@@ -23648,6 +28588,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_LANE_MAPPING2X(uint64_t a, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3) && (c<=3)))
         return 0x87e0e0020d00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=7)))
+        return 0x87e0e0020d00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7) + 8ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3) && (c<=3)))
         return 0x87e0e0020d00ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3) && (c<=3)))
@@ -23694,6 +28636,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_MULTILANE_ALIGN_STAT1(uint64_t a, u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020190ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020190ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020190ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23736,6 +28680,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_MULTILANE_ALIGN_STAT2(uint64_t a, u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020198ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020198ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020198ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23778,6 +28724,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_MULTILANE_ALIGN_STAT3(uint64_t a, u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00201a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00201a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00201a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23820,6 +28768,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_MULTILANE_ALIGN_STAT4(uint64_t a, u
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00201a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00201a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00201a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23862,6 +28812,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_PKG_ID0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23904,6 +28856,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_PKG_ID1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23946,6 +28900,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SEED_A0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -23988,6 +28944,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SEED_A1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24030,6 +28988,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SEED_A2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24072,6 +29032,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SEED_A3(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24114,6 +29076,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SEED_B0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24156,6 +29120,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SEED_B1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24198,6 +29164,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SEED_B2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24240,6 +29208,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SEED_B3(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24294,6 +29264,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_SPEED_ABILITY(uint64_t a, uint64_t 
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24355,7 +29327,48 @@ union cavm_rpmx_mti_pcs100x_status1
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_pcs100x_status1_s cn; */
+    /* struct cavm_rpmx_mti_pcs100x_status1_s cn10; */
+    /* struct cavm_rpmx_mti_pcs100x_status1_s cn10ka; */
+    struct cavm_rpmx_mti_pcs100x_status1_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO/H) 1: transmit is or was in LPI state;
+                                                                 0: normal operation; Latching high. */
+        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO/H) 1: receive is or was in LPI state;
+                                                                 0: normal operation; Latching high. */
+        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO/H) 1: transmit is currently in LPI state;
+                                                                 0: normal operation. */
+        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO/H) 1: receive is currently in LPI state;
+                                                                 0: normal operation. */
+        uint64_t fault                 : 1;  /**< [  7:  7](RO/H) When 1, indicates a fault condition is detected; When 0, indicates that no fault
+                                                                 condition is detected. */
+        uint64_t reserved_3_6          : 4;
+        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO/H) When 1, indicates PCS receive link up; When 0, indicates PCS receive link is
+                                                                 or was down (latching low). */
+        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) When 1, indicates that the PCS implements a low power mode. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) When 1, indicates that the PCS implements a low power mode. */
+        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO/H) When 1, indicates PCS receive link up; When 0, indicates PCS receive link is
+                                                                 or was down (latching low). */
+        uint64_t reserved_3_6          : 4;
+        uint64_t fault                 : 1;  /**< [  7:  7](RO/H) When 1, indicates a fault condition is detected; When 0, indicates that no fault
+                                                                 condition is detected. */
+        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO/H) 1: receive is currently in LPI state;
+                                                                 0: normal operation. */
+        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO/H) 1: transmit is currently in LPI state;
+                                                                 0: normal operation. */
+        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO/H) 1: receive is or was in LPI state;
+                                                                 0: normal operation; Latching high. */
+        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO/H) 1: transmit is or was in LPI state;
+                                                                 0: normal operation; Latching high. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_pcs100x_status1_s cnf10ka; */
+    /* struct cavm_rpmx_mti_pcs100x_status1_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_pcs100x_status1 cavm_rpmx_mti_pcs100x_status1_t;
 
@@ -24364,6 +29377,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_STATUS1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24434,6 +29449,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_STATUS2(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24478,6 +29495,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_CORE_REV(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021008ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24528,6 +29547,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_MIRROR_VL0_0(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021040ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24576,6 +29597,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_MIRROR_VL0_1(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021048ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24626,6 +29649,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_MIRROR_VL1_0(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021050ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24674,6 +29699,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_MIRROR_VL1_1(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021058ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24724,6 +29751,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_MIRROR_VL2_0(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021060ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24772,6 +29801,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_MIRROR_VL2_1(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021068ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24822,6 +29853,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_MIRROR_VL3_0(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021070ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24870,6 +29903,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_MIRROR_VL3_1(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021078ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24934,6 +29969,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_PCS_MODE(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021080ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -24976,6 +30013,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_SCRATCH(uint64_t a, uint64_t
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021000ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25032,6 +30071,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_TXLANE_THRESH(uint64_t a, ui
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021018ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25074,6 +30115,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VENDOR_VL_INTVL(uint64_t a, uint64_
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021010ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25118,6 +30161,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL0_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021200ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021200ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021200ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25160,6 +30205,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL0_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021208ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021208ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021208ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25202,6 +30249,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL10_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212a0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25244,6 +30293,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL10_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212a8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25286,6 +30337,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL11_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212b0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25328,6 +30381,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL11_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212b8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25370,6 +30425,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL12_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212c0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25412,6 +30469,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL12_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212c8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25454,6 +30513,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL13_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212d0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25496,6 +30557,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL13_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212d8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25538,6 +30601,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL14_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212e0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25580,6 +30645,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL14_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212e8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25622,6 +30689,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL15_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212f0ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25664,6 +30733,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL15_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e00212f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00212f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e00212f8ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25706,6 +30777,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL16_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021300ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021300ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021300ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25748,6 +30821,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL16_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021308ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021308ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021308ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25790,6 +30865,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL17_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021310ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021310ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021310ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25832,6 +30909,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL17_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021318ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021318ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021318ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25874,6 +30953,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL18_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021320ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021320ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021320ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25916,6 +30997,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL18_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021328ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021328ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021328ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -25958,6 +31041,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL19_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021330ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021330ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021330ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26000,6 +31085,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL19_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021338ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021338ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021338ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26044,6 +31131,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL1_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021210ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021210ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021210ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26086,6 +31175,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL1_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021218ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021218ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021218ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26130,6 +31221,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL2_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021220ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021220ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021220ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26172,6 +31265,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL2_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021228ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021228ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021228ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26216,6 +31311,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL3_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021230ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021230ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021230ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26258,6 +31355,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL3_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021238ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021238ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021238ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26300,6 +31399,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL4_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021240ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021240ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021240ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26342,6 +31443,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL4_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021248ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021248ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021248ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26384,6 +31487,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL5_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021250ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021250ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021250ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26426,6 +31531,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL5_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021258ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021258ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021258ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26468,6 +31575,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL6_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021260ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021260ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021260ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26510,6 +31619,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL6_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021268ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021268ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021268ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26552,6 +31663,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL7_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021270ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021270ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021270ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26594,6 +31707,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL7_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021278ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021278ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021278ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26636,6 +31751,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL8_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021280ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021280ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021280ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26678,6 +31795,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL8_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021288ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021288ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021288ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26720,6 +31839,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL9_0(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021290ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021290ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021290ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26762,6 +31883,8 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL9_1(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0021298ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0021298ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0021298ll + 0x1000000ll * ((a) & 0x3) + 0x100000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26775,6 +31898,47 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_VL9_1(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_MTI_PCS100X_VL9_1(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_MTI_PCS100X_VL9_1(a,b) (a)
 #define arguments_CAVM_RPMX_MTI_PCS100X_VL9_1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_mti_pcs_csr_coarse
+ *
+ * INTERNAL: RPM MTI_PCS Subblock Coarse Clock Enable Register
+ *
+ * MTI_PCS subblock coarse-gating clock force.
+ */
+union cavm_rpmx_mti_pcs_csr_coarse
+{
+    uint64_t u;
+    struct cavm_rpmx_mti_pcs_csr_coarse_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_mti_pcs_csr_coarse_s cn; */
+};
+typedef union cavm_rpmx_mti_pcs_csr_coarse cavm_rpmx_mti_pcs_csr_coarse_t;
+
+static inline uint64_t CAVM_RPMX_MTI_PCS_CSR_COARSE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_PCS_CSR_COARSE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0022000ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_MTI_PCS_CSR_COARSE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_MTI_PCS_CSR_COARSE(a) cavm_rpmx_mti_pcs_csr_coarse_t
+#define bustype_CAVM_RPMX_MTI_PCS_CSR_COARSE(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_PCS_CSR_COARSE(a) "RPMX_MTI_PCS_CSR_COARSE"
+#define device_bar_CAVM_RPMX_MTI_PCS_CSR_COARSE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_PCS_CSR_COARSE(a) (a)
+#define arguments_CAVM_RPMX_MTI_PCS_CSR_COARSE(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rpm#_mti_rsfec_ccw_hi#
@@ -26803,6 +31967,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_CCW_HIX(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_CCW_HIX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038018ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0038018ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038018ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
@@ -26847,6 +32013,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_CCW_LOX(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_CCW_LOX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038010ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0038010ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038010ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
@@ -26899,7 +32067,42 @@ union cavm_rpmx_mti_rsfec_controlx
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_rsfec_controlx_s cn; */
+    /* struct cavm_rpmx_mti_rsfec_controlx_s cn10; */
+    /* struct cavm_rpmx_mti_rsfec_controlx_s cn10ka; */
+    struct cavm_rpmx_mti_rsfec_controlx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t tc_pad_alter          : 1;  /**< [ 10: 10](R/W) MTI400 Only, USX bit reserved. Enable the marker transcode function to insert an
+                                                                 alternating pad bit. */
+        uint64_t tc_pad_value          : 1;  /**< [  9:  9](R/W) MTI400 Only, USX bit reserved. The marker transcode pad bit value to use. */
+        uint64_t kp_enable             : 1;  /**< [  8:  8](R/W) MTI400 Only, USX bit reserved. Enable RS-FEC KP variant for the FEC engine channel. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t am16_copy_dis         : 1;  /**< [  3:  3](R/W) MTI400 Only, USX bit reserved. Disable 100G RS-FEC VL16 copy to VL17,18,19 (100G-2 support). */
+        uint64_t degrade_enable        : 1;  /**< [  2:  2](R/W) Reserved.
+                                                                 Internal:
+                                                                 200/400G only. Configure 200G/400G RS-FEC Degrade indication function. In USX
+                                                                 PDF this field is called "RSFEC ENABLE". Must be set for RSFEC91 in USX */
+        uint64_t bypass_error_indication : 1;/**< [  1:  1](R/W) Configure the FEC decoder to not indicate errors to the PCS layer. */
+        uint64_t bypass_correction     : 1;  /**< [  0:  0](R/W) For MTI400 (105/6) Always 0. For USX (103) this bit is configurable. */
+#else /* Word 0 - Little Endian */
+        uint64_t bypass_correction     : 1;  /**< [  0:  0](R/W) For MTI400 (105/6) Always 0. For USX (103) this bit is configurable. */
+        uint64_t bypass_error_indication : 1;/**< [  1:  1](R/W) Configure the FEC decoder to not indicate errors to the PCS layer. */
+        uint64_t degrade_enable        : 1;  /**< [  2:  2](R/W) Reserved.
+                                                                 Internal:
+                                                                 200/400G only. Configure 200G/400G RS-FEC Degrade indication function. In USX
+                                                                 PDF this field is called "RSFEC ENABLE". Must be set for RSFEC91 in USX */
+        uint64_t am16_copy_dis         : 1;  /**< [  3:  3](R/W) MTI400 Only, USX bit reserved. Disable 100G RS-FEC VL16 copy to VL17,18,19 (100G-2 support). */
+        uint64_t reserved_4_7          : 4;
+        uint64_t kp_enable             : 1;  /**< [  8:  8](R/W) MTI400 Only, USX bit reserved. Enable RS-FEC KP variant for the FEC engine channel. */
+        uint64_t tc_pad_value          : 1;  /**< [  9:  9](R/W) MTI400 Only, USX bit reserved. The marker transcode pad bit value to use. */
+        uint64_t tc_pad_alter          : 1;  /**< [ 10: 10](R/W) MTI400 Only, USX bit reserved. Enable the marker transcode function to insert an
+                                                                 alternating pad bit. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_rsfec_controlx_s cnf10ka; */
+    /* struct cavm_rpmx_mti_rsfec_controlx_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_rsfec_controlx cavm_rpmx_mti_rsfec_controlx_t;
 
@@ -26907,6 +32110,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_CONTROLX(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_CONTROLX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038000ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0038000ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038000ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
@@ -26950,6 +32155,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_DEC_THRESHX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0038038ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038038ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038038ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -26992,6 +32199,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_LANE_MAPX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0038030ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038030ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038030ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -27033,6 +32242,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_NCCW_HIX(uint64_t a, uint64_t b) __at
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_NCCW_HIX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038028ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0038028ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038028ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
@@ -27077,6 +32288,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_NCCW_LOX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
         return 0x87e0e0038020ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038020ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038020ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=3)))
@@ -27090,6 +32303,68 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_NCCW_LOX(uint64_t a, uint64_t b)
 #define device_bar_CAVM_RPMX_MTI_RSFEC_NCCW_LOX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_MTI_RSFEC_NCCW_LOX(a,b) (a)
 #define arguments_CAVM_RPMX_MTI_RSFEC_NCCW_LOX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_mti_rsfec_rsfec_txfifo_control
+ *
+ * RPM MTI RSFEC TX FIFO Control Register
+ * RPM MTI RSFEC TX FIFO Control Register
+ */
+union cavm_rpmx_mti_rsfec_rsfec_txfifo_control
+{
+    uint64_t u;
+    struct cavm_rpmx_mti_rsfec_rsfec_txfifo_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t toggle_en             : 1;  /**< [  4:  4](R/W) When set to 1 it reduces the data rate by 50% in the transmit direction.
+                                                                 This bit can be set to reduce the burstiness in the transmit direction when the
+                                                                 system transmit clock is much higher than the line rate.
+                                                                 Only functional when the RS-FEC is not enabled
+
+                                                                 Internal:
+                                                                 USX Only. Not applicable (RAZ) for RPM100 */
+        uint64_t txfifo_lane_threshold : 4;  /**< [  3:  0](R/W) FIFO level threshold. The transmit data path keeps the FIFO filled to this level.
+                                                                 Ideally it should be set as low as possible to avoid underflows and reduce the buffering.
+                                                                 Default value is 0x8. The maximum valid value is 0x
+
+                                                                 Internal:
+                                                                 USX Only. Not applicable for (RAZ) RPM100 */
+#else /* Word 0 - Little Endian */
+        uint64_t txfifo_lane_threshold : 4;  /**< [  3:  0](R/W) FIFO level threshold. The transmit data path keeps the FIFO filled to this level.
+                                                                 Ideally it should be set as low as possible to avoid underflows and reduce the buffering.
+                                                                 Default value is 0x8. The maximum valid value is 0x
+
+                                                                 Internal:
+                                                                 USX Only. Not applicable for (RAZ) RPM100 */
+        uint64_t toggle_en             : 1;  /**< [  4:  4](R/W) When set to 1 it reduces the data rate by 50% in the transmit direction.
+                                                                 This bit can be set to reduce the burstiness in the transmit direction when the
+                                                                 system transmit clock is much higher than the line rate.
+                                                                 Only functional when the RS-FEC is not enabled
+
+                                                                 Internal:
+                                                                 USX Only. Not applicable (RAZ) for RPM100 */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_mti_rsfec_rsfec_txfifo_control_s cn; */
+};
+typedef union cavm_rpmx_mti_rsfec_rsfec_txfifo_control cavm_rpmx_mti_rsfec_rsfec_txfifo_control_t;
+
+static inline uint64_t CAVM_RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0038558ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL(a) cavm_rpmx_mti_rsfec_rsfec_txfifo_control_t
+#define bustype_CAVM_RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL(a) "RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL"
+#define device_bar_CAVM_RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL(a) (a)
+#define arguments_CAVM_RPMX_MTI_RSFEC_RSFEC_TXFIFO_CONTROL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) rpm#_mti_rsfec_stat_codewords_corrected_10se_0
@@ -29676,6 +34951,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_0(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040040ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040040ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040040ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -29718,6 +34995,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_1(uint64_t a) __
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040048ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040048ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040048ll + 0x1000000ll * ((a) & 0x3);
@@ -29762,6 +35041,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_10(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040090ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040090ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040090ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -29804,6 +35085,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_11(uint64_t a) _
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_11(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040098ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040098ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040098ll + 0x1000000ll * ((a) & 0x3);
@@ -29848,6 +35131,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_12(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00400a0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00400a0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00400a0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -29890,6 +35175,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_13(uint64_t a) _
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_13(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00400a8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00400a8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00400a8ll + 0x1000000ll * ((a) & 0x3);
@@ -29934,6 +35221,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_14(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00400b0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00400b0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00400b0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -29976,6 +35265,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_15(uint64_t a) _
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_15(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00400b8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00400b8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00400b8ll + 0x1000000ll * ((a) & 0x3);
@@ -30020,6 +35311,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_16(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00400c0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00400c0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00400c0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -30062,6 +35355,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_17(uint64_t a) _
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_17(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00400c8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00400c8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00400c8ll + 0x1000000ll * ((a) & 0x3);
@@ -30106,6 +35401,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_18(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e00400d0ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00400d0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00400d0ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -30148,6 +35445,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_19(uint64_t a) _
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_19(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e00400d8ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e00400d8ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e00400d8ll + 0x1000000ll * ((a) & 0x3);
@@ -30192,6 +35491,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040050ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040050ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040050ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -30234,6 +35535,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_3(uint64_t a) __
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_3(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040058ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040058ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040058ll + 0x1000000ll * ((a) & 0x3);
@@ -30278,6 +35581,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_4(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040060ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040060ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040060ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -30320,6 +35625,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_5(uint64_t a) __
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_5(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040068ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040068ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040068ll + 0x1000000ll * ((a) & 0x3);
@@ -30364,6 +35671,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_6(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040070ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040070ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040070ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -30406,6 +35715,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_7(uint64_t a) __
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_7(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040078ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040078ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040078ll + 0x1000000ll * ((a) & 0x3);
@@ -30450,6 +35761,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_8(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040080ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040080ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040080ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -30492,6 +35805,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_9(uint64_t a) __
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_COUNTER_CAPTURE_9(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040088ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040088ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040088ll + 0x1000000ll * ((a) & 0x3);
@@ -30552,6 +35867,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_FAST_DATA_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -30576,6 +35893,70 @@ union cavm_rpmx_mti_rsfec_stat_pagex_counterx
 {
     uint64_t u;
     struct cavm_rpmx_mti_rsfec_stat_pagex_counterx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t counter_low           : 32; /**< [ 31:  0](RO) Holds the lower 32 bits of a counter.
+                                                                 Upon read, the 32 high bits of the counter (if exist) are latched to DATA_HI.
+
+                                                                 Offset  Width   Name
+                                                                 0       64      Total code-words received (increments for all received code-words)
+                                                                 1       64      Total code-words correct (0 symbol errors)
+                                                                 2       64      Total code-words corrected
+                                                                 3       32      Total code-words uncorrectable
+                                                                 4       64      Code-words corrected (1 symbol errors)
+                                                                 5       64      Code-words corrected (2 symbol errors)
+                                                                 6       32      Code-words corrected (3 symbol errors)
+                                                                 7       32      Code-words corrected (4 symbol errors)
+                                                                 8       32      Code-words corrected (5 symbol errors)
+                                                                 9       16      Code-words corrected (6 symbol errors)
+                                                                 10      16      Code-words corrected (7 symbol errors)
+                                                                 11      16      Code-words corrected (8 symbol errors)
+                                                                 12      16      Code-words corrected (9 symbol errors)
+                                                                 13      16      Code-words corrected (10 symbol errors)
+                                                                 14      16      Code-words corrected (11 symbol errors)
+                                                                 15      16      Code-words corrected (12 symbol errors)
+                                                                 16      16      Code-words corrected (13 symbol errors)
+                                                                 17      16      Code-words corrected (14 symbol errors)
+                                                                 18      16      Code-words corrected (15 symbol errors)
+                                                                 19      64      Total symbols corrected for the code-words received
+
+                                                                 Internal:
+                                                                 For USX Only 1 page is available. */
+#else /* Word 0 - Little Endian */
+        uint64_t counter_low           : 32; /**< [ 31:  0](RO) Holds the lower 32 bits of a counter.
+                                                                 Upon read, the 32 high bits of the counter (if exist) are latched to DATA_HI.
+
+                                                                 Offset  Width   Name
+                                                                 0       64      Total code-words received (increments for all received code-words)
+                                                                 1       64      Total code-words correct (0 symbol errors)
+                                                                 2       64      Total code-words corrected
+                                                                 3       32      Total code-words uncorrectable
+                                                                 4       64      Code-words corrected (1 symbol errors)
+                                                                 5       64      Code-words corrected (2 symbol errors)
+                                                                 6       32      Code-words corrected (3 symbol errors)
+                                                                 7       32      Code-words corrected (4 symbol errors)
+                                                                 8       32      Code-words corrected (5 symbol errors)
+                                                                 9       16      Code-words corrected (6 symbol errors)
+                                                                 10      16      Code-words corrected (7 symbol errors)
+                                                                 11      16      Code-words corrected (8 symbol errors)
+                                                                 12      16      Code-words corrected (9 symbol errors)
+                                                                 13      16      Code-words corrected (10 symbol errors)
+                                                                 14      16      Code-words corrected (11 symbol errors)
+                                                                 15      16      Code-words corrected (12 symbol errors)
+                                                                 16      16      Code-words corrected (13 symbol errors)
+                                                                 17      16      Code-words corrected (14 symbol errors)
+                                                                 18      16      Code-words corrected (15 symbol errors)
+                                                                 19      64      Total symbols corrected for the code-words received
+
+                                                                 Internal:
+                                                                 For USX Only 1 page is available. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_mti_rsfec_stat_pagex_counterx_s cn10; */
+    /* struct cavm_rpmx_mti_rsfec_stat_pagex_counterx_s cn10kb; */
+    struct cavm_rpmx_mti_rsfec_stat_pagex_counterx_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -30630,14 +36011,15 @@ union cavm_rpmx_mti_rsfec_stat_pagex_counterx
                                                                  19      64      Total symbols corrected for the code-words received */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_rsfec_stat_pagex_counterx_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_mti_rsfec_stat_pagex_counterx cavm_rpmx_mti_rsfec_stat_pagex_counterx_t;
 
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_PAGEX_COUNTERX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_PAGEX_COUNTERX(uint64_t a, uint64_t b, uint64_t c)
 {
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7) && (c<=19)))
+        return 0x87e0e0041000ll + 0x1000000ll * ((a) & 0x3) + 0x100ll * ((b) & 0x7) + 8ll * ((c) & 0x1f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=7) && (c<=19)))
         return 0x87e0e0041000ll + 0x1000000ll * ((a) & 0xf) + 0x100ll * ((b) & 0x7) + 8ll * ((c) & 0x1f);
     __cavm_csr_fatal("RPMX_MTI_RSFEC_STAT_PAGEX_COUNTERX", 3, a, b, c, 0, 0, 0);
@@ -30699,6 +36081,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_SLOW_DATA_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040038ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040038ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040038ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -30747,6 +36131,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_CLEARVALUE_HI(uint64_t a) 
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_CLEARVALUE_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040028ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040028ll + 0x1000000ll * ((a) & 0x3);
@@ -30802,6 +36188,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_CLEARVALUE_LO(uint64_t a) 
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_CLEARVALUE_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040020ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040020ll + 0x1000000ll * ((a) & 0x3);
@@ -30877,6 +36265,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_CONFIG(uint64_t a) __attri
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_CONFIG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040010ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040010ll + 0x1000000ll * ((a) & 0x3);
@@ -31013,6 +36403,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0040018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0040018ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040018ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -31063,6 +36455,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_STATUS(uint64_t a) __attri
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STAT_STATN_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0040008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0040008ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0040008ll + 0x1000000ll * ((a) & 0x3);
@@ -32513,7 +37907,66 @@ union cavm_rpmx_mti_rsfec_statusx
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_rsfec_statusx_s cn; */
+    /* struct cavm_rpmx_mti_rsfec_statusx_s cn10; */
+    /* struct cavm_rpmx_mti_rsfec_statusx_s cn10ka; */
+    struct cavm_rpmx_mti_rsfec_statusx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t fec_align_status      : 1;  /**< [ 14: 14](RO/H) Indicates, when 1, that the RS-FEC receiver has locked on incoming data and deskew completed. */
+        uint64_t reserved_12_13        : 2;
+        uint64_t amps_lock             : 4;  /**< [ 11:  8](RO/H) RS-FEC receive all lanes aligned status. For USX only bit 8 is relevant (1 SERDES Lane) */
+        uint64_t rx_am_sf0             : 1;  /**< [  7:  7](RO) Reserved.
+                                                                 Internal:
+                                                                 400G only. Current degrade status bit 0 received rx_am_sf(0). */
+        uint64_t rx_am_sf1             : 1;  /**< [  6:  6](RO) Reserved.
+                                                                 Internal:
+                                                                 400G only. Current degrade status bit 1 received rx_am_sf(1). */
+        uint64_t rx_am_sf2             : 1;  /**< [  5:  5](RO) Reserved.
+                                                                 Internal:
+                                                                 400G only. Current degrade status bit 2 received rx_am_sf(2). */
+        uint64_t degrade_ser           : 1;  /**< [  4:  4](RO/H) Reserved.
+                                                                 Internal:
+                                                                 400G only. Indicate Pre-FEC degrade status. */
+        uint64_t degrade_ser_ability   : 1;  /**< [  3:  3](RO/H) Reserved.
+                                                                 Internal:
+                                                                 400G only. Indicate Pre-FEC degrade symbol error monitoring capability. */
+        uint64_t high_ser              : 1;  /**< [  2:  2](RO/H) Asserts when error indication bypass is enabled and high symbol error rate is found */
+        uint64_t bypass_indication_ability : 1;/**< [  1:  1](RO) Indicates the ability to disable error propagation to the PCS layer. */
+        uint64_t bypass_correction_ability : 1;/**< [  0:  0](RO) USX - Indicates existence of the receive correction bypass option.
+                                                                 The bypass function allows a reduced latency operation at the cost of being
+                                                                 unable to correct receive errors. reset value for USX is 1.
+                                                                 Correction bypass is not available for MTI400. reset value for MTI400 is 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t bypass_correction_ability : 1;/**< [  0:  0](RO) USX - Indicates existence of the receive correction bypass option.
+                                                                 The bypass function allows a reduced latency operation at the cost of being
+                                                                 unable to correct receive errors. reset value for USX is 1.
+                                                                 Correction bypass is not available for MTI400. reset value for MTI400 is 0. */
+        uint64_t bypass_indication_ability : 1;/**< [  1:  1](RO) Indicates the ability to disable error propagation to the PCS layer. */
+        uint64_t high_ser              : 1;  /**< [  2:  2](RO/H) Asserts when error indication bypass is enabled and high symbol error rate is found */
+        uint64_t degrade_ser_ability   : 1;  /**< [  3:  3](RO/H) Reserved.
+                                                                 Internal:
+                                                                 400G only. Indicate Pre-FEC degrade symbol error monitoring capability. */
+        uint64_t degrade_ser           : 1;  /**< [  4:  4](RO/H) Reserved.
+                                                                 Internal:
+                                                                 400G only. Indicate Pre-FEC degrade status. */
+        uint64_t rx_am_sf2             : 1;  /**< [  5:  5](RO) Reserved.
+                                                                 Internal:
+                                                                 400G only. Current degrade status bit 2 received rx_am_sf(2). */
+        uint64_t rx_am_sf1             : 1;  /**< [  6:  6](RO) Reserved.
+                                                                 Internal:
+                                                                 400G only. Current degrade status bit 1 received rx_am_sf(1). */
+        uint64_t rx_am_sf0             : 1;  /**< [  7:  7](RO) Reserved.
+                                                                 Internal:
+                                                                 400G only. Current degrade status bit 0 received rx_am_sf(0). */
+        uint64_t amps_lock             : 4;  /**< [ 11:  8](RO/H) RS-FEC receive all lanes aligned status. For USX only bit 8 is relevant (1 SERDES Lane) */
+        uint64_t reserved_12_13        : 2;
+        uint64_t fec_align_status      : 1;  /**< [ 14: 14](RO/H) Indicates, when 1, that the RS-FEC receiver has locked on incoming data and deskew completed. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_rsfec_statusx_s cnf10ka; */
+    /* struct cavm_rpmx_mti_rsfec_statusx_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_rsfec_statusx cavm_rpmx_mti_rsfec_statusx_t;
 
@@ -32521,6 +37974,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_STATUSX(uint64_t a, uint64_t b) __att
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_STATUSX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038008ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
         return 0x87e0e0038008ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
         return 0x87e0e0038008ll + 0x1000000ll * ((a) & 0x3) + 0x40ll * ((b) & 0x3);
@@ -32564,6 +38019,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_SYMBLERR_HIX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=7)))
         return 0x87e0e0038408ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038408ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=7)))
         return 0x87e0e0038408ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=7)))
@@ -32607,6 +38064,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_SYMBLERR_LOX(uint64_t a, uint64_t b)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=7)))
         return 0x87e0e0038400ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038400ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=7)))
         return 0x87e0e0038400ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x7);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=7)))
@@ -32640,7 +38099,24 @@ union cavm_rpmx_mti_rsfec_vendor_align_status
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_rsfec_vendor_align_status_s cn; */
+    /* struct cavm_rpmx_mti_rsfec_vendor_align_status_s cn10; */
+    /* struct cavm_rpmx_mti_rsfec_vendor_align_status_s cn10ka; */
+    struct cavm_rpmx_mti_rsfec_vendor_align_status_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t rsfec_vendor_align_status : 10;/**< [  9:  0](RO/H) Per channel align status (mode specific)
+                                                                 Internal:
+                                                                 RPM100  Only. Not applicable (RAZ) for USX */
+#else /* Word 0 - Little Endian */
+        uint64_t rsfec_vendor_align_status : 10;/**< [  9:  0](RO/H) Per channel align status (mode specific)
+                                                                 Internal:
+                                                                 RPM100  Only. Not applicable (RAZ) for USX */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_rsfec_vendor_align_status_s cnf10ka; */
+    /* struct cavm_rpmx_mti_rsfec_vendor_align_status_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_rsfec_vendor_align_status cavm_rpmx_mti_rsfec_vendor_align_status_t;
 
@@ -32648,6 +38124,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_ALIGN_STATUS(uint64_t a) __att
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_ALIGN_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0038520ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0038520ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0038520ll + 0x1000000ll * ((a) & 0x3);
@@ -32690,6 +38168,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0038500ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0038500ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0038500ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -32705,6 +38185,112 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_CONTROL(uint64_t a)
 #define arguments_CAVM_RPMX_MTI_RSFEC_VENDOR_CONTROL(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) rpm#_mti_rsfec_vendor_decoder_thresh
+ *
+ * RPM MTI RSFEC Vendor Decoder Threshold Register
+ * RPM MTI RSFEC Vendor Decoder Threshold
+ */
+union cavm_rpmx_mti_rsfec_vendor_decoder_thresh
+{
+    uint64_t u;
+    struct cavm_rpmx_mti_rsfec_vendor_decoder_thresh_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t rsfec_vendor_decoder_thresh : 6;/**< [  5:  0](R/W) RSFEC decoder channel 0 threshold to avoid burstiness of output data.
+                                                                 A 6-bit value from 0 to 55 can be set. A value of 38 is recommended to avoid bursts.
+                                                                 A value of 0 disables the function causing periodic data bursts to the PCS when using RSFEC mode
+
+                                                                 Internal:
+                                                                 USX Only. Not applicable (RAZ) for RPM100 */
+#else /* Word 0 - Little Endian */
+        uint64_t rsfec_vendor_decoder_thresh : 6;/**< [  5:  0](R/W) RSFEC decoder channel 0 threshold to avoid burstiness of output data.
+                                                                 A 6-bit value from 0 to 55 can be set. A value of 38 is recommended to avoid bursts.
+                                                                 A value of 0 disables the function causing periodic data bursts to the PCS when using RSFEC mode
+
+                                                                 Internal:
+                                                                 USX Only. Not applicable (RAZ) for RPM100 */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_mti_rsfec_vendor_decoder_thresh_s cn; */
+};
+typedef union cavm_rpmx_mti_rsfec_vendor_decoder_thresh cavm_rpmx_mti_rsfec_vendor_decoder_thresh_t;
+
+static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0038550ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH(a) cavm_rpmx_mti_rsfec_vendor_decoder_thresh_t
+#define bustype_CAVM_RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH(a) "RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH"
+#define device_bar_CAVM_RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH(a) (a)
+#define arguments_CAVM_RPMX_MTI_RSFEC_VENDOR_DECODER_THRESH(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_mti_rsfec_vendor_hi_ser_thresh#
+ *
+ * RPM MTI RSFEC VENDOR HISER THRESH Register
+ * Achieving this threshold the PCS will enter to Hi-Ber state indicating local fault to the CGMII.
+ */
+union cavm_rpmx_mti_rsfec_vendor_hi_ser_threshx
+{
+    uint64_t u;
+    struct cavm_rpmx_mti_rsfec_vendor_hi_ser_threshx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t fec_hi_ser_thr        : 16; /**< [ 15:  0](R/W) When error indication is bypassed, the FEC keeps monitoring the amount of symbol
+                                                                 errors detected (802.3bj Clause 91.5.3.3).
+                                                                 The value in this register is the threshold, by achieving it the PCS will enter
+                                                                 to Hi-Ber state indicating local fault to the CGMII.
+                                                                 The value depends on the mode of operation and must be configured as below:
+                                                                 clause91: 6380 (kp4)
+                                                                 clause91: 417 (kr4)
+                                                                 clause161: 5560 (ck)
+
+                                                                 Internal:
+                                                                 RPM100  Only. Not applicable (RAZ) for USX */
+#else /* Word 0 - Little Endian */
+        uint64_t fec_hi_ser_thr        : 16; /**< [ 15:  0](R/W) When error indication is bypassed, the FEC keeps monitoring the amount of symbol
+                                                                 errors detected (802.3bj Clause 91.5.3.3).
+                                                                 The value in this register is the threshold, by achieving it the PCS will enter
+                                                                 to Hi-Ber state indicating local fault to the CGMII.
+                                                                 The value depends on the mode of operation and must be configured as below:
+                                                                 clause91: 6380 (kp4)
+                                                                 clause91: 417 (kr4)
+                                                                 clause161: 5560 (ck)
+
+                                                                 Internal:
+                                                                 RPM100  Only. Not applicable (RAZ) for USX */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_mti_rsfec_vendor_hi_ser_threshx_s cn; */
+};
+typedef union cavm_rpmx_mti_rsfec_vendor_hi_ser_threshx cavm_rpmx_mti_rsfec_vendor_hi_ser_threshx_t;
+
+static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=3)))
+        return 0x87e0e0038580ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x3);
+    __cavm_csr_fatal("RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX(a,b) cavm_rpmx_mti_rsfec_vendor_hi_ser_threshx_t
+#define bustype_CAVM_RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX(a,b) "RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX"
+#define device_bar_CAVM_RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX(a,b) (a)
+#define arguments_CAVM_RPMX_MTI_RSFEC_VENDOR_HI_SER_THRESHX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) rpm#_mti_rsfec_vendor_info1
  *
  * INTERNAL: Relevant for 200/400G only. RPM MTI RSFEC Vendor Info 1 Register
@@ -32715,6 +38301,31 @@ union cavm_rpmx_mti_rsfec_vendor_info1
 {
     uint64_t u;
     struct cavm_rpmx_mti_rsfec_vendor_info1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t vendor_align_status_ll : 1; /**< [ 10: 10](RO) FEC alignment status; Latched low */
+        uint64_t reserved_8_9          : 2;
+        uint64_t st_fec_sreset_tx_lh   : 1;  /**< [  7:  7](RO) USX Only. MTI100 - RAZ */
+        uint64_t st_fec_sreset_rx_lh   : 1;  /**< [  6:  6](RO) USX Only. MTI100 - RAZ */
+        uint64_t vendor_marker_check_restart : 1;/**< [  5:  5](RO) Caused an alignment restart to the FEC */
+        uint64_t vendor_align_status_lh : 1; /**< [  4:  4](RO) FEC alignment status; Latched high */
+        uint64_t reserved_1_3          : 3;
+        uint64_t vendor_amps_lock      : 1;  /**< [  0:  0](RO) All amps_lock asserted */
+#else /* Word 0 - Little Endian */
+        uint64_t vendor_amps_lock      : 1;  /**< [  0:  0](RO) All amps_lock asserted */
+        uint64_t reserved_1_3          : 3;
+        uint64_t vendor_align_status_lh : 1; /**< [  4:  4](RO) FEC alignment status; Latched high */
+        uint64_t vendor_marker_check_restart : 1;/**< [  5:  5](RO) Caused an alignment restart to the FEC */
+        uint64_t st_fec_sreset_rx_lh   : 1;  /**< [  6:  6](RO) USX Only. MTI100 - RAZ */
+        uint64_t st_fec_sreset_tx_lh   : 1;  /**< [  7:  7](RO) USX Only. MTI100 - RAZ */
+        uint64_t reserved_8_9          : 2;
+        uint64_t vendor_align_status_ll : 1; /**< [ 10: 10](RO) FEC alignment status; Latched low */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_mti_rsfec_vendor_info1_s cn10; */
+    struct cavm_rpmx_mti_rsfec_vendor_info1_cn10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
@@ -32733,8 +38344,10 @@ union cavm_rpmx_mti_rsfec_vendor_info1
         uint64_t vendor_align_status_ll : 1; /**< [ 10: 10](RO) FEC alignment status; Latched low */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rpmx_mti_rsfec_vendor_info1_s cn; */
+    } cn10ka;
+    /* struct cavm_rpmx_mti_rsfec_vendor_info1_s cn10kb; */
+    /* struct cavm_rpmx_mti_rsfec_vendor_info1_cn10ka cnf10ka; */
+    /* struct cavm_rpmx_mti_rsfec_vendor_info1_cn10ka cnf10kb; */
 };
 typedef union cavm_rpmx_mti_rsfec_vendor_info1 cavm_rpmx_mti_rsfec_vendor_info1_t;
 
@@ -32742,6 +38355,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_INFO1(uint64_t a) __attribute_
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_INFO1(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0038508ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0038508ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0038508ll + 0x1000000ll * ((a) & 0x3);
@@ -32776,7 +38391,24 @@ union cavm_rpmx_mti_rsfec_vendor_info2
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_rsfec_vendor_info2_s cn; */
+    /* struct cavm_rpmx_mti_rsfec_vendor_info2_s cn10; */
+    /* struct cavm_rpmx_mti_rsfec_vendor_info2_s cn10ka; */
+    struct cavm_rpmx_mti_rsfec_vendor_info2_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t amps_lock_lanes       : 16; /**< [ 15:  0](RO/H) Per PMA lane FEC synchronization status
+                                                                 Internal:
+                                                                 RPM100 Only. Not applicable (RAZ) for USX */
+#else /* Word 0 - Little Endian */
+        uint64_t amps_lock_lanes       : 16; /**< [ 15:  0](RO/H) Per PMA lane FEC synchronization status
+                                                                 Internal:
+                                                                 RPM100 Only. Not applicable (RAZ) for USX */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_rsfec_vendor_info2_s cnf10ka; */
+    /* struct cavm_rpmx_mti_rsfec_vendor_info2_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_rsfec_vendor_info2 cavm_rpmx_mti_rsfec_vendor_info2_t;
 
@@ -32784,6 +38416,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_INFO2(uint64_t a) __attribute_
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_INFO2(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0038510ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0038510ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0038510ll + 0x1000000ll * ((a) & 0x3);
@@ -32826,6 +38460,8 @@ static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_REVISION(uint64_t a) __attribu
 static inline uint64_t CAVM_RPMX_MTI_RSFEC_VENDOR_REVISION(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0038518ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0038518ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0038518ll + 0x1000000ll * ((a) & 0x3);
@@ -32876,6 +38512,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_CAPTURED_PAGE_COUNTERX(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=42)))
         return 0x87e0e0011000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=42)))
+        return 0x87e0e0011000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=42)))
         return 0x87e0e0011000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=42)))
@@ -32914,7 +38552,20 @@ union cavm_rpmx_mti_stat_data_hi
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_stat_data_hi_s cn; */
+    /* struct cavm_rpmx_mti_stat_data_hi_s cn10; */
+    /* struct cavm_rpmx_mti_stat_data_hi_s cn10ka; */
+    struct cavm_rpmx_mti_stat_data_hi_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t data_hi               : 32; /**< [ 31:  0](RO/H) Not functional. Use register RPM_MTI_STAT_DATA_HI_CDC. */
+#else /* Word 0 - Little Endian */
+        uint64_t data_hi               : 32; /**< [ 31:  0](RO/H) Not functional. Use register RPM_MTI_STAT_DATA_HI_CDC. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_stat_data_hi_s cnf10ka; */
+    /* struct cavm_rpmx_mti_stat_data_hi_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_stat_data_hi cavm_rpmx_mti_stat_data_hi_t;
 
@@ -32922,6 +38573,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_DATA_HI(uint64_t a) __attribute__ ((pu
 static inline uint64_t CAVM_RPMX_MTI_STAT_DATA_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0010000ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0010000ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0010000ll + 0x1000000ll * ((a) & 0x3);
@@ -32966,6 +38619,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_DATA_HI_CDC(uint64_t a) __attribute__ 
 static inline uint64_t CAVM_RPMX_MTI_STAT_DATA_HI_CDC(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0010038ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0010038ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0010038ll + 0x1000000ll * ((a) & 0x3);
@@ -33012,6 +38667,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_RX_STAT_PAGES_COUNTERX(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=343)))
         return 0x87e0e0012000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=343)))
+        return 0x87e0e0012000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1ff);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=343)))
         return 0x87e0e0012000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1ff);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=343)))
@@ -33057,6 +38714,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_CLEARVALUE_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0010028ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0010028ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0010028ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -33101,6 +38760,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_CLEARVALUE_LO(uint64_t a) __attr
 static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_CLEARVALUE_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0010020ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0010020ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0010020ll + 0x1000000ll * ((a) & 0x3);
@@ -33171,6 +38832,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_CONFIG(uint64_t a) __attribute__
 static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_CONFIG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0010010ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0010010ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0010010ll + 0x1000000ll * ((a) & 0x3);
@@ -33336,6 +38999,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_CONTROL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
         return 0x87e0e0010018ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0010018ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0010018ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=8))
@@ -33380,6 +39045,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_STATUS(uint64_t a) __attribute__
 static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_STATUS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
+        return 0x87e0e0010008ll + 0x1000000ll * ((a) & 0x3);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
         return 0x87e0e0010008ll + 0x1000000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
         return 0x87e0e0010008ll + 0x1000000ll * ((a) & 0x3);
@@ -33426,6 +39093,8 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(uint64_t a, uin
 {
     if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=271)))
         return 0x87e0e0013000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1ff);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=271)))
+        return 0x87e0e0013000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1ff);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=271)))
         return 0x87e0e0013000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1ff);
     if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=8) && (b<=271)))
@@ -33439,5 +39108,1990 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(uint64_t a, uin
 #define device_bar_CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(a,b) (a)
 #define arguments_CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_baser_status1
+ *
+ * RPM USX PCS Baser Status1 Register
+ * Link Status Information.
+ */
+union cavm_rpmx_usx_pcsx_baser_status1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_baser_status1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t receive_link          : 1;  /**< [ 12: 12](RO/H) Receive link status. 1=Link up; 0=link down. */
+        uint64_t reserved_2_11         : 10;
+        uint64_t high_ber              : 1;  /**< [  1:  1](RO/H) 1=PCS reporting a high BER. */
+        uint64_t block_lock            : 1;  /**< [  0:  0](RO/H) 1=PCS locked to received blocks. */
+#else /* Word 0 - Little Endian */
+        uint64_t block_lock            : 1;  /**< [  0:  0](RO/H) 1=PCS locked to received blocks. */
+        uint64_t high_ber              : 1;  /**< [  1:  1](RO/H) 1=PCS reporting a high BER. */
+        uint64_t reserved_2_11         : 10;
+        uint64_t receive_link          : 1;  /**< [ 12: 12](RO/H) Receive link status. 1=Link up; 0=link down. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_baser_status1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_baser_status1 cavm_rpmx_usx_pcsx_baser_status1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_BASER_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_BASER_STATUS1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080100ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_BASER_STATUS1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_BASER_STATUS1(a,b) cavm_rpmx_usx_pcsx_baser_status1_t
+#define bustype_CAVM_RPMX_USX_PCSX_BASER_STATUS1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_BASER_STATUS1(a,b) "RPMX_USX_PCSX_BASER_STATUS1"
+#define device_bar_CAVM_RPMX_USX_PCSX_BASER_STATUS1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_BASER_STATUS1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_BASER_STATUS1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_baser_status2
+ *
+ * RPM USX PCS Baser Status2 Register
+ * Link Status latches and error counters.
+ */
+union cavm_rpmx_usx_pcsx_baser_status2
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_baser_status2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t block_lock            : 1;  /**< [ 15: 15](RO/H) Block Lock; Latched low. */
+        uint64_t high_ber              : 1;  /**< [ 14: 14](RO/H) BER flag; Latched high. */
+        uint64_t ber_counter           : 6;  /**< [ 13:  8](RO/H) BER counter; None roll-over. */
+        uint64_t errored_cnt           : 8;  /**< [  7:  0](RO/H) Errored blocks counter; None roll-over. */
+#else /* Word 0 - Little Endian */
+        uint64_t errored_cnt           : 8;  /**< [  7:  0](RO/H) Errored blocks counter; None roll-over. */
+        uint64_t ber_counter           : 6;  /**< [ 13:  8](RO/H) BER counter; None roll-over. */
+        uint64_t high_ber              : 1;  /**< [ 14: 14](RO/H) BER flag; Latched high. */
+        uint64_t block_lock            : 1;  /**< [ 15: 15](RO/H) Block Lock; Latched low. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_baser_status2_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_baser_status2 cavm_rpmx_usx_pcsx_baser_status2_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_BASER_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_BASER_STATUS2(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080108ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_BASER_STATUS2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_BASER_STATUS2(a,b) cavm_rpmx_usx_pcsx_baser_status2_t
+#define bustype_CAVM_RPMX_USX_PCSX_BASER_STATUS2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_BASER_STATUS2(a,b) "RPMX_USX_PCSX_BASER_STATUS2"
+#define device_bar_CAVM_RPMX_USX_PCSX_BASER_STATUS2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_BASER_STATUS2(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_BASER_STATUS2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_baser_test_control
+ *
+ * RPM USX PCS Baser Test Control Register
+ * Test Pattern Generator and Checker controls.
+ */
+union cavm_rpmx_usx_pcsx_baser_test_control
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_baser_test_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t select_random         : 1;  /**< [  7:  7](R/W) Select Random Idle test pattern (40G); Overrides bits 1:0 when set. */
+        uint64_t reserved_4_6          : 3;
+        uint64_t tx_testpattern        : 1;  /**< [  3:  3](R/W) Transmit test-pattern enable. */
+        uint64_t rx_testpattern        : 1;  /**< [  2:  2](R/W) Receive test-pattern enable. */
+        uint64_t select_square         : 1;  /**< [  1:  1](R/W) Select Square Wave (1) or Pseudo Random (0) test pattern; 10G only. */
+        uint64_t data_pattern_sel      : 1;  /**< [  0:  0](R/W) Data Pattern Select: 1=all Zero, 0=2x Local Fault; 10G only. */
+#else /* Word 0 - Little Endian */
+        uint64_t data_pattern_sel      : 1;  /**< [  0:  0](R/W) Data Pattern Select: 1=all Zero, 0=2x Local Fault; 10G only. */
+        uint64_t select_square         : 1;  /**< [  1:  1](R/W) Select Square Wave (1) or Pseudo Random (0) test pattern; 10G only. */
+        uint64_t rx_testpattern        : 1;  /**< [  2:  2](R/W) Receive test-pattern enable. */
+        uint64_t tx_testpattern        : 1;  /**< [  3:  3](R/W) Transmit test-pattern enable. */
+        uint64_t reserved_4_6          : 3;
+        uint64_t select_random         : 1;  /**< [  7:  7](R/W) Select Random Idle test pattern (40G); Overrides bits 1:0 when set. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_baser_test_control_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_baser_test_control cavm_rpmx_usx_pcsx_baser_test_control_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_BASER_TEST_CONTROL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_BASER_TEST_CONTROL(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080150ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_BASER_TEST_CONTROL", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_BASER_TEST_CONTROL(a,b) cavm_rpmx_usx_pcsx_baser_test_control_t
+#define bustype_CAVM_RPMX_USX_PCSX_BASER_TEST_CONTROL(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_BASER_TEST_CONTROL(a,b) "RPMX_USX_PCSX_BASER_TEST_CONTROL"
+#define device_bar_CAVM_RPMX_USX_PCSX_BASER_TEST_CONTROL(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_BASER_TEST_CONTROL(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_BASER_TEST_CONTROL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_baser_test_err_cnt
+ *
+ * RPM USX PCS Baser Test Err Cnt Register
+ * Test Pattern Error Counter; Clears on read; None roll-over.
+ */
+union cavm_rpmx_usx_pcsx_baser_test_err_cnt
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_baser_test_err_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t counter               : 16; /**< [ 15:  0](RO/H) Test pattern error counter; Clears on read; None roll-over. */
+#else /* Word 0 - Little Endian */
+        uint64_t counter               : 16; /**< [ 15:  0](RO/H) Test pattern error counter; Clears on read; None roll-over. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_baser_test_err_cnt_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_baser_test_err_cnt cavm_rpmx_usx_pcsx_baser_test_err_cnt_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_BASER_TEST_ERR_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_BASER_TEST_ERR_CNT(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080158ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_BASER_TEST_ERR_CNT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_BASER_TEST_ERR_CNT(a,b) cavm_rpmx_usx_pcsx_baser_test_err_cnt_t
+#define bustype_CAVM_RPMX_USX_PCSX_BASER_TEST_ERR_CNT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_BASER_TEST_ERR_CNT(a,b) "RPMX_USX_PCSX_BASER_TEST_ERR_CNT"
+#define device_bar_CAVM_RPMX_USX_PCSX_BASER_TEST_ERR_CNT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_BASER_TEST_ERR_CNT(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_BASER_TEST_ERR_CNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_ber_high_order_cnt
+ *
+ * RPM USX PCS Ber High Order Cnt Register
+ * BER High Order Counter of BER bits 21:6; None roll-over.
+ */
+union cavm_rpmx_usx_pcsx_ber_high_order_cnt
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_ber_high_order_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t ber_counter           : 16; /**< [ 15:  0](RO/H) Bits 21:6 of BER counter; None roll-over. */
+#else /* Word 0 - Little Endian */
+        uint64_t ber_counter           : 16; /**< [ 15:  0](RO/H) Bits 21:6 of BER counter; None roll-over. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_ber_high_order_cnt_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_ber_high_order_cnt cavm_rpmx_usx_pcsx_ber_high_order_cnt_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_BER_HIGH_ORDER_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_BER_HIGH_ORDER_CNT(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080160ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_BER_HIGH_ORDER_CNT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_BER_HIGH_ORDER_CNT(a,b) cavm_rpmx_usx_pcsx_ber_high_order_cnt_t
+#define bustype_CAVM_RPMX_USX_PCSX_BER_HIGH_ORDER_CNT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_BER_HIGH_ORDER_CNT(a,b) "RPMX_USX_PCSX_BER_HIGH_ORDER_CNT"
+#define device_bar_CAVM_RPMX_USX_PCSX_BER_HIGH_ORDER_CNT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_BER_HIGH_ORDER_CNT(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_BER_HIGH_ORDER_CNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_control1
+ *
+ * RPM MTI PCS Control1 Register
+ * PCS Control.
+ */
+union cavm_rpmx_usx_pcsx_control1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_control1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=PCS reset, 0=normal; Self clearing. */
+        uint64_t loopback              : 1;  /**< [ 14: 14](R/W) 1=Enable loopback, 0=disable loopback. */
+        uint64_t speed_select_always1  : 1;  /**< [ 13: 13](RO) Always 1. */
+        uint64_t reserved_12           : 1;
+        uint64_t low_power             : 1;  /**< [ 11: 11](R/W) 0=normal operation (Always 0). */
+        uint64_t reserved_7_10         : 4;
+        uint64_t speed_always1         : 1;  /**< [  6:  6](RO) Always 1. */
+        uint64_t speed_selection       : 4;  /**< [  5:  2](RO/H) Read value depends on currently active configuration (see PCS_MODE or pins). */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t speed_selection       : 4;  /**< [  5:  2](RO/H) Read value depends on currently active configuration (see PCS_MODE or pins). */
+        uint64_t speed_always1         : 1;  /**< [  6:  6](RO) Always 1. */
+        uint64_t reserved_7_10         : 4;
+        uint64_t low_power             : 1;  /**< [ 11: 11](R/W) 0=normal operation (Always 0). */
+        uint64_t reserved_12           : 1;
+        uint64_t speed_select_always1  : 1;  /**< [ 13: 13](RO) Always 1. */
+        uint64_t loopback              : 1;  /**< [ 14: 14](R/W) 1=Enable loopback, 0=disable loopback. */
+        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=PCS reset, 0=normal; Self clearing. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_control1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_control1 cavm_rpmx_usx_pcsx_control1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_CONTROL1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_CONTROL1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080000ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_CONTROL1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_CONTROL1(a,b) cavm_rpmx_usx_pcsx_control1_t
+#define bustype_CAVM_RPMX_USX_PCSX_CONTROL1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_CONTROL1(a,b) "RPMX_USX_PCSX_CONTROL1"
+#define device_bar_CAVM_RPMX_USX_PCSX_CONTROL1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_CONTROL1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_CONTROL1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_control2
+ *
+ * RPM USX PCS Control2 Register
+ * Operating speed indication.
+ */
+union cavm_rpmx_usx_pcsx_control2
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_control2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t pcs_type              : 4;  /**< [  3:  0](RO/H) Selected PCS type:
+                                                                 0xb = 5G   - 802.3bz
+                                                                 0xa = 2.5G - 802.3bz
+                                                                 0x8 = 50G  - 802.3cd
+                                                                 0x7 = 25G  - 802.3by
+                                                                 0x5 = 100G
+                                                                 0x4 = 40G
+                                                                 0x0 = 10G
+
+                                                                 Internal:
+                                                                 0xd = 400G - 802.3bs
+                                                                 0xc = 200G - 802.3bs */
+#else /* Word 0 - Little Endian */
+        uint64_t pcs_type              : 4;  /**< [  3:  0](RO/H) Selected PCS type:
+                                                                 0xb = 5G   - 802.3bz
+                                                                 0xa = 2.5G - 802.3bz
+                                                                 0x8 = 50G  - 802.3cd
+                                                                 0x7 = 25G  - 802.3by
+                                                                 0x5 = 100G
+                                                                 0x4 = 40G
+                                                                 0x0 = 10G
+
+                                                                 Internal:
+                                                                 0xd = 400G - 802.3bs
+                                                                 0xc = 200G - 802.3bs */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_control2_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_control2 cavm_rpmx_usx_pcsx_control2_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_CONTROL2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_CONTROL2(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080038ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_CONTROL2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_CONTROL2(a,b) cavm_rpmx_usx_pcsx_control2_t
+#define bustype_CAVM_RPMX_USX_PCSX_CONTROL2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_CONTROL2(a,b) "RPMX_USX_PCSX_CONTROL2"
+#define device_bar_CAVM_RPMX_USX_PCSX_CONTROL2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_CONTROL2(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_CONTROL2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_device_id0
+ *
+ * RPM USX PCS Device Id0 Register
+ * PHY Identifier constant from package parameter PHY_IDENTIFIER bits 15:4. Bits 3:0 always 0.
+ */
+union cavm_rpmx_usx_pcsx_device_id0
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_device_id0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t identifier0           : 16; /**< [ 15:  0](RO) Bits 15:0 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file.
+                                                                 0x0 - even PCS channels.
+                                                                 0x1 - odd PCS channels. */
+#else /* Word 0 - Little Endian */
+        uint64_t identifier0           : 16; /**< [ 15:  0](RO) Bits 15:0 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file.
+                                                                 0x0 - even PCS channels.
+                                                                 0x1 - odd PCS channels. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_device_id0_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_device_id0 cavm_rpmx_usx_pcsx_device_id0_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_DEVICE_ID0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_DEVICE_ID0(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080010ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_DEVICE_ID0", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_DEVICE_ID0(a,b) cavm_rpmx_usx_pcsx_device_id0_t
+#define bustype_CAVM_RPMX_USX_PCSX_DEVICE_ID0(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_DEVICE_ID0(a,b) "RPMX_USX_PCSX_DEVICE_ID0"
+#define device_bar_CAVM_RPMX_USX_PCSX_DEVICE_ID0(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_DEVICE_ID0(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_DEVICE_ID0(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_device_id1
+ *
+ * RPM USX PCS Device Id1 Register
+ * PHY Identifier constant from package parameter PHY_IDENTIFIER bits 31:16.
+ */
+union cavm_rpmx_usx_pcsx_device_id1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_device_id1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t identifier1           : 16; /**< [ 15:  0](RO) Bits 31:16 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file. */
+#else /* Word 0 - Little Endian */
+        uint64_t identifier1           : 16; /**< [ 15:  0](RO) Bits 31:16 of Device Identifier defined by parameter PHY_IDENTIFIER in PCS package file. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_device_id1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_device_id1 cavm_rpmx_usx_pcsx_device_id1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_DEVICE_ID1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_DEVICE_ID1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080018ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_DEVICE_ID1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_DEVICE_ID1(a,b) cavm_rpmx_usx_pcsx_device_id1_t
+#define bustype_CAVM_RPMX_USX_PCSX_DEVICE_ID1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_DEVICE_ID1(a,b) "RPMX_USX_PCSX_DEVICE_ID1"
+#define device_bar_CAVM_RPMX_USX_PCSX_DEVICE_ID1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_DEVICE_ID1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_DEVICE_ID1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_devices_in_pkg1
+ *
+ * RPM USX PCS Devices In Pkg1 Register
+ * Constant indicating PCS presence.
+ */
+union cavm_rpmx_usx_pcsx_devices_in_pkg1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_devices_in_pkg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t tc_pres               : 1;  /**< [  6:  6](RO) TC present when 1. */
+        uint64_t dte_xs                : 1;  /**< [  5:  5](RO) DTE XS present when 1. */
+        uint64_t phy_xs                : 1;  /**< [  4:  4](RO) PHY XS present when 1. */
+        uint64_t pcs_pres              : 1;  /**< [  3:  3](RO) PCS present when 1. */
+        uint64_t wis_pres              : 1;  /**< [  2:  2](RO) WIS present when 1. */
+        uint64_t pmd_pma               : 1;  /**< [  1:  1](RO) PMD/PMA present when 1. */
+        uint64_t clause22              : 1;  /**< [  0:  0](RO) Clause 22 registers present when 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t clause22              : 1;  /**< [  0:  0](RO) Clause 22 registers present when 1. */
+        uint64_t pmd_pma               : 1;  /**< [  1:  1](RO) PMD/PMA present when 1. */
+        uint64_t wis_pres              : 1;  /**< [  2:  2](RO) WIS present when 1. */
+        uint64_t pcs_pres              : 1;  /**< [  3:  3](RO) PCS present when 1. */
+        uint64_t phy_xs                : 1;  /**< [  4:  4](RO) PHY XS present when 1. */
+        uint64_t dte_xs                : 1;  /**< [  5:  5](RO) DTE XS present when 1. */
+        uint64_t tc_pres               : 1;  /**< [  6:  6](RO) TC present when 1. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_devices_in_pkg1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_devices_in_pkg1 cavm_rpmx_usx_pcsx_devices_in_pkg1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080028ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_DEVICES_IN_PKG1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG1(a,b) cavm_rpmx_usx_pcsx_devices_in_pkg1_t
+#define bustype_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG1(a,b) "RPMX_USX_PCSX_DEVICES_IN_PKG1"
+#define device_bar_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_devices_in_pkg2
+ *
+ * RPM USX PCS Devices In Pkg2 Register
+ * Vendor specific presence.
+ */
+union cavm_rpmx_usx_pcsx_devices_in_pkg2
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_devices_in_pkg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t device2               : 1;  /**< [ 15: 15](RO) Vendor specific device 2 present */
+        uint64_t device1               : 1;  /**< [ 14: 14](RO) Vendor specific device 1 present */
+        uint64_t clause22              : 1;  /**< [ 13: 13](RO) Clause 22 extension present */
+        uint64_t reserved_0_12         : 13;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_12         : 13;
+        uint64_t clause22              : 1;  /**< [ 13: 13](RO) Clause 22 extension present */
+        uint64_t device1               : 1;  /**< [ 14: 14](RO) Vendor specific device 1 present */
+        uint64_t device2               : 1;  /**< [ 15: 15](RO) Vendor specific device 2 present */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_devices_in_pkg2_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_devices_in_pkg2 cavm_rpmx_usx_pcsx_devices_in_pkg2_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG2(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080030ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_DEVICES_IN_PKG2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG2(a,b) cavm_rpmx_usx_pcsx_devices_in_pkg2_t
+#define bustype_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG2(a,b) "RPMX_USX_PCSX_DEVICES_IN_PKG2"
+#define device_bar_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG2(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_DEVICES_IN_PKG2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_err_blk_high_order_cnt
+ *
+ * RPM USX PCS Err Blk High Order Cnt Register
+ * Error Blocks High Order Counter bits 21:8; None roll-over.
+ */
+union cavm_rpmx_usx_pcsx_err_blk_high_order_cnt
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_err_blk_high_order_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t high_order_present    : 1;  /**< [ 15: 15](RO) High order counter present; Always 1. */
+        uint64_t reserved_14           : 1;
+        uint64_t errored_blocks_counter : 14;/**< [ 13:  0](RO/H) Bits 21:8 of Error Blocks counter; None roll-over. */
+#else /* Word 0 - Little Endian */
+        uint64_t errored_blocks_counter : 14;/**< [ 13:  0](RO/H) Bits 21:8 of Error Blocks counter; None roll-over. */
+        uint64_t reserved_14           : 1;
+        uint64_t high_order_present    : 1;  /**< [ 15: 15](RO) High order counter present; Always 1. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_err_blk_high_order_cnt_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_err_blk_high_order_cnt cavm_rpmx_usx_pcsx_err_blk_high_order_cnt_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080168ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT(a,b) cavm_rpmx_usx_pcsx_err_blk_high_order_cnt_t
+#define bustype_CAVM_RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT(a,b) "RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT"
+#define device_bar_CAVM_RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_ERR_BLK_HIGH_ORDER_CNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_multilane_align_stat1
+ *
+ * RPM USX PCS Multilane Align Stat1 Register
+ * Lane Alignment Status Bits and Block Lock.
+ */
+union cavm_rpmx_usx_pcsx_multilane_align_stat1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_multilane_align_stat1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t lane_align_status     : 1;  /**< [ 12: 12](RO/H) Lane alignment status; 1=All Receive lanes locked and aligned. */
+        uint64_t reserved_8_11         : 4;
+        uint64_t lane_block_lock       : 8;  /**< [  7:  0](RO/H) Bit i specifies Lane i block lock. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_block_lock       : 8;  /**< [  7:  0](RO/H) Bit i specifies Lane i block lock. */
+        uint64_t reserved_8_11         : 4;
+        uint64_t lane_align_status     : 1;  /**< [ 12: 12](RO/H) Lane alignment status; 1=All Receive lanes locked and aligned. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_multilane_align_stat1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_multilane_align_stat1 cavm_rpmx_usx_pcsx_multilane_align_stat1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080190ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1(a,b) cavm_rpmx_usx_pcsx_multilane_align_stat1_t
+#define bustype_CAVM_RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1(a,b) "RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1"
+#define device_bar_CAVM_RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_MULTILANE_ALIGN_STAT1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_pkg_id0
+ *
+ * RPM USX PCS Pkg Id0 Register
+ * Constant from package parameter PACK_IDENTIFIER bits 15:0.
+ */
+union cavm_rpmx_usx_pcsx_pkg_id0
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_pkg_id0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t identifier            : 16; /**< [ 15:  0](RO) Constant from package parameter PACK_IDENTIFIER bits 15:0. */
+#else /* Word 0 - Little Endian */
+        uint64_t identifier            : 16; /**< [ 15:  0](RO) Constant from package parameter PACK_IDENTIFIER bits 15:0. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_pkg_id0_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_pkg_id0 cavm_rpmx_usx_pcsx_pkg_id0_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_PKG_ID0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_PKG_ID0(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080070ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_PKG_ID0", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_PKG_ID0(a,b) cavm_rpmx_usx_pcsx_pkg_id0_t
+#define bustype_CAVM_RPMX_USX_PCSX_PKG_ID0(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_PKG_ID0(a,b) "RPMX_USX_PCSX_PKG_ID0"
+#define device_bar_CAVM_RPMX_USX_PCSX_PKG_ID0(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_PKG_ID0(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_PKG_ID0(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_pkg_id1
+ *
+ * RPM USX PCS Pkg Id1 Register
+ * Constant from package parameter PACK_IDENTIFIER bits 31:16.
+ */
+union cavm_rpmx_usx_pcsx_pkg_id1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_pkg_id1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t identifier            : 16; /**< [ 15:  0](RO) Constant from package parameter PACK_IDENTIFIER bits 31:16. */
+#else /* Word 0 - Little Endian */
+        uint64_t identifier            : 16; /**< [ 15:  0](RO) Constant from package parameter PACK_IDENTIFIER bits 31:16. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_pkg_id1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_pkg_id1 cavm_rpmx_usx_pcsx_pkg_id1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_PKG_ID1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_PKG_ID1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080078ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_PKG_ID1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_PKG_ID1(a,b) cavm_rpmx_usx_pcsx_pkg_id1_t
+#define bustype_CAVM_RPMX_USX_PCSX_PKG_ID1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_PKG_ID1(a,b) "RPMX_USX_PCSX_PKG_ID1"
+#define device_bar_CAVM_RPMX_USX_PCSX_PKG_ID1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_PKG_ID1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_PKG_ID1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_seed_a0
+ *
+ * RPM USX PCS Seed A0 Register
+ * 10G Base-R Test Pattern Seed A bits 15:0.
+ */
+union cavm_rpmx_usx_pcsx_seed_a0
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_seed_a0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed A: Bits 15:0. Field is Writeable only for Channel 0.
+                                                                 Read-Only for all others. */
+#else /* Word 0 - Little Endian */
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed A: Bits 15:0. Field is Writeable only for Channel 0.
+                                                                 Read-Only for all others. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_seed_a0_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_seed_a0 cavm_rpmx_usx_pcsx_seed_a0_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_A0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_A0(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080110ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SEED_A0", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SEED_A0(a,b) cavm_rpmx_usx_pcsx_seed_a0_t
+#define bustype_CAVM_RPMX_USX_PCSX_SEED_A0(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SEED_A0(a,b) "RPMX_USX_PCSX_SEED_A0"
+#define device_bar_CAVM_RPMX_USX_PCSX_SEED_A0(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SEED_A0(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SEED_A0(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_seed_a1
+ *
+ * RPM USX PCS Seed A1 Register
+ * 10G Base-R Test Pattern Seed A bits 31:16.
+ */
+union cavm_rpmx_usx_pcsx_seed_a1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_seed_a1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed A: Bits 31:16. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+#else /* Word 0 - Little Endian */
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed A: Bits 31:16. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_seed_a1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_seed_a1 cavm_rpmx_usx_pcsx_seed_a1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_A1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_A1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080118ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SEED_A1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SEED_A1(a,b) cavm_rpmx_usx_pcsx_seed_a1_t
+#define bustype_CAVM_RPMX_USX_PCSX_SEED_A1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SEED_A1(a,b) "RPMX_USX_PCSX_SEED_A1"
+#define device_bar_CAVM_RPMX_USX_PCSX_SEED_A1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SEED_A1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SEED_A1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_seed_a2
+ *
+ * RPM USX PCS Seed A2 Register
+ * 10G Base-R Test Pattern Seed A bits 47:32.
+ */
+union cavm_rpmx_usx_pcsx_seed_a2
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_seed_a2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed A: Bits 47:32. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+#else /* Word 0 - Little Endian */
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed A: Bits 47:32. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_seed_a2_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_seed_a2 cavm_rpmx_usx_pcsx_seed_a2_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_A2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_A2(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080120ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SEED_A2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SEED_A2(a,b) cavm_rpmx_usx_pcsx_seed_a2_t
+#define bustype_CAVM_RPMX_USX_PCSX_SEED_A2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SEED_A2(a,b) "RPMX_USX_PCSX_SEED_A2"
+#define device_bar_CAVM_RPMX_USX_PCSX_SEED_A2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SEED_A2(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SEED_A2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_seed_a3
+ *
+ * RPM USX PCS Seed A3 Register
+ * 10G Base-R Test Pattern Seed A bits 57:48.
+ */
+union cavm_rpmx_usx_pcsx_seed_a3
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_seed_a3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t seed                  : 10; /**< [  9:  0](R/W) 10GBase-R Test Pattern Seed A: Bits 57:48. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+#else /* Word 0 - Little Endian */
+        uint64_t seed                  : 10; /**< [  9:  0](R/W) 10GBase-R Test Pattern Seed A: Bits 57:48. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_seed_a3_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_seed_a3 cavm_rpmx_usx_pcsx_seed_a3_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_A3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_A3(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080128ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SEED_A3", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SEED_A3(a,b) cavm_rpmx_usx_pcsx_seed_a3_t
+#define bustype_CAVM_RPMX_USX_PCSX_SEED_A3(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SEED_A3(a,b) "RPMX_USX_PCSX_SEED_A3"
+#define device_bar_CAVM_RPMX_USX_PCSX_SEED_A3(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SEED_A3(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SEED_A3(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_seed_b0
+ *
+ * RPM USX PCS Seed B0 Register
+ * 10G Base-R Test Pattern Seed B bits 15:0.
+ */
+union cavm_rpmx_usx_pcsx_seed_b0
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_seed_b0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed B: Bits 15:0. Field is Writeable only for Channel 0.
+                                                                 Read-Only for all others. */
+#else /* Word 0 - Little Endian */
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed B: Bits 15:0. Field is Writeable only for Channel 0.
+                                                                 Read-Only for all others. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_seed_b0_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_seed_b0 cavm_rpmx_usx_pcsx_seed_b0_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_B0(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_B0(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080130ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SEED_B0", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SEED_B0(a,b) cavm_rpmx_usx_pcsx_seed_b0_t
+#define bustype_CAVM_RPMX_USX_PCSX_SEED_B0(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SEED_B0(a,b) "RPMX_USX_PCSX_SEED_B0"
+#define device_bar_CAVM_RPMX_USX_PCSX_SEED_B0(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SEED_B0(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SEED_B0(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_seed_b1
+ *
+ * RPM USX PCS Seed B1 Register
+ * 10G Base-R Test Pattern Seed B bits 31:16.
+ */
+union cavm_rpmx_usx_pcsx_seed_b1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_seed_b1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed B: Bits 31:16. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+#else /* Word 0 - Little Endian */
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed B: Bits 31:16. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_seed_b1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_seed_b1 cavm_rpmx_usx_pcsx_seed_b1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_B1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_B1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080138ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SEED_B1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SEED_B1(a,b) cavm_rpmx_usx_pcsx_seed_b1_t
+#define bustype_CAVM_RPMX_USX_PCSX_SEED_B1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SEED_B1(a,b) "RPMX_USX_PCSX_SEED_B1"
+#define device_bar_CAVM_RPMX_USX_PCSX_SEED_B1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SEED_B1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SEED_B1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_seed_b2
+ *
+ * RPM USX PCS Seed B2 Register
+ * 10G Base-R Test Pattern Seed B bits 47:32.
+ */
+union cavm_rpmx_usx_pcsx_seed_b2
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_seed_b2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed B: Bits 47:32. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+#else /* Word 0 - Little Endian */
+        uint64_t seed                  : 16; /**< [ 15:  0](R/W) 10GBase-R Test Pattern Seed B: Bits 47:32. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_seed_b2_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_seed_b2 cavm_rpmx_usx_pcsx_seed_b2_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_B2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_B2(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080140ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SEED_B2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SEED_B2(a,b) cavm_rpmx_usx_pcsx_seed_b2_t
+#define bustype_CAVM_RPMX_USX_PCSX_SEED_B2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SEED_B2(a,b) "RPMX_USX_PCSX_SEED_B2"
+#define device_bar_CAVM_RPMX_USX_PCSX_SEED_B2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SEED_B2(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SEED_B2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_seed_b3
+ *
+ * RPM USX PCS Seed B3 Register
+ * 10G Base-R Test Pattern Seed B bits 57:48.
+ */
+union cavm_rpmx_usx_pcsx_seed_b3
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_seed_b3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t seed                  : 10; /**< [  9:  0](R/W) 10GBase-R Test Pattern Seed B: Bits 57:48. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+#else /* Word 0 - Little Endian */
+        uint64_t seed                  : 10; /**< [  9:  0](R/W) 10GBase-R Test Pattern Seed B: Bits 57:48. Field is Writeable only for Channel
+                                                                 0. Read-Only for all others. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_seed_b3_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_seed_b3 cavm_rpmx_usx_pcsx_seed_b3_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_B3(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SEED_B3(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080148ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SEED_B3", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SEED_B3(a,b) cavm_rpmx_usx_pcsx_seed_b3_t
+#define bustype_CAVM_RPMX_USX_PCSX_SEED_B3(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SEED_B3(a,b) "RPMX_USX_PCSX_SEED_B3"
+#define device_bar_CAVM_RPMX_USX_PCSX_SEED_B3(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SEED_B3(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SEED_B3(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_speed_ability
+ *
+ * RPM USX PCS Speed Ability Register
+ * PCS supported speeds (values as defined by standard only, no proprietary speeds).
+ */
+union cavm_rpmx_usx_pcsx_speed_ability
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_speed_ability_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t c50g                  : 1;  /**< [  5:  5](RO) When 1, this PCS is 50G capable. */
+        uint64_t c25g                  : 1;  /**< [  4:  4](RO) When 1, this PCS is 25G capable. */
+        uint64_t c100g                 : 1;  /**< [  3:  3](RO) When 1, this PCS is 100G capable.
+                                                                 1 for even PCS channels. 0 for odd PCS channels. */
+        uint64_t c40g                  : 1;  /**< [  2:  2](RO) When 1, this PCS is 40G capable. */
+        uint64_t c10pass_ts            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10PASS-TS/2Base-TL capable. */
+        uint64_t c10geth               : 1;  /**< [  0:  0](RO) When 1, this PCS is 10Geth capable. */
+#else /* Word 0 - Little Endian */
+        uint64_t c10geth               : 1;  /**< [  0:  0](RO) When 1, this PCS is 10Geth capable. */
+        uint64_t c10pass_ts            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10PASS-TS/2Base-TL capable. */
+        uint64_t c40g                  : 1;  /**< [  2:  2](RO) When 1, this PCS is 40G capable. */
+        uint64_t c100g                 : 1;  /**< [  3:  3](RO) When 1, this PCS is 100G capable.
+                                                                 1 for even PCS channels. 0 for odd PCS channels. */
+        uint64_t c25g                  : 1;  /**< [  4:  4](RO) When 1, this PCS is 25G capable. */
+        uint64_t c50g                  : 1;  /**< [  5:  5](RO) When 1, this PCS is 50G capable. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_speed_ability_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_speed_ability cavm_rpmx_usx_pcsx_speed_ability_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_SPEED_ABILITY(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_SPEED_ABILITY(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080020ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_SPEED_ABILITY", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_SPEED_ABILITY(a,b) cavm_rpmx_usx_pcsx_speed_ability_t
+#define bustype_CAVM_RPMX_USX_PCSX_SPEED_ABILITY(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_SPEED_ABILITY(a,b) "RPMX_USX_PCSX_SPEED_ABILITY"
+#define device_bar_CAVM_RPMX_USX_PCSX_SPEED_ABILITY(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_SPEED_ABILITY(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_SPEED_ABILITY(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_status1
+ *
+ * RPM USX PCS Status1 Register
+ * PCS Status.
+ */
+union cavm_rpmx_usx_pcsx_status1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_status1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO/H) 0 = Normal operation; Latching high.
+                                                                 1 = Transmit is or was in LPI state. */
+        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO/H) 0 = Normal operation; Latching high.
+                                                                 1 = Receive is or was in LPI state. */
+        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO/H) 0 = Normal operation.
+                                                                 1 = Transmit is currently in LPI state. */
+        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO/H) 0 = Normal operation.
+                                                                 1 = Receive is currently in LPI state */
+        uint64_t fault                 : 1;  /**< [  7:  7](RO/H) When 1, indicates a fault condition is detected; When 0, indicates that no fault
+                                                                 condition is detected. */
+        uint64_t reserved_3_6          : 4;
+        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO/H) When 1, indicates PCS receive link up; When 0, indicates PCS receive link is
+                                                                 or was down (latching low). */
+        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) When 1, indicates that the PCS implements a low power mode. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t low_power_ability     : 1;  /**< [  1:  1](RO) When 1, indicates that the PCS implements a low power mode. */
+        uint64_t pcs_receive_link      : 1;  /**< [  2:  2](RO/H) When 1, indicates PCS receive link up; When 0, indicates PCS receive link is
+                                                                 or was down (latching low). */
+        uint64_t reserved_3_6          : 4;
+        uint64_t fault                 : 1;  /**< [  7:  7](RO/H) When 1, indicates a fault condition is detected; When 0, indicates that no fault
+                                                                 condition is detected. */
+        uint64_t rx_lpi_active         : 1;  /**< [  8:  8](RO/H) 0 = Normal operation.
+                                                                 1 = Receive is currently in LPI state */
+        uint64_t tx_lpi_active         : 1;  /**< [  9:  9](RO/H) 0 = Normal operation.
+                                                                 1 = Transmit is currently in LPI state. */
+        uint64_t rx_lpi                : 1;  /**< [ 10: 10](RO/H) 0 = Normal operation; Latching high.
+                                                                 1 = Receive is or was in LPI state. */
+        uint64_t tx_lpi                : 1;  /**< [ 11: 11](RO/H) 0 = Normal operation; Latching high.
+                                                                 1 = Transmit is or was in LPI state. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_status1_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_status1 cavm_rpmx_usx_pcsx_status1_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_STATUS1(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_STATUS1(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080008ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_STATUS1", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_STATUS1(a,b) cavm_rpmx_usx_pcsx_status1_t
+#define bustype_CAVM_RPMX_USX_PCSX_STATUS1(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_STATUS1(a,b) "RPMX_USX_PCSX_STATUS1"
+#define device_bar_CAVM_RPMX_USX_PCSX_STATUS1(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_STATUS1(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_STATUS1(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_status2
+ *
+ * RPM USX PCS Status2 Register
+ * Fault status; Device capabilities
+ */
+union cavm_rpmx_usx_pcsx_status2
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_status2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t device_present        : 2;  /**< [ 15: 14](RO) Device present. When 0x2, device responding at this address. */
+        uint64_t reserved_12_13        : 2;
+        uint64_t transmit_fault        : 1;  /**< [ 11: 11](RO/H) Transmit fault. 1=Fault condition on transmit path. Latched high */
+        uint64_t receive_fault         : 1;  /**< [ 10: 10](RO/H) Receive fault. 1=Fault condition on receive path. Latched high */
+        uint64_t reserved_9            : 1;
+        uint64_t c50gbase_r            : 1;  /**< [  8:  8](RO) When 1, this PCS is 50GBase-R capable. */
+        uint64_t c25gbase_r            : 1;  /**< [  7:  7](RO) When 1, this PCS is 25GBase-R capable. */
+        uint64_t reserved_6            : 1;
+        uint64_t c100gbase_r           : 1;  /**< [  5:  5](RO) When 1, this PCS is 100GBase-R capable.
+                                                                 1 for even PCS channels. 0 for odd PCS channels. */
+        uint64_t c40gbase_r            : 1;  /**< [  4:  4](RO) When 1, this PCS is 40GBase-R capable. */
+        uint64_t c10gbase_t            : 1;  /**< [  3:  3](RO) When 1, this PCS is 10GBase-T capable. */
+        uint64_t c10gbase_w            : 1;  /**< [  2:  2](RO) When 1, this PCS is 10GBase-W capable. */
+        uint64_t c10gbase_x            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10GBase-X capable. */
+        uint64_t c10gbase_r            : 1;  /**< [  0:  0](RO) When 1, this PCS is 10GBase-R capable. */
+#else /* Word 0 - Little Endian */
+        uint64_t c10gbase_r            : 1;  /**< [  0:  0](RO) When 1, this PCS is 10GBase-R capable. */
+        uint64_t c10gbase_x            : 1;  /**< [  1:  1](RO) When 1, this PCS is 10GBase-X capable. */
+        uint64_t c10gbase_w            : 1;  /**< [  2:  2](RO) When 1, this PCS is 10GBase-W capable. */
+        uint64_t c10gbase_t            : 1;  /**< [  3:  3](RO) When 1, this PCS is 10GBase-T capable. */
+        uint64_t c40gbase_r            : 1;  /**< [  4:  4](RO) When 1, this PCS is 40GBase-R capable. */
+        uint64_t c100gbase_r           : 1;  /**< [  5:  5](RO) When 1, this PCS is 100GBase-R capable.
+                                                                 1 for even PCS channels. 0 for odd PCS channels. */
+        uint64_t reserved_6            : 1;
+        uint64_t c25gbase_r            : 1;  /**< [  7:  7](RO) When 1, this PCS is 25GBase-R capable. */
+        uint64_t c50gbase_r            : 1;  /**< [  8:  8](RO) When 1, this PCS is 50GBase-R capable. */
+        uint64_t reserved_9            : 1;
+        uint64_t receive_fault         : 1;  /**< [ 10: 10](RO/H) Receive fault. 1=Fault condition on receive path. Latched high */
+        uint64_t transmit_fault        : 1;  /**< [ 11: 11](RO/H) Transmit fault. 1=Fault condition on transmit path. Latched high */
+        uint64_t reserved_12_13        : 2;
+        uint64_t device_present        : 2;  /**< [ 15: 14](RO) Device present. When 0x2, device responding at this address. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_status2_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_status2 cavm_rpmx_usx_pcsx_status2_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_STATUS2(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_STATUS2(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e0080040ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_STATUS2", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_STATUS2(a,b) cavm_rpmx_usx_pcsx_status2_t
+#define bustype_CAVM_RPMX_USX_PCSX_STATUS2(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_STATUS2(a,b) "RPMX_USX_PCSX_STATUS2"
+#define device_bar_CAVM_RPMX_USX_PCSX_STATUS2(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_STATUS2(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_STATUS2(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_vendor_core_rev
+ *
+ * RPM USX PCS Vendor Core Rev Register
+ * Vendor Specific Reg; Core Revision as defined by CORE_REVISION package parameter.
+ */
+union cavm_rpmx_usx_pcsx_vendor_core_rev
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_vendor_core_rev_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t revision              : 16; /**< [ 15:  0](RO) Core Design version as defined by CORE_REVISION parameter in PCS package file.
+                                                                 0x0 for even PCS channels. 0x300 for odd PCS channels. */
+#else /* Word 0 - Little Endian */
+        uint64_t revision              : 16; /**< [ 15:  0](RO) Core Design version as defined by CORE_REVISION parameter in PCS package file.
+                                                                 0x0 for even PCS channels. 0x300 for odd PCS channels. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_vendor_core_rev_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_vendor_core_rev cavm_rpmx_usx_pcsx_vendor_core_rev_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_VENDOR_CORE_REV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_VENDOR_CORE_REV(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00801e8ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_VENDOR_CORE_REV", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_VENDOR_CORE_REV(a,b) cavm_rpmx_usx_pcsx_vendor_core_rev_t
+#define bustype_CAVM_RPMX_USX_PCSX_VENDOR_CORE_REV(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_VENDOR_CORE_REV(a,b) "RPMX_USX_PCSX_VENDOR_CORE_REV"
+#define device_bar_CAVM_RPMX_USX_PCSX_VENDOR_CORE_REV(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_VENDOR_CORE_REV(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_VENDOR_CORE_REV(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_vendor_pcs_mode
+ *
+ * RPM USX PCS Vendor Pcs Mode Register
+ * Vendor Specific Reg; Configure PCS supporting Clause 49 or 82 Encoder/Decoder, MLD.
+ */
+union cavm_rpmx_usx_pcsx_vendor_pcs_mode
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_vendor_pcs_mode_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t st_hi_ber5            : 1;  /**< [ 11: 11](RO/H) Current status of Hi_ber5 setting. */
+        uint64_t st_hi_ber25           : 1;  /**< [ 10: 10](RO/H) Current status of Hi_ber25 setting. */
+        uint64_t st_disable_mld        : 1;  /**< [  9:  9](RO/H) Current status of MLD setting. */
+        uint64_t st_ena_clause49       : 1;  /**< [  8:  8](RO/H) Current status of Clause 49 setting. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t hi_ber5               : 1;  /**< [  3:  3](R/W) When 1 PCS implements 5G Hi-Ber (125us, 32 errors). When 0 Hi-Ber implements
+                                                                 according to Ena_clause49 */
+        uint64_t hi_ber25              : 1;  /**< [  2:  2](R/W) When 1 PCS implements 25G Hi-Ber (2ms, 97 errors). When 0 Hi-Ber implements
+                                                                 according to Ena_clause49 */
+        uint64_t disable_mld           : 1;  /**< [  1:  1](R/W) When 0 PCS 4-lane MLD function is active; When 1 the MLD function is disabled. */
+        uint64_t ena_clause49          : 1;  /**< [  0:  0](R/W) When 0 PCS uses Clause 82 encoder/decoder functions; When 1 PCS uses Clause 49
+                                                                 encoder/decoder functions. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena_clause49          : 1;  /**< [  0:  0](R/W) When 0 PCS uses Clause 82 encoder/decoder functions; When 1 PCS uses Clause 49
+                                                                 encoder/decoder functions. */
+        uint64_t disable_mld           : 1;  /**< [  1:  1](R/W) When 0 PCS 4-lane MLD function is active; When 1 the MLD function is disabled. */
+        uint64_t hi_ber25              : 1;  /**< [  2:  2](R/W) When 1 PCS implements 25G Hi-Ber (2ms, 97 errors). When 0 Hi-Ber implements
+                                                                 according to Ena_clause49 */
+        uint64_t hi_ber5               : 1;  /**< [  3:  3](R/W) When 1 PCS implements 5G Hi-Ber (125us, 32 errors). When 0 Hi-Ber implements
+                                                                 according to Ena_clause49 */
+        uint64_t reserved_4_7          : 4;
+        uint64_t st_ena_clause49       : 1;  /**< [  8:  8](RO/H) Current status of Clause 49 setting. */
+        uint64_t st_disable_mld        : 1;  /**< [  9:  9](RO/H) Current status of MLD setting. */
+        uint64_t st_hi_ber25           : 1;  /**< [ 10: 10](RO/H) Current status of Hi_ber25 setting. */
+        uint64_t st_hi_ber5            : 1;  /**< [ 11: 11](RO/H) Current status of Hi_ber5 setting. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_vendor_pcs_mode_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_vendor_pcs_mode cavm_rpmx_usx_pcsx_vendor_pcs_mode_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_VENDOR_PCS_MODE(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_VENDOR_PCS_MODE(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00801f0ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_VENDOR_PCS_MODE", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_VENDOR_PCS_MODE(a,b) cavm_rpmx_usx_pcsx_vendor_pcs_mode_t
+#define bustype_CAVM_RPMX_USX_PCSX_VENDOR_PCS_MODE(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_VENDOR_PCS_MODE(a,b) "RPMX_USX_PCSX_VENDOR_PCS_MODE"
+#define device_bar_CAVM_RPMX_USX_PCSX_VENDOR_PCS_MODE(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_VENDOR_PCS_MODE(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_VENDOR_PCS_MODE(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_vendor_scratch
+ *
+ * RPM USX PCS Vendor Scratch Register
+ * Vendor Specific Reg; Scratch Register.
+ */
+union cavm_rpmx_usx_pcsx_vendor_scratch
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_vendor_scratch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t scratch               : 16; /**< [ 15:  0](R/W) Scratch Register; Register address to test read and write operation. */
+#else /* Word 0 - Little Endian */
+        uint64_t scratch               : 16; /**< [ 15:  0](R/W) Scratch Register; Register address to test read and write operation. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_vendor_scratch_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_vendor_scratch cavm_rpmx_usx_pcsx_vendor_scratch_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_VENDOR_SCRATCH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_VENDOR_SCRATCH(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00801e0ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_VENDOR_SCRATCH", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_VENDOR_SCRATCH(a,b) cavm_rpmx_usx_pcsx_vendor_scratch_t
+#define bustype_CAVM_RPMX_USX_PCSX_VENDOR_SCRATCH(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_VENDOR_SCRATCH(a,b) "RPMX_USX_PCSX_VENDOR_SCRATCH"
+#define device_bar_CAVM_RPMX_USX_PCSX_VENDOR_SCRATCH(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_VENDOR_SCRATCH(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_VENDOR_SCRATCH(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcs#_vendor_txlane_thresh
+ *
+ * RPM USX PCS Vendor Txlane Thresh Register
+ * A 4-bit value to define the transmit line decoupling FIFOs almost full threshold for
+ * lane0/4; Valid values are 5-10.
+ */
+union cavm_rpmx_usx_pcsx_vendor_txlane_thresh
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsx_vendor_txlane_thresh_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t threshold0            : 4;  /**< [  3:  0](R/W) Lane 0 threshold. */
+#else /* Word 0 - Little Endian */
+        uint64_t threshold0            : 4;  /**< [  3:  0](R/W) Lane 0 threshold. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsx_vendor_txlane_thresh_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsx_vendor_txlane_thresh cavm_rpmx_usx_pcsx_vendor_txlane_thresh_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSX_VENDOR_TXLANE_THRESH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSX_VENDOR_TXLANE_THRESH(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) && (b<=7)))
+        return 0x87e0e00801f8ll + 0x1000000ll * ((a) & 0x3) + 0x200ll * ((b) & 0x7);
+    __cavm_csr_fatal("RPMX_USX_PCSX_VENDOR_TXLANE_THRESH", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSX_VENDOR_TXLANE_THRESH(a,b) cavm_rpmx_usx_pcsx_vendor_txlane_thresh_t
+#define bustype_CAVM_RPMX_USX_PCSX_VENDOR_TXLANE_THRESH(a,b) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSX_VENDOR_TXLANE_THRESH(a,b) "RPMX_USX_PCSX_VENDOR_TXLANE_THRESH"
+#define device_bar_CAVM_RPMX_USX_PCSX_VENDOR_TXLANE_THRESH(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSX_VENDOR_TXLANE_THRESH(a,b) (a)
+#define arguments_CAVM_RPMX_USX_PCSX_VENDOR_TXLANE_THRESH(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_pcsm_csr_coarse
+ *
+ * INTERNAL: RPM USX_PCSM Subblock Coarse Clock Enable Register
+ *
+ * USX_PCSM subblock coarse-gating clock force.
+ */
+union cavm_rpmx_usx_pcsm_csr_coarse
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_pcsm_csr_coarse_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+        uint64_t reserved_0_62         : 63;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_62         : 63;
+        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
+                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_pcsm_csr_coarse_s cn; */
+};
+typedef union cavm_rpmx_usx_pcsm_csr_coarse cavm_rpmx_usx_pcsm_csr_coarse_t;
+
+static inline uint64_t CAVM_RPMX_USX_PCSM_CSR_COARSE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_PCSM_CSR_COARSE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0089000ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_PCSM_CSR_COARSE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_PCSM_CSR_COARSE(a) cavm_rpmx_usx_pcsm_csr_coarse_t
+#define bustype_CAVM_RPMX_USX_PCSM_CSR_COARSE(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_PCSM_CSR_COARSE(a) "RPMX_USX_PCSM_CSR_COARSE"
+#define device_bar_CAVM_RPMX_USX_PCSM_CSR_COARSE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_PCSM_CSR_COARSE(a) (a)
+#define arguments_CAVM_RPMX_USX_PCSM_CSR_COARSE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_align_match_err
+ *
+ * RPM USX Align Match Error Register
+ */
+union cavm_rpmx_usx_usxm_align_match_err
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_align_match_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t mismatch_errcnt       : 32; /**< [ 31:  0](RO) A 16-bit error counter incrementing for every alignment pattern mismatch
+                                                                 found while the link is operating normally.
+                                                                 The counter saturates at 0xFFFF and clears on register read. */
+#else /* Word 0 - Little Endian */
+        uint64_t mismatch_errcnt       : 32; /**< [ 31:  0](RO) A 16-bit error counter incrementing for every alignment pattern mismatch
+                                                                 found while the link is operating normally.
+                                                                 The counter saturates at 0xFFFF and clears on register read. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_align_match_err_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_align_match_err cavm_rpmx_usx_usxm_align_match_err_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_ALIGN_MATCH_ERR(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_ALIGN_MATCH_ERR(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088020ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_ALIGN_MATCH_ERR", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_ALIGN_MATCH_ERR(a) cavm_rpmx_usx_usxm_align_match_err_t
+#define bustype_CAVM_RPMX_USX_USXM_ALIGN_MATCH_ERR(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_ALIGN_MATCH_ERR(a) "RPMX_USX_USXM_ALIGN_MATCH_ERR"
+#define device_bar_CAVM_RPMX_USX_USXM_ALIGN_MATCH_ERR(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_ALIGN_MATCH_ERR(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_ALIGN_MATCH_ERR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_control
+ *
+ * RPM USX MUX Control Register
+ */
+union cavm_rpmx_usx_usxm_control
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_control_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=soft reset, 0=normal; Self clearing. */
+        uint64_t reserved_0_14         : 15;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_14         : 15;
+        uint64_t reset                 : 1;  /**< [ 15: 15](R/W/H) 1=soft reset, 0=normal; Self clearing. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_control_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_control cavm_rpmx_usx_usxm_control_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_CONTROL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_CONTROL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088000ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_CONTROL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_CONTROL(a) cavm_rpmx_usx_usxm_control_t
+#define bustype_CAVM_RPMX_USX_USXM_CONTROL(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_CONTROL(a) "RPMX_USX_USXM_CONTROL"
+#define device_bar_CAVM_RPMX_USX_USXM_CONTROL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_CONTROL(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_CONTROL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_ports_ena
+ *
+ * RPM USX Mux Ports Enable Register
+ */
+union cavm_rpmx_usx_usxm_ports_ena
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_ports_ena_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t active_ports_used     : 5;  /**< [  4:  0](R/W) Number of active ports through the USX-M multiplexer.
+                                                                  0x0 = USXM_Disabled; USXM_Disabled; USX-M disabled. (Single Base-R channel,
+                                                                        no USX scrambling/markers addition)
+                                                                  0x1 = USXM_Single; USXM_Single; USX-M Single channel.
+                                                                        Single Base-R channel through the multiplexer - includes USX scrambling + markers addition
+                                                                  0x2 = DXGMII; DXGMII; 2 Channels
+                                                                  0x4 = QXGMII; QXGMII; 4 Channels
+                                                                  0x8 = OXGMII; OXGMII; 8 Channels (Supported only for USX8 flavor) */
+#else /* Word 0 - Little Endian */
+        uint64_t active_ports_used     : 5;  /**< [  4:  0](R/W) Number of active ports through the USX-M multiplexer.
+                                                                  0x0 = USXM_Disabled; USXM_Disabled; USX-M disabled. (Single Base-R channel,
+                                                                        no USX scrambling/markers addition)
+                                                                  0x1 = USXM_Single; USXM_Single; USX-M Single channel.
+                                                                        Single Base-R channel through the multiplexer - includes USX scrambling + markers addition
+                                                                  0x2 = DXGMII; DXGMII; 2 Channels
+                                                                  0x4 = QXGMII; QXGMII; 4 Channels
+                                                                  0x8 = OXGMII; OXGMII; 8 Channels (Supported only for USX8 flavor) */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_ports_ena_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_ports_ena cavm_rpmx_usx_usxm_ports_ena_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_PORTS_ENA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_PORTS_ENA(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088010ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_PORTS_ENA", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_PORTS_ENA(a) cavm_rpmx_usx_usxm_ports_ena_t
+#define bustype_CAVM_RPMX_USX_USXM_PORTS_ENA(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_PORTS_ENA(a) "RPMX_USX_USXM_PORTS_ENA"
+#define device_bar_CAVM_RPMX_USX_USXM_PORTS_ENA(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_PORTS_ENA(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_PORTS_ENA(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_status
+ *
+ * RPM USX Mux Status Register
+ */
+union cavm_rpmx_usx_usxm_status
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t receive_link_status_ll : 1; /**< [  2:  2](RO/H) 1=Link up, 0=link down. (latching low). Clears on read. */
+        uint64_t reserved_1            : 1;
+        uint64_t receive_link_status   : 1;  /**< [  0:  0](RO/H) 1=Link up, 0=link down */
+#else /* Word 0 - Little Endian */
+        uint64_t receive_link_status   : 1;  /**< [  0:  0](RO/H) 1=Link up, 0=link down */
+        uint64_t reserved_1            : 1;
+        uint64_t receive_link_status_ll : 1; /**< [  2:  2](RO/H) 1=Link up, 0=link down. (latching low). Clears on read. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_status_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_status cavm_rpmx_usx_usxm_status_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_STATUS(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088008ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_STATUS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_STATUS(a) cavm_rpmx_usx_usxm_status_t
+#define bustype_CAVM_RPMX_USX_USXM_STATUS(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_STATUS(a) "RPMX_USX_USXM_STATUS"
+#define device_bar_CAVM_RPMX_USX_USXM_STATUS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_STATUS(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl0_0
+ *
+ * RPM USX VL0_0 Register
+ */
+union cavm_rpmx_usx_usxm_vl0_0
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl0_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vl0_0                 : 16; /**< [ 15:  0](R/W) Lower 16-bit (15:0) of the 32-bit pattern value used for marker block 0.
+                                                                 The upper 32-bit pattern is internally generated from the complement. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl0_0                 : 16; /**< [ 15:  0](R/W) Lower 16-bit (15:0) of the 32-bit pattern value used for marker block 0.
+                                                                 The upper 32-bit pattern is internally generated from the complement. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl0_0_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl0_0 cavm_rpmx_usx_usxm_vl0_0_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL0_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL0_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088080ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL0_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL0_0(a) cavm_rpmx_usx_usxm_vl0_0_t
+#define bustype_CAVM_RPMX_USX_USXM_VL0_0(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL0_0(a) "RPMX_USX_USXM_VL0_0"
+#define device_bar_CAVM_RPMX_USX_USXM_VL0_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL0_0(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL0_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl0_1
+ *
+ * RPM USX VL0_1 Register
+ */
+union cavm_rpmx_usx_usxm_vl0_1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl0_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vl0_1                 : 16; /**< [ 15:  0](R/W) Upper 16-bit (31:16) of the 32-bit pattern value used for marker block 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl0_1                 : 16; /**< [ 15:  0](R/W) Upper 16-bit (31:16) of the 32-bit pattern value used for marker block 0. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl0_1_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl0_1 cavm_rpmx_usx_usxm_vl0_1_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL0_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL0_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088088ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL0_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL0_1(a) cavm_rpmx_usx_usxm_vl0_1_t
+#define bustype_CAVM_RPMX_USX_USXM_VL0_1(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL0_1(a) "RPMX_USX_USXM_VL0_1"
+#define device_bar_CAVM_RPMX_USX_USXM_VL0_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL0_1(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL0_1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl0_byte3
+ *
+ * RPM USX VL0 BYTE3 Register
+ */
+union cavm_rpmx_usx_usxm_vl0_byte3
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl0_byte3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t vl0_byte3             : 8;  /**< [  7:  0](RO) contain the 8-bit value from received marker 0 (VL0) bits [31:24].
+                                                                 The value is updated when a link is established and marker alignment
+                                                                 was achieved (i.e. not real-time during operation).
+                                                                 Informal/Test value, expected to be 0 always. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl0_byte3             : 8;  /**< [  7:  0](RO) contain the 8-bit value from received marker 0 (VL0) bits [31:24].
+                                                                 The value is updated when a link is established and marker alignment
+                                                                 was achieved (i.e. not real-time during operation).
+                                                                 Informal/Test value, expected to be 0 always. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl0_byte3_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl0_byte3 cavm_rpmx_usx_usxm_vl0_byte3_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL0_BYTE3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL0_BYTE3(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088028ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL0_BYTE3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL0_BYTE3(a) cavm_rpmx_usx_usxm_vl0_byte3_t
+#define bustype_CAVM_RPMX_USX_USXM_VL0_BYTE3(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL0_BYTE3(a) "RPMX_USX_USXM_VL0_BYTE3"
+#define device_bar_CAVM_RPMX_USX_USXM_VL0_BYTE3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL0_BYTE3(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL0_BYTE3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl1_0
+ *
+ * RPM USX VL1_0 Register
+ */
+union cavm_rpmx_usx_usxm_vl1_0
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl1_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vl1_0                 : 16; /**< [ 15:  0](R/W) Lower 16-bit (15:0) of the 32-bit pattern value used for marker block 1.
+                                                                 The upper 32-bit pattern is internally generated from the complement. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl1_0                 : 16; /**< [ 15:  0](R/W) Lower 16-bit (15:0) of the 32-bit pattern value used for marker block 1.
+                                                                 The upper 32-bit pattern is internally generated from the complement. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl1_0_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl1_0 cavm_rpmx_usx_usxm_vl1_0_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL1_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL1_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088090ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL1_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL1_0(a) cavm_rpmx_usx_usxm_vl1_0_t
+#define bustype_CAVM_RPMX_USX_USXM_VL1_0(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL1_0(a) "RPMX_USX_USXM_VL1_0"
+#define device_bar_CAVM_RPMX_USX_USXM_VL1_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL1_0(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL1_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl1_1
+ *
+ * RPM USX VL1_1 Register
+ */
+union cavm_rpmx_usx_usxm_vl1_1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl1_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vl1_1                 : 16; /**< [ 15:  0](R/W) Upper 16-bit (31:16) of the 32-bit pattern value used for marker block 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl1_1                 : 16; /**< [ 15:  0](R/W) Upper 16-bit (31:16) of the 32-bit pattern value used for marker block 1. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl1_1_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl1_1 cavm_rpmx_usx_usxm_vl1_1_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL1_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL1_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088098ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL1_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL1_1(a) cavm_rpmx_usx_usxm_vl1_1_t
+#define bustype_CAVM_RPMX_USX_USXM_VL1_1(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL1_1(a) "RPMX_USX_USXM_VL1_1"
+#define device_bar_CAVM_RPMX_USX_USXM_VL1_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL1_1(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL1_1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl2_0
+ *
+ * RPM USX VL2_0 Register
+ */
+union cavm_rpmx_usx_usxm_vl2_0
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl2_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vl2_0                 : 16; /**< [ 15:  0](R/W) Lower 16-bit (15:0) of the 32-bit pattern value used for marker block 2.
+                                                                 The upper 32-bit pattern is internally generated from the complement. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl2_0                 : 16; /**< [ 15:  0](R/W) Lower 16-bit (15:0) of the 32-bit pattern value used for marker block 2.
+                                                                 The upper 32-bit pattern is internally generated from the complement. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl2_0_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl2_0 cavm_rpmx_usx_usxm_vl2_0_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL2_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL2_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00880a0ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL2_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL2_0(a) cavm_rpmx_usx_usxm_vl2_0_t
+#define bustype_CAVM_RPMX_USX_USXM_VL2_0(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL2_0(a) "RPMX_USX_USXM_VL2_0"
+#define device_bar_CAVM_RPMX_USX_USXM_VL2_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL2_0(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL2_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl2_1
+ *
+ * RPM USX VL2_1 Register
+ */
+union cavm_rpmx_usx_usxm_vl2_1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl2_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vl2_1                 : 16; /**< [ 15:  0](R/W) Upper 16-bit (31:16) of the 32-bit pattern value used for marker block 2. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl2_1                 : 16; /**< [ 15:  0](R/W) Upper 16-bit (31:16) of the 32-bit pattern value used for marker block 2. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl2_1_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl2_1 cavm_rpmx_usx_usxm_vl2_1_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL2_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL2_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00880a8ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL2_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL2_1(a) cavm_rpmx_usx_usxm_vl2_1_t
+#define bustype_CAVM_RPMX_USX_USXM_VL2_1(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL2_1(a) "RPMX_USX_USXM_VL2_1"
+#define device_bar_CAVM_RPMX_USX_USXM_VL2_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL2_1(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL2_1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl3_0
+ *
+ * RPM USX VL3_0 Register
+ */
+union cavm_rpmx_usx_usxm_vl3_0
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl3_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vl3_0                 : 16; /**< [ 15:  0](R/W) Lower 16-bit (15:0) of the 32-bit pattern value used for marker block 3.
+                                                                 The upper 32-bit pattern is internally generated from the complement. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl3_0                 : 16; /**< [ 15:  0](R/W) Lower 16-bit (15:0) of the 32-bit pattern value used for marker block 3.
+                                                                 The upper 32-bit pattern is internally generated from the complement. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl3_0_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl3_0 cavm_rpmx_usx_usxm_vl3_0_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL3_0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL3_0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00880b0ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL3_0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL3_0(a) cavm_rpmx_usx_usxm_vl3_0_t
+#define bustype_CAVM_RPMX_USX_USXM_VL3_0(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL3_0(a) "RPMX_USX_USXM_VL3_0"
+#define device_bar_CAVM_RPMX_USX_USXM_VL3_0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL3_0(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL3_0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl3_1
+ *
+ * RPM USX VL3_1 Register
+ */
+union cavm_rpmx_usx_usxm_vl3_1
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl3_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t vl3_1                 : 16; /**< [ 15:  0](R/W) Upper 16-bit (31:16) of the 32-bit pattern value used for marker block 3. */
+#else /* Word 0 - Little Endian */
+        uint64_t vl3_1                 : 16; /**< [ 15:  0](R/W) Upper 16-bit (31:16) of the 32-bit pattern value used for marker block 3. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl3_1_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl3_1 cavm_rpmx_usx_usxm_vl3_1_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL3_1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL3_1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e00880b8ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL3_1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL3_1(a) cavm_rpmx_usx_usxm_vl3_1_t
+#define bustype_CAVM_RPMX_USX_USXM_VL3_1(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL3_1(a) "RPMX_USX_USXM_VL3_1"
+#define device_bar_CAVM_RPMX_USX_USXM_VL3_1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL3_1(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL3_1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl_intvl
+ *
+ * RPM USX VL INTVL Register
+ */
+union cavm_rpmx_usx_usxm_vl_intvl
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl_intvl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t port_cycle_interval   : 16; /**< [ 15:  0](R/W) Defines the number of port cycles (i.e. repetitions of PORTS_ENA served ports in non-RS-FEC mode,
+                                                                 or repetitions of 4 66-bit blocks in RS-FEC mode) after which an alignment
+                                                                 marker group is inserted.
+                                                                 Any value from 8..65528 can be set (0..7 and 65529..65536 may have unpredictable results).
+                                                                 The 8 MSBs are in register VL_INTVL_HI */
+#else /* Word 0 - Little Endian */
+        uint64_t port_cycle_interval   : 16; /**< [ 15:  0](R/W) Defines the number of port cycles (i.e. repetitions of PORTS_ENA served ports in non-RS-FEC mode,
+                                                                 or repetitions of 4 66-bit blocks in RS-FEC mode) after which an alignment
+                                                                 marker group is inserted.
+                                                                 Any value from 8..65528 can be set (0..7 and 65529..65536 may have unpredictable results).
+                                                                 The 8 MSBs are in register VL_INTVL_HI */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl_intvl_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl_intvl cavm_rpmx_usx_usxm_vl_intvl_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL_INTVL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL_INTVL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088018ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL_INTVL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL_INTVL(a) cavm_rpmx_usx_usxm_vl_intvl_t
+#define bustype_CAVM_RPMX_USX_USXM_VL_INTVL(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL_INTVL(a) "RPMX_USX_USXM_VL_INTVL"
+#define device_bar_CAVM_RPMX_USX_USXM_VL_INTVL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL_INTVL(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL_INTVL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) rpm#_usx_usxm_vl_intvl_hi
+ *
+ * RPM USX VL INTVL HIGH Register
+ */
+union cavm_rpmx_usx_usxm_vl_intvl_hi
+{
+    uint64_t u;
+    struct cavm_rpmx_usx_usxm_vl_intvl_hi_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t vl_intvl_hi           : 8;  /**< [  7:  0](RO) 7:0: Higher bits [23:16] for the interval setting for marker insertion
+                                                                 (TX) and alignment (RX). See register VL_INTVL for bits [15:0]
+                                                                 Defines the number of port cycles */
+#else /* Word 0 - Little Endian */
+        uint64_t vl_intvl_hi           : 8;  /**< [  7:  0](RO) 7:0: Higher bits [23:16] for the interval setting for marker insertion
+                                                                 (TX) and alignment (RX). See register VL_INTVL for bits [15:0]
+                                                                 Defines the number of port cycles */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rpmx_usx_usxm_vl_intvl_hi_s cn; */
+};
+typedef union cavm_rpmx_usx_usxm_vl_intvl_hi cavm_rpmx_usx_usxm_vl_intvl_hi_t;
+
+static inline uint64_t CAVM_RPMX_USX_USXM_VL_INTVL_HI(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_RPMX_USX_USXM_VL_INTVL_HI(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
+        return 0x87e0e0088030ll + 0x1000000ll * ((a) & 0x3);
+    __cavm_csr_fatal("RPMX_USX_USXM_VL_INTVL_HI", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_RPMX_USX_USXM_VL_INTVL_HI(a) cavm_rpmx_usx_usxm_vl_intvl_hi_t
+#define bustype_CAVM_RPMX_USX_USXM_VL_INTVL_HI(a) CSR_TYPE_RSL
+#define basename_CAVM_RPMX_USX_USXM_VL_INTVL_HI(a) "RPMX_USX_USXM_VL_INTVL_HI"
+#define device_bar_CAVM_RPMX_USX_USXM_VL_INTVL_HI(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_RPMX_USX_USXM_VL_INTVL_HI(a) (a)
+#define arguments_CAVM_RPMX_USX_USXM_VL_INTVL_HI(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_RPM_H__ */
