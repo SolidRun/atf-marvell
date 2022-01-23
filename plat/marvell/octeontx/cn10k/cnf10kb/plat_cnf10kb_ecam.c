@@ -88,8 +88,6 @@ static void init_emmc(uint64_t config_base, uint64_t config_size)
 	*sctl |= 0x1;
 
 	enable_msix(config_base, cap_pointer, &table_size, &bir);
-	CSR_WRITE(CAVM_EMMCX_INTR(0), ~0ULL);
-	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1C(0), ~0ULL);
 
 	vsec_sctl.s.msix_sec_en = 0;
 	vsec_sctl.s.msix_sec_phys = 0;
@@ -106,7 +104,6 @@ static void init_emmc(uint64_t config_base, uint64_t config_size)
 			vector_base += 8;
 		}
 	}
-	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
 }
 
 static void init_gpio(uint64_t config_base, uint64_t config_size)

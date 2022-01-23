@@ -114,15 +114,18 @@ static void plat_set_emmc_msix_vectors(void)
 	uint64_t vecctl = CAVM_EMMCX_MSIX_VECX_CTL(0, 0);
 	uint32_t irq;
 
-	CSR_WRITE(CAVM_EMMCX_INTR(0), ~0ULL);
-	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1C(0), ~0ULL);
+	if (!cavm_is_model(OCTEONTX_CNF10KB) && !cavm_is_model(OCTEONTX_CN10KB)) {
+		CSR_WRITE(CAVM_EMMCX_INTR(0), ~0ULL);
+		CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1C(0), ~0ULL);
+	}
 
 	irq = EMMC_SPI_IRQ(0);
 
 	octeontx_write64(vecctl, irq);
 	octeontx_write64(vecaddr, CAVM_GICD_SETSPI_NSR);
 
-	CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
+	if (!cavm_is_model(OCTEONTX_CNF10KB) && !cavm_is_model(OCTEONTX_CN10KB))
+		CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
 }
 
 static void plat_set_coresight_funnel(void)
