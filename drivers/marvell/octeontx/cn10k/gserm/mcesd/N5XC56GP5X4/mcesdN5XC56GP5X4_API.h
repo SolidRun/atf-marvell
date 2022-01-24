@@ -129,6 +129,31 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxEqParam
 );
 
 /**
+@brief  Sets all TX equalization parameters for a specified lane.
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  pre2 - PRE2 value
+@param[in]  pre - PRE value
+@param[in]  main - MAIN value
+@param[in]  post - POST value
+
+@note Assign main to 0xFF for default behavior where main is readjusted, so the sum is 63
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxEqAll
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_32 pre2,
+    IN MCESD_32 pre,
+    IN MCESD_32 main,
+    IN MCESD_32 post
+);
+
+/**
 @brief  Gets the value of the TX equalization parameter on the specified lane.
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
@@ -819,23 +844,6 @@ MCESD_STATUS API_N5XC56GP5X4_GetTrainingTimeout
     OUT S_N5XC56GP5X4_TRAIN_TIMEOUT *training
 );
 
-/**
-@brief  Gets the eye height values after training
-
-@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  lane - lane number 0, 1, 2, 3, etc.
-
-@param[out] trainedEyeHeight - pointer to S_N5XC56GP5X4_TRAINED_EYE_H
-
-@retval MCESD_OK - on success
-@retval MCESD_FAIL - on error
-*/
-MCESD_STATUS API_N5XC56GP5X4_GetTrainedEyeHeight
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    OUT S_N5XC56GP5X4_TRAINED_EYE_H *trainedEyeHeight
-);
 
 /**
 @brief  Sets the value of the CDR parameter on the specified lane.
@@ -1424,59 +1432,11 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
 );
 #endif
 
-/**
-@brief  Get Eye Data
 
-@param[in]      devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]      lane - lane number 0, 1, etc.
-@param[in]      eyeTMB - N5XC56GP5X4_EYE_TOP, N5XC56GP5X4_EYE_MID or N5XC56GP5X4_EYE_BOT
-@param[in]      minSamples - minimum number of bits to sample
-@param[in]      berThreshold - Bit Error Rate Threshold in nano (factor of 1E-9)
-@param[in]      eomStatsMode - when TRUE, captures only necessary points (all phases at voltage 0 and all voltages at phase 0)
-@param[in,out]  eyeRawDataPtr - pointer to S_N5XC56GP5X4_EYE_RAW_PTR which stores eye raw data
-
-@note Call API_N5XC56GP5X4_EOMGetWidthHeight before to check if eye is centered
-@note At least minSamples will be measured
-
-@retval MCESD_OK - on success
-@retval MCESD_FAIL - on error
-*/
-MCESD_STATUS API_N5XC56GP5X4_EOMGetEyeData
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
-    IN MCESD_U32 minSamples,
-    IN MCESD_U32 berThreshold,
-    IN MCESD_BOOL eomStatsMode,
-    INOUT S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr
-);
-
-/**
-@brief  Plot Eye Data
-
-@param[in]  eyeRawDataPtr - pointer to S_N5XC56GP5X4_EYE_RAW_PTR which store eye raw data
-@param[in]  berThreshold - bit error rate threshold in nano (factor of 1E-9)
-@param[in]  berThresholdMax - max bit error rate threshold in nano (factor of 1E-9)
-
-@note Call API_N5XC56GP5X4_EOMGetEyeData before to populate eyeRawDataPtr
-@note Outputs plot through MCESD_DBG_INFO
-@note Calculate errorThreshold by taking desired BER threshold multiplied total sample bit count
-@note The berThreshold and berThresholdMax is used for plotting different BER rates on the plot
-@note See API_N5XC56GP5X4_EOMGetWidthHeight() for example of berThreshold
-
-@retval MCESD_OK - on success
-@retval MCESD_FAIL - on error
-*/
-MCESD_STATUS API_N5XC56GP5X4_EOMPlotEyeData
-(
-    IN S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr,
-    IN MCESD_U32 berThreshold,
-    IN MCESD_U32 berThresholdMax
-);
 
 #ifdef MCESD_EOM_STATS
 #endif
+
 
 /**
 @brief  Perform CDS

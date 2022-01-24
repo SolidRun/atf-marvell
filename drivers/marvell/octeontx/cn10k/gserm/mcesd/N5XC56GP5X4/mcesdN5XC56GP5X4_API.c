@@ -23,15 +23,13 @@ higher-level functions to configure Marvell CE SERDES IP:
 
 /* Forward internal function prototypes used only in this module */
 static MCESD_U32 INT_N5XC56GP5X4_ComputeTxEqEmMain(IN MCESD_U32 pre3Cursor, IN MCESD_U32 pre2Cursor, IN MCESD_U32 preCursor, IN MCESD_U32 postCursor, IN MCESD_U32 naCursor);
-static MCESD_U32 INT_N5XC56GP5X4_Computef0(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane);
-static MCESD_STATUS INT_N5XC56GP5X4_Computef0d(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, OUT MCESD_U32 *top, OUT MCESD_U32 *mid, OUT MCESD_U32 *bot);
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32 *tapValue);
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldTopPtr, IN MCESD_FIELD_PTR fieldMidPtr, IN MCESD_FIELD_PTR fieldBotPtr, OUT MCESD_32 *tapValue);
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32 *tapValue);
 static MCESD_STATUS INT_N5XC56GP5X4_SpeedGbpsToMbps(IN E_N5XC56GP5X4_SERDES_SPEED speed, OUT MCESD_U32 *mbps);
 static MCESD_STATUS INT_N5XC56GP5X4_CalculateBER(IN MCESD_U32 bitErrorCount, IN MCESD_U64 bitCount, OUT MCESD_U32 *nanoBER);
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
-static MCESD_STATUS INT_N5XC56GP5X4_GetDfeF0(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_U16 value, OUT MCESD_U16* value100uV);
+static MCESD_STATUS INT_N5XC56GP5X4_GetDfeF0(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, INOUT MCESD_U32 *table);
 #endif
 
 MCESD_STATUS API_N5XC56GP5X4_GetFirmwareRev
@@ -275,6 +273,62 @@ MCESD_STATUS API_N5XC56GP5X4_GetTxEqParam
     paramSign = ((data >> position) & 0x1) == 0 ? /* normal */ -1 : /* inverted */ 1;
 
     *paramValue = paramSign * paramUnsignedValue;
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetTxEqAll
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_32 pre2,
+    IN MCESD_32 pre,
+    IN MCESD_32 main,
+    IN MCESD_32 post
+)
+{
+    MCESD_U32 data, pre2Value, preValue, mainValue, postValue;
+
+    /* Set Polarity */
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_FIR_TAP_POL_F, lane, 1);
+    data = (pre2 >= 0) << 1;
+    data += (pre >= 0) << 2;
+    data += (main >= 0) << 3;
+    data += (post >= 0) << 4;
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_FIR_TAP_POL, lane, data);
+
+    /* Calculate absolute values */
+    pre2Value = (pre2 < 0) ? -pre2 : pre2;
+    preValue = (pre < 0) ? -pre : pre;
+    postValue = (post < 0) ? -post : post;
+    if (0xFF == main)       /* Defaults main to be readjusted so sum is 63 */
+    {
+        mainValue = INT_N5XC56GP5X4_ComputeTxEqEmMain(0, pre2Value, preValue, postValue, 0);
+    }
+    else
+    {
+        mainValue = (main < 0) ? -main : main;
+    }
+
+    /* Set all tap values */
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_UP, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C0_FORCE, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C1_FORCE, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C2_FORCE, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C3_FORCE, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C4_FORCE, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C5_FORCE, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C0, lane, 0);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C1, lane, pre2Value);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C2, lane, preValue);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C3, lane, mainValue);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C4, lane, postValue);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_C5, lane, 0);
+
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_UP_FORCE, lane, 1);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_UP, lane, 1);
+    MCESD_ATTEMPT(API_N5XC56GP5X4_Wait(devPtr, 1));
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_UP, lane, 0);
 
     return MCESD_OK;
 }
@@ -1739,93 +1793,8 @@ MCESD_STATUS API_N5XC56GP5X4_StopTraining
     return MCESD_OK;
 }
 
-MCESD_STATUS API_N5XC56GP5X4_GetTrainedEyeHeight
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    OUT S_N5XC56GP5X4_TRAINED_EYE_H *trainedEyeHeight
-)
-{
-    MCESD_U32 prevState, f0xData, f0bData, f0n1Data, f0n2Data, f0dData, f0d_tData, f0d_mData, f0d_bData;
 
-    f0d_tData = 0;
-    f0d_mData = 0;
-    f0d_bData = 0;
-    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_ADAPT, lane, prevState);
 
-    /* turn off DFE continuous */
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_CMD, lane, 0x18);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_ARGS, lane, 0x0);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_START, lane, 1);
-    
-    /* f0b */
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_CMD, lane, 0x19);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_ARGS, lane, 0x4000);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_START, lane, 1);
-    f0bData = INT_N5XC56GP5X4_Computef0(devPtr, lane);
-
-    /* fn1 */
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_ARGS, lane, 0x8000);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_F0X_SEL, lane, 0x11);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_START, lane, 1);
-    f0xData = INT_N5XC56GP5X4_Computef0(devPtr, lane);
-    f0n1Data = f0bData - f0xData;
-
-    /* fn2 */
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_F0X_SEL, lane, 0x12);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_START, lane, 1);
-    f0xData = INT_N5XC56GP5X4_Computef0(devPtr, lane);
-    f0n2Data = f0bData - f0xData;
-
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_LOAD_EN, lane, 0);
-    
-    /* f0d */
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_ARGS, lane, 0x20000);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_START, lane, 1);
-    f0dData = INT_N5XC56GP5X4_Computef0(devPtr, lane);
-    MCESD_ATTEMPT(INT_N5XC56GP5X4_Computef0d(devPtr, lane, &f0d_tData, &f0d_mData, &f0d_bData));
-
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_LOAD_EN, lane, 1);
-
-    if (prevState)
-    {
-        /* turn on DFE continuous */
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_CMD, lane, 0x18);
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_ARGS, lane, 0x1);
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_CLI_START, lane, 1);
-    }
-
-    trainedEyeHeight->f0b = f0bData;
-    trainedEyeHeight->f0n1 = f0n1Data;
-    trainedEyeHeight->f0n2 = f0n2Data;
-    trainedEyeHeight->f0d = f0dData;
-    trainedEyeHeight->f0d_t = f0d_tData;
-    trainedEyeHeight->f0d_m = f0d_mData;
-    trainedEyeHeight->f0d_b = f0d_bData;
-
-    return MCESD_OK;
-}
-
-MCESD_U32 INT_N5XC56GP5X4_Computef0
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane
-)
-{
-    return 1;
-}
-
-MCESD_STATUS INT_N5XC56GP5X4_Computef0d
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane, 
-    OUT MCESD_U32 *top, 
-    OUT MCESD_U32 *mid, 
-    OUT MCESD_U32 *bot
-)
-{
-    return MCESD_OK;
-}
 
 MCESD_STATUS API_N5XC56GP5X4_GetCDRParam
 (
@@ -2996,7 +2965,7 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetWidthHeight
     OUT MCESD_U32 *sampleCount
 )
 {
-    MCESD_32 leftEdge, rightEdge, upperEdge, lowerEdge, maxPhase, minPhase, maxVoltage, phase, voltage;
+    MCESD_32 leftEdge, rightEdge, upperEdge, lowerEdge, maxPhase, minPhase, maxVoltage, phase, voltage, phaseMidpoint;
     MCESD_U32 upperBER, lowerBER;
     MCESD_U16 phaseStepCount, voltageStepCount;
     S_N5XC56GP5X4_EOM_DATA measurement;
@@ -3071,10 +3040,12 @@ MCESD_STATUS API_N5XC56GP5X4_EOMGetWidthHeight
         rightEdge = minPhase;
     }
 
+    phaseMidpoint = (leftEdge - rightEdge) / 2 + rightEdge;
+
     /* Scan up and down */
     for (voltage = 0; voltage < maxVoltage; voltage++)
     {
-        MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, 0, (MCESD_U8)voltage, minSamples, &measurement));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, phaseMidpoint, (MCESD_U8)voltage, minSamples, &measurement));
 
         /* Update once */
         while (upperEdge == -maxVoltage)
@@ -3169,7 +3140,8 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
     OUT MCESD_U16 *height100uV
 )
 {
-    MCESD_U16 upper100uV, lower100uV, phaseStepCount, voltageStepCount;
+    MCESD_U16 phaseStepCount, voltageStepCount;
+    MCESD_U32 table[64];
 
     *widthmUI = 0;
     *height100uV = 0;
@@ -3182,9 +3154,8 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
     *widthmUI = (MCESD_U32)width * 1000 / phaseStepCount;
 
     /* Convert height */
-    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeF0(devPtr, lane, heightUpper, &upper100uV));
-    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeF0(devPtr, lane, heightLower, &lower100uV));
-    *height100uV = upper100uV + lower100uV;
+    MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeF0(devPtr, lane, table));
+    *height100uV = table[heightUpper] + table[heightLower];
 
     return MCESD_OK;
 }
@@ -3193,346 +3164,32 @@ MCESD_STATUS INT_N5XC56GP5X4_GetDfeF0
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    IN MCESD_U16 value,
-    OUT MCESD_U16 *value100uV
+    INOUT MCESD_U32* table
 )
 {
-    MCESD_U16 data;
-    MCESD_U32 tableSelData, resData, resDoubleData;
-
-    if (value > 64)
-        return MCESD_FAIL;  /* Value greater than possible voltage codewords */
+    MCESD_U32 i, tableSelData, resData, resDoubleData;
 
     N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_F0_DC_SHIFT, lane, tableSelData);
     N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_RES_F0, lane, resData);
     N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_DFE_F0_RES_DOUBLE, lane, resDoubleData);
 
-    switch (tableSelData)
+    for (i = 0; i < 64; i++)
     {
-    case 0:
-        switch (resData)
-        {
-        case 0:
-            data = N5XC56GP5X4_DFE_F0_T0_RES0[value];
-            break;
-        case 1:
-            data = N5XC56GP5X4_DFE_F0_T0_RES1[value];
-            break;
-        case 2:
-            data = N5XC56GP5X4_DFE_F0_T0_RES2[value];
-            break;
-        case 3:
-            data = N5XC56GP5X4_DFE_F0_T0_RES3[value];
-            break;
-        default:
-            return MCESD_FAIL;  /* Invalid Resolution */
-        }
-        break;
-    case 1:
-        switch (resData)
-        {
-        case 0:
-            data = N5XC56GP5X4_DFE_F0_T1_RES0[value];
-            break;
-        case 1:
-            data = N5XC56GP5X4_DFE_F0_T1_RES1[value];
-            break;
-        case 2:
-            data = N5XC56GP5X4_DFE_F0_T1_RES2[value];
-            break;
-        case 3:
-            data = N5XC56GP5X4_DFE_F0_T1_RES3[value];
-            break;
-        default:
-            return MCESD_FAIL;  /* Invalid Resolution */
-        }
-        break;
-    case 2:
-        switch (resData)
-        {
-        case 0:
-            data = N5XC56GP5X4_DFE_F0_T2_RES0[value];
-            break;
-        case 1:
-            data = N5XC56GP5X4_DFE_F0_T2_RES1[value];
-            break;
-        case 2:
-            data = N5XC56GP5X4_DFE_F0_T2_RES2[value];
-            break;
-        case 3:
-            data = N5XC56GP5X4_DFE_F0_T2_RES3[value];
-            break;
-        default:
-            return MCESD_FAIL;  /* Invalid Resolution */
-        }
-        break;
-    case 3:
-        switch (resData)
-        {
-        case 0:
-            data = N5XC56GP5X4_DFE_F0_T3_RES0[value];
-            break;
-        case 1:
-            data = N5XC56GP5X4_DFE_F0_T3_RES1[value];
-            break;
-        case 2:
-            data = N5XC56GP5X4_DFE_F0_T3_RES2[value];
-            break;
-        case 3:
-            data = N5XC56GP5X4_DFE_F0_T3_RES3[value];
-            break;
-        default:
-            return MCESD_FAIL;  /* Invalid Resolution */
-        }
-        break;
-    default:
-        return MCESD_FAIL; /* Invalid Table Selection */
+        if (1 == resDoubleData)
+            table[i] = N5XC56GP5X4_DFE_F0_TABLE[tableSelData][resData][i] * 2;
+        else
+            table[i] = N5XC56GP5X4_DFE_F0_TABLE[tableSelData][resData][i];
     }
-
-    *value100uV = (1 == resDoubleData) ? 2 * data : data;
-
+    
     return MCESD_OK;
 }
 #endif
 
-MCESD_STATUS API_N5XC56GP5X4_EOMGetEyeData
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
-    IN MCESD_U32 minSamples,
-    IN MCESD_U32 berThreshold,
-    IN MCESD_BOOL eomStatsMode,
-    INOUT S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr
-)
-{
-    S_N5XC56GP5X4_EOM_DATA measurement;
-    MCESD_U32 leftEdgeIdx, rightEdgeIdx, upperEdgeIdx, lowerEdgeIdx, phaseCenterIdx, voltageCenterIdx, upperBer, lowerBer;
-    MCESD_32 upperEdge, lowerEdge, leftMaxEdge, rightMaxEdge, upperMaxEdge, lowerMaxEdge, phase, voltage, upperVoltage, lowerVoltage;
-    MCESD_U16 phaseStepCount, voltageStepCount;
 
-    MCESD_ATTEMPT(API_N5XC56GP5X4_EOM1UIStepCount(devPtr, lane, &phaseStepCount, &voltageStepCount));
-
-    if (!eyeRawDataPtr)
-    {
-        MCESD_DBG_ERROR("API_N5XC56GP5X4_EOMGetEyeData: eyeRawDataPtr is NULL\n");
-        return MCESD_FAIL;
-    }
-
-    eyeRawDataPtr->oneUIwidth = phaseStepCount;
-
-    phaseCenterIdx = N5XC56GP5X4_EYE_MAX_PHASE_LEVEL / 2;
-    voltageCenterIdx = voltageStepCount - 1;
-    leftEdgeIdx = phaseCenterIdx - (phaseStepCount / 2);
-    rightEdgeIdx = voltageCenterIdx + (phaseStepCount / 2) - 1;
-    upperEdgeIdx = 0;
-    lowerEdgeIdx = (voltageStepCount - 1) * 2;
-
-    leftMaxEdge = phaseStepCount / 2;
-    rightMaxEdge = 1 - (phaseStepCount / 2);
-    upperMaxEdge = voltageStepCount - 1;
-    lowerMaxEdge = 1 - voltageStepCount;
-
-    MCESD_ATTEMPT(API_N5XC56GP5X4_EOMInit(devPtr, lane));
-
-    /* Check (0, 0) */
-    MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, 0, 0, minSamples, &measurement));
-    eyeRawDataPtr->sampleCount = (MCESD_U32)measurement.upperBitCount;
-
-    if (0 != measurement.upperBitErrorCount && 0 != measurement.lowerBitErrorCount)
-    {
-        MCESD_ATTEMPT(API_N5XC56GP5X4_EOMFinalize(devPtr, lane));
-        MCESD_DBG_ERROR("API_N5XC56GP5X4_EOMGetEyeData: BER > 0 at (Phase: 0, Voltage: 0)\n");
-        return MCESD_FAIL;
-    }
-
-    if (0 == measurement.upperBitCount || 0 == measurement.lowerBitCount)
-    {
-        MCESD_ATTEMPT(API_N5XC56GP5X4_EOMFinalize(devPtr, lane));
-        MCESD_DBG_ERROR("API_N5XC56GP5X4_EOMGetEyeData: Total Bit Count == 0 at (Phase: 0, Voltage: 0)\n");
-        return MCESD_FAIL;
-    }
-
-    /* Full Voltage Sweep at Phase 0 */
-    upperVoltage = lowerMaxEdge;
-    lowerVoltage = upperMaxEdge;
-    for (voltage = 0; voltage <= upperMaxEdge; voltage++)
-    {
-        MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, 0, (MCESD_U8)voltage, minSamples, &measurement));
-
-        eyeRawDataPtr->eyeRawData[phaseCenterIdx][voltageCenterIdx - voltage] = measurement.upperBitErrorCount;
-        eyeRawDataPtr->eyeRawData[phaseCenterIdx][voltageCenterIdx + voltage] = measurement.lowerBitErrorCount;
-
-        if (eomStatsMode)
-            continue;
-
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.upperBitErrorCount, measurement.upperBitCount, &upperBer));
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.lowerBitErrorCount, measurement.lowerBitCount, &lowerBer));
-        if ((berThreshold < upperBer) || (berThreshold < lowerBer))
-        {
-            if ((upperVoltage == lowerMaxEdge) && ((0 == measurement.upperBitCount) || (berThreshold < upperBer)))
-                upperVoltage = voltage; /* found upper edge */
-
-            if ((lowerVoltage == upperMaxEdge) && ((0 == measurement.lowerBitCount) || (berThreshold < lowerBer)))
-                lowerVoltage = -voltage; /* found lower edge */
-        }
-
-        if (((upperVoltage != lowerMaxEdge) && (lowerVoltage != upperMaxEdge)))
-            break;
-    }
-    if (eomStatsMode)
-    {
-        upperEdge = upperMaxEdge;
-        lowerEdge = lowerMaxEdge;
-    }
-    else
-    {
-        upperEdge = upperVoltage;
-        upperEdgeIdx = voltageCenterIdx - upperVoltage;
-        lowerEdge = lowerVoltage;
-        lowerEdgeIdx = voltageCenterIdx - lowerVoltage;
-    }
-
-    /* Left Sweep from Phase 1 with Voltage Sweep */
-    for (phase = 1; phase <= leftMaxEdge; phase++)
-    {
-        upperVoltage = lowerMaxEdge;
-        lowerVoltage = upperMaxEdge;
-        for (voltage = 0; voltage <= upperMaxEdge; voltage++)
-        {
-            MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, phase, (MCESD_U8)voltage, minSamples, &measurement));
-
-            eyeRawDataPtr->eyeRawData[phaseCenterIdx - phase][voltageCenterIdx - voltage] = measurement.upperBitErrorCount;
-            eyeRawDataPtr->eyeRawData[phaseCenterIdx - phase][voltageCenterIdx + voltage] = measurement.lowerBitErrorCount;
-
-            /* Measure full UI in eomStatsMode (phase, 0) */
-            if (eomStatsMode)
-                break;
-
-            MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.upperBitErrorCount, measurement.upperBitCount, &upperBer));
-            MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.lowerBitErrorCount, measurement.lowerBitCount, &lowerBer));
-            if ((berThreshold < upperBer) || (berThreshold < lowerBer))
-            {
-                if ((upperVoltage == lowerMaxEdge) && ((0 == measurement.upperBitCount) || (berThreshold < upperBer)))
-                    upperVoltage = voltage; /* found upper edge */
-
-                if ((lowerVoltage == upperMaxEdge) && ((0 == measurement.lowerBitCount) || (berThreshold < lowerBer)))
-                    lowerVoltage = -voltage; /* found lower edge */
-            }
-
-            if (((upperVoltage != lowerMaxEdge) && (lowerVoltage != upperMaxEdge)))
-                break;
-        }
-
-        /* Stop when (phase, 0) exceeds BER threshold */
-        if (upperVoltage == lowerVoltage)
-        {
-            leftEdgeIdx = phaseCenterIdx - phase;
-            break;
-        }
-
-        if (upperVoltage > upperEdge)
-        {
-            upperEdge = upperVoltage;
-            upperEdgeIdx = voltageCenterIdx - upperVoltage;
-        }
-        if (lowerVoltage < lowerEdge)
-        {
-            lowerEdge = lowerVoltage;
-            lowerEdgeIdx = voltageCenterIdx - lowerVoltage;
-        }
-    }
-    if (eomStatsMode)
-    {
-        leftEdgeIdx = phaseCenterIdx - leftMaxEdge;
-    }
-
-    /* Right Sweep from Phase -1 with Voltage Sweep */
-    for (phase = -1; phase >= rightMaxEdge; phase--)
-    {
-        upperVoltage = lowerMaxEdge;
-        lowerVoltage = upperMaxEdge;
-        for (voltage = 0; voltage <= upperMaxEdge; voltage++)
-        {
-            MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, phase, (MCESD_U8)voltage, minSamples, &measurement));
-
-            eyeRawDataPtr->eyeRawData[phaseCenterIdx - phase][voltageCenterIdx - voltage] = measurement.upperBitErrorCount;
-            eyeRawDataPtr->eyeRawData[phaseCenterIdx - phase][voltageCenterIdx + voltage] = measurement.lowerBitErrorCount;
-
-            /* Measure full UI in eomStatsMode (phase, 0) */
-            if (eomStatsMode)
-                break;
-
-            MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.upperBitErrorCount, measurement.upperBitCount, &upperBer));
-            MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.lowerBitErrorCount, measurement.lowerBitCount, &lowerBer));
-            if ((berThreshold < upperBer) || (berThreshold < lowerBer))
-            {
-                if ((upperVoltage == lowerMaxEdge) && ((0 == measurement.upperBitCount) || (berThreshold < upperBer)))
-                    upperVoltage = voltage; /* found upper edge */
-
-                if ((lowerVoltage == upperMaxEdge) && ((0 == measurement.lowerBitCount) || (berThreshold < lowerBer)))
-                    lowerVoltage = -voltage; /* found lower edge */
-            }
-
-            if (((upperVoltage != lowerMaxEdge) && (lowerVoltage != upperMaxEdge)))
-                break;
-        }
-
-        /* Stop when (phase, 0) exceeds BER threshold */
-        if (upperVoltage == lowerVoltage)
-        {
-            rightEdgeIdx = phaseCenterIdx - phase;
-            break;
-        }
-
-        if (upperVoltage > upperEdge)
-        {
-            upperEdge = upperVoltage;
-            upperEdgeIdx = voltageCenterIdx - upperVoltage;
-        }
-        if (lowerVoltage < lowerEdge)
-        {
-            lowerEdge = lowerVoltage;
-            lowerEdgeIdx = voltageCenterIdx - lowerVoltage;
-        }
-    }
-    if (eomStatsMode)
-    {
-        rightEdgeIdx = phaseCenterIdx - rightMaxEdge;
-    }
-
-    MCESD_ATTEMPT(API_N5XC56GP5X4_EOMFinalize(devPtr, lane));
-
-    eyeRawDataPtr->leftEdge = leftEdgeIdx;
-    eyeRawDataPtr->rightEdge = rightEdgeIdx;
-    eyeRawDataPtr->upperEdge = upperEdgeIdx;
-    eyeRawDataPtr->lowerEdge = lowerEdgeIdx;
-
-    return MCESD_OK;
-}
-
-MCESD_STATUS API_N5XC56GP5X4_EOMPlotEyeData
-(
-    IN S_N5XC56GP5X4_EYE_RAW_PTR eyeRawDataPtr,
-    IN MCESD_U32 berThreshold,
-    IN MCESD_U32 berThresholdMax
-)
-{
-    if (!eyeRawDataPtr)
-    {
-        MCESD_DBG_ERROR("API_N5XC56GP5X4_EOMPlotEyeData: eyeRawDataPtr is NULL\n");
-        return MCESD_FAIL;
-    }
-
-    MCESD_ATTEMPT(plotEyeData(eyeRawDataPtr->eyeRawData[0], eyeRawDataPtr->leftEdge, eyeRawDataPtr->rightEdge, N5XC56GP5X4_EYE_MAX_PHASE_LEVEL / 2,  
-        eyeRawDataPtr->upperEdge, eyeRawDataPtr->lowerEdge, N5XC56GP5X4_EYE_MAX_VOLT_STEPS - 1, eyeRawDataPtr->sampleCount, (N5XC56GP5X4_EYE_MAX_VOLT_STEPS * 2) - 1,
-        berThreshold, berThresholdMax));
-
-    return MCESD_OK;
-}
 
 #ifdef MCESD_EOM_STATS
 #endif
+
 
 MCESD_STATUS API_N5XC56GP5X4_ExecuteCDS
 (
