@@ -817,55 +817,6 @@ union cavm_dpi_dma_ptr_s
 };
 
 /**
- * Structure dpi_sdp_addr_s
- *
- * INTERNAL: DPI/SDP Address Structure
- *
- * Address decoding for DPI/SDP CSR address space.
- */
-union cavm_dpi_sdp_addr_s
-{
-    uint64_t u;
-    struct cavm_dpi_sdp_addr_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t bit47_46              : 2;  /**< [ 47: 46] NA. */
-        uint64_t nn                    : 2;  /**< [ 45: 44] NA. */
-        uint64_t did                   : 8;  /**< [ 43: 36] PEM DID. */
-        uint64_t region                : 2;  /**< [ 35: 34] NA. */
-        uint64_t r33_32                : 2;  /**< [ 33: 32] NA. */
-        uint64_t sdp                   : 1;  /**< [ 31: 31] 0 = SDP register, 1 = DPI register. */
-        uint64_t ncbonly               : 1;  /**< [ 30: 30] Set for registers that can only be accessed by AP cores. */
-        uint64_t epf                   : 5;  /**< [ 29: 25] EPF targeted by AP cores. */
-        uint64_t ring                  : 8;  /**< [ 24: 17] SDP packet ring. */
-        uint64_t space                 : 1;  /**< [ 16: 16] SDP and DPI decode space:
-                                                                 0x0 = SDP commmon space([17]==1)/ MSIX SPACE([17]==0)
-                                                                 0x1 = DPI ring space. */
-        uint64_t offset                : 12; /**< [ 15:  4] Register offset. */
-        uint64_t bit3_0                : 4;  /**< [  3:  0] NA. */
-#else /* Word 0 - Little Endian */
-        uint64_t bit3_0                : 4;  /**< [  3:  0] NA. */
-        uint64_t offset                : 12; /**< [ 15:  4] Register offset. */
-        uint64_t space                 : 1;  /**< [ 16: 16] SDP and DPI decode space:
-                                                                 0x0 = SDP commmon space([17]==1)/ MSIX SPACE([17]==0)
-                                                                 0x1 = DPI ring space. */
-        uint64_t ring                  : 8;  /**< [ 24: 17] SDP packet ring. */
-        uint64_t epf                   : 5;  /**< [ 29: 25] EPF targeted by AP cores. */
-        uint64_t ncbonly               : 1;  /**< [ 30: 30] Set for registers that can only be accessed by AP cores. */
-        uint64_t sdp                   : 1;  /**< [ 31: 31] 0 = SDP register, 1 = DPI register. */
-        uint64_t r33_32                : 2;  /**< [ 33: 32] NA. */
-        uint64_t region                : 2;  /**< [ 35: 34] NA. */
-        uint64_t did                   : 8;  /**< [ 43: 36] PEM DID. */
-        uint64_t nn                    : 2;  /**< [ 45: 44] NA. */
-        uint64_t bit47_46              : 2;  /**< [ 47: 46] NA. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpi_sdp_addr_s_s cn; */
-};
-
-/**
  * Structure sdp_buf_info_pair_s
  *
  * SDP Buffer/Information Pair Structure
@@ -1362,121 +1313,6 @@ union cavm_sdp_sglist_component_s
 };
 
 /**
- * Register (NCB) dpi#_bp_test0
- *
- * INTERNAL: DPI Backpressure Test Register 0
- */
-union cavm_dpix_bp_test0
-{
-    uint64_t u;
-    struct cavm_dpix_bp_test0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 15; /**< [ 63: 49](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Backpressure NCBI DMA Rd requests.
-                                                                 \<62\> = Backpressure NCBI INS Rd requests.
-                                                                 \<61\> = Backpressure NCBI DMA Wr requests.
-                                                                 \<60\> = Backpressure NCBI ZBW requests.
-                                                                 \<59\> = Backpressure NCBI CSR responses.
-                                                                 \<58\> = Backpressure NCBI WIN requests.
-                                                                 \<57\> = Backpressure NCBO csr requests.
-                                                                 \<56\> = Backpressure EBI requests.
-                                                                 \<55\> = Backpressure EBI responses.
-                                                                 \<54\> = Backpressure EBO completions.
-                                                                 \<53\> = Backpressure EBO posted requests.
-                                                                 \<52\> = Backpressure EBO non-posted requests.
-                                                                 \<51:50\> = Backpressure inbound packet drains.
-                                                                 \<49\> = Backpressure WCTL CMPL FIFO. */
-        uint64_t reserved_44_48        : 5;
-        uint64_t bp_cfg                : 30; /**< [ 43: 14](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<43:42\> = Config 14.
-                                                                   \<41:40\> = Config 13.
-                                                                   \<39:38\> = Config 12.
-                                                                   \<37:36\> = Config 11.
-                                                                   \<35:34\> = Config 10.
-                                                                   \<33:32\> = Config 9.
-                                                                   \<31:30\> = Config 8.
-                                                                   \<29:28\> = Config 7.
-                                                                   \<27:26\> = Config 6.
-                                                                   \<25:24\> = Config 5.
-                                                                   \<23:22\> = Config 4.
-                                                                   \<21:20\> = Config 3.
-                                                                   \<19:18\> = Config 2.
-                                                                   \<17:16\> = Config 1.
-                                                                   \<15:14\> = Config 0. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_13        : 2;
-        uint64_t bp_cfg                : 30; /**< [ 43: 14](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<43:42\> = Config 14.
-                                                                   \<41:40\> = Config 13.
-                                                                   \<39:38\> = Config 12.
-                                                                   \<37:36\> = Config 11.
-                                                                   \<35:34\> = Config 10.
-                                                                   \<33:32\> = Config 9.
-                                                                   \<31:30\> = Config 8.
-                                                                   \<29:28\> = Config 7.
-                                                                   \<27:26\> = Config 6.
-                                                                   \<25:24\> = Config 5.
-                                                                   \<23:22\> = Config 4.
-                                                                   \<21:20\> = Config 3.
-                                                                   \<19:18\> = Config 2.
-                                                                   \<17:16\> = Config 1.
-                                                                   \<15:14\> = Config 0. */
-        uint64_t reserved_44_48        : 5;
-        uint64_t enable                : 15; /**< [ 63: 49](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Backpressure NCBI DMA Rd requests.
-                                                                 \<62\> = Backpressure NCBI INS Rd requests.
-                                                                 \<61\> = Backpressure NCBI DMA Wr requests.
-                                                                 \<60\> = Backpressure NCBI ZBW requests.
-                                                                 \<59\> = Backpressure NCBI CSR responses.
-                                                                 \<58\> = Backpressure NCBI WIN requests.
-                                                                 \<57\> = Backpressure NCBO csr requests.
-                                                                 \<56\> = Backpressure EBI requests.
-                                                                 \<55\> = Backpressure EBI responses.
-                                                                 \<54\> = Backpressure EBO completions.
-                                                                 \<53\> = Backpressure EBO posted requests.
-                                                                 \<52\> = Backpressure EBO non-posted requests.
-                                                                 \<51:50\> = Backpressure inbound packet drains.
-                                                                 \<49\> = Backpressure WCTL CMPL FIFO. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_bp_test0_s cn; */
-};
-typedef union cavm_dpix_bp_test0 cavm_dpix_bp_test0_t;
-
-static inline uint64_t CAVM_DPIX_BP_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_BP_TEST0(uint64_t a)
-{
-    if (a==0)
-        return 0x86e0000100b0ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("DPIX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_BP_TEST0(a) cavm_dpix_bp_test0_t
-#define bustype_CAVM_DPIX_BP_TEST0(a) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_BP_TEST0(a) "DPIX_BP_TEST0"
-#define device_bar_CAVM_DPIX_BP_TEST0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DPIX_BP_TEST0(a) (a)
-#define arguments_CAVM_DPIX_BP_TEST0(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) dpi#_csclk_active_pc
  *
  * DPI Conditional Coprocessor Clock Counter Register
@@ -1700,20 +1536,11 @@ union cavm_dpix_dmax_ids
         uint64_t reserved_56_63        : 8;
         uint64_t dma_sec_strm          : 8;  /**< [ 55: 48](R/W) Second Stream ID. Stream identifier bits \<7:0\> for DMA reads and writes. Stream
                                                                  ID \<15:8\> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>.
-
-                                                                 Internal:
-                                                                 Stream ID \<15:8\> comes from pcc__blk_stream_id. */
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>. */
         uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits \<7:0\> for instruction reads. Stream ID \<15:8\> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>.
-
-                                                                 Internal:
-                                                                 Stream ID \<15:8\> comes from pcc__blk_stream_id. */
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>. */
         uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits \<7:0\> for DMA reads and writes. Stream ID \<15:8\> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>.
-
-                                                                 Internal:
-                                                                 Stream ID \<15:8\> comes from pcc__blk_stream_id. */
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>. */
         uint64_t npa_pf_func           : 16; /**< [ 31: 16](R/W) NPA RVU physical and virtual function. Format specified by RVU_PF_FUNC_S. */
         uint64_t sso_pf_func           : 16; /**< [ 15:  0](R/W) SSO RVU physical and virtual function. Indicates the RVU PF and VF to which
                                                                  this ring's SSO add works are sent. Format specified by RVU_PF_FUNC_S. */
@@ -1722,21 +1549,12 @@ union cavm_dpix_dmax_ids
                                                                  this ring's SSO add works are sent. Format specified by RVU_PF_FUNC_S. */
         uint64_t npa_pf_func           : 16; /**< [ 31: 16](R/W) NPA RVU physical and virtual function. Format specified by RVU_PF_FUNC_S. */
         uint64_t dma_strm              : 8;  /**< [ 39: 32](R/W) Stream identifier bits \<7:0\> for DMA reads and writes. Stream ID \<15:8\> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>.
-
-                                                                 Internal:
-                                                                 Stream ID \<15:8\> comes from pcc__blk_stream_id. */
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>. */
         uint64_t inst_strm             : 8;  /**< [ 47: 40](R/W) Stream identifier bits \<7:0\> for instruction reads. Stream ID \<15:8\> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>.
-
-                                                                 Internal:
-                                                                 Stream ID \<15:8\> comes from pcc__blk_stream_id. */
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>. */
         uint64_t dma_sec_strm          : 8;  /**< [ 55: 48](R/W) Second Stream ID. Stream identifier bits \<7:0\> for DMA reads and writes. Stream
                                                                  ID \<15:8\> is from the DPI's
-                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>.
-
-                                                                 Internal:
-                                                                 Stream ID \<15:8\> comes from pcc__blk_stream_id. */
+                                                                 PCC bus identifier, PCC_DEV_CON_E::DPI0\<15:8\>. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
     } s;
@@ -6246,79 +6064,6 @@ static inline uint64_t CAVM_DPIX_WCTL_FIF_THR(uint64_t a)
 #define arguments_CAVM_DPIX_WCTL_FIF_THR(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) sdp#_bp_test0
- *
- * INTERNAL: SDP Backpressure Test Register 0
- */
-union cavm_sdpx_bp_test0
-{
-    uint64_t u;
-    struct cavm_sdpx_bp_test0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Backpressure the SDP to DPI write requests.
-                                                                 \<62\> = Backpressure the SDP to DPI read requests.
-                                                                 \<61\> = Backpressure the SDP X2P bus.
-                                                                 \<60\> = Backpressure SDP MSIX writes. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Backpressure the SDP to DPI write requests.
-                                                                 \<62\> = Backpressure the SDP to DPI read requests.
-                                                                 \<61\> = Backpressure the SDP X2P bus.
-                                                                 \<60\> = Backpressure SDP MSIX writes. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sdpx_bp_test0_s cn; */
-};
-typedef union cavm_sdpx_bp_test0 cavm_sdpx_bp_test0_t;
-
-static inline uint64_t CAVM_SDPX_BP_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_BP_TEST0(uint64_t a)
-{
-    if (a==0)
-        return 0x86e0c00802d0ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("SDPX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SDPX_BP_TEST0(a) cavm_sdpx_bp_test0_t
-#define bustype_CAVM_SDPX_BP_TEST0(a) CSR_TYPE_NCB
-#define basename_CAVM_SDPX_BP_TEST0(a) "SDPX_BP_TEST0"
-#define device_bar_CAVM_SDPX_BP_TEST0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_BP_TEST0(a) (a)
-#define arguments_CAVM_SDPX_BP_TEST0(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) sdp#_const
  *
  * SDP Constants Register
@@ -6437,43 +6182,6 @@ static inline uint64_t CAVM_SDPX_DIAG(uint64_t a)
 #define device_bar_CAVM_SDPX_DIAG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SDPX_DIAG(a) (a)
 #define arguments_CAVM_SDPX_DIAG(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) sdp#_eco
- *
- * INTERNAL: SDP ECO Register
- */
-union cavm_sdpx_eco
-{
-    uint64_t u;
-    struct cavm_sdpx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sdpx_eco_s cn; */
-};
-typedef union cavm_sdpx_eco cavm_sdpx_eco_t;
-
-static inline uint64_t CAVM_SDPX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SDPX_ECO(uint64_t a)
-{
-    if (a==0)
-        return 0x86e0c00802c0ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("SDPX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SDPX_ECO(a) cavm_sdpx_eco_t
-#define bustype_CAVM_SDPX_ECO(a) CSR_TYPE_NCB
-#define basename_CAVM_SDPX_ECO(a) "SDPX_ECO"
-#define device_bar_CAVM_SDPX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SDPX_ECO(a) (a)
-#define arguments_CAVM_SDPX_ECO(a) (a),-1,-1,-1
 
 /**
  * Register (PEXP_NCB) sdp#_epf#_dma_cnt#
@@ -7668,9 +7376,6 @@ static inline uint64_t CAVM_SDPX_EPFX_OEI_RINT_W1SX(uint64_t a, uint64_t b, uint
  * [SET] and [CLR] can be used to mimic a level sensitive interrupt.
  *
  * Note: EPF(0) is mapped to MAC0, EPF(1) is mapped to MAC2.
- *
- * Internal:
- * These registers must be on a dedicated 64KB page to isolate guests from changing other CSRs.
  */
 union cavm_sdpx_epfx_oei_trigx
 {
@@ -9154,17 +8859,6 @@ static inline uint64_t CAVM_SDPX_LINK_CFG(uint64_t a)
  * capabilities.  Each entry is 128 bits, with half the information in SDP()_LMAC_CONST0()
  * and half in SDP()_LMAC_CONST1().
  * The list ends with an entry where [V] is clear.
- *
- * Internal:
- * "* SDP(0)_LMAC_CONST0/1(0) [ V=1 EP=1 IFTY=0 IFN=0 MAC=0 PF=2 EPF=0 VFS=64
- * VRINGS=128 PRINGS=32 TRINGS=128].
- * * SDP(0)_LMAC_CONST0/1(1) [ V=1 EP=0 IFTY=0 IFN=1 MAC=1 PF=2 EPF=0 VFS=0   VRINGS=0
- * PRINGS=0  TRINGS=0  ].
- * * SDP(0)_LMAC_CONST0/1(2) [ V=1 EP=0 IFTY=0 IFN=2 MAC=2 PF=2 EPF=0 VFS=0
- * VRINGS=0 PRINGS=0 TRINGS=0].
- * * SDP(0)_LMAC_CONST0/1(3) [ V=1 EP=0 IFTY=0 IFN=3 MAC=3 PF=2 EPF=0 VFS=0   VRINGS=0
- * PRINGS=0  TRINGS=0  ].
- * * SDP(0)_LMAC_CONST0/1(4) [ V=0 ]."
  */
 union cavm_sdpx_lmac_const0x
 {
@@ -10352,14 +10046,7 @@ union cavm_sdpx_rx_in_cnts
                                                                     SDP()_R()_OUT_CNTS[TIMER] has reached an interrupt threshold based
                                                                     on the values in the SDP()_R()_OUT_INT_MDRT_CTL* registers.
                                                                  To clear the bit, the SDP()_R()_OUT_CNTS register must be written to clear the
-                                                                 underlying condition.
-
-                                                                 Internal:
-                                                                 These interrupt bits are not cleared due to FLR becase the CNTS and
-                                                                 LEVELS registers are not reset and we wish to make the interrupt state
-                                                                 consistent with CNTS/LEVELS even after FLR. The CNTS register must be
-                                                                 cleared by software as part of initialization after a reset (including FLR)
-                                                                 which will cause the interrupt state to clear. */
+                                                                 underlying condition. */
         uint64_t in_int                : 1;  /**< [ 61: 61](RO/H) Returns a 1 when:
                                                                   * SDP()_R()_IN_CNTS[CNT] \> SDP()_R()_IN_INT_LEVELS[CNT] &
                                                                     SDP()_R()_IN_INT_LEVELS[TIME_CNT_ENA]==1.
@@ -10369,14 +10056,7 @@ union cavm_sdpx_rx_in_cnts
                                                                     SDP()_R()_IN_CNTS[TIMER] has reached an interrupt threshold based
                                                                     on the values in the SDP()_R()_IN_INT_MDRT_CTL* registers.
                                                                  To clear the bit, the SDP()_R()_IN_CNTS register must be written to clear the
-                                                                 underlying condition.
-
-                                                                 Internal:
-                                                                 These interrupt bits are not cleared due to FLR becase the CNTS and
-                                                                 LEVELS registers are not reset and we wish to make the interrupt state
-                                                                 consistent with CNTS/LEVELS even after FLR. The CNTS register must be
-                                                                 cleared by software as part of initialization after a reset (including FLR)
-                                                                 which will cause the interrupt state to clear. */
+                                                                 underlying condition. */
         uint64_t mbox_int              : 1;  /**< [ 60: 60](RO/H) Returns a 1 when:
                                                                   * SDP()_R()_MBOX_PF_VF_INT[INTR] is set
 
@@ -10443,14 +10123,7 @@ union cavm_sdpx_rx_in_cnts
                                                                     SDP()_R()_IN_CNTS[TIMER] has reached an interrupt threshold based
                                                                     on the values in the SDP()_R()_IN_INT_MDRT_CTL* registers.
                                                                  To clear the bit, the SDP()_R()_IN_CNTS register must be written to clear the
-                                                                 underlying condition.
-
-                                                                 Internal:
-                                                                 These interrupt bits are not cleared due to FLR becase the CNTS and
-                                                                 LEVELS registers are not reset and we wish to make the interrupt state
-                                                                 consistent with CNTS/LEVELS even after FLR. The CNTS register must be
-                                                                 cleared by software as part of initialization after a reset (including FLR)
-                                                                 which will cause the interrupt state to clear. */
+                                                                 underlying condition. */
         uint64_t out_int               : 1;  /**< [ 62: 62](RO/H) Returns a 1 when:
                                                                   * SDP()_R()_OUT_CNTS[CNT] \> SDP()_R()_OUT_INT_LEVELS[CNT] &
                                                                     SDP()_R()_OUT_INT_LEVELS[TIME_CNT_ENA]==1.
@@ -10460,14 +10133,7 @@ union cavm_sdpx_rx_in_cnts
                                                                     SDP()_R()_OUT_CNTS[TIMER] has reached an interrupt threshold based
                                                                     on the values in the SDP()_R()_OUT_INT_MDRT_CTL* registers.
                                                                  To clear the bit, the SDP()_R()_OUT_CNTS register must be written to clear the
-                                                                 underlying condition.
-
-                                                                 Internal:
-                                                                 These interrupt bits are not cleared due to FLR becase the CNTS and
-                                                                 LEVELS registers are not reset and we wish to make the interrupt state
-                                                                 consistent with CNTS/LEVELS even after FLR. The CNTS register must be
-                                                                 cleared by software as part of initialization after a reset (including FLR)
-                                                                 which will cause the interrupt state to clear. */
+                                                                 underlying condition. */
         uint64_t send_ism              : 1;  /**< [ 63: 63](WO/H) A write of 1 will cause a ISM message to be sent with the current value of [CNT].
                                                                  Hardware will ignore the written value of [CNT] if [SEND_ISM] is set and will NOT
                                                                  subtract the amount written to [CNT]. ISM messages must be enabled in
@@ -11105,10 +10771,7 @@ union cavm_sdpx_rx_in_int_mdrt_ctl1
                                                                  0x6 = Weight of 64.
                                                                  0x7 = Weight of 128.
                                                                  0x8 = Weight of 256.
-                                                                 _ else = Reserved.
-
-                                                                 Internal:
-                                                                 Reserved treated as 0x8. */
+                                                                 _ else = Reserved. */
         uint64_t reserved_37_39        : 3;
         uint64_t hi_rate               : 17; /**< [ 36: 20](R/W) High byte rate. */
         uint64_t reserved_17_19        : 3;
@@ -11128,10 +10791,7 @@ union cavm_sdpx_rx_in_int_mdrt_ctl1
                                                                  0x6 = Weight of 64.
                                                                  0x7 = Weight of 128.
                                                                  0x8 = Weight of 256.
-                                                                 _ else = Reserved.
-
-                                                                 Internal:
-                                                                 Reserved treated as 0x8. */
+                                                                 _ else = Reserved. */
         uint64_t reserved_44_62        : 19;
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Enable interrupt moderation. */
 #endif /* Word 0 - End */
@@ -11535,14 +11195,7 @@ union cavm_sdpx_rx_out_cnts
                                                                     SDP()_R()_OUT_CNTS[TIMER] has reached an interrupt threshold based
                                                                     on the values in the SDP()_R()_OUT_INT_MDRT_CTL* registers.
                                                                  To clear the bit, the SDP()_R()_OUT_CNTS register must be written to clear the
-                                                                 underlying condition.
-
-                                                                 Internal:
-                                                                 These interrupt bits are not cleared due to FLR becase the CNTS and
-                                                                 LEVELS registers are not reset and we wish to make the interrupt state
-                                                                 consistent with CNTS/LEVELS even after FLR. The CNTS register must be
-                                                                 cleared by software as part of initialization after a reset (including FLR)
-                                                                 which will cause the interrupt state to clear. */
+                                                                 underlying condition. */
         uint64_t in_int                : 1;  /**< [ 61: 61](RO/H) Returns a 1 when:
                                                                   * SDP()_R()_IN_CNTS[CNT] \> SDP()_R()_IN_INT_LEVELS[CNT] &
                                                                     SDP()_R()_IN_INT_LEVELS[TIME_CNT_ENA]==1.
@@ -11552,14 +11205,7 @@ union cavm_sdpx_rx_out_cnts
                                                                     SDP()_R()_IN_CNTS[TIMER] has reached an interrupt threshold based
                                                                     on the values in the SDP()_R()_IN_INT_MDRT_CTL* registers.
                                                                  To clear the bit, the SDP()_R()_IN_CNTS register must be written to clear the
-                                                                 underlying condition.
-
-                                                                 Internal:
-                                                                 These interrupt bits are not cleared due to FLR becase the CNTS and
-                                                                 LEVELS registers are not reset and we wish to make the interrupt state
-                                                                 consistent with CNTS/LEVELS even after FLR. The CNTS register must be
-                                                                 cleared by software as part of initialization after a reset (including FLR)
-                                                                 which will cause the interrupt state to clear. */
+                                                                 underlying condition. */
         uint64_t mbox_int              : 1;  /**< [ 60: 60](RO/H) Returns a 1 when:
                                                                   * SDP()_R()_MBOX_PF_VF_INT[INTR] is set.
 
@@ -11634,14 +11280,7 @@ union cavm_sdpx_rx_out_cnts
                                                                     SDP()_R()_IN_CNTS[TIMER] has reached an interrupt threshold based
                                                                     on the values in the SDP()_R()_IN_INT_MDRT_CTL* registers.
                                                                  To clear the bit, the SDP()_R()_IN_CNTS register must be written to clear the
-                                                                 underlying condition.
-
-                                                                 Internal:
-                                                                 These interrupt bits are not cleared due to FLR becase the CNTS and
-                                                                 LEVELS registers are not reset and we wish to make the interrupt state
-                                                                 consistent with CNTS/LEVELS even after FLR. The CNTS register must be
-                                                                 cleared by software as part of initialization after a reset (including FLR)
-                                                                 which will cause the interrupt state to clear. */
+                                                                 underlying condition. */
         uint64_t out_int               : 1;  /**< [ 62: 62](RO/H) Returns a 1 when:
                                                                   * SDP()_R()_OUT_CNTS[CNT] \> SDP()_R()_OUT_INT_LEVELS[CNT] &
                                                                     SDP()_R()_OUT_INT_LEVELS[TIME_CNT_ENA]==1.
@@ -11651,14 +11290,7 @@ union cavm_sdpx_rx_out_cnts
                                                                     SDP()_R()_OUT_CNTS[TIMER] has reached an interrupt threshold based
                                                                     on the values in the SDP()_R()_OUT_INT_MDRT_CTL* registers.
                                                                  To clear the bit, the SDP()_R()_OUT_CNTS register must be written to clear the
-                                                                 underlying condition.
-
-                                                                 Internal:
-                                                                 These interrupt bits are not cleared due to FLR becase the CNTS and
-                                                                 LEVELS registers are not reset and we wish to make the interrupt state
-                                                                 consistent with CNTS/LEVELS even after FLR. The CNTS register must be
-                                                                 cleared by software as part of initialization after a reset (including FLR)
-                                                                 which will cause the interrupt state to clear. */
+                                                                 underlying condition. */
         uint64_t send_ism              : 1;  /**< [ 63: 63](WO/H) A write of 1 will cause a ISM message to be sent with the current value of [CNT].
                                                                  Hardware will ignore the written value of [CNT] if [SEND_ISM] is set and will NOT
                                                                  subtract the amount written to [CNT]. ISM messages must be enabled in
@@ -12192,10 +11824,7 @@ union cavm_sdpx_rx_out_int_mdrt_ctl1
                                                                  0x6 = Weight of 64.
                                                                  0x7 = Weight of 128.
                                                                  0x8 = Weight of 256.
-                                                                 _ else = Reserved.
-
-                                                                 Internal:
-                                                                 Reserved treated as 0x8. */
+                                                                 _ else = Reserved. */
         uint64_t reserved_37_39        : 3;
         uint64_t hi_rate               : 17; /**< [ 36: 20](R/W) High byte rate. */
         uint64_t reserved_17_19        : 3;
@@ -12215,10 +11844,7 @@ union cavm_sdpx_rx_out_int_mdrt_ctl1
                                                                  0x6 = Weight of 64.
                                                                  0x7 = Weight of 128.
                                                                  0x8 = Weight of 256.
-                                                                 _ else = Reserved.
-
-                                                                 Internal:
-                                                                 Reserved treated as 0x8. */
+                                                                 _ else = Reserved. */
         uint64_t reserved_44_62        : 19;
         uint64_t enable                : 1;  /**< [ 63: 63](R/W) Enable interrupt moderation. */
 #endif /* Word 0 - End */

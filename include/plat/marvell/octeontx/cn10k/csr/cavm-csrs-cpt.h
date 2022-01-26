@@ -309,7 +309,19 @@ union cavm_cpt_inst_hw_s
     struct cavm_cpt_inst_hw_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S. */
+        uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S.
+
+                                                                 * NIXTX_OFFSET\<19:16\> (i.e. the most-significant 4 bits) is
+                                                                 [SSO_PF_FUNC]. NIX RX inline IPSEC logic fills [SSO_PF_FUNC] with
+                                                                 NIX_AF_LF()_CFG[SSO_PF_FUNC] for this case.
+
+                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, [SSO_PF_FUNC] is the function CPT uses for
+                                                                 the SSO add work for this instruction. [SSO_PF_FUNC] affects only the add work
+                                                                 to SSO. [SSO_PF_FUNC] does not affect any other CPT_INST_S execution.
+                                                                 See also [RVU_PF_FUNC] and [WQE_PTR].
+
+                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, [SSO_PF_FUNC] is not used by CPT. See
+                                                                 CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
         uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry. */
         uint64_t et_offset             : 8;  /**< [ 31: 24] 8-bit offset into L2 header for where to write Ethertype. */
         uint64_t l2_len                : 8;  /**< [ 23: 16] 8-bit length of L2 header, same as outer-IP pointer. */
@@ -323,7 +335,19 @@ union cavm_cpt_inst_hw_s
         uint64_t l2_len                : 8;  /**< [ 23: 16] 8-bit length of L2 header, same as outer-IP pointer. */
         uint64_t et_offset             : 8;  /**< [ 31: 24] 8-bit offset into L2 header for where to write Ethertype. */
         uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry. */
-        uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S. */
+        uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S.
+
+                                                                 * NIXTX_OFFSET\<19:16\> (i.e. the most-significant 4 bits) is
+                                                                 [SSO_PF_FUNC]. NIX RX inline IPSEC logic fills [SSO_PF_FUNC] with
+                                                                 NIX_AF_LF()_CFG[SSO_PF_FUNC] for this case.
+
+                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, [SSO_PF_FUNC] is the function CPT uses for
+                                                                 the SSO add work for this instruction. [SSO_PF_FUNC] affects only the add work
+                                                                 to SSO. [SSO_PF_FUNC] does not affect any other CPT_INST_S execution.
+                                                                 See also [RVU_PF_FUNC] and [WQE_PTR].
+
+                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, [SSO_PF_FUNC] is not used by CPT. See
+                                                                 CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Refer to CPT_INST_S. */
@@ -370,14 +394,18 @@ union cavm_cpt_inst_hw_s
         uint64_t opcode                : 16; /**< [319:304] Refer to CPT_INST_S. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t reserved_320_383      : 64;
+        uint64_t gthr_size             : 4;  /**< [383:380] Refer to CPT_INST_S. */
+        uint64_t dptr                  : 60; /**< [379:320] Refer to CPT_INST_S. */
 #else /* Word 5 - Little Endian */
-        uint64_t reserved_320_383      : 64;
+        uint64_t dptr                  : 60; /**< [379:320] Refer to CPT_INST_S. */
+        uint64_t gthr_size             : 4;  /**< [383:380] Refer to CPT_INST_S. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t reserved_384_447      : 64;
+        uint64_t sctr_size             : 4;  /**< [447:444] Refer to CPT_INST_S. */
+        uint64_t rptr                  : 60; /**< [443:384] Refer to CPT_INST_S. */
 #else /* Word 6 - Little Endian */
-        uint64_t reserved_384_447      : 64;
+        uint64_t rptr                  : 60; /**< [443:384] Refer to CPT_INST_S. */
+        uint64_t sctr_size             : 4;  /**< [447:444] Refer to CPT_INST_S. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t egrp                  : 3;  /**< [511:509] Refer to CPT_INST_S. */
@@ -389,201 +417,7 @@ union cavm_cpt_inst_hw_s
         uint64_t egrp                  : 3;  /**< [511:509] Refer to CPT_INST_S. */
 #endif /* Word 7 - End */
     } s;
-    /* struct cavm_cpt_inst_hw_s_s cn10; */
-    struct cavm_cpt_inst_hw_s_cn10ka
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S. */
-        uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry. */
-        uint64_t et_offset             : 8;  /**< [ 31: 24] 8-bit offset into L2 header for where to write Ethertype. */
-        uint64_t l2_len                : 8;  /**< [ 23: 16] 8-bit length of L2 header, same as outer-IP pointer. */
-        uint64_t chan                  : 12; /**< [ 15:  4] Incoming channel packet was received on from the RPM. */
-        uint64_t doneint               : 1;  /**< [  3:  3] Refer to CPT_INST_S. */
-        uint64_t nixtxl                : 3;  /**< [  2:  0] Refer to CPT_INST_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t nixtxl                : 3;  /**< [  2:  0] Refer to CPT_INST_S. */
-        uint64_t doneint               : 1;  /**< [  3:  3] Refer to CPT_INST_S. */
-        uint64_t chan                  : 12; /**< [ 15:  4] Incoming channel packet was received on from the RPM. */
-        uint64_t l2_len                : 8;  /**< [ 23: 16] 8-bit length of L2 header, same as outer-IP pointer. */
-        uint64_t et_offset             : 8;  /**< [ 31: 24] 8-bit offset into L2 header for where to write Ethertype. */
-        uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry. */
-        uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t res_addr              : 64; /**< [127: 64] Refer to CPT_INST_S. */
-#else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 64; /**< [127: 64] Refer to CPT_INST_S. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t rvu_pf_func           : 16; /**< [191:176] Refer to CPT_INST_S. */
-        uint64_t reserved_172_175      : 4;
-        uint64_t grp                   : 10; /**< [171:162] Refer to CPT_INST_S. */
-        uint64_t tt                    : 2;  /**< [161:160] Refer to CPT_INST_S. */
-        uint64_t tag                   : 32; /**< [159:128] Refer to CPT_INST_S. */
-#else /* Word 2 - Little Endian */
-        uint64_t tag                   : 32; /**< [159:128] Refer to CPT_INST_S. */
-        uint64_t tt                    : 2;  /**< [161:160] Refer to CPT_INST_S. */
-        uint64_t grp                   : 10; /**< [171:162] Refer to CPT_INST_S. */
-        uint64_t reserved_172_175      : 4;
-        uint64_t rvu_pf_func           : 16; /**< [191:176] Refer to CPT_INST_S. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t wqe_ptr               : 61; /**< [255:195] Refer to CPT_INST_S. */
-        uint64_t reserved_194          : 1;
-        uint64_t et                    : 1;  /**< [193:193] ET_OFFSET enable.
-                                                                 Enable over-writing Ethertype field in L2 header based on IP packet version
-                                                                 Version 4 -\> Ethertype = 0x0800, version 6 -\> Ethertype = 0x86DD. */
-        uint64_t qord                  : 1;  /**< [192:192] Refer to CPT_INST_S. */
-#else /* Word 3 - Little Endian */
-        uint64_t qord                  : 1;  /**< [192:192] Refer to CPT_INST_S. */
-        uint64_t et                    : 1;  /**< [193:193] ET_OFFSET enable.
-                                                                 Enable over-writing Ethertype field in L2 header based on IP packet version
-                                                                 Version 4 -\> Ethertype = 0x0800, version 6 -\> Ethertype = 0x86DD. */
-        uint64_t reserved_194          : 1;
-        uint64_t wqe_ptr               : 61; /**< [255:195] Refer to CPT_INST_S. */
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t opcode                : 16; /**< [319:304] Refer to CPT_INST_S. */
-        uint64_t param1                : 16; /**< [303:288] Refer to CPT_INST_S. */
-        uint64_t param2                : 16; /**< [287:272] Refer to CPT_INST_S. */
-        uint64_t dlen                  : 16; /**< [271:256] Refer to CPT_INST_S. */
-#else /* Word 4 - Little Endian */
-        uint64_t dlen                  : 16; /**< [271:256] Refer to CPT_INST_S. */
-        uint64_t param2                : 16; /**< [287:272] Refer to CPT_INST_S. */
-        uint64_t param1                : 16; /**< [303:288] Refer to CPT_INST_S. */
-        uint64_t opcode                : 16; /**< [319:304] Refer to CPT_INST_S. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t dptr                  : 64; /**< [383:320] Refer to CPT_INST_S. */
-#else /* Word 5 - Little Endian */
-        uint64_t dptr                  : 64; /**< [383:320] Refer to CPT_INST_S. */
-#endif /* Word 5 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t rptr                  : 64; /**< [447:384] Refer to CPT_INST_S. */
-#else /* Word 6 - Little Endian */
-        uint64_t rptr                  : 64; /**< [447:384] Refer to CPT_INST_S. */
-#endif /* Word 6 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t egrp                  : 3;  /**< [511:509] Refer to CPT_INST_S. */
-        uint64_t ctx_val               : 1;  /**< [508:508] Refer to CPT_INST_S. */
-        uint64_t cptr                  : 60; /**< [507:448] Refer to CPT_INST_S. */
-#else /* Word 7 - Little Endian */
-        uint64_t cptr                  : 60; /**< [507:448] Refer to CPT_INST_S. */
-        uint64_t ctx_val               : 1;  /**< [508:508] Refer to CPT_INST_S. */
-        uint64_t egrp                  : 3;  /**< [511:509] Refer to CPT_INST_S. */
-#endif /* Word 7 - End */
-    } cn10ka;
-    struct cavm_cpt_inst_hw_s_cn10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S.
-
-                                                                 * NIXTX_OFFSET\<19:16\> (i.e. the most-significant 4 bits) is
-                                                                 [SSO_PF_FUNC]. NIX RX inline IPSEC logic fills [SSO_PF_FUNC] with
-                                                                 NIX_AF_LF()_CFG[SSO_PF_FUNC] for this case.
-
-                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, [SSO_PF_FUNC] is the function CPT uses for
-                                                                 the SSO add work for this instruction. [SSO_PF_FUNC] affects only the add work
-                                                                 to SSO. [SSO_PF_FUNC] does not affect any other CPT_INST_S execution.
-                                                                 See also [RVU_PF_FUNC] and [WQE_PTR].
-
-                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, [SSO_PF_FUNC] is not used by CPT. See
-                                                                 CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
-        uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry. */
-        uint64_t et_offset             : 8;  /**< [ 31: 24] 8-bit offset into L2 header for where to write Ethertype. */
-        uint64_t l2_len                : 8;  /**< [ 23: 16] 8-bit length of L2 header, same as outer-IP pointer. */
-        uint64_t chan                  : 12; /**< [ 15:  4] Incoming channel packet was received on from the RPM. */
-        uint64_t doneint               : 1;  /**< [  3:  3] Refer to CPT_INST_S. */
-        uint64_t nixtxl                : 3;  /**< [  2:  0] Refer to CPT_INST_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t nixtxl                : 3;  /**< [  2:  0] Refer to CPT_INST_S. */
-        uint64_t doneint               : 1;  /**< [  3:  3] Refer to CPT_INST_S. */
-        uint64_t chan                  : 12; /**< [ 15:  4] Incoming channel packet was received on from the RPM. */
-        uint64_t l2_len                : 8;  /**< [ 23: 16] 8-bit length of L2 header, same as outer-IP pointer. */
-        uint64_t et_offset             : 8;  /**< [ 31: 24] 8-bit offset into L2 header for where to write Ethertype. */
-        uint64_t match_id              : 16; /**< [ 47: 32] 16-bit SW configured value specific to each MCAM entry. */
-        uint64_t sso_pf_func           : 16; /**< [ 63: 48] SSO PF and function to which SSO and work submissions are sent. Format specified by RVU_PF_FUNC_S.
-
-                                                                 * NIXTX_OFFSET\<19:16\> (i.e. the most-significant 4 bits) is
-                                                                 [SSO_PF_FUNC]. NIX RX inline IPSEC logic fills [SSO_PF_FUNC] with
-                                                                 NIX_AF_LF()_CFG[SSO_PF_FUNC] for this case.
-
-                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0, [SSO_PF_FUNC] is the function CPT uses for
-                                                                 the SSO add work for this instruction. [SSO_PF_FUNC] affects only the add work
-                                                                 to SSO. [SSO_PF_FUNC] does not affect any other CPT_INST_S execution.
-                                                                 See also [RVU_PF_FUNC] and [WQE_PTR].
-
-                                                                 * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, [SSO_PF_FUNC] is not used by CPT. See
-                                                                 CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t res_addr              : 64; /**< [127: 64] Refer to CPT_INST_S. */
-#else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 64; /**< [127: 64] Refer to CPT_INST_S. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t rvu_pf_func           : 16; /**< [191:176] Refer to CPT_INST_S. */
-        uint64_t reserved_172_175      : 4;
-        uint64_t grp                   : 10; /**< [171:162] Refer to CPT_INST_S. */
-        uint64_t tt                    : 2;  /**< [161:160] Refer to CPT_INST_S. */
-        uint64_t tag                   : 32; /**< [159:128] Refer to CPT_INST_S. */
-#else /* Word 2 - Little Endian */
-        uint64_t tag                   : 32; /**< [159:128] Refer to CPT_INST_S. */
-        uint64_t tt                    : 2;  /**< [161:160] Refer to CPT_INST_S. */
-        uint64_t grp                   : 10; /**< [171:162] Refer to CPT_INST_S. */
-        uint64_t reserved_172_175      : 4;
-        uint64_t rvu_pf_func           : 16; /**< [191:176] Refer to CPT_INST_S. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t wqe_ptr               : 61; /**< [255:195] Refer to CPT_INST_S. */
-        uint64_t reserved_194          : 1;
-        uint64_t et                    : 1;  /**< [193:193] ET_OFFSET enable.
-                                                                 Enable over-writing Ethertype field in L2 header based on IP packet version
-                                                                 Version 4 -\> Ethertype = 0x0800, version 6 -\> Ethertype = 0x86DD. */
-        uint64_t qord                  : 1;  /**< [192:192] Refer to CPT_INST_S. */
-#else /* Word 3 - Little Endian */
-        uint64_t qord                  : 1;  /**< [192:192] Refer to CPT_INST_S. */
-        uint64_t et                    : 1;  /**< [193:193] ET_OFFSET enable.
-                                                                 Enable over-writing Ethertype field in L2 header based on IP packet version
-                                                                 Version 4 -\> Ethertype = 0x0800, version 6 -\> Ethertype = 0x86DD. */
-        uint64_t reserved_194          : 1;
-        uint64_t wqe_ptr               : 61; /**< [255:195] Refer to CPT_INST_S. */
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t opcode                : 16; /**< [319:304] Refer to CPT_INST_S. */
-        uint64_t param1                : 16; /**< [303:288] Refer to CPT_INST_S. */
-        uint64_t param2                : 16; /**< [287:272] Refer to CPT_INST_S. */
-        uint64_t dlen                  : 16; /**< [271:256] Refer to CPT_INST_S. */
-#else /* Word 4 - Little Endian */
-        uint64_t dlen                  : 16; /**< [271:256] Refer to CPT_INST_S. */
-        uint64_t param2                : 16; /**< [287:272] Refer to CPT_INST_S. */
-        uint64_t param1                : 16; /**< [303:288] Refer to CPT_INST_S. */
-        uint64_t opcode                : 16; /**< [319:304] Refer to CPT_INST_S. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t gthr_size             : 4;  /**< [383:380] Refer to CPT_INST_S. */
-        uint64_t dptr                  : 60; /**< [379:320] Refer to CPT_INST_S. */
-#else /* Word 5 - Little Endian */
-        uint64_t dptr                  : 60; /**< [379:320] Refer to CPT_INST_S. */
-        uint64_t gthr_size             : 4;  /**< [383:380] Refer to CPT_INST_S. */
-#endif /* Word 5 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
-        uint64_t sctr_size             : 4;  /**< [447:444] Refer to CPT_INST_S. */
-        uint64_t rptr                  : 60; /**< [443:384] Refer to CPT_INST_S. */
-#else /* Word 6 - Little Endian */
-        uint64_t rptr                  : 60; /**< [443:384] Refer to CPT_INST_S. */
-        uint64_t sctr_size             : 4;  /**< [447:444] Refer to CPT_INST_S. */
-#endif /* Word 6 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
-        uint64_t egrp                  : 3;  /**< [511:509] Refer to CPT_INST_S. */
-        uint64_t ctx_val               : 1;  /**< [508:508] Refer to CPT_INST_S. */
-        uint64_t cptr                  : 60; /**< [507:448] Refer to CPT_INST_S. */
-#else /* Word 7 - Little Endian */
-        uint64_t cptr                  : 60; /**< [507:448] Refer to CPT_INST_S. */
-        uint64_t ctx_val               : 1;  /**< [508:508] Refer to CPT_INST_S. */
-        uint64_t egrp                  : 3;  /**< [511:509] Refer to CPT_INST_S. */
-#endif /* Word 7 - End */
-    } cn10kb;
+    /* struct cavm_cpt_inst_hw_s_s cn; */
 };
 
 /**
@@ -615,12 +449,7 @@ union cavm_cpt_inst_s
                                                                  descriptor to NIX TX (see [NIXTXL]). [QORD] has no direct affect on when
                                                                  any CPT_LF_DONE[DONE] increment occurs.
 
-                                                                 See also CPT_RES_S[DONEINT].
-
-                                                                 Internal:
-                                                                 CPT_LF_DONE[DONE] increment conceptually occurs after the CPT_RES_S write.
-                                                                 We say [QORD] doesn't affect this increment order because it doesn't
-                                                                 affect the CPT_RES_S write order. See the [RES_ADDR] internal comment. */
+                                                                 See also CPT_RES_S[DONEINT]. */
         uint64_t nixtxl                : 3;  /**< [  2:  0] When [NIXTXL]!=0x0, [NIXTXL]+1 is the length in 128-bit words of the LMTST
                                                                  portion of the NIX TX descriptor (pointed at by [NIXTX_ADDR]) that CPT may
                                                                  submit (via an effective LMTST) to NIX TX after executing the CPT_INST_S.
@@ -733,12 +562,7 @@ union cavm_cpt_inst_s
                                                                  descriptor to NIX TX (see [NIXTXL]). [QORD] has no direct affect on when
                                                                  any CPT_LF_DONE[DONE] increment occurs.
 
-                                                                 See also CPT_RES_S[DONEINT].
-
-                                                                 Internal:
-                                                                 CPT_LF_DONE[DONE] increment conceptually occurs after the CPT_RES_S write.
-                                                                 We say [QORD] doesn't affect this increment order because it doesn't
-                                                                 affect the CPT_RES_S write order. See the [RES_ADDR] internal comment. */
+                                                                 See also CPT_RES_S[DONEINT]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -766,19 +590,7 @@ union cavm_cpt_inst_s
                                                                  Upon an SMMU fault on the [RES_ADDR] write, CPT sets CPT_LF_MISC_INT[NWRP],
                                                                  prevents a NIX TX descriptor from being sent (see [NIXTXL]), and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
-                                                                 an LF/queue reset.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
-
-                                                                 In CNXXXX, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
-                                                                 this, it would be incorrect for this spec to say that CPT orders the
-                                                                 CPT_RES_S's when [QORD]=1. This is because for AP software
-                                                                 to see the stores in order, CPT would both need to send the CPT_RES_S's
-                                                                 in order and wait for the commit of the prior one before sending the next
-                                                                 CPT_RES_S. CNXXXX CPT does not do this, so effectively the CPT_RES_S's are
-                                                                 unordered despite the CNXXXX CPT behavior, and hence the comment that [QORD]
-                                                                 has no direct effect on CPT_RES_S order. */
+                                                                 an LF/queue reset. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA. CPT always writes a CPT_RES_S to this location after it
                                                                  finishes executing the instruction. [RES_ADDR] must not be zero.
@@ -804,19 +616,7 @@ union cavm_cpt_inst_s
                                                                  Upon an SMMU fault on the [RES_ADDR] write, CPT sets CPT_LF_MISC_INT[NWRP],
                                                                  prevents a NIX TX descriptor from being sent (see [NIXTXL]), and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
-                                                                 an LF/queue reset.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
-
-                                                                 In CNXXXX, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
-                                                                 this, it would be incorrect for this spec to say that CPT orders the
-                                                                 CPT_RES_S's when [QORD]=1. This is because for AP software
-                                                                 to see the stores in order, CPT would both need to send the CPT_RES_S's
-                                                                 in order and wait for the commit of the prior one before sending the next
-                                                                 CPT_RES_S. CNXXXX CPT does not do this, so effectively the CPT_RES_S's are
-                                                                 unordered despite the CNXXXX CPT behavior, and hence the comment that [QORD]
-                                                                 has no direct effect on CPT_RES_S order. */
+                                                                 an LF/queue reset. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t rvu_pf_func           : 16; /**< [191:176] Must be zero in the normal case when CPT_AF_LF()_CTL[PF_FUNC_INST]=0.
@@ -895,10 +695,7 @@ union cavm_cpt_inst_s
                                                                  instead adds work to the SSO function in this instruction
                                                                  ([SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]).
 
-                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0. */
+                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address. */
         uint64_t reserved_193_194      : 2;
         uint64_t qord                  : 1;  /**< [192:192] Queue ordering. When set, CPT adds the SSO WQE (see [WQE_PTR], [TAG], [TT],
                                                                  [GRP]) and submits to NIX TX (see [NIXTXL] and [NIXTX_ADDR]) in queue
@@ -918,18 +715,7 @@ union cavm_cpt_inst_s
                                                                  See [WQE_PTR].
 
                                                                  [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
-                                                                 two different CPT_INST_S's. See [RES_ADDR].
-
-                                                                 Internal:
-                                                                 See the [RES_ADDR] internal description for details why the statement "QORD
-                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate.
-
-                                                                 This next text was originally present (and implemented in T93 A0 and B0(A1)),
-                                                                 but removed later to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
-                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
-                                                                 rule is violated. */
+                                                                 two different CPT_INST_S's. See [RES_ADDR]. */
 #else /* Word 3 - Little Endian */
         uint64_t qord                  : 1;  /**< [192:192] Queue ordering. When set, CPT adds the SSO WQE (see [WQE_PTR], [TAG], [TT],
                                                                  [GRP]) and submits to NIX TX (see [NIXTXL] and [NIXTX_ADDR]) in queue
@@ -949,18 +735,7 @@ union cavm_cpt_inst_s
                                                                  See [WQE_PTR].
 
                                                                  [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
-                                                                 two different CPT_INST_S's. See [RES_ADDR].
-
-                                                                 Internal:
-                                                                 See the [RES_ADDR] internal description for details why the statement "QORD
-                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate.
-
-                                                                 This next text was originally present (and implemented in T93 A0 and B0(A1)),
-                                                                 but removed later to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
-                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
-                                                                 rule is violated. */
+                                                                 two different CPT_INST_S's. See [RES_ADDR]. */
         uint64_t reserved_193_194      : 2;
         uint64_t wqe_ptr               : 61; /**< [255:195] If [WQE_PTR] is nonzero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO (except sometimes when [NIXTXL]!=0x0) after all context, output data,
@@ -989,10 +764,7 @@ union cavm_cpt_inst_s
                                                                  instead adds work to the SSO function in this instruction
                                                                  ([SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]).
 
-                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0. */
+                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t opcode                : 16; /**< [319:304] Commonly interpreted by the engine microcode as an opcode describing the
@@ -1037,13 +809,7 @@ union cavm_cpt_inst_s
                                                                  for engine i to execute the instruction, where x = [EGRP].
 
                                                                  See CPT_AF_GRP()_THR[ENA]. CPT_AF_GRP(x)_THR[ENA] must be set to execute
-                                                                 the instruction, where x = [EGRP].
-
-                                                                 Internal:
-                                                                 In T8x, CPT_AF_LF()_CTL[GRP] picks the engine-group, and there is no way
-                                                                 for the CPT_INST_S to select it. We may want to support that at least as
-                                                                 an option for backward compatibility. Ideally, we will also support
-                                                                 (optionally on a queue-by-queue basis) CPT_INST_S[EGRP]. */
+                                                                 the instruction, where x = [EGRP]. */
         uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, hardware needs to fetch and cache context referenced by CPTR. */
         uint64_t cptr                  : 60; /**< [507:448] Commonly interpreted by the engine microcode as a context pointer for
                                                                  the operation to be performed. See the microcode specifications.
@@ -1078,13 +844,7 @@ union cavm_cpt_inst_s
                                                                  for engine i to execute the instruction, where x = [EGRP].
 
                                                                  See CPT_AF_GRP()_THR[ENA]. CPT_AF_GRP(x)_THR[ENA] must be set to execute
-                                                                 the instruction, where x = [EGRP].
-
-                                                                 Internal:
-                                                                 In T8x, CPT_AF_LF()_CTL[GRP] picks the engine-group, and there is no way
-                                                                 for the CPT_INST_S to select it. We may want to support that at least as
-                                                                 an option for backward compatibility. Ideally, we will also support
-                                                                 (optionally on a queue-by-queue basis) CPT_INST_S[EGRP]. */
+                                                                 the instruction, where x = [EGRP]. */
 #endif /* Word 7 - End */
     } s;
     /* struct cavm_cpt_inst_s_s cn10; */
@@ -1131,15 +891,7 @@ union cavm_cpt_inst_s
                                                                  See also [RVU_PF_FUNC] and [WQE_PTR].
 
                                                                  * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] is
-                                                                 not used by CPT. See CPT_AF_LF()_CTL2[SSO_PF_FUNC].
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
-
-                                                                 The above description is inaccurate for CN93XX pass 1.
-                                                                 In CN93XX pass 1, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] doesn't exist, NIX RX always
-                                                                 fills NIXTX_ADDR with zeroes, and CPT instead uses [RVU_PF_FUNC] when
-                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0. */
+                                                                 not used by CPT. See CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
         uint64_t doneint               : 1;  /**< [  3:  3] Done interrupt.
                                                                  0 = No interrupts related to this instruction.
                                                                  1 = When the instruction completes, CPT_LF_DONE[DONE] will be incremented,
@@ -1151,12 +903,7 @@ union cavm_cpt_inst_s
                                                                  descriptor to NIX TX (see [NIXTXL]). [QORD] has no direct affect on when
                                                                  any CPT_LF_DONE[DONE] increment occurs.
 
-                                                                 See also CPT_RES_S[DONEINT].
-
-                                                                 Internal:
-                                                                 CPT_LF_DONE[DONE] increment conceptually occurs after the CPT_RES_S write.
-                                                                 We say [QORD] doesn't affect this increment order because it doesn't
-                                                                 affect the CPT_RES_S write order. See the [RES_ADDR] internal comment. */
+                                                                 See also CPT_RES_S[DONEINT]. */
         uint64_t nixtxl                : 3;  /**< [  2:  0] When [NIXTXL]!=0x0, [NIXTXL]+1 is the length in 128-bit words of the LMTST
                                                                  portion of the NIX TX descriptor (pointed at by [NIXTX_ADDR]) that CPT may
                                                                  submit (via an effective LMTST) to NIX TX after executing the CPT_INST_S.
@@ -1269,12 +1016,7 @@ union cavm_cpt_inst_s
                                                                  descriptor to NIX TX (see [NIXTXL]). [QORD] has no direct affect on when
                                                                  any CPT_LF_DONE[DONE] increment occurs.
 
-                                                                 See also CPT_RES_S[DONEINT].
-
-                                                                 Internal:
-                                                                 CPT_LF_DONE[DONE] increment conceptually occurs after the CPT_RES_S write.
-                                                                 We say [QORD] doesn't affect this increment order because it doesn't
-                                                                 affect the CPT_RES_S write order. See the [RES_ADDR] internal comment. */
+                                                                 See also CPT_RES_S[DONEINT]. */
         uint64_t nixtx_addr            : 60; /**< [ 63:  4] When [NIXTXL]!=0x0, [NIXTX_ADDR] points to a NIX TX descriptor:
 
                                                                  * [NIXTX_ADDR] must be nonzero, and must point to the
@@ -1315,15 +1057,7 @@ union cavm_cpt_inst_s
                                                                  See also [RVU_PF_FUNC] and [WQE_PTR].
 
                                                                  * If CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] is
-                                                                 not used by CPT. See CPT_AF_LF()_CTL2[SSO_PF_FUNC].
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
-
-                                                                 The above description is inaccurate for CN93XX pass 1.
-                                                                 In CN93XX pass 1, [SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] doesn't exist, NIX RX always
-                                                                 fills NIXTX_ADDR with zeroes, and CPT instead uses [RVU_PF_FUNC] when
-                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0. */
+                                                                 not used by CPT. See CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA. CPT always writes a CPT_RES_S to this location after it
@@ -1350,19 +1084,7 @@ union cavm_cpt_inst_s
                                                                  Upon an SMMU fault on the [RES_ADDR] write, CPT sets CPT_LF_MISC_INT[NWRP],
                                                                  prevents a NIX TX descriptor from being sent (see [NIXTXL]), and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
-                                                                 an LF/queue reset.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
-
-                                                                 In CNXXXX, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
-                                                                 this, it would be incorrect for this spec to say that CPT orders the
-                                                                 CPT_RES_S's when [QORD]=1. This is because for AP software
-                                                                 to see the stores in order, CPT would both need to send the CPT_RES_S's
-                                                                 in order and wait for the commit of the prior one before sending the next
-                                                                 CPT_RES_S. CNXXXX CPT does not do this, so effectively the CPT_RES_S's are
-                                                                 unordered despite the CNXXXX CPT behavior, and hence the comment that [QORD]
-                                                                 has no direct effect on CPT_RES_S order. */
+                                                                 an LF/queue reset. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA. CPT always writes a CPT_RES_S to this location after it
                                                                  finishes executing the instruction. [RES_ADDR] must not be zero.
@@ -1388,19 +1110,7 @@ union cavm_cpt_inst_s
                                                                  Upon an SMMU fault on the [RES_ADDR] write, CPT sets CPT_LF_MISC_INT[NWRP],
                                                                  prevents a NIX TX descriptor from being sent (see [NIXTXL]), and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
-                                                                 an LF/queue reset.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
-
-                                                                 In CNXXXX, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
-                                                                 this, it would be incorrect for this spec to say that CPT orders the
-                                                                 CPT_RES_S's when [QORD]=1. This is because for AP software
-                                                                 to see the stores in order, CPT would both need to send the CPT_RES_S's
-                                                                 in order and wait for the commit of the prior one before sending the next
-                                                                 CPT_RES_S. CNXXXX CPT does not do this, so effectively the CPT_RES_S's are
-                                                                 unordered despite the CNXXXX CPT behavior, and hence the comment that [QORD]
-                                                                 has no direct effect on CPT_RES_S order. */
+                                                                 an LF/queue reset. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t rvu_pf_func           : 16; /**< [191:176] Must be zero in the normal case when CPT_AF_LF()_CTL[PF_FUNC_INST]=0.
@@ -1479,10 +1189,7 @@ union cavm_cpt_inst_s
                                                                  instead adds work to the SSO function in this instruction
                                                                  ([SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]).
 
-                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0. */
+                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address. */
         uint64_t reserved_193_194      : 2;
         uint64_t qord                  : 1;  /**< [192:192] Queue ordering. When set, CPT adds the SSO WQE (see [WQE_PTR], [TAG], [TT],
                                                                  [GRP]) and submits to NIX TX (see [NIXTXL] and [NIXTX_ADDR]) in queue
@@ -1502,18 +1209,7 @@ union cavm_cpt_inst_s
                                                                  See [WQE_PTR].
 
                                                                  [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
-                                                                 two different CPT_INST_S's. See [RES_ADDR].
-
-                                                                 Internal:
-                                                                 See the [RES_ADDR] internal description for details why the statement "QORD
-                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate.
-
-                                                                 This next text was originally present (and implemented in T93 A0 and B0(A1)),
-                                                                 but removed later to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
-                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
-                                                                 rule is violated. */
+                                                                 two different CPT_INST_S's. See [RES_ADDR]. */
 #else /* Word 3 - Little Endian */
         uint64_t qord                  : 1;  /**< [192:192] Queue ordering. When set, CPT adds the SSO WQE (see [WQE_PTR], [TAG], [TT],
                                                                  [GRP]) and submits to NIX TX (see [NIXTXL] and [NIXTX_ADDR]) in queue
@@ -1533,18 +1229,7 @@ union cavm_cpt_inst_s
                                                                  See [WQE_PTR].
 
                                                                  [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
-                                                                 two different CPT_INST_S's. See [RES_ADDR].
-
-                                                                 Internal:
-                                                                 See the [RES_ADDR] internal description for details why the statement "QORD
-                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate.
-
-                                                                 This next text was originally present (and implemented in T93 A0 and B0(A1)),
-                                                                 but removed later to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
-                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
-                                                                 rule is violated. */
+                                                                 two different CPT_INST_S's. See [RES_ADDR]. */
         uint64_t reserved_193_194      : 2;
         uint64_t wqe_ptr               : 61; /**< [255:195] If [WQE_PTR] is nonzero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO (except sometimes when [NIXTXL]!=0x0) after all context, output data,
@@ -1573,10 +1258,7 @@ union cavm_cpt_inst_s
                                                                  instead adds work to the SSO function in this instruction
                                                                  ([SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]).
 
-                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0. */
+                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t opcode                : 16; /**< [319:304] Commonly interpreted by the engine microcode as an opcode describing the
@@ -1661,13 +1343,7 @@ union cavm_cpt_inst_s
                                                                  for engine i to execute the instruction, where x = [EGRP].
 
                                                                  See CPT_AF_GRP()_THR[ENA]. CPT_AF_GRP(x)_THR[ENA] must be set to execute
-                                                                 the instruction, where x = [EGRP].
-
-                                                                 Internal:
-                                                                 In T8x, CPT_AF_LF()_CTL[GRP] picks the engine-group, and there is no way
-                                                                 for the CPT_INST_S to select it. We may want to support that at least as
-                                                                 an option for backward compatibility. Ideally, we will also support
-                                                                 (optionally on a queue-by-queue basis) CPT_INST_S[EGRP]. */
+                                                                 the instruction, where x = [EGRP]. */
         uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, hardware needs to fetch and cache context referenced by CPTR. */
         uint64_t cptr                  : 60; /**< [507:448] Commonly interpreted by the engine microcode as a context pointer for
                                                                  the operation to be performed. See the microcode specifications.
@@ -1702,13 +1378,7 @@ union cavm_cpt_inst_s
                                                                  for engine i to execute the instruction, where x = [EGRP].
 
                                                                  See CPT_AF_GRP()_THR[ENA]. CPT_AF_GRP(x)_THR[ENA] must be set to execute
-                                                                 the instruction, where x = [EGRP].
-
-                                                                 Internal:
-                                                                 In T8x, CPT_AF_LF()_CTL[GRP] picks the engine-group, and there is no way
-                                                                 for the CPT_INST_S to select it. We may want to support that at least as
-                                                                 an option for backward compatibility. Ideally, we will also support
-                                                                 (optionally on a queue-by-queue basis) CPT_INST_S[EGRP]. */
+                                                                 the instruction, where x = [EGRP]. */
 #endif /* Word 7 - End */
     } cn10ka;
     struct cavm_cpt_inst_s_cn10kb
@@ -1761,12 +1431,7 @@ union cavm_cpt_inst_s
                                                                  descriptor to NIX TX (see [NIXTXL]). [QORD] has no direct affect on when
                                                                  any CPT_LF_DONE[DONE] increment occurs.
 
-                                                                 See also CPT_RES_S[DONEINT].
-
-                                                                 Internal:
-                                                                 CPT_LF_DONE[DONE] increment conceptually occurs after the CPT_RES_S write.
-                                                                 We say [QORD] doesn't affect this increment order because it doesn't
-                                                                 affect the CPT_RES_S write order. See the [RES_ADDR] internal comment. */
+                                                                 See also CPT_RES_S[DONEINT]. */
         uint64_t nixtxl                : 3;  /**< [  2:  0] When [NIXTXL]!=0x0, [NIXTXL]+1 is the length in 128-bit words of the LMTST
                                                                  portion of the NIX TX descriptor (pointed to by NIX TX address.  See [NIXTX_OFFSET) that CPT may
                                                                  submit (via an effective LMTST) to NIX TX after executing the CPT_INST_S.
@@ -1879,12 +1544,7 @@ union cavm_cpt_inst_s
                                                                  descriptor to NIX TX (see [NIXTXL]). [QORD] has no direct affect on when
                                                                  any CPT_LF_DONE[DONE] increment occurs.
 
-                                                                 See also CPT_RES_S[DONEINT].
-
-                                                                 Internal:
-                                                                 CPT_LF_DONE[DONE] increment conceptually occurs after the CPT_RES_S write.
-                                                                 We say [QORD] doesn't affect this increment order because it doesn't
-                                                                 affect the CPT_RES_S write order. See the [RES_ADDR] internal comment. */
+                                                                 See also CPT_RES_S[DONEINT]. */
         uint64_t reserved_4_15         : 12;
         uint64_t dat_offset            : 8;  /**< [ 23: 16] Commonly interpreted by the engine microcode as the number of bytes of data that
                                                                  preceed the input data for the operation.  For IPsec, this is the length of the
@@ -1947,19 +1607,7 @@ union cavm_cpt_inst_s
                                                                  Upon an SMMU fault on the [RES_ADDR] write, CPT sets CPT_LF_MISC_INT[NWRP],
                                                                  prevents a NIX TX descriptor from being sent (see [NIXTXL]), and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
-                                                                 an LF/queue reset.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
-
-                                                                 In CNXXXX, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
-                                                                 this, it would be incorrect for this spec to say that CPT orders the
-                                                                 CPT_RES_S's when [QORD]=1. This is because for AP software
-                                                                 to see the stores in order, CPT would both need to send the CPT_RES_S's
-                                                                 in order and wait for the commit of the prior one before sending the next
-                                                                 CPT_RES_S. CNXXXX CPT does not do this, so effectively the CPT_RES_S's are
-                                                                 unordered despite the CNXXXX CPT behavior, and hence the comment that [QORD]
-                                                                 has no direct effect on CPT_RES_S order. */
+                                                                 an LF/queue reset. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result IOVA. CPT always writes a CPT_RES_S to this location after it
                                                                  finishes executing the instruction. [RES_ADDR] must not be zero.
@@ -1985,19 +1633,7 @@ union cavm_cpt_inst_s
                                                                  Upon an SMMU fault on the [RES_ADDR] write, CPT sets CPT_LF_MISC_INT[NWRP],
                                                                  prevents a NIX TX descriptor from being sent (see [NIXTXL]), and if
                                                                  CPT_AF_LF()_CTL[CONT_ERR]=0, also clears CPT_LF_CTL[ENA], necessitating
-                                                                 an LF/queue reset.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0.
-
-                                                                 In CNXXXX, CPT sends CPT_RES_S's to NCB in queue order when [QORD]=1. Despite
-                                                                 this, it would be incorrect for this spec to say that CPT orders the
-                                                                 CPT_RES_S's when [QORD]=1. This is because for AP software
-                                                                 to see the stores in order, CPT would both need to send the CPT_RES_S's
-                                                                 in order and wait for the commit of the prior one before sending the next
-                                                                 CPT_RES_S. CNXXXX CPT does not do this, so effectively the CPT_RES_S's are
-                                                                 unordered despite the CNXXXX CPT behavior, and hence the comment that [QORD]
-                                                                 has no direct effect on CPT_RES_S order. */
+                                                                 an LF/queue reset. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t rvu_pf_func           : 16; /**< [191:176] Must be zero in the normal case when CPT_AF_LF()_CTL[PF_FUNC_INST]=0.
@@ -2076,10 +1712,7 @@ union cavm_cpt_inst_s
                                                                  instead adds work to the SSO function in this instruction
                                                                  ([SSO_PF_FUNC]).
 
-                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0. */
+                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address. */
         uint64_t reserved_193_194      : 2;
         uint64_t qord                  : 1;  /**< [192:192] Queue ordering. When set, CPT adds the SSO WQE (see [WQE_PTR], [TAG], [TT],
                                                                  [GRP]) and submits to NIX TX (see [NIXTXL] and [NIXTX_OFFSET]) in queue
@@ -2099,18 +1732,7 @@ union cavm_cpt_inst_s
                                                                  See [WQE_PTR].
 
                                                                  [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
-                                                                 two different CPT_INST_S's. See [RES_ADDR].
-
-                                                                 Internal:
-                                                                 See the [RES_ADDR] internal description for details why the statement "QORD
-                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate.
-
-                                                                 This next text was originally present (and implemented in T93 A0 and B0(A1)),
-                                                                 but removed later to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
-                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
-                                                                 rule is violated. */
+                                                                 two different CPT_INST_S's. See [RES_ADDR]. */
 #else /* Word 3 - Little Endian */
         uint64_t qord                  : 1;  /**< [192:192] Queue ordering. When set, CPT adds the SSO WQE (see [WQE_PTR], [TAG], [TT],
                                                                  [GRP]) and submits to NIX TX (see [NIXTXL] and [NIXTX_OFFSET]) in queue
@@ -2130,18 +1752,7 @@ union cavm_cpt_inst_s
                                                                  See [WQE_PTR].
 
                                                                  [QORD] has no direct affect on the relative ordering of two CPT_RES_S writes of
-                                                                 two different CPT_INST_S's. See [RES_ADDR].
-
-                                                                 Internal:
-                                                                 See the [RES_ADDR] internal description for details why the statement "QORD
-                                                                 has no direct affect on when CPT writes the CPT_RES_S" is appropriate.
-
-                                                                 This next text was originally present (and implemented in T93 A0 and B0(A1)),
-                                                                 but removed later to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 When [QORD]=1, at least one of [WQE_PTR]!=0x0 or [NIXTXL]!=0x0 must be true.
-                                                                 CPT sets CPT_LF_MISC_INT[NQERR] and signals CPT_COMP_E::INSTERR when this
-                                                                 rule is violated. */
+                                                                 two different CPT_INST_S's. See [RES_ADDR]. */
         uint64_t reserved_193_194      : 2;
         uint64_t wqe_ptr               : 61; /**< [255:195] If [WQE_PTR] is nonzero, it is a pointer to a work-queue entry that CPT submits
                                                                  work to SSO (except sometimes when [NIXTXL]!=0x0) after all context, output data,
@@ -2170,10 +1781,7 @@ union cavm_cpt_inst_s
                                                                  instead adds work to the SSO function in this instruction
                                                                  ([SSO_PF_FUNC]).
 
-                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\> are ignored by hardware, treated as always 0x0. */
+                                                                 [WQE_PTR] is opaque to CPT - CPT neither reads nor writes this address. */
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t opcode                : 16; /**< [319:304] Commonly interpreted by the engine microcode as an opcode describing the
@@ -2264,13 +1872,7 @@ union cavm_cpt_inst_s
                                                                  for engine i to execute the instruction, where x = [EGRP].
 
                                                                  See CPT_AF_GRP()_THR[ENA]. CPT_AF_GRP(x)_THR[ENA] must be set to execute
-                                                                 the instruction, where x = [EGRP].
-
-                                                                 Internal:
-                                                                 In T8x, CPT_AF_LF()_CTL[GRP] picks the engine-group, and there is no way
-                                                                 for the CPT_INST_S to select it. We may want to support that at least as
-                                                                 an option for backward compatibility. Ideally, we will also support
-                                                                 (optionally on a queue-by-queue basis) CPT_INST_S[EGRP]. */
+                                                                 the instruction, where x = [EGRP]. */
         uint64_t ctx_val               : 1;  /**< [508:508] Prefetch context. If set, hardware needs to fetch and cache context referenced by CPTR. */
         uint64_t cptr                  : 60; /**< [507:448] Commonly interpreted by the engine microcode as a context pointer for
                                                                  the operation to be performed. See the microcode specifications.
@@ -2305,13 +1907,7 @@ union cavm_cpt_inst_s
                                                                  for engine i to execute the instruction, where x = [EGRP].
 
                                                                  See CPT_AF_GRP()_THR[ENA]. CPT_AF_GRP(x)_THR[ENA] must be set to execute
-                                                                 the instruction, where x = [EGRP].
-
-                                                                 Internal:
-                                                                 In T8x, CPT_AF_LF()_CTL[GRP] picks the engine-group, and there is no way
-                                                                 for the CPT_INST_S to select it. We may want to support that at least as
-                                                                 an option for backward compatibility. Ideally, we will also support
-                                                                 (optionally on a queue-by-queue basis) CPT_INST_S[EGRP]. */
+                                                                 the instruction, where x = [EGRP]. */
 #endif /* Word 7 - End */
     } cn10kb;
 };
@@ -2549,13 +2145,9 @@ union cavm_cptx_af_active_cycles_pc
     struct cavm_cptx_af_active_cycles_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t act_cyc               : 64; /**< [ 63:  0](R/W/H) Counts every coprocessor-clock cycle that the conditional clocks are active.
-                                                                 Internal:
-                                                                 Includes CPT internal or any engine clock being enabled. */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](R/W/H) Counts every coprocessor-clock cycle that the conditional clocks are active. */
 #else /* Word 0 - Little Endian */
-        uint64_t act_cyc               : 64; /**< [ 63:  0](R/W/H) Counts every coprocessor-clock cycle that the conditional clocks are active.
-                                                                 Internal:
-                                                                 Includes CPT internal or any engine clock being enabled. */
+        uint64_t act_cyc               : 64; /**< [ 63:  0](R/W/H) Counts every coprocessor-clock cycle that the conditional clocks are active. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_active_cycles_pc_s cn; */
@@ -2585,9 +2177,6 @@ static inline uint64_t CAVM_CPTX_AF_ACTIVE_CYCLES_PC(uint64_t a)
  * CPT Admin Function  BAR2 Alias Registers
  * These registers alias to the CPT BAR2 registers for the PF and function
  * selected by CPT_AF_BAR2_SEL[PF_FUNC].
- *
- * Internal:
- * Not implemented. Placeholder for bug33464.
  */
 union cavm_cptx_af_bar2_aliasx
 {
@@ -2626,8 +2215,6 @@ static inline uint64_t CAVM_CPTX_AF_BAR2_ALIASX(uint64_t a, uint64_t b)
  *
  * CPT Admin Function BAR2 Select Register
  * This register configures BAR2 accesses from the CPT_AF_BAR2_ALIAS() registers in BAR0.
- * Internal:
- * Not implemented. Placeholder for bug33464.
  */
 union cavm_cptx_af_bar2_sel
 {
@@ -2715,171 +2302,6 @@ static inline uint64_t CAVM_CPTX_AF_BLK_RST(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_BLK_RST(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_BLK_RST(a) (a)
 #define arguments_CAVM_CPTX_AF_BLK_RST(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) cpt#_af_bp#_test
- *
- * INTERNAL: CPT AF Backpressure Test Register
- */
-union cavm_cptx_af_bpx_test
-{
-    uint64_t u;
-    struct cavm_cptx_af_bpx_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-
-                                                                 \<page\>
-                                                                 CPT_AF_BP(0)_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = credit backpressure in iom. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = credit backpressure in qpk. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = req epci3 data fifo backpressure. Weight in [BP_CFG]\<11\>.
-                                                                 \<58\> = req epci2 data fifo backpressure. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = req epci1 data fifo backpressure. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = req epci0 data fifo backpressure. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = ifm to qpk backpressure. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = dne to icb backpressure. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = ifm to icb backpressure. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = iwb to nbr backpressure. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = rsp 4k fifo backpressure for epci3. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = rsp 4k fifo backpressure for epci2. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = rsp 4k fifo backpressure for epci1. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = rsp 4k fifo backpressure for epci0. Weight in [BP_CFG]\<0\>.
-
-                                                                 \<page\>
-                                                                 CPT_AF_BP(1)_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
-                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = Reserved. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = Reserved. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = Reserved. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = Reserved. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = cxi context request fifo. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = ndb internal read req fifo. Weight in [BP_CFG]\<0\>. */
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-
-                                                                 \<page\>
-                                                                 CPT_AF_BP(0)_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = credit backpressure in iom. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = credit backpressure in qpk. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = req epci3 data fifo backpressure. Weight in [BP_CFG]\<11\>.
-                                                                 \<58\> = req epci2 data fifo backpressure. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = req epci1 data fifo backpressure. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = req epci0 data fifo backpressure. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = ifm to qpk backpressure. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = dne to icb backpressure. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = ifm to icb backpressure. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = iwb to nbr backpressure. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = rsp 4k fifo backpressure for epci3. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = rsp 4k fifo backpressure for epci2. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = rsp 4k fifo backpressure for epci1. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = rsp 4k fifo backpressure for epci0. Weight in [BP_CFG]\<0\>.
-
-                                                                 \<page\>
-                                                                 CPT_AF_BP(1)_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
-                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = Reserved. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = Reserved. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = Reserved. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = Reserved. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = cxi context request fifo. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = ndb internal read req fifo. Weight in [BP_CFG]\<0\>. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_cptx_af_bpx_test_s cn; */
-};
-typedef union cavm_cptx_af_bpx_test cavm_cptx_af_bpx_test_t;
-
-static inline uint64_t CAVM_CPTX_AF_BPX_TEST(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CPTX_AF_BPX_TEST(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=1) && (b<=1)))
-        return 0x8400a0005000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1)))
-        return 0x8400a0005000ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    __cavm_csr_fatal("CPTX_AF_BPX_TEST", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_CPTX_AF_BPX_TEST(a,b) cavm_cptx_af_bpx_test_t
-#define bustype_CAVM_CPTX_AF_BPX_TEST(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_CPTX_AF_BPX_TEST(a,b) "CPTX_AF_BPX_TEST"
-#define device_bar_CAVM_CPTX_AF_BPX_TEST(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_CPTX_AF_BPX_TEST(a,b) (a)
-#define arguments_CAVM_CPTX_AF_BPX_TEST(a,b) (a),(b),-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_clk_diag
@@ -3182,20 +2604,7 @@ union cavm_cptx_af_ctl
 
                                                                  CPT always sets one of CPT_AF_RAS_INT[LD_CMD_PSN,LD_DAT_PSN] and one
                                                                  of CPT_AF_PSN()_LF[LF]/CPT_AF_PSN()_EXE[EXE] when it receives poison
-                                                                 in a read response, irrespective of the [RD_PSN_IGN] value.
-
-                                                                 Internal:
-                                                                 CPT always ignores poison received with a CSR/LMTST read/write (i.e.
-                                                                 treats the CSR/LMTST read/write as when there is no error). (IOB handles
-                                                                 most of these errors, and we didn't want this complexity distributed
-                                                                 amongst the block.)
-
-                                                                 So use the ncb_ct_t::CT_WRPOIS from all read responses to set
-                                                                 CPT_AF_RAS_INT[LD_CMD_PSN,LD_DAT_PSN] and
-                                                                 CPT_AF_PSN()_LF[LF]/CPT_AF_PSN()_EXE[EXE], and conceptually convert
-                                                                 ncb_ct_t::CT_WRPOIS to ncb_ct_t::RSPFLT for read responses when
-                                                                 [RD_PSN_IGN]=0. Otherwise, treat ncb_ct_t::CT_WRPOIS cycle as
-                                                                 normal NCB cycles. */
+                                                                 in a read response, irrespective of the [RD_PSN_IGN] value. */
 #else /* Word 0 - Little Endian */
         uint64_t rd_psn_ign            : 1;  /**< [  0:  0](R/W) Read poison ignore.
 
@@ -3205,20 +2614,7 @@ union cavm_cptx_af_ctl
 
                                                                  CPT always sets one of CPT_AF_RAS_INT[LD_CMD_PSN,LD_DAT_PSN] and one
                                                                  of CPT_AF_PSN()_LF[LF]/CPT_AF_PSN()_EXE[EXE] when it receives poison
-                                                                 in a read response, irrespective of the [RD_PSN_IGN] value.
-
-                                                                 Internal:
-                                                                 CPT always ignores poison received with a CSR/LMTST read/write (i.e.
-                                                                 treats the CSR/LMTST read/write as when there is no error). (IOB handles
-                                                                 most of these errors, and we didn't want this complexity distributed
-                                                                 amongst the block.)
-
-                                                                 So use the ncb_ct_t::CT_WRPOIS from all read responses to set
-                                                                 CPT_AF_RAS_INT[LD_CMD_PSN,LD_DAT_PSN] and
-                                                                 CPT_AF_PSN()_LF[LF]/CPT_AF_PSN()_EXE[EXE], and conceptually convert
-                                                                 ncb_ct_t::CT_WRPOIS to ncb_ct_t::RSPFLT for read responses when
-                                                                 [RD_PSN_IGN]=0. Otherwise, treat ncb_ct_t::CT_WRPOIS cycle as
-                                                                 normal NCB cycles. */
+                                                                 in a read response, irrespective of the [RD_PSN_IGN] value. */
         uint64_t fc_stype              : 2;  /**< [  2:  1](R/W) Type of store to write the memory queue size in LLC/DRAM:
                                                                  0x0 = Store full cache line, allocate cache (STF).
                                                                  0x1 = Store full cache line, no allocate (STT).
@@ -3281,20 +2677,7 @@ union cavm_cptx_af_ctl
 
                                                                  CPT always sets one of CPT_AF_RAS_INT[LD_CMD_PSN,LD_DAT_PSN] and one
                                                                  of CPT_AF_PSN()_LF[LF]/CPT_AF_PSN()_EXE[EXE] when it receives poison
-                                                                 in a read response, irrespective of the [RD_PSN_IGN] value.
-
-                                                                 Internal:
-                                                                 CPT always ignores poison received with a CSR/LMTST read/write (i.e.
-                                                                 treats the CSR/LMTST read/write as when there is no error). (IOB handles
-                                                                 most of these errors, and we didn't want this complexity distributed
-                                                                 amongst the block.)
-
-                                                                 So use the ncb_ct_t::CT_WRPOIS from all read responses to set
-                                                                 CPT_AF_RAS_INT[LD_CMD_PSN,LD_DAT_PSN] and
-                                                                 CPT_AF_PSN()_LF[LF]/CPT_AF_PSN()_EXE[EXE], and conceptually convert
-                                                                 ncb_ct_t::CT_WRPOIS to ncb_ct_t::RSPFLT for read responses when
-                                                                 [RD_PSN_IGN]=0. Otherwise, treat ncb_ct_t::CT_WRPOIS cycle as
-                                                                 normal NCB cycles. */
+                                                                 in a read response, irrespective of the [RD_PSN_IGN] value. */
 #else /* Word 0 - Little Endian */
         uint64_t rd_psn_ign            : 1;  /**< [  0:  0](R/W) Read poison ignore.
 
@@ -3304,20 +2687,7 @@ union cavm_cptx_af_ctl
 
                                                                  CPT always sets one of CPT_AF_RAS_INT[LD_CMD_PSN,LD_DAT_PSN] and one
                                                                  of CPT_AF_PSN()_LF[LF]/CPT_AF_PSN()_EXE[EXE] when it receives poison
-                                                                 in a read response, irrespective of the [RD_PSN_IGN] value.
-
-                                                                 Internal:
-                                                                 CPT always ignores poison received with a CSR/LMTST read/write (i.e.
-                                                                 treats the CSR/LMTST read/write as when there is no error). (IOB handles
-                                                                 most of these errors, and we didn't want this complexity distributed
-                                                                 amongst the block.)
-
-                                                                 So use the ncb_ct_t::CT_WRPOIS from all read responses to set
-                                                                 CPT_AF_RAS_INT[LD_CMD_PSN,LD_DAT_PSN] and
-                                                                 CPT_AF_PSN()_LF[LF]/CPT_AF_PSN()_EXE[EXE], and conceptually convert
-                                                                 ncb_ct_t::CT_WRPOIS to ncb_ct_t::RSPFLT for read responses when
-                                                                 [RD_PSN_IGN]=0. Otherwise, treat ncb_ct_t::CT_WRPOIS cycle as
-                                                                 normal NCB cycles. */
+                                                                 in a read response, irrespective of the [RD_PSN_IGN] value. */
         uint64_t fc_stype              : 2;  /**< [  2:  1](R/W) Type of store to write the memory queue size in LLC/DRAM:
                                                                  0x0 = Store full cache line, allocate cache (STF).
                                                                  0x1 = Store full cache line, no allocate (STT).
@@ -3519,131 +2889,6 @@ static inline uint64_t CAVM_CPTX_AF_CTX_AOP_PC(uint64_t a)
 #define device_bar_CAVM_CPTX_AF_CTX_AOP_PC(a) 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_CPTX_AF_CTX_AOP_PC(a) (a)
 #define arguments_CAVM_CPTX_AF_CTX_AOP_PC(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) cpt#_af_ctx_bp_test
- *
- * INTERNAL: CPT_CTX AF Backpressure Test Register
- */
-union cavm_cptx_af_ctx_bp_test
-{
-    uint64_t u;
-    struct cavm_cptx_af_ctx_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-
-                                                                 CPT_AF_CTX_BP_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
-                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = CFM list_pop processing backpressure. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = CFM ctx_dne processing backpressure. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = CFM request fifo backpressure. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = CDB data buffer grant backpressure. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = COM operation grant backpressure. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = COM request fifo backpressure. Weight in [BP_CFG]\<0\>. */
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-
-                                                                 CPT_AF_CTX_BP_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
-                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = CFM list_pop processing backpressure. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = CFM ctx_dne processing backpressure. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = CFM request fifo backpressure. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = CDB data buffer grant backpressure. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = COM operation grant backpressure. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = COM request fifo backpressure. Weight in [BP_CFG]\<0\>. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_cptx_af_ctx_bp_test_s cn; */
-};
-typedef union cavm_cptx_af_ctx_bp_test cavm_cptx_af_ctx_bp_test_t;
-
-static inline uint64_t CAVM_CPTX_AF_CTX_BP_TEST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CPTX_AF_CTX_BP_TEST(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
-        return 0x8400a0049500ll + 0x10000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x8400a0049500ll + 0x10000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("CPTX_AF_CTX_BP_TEST", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_CPTX_AF_CTX_BP_TEST(a) cavm_cptx_af_ctx_bp_test_t
-#define bustype_CAVM_CPTX_AF_CTX_BP_TEST(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_CPTX_AF_CTX_BP_TEST(a) "CPTX_AF_CTX_BP_TEST"
-#define device_bar_CAVM_CPTX_AF_CTX_BP_TEST(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_CPTX_AF_CTX_BP_TEST(a) (a)
-#define arguments_CAVM_CPTX_AF_CTX_BP_TEST(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) cpt#_af_ctx_cam_data#
@@ -4498,33 +3743,19 @@ union cavm_cptx_af_eco
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Reserved for ECO usage. */
+        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved. */
         uint64_t sso_pf_func_ovrd      : 1;  /**< [  0:  0](R/W) SSO PF_FUNC override.
                                                                  0 = For an Inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
                                                                  CPT submits SSO work to PF_FUNC CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>].
                                                                  1 = For an inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
-                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC].
-
-                                                                 Internal:
-                                                                 The above description is inaccurate for CN93XX pass 1. In CN93XX pass 1,
-                                                                 CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] does not exist and CPT really
-                                                                 uses CPT_INST_S[RVU_PF_FUNC] when [SSO_PF_FUNC_OVRD]=0. */
+                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
 #else /* Word 0 - Little Endian */
         uint64_t sso_pf_func_ovrd      : 1;  /**< [  0:  0](R/W) SSO PF_FUNC override.
                                                                  0 = For an Inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
                                                                  CPT submits SSO work to PF_FUNC CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>].
                                                                  1 = For an inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
-                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC].
-
-                                                                 Internal:
-                                                                 The above description is inaccurate for CN93XX pass 1. In CN93XX pass 1,
-                                                                 CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>] does not exist and CPT really
-                                                                 uses CPT_INST_S[RVU_PF_FUNC] when [SSO_PF_FUNC_OVRD]=0. */
-        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Reserved for ECO usage. */
+                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
+        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -4534,33 +3765,19 @@ union cavm_cptx_af_eco
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Reserved for ECO usage. */
+        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved. */
         uint64_t sso_pf_func_ovrd      : 1;  /**< [  0:  0](R/W) SSO PF_FUNC override.
                                                                  0 = For an Inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
                                                                  CPT submits SSO work to PF_FUNC CPT_INST_S[SSO_PF_FUNC].
                                                                  1 = For an inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
-                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC].
-
-                                                                 Internal:
-                                                                 The above description is inaccurate for CN93XX pass 1. In CN93XX pass 1,
-                                                                 CPT_INST_S[SSO_PF_FUNC] does not exist and CPT really uses
-                                                                 CPT_INST_S[RVU_PF_FUNC] when [SSO_PF_FUNC_OVRD]=0. */
+                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
 #else /* Word 0 - Little Endian */
         uint64_t sso_pf_func_ovrd      : 1;  /**< [  0:  0](R/W) SSO PF_FUNC override.
                                                                  0 = For an Inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
                                                                  CPT submits SSO work to PF_FUNC CPT_INST_S[SSO_PF_FUNC].
                                                                  1 = For an inline IPSEC LF (i.e. an LF with CPT_AF_LF()_CTL[PF_FUNC_INST]=1),
-                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC].
-
-                                                                 Internal:
-                                                                 The above description is inaccurate for CN93XX pass 1. In CN93XX pass 1,
-                                                                 CPT_INST_S[SSO_PF_FUNC] does not exist and CPT really uses
-                                                                 CPT_INST_S[RVU_PF_FUNC] when [SSO_PF_FUNC_OVRD]=0. */
-        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Reserved for ECO usage. */
+                                                                 CPT submits SSO work to the queue's CPT_AF_LF()_CTL2[SSO_PF_FUNC]. */
+        uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn10kb;
@@ -4831,28 +4048,14 @@ union cavm_cptx_af_exex_sts
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
         uint64_t free                  : 1;  /**< [  1:  1](RO/H) Engine available. Indicates the engine is available to be picked to execute a
-                                                                 new instruction. For diagnostic use only.
-
-                                                                 Internal:
-                                                                 The (FREE,BUSY) combo's:
-                                                                   [FREE]=0 [BUSY]=0: IDLE; Hasn't been assigned an instruction yet or has been halted.
-                                                                   [FREE]=0 [BUSY]=1: FREE; Between instructions.
-                                                                   [FREE]=1 [BUSY]=0: INST; Executing an instruction.
-                                                                   [FREE]=1 [BUSY]=1: HOLD; Waiting for one of the two commit counters for this engine to free up. */
+                                                                 new instruction. For diagnostic use only. */
         uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Current state of the engine. Before disabling an engine via
                                                                  CPT_AF_EXE()_CTL[ENABLE], this bit must be clear. */
 #else /* Word 0 - Little Endian */
         uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Current state of the engine. Before disabling an engine via
                                                                  CPT_AF_EXE()_CTL[ENABLE], this bit must be clear. */
         uint64_t free                  : 1;  /**< [  1:  1](RO/H) Engine available. Indicates the engine is available to be picked to execute a
-                                                                 new instruction. For diagnostic use only.
-
-                                                                 Internal:
-                                                                 The (FREE,BUSY) combo's:
-                                                                   [FREE]=0 [BUSY]=0: IDLE; Hasn't been assigned an instruction yet or has been halted.
-                                                                   [FREE]=0 [BUSY]=1: FREE; Between instructions.
-                                                                   [FREE]=1 [BUSY]=0: INST; Executing an instruction.
-                                                                   [FREE]=1 [BUSY]=1: HOLD; Waiting for one of the two commit counters for this engine to free up. */
+                                                                 new instruction. For diagnostic use only. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
@@ -5381,15 +4584,7 @@ union cavm_cptx_af_fltx_int
 
                                                                  When CPT sets an [EXE] bit due to poison (CPT_AF_CTL[RD_PSN_IGN] must be zero),
                                                                  it also sets the corresponding CPT_AF_PSN()_LF[LF] bit, and will
-                                                                 have previously set the corresponding CPT_AF_PSN()_EXE[EXE] bit."
-
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+                                                                 have previously set the corresponding CPT_AF_PSN()_EXE[EXE] bit." */
 #else /* Word 0 - Little Endian */
         uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) "One interrupt bit per engine. CPT sets the bit when the engine has an
                                                                  uncorrectable error, including microcode memory fetch errors, double-bit error,
@@ -5420,15 +4615,7 @@ union cavm_cptx_af_fltx_int
 
                                                                  When CPT sets an [EXE] bit due to poison (CPT_AF_CTL[RD_PSN_IGN] must be zero),
                                                                  it also sets the corresponding CPT_AF_PSN()_LF[LF] bit, and will
-                                                                 have previously set the corresponding CPT_AF_PSN()_EXE[EXE] bit."
-
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+                                                                 have previously set the corresponding CPT_AF_PSN()_EXE[EXE] bit." */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_fltx_int_s cn10; */
@@ -5464,15 +4651,7 @@ union cavm_cptx_af_fltx_int
 
                                                                  When CPT sets an [EXE] bit due to poison (CPT_AF_CTL[RD_PSN_IGN] must be zero),
                                                                  it also sets the corresponding CPT_AF_PSN()_LF[LF] bit, and will
-                                                                 have previously set the corresponding CPT_AF_PSN()_EXE[EXE] bit."
-
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+                                                                 have previously set the corresponding CPT_AF_PSN()_EXE[EXE] bit." */
 #else /* Word 0 - Little Endian */
         uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) "One interrupt bit per engine. CPT sets the bit when the engine has an
                                                                  uncorrectable error, including microcode memory fetch errors, double-bit error,
@@ -5502,15 +4681,7 @@ union cavm_cptx_af_fltx_int
 
                                                                  When CPT sets an [EXE] bit due to poison (CPT_AF_CTL[RD_PSN_IGN] must be zero),
                                                                  it also sets the corresponding CPT_AF_PSN()_LF[LF] bit, and will
-                                                                 have previously set the corresponding CPT_AF_PSN()_EXE[EXE] bit."
-
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+                                                                 have previously set the corresponding CPT_AF_PSN()_EXE[EXE] bit." */
 #endif /* Word 0 - End */
     } cn10kb;
 };
@@ -5545,23 +4716,9 @@ union cavm_cptx_af_fltx_int_ena_w1c
     struct cavm_cptx_af_fltx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..2)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..2)_INT[EXE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..2)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..2)_INT[EXE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_fltx_int_ena_w1c_s cn10; */
@@ -5569,23 +4726,9 @@ union cavm_cptx_af_fltx_int_ena_w1c
     struct cavm_cptx_af_fltx_int_ena_w1c_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..1)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..1)_INT[EXE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..1)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for CPT_AF_FLT(0..1)_INT[EXE]. */
 #endif /* Word 0 - End */
     } cn10kb;
 };
@@ -5620,23 +4763,9 @@ union cavm_cptx_af_fltx_int_ena_w1s
     struct cavm_cptx_af_fltx_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..2)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..2)_INT[EXE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..2)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..2)_INT[EXE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_fltx_int_ena_w1s_s cn10; */
@@ -5644,23 +4773,9 @@ union cavm_cptx_af_fltx_int_ena_w1s
     struct cavm_cptx_af_fltx_int_ena_w1s_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..1)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..1)_INT[EXE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..1)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for CPT_AF_FLT(0..1)_INT[EXE]. */
 #endif /* Word 0 - End */
     } cn10kb;
 };
@@ -5695,23 +4810,9 @@ union cavm_cptx_af_fltx_int_w1s
     struct cavm_cptx_af_fltx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..2)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..2)_INT[EXE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..2)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..2)_INT[EXE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_fltx_int_w1s_s cn10; */
@@ -5719,23 +4820,9 @@ union cavm_cptx_af_fltx_int_w1s
     struct cavm_cptx_af_fltx_int_w1s_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..1)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..1)_INT[EXE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..1)_INT[EXE].
-                                                                 Internal:
-                                                                 Includes all things that cause CPT_LF_MISC_INT[HWERR] / CPT_COMP_E::HWERR:
-                                                                 EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR. EXE_UC_ERR is fault/poison on
-                                                                 microcode fetches.
-
-                                                                 FIXME: Looking above: is CPT_AF_EXE()_ACTIVE[PF_FUNC] really only useful
-                                                                 when CPT_AF_EXE()_STS[BUSY] is set. */
+        uint64_t exe                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets CPT_AF_FLT(0..1)_INT[EXE]. */
 #endif /* Word 0 - End */
     } cn10kb;
 };
@@ -6589,17 +5676,7 @@ union cavm_cptx_af_lf_rst
         uint64_t reserved_13_63        : 51;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
-                                                                 done.
-
-                                                                 Internal:
-                                                                 This comment applies to all blocks that refer to this register:
-
-                                                                 This should preferrably reset all registers/state associated with the LF, including
-                                                                 any BLK_LF_* and BLK_AF_LF()_* registers. It would also be nice to reset any per-LF
-                                                                 bits in other registers but its OK to have exceptions as long as the AF software has
-                                                                 another way to reset them, e.g. by writing to the bits. Such additional steps
-                                                                 expected from software should be documented in the HRM, e.g. in section 19.11.5
-                                                                 "VF Function Level Reset". */
+                                                                 done. */
         uint64_t reserved_8_11         : 4;
         uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function that is reset when [EXEC] is set. */
 #else /* Word 0 - Little Endian */
@@ -6607,17 +5684,7 @@ union cavm_cptx_af_lf_rst
         uint64_t reserved_8_11         : 4;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
-                                                                 done.
-
-                                                                 Internal:
-                                                                 This comment applies to all blocks that refer to this register:
-
-                                                                 This should preferrably reset all registers/state associated with the LF, including
-                                                                 any BLK_LF_* and BLK_AF_LF()_* registers. It would also be nice to reset any per-LF
-                                                                 bits in other registers but its OK to have exceptions as long as the AF software has
-                                                                 another way to reset them, e.g. by writing to the bits. Such additional steps
-                                                                 expected from software should be documented in the HRM, e.g. in section 19.11.5
-                                                                 "VF Function Level Reset". */
+                                                                 done. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -7383,16 +6450,10 @@ union cavm_cptx_af_rvu_int
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Unmapped slot. Received an I/O request to a VF/PF slot in BAR2 that is not
-                                                                 reverse mapped to an LF. See CPT_PRIV_LF()_CFG.
-
-                                                                 Internal:
-                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+                                                                 reverse mapped to an LF. See CPT_PRIV_LF()_CFG. */
 #else /* Word 0 - Little Endian */
         uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Unmapped slot. Received an I/O request to a VF/PF slot in BAR2 that is not
-                                                                 reverse mapped to an LF. See CPT_PRIV_LF()_CFG.
-
-                                                                 Internal:
-                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+                                                                 reverse mapped to an LF. See CPT_PRIV_LF()_CFG. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -7430,13 +6491,9 @@ union cavm_cptx_af_rvu_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -7474,13 +6531,9 @@ union cavm_cptx_af_rvu_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -7518,13 +6571,9 @@ union cavm_cptx_af_rvu_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using CPT_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets CPT_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -7660,171 +6709,6 @@ static inline uint64_t CAVM_CPTX_AF_RXC_ACTIVE_STS(uint64_t a)
 #define arguments_CAVM_CPTX_AF_RXC_ACTIVE_STS(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) cpt#_af_rxc_bp#_test
- *
- * INTERNAL: CPT AF RXC Backpressure Test Register
- */
-union cavm_cptx_af_rxc_bpx_test
-{
-    uint64_t u;
-    struct cavm_cptx_af_rxc_bpx_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-
-                                                                 \<page\>
-                                                                 CPT_AF_RXC_BP(0)_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = RDP skid X2P fifo backpressure. [BP_CFG]\<12\>.
-                                                                 \<59\> = RDP packet ready fifo backpressure. [BP_CFG]\<11\>.
-                                                                 \<58\> = PKT finish fifo backpressure. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = HCM request backpressure. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = HCM invalidate backpressure. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = FTE invalidate backpressure. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = FRG request backpressure. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = FTE request backpressure. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = FTE allocate backpressure. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = FRG status fifo backpressure. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = PKT packet ready fifo backpressure. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = PKT fragment ready fifo backpressure. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = FRG age/cmt ready backpressure. Weight in [BP_CFG]\<0\>.
-
-                                                                 \<page\>
-                                                                 CPT_AF_RXC_BP(1)_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
-                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = Reserved. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = Reserved. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = Reserved. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = Reserved. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = Reserved. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = Reserved. Weight in [BP_CFG]\<0\>. */
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-
-                                                                 \<page\>
-                                                                 CPT_AF_RXC_BP(0)_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = RDP skid X2P fifo backpressure. [BP_CFG]\<12\>.
-                                                                 \<59\> = RDP packet ready fifo backpressure. [BP_CFG]\<11\>.
-                                                                 \<58\> = PKT finish fifo backpressure. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = HCM request backpressure. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = HCM invalidate backpressure. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = FTE invalidate backpressure. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = FRG request backpressure. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = FTE request backpressure. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = FTE allocate backpressure. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = FRG status fifo backpressure. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = PKT packet ready fifo backpressure. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = PKT fragment ready fifo backpressure. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = FRG age/cmt ready backpressure. Weight in [BP_CFG]\<0\>.
-
-                                                                 \<page\>
-                                                                 CPT_AF_RXC_BP(1)_TEST:
-                                                                 \<63\> = Reserved. Weight in [BP_CFG]\<15\>.
-                                                                 \<62\> = Reserved. Weight in [BP_CFG]\<14\>.
-                                                                 \<61\> = Reserved. Weight in [BP_CFG]\<13\>.
-                                                                 \<60\> = Reserved. Weight in [BP_CFG]\<12\>.
-                                                                 \<59\> = Reserved. Weight in [BP_CFG]\<11\>.
-                                                                 \<58\> = Reserved. Weight in [BP_CFG]\<10\>.
-                                                                 \<57\> = Reserved. Weight in [BP_CFG]\<9\>.
-                                                                 \<56\> = Reserved. Weight in [BP_CFG]\<8\>.
-                                                                 \<55\> = Reserved. Weight in [BP_CFG]\<7\>.
-                                                                 \<54\> = Reserved. Weight in [BP_CFG]\<6\>.
-                                                                 \<53\> = Reserved. Weight in [BP_CFG]\<5\>.
-                                                                 \<52\> = Reserved. Weight in [BP_CFG]\<4\>.
-                                                                 \<51\> = Reserved. Weight in [BP_CFG]\<3\>.
-                                                                 \<50\> = Reserved. Weight in [BP_CFG]\<2\>.
-                                                                 \<49\> = Reserved. Weight in [BP_CFG]\<1\>.
-                                                                 \<48\> = Reserved. Weight in [BP_CFG]\<0\>. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_cptx_af_rxc_bpx_test_s cn; */
-};
-typedef union cavm_cptx_af_rxc_bpx_test cavm_cptx_af_rxc_bpx_test_t;
-
-static inline uint64_t CAVM_CPTX_AF_RXC_BPX_TEST(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CPTX_AF_RXC_BPX_TEST(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=1) && (b<=1)))
-        return 0x8400a0050400ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1)))
-        return 0x8400a0050400ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    __cavm_csr_fatal("CPTX_AF_RXC_BPX_TEST", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) cavm_cptx_af_rxc_bpx_test_t
-#define bustype_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) "CPTX_AF_RXC_BPX_TEST"
-#define device_bar_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) (a)
-#define arguments_CAVM_CPTX_AF_RXC_BPX_TEST(a,b) (a),(b),-1,-1
-
-/**
  * Register (RVU_PF_BAR0) cpt#_af_rxc_cfg1
  *
  * CPT AF RXC Configuration Register 1
@@ -7887,59 +6771,13 @@ union cavm_cptx_af_rxc_cfg2
                                                                  of a packet with fragment information.  Note that the IPv6 extension header
                                                                  specified must have a header extension length field.  This is required for the
                                                                  parsing logic to correctly compute the IPv6 packet fragment size.  [L3P_EXT_HDR]
-                                                                 must be 0x0 when not used.
-
-                                                                 Internal:
-                                                                 The CPT RXC Layer 3 Parser (L3P) supports the following IPv6 extension headers types
-                                                                 when searching through the IPv6 packet extension headers to determine the packet
-                                                                 fragment size:
-                                                                   0x00 Hop-by-Hop Options.
-                                                                   0x2B Routing.
-                                                                   0x2C Fragment.
-                                                                   0x3C Destination Options.
-                                                                   0x87 Mobility.
-
-                                                                 The [L3P_EXT_HDR] supports programming an additional IPv6 extension header type
-                                                                 to recognize during the IPv6 extension header search.  For example, programming
-                                                                 [L3P_EXT_HDR]=0x8B, the Host Identity Protocol extension header, would result in the L3P
-                                                                 IPv6 extension header search to include any found Host Identity Protocol extension
-                                                                 headers in the packet fragment size calculation.  When [L3P_EXT_HDR]=0x0, only the five
-                                                                 IPv6 extension header types list above are included in the IPv6 extension header
-                                                                 search.  These five extension header types are non-terminating in that when L3P
-                                                                 encounters one of these extension headers it subtracts the extension header length
-                                                                 from the packet payload length to compute the fragment size but also continues to
-                                                                 search for additional extension headers.  An unrecognized extension header type
-                                                                 will terminate the L3P extension header seach and will not be included in the
-                                                                 fragment size calculation. */
+                                                                 must be 0x0 when not used. */
 #else /* Word 0 - Little Endian */
         uint64_t l3p_ext_hdr           : 8;  /**< [  7:  0](R/W) IPv6 programmable extension header type to use when parsing the IPv6 header
                                                                  of a packet with fragment information.  Note that the IPv6 extension header
                                                                  specified must have a header extension length field.  This is required for the
                                                                  parsing logic to correctly compute the IPv6 packet fragment size.  [L3P_EXT_HDR]
-                                                                 must be 0x0 when not used.
-
-                                                                 Internal:
-                                                                 The CPT RXC Layer 3 Parser (L3P) supports the following IPv6 extension headers types
-                                                                 when searching through the IPv6 packet extension headers to determine the packet
-                                                                 fragment size:
-                                                                   0x00 Hop-by-Hop Options.
-                                                                   0x2B Routing.
-                                                                   0x2C Fragment.
-                                                                   0x3C Destination Options.
-                                                                   0x87 Mobility.
-
-                                                                 The [L3P_EXT_HDR] supports programming an additional IPv6 extension header type
-                                                                 to recognize during the IPv6 extension header search.  For example, programming
-                                                                 [L3P_EXT_HDR]=0x8B, the Host Identity Protocol extension header, would result in the L3P
-                                                                 IPv6 extension header search to include any found Host Identity Protocol extension
-                                                                 headers in the packet fragment size calculation.  When [L3P_EXT_HDR]=0x0, only the five
-                                                                 IPv6 extension header types list above are included in the IPv6 extension header
-                                                                 search.  These five extension header types are non-terminating in that when L3P
-                                                                 encounters one of these extension headers it subtracts the extension header length
-                                                                 from the packet payload length to compute the fragment size but also continues to
-                                                                 search for additional extension headers.  An unrecognized extension header type
-                                                                 will terminate the L3P extension header seach and will not be included in the
-                                                                 fragment size calculation. */
+                                                                 must be 0x0 when not used. */
         uint64_t ena_swap              : 1;  /**< [  8:  8](R/W) When set, CPT_PARSE_HDR_S and FRAG_INFO_S of the outgoing packets to NIXRX via
                                                                  X2P will be byte-swapped. */
         uint64_t reserved_9_63         : 55;
@@ -7954,59 +6792,13 @@ union cavm_cptx_af_rxc_cfg2
                                                                  of a packet with fragment information.  Note that the IPv6 extension header
                                                                  specified must have a header extension length field.  This is required for the
                                                                  parsing logic to correctly compute the IPv6 packet fragment size.  [L3P_EXT_HDR]
-                                                                 must be 0x0 when not used.
-
-                                                                 Internal:
-                                                                 The CPT RXC Layer 3 Parser (L3P) supports the following IPv6 extension headers types
-                                                                 when searching through the IPv6 packet extension headers to determine the packet
-                                                                 fragment size:
-                                                                   0x00 Hop-by-Hop Options.
-                                                                   0x2B Routing.
-                                                                   0x2C Fragment.
-                                                                   0x3C Destination Options.
-                                                                   0x87 Mobility.
-
-                                                                 The [L3P_EXT_HDR] supports programming an additional IPv6 extension header type
-                                                                 to recognize during the IPv6 extension header search.  For example, programming
-                                                                 [L3P_EXT_HDR]=0x8B, the Host Identity Protocol extension header, would result in the L3P
-                                                                 IPv6 extension header search to include any found Host Identity Protocol extension
-                                                                 headers in the packet fragment size calculation.  When [L3P_EXT_HDR]=0x0, only the five
-                                                                 IPv6 extension header types list above are included in the IPv6 extension header
-                                                                 search.  These five extension header types are non-terminating in that when L3P
-                                                                 encounters one of these extension headers it subtracts the extension header length
-                                                                 from the packet payload length to compute the fragment size but also continues to
-                                                                 search for additional extension headers.  An unrecognized extension header type
-                                                                 will terminate the L3P extension header seach and will not be included in the
-                                                                 fragment size calculation. */
+                                                                 must be 0x0 when not used. */
 #else /* Word 0 - Little Endian */
         uint64_t l3p_ext_hdr           : 8;  /**< [  7:  0](R/W) IPv6 programmable extension header type to use when parsing the IPv6 header
                                                                  of a packet with fragment information.  Note that the IPv6 extension header
                                                                  specified must have a header extension length field.  This is required for the
                                                                  parsing logic to correctly compute the IPv6 packet fragment size.  [L3P_EXT_HDR]
-                                                                 must be 0x0 when not used.
-
-                                                                 Internal:
-                                                                 The CPT RXC Layer 3 Parser (L3P) supports the following IPv6 extension headers types
-                                                                 when searching through the IPv6 packet extension headers to determine the packet
-                                                                 fragment size:
-                                                                   0x00 Hop-by-Hop Options.
-                                                                   0x2B Routing.
-                                                                   0x2C Fragment.
-                                                                   0x3C Destination Options.
-                                                                   0x87 Mobility.
-
-                                                                 The [L3P_EXT_HDR] supports programming an additional IPv6 extension header type
-                                                                 to recognize during the IPv6 extension header search.  For example, programming
-                                                                 [L3P_EXT_HDR]=0x8B, the Host Identity Protocol extension header, would result in the L3P
-                                                                 IPv6 extension header search to include any found Host Identity Protocol extension
-                                                                 headers in the packet fragment size calculation.  When [L3P_EXT_HDR]=0x0, only the five
-                                                                 IPv6 extension header types list above are included in the IPv6 extension header
-                                                                 search.  These five extension header types are non-terminating in that when L3P
-                                                                 encounters one of these extension headers it subtracts the extension header length
-                                                                 from the packet payload length to compute the fragment size but also continues to
-                                                                 search for additional extension headers.  An unrecognized extension header type
-                                                                 will terminate the L3P extension header seach and will not be included in the
-                                                                 fragment size calculation. */
+                                                                 must be 0x0 when not used. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn10ka;
@@ -9037,15 +7829,7 @@ union cavm_cptx_lf_done
                                                                  acknowledged first a completion will not be missed.
 
                                                                  Software must ensure [DONE] does not overflow; for example by
-                                                                 insuring there are not more than 2^20-1 instructions in flight.
-
-                                                                 Internal:
-                                                                 Desirable for CPT_LF_DONE[DONE] writes to also be able to test interrupts
-                                                                 (in addition to CPT_LF_DONE_ACK writes). A write to CPT_LF_DONE should also
-                                                                 clear the timer.
-
-                                                                 The "conceptual interrupt bit" is CPT_LF_DONE_INT[DONE]. But we hide
-                                                                 the bit from the HRM, and its implemention is not required. */
+                                                                 insuring there are not more than 2^20-1 instructions in flight. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When CPT_INST_S[DONEINT] set and that instruction completes,
                                                                  CPT increments [DONE] when the instruction finishes. Software should
@@ -9085,15 +7869,7 @@ union cavm_cptx_lf_done
                                                                  acknowledged first a completion will not be missed.
 
                                                                  Software must ensure [DONE] does not overflow; for example by
-                                                                 insuring there are not more than 2^20-1 instructions in flight.
-
-                                                                 Internal:
-                                                                 Desirable for CPT_LF_DONE[DONE] writes to also be able to test interrupts
-                                                                 (in addition to CPT_LF_DONE_ACK writes). A write to CPT_LF_DONE should also
-                                                                 clear the timer.
-
-                                                                 The "conceptual interrupt bit" is CPT_LF_DONE_INT[DONE]. But we hide
-                                                                 the bit from the HRM, and its implemention is not required. */
+                                                                 insuring there are not more than 2^20-1 instructions in flight. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -9173,64 +7949,6 @@ static inline uint64_t CAVM_CPTX_LF_DONE_ACK(uint64_t a)
 #define arguments_CAVM_CPTX_LF_DONE_ACK(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PFVF_BAR2) cpt#_lf_done_int
- *
- * INTERNAL: CPT Queue Done Interrupt Clear Registers
- *
- * Internal:
- * This CSR description is only here to keep the scripts happy.
- */
-union cavm_cptx_lf_done_int
-{
-    uint64_t u;
-    struct cavm_cptx_lf_done_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See CPT_LF_DONE[DONE].  Note this bit is read-only - acknowledge
-                                                                 interrupts using CPT_LF_DONE_ACK.
-
-                                                                 To test interrupts, write CPT_LF_DONE_ACK to make CPT_LF_DONE[DONE] nonzero.
-
-                                                                 Internal:
-                                                                 This is called the conceptual interrupt bit in the CPT_LF_DONE[DONE] documentation.
-                                                                 This bit does not need to be implemented, and this CSR could be removed (except
-                                                                 that the scripts will blow up). */
-#else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See CPT_LF_DONE[DONE].  Note this bit is read-only - acknowledge
-                                                                 interrupts using CPT_LF_DONE_ACK.
-
-                                                                 To test interrupts, write CPT_LF_DONE_ACK to make CPT_LF_DONE[DONE] nonzero.
-
-                                                                 Internal:
-                                                                 This is called the conceptual interrupt bit in the CPT_LF_DONE[DONE] documentation.
-                                                                 This bit does not need to be implemented, and this CSR could be removed (except
-                                                                 that the scripts will blow up). */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_cptx_lf_done_int_s cn; */
-};
-typedef union cavm_cptx_lf_done_int cavm_cptx_lf_done_int_t;
-
-static inline uint64_t CAVM_CPTX_LF_DONE_INT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CPTX_LF_DONE_INT(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
-        return 0x840200a00070ll + 0x100000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x840200a00070ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("CPTX_LF_DONE_INT", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_CPTX_LF_DONE_INT(a) cavm_cptx_lf_done_int_t
-#define bustype_CAVM_CPTX_LF_DONE_INT(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_CPTX_LF_DONE_INT(a) "CPTX_LF_DONE_INT"
-#define device_bar_CAVM_CPTX_LF_DONE_INT(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_CPTX_LF_DONE_INT(a) (a)
-#define arguments_CAVM_CPTX_LF_DONE_INT(a) (a),-1,-1,-1
-
-/**
  * Register (RVU_PFVF_BAR2) cpt#_lf_done_int_ena_w1c
  *
  * CPT Queue Done Interrupt Enable Clear Registers
@@ -9273,8 +7991,6 @@ static inline uint64_t CAVM_CPTX_LF_DONE_INT_ENA_W1C(uint64_t a)
  * Register (RVU_PFVF_BAR2) cpt#_lf_done_int_ena_w1s
  *
  * CPT Queue Done Interrupt Enable Set Registers
- * Internal:
- * Write 1 to these registers will enable the DONEINT interrupt for the queue.
  */
 union cavm_cptx_lf_done_int_ena_w1s
 {
@@ -9309,64 +8025,6 @@ static inline uint64_t CAVM_CPTX_LF_DONE_INT_ENA_W1S(uint64_t a)
 #define device_bar_CAVM_CPTX_LF_DONE_INT_ENA_W1S(a) 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_CPTX_LF_DONE_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_CPTX_LF_DONE_INT_ENA_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) cpt#_lf_done_int_w1s
- *
- * INTERNAL: CPT Queue Done Interrupt Set Registers
- *
- * Internal:
- * This CSR description is only here to keep the scripts happy.
- */
-union cavm_cptx_lf_done_int_w1s
-{
-    uint64_t u;
-    struct cavm_cptx_lf_done_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See CPT_LF_DONE[DONE].  Note this bit is read-only - acknowledge
-                                                                 interrupts using CPT_LF_DONE_ACK.
-
-                                                                 To test interrupts, write CPT_LF_DONE_ACK to make CPT_LF_DONE[DONE] nonzero.
-
-                                                                 Internal:
-                                                                 This is called the conceptual interrupt bit in the CPT_LF_DONE[DONE] documentation.
-                                                                 This bit does not need to be implemented, and this CSR could be removed (except
-                                                                 that the scripts will blow up). */
-#else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See CPT_LF_DONE[DONE].  Note this bit is read-only - acknowledge
-                                                                 interrupts using CPT_LF_DONE_ACK.
-
-                                                                 To test interrupts, write CPT_LF_DONE_ACK to make CPT_LF_DONE[DONE] nonzero.
-
-                                                                 Internal:
-                                                                 This is called the conceptual interrupt bit in the CPT_LF_DONE[DONE] documentation.
-                                                                 This bit does not need to be implemented, and this CSR could be removed (except
-                                                                 that the scripts will blow up). */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_cptx_lf_done_int_w1s_s cn; */
-};
-typedef union cavm_cptx_lf_done_int_w1s cavm_cptx_lf_done_int_w1s_t;
-
-static inline uint64_t CAVM_CPTX_LF_DONE_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_CPTX_LF_DONE_INT_W1S(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
-        return 0x840200a00080ll + 0x100000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x840200a00080ll + 0x100000ll * ((a) & 0x1);
-    __cavm_csr_fatal("CPTX_LF_DONE_INT_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_CPTX_LF_DONE_INT_W1S(a) cavm_cptx_lf_done_int_w1s_t
-#define bustype_CAVM_CPTX_LF_DONE_INT_W1S(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_CPTX_LF_DONE_INT_W1S(a) "CPTX_LF_DONE_INT_W1S"
-#define device_bar_CAVM_CPTX_LF_DONE_INT_W1S(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_CPTX_LF_DONE_INT_W1S(a) (a)
-#define arguments_CAVM_CPTX_LF_DONE_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) cpt#_lf_done_wait
@@ -9533,23 +8191,14 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT typically sets [FAULT] on an SMMU translation fault, but if
                                                                  CPT_AF_CTL[RD_PSN_IGN]=0, it will also set [FAULT] when the LF receives
-                                                                 poison.
-
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
+                                                                 poison. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Uncorrectable hardware error from an engine executing a CPT_INST_S for the
                                                                  LF. The uncorrectable errors include microcode memory fetch errors, double-bit
                                                                  error, and watchdog. See also CPT_COMP_E::HWERR and CPT_AF_FLT()_INT.
 
                                                                  CPT can set [HWERR] when the engine has an error while fetching microcode (from
                                                                  CPT_AF_EXE()_UCODE_BASE). This may typically be due SMMU translation fault, but
-                                                                 if CPT_AF_CTL[RD_PSN_IGN]=0, it can also be due to receiving poison.
-
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
+                                                                 if CPT_AF_CTL[RD_PSN_IGN]=0, it can also be due to receiving poison. */
         uint64_t reserved_4            : 1;
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) CPT received an SMMU fault while writing a CPT_RES_S to CPT_INST_S[RES_ADDR]
                                                                  for the LF. */
@@ -9568,11 +8217,7 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT sets CPT_LF_Q_BASE[FAULT] whenever it would set [IRDE],
                                                                  ensuring that instructions executed in the queue fail. See also
-                                                                 CPT_COMP_E::FAULT.
-
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
+                                                                 CPT_COMP_E::FAULT. */
         uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1C/H) CPT encountered an error enqueuing an instruction (received at CPT_LF_NQ()).
 
                                                                  CPT sets [NQERR] in the following situations:
@@ -9603,29 +8248,7 @@ union cavm_cptx_lf_misc_int
                                                                  Note that when CPT_AF_LF()_CTL[CONT_ERR]=0, CPT clears CPT_LF_CTL[ENA]
                                                                  when any bit in this register gets set. This will indirectly
                                                                  cause [NQERR] to be set if instructions are simultaneously being
-                                                                 enqueued.
-
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
+                                                                 enqueued. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
@@ -9659,29 +8282,7 @@ union cavm_cptx_lf_misc_int
                                                                  Note that when CPT_AF_LF()_CTL[CONT_ERR]=0, CPT clears CPT_LF_CTL[ENA]
                                                                  when any bit in this register gets set. This will indirectly
                                                                  cause [NQERR] to be set if instructions are simultaneously being
-                                                                 enqueued.
-
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
+                                                                 enqueued. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) CPT encountered a memory error when accessing the instruction
                                                                  memory queue near CPT_LF_Q_BASE[ADDR].
 
@@ -9697,11 +8298,7 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT sets CPT_LF_Q_BASE[FAULT] whenever it would set [IRDE],
                                                                  ensuring that instructions executed in the queue fail. See also
-                                                                 CPT_COMP_E::FAULT.
-
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
+                                                                 CPT_COMP_E::FAULT. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) CPT received an SMMU fault while writing a CPT_RES_S to CPT_INST_S[RES_ADDR]
                                                                  for the LF. */
         uint64_t reserved_4            : 1;
@@ -9711,11 +8308,7 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT can set [HWERR] when the engine has an error while fetching microcode (from
                                                                  CPT_AF_EXE()_UCODE_BASE). This may typically be due SMMU translation fault, but
-                                                                 if CPT_AF_CTL[RD_PSN_IGN]=0, it can also be due to receiving poison.
-
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
+                                                                 if CPT_AF_CTL[RD_PSN_IGN]=0, it can also be due to receiving poison. */
         uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Memory error detected while executing a CPT_INST_S in the LF. See also
                                                                  CPT_COMP_E::FAULT. CPT sets [FAULT] for memory errors occurring due to
                                                                  engine accesses of CPT_INST_S[DPTR,RPTR,CPTR,NIXTX_ADDR] addresses.
@@ -9728,12 +8321,7 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT typically sets [FAULT] on an SMMU translation fault, but if
                                                                  CPT_AF_CTL[RD_PSN_IGN]=0, it will also set [FAULT] when the LF receives
-                                                                 poison.
-
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
+                                                                 poison. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -9755,23 +8343,14 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT typically sets [FAULT] on an SMMU translation fault, but if
                                                                  CPT_AF_CTL[RD_PSN_IGN]=0, it will also set [FAULT] when the LF receives
-                                                                 poison.
-
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
+                                                                 poison. */
         uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Uncorrectable hardware error from an engine executing a CPT_INST_S for the
                                                                  LF. The uncorrectable errors include microcode memory fetch errors, double-bit
                                                                  error, and watchdog. See also CPT_COMP_E::HWERR and CPT_AF_FLT()_INT.
 
                                                                  CPT can set [HWERR] when the engine has an error while fetching microcode (from
                                                                  CPT_AF_EXE()_UCODE_BASE). This may typically be due SMMU translation fault, but
-                                                                 if CPT_AF_CTL[RD_PSN_IGN]=0, it can also be due to receiving poison.
-
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
+                                                                 if CPT_AF_CTL[RD_PSN_IGN]=0, it can also be due to receiving poison. */
         uint64_t reserved_4            : 1;
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) CPT received an SMMU fault while writing a CPT_RES_S to CPT_INST_S[RES_ADDR]
                                                                  for the LF. */
@@ -9790,11 +8369,7 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT sets CPT_LF_Q_BASE[FAULT] whenever it would set [IRDE],
                                                                  ensuring that instructions executed in the queue fail. See also
-                                                                 CPT_COMP_E::FAULT.
-
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
+                                                                 CPT_COMP_E::FAULT. */
         uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1C/H) CPT encountered an error enqueuing an instruction (received at CPT_LF_NQ()).
 
                                                                  CPT sets [NQERR] in the following situations:
@@ -9825,29 +8400,7 @@ union cavm_cptx_lf_misc_int
                                                                  Note that when CPT_AF_LF()_CTL[CONT_ERR]=0, CPT clears CPT_LF_CTL[ENA]
                                                                  when any bit in this register gets set. This will indirectly
                                                                  cause [NQERR] to be set if instructions are simultaneously being
-                                                                 enqueued.
-
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
+                                                                 enqueued. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
@@ -9881,29 +8434,7 @@ union cavm_cptx_lf_misc_int
                                                                  Note that when CPT_AF_LF()_CTL[CONT_ERR]=0, CPT clears CPT_LF_CTL[ENA]
                                                                  when any bit in this register gets set. This will indirectly
                                                                  cause [NQERR] to be set if instructions are simultaneously being
-                                                                 enqueued.
-
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
+                                                                 enqueued. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) CPT encountered a memory error when accessing the instruction
                                                                  memory queue near CPT_LF_Q_BASE[ADDR].
 
@@ -9919,11 +8450,7 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT sets CPT_LF_Q_BASE[FAULT] whenever it would set [IRDE],
                                                                  ensuring that instructions executed in the queue fail. See also
-                                                                 CPT_COMP_E::FAULT.
-
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
+                                                                 CPT_COMP_E::FAULT. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) CPT received an SMMU fault while writing a CPT_RES_S to CPT_INST_S[RES_ADDR]
                                                                  for the LF. */
         uint64_t reserved_4            : 1;
@@ -9933,11 +8460,7 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT can set [HWERR] when the engine has an error while fetching microcode (from
                                                                  CPT_AF_EXE()_UCODE_BASE). This may typically be due SMMU translation fault, but
-                                                                 if CPT_AF_CTL[RD_PSN_IGN]=0, it can also be due to receiving poison.
-
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
+                                                                 if CPT_AF_CTL[RD_PSN_IGN]=0, it can also be due to receiving poison. */
         uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Memory error detected while executing a CPT_INST_S in the LF. See also
                                                                  CPT_COMP_E::FAULT. CPT sets [FAULT] for memory errors occurring due to
                                                                  engine accesses of CPT_INST_S[DPTR,RPTR,CPTR,DPTR+sext(NIXTX_OFFSET)] addresses.
@@ -9950,12 +8473,7 @@ union cavm_cptx_lf_misc_int
 
                                                                  CPT typically sets [FAULT] on an SMMU translation fault, but if
                                                                  CPT_AF_CTL[RD_PSN_IGN]=0, it will also set [FAULT] when the LF receives
-                                                                 poison.
-
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
+                                                                 poison. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } cn10kb;
@@ -9992,83 +8510,21 @@ union cavm_cptx_lf_misc_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[FAULT].
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[HWERR].
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[FAULT]. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[HWERR]. */
         uint64_t reserved_4            : 1;
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[IRDE].
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
-        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[NQERR].
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[IRDE]. */
+        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[NQERR]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[NQERR].
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[IRDE].
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
+        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[NQERR]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[NWRP]. */
         uint64_t reserved_4            : 1;
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[HWERR].
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
-        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[FAULT].
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[HWERR]. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for CPT_LF_MISC_INT[FAULT]. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -10106,83 +8562,21 @@ union cavm_cptx_lf_misc_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[FAULT].
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[HWERR].
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[FAULT]. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[HWERR]. */
         uint64_t reserved_4            : 1;
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[IRDE].
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
-        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[NQERR].
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[IRDE]. */
+        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[NQERR]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[NQERR].
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[IRDE].
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
+        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[NQERR]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[NWRP]. */
         uint64_t reserved_4            : 1;
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[HWERR].
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
-        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[FAULT].
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[HWERR]. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for CPT_LF_MISC_INT[FAULT]. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -10220,83 +8614,21 @@ union cavm_cptx_lf_misc_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets CPT_LF_MISC_INT[FAULT].
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT_LF_MISC_INT[HWERR].
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets CPT_LF_MISC_INT[FAULT]. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT_LF_MISC_INT[HWERR]. */
         uint64_t reserved_4            : 1;
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT_LF_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT_LF_MISC_INT[IRDE].
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
-        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CPT_LF_MISC_INT[NQERR].
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT_LF_MISC_INT[IRDE]. */
+        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CPT_LF_MISC_INT[NQERR]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
-        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CPT_LF_MISC_INT[NQERR].
-                                                                 Internal:
-                                                                 This error was too difficult to implement:
-
-                                                                 * CPT received an instruction from an AP when CPT_AF_LF()_CTL[PF_FUNC_INST]=1.
-
-                                                                 This was originally included as an error above (and present in T93 A0 and B0(A1)
-                                                                 hardware), but removed to improve VPP capabilities. See mcbuggin 36656:
-
-                                                                 * CPT encountered a CPT_INST_S with CPT_INST_S[QORD]=1 and neither
-                                                                 CPT_INST_S[NIXTXL]!=0x0 nor CPT_INST_S[WQE_PTR]!=0x0. See
-                                                                 CPT_COMP_E::INSTERR.
-
-                                                                 In the overflow case, the current CPT implementation writes the CPT_INST_S's to
-                                                                 memory, but effectively drops them because it doesn't advance
-                                                                 CPT_LF_Q_INST_PTR[NQ_PTR].
-
-                                                                 In the partial CPT_INST_S case, the current CPT implementation pads the
-                                                                 CPT_INST_S with zeros and executes the instruction "as normal".
-
-                                                                 The internal comment for CPT_COMP_E::INSTERR describes how CPT executes
-                                                                 most of these errors. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT_LF_MISC_INT[IRDE].
-                                                                 Internal:
-                                                                 Occurs due to these: QUE_ST_FAULT (GRP/INST/FC MEM_Q), QUE_LD_FAULT
-                                                                 (GRP/INST MEM_Q). */
+        uint64_t nqerr                 : 1;  /**< [  1:  1](R/W1S/H) Reads or sets CPT_LF_MISC_INT[NQERR]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets CPT_LF_MISC_INT[IRDE]. */
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets CPT_LF_MISC_INT[NWRP]. */
         uint64_t reserved_4            : 1;
-        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT_LF_MISC_INT[HWERR].
-                                                                 Internal:
-                                                                 This is EXE_WDOG, EXE_RF_DBE, and EXE_UC_ERR on an engine executing a
-                                                                 CPT_INST_S for the LF. EXE_UC_ERR is fault/poison on microcode fetch. */
-        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets CPT_LF_MISC_INT[FAULT].
-                                                                 Internal:
-                                                                 This is EXE_LD_FAULT and EXE_ST_FAULT on an engine executing a CPT_INST_S
-                                                                 for the LF, and NIX_LD_FAULT generated for the LF. Also includes faults on
-                                                                 LD/ST's issued by CTX. */
+        uint64_t hwerr                 : 1;  /**< [  5:  5](R/W1S/H) Reads or sets CPT_LF_MISC_INT[HWERR]. */
+        uint64_t fault                 : 1;  /**< [  6:  6](R/W1S/H) Reads or sets CPT_LF_MISC_INT[FAULT]. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;

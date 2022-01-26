@@ -491,14 +491,7 @@ union cavm_pcieepx_ari_cap_ctl
                                                                  This field indicates the function number of the next higher
                                                                  numbered function in the device, or 0x0 if there are no higher
                                                                  numbered functions.  Function 0 starts this linked list of
-                                                                 functions.
-
-                                                                 Internal:
-                                                                 For this field to behave properly, any unused PFs need to be
-                                                                 hidden via PCIEEP_HIDE_PF.  If there are fewer than the
-                                                                 maximum number of PFs active as set with PCIEEP_TIMER_CTL[MFUNC],
-                                                                 PCIEEP_HIDE_PF[HIDE_PF] of all the used PFs must be set
-                                                                 to 0x2 to hide them, otherwise the NFN chain will fail to terminate properly. */
+                                                                 functions. */
         uint32_t reserved_2_7          : 6;
         uint32_t acsfgc                : 1;  /**< [  1:  1](RO) ACS function groups capability (not supported). */
         uint32_t mfvcfgc               : 1;  /**< [  0:  0](RO) MFVC function groups capability (not supported). */
@@ -510,14 +503,7 @@ union cavm_pcieepx_ari_cap_ctl
                                                                  This field indicates the function number of the next higher
                                                                  numbered function in the device, or 0x0 if there are no higher
                                                                  numbered functions.  Function 0 starts this linked list of
-                                                                 functions.
-
-                                                                 Internal:
-                                                                 For this field to behave properly, any unused PFs need to be
-                                                                 hidden via PCIEEP_HIDE_PF.  If there are fewer than the
-                                                                 maximum number of PFs active as set with PCIEEP_TIMER_CTL[MFUNC],
-                                                                 PCIEEP_HIDE_PF[HIDE_PF] of all the used PFs must be set
-                                                                 to 0x2 to hide them, otherwise the NFN chain will fail to terminate properly. */
+                                                                 functions. */
         uint32_t mfvcfge               : 1;  /**< [ 16: 16](RO) MFVC function groups enable (M). */
         uint32_t acsfge                : 1;  /**< [ 17: 17](RO) ACS function groups enable (not supported). */
         uint32_t reserved_18_19        : 2;
@@ -1894,10 +1880,7 @@ union cavm_pcieepx_dbg0
                                                                  \<24\> = Receiver 2nd symbol is also idle.
                                                                  \<23:8\> = mac_phy_txdata.
                                                                  \<7:6\> = mac_phy_txdatak.
-                                                                 \<5:0\> = LTSSM current state.
-
-                                                                 Internal:
-                                                                 cxpl_debug_info[31:0]. */
+                                                                 \<5:0\> = LTSSM current state. */
 #else /* Word 0 - Little Endian */
         uint32_t dbg_info_l32          : 32; /**< [ 31:  0](RO/H) State of selected internal signals for debug purposes.
                                                                  State of selected internal signals for debug purposes.
@@ -1908,10 +1891,7 @@ union cavm_pcieepx_dbg0
                                                                  \<24\> = Receiver 2nd symbol is also idle.
                                                                  \<23:8\> = mac_phy_txdata.
                                                                  \<7:6\> = mac_phy_txdatak.
-                                                                 \<5:0\> = LTSSM current state.
-
-                                                                 Internal:
-                                                                 cxpl_debug_info[31:0]. */
+                                                                 \<5:0\> = LTSSM current state. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepx_dbg0_s cn; */
@@ -1968,10 +1948,7 @@ union cavm_pcieepx_dbg1
                                                                  \<3\> = Receiver reports skip reception.
                                                                  \<2\> = TS1 training sequence received (pulse).
                                                                  \<1\> = TS2 training sequence received (pulse).
-                                                                 \<0\> = Receiver detected lane reversal.
-
-                                                                 Internal:
-                                                                 cxpl_debug_info[63:32]. */
+                                                                 \<0\> = Receiver detected lane reversal. */
 #else /* Word 0 - Little Endian */
         uint32_t dbg_info_u32          : 32; /**< [ 31:  0](RO/H) State of selected internal signals for debug purposes.
                                                                  \<31\> = Scrambling disabled for the link.
@@ -1992,10 +1969,7 @@ union cavm_pcieepx_dbg1
                                                                  \<3\> = Receiver reports skip reception.
                                                                  \<2\> = TS1 training sequence received (pulse).
                                                                  \<1\> = TS2 training sequence received (pulse).
-                                                                 \<0\> = Receiver detected lane reversal.
-
-                                                                 Internal:
-                                                                 cxpl_debug_info[63:32]. */
+                                                                 \<0\> = Receiver detected lane reversal. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pcieepx_dbg1_s cn; */
@@ -12039,17 +12013,7 @@ union cavm_pcieepx_ras_sd_statuspm
         uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
                                                                  Indicates the value of N_FTS in the received TS ordered
                                                                  sets from the link partner. */
-        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state.
-                                                                 Internal:
-                                                                 0x0 = Idle state.
-                                                                 0x1 = Wait for aux_clk_active.
-                                                                 0x2 = Wait for pclkack.
-                                                                 0x3 = Wait for clkreq.
-                                                                 0x4 = Check clkreq_in_n is de-asserted for t_power_off time.
-                                                                 0x5 = L1 substate, turn off txcommonmode circuits (L1.2 only)
-                                                                      and rx electrical idle detection circuits.
-                                                                 0x6 = Locally/remotely initiated exit, assert pclkreq, wait for pclkack.
-                                                                 0x7 = Wait for pclkack when aborting an attempt to enter L1_N. */
+        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state. */
         uint32_t pme_rsnd_flag         : 1;  /**< [ 12: 12](RO) PME resend flag.
                                                                  When the DUT sends a PM_PME message TLP, the DUT
                                                                  sets PME_Status bit. If host software does not clear
@@ -12151,17 +12115,7 @@ union cavm_pcieepx_ras_sd_statuspm
                                                                  PME_Status bit for 100ms (+50%/-5%), the DUT resends the
                                                                  PM_PME message. This bit indicates that a PM_PME was
                                                                  resent. */
-        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state.
-                                                                 Internal:
-                                                                 0x0 = Idle state.
-                                                                 0x1 = Wait for aux_clk_active.
-                                                                 0x2 = Wait for pclkack.
-                                                                 0x3 = Wait for clkreq.
-                                                                 0x4 = Check clkreq_in_n is de-asserted for t_power_off time.
-                                                                 0x5 = L1 substate, turn off txcommonmode circuits (L1.2 only)
-                                                                      and rx electrical idle detection circuits.
-                                                                 0x6 = Locally/remotely initiated exit, assert pclkreq, wait for pclkack.
-                                                                 0x7 = Wait for pclkack when aborting an attempt to enter L1_N. */
+        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state. */
         uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
                                                                  Indicates the value of N_FTS in the received TS ordered
                                                                  sets from the link partner. */
@@ -14689,29 +14643,13 @@ union cavm_pcieepx_timer_ctl
 
                                                                  Reset values:
                                                                  _ UPEM:      0x1.
-                                                                 _ BPEM:      0x0.
-
-                                                                 Internal:
-                                                                 For this field to behave properly, any unused PFs need to be
-                                                                 hidden via PCIEEP_HIDE_PF.  If there are fewer than the
-                                                                 maximum number of PFs active as set with [MFUNCN],
-                                                                 PCIEEP_HIDE_PF[HIDE_PF] of all the used PFs must
-                                                                 be set to 0x2 to hide them, otherwise the PCIEEP_ARI_CAP_CTL[NFN]
-                                                                 chain will fail to terminate properly. */
+                                                                 _ BPEM:      0x0. */
 #else /* Word 0 - Little Endian */
         uint32_t mfuncn                : 8;  /**< [  7:  0](R/W/H) Max number of functions supported. Used for SR-IOV.
 
                                                                  Reset values:
                                                                  _ UPEM:      0x1.
-                                                                 _ BPEM:      0x0.
-
-                                                                 Internal:
-                                                                 For this field to behave properly, any unused PFs need to be
-                                                                 hidden via PCIEEP_HIDE_PF.  If there are fewer than the
-                                                                 maximum number of PFs active as set with [MFUNCN],
-                                                                 PCIEEP_HIDE_PF[HIDE_PF] of all the used PFs must
-                                                                 be set to 0x2 to hide them, otherwise the PCIEEP_ARI_CAP_CTL[NFN]
-                                                                 chain will fail to terminate properly. */
+                                                                 _ BPEM:      0x0. */
         uint32_t reserved_8_13         : 6;
         uint32_t tmrt                  : 5;  /**< [ 18: 14](R/W/H) Timer modifier for replay timer. Increases the timer value for the replay timer, in
                                                                  increments of 64 clock cycles. */

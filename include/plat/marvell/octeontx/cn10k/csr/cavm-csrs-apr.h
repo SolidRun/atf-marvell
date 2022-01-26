@@ -80,13 +80,9 @@ union cavm_apr_lmt_map_entry_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_88_127       : 40;
         uint64_t dis_sched_early_comp  : 1;  /**< [ 87: 87] When set, disables early completion for scheduled LMTSTs. */
-        uint64_t sched_ena             : 1;  /**< [ 86: 86] When clear, ordered LMTSTs to this PF_FUNC are faulted.
-                                                                 Internal:
-                                                                 Sends CHI NDErr=1. */
+        uint64_t sched_ena             : 1;  /**< [ 86: 86] When clear, ordered LMTSTs to this PF_FUNC are faulted. */
         uint64_t dis_line_pref         : 1;  /**< [ 85: 85] When set, disables LMTLINE prefetch before receiving store data. */
-        uint64_t lmt_ena               : 1;  /**< [ 84: 84] When clear, LMTSTs to this PF_FUNC are faulted.
-                                                                 Internal:
-                                                                 Sends CHI NDErr=1. */
+        uint64_t lmt_ena               : 1;  /**< [ 84: 84] When clear, LMTSTs to this PF_FUNC are faulted. */
         uint64_t reserved_83           : 1;
         uint64_t num_lmtlines          : 3;  /**< [ 82: 80] Number of LMTLINES at [LMTLINE_BASE]. Expressed in 2^(5+[NUM_LMTLINES]).
                                                                  0x0 = 32 LMTLINEs.
@@ -112,13 +108,9 @@ union cavm_apr_lmt_map_entry_s
 
                                                                  Other values are reserved. */
         uint64_t reserved_83           : 1;
-        uint64_t lmt_ena               : 1;  /**< [ 84: 84] When clear, LMTSTs to this PF_FUNC are faulted.
-                                                                 Internal:
-                                                                 Sends CHI NDErr=1. */
+        uint64_t lmt_ena               : 1;  /**< [ 84: 84] When clear, LMTSTs to this PF_FUNC are faulted. */
         uint64_t dis_line_pref         : 1;  /**< [ 85: 85] When set, disables LMTLINE prefetch before receiving store data. */
-        uint64_t sched_ena             : 1;  /**< [ 86: 86] When clear, ordered LMTSTs to this PF_FUNC are faulted.
-                                                                 Internal:
-                                                                 Sends CHI NDErr=1. */
+        uint64_t sched_ena             : 1;  /**< [ 86: 86] When clear, ordered LMTSTs to this PF_FUNC are faulted. */
         uint64_t dis_sched_early_comp  : 1;  /**< [ 87: 87] When set, disables early completion for scheduled LMTSTs. */
         uint64_t reserved_88_127       : 40;
 #endif /* Word 1 - End */
@@ -526,9 +518,7 @@ union cavm_apr_af_lmt_cfg
                                                                  recorded, but will not affect transactions issued for the LMTST in any other way. */
         uint64_t sec_lmt               : 1;  /**< [ 12: 12](SR/W) When set, the LMT map and LMTLINE regions all reside in secure memory,
                                                                  otherwise, LMT map and LMTLINE regions reside in non-secure memory. */
-        uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all scheduled LMTSTs and return fault for any attempts.
-                                                                 Internal:
-                                                                 Sends CHI NDErr=1. */
+        uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all scheduled LMTSTs and return fault for any attempts. */
         uint64_t gbl_dis_lpc           : 1;  /**< [ 10: 10](R/W) When set, APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] will not be cached in the LPC. LPC
                                                                  will not be updated or looked up. A ReadOnce to fetch the APR_LMT_MAP_ENTRY_S is
                                                                  issued with each STEOR/STSMAX. */
@@ -574,9 +564,7 @@ union cavm_apr_af_lmt_cfg
         uint64_t gbl_dis_lpc           : 1;  /**< [ 10: 10](R/W) When set, APR_LMT_MAP_ENTRY_S[LMTLINE_BASE] will not be cached in the LPC. LPC
                                                                  will not be updated or looked up. A ReadOnce to fetch the APR_LMT_MAP_ENTRY_S is
                                                                  issued with each STEOR/STSMAX. */
-        uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all scheduled LMTSTs and return fault for any attempts.
-                                                                 Internal:
-                                                                 Sends CHI NDErr=1. */
+        uint64_t gbl_dis_sched         : 1;  /**< [ 11: 11](R/W) When set disables all scheduled LMTSTs and return fault for any attempts. */
         uint64_t sec_lmt               : 1;  /**< [ 12: 12](SR/W) When set, the LMT map and LMTLINE regions all reside in secure memory,
                                                                  otherwise, LMT map and LMTLINE regions reside in non-secure memory. */
         uint64_t ignore_poison_pa      : 1;  /**< [ 13: 13](R/W) When set, poison in CompData fetching an LMTLINE's physical address will be

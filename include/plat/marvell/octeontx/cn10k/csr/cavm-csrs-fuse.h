@@ -111,30 +111,4 @@
 #define CAVM_FUSE_NUM_E_UUIDX(a) (0x58e + (a))
 #define CAVM_FUSE_NUM_E_XSX_SMEM_CRIPPLEX(a) (0x3b7 + (a))
 
-/**
- * Enumeration fuse_pvt_num_e
- *
- * INTERNAL: Fuse PVT Fuse Number Enumeration
- *
- * Enumerates the fuse numbers for the FUSE_NUM_E::PVT() fuses.
- */
-#define CAVM_FUSE_PVT_NUM_E_C0_CORE_ADJX(a) (0xd0 + (a))
-#define CAVM_FUSE_PVT_NUM_E_C0_SYS_ADJX(a) (0xd8 + (a))
-#define CAVM_FUSE_PVT_NUM_E_CX_CORE_ADJX(a) (0xe0 + (a))
-#define CAVM_FUSE_PVT_NUM_E_CX_SYS_ADJX(a) (0xe8 + (a))
-#define CAVM_FUSE_PVT_NUM_E_C_ANALOG_ADJX(a) (0xf8 + (a))
-#define CAVM_FUSE_PVT_NUM_E_C_DDR_ADJX(a) (0xf0 + (a))
-#define CAVM_FUSE_PVT_NUM_E_DVFSX_FREQX(a,b) (0x40 + 0x10 * (a) + (b))
-#define CAVM_FUSE_PVT_NUM_E_DVFSX_VOLTX(a,b) (0x48 + 0x10 * (a) + (b))
-#define CAVM_FUSE_PVT_NUM_E_I0_COREX(a) (0x10 + (a))
-#define CAVM_FUSE_PVT_NUM_E_I0_SYSX(a) (0x20 + (a))
-#define CAVM_FUSE_PVT_NUM_E_MV_ADJX(a) (0xc0 + (a))
-#define CAVM_FUSE_PVT_NUM_E_PVT_VERSIONX(a) (0 + (a))
-#define CAVM_FUSE_PVT_NUM_E_UNUSED1X(a) (8 + (a))
-#define CAVM_FUSE_PVT_NUM_E_VMAX_COREX(a) (0x38 + (a))
-#define CAVM_FUSE_PVT_NUM_E_VMAX_SYSX(a) (0xb8 + (a))
-#define CAVM_FUSE_PVT_NUM_E_VMIN_COREX(a) (0x30 + (a))
-#define CAVM_FUSE_PVT_NUM_E_VMIN_SYSX(a) (0xb0 + (a))
-#define CAVM_FUSE_PVT_NUM_E_XT_ADJX(a) (0xc8 + (a))
-
 #endif /* __CAVM_CSRS_FUSE_H__ */

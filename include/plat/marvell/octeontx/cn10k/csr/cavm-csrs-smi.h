@@ -223,45 +223,6 @@ static inline uint64_t CAVM_SMI_X_CMD(uint64_t a)
 #define arguments_CAVM_SMI_X_CMD(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) smi_#_eco
- *
- * INTERNAL: SMI ECO Register
- *
- * Reserved for ECOs.
- */
-union cavm_smi_x_eco
-{
-    uint64_t u;
-    struct cavm_smi_x_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) ECO flops. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) ECO flops. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smi_x_eco_s cn; */
-};
-typedef union cavm_smi_x_eco cavm_smi_x_eco_t;
-
-static inline uint64_t CAVM_SMI_X_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SMI_X_ECO(uint64_t a)
-{
-    if (a<=1)
-        return 0x87e005003828ll + 0x80ll * ((a) & 0x1);
-    __cavm_csr_fatal("SMI_X_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SMI_X_ECO(a) cavm_smi_x_eco_t
-#define bustype_CAVM_SMI_X_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_SMI_X_ECO(a) "SMI_X_ECO"
-#define device_bar_CAVM_SMI_X_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SMI_X_ECO(a) (a)
-#define arguments_CAVM_SMI_X_ECO(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) smi_#_en
  *
  * SMI Enable Register

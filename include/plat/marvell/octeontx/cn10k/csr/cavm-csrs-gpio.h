@@ -1489,50 +1489,6 @@ static inline uint64_t CAVM_GPIO_MULTI_CAST_FUNC(void)
 #define arguments_CAVM_GPIO_MULTI_CAST -1,-1,-1,-1
 
 /**
- * Register (NCB) gpio_ocla_exten_trig
- *
- * INTERNAL: GPIO OCLA External Trigger Register
- *
- * This register is only accessible to the requestor(s) permitted with GPIO_PERMIT.
- *
- * This register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- */
-union cavm_gpio_ocla_exten_trig
-{
-    uint64_t u;
-    struct cavm_gpio_ocla_exten_trig_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual trigger. Assert the OCLA trigger for GPIO-based triggering. This manual
-                                                                 trigger is ORed with the optional GPIO input pin permitted with
-                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER. */
-#else /* Word 0 - Little Endian */
-        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual trigger. Assert the OCLA trigger for GPIO-based triggering. This manual
-                                                                 trigger is ORed with the optional GPIO input pin permitted with
-                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gpio_ocla_exten_trig_s cn; */
-};
-typedef union cavm_gpio_ocla_exten_trig cavm_gpio_ocla_exten_trig_t;
-
-#define CAVM_GPIO_OCLA_EXTEN_TRIG CAVM_GPIO_OCLA_EXTEN_TRIG_FUNC()
-static inline uint64_t CAVM_GPIO_OCLA_EXTEN_TRIG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GPIO_OCLA_EXTEN_TRIG_FUNC(void)
-{
-    return 0x803000000020ll;
-}
-
-#define typedef_CAVM_GPIO_OCLA_EXTEN_TRIG cavm_gpio_ocla_exten_trig_t
-#define bustype_CAVM_GPIO_OCLA_EXTEN_TRIG CSR_TYPE_NCB
-#define basename_CAVM_GPIO_OCLA_EXTEN_TRIG "GPIO_OCLA_EXTEN_TRIG"
-#define device_bar_CAVM_GPIO_OCLA_EXTEN_TRIG 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GPIO_OCLA_EXTEN_TRIG 0
-#define arguments_CAVM_GPIO_OCLA_EXTEN_TRIG -1,-1,-1,-1
-
-/**
  * Register (NCB) gpio_permit
  *
  * GPIO Permit Register
@@ -1603,17 +1559,11 @@ union cavm_gpio_pkg_ver
         uint64_t reserved_4_63         : 60;
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
                                                                  0x0 = SKU package A, code CF450AA = 45 x 45 package, for CN106XXS.
-                                                                 0x1 = SKU package B, code CF425AA = 42.5 x 42.5 package, for CN106XX.
-
-                                                                 Internal:
-                                                                 Architecturally defined, same encoding across same die. */
+                                                                 0x1 = SKU package B, code CF425AA = 42.5 x 42.5 package, for CN106XX. */
 #else /* Word 0 - Little Endian */
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
                                                                  0x0 = SKU package A, code CF450AA = 45 x 45 package, for CN106XXS.
-                                                                 0x1 = SKU package B, code CF425AA = 42.5 x 42.5 package, for CN106XX.
-
-                                                                 Internal:
-                                                                 Architecturally defined, same encoding across same die. */
+                                                                 0x1 = SKU package B, code CF425AA = 42.5 x 42.5 package, for CN106XX. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -1625,16 +1575,10 @@ union cavm_gpio_pkg_ver
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XX.
-
-                                                                 Internal:
-                                                                 Architecturally defined, same encoding across same die. */
+                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XX. */
 #else /* Word 0 - Little Endian */
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XX.
-
-                                                                 Internal:
-                                                                 Architecturally defined, same encoding across same die. */
+                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XX. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cnf10ka;
@@ -1643,16 +1587,10 @@ union cavm_gpio_pkg_ver
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN.
-
-                                                                 Internal:
-                                                                 Architecturally defined, same encoding across same die. */
+                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN. */
 #else /* Word 0 - Little Endian */
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN.
-
-                                                                 Internal:
-                                                                 Architecturally defined, same encoding across same die. */
+                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cnf10kb;

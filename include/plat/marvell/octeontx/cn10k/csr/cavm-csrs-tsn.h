@@ -128,49 +128,6 @@ static inline uint64_t CAVM_TSNX_DATA(uint64_t a)
 #define arguments_CAVM_TSNX_DATA(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tsn#_eco
- *
- * INTERNAL: TSN ECO Register
- */
-union cavm_tsnx_eco
-{
-    uint64_t u;
-    struct cavm_tsnx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tsnx_eco_s cn; */
-};
-typedef union cavm_tsnx_eco cavm_tsnx_eco_t;
-
-static inline uint64_t CAVM_TSNX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TSNX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) || (a==48)))
-        return 0x87e240000030ll + 0x1000000ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) || (a==48)))
-        return 0x87e240000030ll + 0x1000000ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) || (a==48) || ((a>=57)&&(a<=63))))
-        return 0x87e240000030ll + 0x1000000ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) || (a==48) || ((a>=57)&&(a<=63))))
-        return 0x87e240000030ll + 0x1000000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("TSNX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TSNX_ECO(a) cavm_tsnx_eco_t
-#define bustype_CAVM_TSNX_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_TSNX_ECO(a) "TSNX_ECO"
-#define device_bar_CAVM_TSNX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TSNX_ECO(a) (a)
-#define arguments_CAVM_TSNX_ECO(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) tsn#_fsm_ctl
  *
  * TSN Finite State Machine Control Register
@@ -192,22 +149,10 @@ union cavm_tsnx_fsm_ctl
         uint64_t one_shot_mode         : 1;  /**< [  1:  1](R/W/H) Assert to have TSENE capture one single temperature reading.  Hardware will
                                                                  clear this bit when done. */
         uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously update its temperature reading.  Default is asserted.
-                                                                 Mutually exclusive with [ONE_SHOT_MODE].
-
-                                                                 Internal:
-                                                                 The TSENE_ADC module may output corrupted reading when shutting down. Before
-                                                                 disabling this mode, software must also disable thermal limit tripping via
-                                                                 writing zero to TSN_THERM_TRIP[EN] and ignore the last value that is logged
-                                                                 after doing so (IPBUTSC-58). */
+                                                                 Mutually exclusive with [ONE_SHOT_MODE]. */
 #else /* Word 0 - Little Endian */
         uint64_t continuous_mode       : 1;  /**< [  0:  0](R/W) TSENE will continuously update its temperature reading.  Default is asserted.
-                                                                 Mutually exclusive with [ONE_SHOT_MODE].
-
-                                                                 Internal:
-                                                                 The TSENE_ADC module may output corrupted reading when shutting down. Before
-                                                                 disabling this mode, software must also disable thermal limit tripping via
-                                                                 writing zero to TSN_THERM_TRIP[EN] and ignore the last value that is logged
-                                                                 after doing so (IPBUTSC-58). */
+                                                                 Mutually exclusive with [ONE_SHOT_MODE]. */
         uint64_t one_shot_mode         : 1;  /**< [  1:  1](R/W/H) Assert to have TSENE capture one single temperature reading.  Hardware will
                                                                  clear this bit when done. */
         uint64_t sw_fsm_override       : 1;  /**< [  2:  2](R/W) Assert to allow software full control of TSENE state pins via [SW_RESET], [SW_START], and [SW_EN]. */

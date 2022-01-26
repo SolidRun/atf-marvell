@@ -71,18 +71,12 @@ union cavm_tim_mem_bucket_s
         uint64_t chunk_remainder       : 16; /**< [127:112] Number of remaining entries for software to enter in the list. This number should always
                                                                  be smaller than chunk size. This field is decremented by software whenever software adds
                                                                  an entry. If [NUM_ENTRIES] is nonzero, written to zeros by hardware when hardware
-                                                                 processes the entry unless TIM_AF_RING()_CTL1[ENA_PRD] is set.
-
-                                                                 Internal:
-                                                                 Field must include bit w1\<63\> as it may underflow negative. */
+                                                                 processes the entry unless TIM_AF_RING()_CTL1[ENA_PRD] is set. */
         uint64_t lock                  : 8;  /**< [111:104] Count of how many outstanding software threads are working on the bucket.
                                                                  The field must be atomically incremented and decremented by software.
                                                                  Note that this allows up to 256 threads doing parallel operations.
 
-                                                                 Hardware never writes this byte.
-
-                                                                 Internal:
-                                                                 Cannot overflow/underflow. MSB msut be on 8/16/32/64-bit boundary. */
+                                                                 Hardware never writes this byte. */
         uint64_t reserved_99_103       : 5;
         uint64_t bsk                   : 1;  /**< [ 98: 98] Bucket skip indicator. Set by hardware to indicate to software that hardware has
                                                                  skipped processing the bucket because it was unable to gain the bucket lock.
@@ -112,17 +106,11 @@ union cavm_tim_mem_bucket_s
                                                                  The field must be atomically incremented and decremented by software.
                                                                  Note that this allows up to 256 threads doing parallel operations.
 
-                                                                 Hardware never writes this byte.
-
-                                                                 Internal:
-                                                                 Cannot overflow/underflow. MSB msut be on 8/16/32/64-bit boundary. */
+                                                                 Hardware never writes this byte. */
         uint64_t chunk_remainder       : 16; /**< [127:112] Number of remaining entries for software to enter in the list. This number should always
                                                                  be smaller than chunk size. This field is decremented by software whenever software adds
                                                                  an entry. If [NUM_ENTRIES] is nonzero, written to zeros by hardware when hardware
-                                                                 processes the entry unless TIM_AF_RING()_CTL1[ENA_PRD] is set.
-
-                                                                 Internal:
-                                                                 Field must include bit w1\<63\> as it may underflow negative. */
+                                                                 processes the entry unless TIM_AF_RING()_CTL1[ENA_PRD] is set. */
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t current_chunk         : 64; /**< [191:128] Not used by timer hardware. Points to the last chunk in the list and is updated by
@@ -317,46 +305,6 @@ static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void)
 #define arguments_CAVM_TIM_AF_ADJUST_GTI -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) tim_af_adjust_synce
- *
- * INTERNAL: TIM AF ADJUST SYNCE Timer Adjust Register
- */
-union cavm_tim_af_adjust_synce
-{
-    uint64_t u;
-    struct cavm_tim_af_adjust_synce_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 Indicates the signed delta value for the SYNCE timer to be updated. */
-#else /* Word 0 - Little Endian */
-        uint64_t adjust_time           : 64; /**< [ 63:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 Indicates the signed delta value for the SYNCE timer to be updated. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_adjust_synce_s cn; */
-};
-typedef union cavm_tim_af_adjust_synce cavm_tim_af_adjust_synce_t;
-
-#define CAVM_TIM_AF_ADJUST_SYNCE CAVM_TIM_AF_ADJUST_SYNCE_FUNC()
-static inline uint64_t CAVM_TIM_AF_ADJUST_SYNCE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_ADJUST_SYNCE_FUNC(void)
-{
-    return 0x8400900001a0ll;
-}
-
-#define typedef_CAVM_TIM_AF_ADJUST_SYNCE cavm_tim_af_adjust_synce_t
-#define bustype_CAVM_TIM_AF_ADJUST_SYNCE CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_ADJUST_SYNCE "TIM_AF_ADJUST_SYNCE"
-#define device_bar_CAVM_TIM_AF_ADJUST_SYNCE 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_ADJUST_SYNCE 0
-#define arguments_CAVM_TIM_AF_ADJUST_SYNCE -1,-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) tim_af_adjust_tenns
  *
  * TIM AF TENNS Timer Adjust Register
@@ -436,9 +384,6 @@ static inline uint64_t CAVM_TIM_AF_ADJUST_TIMERS_FUNC(void)
  * TIM Admin Function  BAR2 Alias Registers
  * These registers alias to the TIM BAR2 registers for the PF and function
  * selected by TIM_AF_BAR2_SEL[PF_FUNC].
- *
- * Internal:
- * Not implemented. Placeholder for bug33464.
  */
 union cavm_tim_af_bar2_aliasx
 {
@@ -475,8 +420,6 @@ static inline uint64_t CAVM_TIM_AF_BAR2_ALIASX(uint64_t a)
  *
  * TIM Admin Function BAR2 Select Register
  * This register configures BAR2 accesses from the TIM_AF_BAR2_ALIAS() registers in BAR0.
- * Internal:
- * Not implemented. Placeholder for bug33464.
  */
 union cavm_tim_af_bar2_sel
 {
@@ -746,79 +689,6 @@ static inline uint64_t CAVM_TIM_AF_BLK_RST_FUNC(void)
 #define arguments_CAVM_TIM_AF_BLK_RST -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) tim_af_bp_test#
- *
- * INTERNAL: TIM AF Backpressure Test Register
- */
-union cavm_tim_af_bp_testx
-{
-    uint64_t u;
-    struct cavm_tim_af_bp_testx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 BP_TEST(0).\<63\> = Reserved.
-                                                                 BP_TEST(0).\<62\> = NCBI CR path to NCBO request interface.
-                                                                 BP_TEST(0).\<61\> = NPA FIFO.
-                                                                 BP_TEST(0).\<60\> = WQE FIFO.
-                                                                 BP_TEST(1..8).\<63\> = Reserved.
-                                                                 BP_TEST(1..8).\<62\> = Reserved.
-                                                                 BP_TEST(1..8).\<61\> = NCBI P path to STA interface(0..7).
-                                                                 BP_TEST(1..8).\<60\> = NCBI NP path to STA interface(0..7). */
-        uint64_t reserved_24_59        : 36;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time. */
-        uint64_t reserved_24_59        : 36;
-        uint64_t enable                : 4;  /**< [ 63: 60](R/W) Enable test mode. For diagnostic use only
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 BP_TEST(0).\<63\> = Reserved.
-                                                                 BP_TEST(0).\<62\> = NCBI CR path to NCBO request interface.
-                                                                 BP_TEST(0).\<61\> = NPA FIFO.
-                                                                 BP_TEST(0).\<60\> = WQE FIFO.
-                                                                 BP_TEST(1..8).\<63\> = Reserved.
-                                                                 BP_TEST(1..8).\<62\> = Reserved.
-                                                                 BP_TEST(1..8).\<61\> = NCBI P path to STA interface(0..7).
-                                                                 BP_TEST(1..8).\<60\> = NCBI NP path to STA interface(0..7). */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_bp_testx_s cn; */
-};
-typedef union cavm_tim_af_bp_testx cavm_tim_af_bp_testx_t;
-
-static inline uint64_t CAVM_TIM_AF_BP_TESTX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_BP_TESTX(uint64_t a)
-{
-    if (a<=8)
-        return 0x840090034000ll + 8ll * ((a) & 0xf);
-    __cavm_csr_fatal("TIM_AF_BP_TESTX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TIM_AF_BP_TESTX(a) cavm_tim_af_bp_testx_t
-#define bustype_CAVM_TIM_AF_BP_TESTX(a) CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_BP_TESTX(a) "TIM_AF_BP_TESTX"
-#define device_bar_CAVM_TIM_AF_BP_TESTX(a) 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_BP_TESTX(a) (a)
-#define arguments_CAVM_TIM_AF_BP_TESTX(a) (a),-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) tim_af_capture_bts
  *
  * TIM AF CAPTURE BTS Timer Capture Register
@@ -897,52 +767,6 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_GTI_FUNC(void)
 #define device_bar_CAVM_TIM_AF_CAPTURE_EXT_GTI 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_CAPTURE_EXT_GTI 0
 #define arguments_CAVM_TIM_AF_CAPTURE_EXT_GTI -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) tim_af_capture_ext_mio
- *
- * INTERNAL: TIM AF External MIO Timer Capture Register
- */
-union cavm_tim_af_capture_ext_mio
-{
-    uint64_t u;
-    struct cavm_tim_af_capture_ext_mio_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
-                                                                 contains the external MIO timer free running value.
-                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
-                                                                 contains the external MIO timer captured value. */
-#else /* Word 0 - Little Endian */
-        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
-                                                                 contains the external MIO timer free running value.
-                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
-                                                                 contains the external MIO timer captured value. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_capture_ext_mio_s cn; */
-};
-typedef union cavm_tim_af_capture_ext_mio cavm_tim_af_capture_ext_mio_t;
-
-#define CAVM_TIM_AF_CAPTURE_EXT_MIO CAVM_TIM_AF_CAPTURE_EXT_MIO_FUNC()
-static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_MIO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_CAPTURE_EXT_MIO_FUNC(void)
-{
-    return 0x840090000230ll;
-}
-
-#define typedef_CAVM_TIM_AF_CAPTURE_EXT_MIO cavm_tim_af_capture_ext_mio_t
-#define bustype_CAVM_TIM_AF_CAPTURE_EXT_MIO CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_CAPTURE_EXT_MIO "TIM_AF_CAPTURE_EXT_MIO"
-#define device_bar_CAVM_TIM_AF_CAPTURE_EXT_MIO 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_CAPTURE_EXT_MIO 0
-#define arguments_CAVM_TIM_AF_CAPTURE_EXT_MIO -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_capture_gpios
@@ -1063,52 +887,6 @@ static inline uint64_t CAVM_TIM_AF_CAPTURE_PTP_FUNC(void)
 #define device_bar_CAVM_TIM_AF_CAPTURE_PTP 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_CAPTURE_PTP 0
 #define arguments_CAVM_TIM_AF_CAPTURE_PTP -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) tim_af_capture_synce
- *
- * INTERNAL: TIM AF CAPTURE SYNCE Timer Capture Register
- */
-union cavm_tim_af_capture_synce
-{
-    uint64_t u;
-    struct cavm_tim_af_capture_synce_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
-                                                                 contains the TIM_AF_FR_RN_SYNCE timer free running value.
-                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
-                                                                 contains the TIM_AF_FR_RN_SYNCE timer captured value. */
-#else /* Word 0 - Little Endian */
-        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
-                                                                 contains the TIM_AF_FR_RN_SYNCE timer free running value.
-                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
-                                                                 contains the TIM_AF_FR_RN_SYNCE timer captured value. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_capture_synce_s cn; */
-};
-typedef union cavm_tim_af_capture_synce cavm_tim_af_capture_synce_t;
-
-#define CAVM_TIM_AF_CAPTURE_SYNCE CAVM_TIM_AF_CAPTURE_SYNCE_FUNC()
-static inline uint64_t CAVM_TIM_AF_CAPTURE_SYNCE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_CAPTURE_SYNCE_FUNC(void)
-{
-    return 0x840090000210ll;
-}
-
-#define typedef_CAVM_TIM_AF_CAPTURE_SYNCE cavm_tim_af_capture_synce_t
-#define bustype_CAVM_TIM_AF_CAPTURE_SYNCE CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_CAPTURE_SYNCE "TIM_AF_CAPTURE_SYNCE"
-#define device_bar_CAVM_TIM_AF_CAPTURE_SYNCE 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_CAPTURE_SYNCE 0
-#define arguments_CAVM_TIM_AF_CAPTURE_SYNCE -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_capture_tenns
@@ -1281,42 +1059,6 @@ static inline uint64_t CAVM_TIM_AF_DBG_FUNC(void)
 #define device_bar_CAVM_TIM_AF_DBG 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_DBG 0
 #define arguments_CAVM_TIM_AF_DBG -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) tim_af_eco
- *
- * INTERNAL: TIM AF ECO Register
- */
-union cavm_tim_af_eco
-{
-    uint64_t u;
-    struct cavm_tim_af_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_eco_s cn; */
-};
-typedef union cavm_tim_af_eco cavm_tim_af_eco_t;
-
-#define CAVM_TIM_AF_ECO CAVM_TIM_AF_ECO_FUNC()
-static inline uint64_t CAVM_TIM_AF_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_ECO_FUNC(void)
-{
-    return 0x840090000000ll;
-}
-
-#define typedef_CAVM_TIM_AF_ECO cavm_tim_af_eco_t
-#define bustype_CAVM_TIM_AF_ECO CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_ECO "TIM_AF_ECO"
-#define device_bar_CAVM_TIM_AF_ECO 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_ECO 0
-#define arguments_CAVM_TIM_AF_ECO -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_eng#_active
@@ -1554,52 +1296,6 @@ static inline uint64_t CAVM_TIM_AF_FR_RN_PTP_FUNC(void)
 #define arguments_CAVM_TIM_AF_FR_RN_PTP -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) tim_af_fr_rn_synce
- *
- * INTERNAL: TIM Free Running SYNCE Count Register
- */
-union cavm_tim_af_fr_rn_synce
-{
-    uint64_t u;
-    struct cavm_tim_af_fr_rn_synce_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
-
-                                                                 Software must read this register after writing it to ensure that the previous
-                                                                 write completed, before enabling any ring associated with this timer. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
-
-                                                                 Software must read this register after writing it to ensure that the previous
-                                                                 write completed, before enabling any ring associated with this timer. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_af_fr_rn_synce_s cn; */
-};
-typedef union cavm_tim_af_fr_rn_synce cavm_tim_af_fr_rn_synce_t;
-
-#define CAVM_TIM_AF_FR_RN_SYNCE CAVM_TIM_AF_FR_RN_SYNCE_FUNC()
-static inline uint64_t CAVM_TIM_AF_FR_RN_SYNCE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_AF_FR_RN_SYNCE_FUNC(void)
-{
-    return 0x840090000140ll;
-}
-
-#define typedef_CAVM_TIM_AF_FR_RN_SYNCE cavm_tim_af_fr_rn_synce_t
-#define bustype_CAVM_TIM_AF_FR_RN_SYNCE CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_TIM_AF_FR_RN_SYNCE "TIM_AF_FR_RN_SYNCE"
-#define device_bar_CAVM_TIM_AF_FR_RN_SYNCE 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_TIM_AF_FR_RN_SYNCE 0
-#define arguments_CAVM_TIM_AF_FR_RN_SYNCE -1,-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) tim_af_fr_rn_tenns
  *
  * TIM AF Free Running 10ns Clock Count Register
@@ -1654,17 +1350,7 @@ union cavm_tim_af_lf_rst
         uint64_t reserved_13_63        : 51;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
-                                                                 done.
-
-                                                                 Internal:
-                                                                 This comment applies to all blocks that refer to this register:
-
-                                                                 This should preferrably reset all registers/state associated with the LF, including
-                                                                 any BLK_LF_* and BLK_AF_LF()_* registers. It would also be nice to reset any per-LF
-                                                                 bits in other registers but its OK to have exceptions as long as the AF software has
-                                                                 another way to reset them, e.g. by writing to the bits. Such additional steps
-                                                                 expected from software should be documented in the HRM, e.g. in section 19.11.5
-                                                                 "VF Function Level Reset". */
+                                                                 done. */
         uint64_t reserved_8_11         : 4;
         uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function that is reset when [EXEC] is set. */
 #else /* Word 0 - Little Endian */
@@ -1672,17 +1358,7 @@ union cavm_tim_af_lf_rst
         uint64_t reserved_8_11         : 4;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
-                                                                 done.
-
-                                                                 Internal:
-                                                                 This comment applies to all blocks that refer to this register:
-
-                                                                 This should preferrably reset all registers/state associated with the LF, including
-                                                                 any BLK_LF_* and BLK_AF_LF()_* registers. It would also be nice to reset any per-LF
-                                                                 bits in other registers but its OK to have exceptions as long as the AF software has
-                                                                 another way to reset them, e.g. by writing to the bits. Such additional steps
-                                                                 expected from software should be documented in the HRM, e.g. in section 19.11.5
-                                                                 "VF Function Level Reset". */
+                                                                 done. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -2236,16 +1912,10 @@ union cavm_tim_af_rvu_int
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Unmapped slot. Received an I/O request to a VF/PF slot in BAR2 that is not
-                                                                 reverse mapped to an LF. See TIM_PRIV_LF()_CFG.
-
-                                                                 Internal:
-                                                                 A reverse lookup using TIM_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+                                                                 reverse mapped to an LF. See TIM_PRIV_LF()_CFG. */
 #else /* Word 0 - Little Endian */
         uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Unmapped slot. Received an I/O request to a VF/PF slot in BAR2 that is not
-                                                                 reverse mapped to an LF. See TIM_PRIV_LF()_CFG.
-
-                                                                 Internal:
-                                                                 A reverse lookup using TIM_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+                                                                 reverse mapped to an LF. See TIM_PRIV_LF()_CFG. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2280,13 +1950,9 @@ union cavm_tim_af_rvu_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using TIM_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using TIM_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2321,13 +1987,9 @@ union cavm_tim_af_rvu_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using TIM_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using TIM_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for TIM_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2362,13 +2024,9 @@ union cavm_tim_af_rvu_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using TIM_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using TIM_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -2622,56 +2280,6 @@ static inline uint64_t CAVM_TIM_LF_FR_RN_PTP_FUNC(void)
 #define device_bar_CAVM_TIM_LF_FR_RN_PTP 0x2 /* RVU_BAR2 */
 #define busnum_CAVM_TIM_LF_FR_RN_PTP 0
 #define arguments_CAVM_TIM_LF_FR_RN_PTP -1,-1,-1,-1
-
-/**
- * Register (RVU_PFVF_BAR2) tim_lf_fr_rn_synce
- *
- * INTERNAL: TIM Ring Free Running SYNCE Count Register
- *
- * This register is a read-only copy of TIM_AF_FR_RN_SYNCE.
- * Internal:
- * Unused in CNXXXX.
- */
-union cavm_tim_lf_fr_rn_synce
-{
-    uint64_t u;
-    struct cavm_tim_lf_fr_rn_synce_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_SYNCE[COUNT].
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
-
-                                                                 Software must read this register after writing it to ensure that the previous
-                                                                 write completed, before enabling any ring associated with this timer. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_AF_FR_RN_SYNCE[COUNT].
-                                                                 Internal:
-                                                                 Unused in CNXXXX.
-                                                                 Count of SYNCE cycles. This register is only writable when TIM_AF_REG_FLAGS[ENA_TIM] = 0.
-
-                                                                 Software must read this register after writing it to ensure that the previous
-                                                                 write completed, before enabling any ring associated with this timer. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tim_lf_fr_rn_synce_s cn; */
-};
-typedef union cavm_tim_lf_fr_rn_synce cavm_tim_lf_fr_rn_synce_t;
-
-#define CAVM_TIM_LF_FR_RN_SYNCE CAVM_TIM_LF_FR_RN_SYNCE_FUNC()
-static inline uint64_t CAVM_TIM_LF_FR_RN_SYNCE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TIM_LF_FR_RN_SYNCE_FUNC(void)
-{
-    return 0x840200900060ll;
-}
-
-#define typedef_CAVM_TIM_LF_FR_RN_SYNCE cavm_tim_lf_fr_rn_synce_t
-#define bustype_CAVM_TIM_LF_FR_RN_SYNCE CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_TIM_LF_FR_RN_SYNCE "TIM_LF_FR_RN_SYNCE"
-#define device_bar_CAVM_TIM_LF_FR_RN_SYNCE 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_TIM_LF_FR_RN_SYNCE 0
-#define arguments_CAVM_TIM_LF_FR_RN_SYNCE -1,-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) tim_lf_fr_rn_tenns
@@ -3265,9 +2873,6 @@ static inline uint64_t CAVM_TIM_LF_RING_CTL2_FUNC(void)
  * TIM Ring Relative Position Register
  * Current positions and status of the TIM walker in both time and ring position,
  * for easy synchronization with software.
- *
- * Internal:
- * For VM-safety this register contains only read-only fields.
  */
 union cavm_tim_lf_ring_rel
 {

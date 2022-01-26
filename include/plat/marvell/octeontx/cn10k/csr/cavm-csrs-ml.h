@@ -1118,43 +1118,6 @@ static inline uint64_t CAVM_MLX_CORE_INT_LO_W1S(uint64_t a)
 #define arguments_CAVM_MLX_CORE_INT_LO_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ml#_eco
- *
- * INTERNAL: ML ECO Register
- */
-union cavm_mlx_eco
-{
-    uint64_t u;
-    struct cavm_mlx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_eco_s cn; */
-};
-typedef union cavm_mlx_eco cavm_mlx_eco_t;
-
-static inline uint64_t CAVM_MLX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
-        return 0x8280000100f8ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_ECO(a) cavm_mlx_eco_t
-#define bustype_CAVM_MLX_ECO(a) CSR_TYPE_NCB
-#define basename_CAVM_MLX_ECO(a) "MLX_ECO"
-#define device_bar_CAVM_MLX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_ECO(a) (a)
-#define arguments_CAVM_MLX_ECO(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) ml#_jceq_in#
  *
  * ML Job Completion Enqueue Register
@@ -1471,41 +1434,6 @@ static inline uint64_t CAVM_MLX_JOBPTR_START(uint64_t a)
 #define arguments_CAVM_MLX_JOBPTR_START(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ml#_lwa_debug#
- *
- * INTERNAL: ML LWA TX Debug Register
- */
-union cavm_mlx_lwa_debugx
-{
-    uint64_t u;
-    struct cavm_mlx_lwa_debugx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Debug registers connected to LWA CSR interface. Data format is given in ML_LWA_DEBUG_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Debug registers connected to LWA CSR interface. Data format is given in ML_LWA_DEBUG_S. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_lwa_debugx_s cn; */
-};
-typedef union cavm_mlx_lwa_debugx cavm_mlx_lwa_debugx_t;
-
-static inline uint64_t CAVM_MLX_LWA_DEBUGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_LWA_DEBUGX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=1)))
-        return 0x828000011340ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x1);
-    __cavm_csr_fatal("MLX_LWA_DEBUGX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_LWA_DEBUGX(a,b) cavm_mlx_lwa_debugx_t
-#define bustype_CAVM_MLX_LWA_DEBUGX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_MLX_LWA_DEBUGX(a,b) "MLX_LWA_DEBUGX"
-#define device_bar_CAVM_MLX_LWA_DEBUGX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_LWA_DEBUGX(a,b) (a)
-#define arguments_CAVM_MLX_LWA_DEBUGX(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) ml#_mlr_base
  *
  * ML IP LLC Region Base Register
@@ -1541,86 +1469,6 @@ static inline uint64_t CAVM_MLX_MLR_BASE(uint64_t a)
 #define device_bar_CAVM_MLX_MLR_BASE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLX_MLR_BASE(a) (a)
 #define arguments_CAVM_MLX_MLR_BASE(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) ml#_mlw_csr_base
- *
- * INTERNAL: ML Wrapper Register Base Register
- */
-union cavm_mlx_mlw_csr_base
-{
-    uint64_t u;
-    struct cavm_mlx_mlw_csr_base_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR base offset in ACC/DOD outbound address map.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR base offset in ACC/DOD outbound address map.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-        uint64_t reserved_52_63        : 12;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_mlw_csr_base_s cn; */
-};
-typedef union cavm_mlx_mlw_csr_base cavm_mlx_mlw_csr_base_t;
-
-static inline uint64_t CAVM_MLX_MLW_CSR_BASE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_MLW_CSR_BASE(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
-        return 0x828000010010ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_MLW_CSR_BASE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_MLW_CSR_BASE(a) cavm_mlx_mlw_csr_base_t
-#define bustype_CAVM_MLX_MLW_CSR_BASE(a) CSR_TYPE_NCB
-#define basename_CAVM_MLX_MLW_CSR_BASE(a) "MLX_MLW_CSR_BASE"
-#define device_bar_CAVM_MLX_MLW_CSR_BASE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_MLW_CSR_BASE(a) (a)
-#define arguments_CAVM_MLX_MLW_CSR_BASE(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) ml#_mlw_csr_mask
- *
- * INTERNAL: ML Wrapper Register Mask Register
- */
-union cavm_mlx_mlw_csr_mask
-{
-    uint64_t u;
-    struct cavm_mlx_mlw_csr_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR mask in ACC/DOD outbound address map.
-                                                                 For diagnostic use only. Reset value should be used during normal operation.
-                                                                 Reset value gives 64KB aperture. */
-#else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR mask in ACC/DOD outbound address map.
-                                                                 For diagnostic use only. Reset value should be used during normal operation.
-                                                                 Reset value gives 64KB aperture. */
-        uint64_t reserved_52_63        : 12;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_mlw_csr_mask_s cn; */
-};
-typedef union cavm_mlx_mlw_csr_mask cavm_mlx_mlw_csr_mask_t;
-
-static inline uint64_t CAVM_MLX_MLW_CSR_MASK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_MLW_CSR_MASK(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
-        return 0x828000010018ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_MLW_CSR_MASK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_MLW_CSR_MASK(a) cavm_mlx_mlw_csr_mask_t
-#define bustype_CAVM_MLX_MLW_CSR_MASK(a) CSR_TYPE_NCB
-#define basename_CAVM_MLX_MLW_CSR_MASK(a) "MLX_MLW_CSR_MASK"
-#define device_bar_CAVM_MLX_MLW_CSR_MASK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_MLW_CSR_MASK(a) (a)
-#define arguments_CAVM_MLX_MLW_CSR_MASK(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) ml#_mlw_err_ena
@@ -1969,84 +1817,6 @@ static inline uint64_t CAVM_MLX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_MLX_MSIX_VECX_CTL(a,b) 0x4 /* PF_BAR4 */
 #define busnum_CAVM_MLX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_CAVM_MLX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) ml#_outbound_addr_end
- *
- * INTERNAL: ML IP Outbound Transactions End Address Register
- */
-union cavm_mlx_outbound_addr_end
-{
-    uint64_t u;
-    struct cavm_mlx_outbound_addr_end_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) Ending MLIP AXI outbound address of ML region in LLC/DRAM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) Ending MLIP AXI outbound address of ML region in LLC/DRAM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_outbound_addr_end_s cn; */
-};
-typedef union cavm_mlx_outbound_addr_end cavm_mlx_outbound_addr_end_t;
-
-static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_END(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_END(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
-        return 0x828000010078ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_OUTBOUND_ADDR_END", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_OUTBOUND_ADDR_END(a) cavm_mlx_outbound_addr_end_t
-#define bustype_CAVM_MLX_OUTBOUND_ADDR_END(a) CSR_TYPE_NCB
-#define basename_CAVM_MLX_OUTBOUND_ADDR_END(a) "MLX_OUTBOUND_ADDR_END"
-#define device_bar_CAVM_MLX_OUTBOUND_ADDR_END(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_OUTBOUND_ADDR_END(a) (a)
-#define arguments_CAVM_MLX_OUTBOUND_ADDR_END(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) ml#_outbound_addr_start
- *
- * INTERNAL: ML IP Outbound Transactions Start Address Register
- */
-union cavm_mlx_outbound_addr_start
-{
-    uint64_t u;
-    struct cavm_mlx_outbound_addr_start_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of ML region in LLC/DRAM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of ML region in LLC/DRAM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlx_outbound_addr_start_s cn; */
-};
-typedef union cavm_mlx_outbound_addr_start cavm_mlx_outbound_addr_start_t;
-
-static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_START(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLX_OUTBOUND_ADDR_START(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
-        return 0x828000010070ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLX_OUTBOUND_ADDR_START", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLX_OUTBOUND_ADDR_START(a) cavm_mlx_outbound_addr_start_t
-#define bustype_CAVM_MLX_OUTBOUND_ADDR_START(a) CSR_TYPE_NCB
-#define basename_CAVM_MLX_OUTBOUND_ADDR_START(a) "MLX_OUTBOUND_ADDR_START"
-#define device_bar_CAVM_MLX_OUTBOUND_ADDR_START(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLX_OUTBOUND_ADDR_START(a) (a)
-#define arguments_CAVM_MLX_OUTBOUND_ADDR_START(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) ml#_scratch#

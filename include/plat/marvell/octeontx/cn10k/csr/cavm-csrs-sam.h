@@ -278,44 +278,6 @@ static inline uint64_t CAVM_SAM_DMC_HASHX(uint64_t a)
 #define arguments_CAVM_SAM_DMC_HASHX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) sam_eco
- *
- * INTERNAL: SAM ECO Register
- *
- * Reserved for ECO usage.
- */
-union cavm_sam_eco
-{
-    uint64_t u;
-    struct cavm_sam_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t eco_rw                : 8;  /**< [  7:  0](SR/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 8;  /**< [  7:  0](SR/W) Reserved for ECO usage. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sam_eco_s cn; */
-};
-typedef union cavm_sam_eco cavm_sam_eco_t;
-
-#define CAVM_SAM_ECO CAVM_SAM_ECO_FUNC()
-static inline uint64_t CAVM_SAM_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SAM_ECO_FUNC(void)
-{
-    return 0x87e059000458ll;
-}
-
-#define typedef_CAVM_SAM_ECO cavm_sam_eco_t
-#define bustype_CAVM_SAM_ECO CSR_TYPE_RSL
-#define basename_CAVM_SAM_ECO "SAM_ECO"
-#define device_bar_CAVM_SAM_ECO 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SAM_ECO 0
-#define arguments_CAVM_SAM_ECO -1,-1,-1,-1
-
-/**
  * Register (RSL) sam_mn_map
  *
  * SAM MN Map Register

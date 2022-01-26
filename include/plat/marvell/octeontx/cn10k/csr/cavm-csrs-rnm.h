@@ -65,74 +65,6 @@ static inline uint64_t CAVM_RNM_ACTIVE_PC_FUNC(void)
 #define arguments_CAVM_RNM_ACTIVE_PC -1,-1,-1,-1
 
 /**
- * Register (RSL) rnm_bp_test
- *
- * INTERNAL: RNM Backpressure Test Register
- */
-union cavm_rnm_bp_test
-{
-    uint64_t u;
-    struct cavm_rnm_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 3;  /**< [ 63: 61](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Normal random number memory writes.
-                                                                 \<62\> = No-zeros random number memory writes.
-                                                                 \<61\> = No-zeros random number memory reads. */
-        uint64_t reserved_24_60        : 37;
-        uint64_t bp_cfg                : 6;  /**< [ 23: 18](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<23:22\> = Normal random number memory writes.
-                                                                   \<21:20\> = No-zeros random number memory writes.
-                                                                   \<19:18\> = No-zeros random number memory reads. */
-        uint64_t reserved_12_17        : 6;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_17        : 6;
-        uint64_t bp_cfg                : 6;  /**< [ 23: 18](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<23:22\> = Normal random number memory writes.
-                                                                   \<21:20\> = No-zeros random number memory writes.
-                                                                   \<19:18\> = No-zeros random number memory reads. */
-        uint64_t reserved_24_60        : 37;
-        uint64_t enable                : 3;  /**< [ 63: 61](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Normal random number memory writes.
-                                                                 \<62\> = No-zeros random number memory writes.
-                                                                 \<61\> = No-zeros random number memory reads. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rnm_bp_test_s cn; */
-};
-typedef union cavm_rnm_bp_test cavm_rnm_bp_test_t;
-
-#define CAVM_RNM_BP_TEST CAVM_RNM_BP_TEST_FUNC()
-static inline uint64_t CAVM_RNM_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_RNM_BP_TEST_FUNC(void)
-{
-    return 0x87e00f000028ll;
-}
-
-#define typedef_CAVM_RNM_BP_TEST cavm_rnm_bp_test_t
-#define bustype_CAVM_RNM_BP_TEST CSR_TYPE_RSL
-#define basename_CAVM_RNM_BP_TEST "RNM_BP_TEST"
-#define device_bar_CAVM_RNM_BP_TEST 0x0 /* PF_BAR0 */
-#define busnum_CAVM_RNM_BP_TEST 0
-#define arguments_CAVM_RNM_BP_TEST -1,-1,-1,-1
-
-/**
  * Register (RSL) rnm_ctl_status
  *
  * RNM Control and Status Register
@@ -423,11 +355,7 @@ union cavm_rnm_ebg_ctl
                                                                  Examples:
                                                                  0x2: brn_ck_freq = noise_ck_freq/4.
                                                                  0x3: brn_ck_freq = noise_ck_freq/6.
-                                                                 0x10: brn_ck_freq = noise_ck_freq/32.
-
-                                                                 Internal:
-                                                                 This register is directly connected to analog (analog random number
-                                                                 generator) input div_val[8:0]. */
+                                                                 0x10: brn_ck_freq = noise_ck_freq/32. */
         uint64_t reserved_15           : 1;
         uint64_t entropy_sel           : 2;  /**< [ 14: 13](SR/W/H) Entropy source select.
                                                                  Must only be changed when [RNG_RSTN] and [ENTROPY_REQ] field are 0.
@@ -453,19 +381,11 @@ union cavm_rnm_ebg_ctl
         uint64_t rng_fast_osc_ena      : 1;  /**< [  8:  8](SR/W/H) Enable signal of the fast oscillator in the digital RNG structure. It is the
                                                                  clean oscillator.
                                                                  0 = Disable.
-                                                                 1 = RNG Fast (Free Running) OSC Enable.
-
-                                                                 Internal:
-                                                                 This register is directly connected to analog (analog random number
-                                                                 generator) input fast_osc_ena. */
+                                                                 1 = RNG Fast (Free Running) OSC Enable. */
         uint64_t rng_slow_osc_ena      : 1;  /**< [  7:  7](SR/W/H) Enable signal of the slow oscillator in the digital RNG structure. It is the
                                                                  noisy oscillator.
                                                                  0 = Disable.
-                                                                 1 = RNG Slow OSC Enable.
-
-                                                                 Internal:
-                                                                 This register is directly connected to analog (analog random number
-                                                                 generator) input slow_osc_ena. */
+                                                                 1 = RNG Slow OSC Enable. */
         uint64_t pp_ena                : 1;  /**< [  6:  6](SR/W/H) Enable signal of the post processor.
                                                                  Disabling the post processor will allow raw entropy to be extracted from the
                                                                  ana_rng macro. Note that it is still subject to downsamping, depending
@@ -476,21 +396,13 @@ union cavm_rnm_ebg_ctl
                                                                  Should only be changed when [RNG_RSTN] and [ENTROPY_REQ] are 0. */
         uint64_t rng_pu_bias2          : 1;  /**< [  5:  5](SR/W/H) Enable signal of the analog bias circuit.
                                                                  0 = Disable.
-                                                                 1 = Provide power for slow oscillator and its bias circuit.
-
-                                                                 Internal:
-                                                                 This register is directly connected to analog (analog random number
-                                                                 generator) input pu_bias2. */
+                                                                 1 = Provide power for slow oscillator and its bias circuit. */
         uint64_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_4          : 5;
         uint64_t rng_pu_bias2          : 1;  /**< [  5:  5](SR/W/H) Enable signal of the analog bias circuit.
                                                                  0 = Disable.
-                                                                 1 = Provide power for slow oscillator and its bias circuit.
-
-                                                                 Internal:
-                                                                 This register is directly connected to analog (analog random number
-                                                                 generator) input pu_bias2. */
+                                                                 1 = Provide power for slow oscillator and its bias circuit. */
         uint64_t pp_ena                : 1;  /**< [  6:  6](SR/W/H) Enable signal of the post processor.
                                                                  Disabling the post processor will allow raw entropy to be extracted from the
                                                                  ana_rng macro. Note that it is still subject to downsamping, depending
@@ -502,19 +414,11 @@ union cavm_rnm_ebg_ctl
         uint64_t rng_slow_osc_ena      : 1;  /**< [  7:  7](SR/W/H) Enable signal of the slow oscillator in the digital RNG structure. It is the
                                                                  noisy oscillator.
                                                                  0 = Disable.
-                                                                 1 = RNG Slow OSC Enable.
-
-                                                                 Internal:
-                                                                 This register is directly connected to analog (analog random number
-                                                                 generator) input slow_osc_ena. */
+                                                                 1 = RNG Slow OSC Enable. */
         uint64_t rng_fast_osc_ena      : 1;  /**< [  8:  8](SR/W/H) Enable signal of the fast oscillator in the digital RNG structure. It is the
                                                                  clean oscillator.
                                                                  0 = Disable.
-                                                                 1 = RNG Fast (Free Running) OSC Enable.
-
-                                                                 Internal:
-                                                                 This register is directly connected to analog (analog random number
-                                                                 generator) input fast_osc_ena. */
+                                                                 1 = RNG Fast (Free Running) OSC Enable. */
         uint64_t rng_pu_bias           : 1;  /**< [  9:  9](SR/W/H) Enable signal of the analog bias circuit.
                                                                  0 = Disable.
                                                                  1 = Provide Power for slow oscillator and its bias circuit. */
@@ -545,11 +449,7 @@ union cavm_rnm_ebg_ctl
                                                                  Examples:
                                                                  0x2: brn_ck_freq = noise_ck_freq/4.
                                                                  0x3: brn_ck_freq = noise_ck_freq/6.
-                                                                 0x10: brn_ck_freq = noise_ck_freq/32.
-
-                                                                 Internal:
-                                                                 This register is directly connected to analog (analog random number
-                                                                 generator) input div_val[8:0]. */
+                                                                 0x10: brn_ck_freq = noise_ck_freq/32. */
         uint64_t ds_ratio              : 8;  /**< [ 31: 24](SR/W/H) Down sampling ratio in hex in the EBG downsampling circuit, which further
                                                                  downsamples the RNG slow (Noisy) oscillator output. This downsampling is
                                                                  done outside of the RNG macro.
@@ -1059,7 +959,13 @@ typedef union cavm_rnm_random cavm_rnm_random_t;
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 {
-    return 0x80f000800000ll;
+    if (cavm_is_model(OCTEONTX_CN10KA))
+        return 0x80f000800000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x80f000800000ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x80f000800000ll;
+    __cavm_csr_fatal("RNM_RANDOM", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_RNM_RANDOM cavm_rnm_random_t

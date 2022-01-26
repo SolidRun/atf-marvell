@@ -38,56 +38,11 @@
 #define CAVM_SSOW_LF_INT_VEC_E_IOP (0)
 
 /**
- * Register (RVU_PF_BAR0) ssow_af_aw_ext_clk_enable
- *
- * INTERNAL:SSO Ext Global Clock Enable Register
- *
- * SSO SCK subblock coarse-gating clock force.
- */
-union cavm_ssow_af_aw_ext_clk_enable
-{
-    uint64_t u;
-    struct cavm_ssow_af_aw_ext_clk_enable_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
-                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
-        uint64_t reserved_0_62         : 63;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_62         : 63;
-        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
-                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_aw_ext_clk_enable_s cn; */
-};
-typedef union cavm_ssow_af_aw_ext_clk_enable cavm_ssow_af_aw_ext_clk_enable_t;
-
-#define CAVM_SSOW_AF_AW_EXT_CLK_ENABLE CAVM_SSOW_AF_AW_EXT_CLK_ENABLE_FUNC()
-static inline uint64_t CAVM_SSOW_AF_AW_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_AF_AW_EXT_CLK_ENABLE_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB))
-        return 0x840080000600ll;
-    __cavm_csr_fatal("SSOW_AF_AW_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE cavm_ssow_af_aw_ext_clk_enable_t
-#define bustype_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE "SSOW_AF_AW_EXT_CLK_ENABLE"
-#define device_bar_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE 0
-#define arguments_CAVM_SSOW_AF_AW_EXT_CLK_ENABLE -1,-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) ssow_af_bar2_alias#
  *
  * SSO Work Slot Admin Function  BAR2 Alias Registers
  * These registers alias to the SSO Workslot BAR2 registers for the PF and
  * function selected by SSOW_AF_BAR2_SEL[PF_FUNC].
- *
- * Internal:
- * Not implemented. Placeholder for bug33464.
  */
 union cavm_ssow_af_bar2_aliasx
 {
@@ -124,8 +79,6 @@ static inline uint64_t CAVM_SSOW_AF_BAR2_ALIASX(uint64_t a)
  *
  * SSO Work Slot Admin Function BAR2 Select Register
  * This register configures BAR2 accesses from the SSOW_AF_BAR2_ALIAS() registers in BAR0.
- * Internal:
- * Not implemented. Placeholder for bug33464.
  */
 union cavm_ssow_af_bar2_sel
 {
@@ -309,48 +262,6 @@ static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void)
 #define arguments_CAVM_SSOW_AF_FLR_HWS_DIGEST -1,-1,-1,-1
 
 /**
- * Register (RVU_PF_BAR0) ssow_af_gw_ext_clk_enable
- *
- * INTERNAL:SSO Ext Global Clock Enable Register
- *
- * SSO SCK subblock coarse-gating clock force.
- */
-union cavm_ssow_af_gw_ext_clk_enable
-{
-    uint64_t u;
-    struct cavm_ssow_af_gw_ext_clk_enable_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
-                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
-        uint64_t reserved_0_62         : 63;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_62         : 63;
-        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
-                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_gw_ext_clk_enable_s cn; */
-};
-typedef union cavm_ssow_af_gw_ext_clk_enable cavm_ssow_af_gw_ext_clk_enable_t;
-
-#define CAVM_SSOW_AF_GW_EXT_CLK_ENABLE CAVM_SSOW_AF_GW_EXT_CLK_ENABLE_FUNC()
-static inline uint64_t CAVM_SSOW_AF_GW_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_AF_GW_EXT_CLK_ENABLE_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB))
-        return 0x840080000610ll;
-    __cavm_csr_fatal("SSOW_AF_GW_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE cavm_ssow_af_gw_ext_clk_enable_t
-#define bustype_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE "SSOW_AF_GW_EXT_CLK_ENABLE"
-#define device_bar_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE 0
-#define arguments_CAVM_SSOW_AF_GW_EXT_CLK_ENABLE -1,-1,-1,-1
-
-/**
  * Register (RVU_PF_BAR0) ssow_af_lf_flr
  *
  * SSOW AF LF Reset Register
@@ -436,17 +347,7 @@ union cavm_ssow_af_lf_hws_rst
         uint64_t reserved_13_63        : 51;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
-                                                                 done.
-
-                                                                 Internal:
-                                                                 This comment applies to all blocks that refer to this register:
-
-                                                                 This should preferrably reset all registers/state associated with the LF, including
-                                                                 any BLK_LF_* and BLK_AF_LF()_* registers. It would also be nice to reset any per-LF
-                                                                 bits in other registers but its OK to have exceptions as long as the AF software has
-                                                                 another way to reset them, e.g. by writing to the bits. Such additional steps
-                                                                 expected from software should be documented in the HRM, e.g. in section 19.11.5
-                                                                 "VF Function Level Reset". */
+                                                                 done. */
         uint64_t reserved_8_11         : 4;
         uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function that is reset when [EXEC] is set. */
 #else /* Word 0 - Little Endian */
@@ -454,17 +355,7 @@ union cavm_ssow_af_lf_hws_rst
         uint64_t reserved_8_11         : 4;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
-                                                                 done.
-
-                                                                 Internal:
-                                                                 This comment applies to all blocks that refer to this register:
-
-                                                                 This should preferrably reset all registers/state associated with the LF, including
-                                                                 any BLK_LF_* and BLK_AF_LF()_* registers. It would also be nice to reset any per-LF
-                                                                 bits in other registers but its OK to have exceptions as long as the AF software has
-                                                                 another way to reset them, e.g. by writing to the bits. Such additional steps
-                                                                 expected from software should be documented in the HRM, e.g. in section 19.11.5
-                                                                 "VF Function Level Reset". */
+                                                                 done. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -649,48 +540,6 @@ static inline uint64_t CAVM_SSOW_AF_SCRATCH_WS_FUNC(void)
 #define device_bar_CAVM_SSOW_AF_SCRATCH_WS 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_SSOW_AF_SCRATCH_WS 0
 #define arguments_CAVM_SSOW_AF_SCRATCH_WS -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) ssow_af_ws_ext_clk_enable
- *
- * INTERNAL:SSO Ext Global Clock Enable Register
- *
- * SSO SCK subblock coarse-gating clock force.
- */
-union cavm_ssow_af_ws_ext_clk_enable
-{
-    uint64_t u;
-    struct cavm_ssow_af_ws_ext_clk_enable_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
-                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
-        uint64_t reserved_0_62         : 63;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_62         : 63;
-        uint64_t coarse_clk_force      : 1;  /**< [ 63: 63](R/W) Internal:
-                                                                 Force subblock coarse clock to always be on. For diagnostic use only. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_ws_ext_clk_enable_s cn; */
-};
-typedef union cavm_ssow_af_ws_ext_clk_enable cavm_ssow_af_ws_ext_clk_enable_t;
-
-#define CAVM_SSOW_AF_WS_EXT_CLK_ENABLE CAVM_SSOW_AF_WS_EXT_CLK_ENABLE_FUNC()
-static inline uint64_t CAVM_SSOW_AF_WS_EXT_CLK_ENABLE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SSOW_AF_WS_EXT_CLK_ENABLE_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB))
-        return 0x840080000620ll;
-    __cavm_csr_fatal("SSOW_AF_WS_EXT_CLK_ENABLE", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE cavm_ssow_af_ws_ext_clk_enable_t
-#define bustype_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE "SSOW_AF_WS_EXT_CLK_ENABLE"
-#define device_bar_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE 0
-#define arguments_CAVM_SSOW_AF_WS_EXT_CLK_ENABLE -1,-1,-1,-1
 
 /**
  * Register (RVU_PFVF_BAR2) ssow_lf_gws_grpmsk_chg
@@ -2067,9 +1916,6 @@ static inline uint64_t CAVM_SSOW_LF_GWS_PRF_WQP_FUNC(void)
  * IMPORTANT: Although this register is located in SSO I/O address space, the state of
  * this register is cached inside the cores, and so loads to this register can
  * typically be returned with L1Dcache-like timing.
- *
- * Internal:
- * The address of this register is decoded by AP MEM.
  */
 union cavm_ssow_lf_gws_swtp
 {

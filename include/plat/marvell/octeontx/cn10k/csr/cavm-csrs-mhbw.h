@@ -99,55 +99,6 @@
 #define CAVM_MHBW_PNB_WR_CMD_E_STT (2)
 
 /**
- * Enumeration mhbw_rsl_subid_e
- *
- * INTERNAL: MHBW RSL-SUBID Enumeration
- *
- * Enumerates RSL addressing of MHAB and PMEM/CMEM blocks. The base address of
- * each MHAB is:
- * _ BPHY_BAR_E::BPHY_PF_BAR2 | (RSL-SUBID)\<\<19
- *
- * All listed blocks have both MHAB and MHBW registers unless noted otherwise.
- */
-#define CAVM_MHBW_RSL_SUBID_E_ARXEX(a) (0x28 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_ARXLX(a) (0x44 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_ARXMX(a) (0x46 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_BBX2X(a) (0x44 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_BBX4X(a) (0x45 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_BBX5X(a) (0x46 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_BBX6X(a) (0x47 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_BMULX(a) (0x2c + (a))
-#define CAVM_MHBW_RSL_SUBID_E_CESTX(a) (0x38 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_CMEMX(a) (0x4c + (a))
-#define CAVM_MHBW_RSL_SUBID_E_DENCX(a) (0x41 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_DLBFX(a) (0x36 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_DLFEX(a) (4 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_DLWGX(a) (0x49 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_DMAPX(a) (0x24 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_DSYMX(a) (0x3c + (a))
-#define CAVM_MHBW_RSL_SUBID_E_ECMPX(a) (0xc + (a))
-#define CAVM_MHBW_RSL_SUBID_E_EDECX(a) (8 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_EDFTX(a) (0x38 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_FDEQX(a) (0x28 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_LDECX(a) (0x18 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_LENCX(a) (0x14 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_PDECX(a) (0x32 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_PENCX(a) (0x10 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_PMEMX(a) (0x4a + (a))
-#define CAVM_MHBW_RSL_SUBID_E_PNBDX(a) (0x30 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_PRCHX(a) (0x43 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_RDECX(a) (0x1c + (a))
-#define CAVM_MHBW_RSL_SUBID_E_RFOEX(a) (0x58 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_RMAPX(a) (0x34 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_SDECX(a) (0x20 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_TDECX(a) (0x42 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_TOCGX(a) (0x48 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_TOFCX(a) (0x5c + (a))
-#define CAVM_MHBW_RSL_SUBID_E_ULBFX(a) (0x2c + (a))
-#define CAVM_MHBW_RSL_SUBID_E_ULFEX(a) (0 + (a))
-#define CAVM_MHBW_RSL_SUBID_E_VDECX(a) (0x40 + (a))
-
-/**
  * Enumeration mhbw_tmem_sel_e
  *
  * MHBW Target Memory Enumeration
@@ -158,29 +109,6 @@
 #define CAVM_MHBW_TMEM_SEL_E_RSVD0 (2)
 #define CAVM_MHBW_TMEM_SEL_E_RSVD1 (3)
 #define CAVM_MHBW_TMEM_SEL_E_SMEM (0)
-
-/**
- * Structure mhbw_jd_cfg_data_s
- *
- * INTERNAL: MHBW Job Configuration Data Structure
- *
- * The MHBW config data subdescriptor is written to the hardware driven config space if
- * SLOT_EN=1,
- * else it writes the data from a starting address of zero.
- */
-union cavm_mhbw_jd_cfg_data_s
-{
-    uint64_t u;
-    struct cavm_mhbw_jd_cfg_data_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cfg_wr_data           : 64; /**< [ 63:  0] Specifies the config write data to be written. */
-#else /* Word 0 - Little Endian */
-        uint64_t cfg_wr_data           : 64; /**< [ 63:  0] Specifies the config write data to be written. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbw_jd_cfg_data_s_s cn; */
-};
 
 /**
  * Structure mhbw_jd_cfg_ptr_s
@@ -805,73 +733,6 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(uint64_t a, uint64_t b, 
 #define device_bar_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_CP_NFAT_JTAG(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (MULTIRSL) mhbw#_ab#_slt#_debug0
- *
- * INTERNAL: MHBW AB Slot Debug Register
- *
- * Internal:
- * This register set, specifies debug information per MHBW, per AB, per job slot. This
- * register set contains bits, which specify the write-resend mask. This masks subsequent
- * interrupt transactions for this register. If set indicates an interrupt has been issued for
- * this vector. The bit is reset by hardware if software performs a W1C to any of the
- * corresponding interrupt bits in the interrupt register. It also contains the job tag of the
- * job that is currently being processed by an AB.
- */
-union cavm_mhbwx_abx_sltx_debug0
-{
-    uint64_t u;
-    struct cavm_mhbwx_abx_sltx_debug0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ferr                  : 1;  /**< [ 63: 63](R/W/H) Internal:
-                                                                 This bit specifies the write-resend mask, for fatal errors. */
-        uint64_t nferr                 : 1;  /**< [ 62: 62](R/W/H) Internal:
-                                                                 This bit specifies the write-resend mask, for nonfatal errors. */
-        uint64_t derr                  : 1;  /**< [ 61: 61](R/W/H) Internal:
-                                                                 This bit specifies the write-resend mask, for DMA errors. */
-        uint64_t adrerr                : 1;  /**< [ 60: 60](R/W/H) Internal:
-                                                                 This bit specifies the write-resend mask for address errors. */
-        uint64_t reserved_16_59        : 44;
-        uint64_t job_id                : 16; /**< [ 15:  0](RO/H) Internal:
-                                                                 This set of bits, specifies the job tag, corresponding to the job that is active
-                                                                 in the MHBW, per AB, per job slot. */
-#else /* Word 0 - Little Endian */
-        uint64_t job_id                : 16; /**< [ 15:  0](RO/H) Internal:
-                                                                 This set of bits, specifies the job tag, corresponding to the job that is active
-                                                                 in the MHBW, per AB, per job slot. */
-        uint64_t reserved_16_59        : 44;
-        uint64_t adrerr                : 1;  /**< [ 60: 60](R/W/H) Internal:
-                                                                 This bit specifies the write-resend mask for address errors. */
-        uint64_t derr                  : 1;  /**< [ 61: 61](R/W/H) Internal:
-                                                                 This bit specifies the write-resend mask, for DMA errors. */
-        uint64_t nferr                 : 1;  /**< [ 62: 62](R/W/H) Internal:
-                                                                 This bit specifies the write-resend mask, for nonfatal errors. */
-        uint64_t ferr                  : 1;  /**< [ 63: 63](R/W/H) Internal:
-                                                                 This bit specifies the write-resend mask, for fatal errors. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_abx_sltx_debug0_s cn; */
-};
-typedef union cavm_mhbwx_abx_sltx_debug0 cavm_mhbwx_abx_sltx_debug0_t;
-
-static inline uint64_t CAVM_MHBWX_ABX_SLTX_DEBUG0(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_ABX_SLTX_DEBUG0(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=95) && (b<=3) && (c<=3)))
-        return 0x87e040042900ll + 0x80000ll * ((a) & 0x7f) + 0x40ll * ((b) & 0x3) + 0x10ll * ((c) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=95) && (b<=3) && (c<=3)))
-        return 0x87e040042900ll + 0x80000ll * ((a) & 0x7f) + 0x40ll * ((b) & 0x3) + 0x10ll * ((c) & 0x3);
-    __cavm_csr_fatal("MHBWX_ABX_SLTX_DEBUG0", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) cavm_mhbwx_abx_sltx_debug0_t
-#define bustype_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) "MHBWX_ABX_SLTX_DEBUG0"
-#define device_bar_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) (a)
-#define arguments_CAVM_MHBWX_ABX_SLTX_DEBUG0(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (MULTIRSL) mhbw#_ab#_slt#_derr_ena_w1c
@@ -2130,11 +1991,6 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_RD_NFAT_JTAG(uint64_t a, uint64_t b, 
  * given slot on a given HAB. In some cases, the wrong job tag will be
  * recorded for the wrong slot. In these cases, the HAB_ERROR_SOURCE0
  * register for the given HAB should report the correct job tag.
- *
- * Internal:
- * If the AB signals an underflow or overflow after returning the last beat credit on
- * the AB-MHBW interface for a job. The job tag will potentially be incorrect; since there is no
- * previous job context stacking for error handling.
  */
 union cavm_mhbwx_abx_sltx_rderr_oflow_jtag
 {
@@ -2182,11 +2038,6 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_RDERR_OFLOW_JTAG(uint64_t a, uint64_t
  * given slot on a given HAB. In some cases, the wrong job tag will be
  * recorded for the wrong slot. In these cases, the HAB_ERROR_SOURCE0
  * register for the given HAB should report the correct job tag.
- *
- * Internal:
- * If the AB signals an underflow or overflow after returning the last beat credit on
- * the AB-MHBW interface for a job. The job tag will potentially be incorrect; since there is no
- * previous job context stacking for error handling.
  */
 union cavm_mhbwx_abx_sltx_rderr_uflow_jtag
 {
@@ -2225,138 +2076,6 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(uint64_t a, uint64_t
 #define device_bar_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) (a)
 #define arguments_CAVM_MHBWX_ABX_SLTX_RDERR_UFLOW_JTAG(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (MULTIRSL) mhbw#_ab#_slt#_status
- *
- * INTERNAL: MHBW Job Execution Status Register
- *
- * For HW debugging only. This register keeps the current job slot execution
- * status per AB core per job slot.
- */
-union cavm_mhbwx_abx_sltx_status
-{
-    uint64_t u;
-    struct cavm_mhbwx_abx_sltx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t job_tag               : 16; /**< [ 31: 16](RO/H) PSM job tag number. */
-        uint64_t job_gmid              : 3;  /**< [ 15: 13](RO/H) JOB's GMID. */
-        uint64_t job_wdma_done         : 1;  /**< [ 12: 12](RO/H) JOB write DMA transfer done. */
-        uint64_t job_rdma_done         : 1;  /**< [ 11: 11](RO/H) JOB read DMA transfer done. */
-        uint64_t job_timeo_state       : 2;  /**< [ 10:  9](RO/H) JOB timeout statem states:
-                                                                   typedef
-                                                                   enum logic [1:0]
-                                                                   {JOB_TIMER_START_ST_E= 'h0,
-                                                                   JOB_TIMED_OUT_ST_E = 'h1,
-                                                                   JOB_END_WAIT_ST_E = 'h2
-                                                                   } job_timeout_sm_t. */
-        uint64_t job_jce_wr_state      : 2;  /**< [  8:  7](RO/H) JOB JCE write statem states:
-                                                                   typedef
-                                                                   enum logic [1:0]
-                                                                   {JCE_W0_ST_E = 'h0,         //first 64b job completion word
-                                                                   JCE_W1_ST_E = 'h1,          //second 64b word
-                                                                   JCA_CREDIT_RETN_ST_E = 'h2, //wait for psm jca credit return
-                                                                   JCE_DROP_ST_E = 'h3         //drop the rest of JCE words after the first NOP
-                                                                   } jce_wr_sm_t. */
-        uint64_t job_cfg_wr_state      : 2;  /**< [  6:  5](RO/H) JOB AB CFG write statem states:
-                                                                   typedef
-                                                                   enum logic [1:0]
-                                                                   {CFG_WR_ST_E = 'h0,        //write job cfg words to AB
-                                                                   CFG_WR_DONE_E_ST_E = 'h1,  //set job ID and start bit
-                                                                   CFG_WR_DONE_ST_E = 'h2,    //done with job cfg writes
-                                                                   CFG_WR_SLOT4_ST_E = 'h3    //set job_tag ID at 0x8008 if slot id = 3
-                                                                   } ab_cfg_wr_sm_t. */
-        uint64_t job_ab_ctl_state      : 2;  /**< [  4:  3](RO/H) JOB AB control statem states:
-                                                                   typedef
-                                                                   enum logic [1:0]
-                                                                   {SLOT_IDLE_ST_E = 'h0,
-                                                                   SLOT_START_BUSY_ST_E = 'h1, //set AB busy when CFG writes are done
-                                                                   SLOT_END_BUSY_ST_E = 'h2    //check AB !busy, op_fif_empty, and psm cdtrtn
-                                                                   } ab_ctrl_sm_t. */
-        uint64_t job_fetch_state       : 3;  /**< [  2:  0](RO/H) JOB fetch statem states:
-                                                                   typedef
-                                                                   enum logic [2:0]
-                                                                   {NEXT_JOB_ST_E = 'h0,       //wait for the next job
-                                                                   STORE_CTX_ST_E = 'h1,       //store job desc words; headers, cfg/jce/dma_ptrs
-                                                                   WAIT_AB_RDY_ST_E = 'h2,     //wait for AB's ready to go high for new job
-                                                                   FETCH_CFG_ST_E = 'h3,       //fetch job configuration words
-                                                                   FETCH_RD_DMA_ST_E = 'h4,    //fetch at least one rd dma word before wr dma
-                                                                   FETCH_RD_WR_DMA_ST_E = 'h5, //fetch both read and write dma words
-                                                                   JCE_FETCH_WR_ST_E = 'h6,    //wr JCE msg to PSM after AMM done & busy de-asserted
-                                                                   JOB_END_ST_E = 'h7          //job end. return JCA credit; clear all job context
-                                                                   } job_fetch_sm_t. */
-#else /* Word 0 - Little Endian */
-        uint64_t job_fetch_state       : 3;  /**< [  2:  0](RO/H) JOB fetch statem states:
-                                                                   typedef
-                                                                   enum logic [2:0]
-                                                                   {NEXT_JOB_ST_E = 'h0,       //wait for the next job
-                                                                   STORE_CTX_ST_E = 'h1,       //store job desc words; headers, cfg/jce/dma_ptrs
-                                                                   WAIT_AB_RDY_ST_E = 'h2,     //wait for AB's ready to go high for new job
-                                                                   FETCH_CFG_ST_E = 'h3,       //fetch job configuration words
-                                                                   FETCH_RD_DMA_ST_E = 'h4,    //fetch at least one rd dma word before wr dma
-                                                                   FETCH_RD_WR_DMA_ST_E = 'h5, //fetch both read and write dma words
-                                                                   JCE_FETCH_WR_ST_E = 'h6,    //wr JCE msg to PSM after AMM done & busy de-asserted
-                                                                   JOB_END_ST_E = 'h7          //job end. return JCA credit; clear all job context
-                                                                   } job_fetch_sm_t. */
-        uint64_t job_ab_ctl_state      : 2;  /**< [  4:  3](RO/H) JOB AB control statem states:
-                                                                   typedef
-                                                                   enum logic [1:0]
-                                                                   {SLOT_IDLE_ST_E = 'h0,
-                                                                   SLOT_START_BUSY_ST_E = 'h1, //set AB busy when CFG writes are done
-                                                                   SLOT_END_BUSY_ST_E = 'h2    //check AB !busy, op_fif_empty, and psm cdtrtn
-                                                                   } ab_ctrl_sm_t. */
-        uint64_t job_cfg_wr_state      : 2;  /**< [  6:  5](RO/H) JOB AB CFG write statem states:
-                                                                   typedef
-                                                                   enum logic [1:0]
-                                                                   {CFG_WR_ST_E = 'h0,        //write job cfg words to AB
-                                                                   CFG_WR_DONE_E_ST_E = 'h1,  //set job ID and start bit
-                                                                   CFG_WR_DONE_ST_E = 'h2,    //done with job cfg writes
-                                                                   CFG_WR_SLOT4_ST_E = 'h3    //set job_tag ID at 0x8008 if slot id = 3
-                                                                   } ab_cfg_wr_sm_t. */
-        uint64_t job_jce_wr_state      : 2;  /**< [  8:  7](RO/H) JOB JCE write statem states:
-                                                                   typedef
-                                                                   enum logic [1:0]
-                                                                   {JCE_W0_ST_E = 'h0,         //first 64b job completion word
-                                                                   JCE_W1_ST_E = 'h1,          //second 64b word
-                                                                   JCA_CREDIT_RETN_ST_E = 'h2, //wait for psm jca credit return
-                                                                   JCE_DROP_ST_E = 'h3         //drop the rest of JCE words after the first NOP
-                                                                   } jce_wr_sm_t. */
-        uint64_t job_timeo_state       : 2;  /**< [ 10:  9](RO/H) JOB timeout statem states:
-                                                                   typedef
-                                                                   enum logic [1:0]
-                                                                   {JOB_TIMER_START_ST_E= 'h0,
-                                                                   JOB_TIMED_OUT_ST_E = 'h1,
-                                                                   JOB_END_WAIT_ST_E = 'h2
-                                                                   } job_timeout_sm_t. */
-        uint64_t job_rdma_done         : 1;  /**< [ 11: 11](RO/H) JOB read DMA transfer done. */
-        uint64_t job_wdma_done         : 1;  /**< [ 12: 12](RO/H) JOB write DMA transfer done. */
-        uint64_t job_gmid              : 3;  /**< [ 15: 13](RO/H) JOB's GMID. */
-        uint64_t job_tag               : 16; /**< [ 31: 16](RO/H) PSM job tag number. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_abx_sltx_status_s cn; */
-};
-typedef union cavm_mhbwx_abx_sltx_status cavm_mhbwx_abx_sltx_status_t;
-
-static inline uint64_t CAVM_MHBWX_ABX_SLTX_STATUS(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_ABX_SLTX_STATUS(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=95) && (b<=3) && (c<=3)))
-        return 0x87e040050100ll + 0x80000ll * ((a) & 0x7f) + 0x40ll * ((b) & 0x3) + 0x10ll * ((c) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=95) && (b<=3) && (c<=3)))
-        return 0x87e040050100ll + 0x80000ll * ((a) & 0x7f) + 0x40ll * ((b) & 0x3) + 0x10ll * ((c) & 0x3);
-    __cavm_csr_fatal("MHBWX_ABX_SLTX_STATUS", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) cavm_mhbwx_abx_sltx_status_t
-#define bustype_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) "MHBWX_ABX_SLTX_STATUS"
-#define device_bar_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) (a)
-#define arguments_CAVM_MHBWX_ABX_SLTX_STATUS(a,b,c) (a),(b),(c),-1
 
 /**
  * Register (MULTIRSL) mhbw#_ab#_slt#_wderr_oflow_jtag
@@ -2862,88 +2581,6 @@ static inline uint64_t CAVM_MHBWX_ADR_ERROR_JCE_W1(uint64_t a)
 #define arguments_CAVM_MHBWX_ADR_ERROR_JCE_W1(a) (a),-1,-1,-1
 
 /**
- * Register (MULTIRSL) mhbw#_amm_debug0
- *
- * INTERNAL: MHBW DMA Debug 0 Register
- *
- * HW debug for DMA reads and writes.
- */
-union cavm_mhbwx_amm_debug0
-{
-    uint64_t u;
-    struct cavm_mhbwx_amm_debug0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t dbg_data2             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbg_data2             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_amm_debug0_s cn; */
-};
-typedef union cavm_mhbwx_amm_debug0 cavm_mhbwx_amm_debug0_t;
-
-static inline uint64_t CAVM_MHBWX_AMM_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_AMM_DEBUG0(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e040050020ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e040050020ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_AMM_DEBUG0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_AMM_DEBUG0(a) cavm_mhbwx_amm_debug0_t
-#define bustype_CAVM_MHBWX_AMM_DEBUG0(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_AMM_DEBUG0(a) "MHBWX_AMM_DEBUG0"
-#define device_bar_CAVM_MHBWX_AMM_DEBUG0(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_AMM_DEBUG0(a) (a)
-#define arguments_CAVM_MHBWX_AMM_DEBUG0(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_amm_debug1
- *
- * INTERNAL: MHBW DMA Debug 1 Register
- *
- * HW debug for DMA reads and writes.
- */
-union cavm_mhbwx_amm_debug1
-{
-    uint64_t u;
-    struct cavm_mhbwx_amm_debug1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dbg_data1             : 32; /**< [ 63: 32](RO/H) See RTL for internal signal list. */
-        uint64_t dbg_data0             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbg_data0             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-        uint64_t dbg_data1             : 32; /**< [ 63: 32](RO/H) See RTL for internal signal list. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_amm_debug1_s cn; */
-};
-typedef union cavm_mhbwx_amm_debug1 cavm_mhbwx_amm_debug1_t;
-
-static inline uint64_t CAVM_MHBWX_AMM_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_AMM_DEBUG1(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e040050028ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e040050028ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_AMM_DEBUG1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_AMM_DEBUG1(a) cavm_mhbwx_amm_debug1_t
-#define bustype_CAVM_MHBWX_AMM_DEBUG1(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_AMM_DEBUG1(a) "MHBWX_AMM_DEBUG1"
-#define device_bar_CAVM_MHBWX_AMM_DEBUG1(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_AMM_DEBUG1(a) (a)
-#define arguments_CAVM_MHBWX_AMM_DEBUG1(a) (a),-1,-1,-1
-
-/**
  * Register (MULTIRSL) mhbw#_cbclk_active_pc
  *
  * MHBW AB Conditional Clock Counter Register
@@ -3003,19 +2640,8 @@ union cavm_mhbwx_cfg
                                                                  must wait until the corresponding bit is set before re-enabling a HAB
                                                                  using MHBW()_CFG[AB_ENA]. */
         uint64_t reserved_29_45        : 17;
-        uint64_t mhbw_stopped          : 1;  /**< [ 28: 28](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Set to 1 when soft reset begins (i.e., MHBW()_CFG[ENA] written to 0),
-                                                                 and remains set to 1 while reset is in progress. Automatically cleared
-                                                                 to zero when reset completes (i.e., when MHBW()_CFG[MHBW_DONE] is set
-                                                                 to 1). */
-        uint64_t ab_stopped            : 4;  /**< [ 27: 24](RO/H) Reserved.
-                                                                 Internal:
-                                                                 One bit per HAB. Each bit is set to 1 when he corresponding HAB is
-                                                                 disabled (i.e. MHBW()_CFG[AB_ENA] bit is written to 0), and remains
-                                                                 set to 1 while reset is in progress. Automatically cleared to zero
-                                                                 when reset completes (i.e., when corresponding bit in
-                                                                 MHBW()_CFG[AB_DONE] is set to 1). */
+        uint64_t mhbw_stopped          : 1;  /**< [ 28: 28](RO/H) Reserved. */
+        uint64_t ab_stopped            : 4;  /**< [ 27: 24](RO/H) Reserved. */
         uint64_t ab_busy               : 4;  /**< [ 23: 20](RO/H) Each bit, when set to 1, indicates a HAB is busy processing a job. */
         uint64_t ab_ena                : 4;  /**< [ 19: 16](R/W) Enable or disable each HAB. HABs must be disabled one at a time. When
                                                                  a HAB is disabled, hardware starts the HAB reset flush sequence.
@@ -3099,19 +2725,8 @@ union cavm_mhbwx_cfg
 
                                                                  _ 7. Enable the HABs, one at a time or all together, by setting the [AB_ENA] bits to 1. */
         uint64_t ab_busy               : 4;  /**< [ 23: 20](RO/H) Each bit, when set to 1, indicates a HAB is busy processing a job. */
-        uint64_t ab_stopped            : 4;  /**< [ 27: 24](RO/H) Reserved.
-                                                                 Internal:
-                                                                 One bit per HAB. Each bit is set to 1 when he corresponding HAB is
-                                                                 disabled (i.e. MHBW()_CFG[AB_ENA] bit is written to 0), and remains
-                                                                 set to 1 while reset is in progress. Automatically cleared to zero
-                                                                 when reset completes (i.e., when corresponding bit in
-                                                                 MHBW()_CFG[AB_DONE] is set to 1). */
-        uint64_t mhbw_stopped          : 1;  /**< [ 28: 28](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Set to 1 when soft reset begins (i.e., MHBW()_CFG[ENA] written to 0),
-                                                                 and remains set to 1 while reset is in progress. Automatically cleared
-                                                                 to zero when reset completes (i.e., when MHBW()_CFG[MHBW_DONE] is set
-                                                                 to 1). */
+        uint64_t ab_stopped            : 4;  /**< [ 27: 24](RO/H) Reserved. */
+        uint64_t mhbw_stopped          : 1;  /**< [ 28: 28](RO/H) Reserved. */
         uint64_t reserved_29_45        : 17;
         uint64_t ab_done               : 4;  /**< [ 49: 46](RO/H) For each HAB, these bits indicate when it has been disabled and
                                                                  all associated state has been cleared. When resetting a HAB, software
@@ -3143,91 +2758,6 @@ static inline uint64_t CAVM_MHBWX_CFG(uint64_t a)
 #define device_bar_CAVM_MHBWX_CFG(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_CFG(a) (a)
 #define arguments_CAVM_MHBWX_CFG(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_debug1
- *
- * INTERNAL: MHBW Debug 1 Register
- *
- * This register set, specifies special debug CSR's for internal used per MHBW.
- * Specifically, This
- * register set contains bits, which specify the a master reset to the MHBW.
- */
-union cavm_mhbwx_debug1
-{
-    uint64_t u;
-    struct cavm_mhbwx_debug1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t master_reset_n        : 1;  /**< [ 63: 63](R/W) Internal:
-                                                                 This debug reset bit is used to reset (active low) the MAB irrespective of
-                                                                 quiescience state.
-                                                                 This must not be used unless it is assured there are no PSM credit returns required.
-                                                                 Alternatively, the PSM queue and credits for this MAB needs to be restored after this
-                                                                 operation. Further, all system access for this MHB needs to be flushed from the system
-                                                                 before re-enabling this block. This is primarily for debug puposes only. Writing a 0
-                                                                 resets the MHB and writing a 1 brings the MHB out of reset. */
-        uint64_t reserved_28_62        : 35;
-        uint64_t ab_core_mux_sel       : 2;  /**< [ 27: 26](R/W) AB core mux select. Up to 4 ABs. */
-        uint64_t ab_slot_mux_sel       : 2;  /**< [ 25: 24](R/W) AB job slot mux select. Up to 4 slots per AB core. */
-        uint64_t ab_hr_mux_sel         : 4;  /**< [ 23: 20](R/W) AB HR interface mux select. Up to 4 ABs and 4 ports per AB. */
-        uint64_t ab_hw_mux_sel         : 4;  /**< [ 19: 16](R/W) AB HW interface mux select. Up to 4 ABs and 4 ports per AB. */
-        uint64_t ab_rdma_mux_sel       : 4;  /**< [ 15: 12](R/W) AB read DMA mux select. Up to 4 ABs and 4 ports per AB. */
-        uint64_t ab_wdma_mux_sel       : 4;  /**< [ 11:  8](R/W) AB read DMA mux select. Up to 4 ABs and 4 ports per AB. */
-        uint64_t reserved_7            : 1;
-        uint64_t ab_hr_dbg_en          : 1;  /**< [  6:  6](R/W) AB HR debug enable for internal signal probing. */
-        uint64_t ab_hw_dbg_en          : 1;  /**< [  5:  5](R/W) AB HW debug enable for internal signal probing. */
-        uint64_t ab_rdma_dbg_en        : 1;  /**< [  4:  4](R/W) AB read DMA debug enable for internal signal probing. */
-        uint64_t ab_wdma_dbg_en        : 1;  /**< [  3:  3](R/W) AB write DMA debug enable for internal signal probing. */
-        uint64_t gaaif_dbg_en          : 1;  /**< [  2:  2](R/W) GAAIF debug enable for internal signal probing. */
-        uint64_t jmgr_dbg_en           : 1;  /**< [  1:  1](R/W) JMGR debug enable for internal signal probing. */
-        uint64_t psmif_dbg_en          : 1;  /**< [  0:  0](R/W) PSMIF debug enable for internal signal probing. */
-#else /* Word 0 - Little Endian */
-        uint64_t psmif_dbg_en          : 1;  /**< [  0:  0](R/W) PSMIF debug enable for internal signal probing. */
-        uint64_t jmgr_dbg_en           : 1;  /**< [  1:  1](R/W) JMGR debug enable for internal signal probing. */
-        uint64_t gaaif_dbg_en          : 1;  /**< [  2:  2](R/W) GAAIF debug enable for internal signal probing. */
-        uint64_t ab_wdma_dbg_en        : 1;  /**< [  3:  3](R/W) AB write DMA debug enable for internal signal probing. */
-        uint64_t ab_rdma_dbg_en        : 1;  /**< [  4:  4](R/W) AB read DMA debug enable for internal signal probing. */
-        uint64_t ab_hw_dbg_en          : 1;  /**< [  5:  5](R/W) AB HW debug enable for internal signal probing. */
-        uint64_t ab_hr_dbg_en          : 1;  /**< [  6:  6](R/W) AB HR debug enable for internal signal probing. */
-        uint64_t reserved_7            : 1;
-        uint64_t ab_wdma_mux_sel       : 4;  /**< [ 11:  8](R/W) AB read DMA mux select. Up to 4 ABs and 4 ports per AB. */
-        uint64_t ab_rdma_mux_sel       : 4;  /**< [ 15: 12](R/W) AB read DMA mux select. Up to 4 ABs and 4 ports per AB. */
-        uint64_t ab_hw_mux_sel         : 4;  /**< [ 19: 16](R/W) AB HW interface mux select. Up to 4 ABs and 4 ports per AB. */
-        uint64_t ab_hr_mux_sel         : 4;  /**< [ 23: 20](R/W) AB HR interface mux select. Up to 4 ABs and 4 ports per AB. */
-        uint64_t ab_slot_mux_sel       : 2;  /**< [ 25: 24](R/W) AB job slot mux select. Up to 4 slots per AB core. */
-        uint64_t ab_core_mux_sel       : 2;  /**< [ 27: 26](R/W) AB core mux select. Up to 4 ABs. */
-        uint64_t reserved_28_62        : 35;
-        uint64_t master_reset_n        : 1;  /**< [ 63: 63](R/W) Internal:
-                                                                 This debug reset bit is used to reset (active low) the MAB irrespective of
-                                                                 quiescience state.
-                                                                 This must not be used unless it is assured there are no PSM credit returns required.
-                                                                 Alternatively, the PSM queue and credits for this MAB needs to be restored after this
-                                                                 operation. Further, all system access for this MHB needs to be flushed from the system
-                                                                 before re-enabling this block. This is primarily for debug puposes only. Writing a 0
-                                                                 resets the MHB and writing a 1 brings the MHB out of reset. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_debug1_s cn; */
-};
-typedef union cavm_mhbwx_debug1 cavm_mhbwx_debug1_t;
-
-static inline uint64_t CAVM_MHBWX_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_DEBUG1(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e04004d200ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e04004d200ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_DEBUG1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_DEBUG1(a) cavm_mhbwx_debug1_t
-#define bustype_CAVM_MHBWX_DEBUG1(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_DEBUG1(a) "MHBWX_DEBUG1"
-#define device_bar_CAVM_MHBWX_DEBUG1(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_DEBUG1(a) (a)
-#define arguments_CAVM_MHBWX_DEBUG1(a) (a),-1,-1,-1
 
 /**
  * Register (MULTIRSL) mhbw#_dma_error_jce_w0
@@ -3308,99 +2838,12 @@ static inline uint64_t CAVM_MHBWX_DMA_ERROR_JCE_W1(uint64_t a)
 #define arguments_CAVM_MHBWX_DMA_ERROR_JCE_W1(a) (a),-1,-1,-1
 
 /**
- * Register (MULTIRSL) mhbw#_dv_scratch
- *
- * INTERNAL: MHBW Verification Scratch Register
- *
- * Internal:
- * This register set, defines a scratch register for verification purposes only per
- * MHBW.
- */
-union cavm_mhbwx_dv_scratch
-{
-    uint64_t u;
-    struct cavm_mhbwx_dv_scratch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t it                    : 64; /**< [ 63:  0](R/W) Internal:
-                                                                 This set of bits are specified for DV only. */
-#else /* Word 0 - Little Endian */
-        uint64_t it                    : 64; /**< [ 63:  0](R/W) Internal:
-                                                                 This set of bits are specified for DV only. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_dv_scratch_s cn; */
-};
-typedef union cavm_mhbwx_dv_scratch cavm_mhbwx_dv_scratch_t;
-
-static inline uint64_t CAVM_MHBWX_DV_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_DV_SCRATCH(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e04004f010ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e04004f010ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_DV_SCRATCH", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_DV_SCRATCH(a) cavm_mhbwx_dv_scratch_t
-#define bustype_CAVM_MHBWX_DV_SCRATCH(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_DV_SCRATCH(a) "MHBWX_DV_SCRATCH"
-#define device_bar_CAVM_MHBWX_DV_SCRATCH(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_DV_SCRATCH(a) (a)
-#define arguments_CAVM_MHBWX_DV_SCRATCH(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_eco
- *
- * INTERNAL: MHBW ECO Register
- */
-union cavm_mhbwx_eco
-{
-    uint64_t u;
-    struct cavm_mhbwx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Internal:
-                                                                 Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Internal:
-                                                                 Reserved for ECO usage. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_eco_s cn; */
-};
-typedef union cavm_mhbwx_eco cavm_mhbwx_eco_t;
-
-static inline uint64_t CAVM_MHBWX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e04004f000ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e04004f000ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_ECO(a) cavm_mhbwx_eco_t
-#define bustype_CAVM_MHBWX_ECO(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_ECO(a) "MHBWX_ECO"
-#define device_bar_CAVM_MHBWX_ECO(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_ECO(a) (a)
-#define arguments_CAVM_MHBWX_ECO(a) (a),-1,-1,-1
-
-/**
  * Register (MULTIRSL) mhbw#_err_stat0
  *
  * MHBW Errors Statistic 0 Register
  * These registers count fatal and nonfatal errors (excluding ECC errors in
  * MHBW memories). Note that if multiple HABs have errors in the exact same
  * cycle, only one is counted. Both counters wrap to zero at 2^32.
- *
- * Internal:
- * If the stat counter indicates per clock increment, this implies one
- * of error signalling was a level signal and did not conform to specification. It also indicates
- * a potential deadlock condition, if the counter rolls on for an extended period of time.
  */
 union cavm_mhbwx_err_stat0
 {
@@ -3408,27 +2851,11 @@ union cavm_mhbwx_err_stat0
     struct cavm_mhbwx_err_stat0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t nfat_err_stat         : 32; /**< [ 63: 32](R/W/H) Count of nonfatal errors.
-                                                                 Internal:
-                                                                 This does not account for
-                                                                 multiple nonfatal errors that might occur across different jobs, AB's in the same clock
-                                                                 cycle. */
-        uint64_t fat_err_stat          : 32; /**< [ 31:  0](R/W/H) Count of fatal errors.
-                                                                 Internal:
-                                                                 This does not account for
-                                                                 multiple fatal errors that might occur across different jobs, AB's in the same clock
-                                                                 cycle. */
+        uint64_t nfat_err_stat         : 32; /**< [ 63: 32](R/W/H) Count of nonfatal errors. */
+        uint64_t fat_err_stat          : 32; /**< [ 31:  0](R/W/H) Count of fatal errors. */
 #else /* Word 0 - Little Endian */
-        uint64_t fat_err_stat          : 32; /**< [ 31:  0](R/W/H) Count of fatal errors.
-                                                                 Internal:
-                                                                 This does not account for
-                                                                 multiple fatal errors that might occur across different jobs, AB's in the same clock
-                                                                 cycle. */
-        uint64_t nfat_err_stat         : 32; /**< [ 63: 32](R/W/H) Count of nonfatal errors.
-                                                                 Internal:
-                                                                 This does not account for
-                                                                 multiple nonfatal errors that might occur across different jobs, AB's in the same clock
-                                                                 cycle. */
+        uint64_t fat_err_stat          : 32; /**< [ 31:  0](R/W/H) Count of fatal errors. */
+        uint64_t nfat_err_stat         : 32; /**< [ 63: 32](R/W/H) Count of nonfatal errors. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mhbwx_err_stat0_s cn; */
@@ -3459,12 +2886,6 @@ static inline uint64_t CAVM_MHBWX_ERR_STAT0(uint64_t a)
  * These registers count DMA errors for each MHAB. Note that if errors are
  * reported on multiple ports, or for multiple HABs in the same cycle, then
  * only one error is counted. The counter wraps to zero at 2^32.
- *
- * Internal:
- * If the stat counter indicates per clock increment, this implies
- * one of error signalling was a level signal and did not conform to
- * specification. It also indicates a potential deadlock condition, if the
- * counter rolls on for an extended period of time.
  */
 union cavm_mhbwx_err_stat1
 {
@@ -3472,23 +2893,11 @@ union cavm_mhbwx_err_stat1
     struct cavm_mhbwx_err_stat1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t adr_err_stat          : 32; /**< [ 63: 32](R/W/H) Count of address range errors.
-                                                                 Internal:
-                                                                 This does not account for multiple
-                                                                 DMA errors that might occur across different jobs, AB's in the same clock cycle. */
-        uint64_t dma_err_stat          : 32; /**< [ 31:  0](R/W/H) Count of DMA errors.
-                                                                 Internal:
-                                                                 This does not account for multiple
-                                                                 DMA errors that might occur across different jobs, AB's in the same clock cycle. */
+        uint64_t adr_err_stat          : 32; /**< [ 63: 32](R/W/H) Count of address range errors. */
+        uint64_t dma_err_stat          : 32; /**< [ 31:  0](R/W/H) Count of DMA errors. */
 #else /* Word 0 - Little Endian */
-        uint64_t dma_err_stat          : 32; /**< [ 31:  0](R/W/H) Count of DMA errors.
-                                                                 Internal:
-                                                                 This does not account for multiple
-                                                                 DMA errors that might occur across different jobs, AB's in the same clock cycle. */
-        uint64_t adr_err_stat          : 32; /**< [ 63: 32](R/W/H) Count of address range errors.
-                                                                 Internal:
-                                                                 This does not account for multiple
-                                                                 DMA errors that might occur across different jobs, AB's in the same clock cycle. */
+        uint64_t dma_err_stat          : 32; /**< [ 31:  0](R/W/H) Count of DMA errors. */
+        uint64_t adr_err_stat          : 32; /**< [ 63: 32](R/W/H) Count of address range errors. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mhbwx_err_stat1_s cn; */
@@ -3511,45 +2920,6 @@ static inline uint64_t CAVM_MHBWX_ERR_STAT1(uint64_t a)
 #define device_bar_CAVM_MHBWX_ERR_STAT1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_ERR_STAT1(a) (a)
 #define arguments_CAVM_MHBWX_ERR_STAT1(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_ext#_sfunc
- *
- * INTERNAL: MHBW External Special Function Register
- *
- * This register set, specifies any special MHBW direct CSR functionality that is required by a HAB.
- */
-union cavm_mhbwx_extx_sfunc
-{
-    uint64_t u;
-    struct cavm_mhbwx_extx_sfunc_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ext                   : 64; /**< [ 63:  0](R/W/H) Please see corresponding HAB for special function definitions. */
-#else /* Word 0 - Little Endian */
-        uint64_t ext                   : 64; /**< [ 63:  0](R/W/H) Please see corresponding HAB for special function definitions. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_extx_sfunc_s cn; */
-};
-typedef union cavm_mhbwx_extx_sfunc cavm_mhbwx_extx_sfunc_t;
-
-static inline uint64_t CAVM_MHBWX_EXTX_SFUNC(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_EXTX_SFUNC(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=95) && (b<=3)))
-        return 0x87e04004d100ll + 0x80000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=95) && (b<=3)))
-        return 0x87e04004d100ll + 0x80000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("MHBWX_EXTX_SFUNC", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_EXTX_SFUNC(a,b) cavm_mhbwx_extx_sfunc_t
-#define bustype_CAVM_MHBWX_EXTX_SFUNC(a,b) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_EXTX_SFUNC(a,b) "MHBWX_EXTX_SFUNC"
-#define device_bar_CAVM_MHBWX_EXTX_SFUNC(a,b) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_EXTX_SFUNC(a,b) (a)
-#define arguments_CAVM_MHBWX_EXTX_SFUNC(a,b) (a),(b),-1,-1
 
 /**
  * Register (MULTIRSL) mhbw#_fatal_error_jce_w0
@@ -3648,9 +3018,7 @@ union cavm_mhbwx_fyi
         uint64_t ghb_port              : 3;  /**< [ 49: 47](RO/H) The GHAB port number the MHAB attached to. */
         uint64_t reserved_40_46        : 7;
         uint64_t ab_cores              : 2;  /**< [ 39: 38](RO/H) The number of HABs in the MHAB, minus 1. */
-        uint64_t ab_cfg_credit_ena     : 1;  /**< [ 37: 37](RO/H) Reserved.
-                                                                 Internal:
-                                                                 This bit specifies if the AB config interface uses credit based access. */
+        uint64_t ab_cfg_credit_ena     : 1;  /**< [ 37: 37](RO/H) Reserved. */
         uint64_t num_ab_rd_ports       : 2;  /**< [ 36: 35](RO/H) The number of read ports for each HAB, minus 1. */
         uint64_t num_ab_wr_ports       : 2;  /**< [ 34: 33](RO/H) The number of write ports for each HAB, minus 1. */
         uint64_t num_ab_job_slots      : 2;  /**< [ 32: 31](RO/H) The number of job slots available in each HAB, minus 1. */
@@ -3704,9 +3072,7 @@ union cavm_mhbwx_fyi
         uint64_t num_ab_job_slots      : 2;  /**< [ 32: 31](RO/H) The number of job slots available in each HAB, minus 1. */
         uint64_t num_ab_wr_ports       : 2;  /**< [ 34: 33](RO/H) The number of write ports for each HAB, minus 1. */
         uint64_t num_ab_rd_ports       : 2;  /**< [ 36: 35](RO/H) The number of read ports for each HAB, minus 1. */
-        uint64_t ab_cfg_credit_ena     : 1;  /**< [ 37: 37](RO/H) Reserved.
-                                                                 Internal:
-                                                                 This bit specifies if the AB config interface uses credit based access. */
+        uint64_t ab_cfg_credit_ena     : 1;  /**< [ 37: 37](RO/H) Reserved. */
         uint64_t ab_cores              : 2;  /**< [ 39: 38](RO/H) The number of HABs in the MHAB, minus 1. */
         uint64_t reserved_40_46        : 7;
         uint64_t ghb_port              : 3;  /**< [ 49: 47](RO/H) The GHAB port number the MHAB attached to. */
@@ -3736,102 +3102,6 @@ static inline uint64_t CAVM_MHBWX_FYI(uint64_t a)
 #define device_bar_CAVM_MHBWX_FYI(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_FYI(a) (a)
 #define arguments_CAVM_MHBWX_FYI(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_gaaif_debug0
- *
- * INTERNAL: MHBW GAAIF Debug 0 Register
- *
- * HW debug for GAAIF reads.
- */
-union cavm_mhbwx_gaaif_debug0
-{
-    uint64_t u;
-    struct cavm_mhbwx_gaaif_debug0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t dbg_data1             : 16; /**< [ 47: 32](RO/H) amm_iff_vld[15:0] */
-        uint64_t reserved_26_31        : 6;
-        uint64_t dbg_data0             : 26; /**< [ 25:  0](RO/H) bit[0]=jmgr_iff_vld, bit[1]=cmd_ff_vld, bit[2]=ghb_throttle_on,
-                                                                 bit[11:3]=ghb_on_cnt, bit[20:12]=ghb_off_cnt, bit[25:21]=ret_cdt_cnt. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbg_data0             : 26; /**< [ 25:  0](RO/H) bit[0]=jmgr_iff_vld, bit[1]=cmd_ff_vld, bit[2]=ghb_throttle_on,
-                                                                 bit[11:3]=ghb_on_cnt, bit[20:12]=ghb_off_cnt, bit[25:21]=ret_cdt_cnt. */
-        uint64_t reserved_26_31        : 6;
-        uint64_t dbg_data1             : 16; /**< [ 47: 32](RO/H) amm_iff_vld[15:0] */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_gaaif_debug0_s cn; */
-};
-typedef union cavm_mhbwx_gaaif_debug0 cavm_mhbwx_gaaif_debug0_t;
-
-static inline uint64_t CAVM_MHBWX_GAAIF_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_GAAIF_DEBUG0(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e040050010ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e040050010ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_GAAIF_DEBUG0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_GAAIF_DEBUG0(a) cavm_mhbwx_gaaif_debug0_t
-#define bustype_CAVM_MHBWX_GAAIF_DEBUG0(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_GAAIF_DEBUG0(a) "MHBWX_GAAIF_DEBUG0"
-#define device_bar_CAVM_MHBWX_GAAIF_DEBUG0(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_GAAIF_DEBUG0(a) (a)
-#define arguments_CAVM_MHBWX_GAAIF_DEBUG0(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_gaaif_debug1
- *
- * INTERNAL: MHBW GAAIF Debug 1 Register
- *
- * HW debug for GAAIF writes.
- */
-union cavm_mhbwx_gaaif_debug1
-{
-    uint64_t u;
-    struct cavm_mhbwx_gaaif_debug1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t dbg_data1             : 16; /**< [ 47: 32](RO/H) amm_wcnt_vld[15:0]. word count fifo valid. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t dbg_data0             : 30; /**< [ 29:  0](RO/H) bit[0]=amm_iff_vld, bit[1]=cmd_ff_vld, bit[2]=cmd_ff_stall, bit[3]=arb_ena,
-                                                                 bit[4]=arb_req, bit[5]=arb_gnt, bit[6]=ghb_throttle_on,
-                                                                 bit[15:7]=ghb_on_cnt, bit[24:16]=ghb_off_cnt, bit[29:25]=ret_cdt_cnt. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbg_data0             : 30; /**< [ 29:  0](RO/H) bit[0]=amm_iff_vld, bit[1]=cmd_ff_vld, bit[2]=cmd_ff_stall, bit[3]=arb_ena,
-                                                                 bit[4]=arb_req, bit[5]=arb_gnt, bit[6]=ghb_throttle_on,
-                                                                 bit[15:7]=ghb_on_cnt, bit[24:16]=ghb_off_cnt, bit[29:25]=ret_cdt_cnt. */
-        uint64_t reserved_30_31        : 2;
-        uint64_t dbg_data1             : 16; /**< [ 47: 32](RO/H) amm_wcnt_vld[15:0]. word count fifo valid. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_gaaif_debug1_s cn; */
-};
-typedef union cavm_mhbwx_gaaif_debug1 cavm_mhbwx_gaaif_debug1_t;
-
-static inline uint64_t CAVM_MHBWX_GAAIF_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_GAAIF_DEBUG1(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e040050018ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e040050018ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_GAAIF_DEBUG1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_GAAIF_DEBUG1(a) cavm_mhbwx_gaaif_debug1_t
-#define bustype_CAVM_MHBWX_GAAIF_DEBUG1(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_GAAIF_DEBUG1(a) "MHBWX_GAAIF_DEBUG1"
-#define device_bar_CAVM_MHBWX_GAAIF_DEBUG1(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_GAAIF_DEBUG1(a) (a)
-#define arguments_CAVM_MHBWX_GAAIF_DEBUG1(a) (a),-1,-1,-1
 
 /**
  * Register (MULTIRSL) mhbw#_jd_cfg
@@ -3948,129 +3218,6 @@ static inline uint64_t CAVM_MHBWX_JD_CFG(uint64_t a)
 #define arguments_CAVM_MHBWX_JD_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (MULTIRSL) mhbw#_jmgr_debug0
- *
- * INTERNAL: MHBW JMGR Debug 0 Register
- *
- * HW debug for JMGR.
- */
-union cavm_mhbwx_jmgr_debug0
-{
-    uint64_t u;
-    struct cavm_mhbwx_jmgr_debug0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t dbg_data4             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbg_data4             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_jmgr_debug0_s cn; */
-};
-typedef union cavm_mhbwx_jmgr_debug0 cavm_mhbwx_jmgr_debug0_t;
-
-static inline uint64_t CAVM_MHBWX_JMGR_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_JMGR_DEBUG0(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e040050030ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e040050030ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_JMGR_DEBUG0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_JMGR_DEBUG0(a) cavm_mhbwx_jmgr_debug0_t
-#define bustype_CAVM_MHBWX_JMGR_DEBUG0(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_JMGR_DEBUG0(a) "MHBWX_JMGR_DEBUG0"
-#define device_bar_CAVM_MHBWX_JMGR_DEBUG0(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_JMGR_DEBUG0(a) (a)
-#define arguments_CAVM_MHBWX_JMGR_DEBUG0(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_jmgr_debug1
- *
- * INTERNAL: MHBW JMGR Debug 1 Register
- *
- * HW debug for JMGR.
- */
-union cavm_mhbwx_jmgr_debug1
-{
-    uint64_t u;
-    struct cavm_mhbwx_jmgr_debug1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dbg_data3             : 32; /**< [ 63: 32](RO/H) See RTL for internal signal list. */
-        uint64_t dbg_data2             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbg_data2             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-        uint64_t dbg_data3             : 32; /**< [ 63: 32](RO/H) See RTL for internal signal list. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_jmgr_debug1_s cn; */
-};
-typedef union cavm_mhbwx_jmgr_debug1 cavm_mhbwx_jmgr_debug1_t;
-
-static inline uint64_t CAVM_MHBWX_JMGR_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_JMGR_DEBUG1(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e040050038ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e040050038ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_JMGR_DEBUG1", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_JMGR_DEBUG1(a) cavm_mhbwx_jmgr_debug1_t
-#define bustype_CAVM_MHBWX_JMGR_DEBUG1(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_JMGR_DEBUG1(a) "MHBWX_JMGR_DEBUG1"
-#define device_bar_CAVM_MHBWX_JMGR_DEBUG1(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_JMGR_DEBUG1(a) (a)
-#define arguments_CAVM_MHBWX_JMGR_DEBUG1(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_jmgr_debug2
- *
- * INTERNAL: MHBW JMGR Debug 2 Register
- *
- * HW debug for JMGR.
- */
-union cavm_mhbwx_jmgr_debug2
-{
-    uint64_t u;
-    struct cavm_mhbwx_jmgr_debug2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dbg_data1             : 32; /**< [ 63: 32](RO/H) See RTL for internal signal list. */
-        uint64_t dbg_data0             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbg_data0             : 32; /**< [ 31:  0](RO/H) See RTL for internal signal list. */
-        uint64_t dbg_data1             : 32; /**< [ 63: 32](RO/H) See RTL for internal signal list. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_jmgr_debug2_s cn; */
-};
-typedef union cavm_mhbwx_jmgr_debug2 cavm_mhbwx_jmgr_debug2_t;
-
-static inline uint64_t CAVM_MHBWX_JMGR_DEBUG2(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_JMGR_DEBUG2(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e040050040ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e040050040ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_JMGR_DEBUG2", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_JMGR_DEBUG2(a) cavm_mhbwx_jmgr_debug2_t
-#define bustype_CAVM_MHBWX_JMGR_DEBUG2(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_JMGR_DEBUG2(a) "MHBWX_JMGR_DEBUG2"
-#define device_bar_CAVM_MHBWX_JMGR_DEBUG2(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_JMGR_DEBUG2(a) (a)
-#define arguments_CAVM_MHBWX_JMGR_DEBUG2(a) (a),-1,-1,-1
-
-/**
  * Register (MULTIRSL) mhbw#_job_compl_stat
  *
  * MHBW Job Completion Statistic Register
@@ -4117,11 +3264,6 @@ static inline uint64_t CAVM_MHBWX_JOB_COMPL_STAT(uint64_t a)
  * These registers count the number of jobs dropped by each MHAB. Dropped
  * jobs include any jobs received when the MHBW is disabled or when all HABs
  * are disabled, and any jobs active on a HAB when it is disabled.
- *
- * Internal:
- * If multiple AB's are
- * disabled simultaneously the number of dropped jobs will be an underestimate of the total
- * number of jobs.
  */
 union cavm_mhbwx_job_drop_stat
 {
@@ -4382,59 +3524,6 @@ static inline uint64_t CAVM_MHBWX_PHYMEM_RANGE(uint64_t a)
 #define device_bar_CAVM_MHBWX_PHYMEM_RANGE(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MHBWX_PHYMEM_RANGE(a) (a)
 #define arguments_CAVM_MHBWX_PHYMEM_RANGE(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL) mhbw#_psmif_debug0
- *
- * INTERNAL: MHBW PSMIF Debug 0 Register
- *
- * HW debug for PSM interface
- */
-union cavm_mhbwx_psmif_debug0
-{
-    uint64_t u;
-    struct cavm_mhbwx_psmif_debug0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t psm_job_ack_cnt       : 16; /**< [ 63: 48](RO/H) Counts number of PSM job completion acknowledge sent. */
-        uint64_t psm_job_req_cnt       : 16; /**< [ 47: 32](RO/H) Counts number of PSM jobs received. */
-        uint64_t dbg_data              : 32; /**< [ 31:  0](RO/H) bit[0]=psm_jcmd0_ff_vld, bit[1]=psm_jcmd1_ff_vld, bit[2]=jq0_req_cnt_empty,
-                                                                 bit[3]=jq1_req_cnt_empty, bit[4]=jq0_fill_cnt_empty, bit[5]=jq1_fill_cnt_empty,
-                                                                 bit[9:6]=jobq_ab_sel, bit[13:10]=jobq_ab_cmp, bit[17:14]=ab_jobq0_slot_avl,
-                                                                 bit[21:18]=ab_jobq1_slot_avl, bit[23:22]=r_gaa_fetch_sm, bit[25:24]=r_jca_flush_sm,
-                                                                 bit[26]=jca_fif_val, bit[27]=jca_fif_full, bit[28]=jca_intf_fif_val,
-                                                                 bit[29]=jca_intf_fif_full, bit[30]=psm_flush_ff_vld, bit[31]=rob_wr_stall. */
-#else /* Word 0 - Little Endian */
-        uint64_t dbg_data              : 32; /**< [ 31:  0](RO/H) bit[0]=psm_jcmd0_ff_vld, bit[1]=psm_jcmd1_ff_vld, bit[2]=jq0_req_cnt_empty,
-                                                                 bit[3]=jq1_req_cnt_empty, bit[4]=jq0_fill_cnt_empty, bit[5]=jq1_fill_cnt_empty,
-                                                                 bit[9:6]=jobq_ab_sel, bit[13:10]=jobq_ab_cmp, bit[17:14]=ab_jobq0_slot_avl,
-                                                                 bit[21:18]=ab_jobq1_slot_avl, bit[23:22]=r_gaa_fetch_sm, bit[25:24]=r_jca_flush_sm,
-                                                                 bit[26]=jca_fif_val, bit[27]=jca_fif_full, bit[28]=jca_intf_fif_val,
-                                                                 bit[29]=jca_intf_fif_full, bit[30]=psm_flush_ff_vld, bit[31]=rob_wr_stall. */
-        uint64_t psm_job_req_cnt       : 16; /**< [ 47: 32](RO/H) Counts number of PSM jobs received. */
-        uint64_t psm_job_ack_cnt       : 16; /**< [ 63: 48](RO/H) Counts number of PSM job completion acknowledge sent. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mhbwx_psmif_debug0_s cn; */
-};
-typedef union cavm_mhbwx_psmif_debug0 cavm_mhbwx_psmif_debug0_t;
-
-static inline uint64_t CAVM_MHBWX_PSMIF_DEBUG0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MHBWX_PSMIF_DEBUG0(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=95))
-        return 0x87e040050000ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=95))
-        return 0x87e040050000ll + 0x80000ll * ((a) & 0x7f);
-    __cavm_csr_fatal("MHBWX_PSMIF_DEBUG0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MHBWX_PSMIF_DEBUG0(a) cavm_mhbwx_psmif_debug0_t
-#define bustype_CAVM_MHBWX_PSMIF_DEBUG0(a) CSR_TYPE_MULTIRSL
-#define basename_CAVM_MHBWX_PSMIF_DEBUG0(a) "MHBWX_PSMIF_DEBUG0"
-#define device_bar_CAVM_MHBWX_PSMIF_DEBUG0(a) 0x2 /* PF_BAR2 */
-#define busnum_CAVM_MHBWX_PSMIF_DEBUG0(a) (a)
-#define arguments_CAVM_MHBWX_PSMIF_DEBUG0(a) (a),-1,-1,-1
 
 /**
  * Register (MULTIRSL) mhbw#_sysmem_range_max

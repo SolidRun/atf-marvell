@@ -47,9 +47,6 @@
  * This register sets the Bus free time for initiating the transfer in master mode or
  * generating IBI in non-current
  * master mode.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_bus_free_timing
 {
@@ -95,9 +92,6 @@ static inline uint64_t CAVM_I3C_BUS_FREE_TIMING_FUNC(void)
  * Every Extended Capability is introduced with Extended Capability Header that
  * comprises single EXTCAP_HEADER  register
  * and a number of capability specific register.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_bus_timing_header
 {
@@ -178,9 +172,6 @@ static inline uint64_t CAVM_I3C_CLKEN_FUNC(void)
  * The Command Descriptor structure (64 bits) is used in two primary cases:
  *  - In PIO mode, the Command Descriptor is put to Command Queue through writes to Command Queue Port
  *  - In DMA mode, the Command Descriptor is put, as a part of Transfer Descriptor, on Command Ring
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_command_queue_port
 {
@@ -216,8 +207,6 @@ static inline uint64_t CAVM_I3C_COMMAND_QUEUE_PORT_FUNC(void)
  *
  * I3C Ext Comp Manufacturer Register
  * This register reflects the MIPI Assigned Manufacturer ID.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_comp_manufacturer
 {
@@ -257,8 +246,6 @@ static inline uint64_t CAVM_I3C_COMP_MANUFACTURER_FUNC(void)
  *
  * I3C Ext Comp Type Register
  * This register reflects the current release type of DWC_mipi_i3c.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_comp_type
 {
@@ -312,8 +299,6 @@ static inline uint64_t CAVM_I3C_COMP_TYPE_FUNC(void)
  *
  * I3C Ext Comp Version Register
  * This register reflects the current release number of DWC_mipi_i3c
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_comp_version
 {
@@ -359,46 +344,10 @@ static inline uint64_t CAVM_I3C_COMP_VERSION_FUNC(void)
 #define arguments_CAVM_I3C_COMP_VERSION -1,-1,-1,-1
 
 /**
- * Register (RSL32b) i3c_const
- *
- * INTERNAL: MIO I3C Constants Register
- */
-union cavm_i3c_const
-{
-    uint32_t u;
-    struct cavm_i3c_const_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_i3c_const_s cn; */
-};
-typedef union cavm_i3c_const cavm_i3c_const_t;
-
-#define CAVM_I3C_CONST CAVM_I3C_CONST_FUNC()
-static inline uint64_t CAVM_I3C_CONST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_CONST_FUNC(void)
-{
-    return 0x87e0d0000728ll;
-}
-
-#define typedef_CAVM_I3C_CONST cavm_i3c_const_t
-#define bustype_CAVM_I3C_CONST CSR_TYPE_RSL32b
-#define basename_CAVM_I3C_CONST "I3C_CONST"
-#define device_bar_CAVM_I3C_CONST 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_CONST 0
-#define arguments_CAVM_I3C_CONST -1,-1,-1,-1
-
-/**
  * Register (RSL32b) i3c_dat_section_offset
  *
  * I3C Ext Dat Section Offset Register
  * The Device Address Table Section Offset register holds the offset and size of the DAT table.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dat_section_offset
 {
@@ -446,8 +395,6 @@ static inline uint64_t CAVM_I3C_DAT_SECTION_OFFSET_FUNC(void)
  *
  * I3C Ext Data Buffer Status Level Register
  * Data Buffer Status Level Register
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_data_buffer_status_level
 {
@@ -489,9 +436,6 @@ static inline uint64_t CAVM_I3C_DATA_BUFFER_STATUS_LEVEL_FUNC(void)
  * Data Buffer Threshold Control Register used to control thresholds that are
  * triggering interrupts on specific
  * thresholds of Command, Response, Rx or Tx Data Buffer Queues.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_data_buffer_thld_ctrl
 {
@@ -700,9 +644,6 @@ static inline uint64_t CAVM_I3C_DATA_BUFFER_THLD_CTRL_FUNC(void)
  * I3C Ext Dct Section Offset Register
  * The Device Characteristics Table Section Offset register holds the offset and size
  * of the DCT table.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dct_section_offset
 {
@@ -762,8 +703,6 @@ static inline uint64_t CAVM_I3C_DCT_SECTION_OFFSET_FUNC(void)
  *
  * I3C Ext Dev0 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev0_addr_table_loc1
 {
@@ -871,8 +810,6 @@ static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev0 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev0_addr_table_loc2
 {
@@ -920,8 +857,6 @@ static inline uint64_t CAVM_I3C_DEV0_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev0 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev0_char_table_loc1
 {
@@ -957,8 +892,6 @@ static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev0 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev0_char_table_loc2
 {
@@ -996,8 +929,6 @@ static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev0 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev0_char_table_loc3
 {
@@ -1037,8 +968,6 @@ static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev0 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev0_char_table_loc4
 {
@@ -1076,8 +1005,6 @@ static inline uint64_t CAVM_I3C_DEV0_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev10 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev10_addr_table_loc1
 {
@@ -1185,8 +1112,6 @@ static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev10 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev10_addr_table_loc2
 {
@@ -1234,8 +1159,6 @@ static inline uint64_t CAVM_I3C_DEV10_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev10 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev10_char_table_loc1
 {
@@ -1271,8 +1194,6 @@ static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev10 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev10_char_table_loc2
 {
@@ -1310,8 +1231,6 @@ static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev10 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev10_char_table_loc3
 {
@@ -1351,8 +1270,6 @@ static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev10 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev10_char_table_loc4
 {
@@ -1390,8 +1307,6 @@ static inline uint64_t CAVM_I3C_DEV10_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev1 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev1_addr_table_loc1
 {
@@ -1499,8 +1414,6 @@ static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev1 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev1_addr_table_loc2
 {
@@ -1548,8 +1461,6 @@ static inline uint64_t CAVM_I3C_DEV1_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev1 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev1_char_table_loc1
 {
@@ -1585,8 +1496,6 @@ static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev1 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev1_char_table_loc2
 {
@@ -1624,8 +1533,6 @@ static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev1 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev1_char_table_loc3
 {
@@ -1665,8 +1572,6 @@ static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev1 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev1_char_table_loc4
 {
@@ -1704,8 +1609,6 @@ static inline uint64_t CAVM_I3C_DEV1_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev2 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev2_addr_table_loc1
 {
@@ -1813,8 +1716,6 @@ static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev2 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev2_addr_table_loc2
 {
@@ -1862,8 +1763,6 @@ static inline uint64_t CAVM_I3C_DEV2_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev2 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev2_char_table_loc1
 {
@@ -1899,8 +1798,6 @@ static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev2 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev2_char_table_loc2
 {
@@ -1938,8 +1835,6 @@ static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev2 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev2_char_table_loc3
 {
@@ -1979,8 +1874,6 @@ static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev2 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev2_char_table_loc4
 {
@@ -2018,8 +1911,6 @@ static inline uint64_t CAVM_I3C_DEV2_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev3 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev3_addr_table_loc1
 {
@@ -2127,8 +2018,6 @@ static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev3 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev3_addr_table_loc2
 {
@@ -2176,8 +2065,6 @@ static inline uint64_t CAVM_I3C_DEV3_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev3 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev3_char_table_loc1
 {
@@ -2213,8 +2100,6 @@ static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev3 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev3_char_table_loc2
 {
@@ -2252,8 +2137,6 @@ static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev3 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev3_char_table_loc3
 {
@@ -2293,8 +2176,6 @@ static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev3 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev3_char_table_loc4
 {
@@ -2332,8 +2213,6 @@ static inline uint64_t CAVM_I3C_DEV3_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev4 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev4_addr_table_loc1
 {
@@ -2441,8 +2320,6 @@ static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev4 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev4_addr_table_loc2
 {
@@ -2490,8 +2367,6 @@ static inline uint64_t CAVM_I3C_DEV4_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev4 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev4_char_table_loc1
 {
@@ -2527,8 +2402,6 @@ static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev4 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev4_char_table_loc2
 {
@@ -2566,8 +2439,6 @@ static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev4 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev4_char_table_loc3
 {
@@ -2607,8 +2478,6 @@ static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev9 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev4_char_table_loc4
 {
@@ -2646,8 +2515,6 @@ static inline uint64_t CAVM_I3C_DEV4_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev5 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev5_addr_table_loc1
 {
@@ -2755,8 +2622,6 @@ static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev5 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev5_addr_table_loc2
 {
@@ -2804,8 +2669,6 @@ static inline uint64_t CAVM_I3C_DEV5_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev5 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev5_char_table_loc1
 {
@@ -2841,8 +2704,6 @@ static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev5 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev5_char_table_loc2
 {
@@ -2880,8 +2741,6 @@ static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev5 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev5_char_table_loc3
 {
@@ -2921,8 +2780,6 @@ static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev5 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev5_char_table_loc4
 {
@@ -2960,8 +2817,6 @@ static inline uint64_t CAVM_I3C_DEV5_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev6 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev6_addr_table_loc1
 {
@@ -3069,8 +2924,6 @@ static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev6 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev6_addr_table_loc2
 {
@@ -3118,8 +2971,6 @@ static inline uint64_t CAVM_I3C_DEV6_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev6 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev6_char_table_loc1
 {
@@ -3155,8 +3006,6 @@ static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev6 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev6_char_table_loc2
 {
@@ -3194,8 +3043,6 @@ static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev6 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev6_char_table_loc3
 {
@@ -3235,8 +3082,6 @@ static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev6 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev6_char_table_loc4
 {
@@ -3274,8 +3119,6 @@ static inline uint64_t CAVM_I3C_DEV6_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev7 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev7_addr_table_loc1
 {
@@ -3383,8 +3226,6 @@ static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev7 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev7_addr_table_loc2
 {
@@ -3432,8 +3273,6 @@ static inline uint64_t CAVM_I3C_DEV7_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev7 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev7_char_table_loc1
 {
@@ -3469,8 +3308,6 @@ static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev7 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev7_char_table_loc2
 {
@@ -3508,8 +3345,6 @@ static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev7 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev7_char_table_loc3
 {
@@ -3549,8 +3384,6 @@ static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev7 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev7_char_table_loc4
 {
@@ -3588,8 +3421,6 @@ static inline uint64_t CAVM_I3C_DEV7_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev8 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev8_addr_table_loc1
 {
@@ -3697,8 +3528,6 @@ static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev8 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev8_addr_table_loc2
 {
@@ -3746,8 +3575,6 @@ static inline uint64_t CAVM_I3C_DEV8_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev8 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev8_char_table_loc1
 {
@@ -3783,8 +3610,6 @@ static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev8 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev8_char_table_loc2
 {
@@ -3822,8 +3647,6 @@ static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev8 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev8_char_table_loc3
 {
@@ -3863,8 +3686,6 @@ static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev8 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev8_char_table_loc4
 {
@@ -3902,8 +3723,6 @@ static inline uint64_t CAVM_I3C_DEV8_CHAR_TABLE_LOC4_FUNC(void)
  *
  * I3C Ext Dev9 Addr Table1 Loc1 Register
  * Device Address Table Location 1 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev9_addr_table_loc1
 {
@@ -4011,8 +3830,6 @@ static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev9 Addr Table1 Loc2 Register
  * Device Address Table Location 2 of Device1 through Device11.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev9_addr_table_loc2
 {
@@ -4060,8 +3877,6 @@ static inline uint64_t CAVM_I3C_DEV9_ADDR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev9 Char Table1 Loc1 Register
  * Device Characteristic Table Location-1 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev9_char_table_loc1
 {
@@ -4097,8 +3912,6 @@ static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC1_FUNC(void)
  *
  * I3C Ext Dev9 Char Table1 Loc2 Register
  * Device Characteristic Table Location-2 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev9_char_table_loc2
 {
@@ -4136,8 +3949,6 @@ static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC2_FUNC(void)
  *
  * I3C Ext Dev9 Char Table1 Loc3 Register
  * Device Characteristic Table Location-3 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev9_char_table_loc3
 {
@@ -4177,8 +3988,6 @@ static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC3_FUNC(void)
  *
  * I3C Ext Dev9 Char Table1 Loc4 Register
  * Device Characteristic Table Location-4 of Device1 through Device11
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev9_char_table_loc4
 {
@@ -4217,9 +4026,6 @@ static inline uint64_t CAVM_I3C_DEV9_CHAR_TABLE_LOC4_FUNC(void)
  * I3C Ext Dev Ctx Base Hi Register
  * The Device Context Address High register indicates the location of the Device
  * Context (DAT & DCT) when provided in memory.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev_ctx_base_hi
 {
@@ -4258,9 +4064,6 @@ static inline uint64_t CAVM_I3C_DEV_CTX_BASE_HI_FUNC(void)
  * I3C Ext Dev Ctx Base Lo Register
  * The Device Context Address Low register indicates the location of the Device Context
  * (DAT & DCT) when provided in memory.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_dev_ctx_base_lo
 {
@@ -4302,9 +4105,6 @@ static inline uint64_t CAVM_I3C_DEV_CTX_BASE_LO_FUNC(void)
  * Every Extended Capability is introduced with Extended Capability Header that
  * comprises single EXTCAP_HEADER  register
  * and a number of capability specific register.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_ds_extcap_header
 {
@@ -4345,9 +4145,6 @@ static inline uint64_t CAVM_I3C_DS_EXTCAP_HEADER_FUNC(void)
  * I3C Ext Extcaps Section Offset Register
  * The Extended Capabilities Section Offset register indicates the location of the
  * Extended Capabilities section Of the register map.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_extcaps_section_offset
 {
@@ -4387,8 +4184,6 @@ static inline uint64_t CAVM_I3C_EXTCAPS_SECTION_OFFSET_FUNC(void)
  *
  * I3C Ext HC Capabilities Register
  * Device Capabilities register identifies capabilities of the Master Host Controller hardware.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_hc_capabilities
 {
@@ -4440,8 +4235,6 @@ static inline uint64_t CAVM_I3C_HC_CAPABILITIES_FUNC(void)
  *
  * I3C Ext HC Control Register
  * Host Controller Control register is used to manage the Host Controller and Master Configuration.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_hc_control
 {
@@ -4527,9 +4320,6 @@ static inline uint64_t CAVM_I3C_HC_CONTROL_FUNC(void)
  * This register indicates the version number of the I3C HCI Specification (this
  * Specification) that the Host Controller implements.
  * The definition of this register does not change across all versions of the I3C HCI Specification.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.1.
  */
 union cavm_i3c_hci_version
 {
@@ -4568,9 +4358,6 @@ static inline uint64_t CAVM_I3C_HCI_VERSION_FUNC(void)
  * Every Extended Capability is introduced with Extended Capability Header that
  * comprises single EXTCAP_HEADER register
  * and a number of capability specific register.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_hw_identification_header
 {
@@ -4610,8 +4397,6 @@ static inline uint64_t CAVM_I3C_HW_IDENTIFICATION_HEADER_FUNC(void)
  *
  * I3C Ext Ibi Notify Ctrl Register
  * The IBI Notify Control register enables or disables event notifications for the IBI Queue/Ring.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_ibi_notify_ctrl
 {
@@ -4662,9 +4447,6 @@ static inline uint64_t CAVM_I3C_IBI_NOTIFY_CTRL_FUNC(void)
  * I3C Ext Ibi Port Register
  * IBI Port Register is used to read IBI queue status descriptor and read IBI queue
  * data (raw/opaque data)
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_ibi_port
 {
@@ -4712,8 +4494,6 @@ static inline uint64_t CAVM_I3C_IBI_PORT_FUNC(void)
  *
  * I3C Ext Pio Intr Status Register
  * The PIO Interrupt Status register indicates the status of outstanding interrupts.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_int
 {
@@ -4810,9 +4590,6 @@ static inline uint64_t CAVM_I3C_INT_FUNC(void)
  * I3C Ext Pio Intr Signal Clear(Int Mask) Register
  * The PIO Interrupt Signal Enable register enables signaling of outstanding interrupts
  * received by the Host Controller.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_int_ena_w1c
 {
@@ -4864,8 +4641,6 @@ static inline uint64_t CAVM_I3C_INT_ENA_W1C_FUNC(void)
  *
  * I3C Ext Pio Intr Status Enable(Logging) Register
  * The PIO Interrupt Status Enable register enables reporting of outstanding interrupts.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_int_ena_w1s
 {
@@ -4918,9 +4693,6 @@ static inline uint64_t CAVM_I3C_INT_ENA_W1S_FUNC(void)
  * I3C Ext Pio Intr Signal Enable(Int Mask) Register
  * The PIO Interrupt Signal Enable register enables signaling of outstanding interrupts
  * received by the Host Controller.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_int_w1s
 {
@@ -5048,8 +4820,6 @@ static inline uint64_t CAVM_I3C_INTR_ENA_W1C_FUNC(void)
  *
  * I3C PF Interrupt Enable Set Register
  * This register sets interrupt enable bits.
- * Internal:
- * Lowest address of Marvell wrapper CSRs that are reset by cold reset (when enabled).
  */
 union cavm_i3c_intr_ena_w1s
 {
@@ -5087,8 +4857,6 @@ static inline uint64_t CAVM_I3C_INTR_ENA_W1S_FUNC(void)
  *
  * I3C Ext Intr Force Register
  * The Interrupt Force register is used to force a specific interrupt for debugging purposes.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_intr_force
 {
@@ -5128,8 +4896,6 @@ static inline uint64_t CAVM_I3C_INTR_FORCE_FUNC(void)
  *
  * I3C Ext Intr Signal Enable Register
  * Interrupt Enable.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_intr_signal_enable
 {
@@ -5171,9 +4937,6 @@ static inline uint64_t CAVM_I3C_INTR_SIGNAL_ENABLE_FUNC(void)
  * The Interrupt Status register reflects the status of outstanding interrupt(s). The
  * status fields are either RW1C (write 1 to clear), or else are cleared based on queue
  * operations.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_intr_status
 {
@@ -5213,8 +4976,6 @@ static inline uint64_t CAVM_I3C_INTR_STATUS_FUNC(void)
  *
  * I3C Ext Intr Status Enable Register
  * The Interrupt Status Enable register enables or disables reporting of outstanding interrupts.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_intr_status_enable
 {
@@ -5346,8 +5107,6 @@ static inline uint64_t CAVM_I3C_IO_CTL_FUNC(void)
  *
  * I3C Ext Master Config Register
  * Master Config register reflects Master configuration parameters.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_master_config
 {
@@ -5405,8 +5164,6 @@ static inline uint64_t CAVM_I3C_MASTER_CONFIG_FUNC(void)
  *
  * I3C Ext Master Device Addr Register
  * Master Device Address Registers.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_master_device_addr
 {
@@ -5450,9 +5207,6 @@ static inline uint64_t CAVM_I3C_MASTER_DEVICE_ADDR_FUNC(void)
  * Every Extended Capability is introduced with Extended Capability Header that
  * comprises single EXTCAP_HEADER register
  * and a number of capability specific register.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_master_ext_header
 {
@@ -5658,9 +5412,6 @@ static inline uint64_t CAVM_I3C_MSIX_VECX_CTL(uint64_t a)
  * I3C Ext Pio Intr Force Register
  * The PIO Interrupt Force register is used to force specific interrupt. It can be used
  * for debug purposes.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_pio_intr_force
 {
@@ -5734,8 +5485,6 @@ static inline uint64_t CAVM_I3C_PIO_INTR_FORCE_FUNC(void)
  *
  * I3C Ext Pio Section Offset Register
  * The PIO Section Offset register indicates the location of the PIO Section of the register map.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_pio_section_offset
 {
@@ -5777,8 +5526,6 @@ static inline uint64_t CAVM_I3C_PIO_SECTION_OFFSET_FUNC(void)
  *
  * I3C Ext Present State Register
  * Present state debug register.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_present_state
 {
@@ -5824,9 +5571,6 @@ static inline uint64_t CAVM_I3C_PRESENT_STATE_FUNC(void)
  * of Debug Capability registers in Extended Capabilities list. The fields should not
  * be repeated between both
  * registers.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_present_state_debug
 {
@@ -5976,8 +5720,6 @@ static inline uint64_t CAVM_I3C_PRESENT_STATE_DEBUG_FUNC(void)
  *
  * I3C Ext Queue Size Ctrl Register
  * Command Queue, Response Queue, Data buffer, IBI status queue sizes.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_queue_size_ctrl
 {
@@ -6019,8 +5761,6 @@ static inline uint64_t CAVM_I3C_QUEUE_SIZE_CTRL_FUNC(void)
  *
  * I3C Ext Queue Status Level Register
  * Queue Status Level Register.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_queue_status_level
 {
@@ -6067,9 +5807,6 @@ static inline uint64_t CAVM_I3C_QUEUE_STATUS_LEVEL_FUNC(void)
  * interrupts on specific thresholds of
  * Command, Response, IBI queues. This register assumes single Command, Response and
  * IBI queues in the Host Controller.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_queue_thld_ctrl
 {
@@ -6162,9 +5899,6 @@ static inline uint64_t CAVM_I3C_QUEUE_THLD_CTRL_FUNC(void)
  * I3C Ext Reset Control Register
  * Reset Control register is used to reset specific functional areas of Host
  * Controller, including buffer resets.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_reset_control
 {
@@ -6217,9 +5951,6 @@ static inline uint64_t CAVM_I3C_RESET_CONTROL_FUNC(void)
  *  - In PIO mode, the Response Descriptor is read from Response Queue through reads
  * from Response Queue Port.
  *  - In DMA mode, the Response Descriptor is read from Response Ring.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_response_queue_port
 {
@@ -6311,8 +6042,6 @@ static inline uint64_t CAVM_I3C_RESPONSE_QUEUE_PORT_FUNC(void)
  *
  * I3C Ext Ring Headers Section Offset Register
  * The Ring Headers Section Offset register.
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_ring_headers_section_offset
 {
@@ -6364,9 +6093,6 @@ static inline uint64_t CAVM_I3C_RING_HEADERS_SECTION_OFFSET_FUNC(void)
  *  - SDR2: Uses I3C_LCNT_2 field for the data transfer.
  *  - SDR3: Uses I3C_LCNT_3 field for the data transfer.
  *  - SDR4: Uses I3C_LCNT_4 field for the data transfer.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_scl_ext_lcnt_timing
 {
@@ -6461,9 +6187,6 @@ static inline uint64_t CAVM_I3C_SCL_EXT_TERMN_LCNT_TIMING_FUNC(void)
  * This register sets the SCL clock high period and low period count for I2C Fast Mode
  * transfers. The count value
  * takes the number of core_clks to maintain the I/O SCL Low/High period timing.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_scl_i2c_fm_timing
 {
@@ -6515,9 +6238,6 @@ static inline uint64_t CAVM_I3C_SCL_I2C_FM_TIMING_FUNC(void)
  * This register sets the SCL clock high period and low period count for I2C Fast Mode
  * Plus transfers. The count value
  * takes the number of core_clks to maintain the I/O SCL Low/High period timing.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_scl_i2c_fmp_timing
 {
@@ -6569,9 +6289,6 @@ static inline uint64_t CAVM_I3C_SCL_I2C_FMP_TIMING_FUNC(void)
  * This register sets the SCL clock high period and low period count for I2C Fast Mode
  * transfers. The count value
  * takes the number of core_clks to maintain the I/O SCL Low/High period timing.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_scl_i2c_ss_timing
 {
@@ -6611,9 +6328,6 @@ static inline uint64_t CAVM_I3C_SCL_I2C_SS_TIMING_FUNC(void)
  * This register sets the SCL clock high period and low period count for I3C Open Drain
  * transfers. The count value
  * takes the number of core_clks to maintain the I/O SCL High/Low Period timing.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_scl_i3c_od_timing
 {
@@ -6657,9 +6371,6 @@ static inline uint64_t CAVM_I3C_SCL_I3C_OD_TIMING_FUNC(void)
  * This register sets the SCL clock high period and low period count for I3C Push Pull
  * transfers. The count value
  * takes the number of core_clks to maintain the I/O SCL High/Low Period timing.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_scl_i3c_pp_timing
 {
@@ -6718,9 +6429,6 @@ static inline uint64_t CAVM_I3C_SCL_I3C_PP_TIMING_FUNC(void)
  * Open Drain timing.
  * The bits [18:16] of this register are used to control the hold time of SDA during
  * transmit mode in SDR & DDR transfers.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_sda_hold_switch_dly_timing
 {
@@ -6778,51 +6486,12 @@ static inline uint64_t CAVM_I3C_SDA_HOLD_SWITCH_DLY_TIMING_FUNC(void)
 #define arguments_CAVM_I3C_SDA_HOLD_SWITCH_DLY_TIMING -1,-1,-1,-1
 
 /**
- * Register (RSL32b) i3c_spare0
- *
- * INTERNAL: MIO I3C Spare Register 0
- *
- * This register is a spare register. This register can be reset by core domain reset.
- */
-union cavm_i3c_spare0
-{
-    uint32_t u;
-    struct cavm_i3c_spare0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t spare                 : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint32_t spare                 : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_i3c_spare0_s cn; */
-};
-typedef union cavm_i3c_spare0 cavm_i3c_spare0_t;
-
-#define CAVM_I3C_SPARE0 CAVM_I3C_SPARE0_FUNC()
-static inline uint64_t CAVM_I3C_SPARE0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_I3C_SPARE0_FUNC(void)
-{
-    return 0x87e0d0000720ll;
-}
-
-#define typedef_CAVM_I3C_SPARE0 cavm_i3c_spare0_t
-#define bustype_CAVM_I3C_SPARE0 CSR_TYPE_RSL32b
-#define basename_CAVM_I3C_SPARE0 "I3C_SPARE0"
-#define device_bar_CAVM_I3C_SPARE0 0x0 /* PF_BAR0 */
-#define busnum_CAVM_I3C_SPARE0 0
-#define arguments_CAVM_I3C_SPARE0 -1,-1,-1,-1
-
-/**
  * Register (RSL32b) i3c_tx_data_port
  *
  * I3C Ext Tx Data Port Register
  * This register when written into, writes data to the TX Buffer. This has the same
  * offset as RX_DATA_PORT to provide a
  * single bi-directional data port for transmitting or receiving the data from the DWC_mipi_i3c.
- *
- * Internal:
- * See Synopsys DWC_mipi_i3c Databook v1.00a, section 5.1.2.
  */
 union cavm_i3c_tx_data_port
 {

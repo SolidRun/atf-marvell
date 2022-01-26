@@ -583,93 +583,6 @@ static inline uint64_t CAVM_MCSX_BBE_RX_SLAVE_DEBUG_STATUS(uint64_t a)
 #define arguments_CAVM_MCSX_BBE_RX_SLAVE_DEBUG_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_bbe_rx_slave_padding_ctl_rsvd
- *
- * INTERNAL: MCS Bbe Rx Slave Padding Ctl Register
- *
- * Padding control
- */
-union cavm_mcsx_bbe_rx_slave_padding_ctl_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_bbe_rx_slave_padding_ctl_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t padding_en            : 1;  /**< [  4:  4](R/W) Reserved. */
-        uint64_t min_pkt_size          : 4;  /**< [  3:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t min_pkt_size          : 4;  /**< [  3:  0](R/W) Reserved. */
-        uint64_t padding_en            : 1;  /**< [  4:  4](R/W) Reserved. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_bbe_rx_slave_padding_ctl_rsvd_s cn; */
-};
-typedef union cavm_mcsx_bbe_rx_slave_padding_ctl_rsvd cavm_mcsx_bbe_rx_slave_padding_ctl_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000190ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD(a) cavm_mcsx_bbe_rx_slave_padding_ctl_rsvd_t
-#define bustype_CAVM_MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD(a) "MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD"
-#define device_bar_CAVM_MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD(a) (a)
-#define arguments_CAVM_MCSX_BBE_RX_SLAVE_PADDING_CTL_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_bbe_rx_slave_reserved_0#_rsvd
- *
- * INTERNAL: MCS Bbe Rx Slave Reserved 0 Register
- *
- * Reserved.
- */
-union cavm_mcsx_bbe_rx_slave_reserved_0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_bbe_rx_slave_reserved_0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_bbe_rx_slave_reserved_0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t reserved_0_5          : 6;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_5          : 6;
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_bbe_rx_slave_reserved_0x_rsvd cavm_mcsx_bbe_rx_slave_reserved_0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080000198ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD(a,b) cavm_mcsx_bbe_rx_slave_reserved_0x_rsvd_t
-#define bustype_CAVM_MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD(a,b) "MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD"
-#define device_bar_CAVM_MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_BBE_RX_SLAVE_RESERVED_0X_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_bbe_tx_slave_bbe_int
  *
  * MCS Bbe Tx Slave Bbe Int Register
@@ -971,93 +884,6 @@ static inline uint64_t CAVM_MCSX_BBE_TX_SLAVE_DEBUG_STATUS(uint64_t a)
 #define arguments_CAVM_MCSX_BBE_TX_SLAVE_DEBUG_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_bbe_tx_slave_padding_ctl_rsvd
- *
- * INTERNAL: MCS Bbe Tx Slave Padding Ctl Register
- *
- * Padding control
- */
-union cavm_mcsx_bbe_tx_slave_padding_ctl_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_bbe_tx_slave_padding_ctl_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t padding_en            : 1;  /**< [  4:  4](R/W) Reserved. */
-        uint64_t min_pkt_size          : 4;  /**< [  3:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t min_pkt_size          : 4;  /**< [  3:  0](R/W) Reserved. */
-        uint64_t padding_en            : 1;  /**< [  4:  4](R/W) Reserved. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_bbe_tx_slave_padding_ctl_rsvd_s cn; */
-};
-typedef union cavm_mcsx_bbe_tx_slave_padding_ctl_rsvd cavm_mcsx_bbe_tx_slave_padding_ctl_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000210ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD(a) cavm_mcsx_bbe_tx_slave_padding_ctl_rsvd_t
-#define bustype_CAVM_MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD(a) "MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD"
-#define device_bar_CAVM_MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD(a) (a)
-#define arguments_CAVM_MCSX_BBE_TX_SLAVE_PADDING_CTL_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_bbe_tx_slave_reserved_0#_rsvd
- *
- * INTERNAL: MCS Bbe Tx Slave Reserved 0 Register
- *
- * Reserved.
- */
-union cavm_mcsx_bbe_tx_slave_reserved_0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_bbe_tx_slave_reserved_0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_bbe_tx_slave_reserved_0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t reserved_0_5          : 6;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_5          : 6;
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_bbe_tx_slave_reserved_0x_rsvd cavm_mcsx_bbe_tx_slave_reserved_0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080000218ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD(a,b) cavm_mcsx_bbe_tx_slave_reserved_0x_rsvd_t
-#define bustype_CAVM_MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD(a,b) "MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD"
-#define device_bar_CAVM_MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_BBE_TX_SLAVE_RESERVED_0X_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_clk_active_pc
  *
  * MCS Clk Domain ACTIVE PC Register
@@ -1159,14 +985,8 @@ union cavm_mcsx_cpm_rx_slave_cpm_rx_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](R/W1C) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](R/W1C) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](R/W1C) Reserved. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](R/W1C) Reserved. */
         uint64_t pn_thresh_reached     : 1;  /**< [  6:  6](R/W1C) Received a packet whose current PN is greater than or equal to the configurable threshold. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  5:  5](R/W1C) Received a packet whose (X)PN is equal to zero. */
         uint64_t sectag_sc_eq1_scb_eq1 : 1;  /**< [  4:  4](R/W1C) (SecTag.SC == 1) and (SecTag.SCB == 1) detected. */
@@ -1182,14 +1002,8 @@ union cavm_mcsx_cpm_rx_slave_cpm_rx_int
         uint64_t sectag_sc_eq1_scb_eq1 : 1;  /**< [  4:  4](R/W1C) (SecTag.SC == 1) and (SecTag.SCB == 1) detected. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  5:  5](R/W1C) Received a packet whose (X)PN is equal to zero. */
         uint64_t pn_thresh_reached     : 1;  /**< [  6:  6](R/W1C) Received a packet whose current PN is greater than or equal to the configurable threshold. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](R/W1C) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](R/W1C) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](R/W1C) Reserved. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](R/W1C) Reserved. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -1225,14 +1039,8 @@ union cavm_mcsx_cpm_rx_slave_cpm_rx_int_enb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t sc_expiry_actual_timeout_enb : 1;/**< [  8:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_pre_timeout_enb : 1;/**< [  7:  7](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_actual_timeout_enb : 1;/**< [  8:  8](R/W) Reserved. */
+        uint64_t sc_expiry_pre_timeout_enb : 1;/**< [  7:  7](R/W) Reserved. */
         uint64_t pn_thresh_reached_enb : 1;  /**< [  6:  6](R/W) Received a packet whose current PN is greater than or equal to the configurable threshold. */
         uint64_t packet_xpn_eq0_enb    : 1;  /**< [  5:  5](R/W) Received a packet whose (X)PN is equal to zero. */
         uint64_t sectag_sc_eq1_scb_eq1_enb : 1;/**< [  4:  4](R/W) (SecTag.SC == 1) and (SecTag.SCB == 1) detected. */
@@ -1248,14 +1056,8 @@ union cavm_mcsx_cpm_rx_slave_cpm_rx_int_enb
         uint64_t sectag_sc_eq1_scb_eq1_enb : 1;/**< [  4:  4](R/W) (SecTag.SC == 1) and (SecTag.SCB == 1) detected. */
         uint64_t packet_xpn_eq0_enb    : 1;  /**< [  5:  5](R/W) Received a packet whose (X)PN is equal to zero. */
         uint64_t pn_thresh_reached_enb : 1;  /**< [  6:  6](R/W) Received a packet whose current PN is greater than or equal to the configurable threshold. */
-        uint64_t sc_expiry_pre_timeout_enb : 1;/**< [  7:  7](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_actual_timeout_enb : 1;/**< [  8:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_pre_timeout_enb : 1;/**< [  7:  7](R/W) Reserved. */
+        uint64_t sc_expiry_actual_timeout_enb : 1;/**< [  8:  8](R/W) Reserved. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -1291,14 +1093,8 @@ union cavm_mcsx_cpm_rx_slave_cpm_rx_int_intr_rw
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](R/W) Reserved. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](R/W) Reserved. */
         uint64_t pn_thresh_reached     : 1;  /**< [  6:  6](R/W) Received a packet whose current PN is greater than or equal to the configurable threshold. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  5:  5](R/W) Received a packet whose (X)PN is equal to zero. */
         uint64_t sectag_sc_eq1_scb_eq1 : 1;  /**< [  4:  4](R/W) (SecTag.SC == 1) and (SecTag.SCB == 1) detected. */
@@ -1314,14 +1110,8 @@ union cavm_mcsx_cpm_rx_slave_cpm_rx_int_intr_rw
         uint64_t sectag_sc_eq1_scb_eq1 : 1;  /**< [  4:  4](R/W) (SecTag.SC == 1) and (SecTag.SCB == 1) detected. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  5:  5](R/W) Received a packet whose (X)PN is equal to zero. */
         uint64_t pn_thresh_reached     : 1;  /**< [  6:  6](R/W) Received a packet whose current PN is greater than or equal to the configurable threshold. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](R/W) Reserved. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -1357,14 +1147,8 @@ union cavm_mcsx_cpm_rx_slave_cpm_rx_int_raw
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](RO) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](RO) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](RO) Reserved. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](RO) Reserved. */
         uint64_t pn_thresh_reached     : 1;  /**< [  6:  6](RO) Received a packet whose current PN is greater than or equal to the configurable threshold. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  5:  5](RO) Received a packet whose (X)PN is equal to zero. */
         uint64_t sectag_sc_eq1_scb_eq1 : 1;  /**< [  4:  4](RO) (SecTag.SC == 1) and (SecTag.SCB == 1) detected. */
@@ -1380,14 +1164,8 @@ union cavm_mcsx_cpm_rx_slave_cpm_rx_int_raw
         uint64_t sectag_sc_eq1_scb_eq1 : 1;  /**< [  4:  4](RO) (SecTag.SC == 1) and (SecTag.SCB == 1) detected. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  5:  5](RO) Received a packet whose (X)PN is equal to zero. */
         uint64_t pn_thresh_reached     : 1;  /**< [  6:  6](RO) Received a packet whose current PN is greater than or equal to the configurable threshold. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](RO) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](RO) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  7:  7](RO) Reserved. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  8:  8](RO) Reserved. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -1576,49 +1354,6 @@ static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_DEBUG_STATUS(uint64_t a)
 #define arguments_CAVM_MCSX_CPM_RX_SLAVE_DEBUG_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_cpm_rx_slave_enable_rxmcs_insertion#_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Enable Rxmcs Insertion Register
- *
- * Per port enable for inserting a 4B Rx-MCS header when a packet encounters an
- * error/exception that is enabled in the cpu_punt_enable register or if the packet is
- * a Kay or non-Kay control packet.
- */
-union cavm_mcsx_cpm_rx_slave_enable_rxmcs_insertionx_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_enable_rxmcs_insertionx_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t insert_on_kay_ctrl    : 1;  /**< [  1:  1](R/W) Reserved. */
-        uint64_t insert_on_err         : 1;  /**< [  0:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t insert_on_err         : 1;  /**< [  0:  0](R/W) Reserved. */
-        uint64_t insert_on_kay_ctrl    : 1;  /**< [  1:  1](R/W) Reserved. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_enable_rxmcs_insertionx_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_enable_rxmcs_insertionx_rsvd cavm_mcsx_cpm_rx_slave_enable_rxmcs_insertionx_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080000b48ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD(a,b) cavm_mcsx_cpm_rx_slave_enable_rxmcs_insertionx_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD(a,b) "MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_cpm_rx_slave_flowid_tcam_data_0#
  *
  * MCS Cpm Rx Slave Flowid Tcam Data 0 Register
@@ -1738,9 +1473,7 @@ union cavm_mcsx_cpm_rx_slave_flowid_tcam_data_2x
                                                                  3-15: Reserved for future use */
         uint64_t tag_match_bitmap      : 8;  /**< [ 55: 48](R/W) Maps 1 to 1 with the set of configurable Etype CSRs and set when the associated
                                                                  E-Type (or TPID) was found in the packet. */
-        uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 2 bytes of additional bonus data extracted from one of the custom tags. */
+        uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} */
         uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
         uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} */
@@ -1750,9 +1483,7 @@ union cavm_mcsx_cpm_rx_slave_flowid_tcam_data_2x
         uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} */
         uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
         uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} */
-        uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 2 bytes of additional bonus data extracted from one of the custom tags. */
+        uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t tag_match_bitmap      : 8;  /**< [ 55: 48](R/W) Maps 1 to 1 with the set of configurable Etype CSRs and set when the associated
                                                                  E-Type (or TPID) was found in the packet. */
         uint64_t packet_type           : 4;  /**< [ 59: 56](R/W) Encoded Packet Type from the parser:
@@ -1805,9 +1536,7 @@ union cavm_mcsx_cpm_rx_slave_flowid_tcam_data_3x
         uint64_t reserved_16_63        : 48;
         uint64_t flowid_user_field     : 4;  /**< [ 15: 12](R/W) User-Defined Flow_ID */
         uint64_t port                  : 2;  /**< [ 11: 10](R/W) Port number, 0-3 */
-        uint64_t express               : 1;  /**< [  9:  9](R/W) Reserved.
-                                                                 Internal:
-                                                                 Express packet. */
+        uint64_t express               : 1;  /**< [  9:  9](R/W) Reserved. */
         uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags before the SecTAG, excluding the Rx/Tx-MCS header tags.
                                                                  Bit 0: no tags before SecTAG
                                                                  Bit 1: 1 tag before SecTAG
@@ -1821,9 +1550,7 @@ union cavm_mcsx_cpm_rx_slave_flowid_tcam_data_3x
                                                                  Bit 1: 1 tag before SecTAG
                                                                  Bit 2: 2 tags before SecTAG
                                                                  Bit 3-6: Reserved. */
-        uint64_t express               : 1;  /**< [  9:  9](R/W) Reserved.
-                                                                 Internal:
-                                                                 Express packet. */
+        uint64_t express               : 1;  /**< [  9:  9](R/W) Reserved. */
         uint64_t port                  : 2;  /**< [ 11: 10](R/W) Port number, 0-3 */
         uint64_t flowid_user_field     : 4;  /**< [ 15: 12](R/W) User-Defined Flow_ID */
         uint64_t reserved_16_63        : 48;
@@ -1945,9 +1672,7 @@ union cavm_mcsx_cpm_rx_slave_flowid_tcam_mask_2x
         uint64_t mask_outer_vlan_type  : 3;  /**< [ 62: 60](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_packet_type      : 4;  /**< [ 59: 56](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_tag_match_bitmap : 8;  /**< [ 55: 48](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
-        uint64_t mask_bonus_data       : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
+        uint64_t mask_bonus_data       : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t mask_second_outer_priority : 4;/**< [ 31: 28](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_second_outer_tag_id : 20;/**< [ 27:  8](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_outer_priority   : 4;  /**< [  7:  4](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
@@ -1957,9 +1682,7 @@ union cavm_mcsx_cpm_rx_slave_flowid_tcam_mask_2x
         uint64_t mask_outer_priority   : 4;  /**< [  7:  4](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_second_outer_tag_id : 20;/**< [ 27:  8](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_second_outer_priority : 4;/**< [ 31: 28](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
-        uint64_t mask_bonus_data       : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
+        uint64_t mask_bonus_data       : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t mask_tag_match_bitmap : 8;  /**< [ 55: 48](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_packet_type      : 4;  /**< [ 59: 56](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_outer_vlan_type  : 3;  /**< [ 62: 60](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
@@ -2001,17 +1724,13 @@ union cavm_mcsx_cpm_rx_slave_flowid_tcam_mask_3x
         uint64_t reserved_16_63        : 48;
         uint64_t mask_flowid_user_field : 4; /**< [ 15: 12](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_port             : 2;  /**< [ 11: 10](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
-        uint64_t mask_express          : 1;  /**< [  9:  9](R/W) Reserved.
-                                                                 Internal:
-                                                                 Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
+        uint64_t mask_express          : 1;  /**< [  9:  9](R/W) Reserved. */
         uint64_t mask_num_tags         : 7;  /**< [  8:  2](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_inner_vlan_type  : 2;  /**< [  1:  0](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
 #else /* Word 0 - Little Endian */
         uint64_t mask_inner_vlan_type  : 2;  /**< [  1:  0](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_num_tags         : 7;  /**< [  8:  2](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
-        uint64_t mask_express          : 1;  /**< [  9:  9](R/W) Reserved.
-                                                                 Internal:
-                                                                 Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
+        uint64_t mask_express          : 1;  /**< [  9:  9](R/W) Reserved. */
         uint64_t mask_port             : 2;  /**< [ 11: 10](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_flowid_user_field : 4; /**< [ 15: 12](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t reserved_16_63        : 48;
@@ -2265,17 +1984,13 @@ union cavm_mcsx_cpm_rx_slave_rx_etype
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t rx_mcs_hdr_etype      : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 MCS header E-type to insert. */
+        uint64_t rx_mcs_hdr_etype      : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t rx_sectag_etype2      : 16; /**< [ 31: 16](R/W) SecTag ETYPE pattern 2 to match on.  This field needs to match the PEX's sectag_cfg.sectag_etype */
         uint64_t rx_sectag_etype1      : 16; /**< [ 15:  0](R/W) SecTag ETYPE pattern 1 to match on.  This field needs to match the PEX's sectag_cfg.sectag_etype */
 #else /* Word 0 - Little Endian */
         uint64_t rx_sectag_etype1      : 16; /**< [ 15:  0](R/W) SecTag ETYPE pattern 1 to match on.  This field needs to match the PEX's sectag_cfg.sectag_etype */
         uint64_t rx_sectag_etype2      : 16; /**< [ 31: 16](R/W) SecTag ETYPE pattern 2 to match on.  This field needs to match the PEX's sectag_cfg.sectag_etype */
-        uint64_t rx_mcs_hdr_etype      : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 MCS header E-type to insert. */
+        uint64_t rx_mcs_hdr_etype      : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -2335,46 +2050,6 @@ static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_RX_FLOWID_TCAM_ENABLE_0(uint64_t a
 #define device_bar_CAVM_MCSX_CPM_RX_SLAVE_RX_FLOWID_TCAM_ENABLE_0(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_CPM_RX_SLAVE_RX_FLOWID_TCAM_ENABLE_0(a) (a)
 #define arguments_CAVM_MCSX_CPM_RX_SLAVE_RX_FLOWID_TCAM_ENABLE_0(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_rx_mcs_base_port_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Rx Mcs Base Port Register
- *
- * RX MCS header base port: This register value is added to the packet's port number;
- * the result is placed in the RX MCS header port field for punt packets.
- */
-union cavm_mcsx_cpm_rx_slave_rx_mcs_base_port_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_rx_mcs_base_port_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t rx_mcs_base_port      : 8;  /**< [  7:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_mcs_base_port      : 8;  /**< [  7:  0](R/W) Reserved. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_rx_mcs_base_port_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_rx_mcs_base_port_rsvd cavm_mcsx_cpm_rx_slave_rx_mcs_base_port_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000bc0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD(a) cavm_mcsx_cpm_rx_slave_rx_mcs_base_port_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD(a) "MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_RX_MCS_BASE_PORT_RSVD(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mcs#_cpm_rx_slave_sa_key_lockout#
@@ -3019,474 +2694,6 @@ static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_CAM_ENABLE_0(uint64_t a)
 #define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_CAM_ENABLE_0(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_cpm_rx_slave_sc_expiry_actual_timeout_0_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Expiry Actual Timeout 0 Register
- *
- * CPM SC/SA actual-timeout Leaf Interrupt Register
- */
-union cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](R/W1C) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](R/W1C) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_0_rsvd cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000b18ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_expiry_actual_timeout_enb_0_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Expiry Actual Timeout Enb 0 Register
- *
- * ENB register for sc_expiry_actual_timeout
- */
-union cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_enb_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_enb_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sc_expiry_actual_timeout_int_enb : 64;/**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sc_expiry_actual_timeout_int_enb : 64;/**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_enb_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_enb_0_rsvd cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_enb_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000b20ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_enb_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Expiry Actual Timeout Intr Rw 0 Register
- *
- * Read/write register for sc_expiry_actual_timeout
- */
-union cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000b30ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_expiry_actual_timeout_raw_0_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Expiry Actual Timeout Raw 0 Register
- *
- * Raw register for sc_expiry_actual_timeout
- */
-union cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_raw_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_raw_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](RO) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](RO) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_raw_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_raw_0_rsvd cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_raw_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000b28ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_expiry_actual_timeout_raw_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_expiry_pre_timeout_0_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Expiry Pre Timeout 0 Register
- *
- * CPM SC/SA pre-timeout Leaf Interrupt Register
- */
-union cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](R/W1C) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](R/W1C) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_0_rsvd cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000af8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_expiry_pre_timeout_enb_0_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Expiry Pre Timeout Enb 0 Register
- *
- * ENB register for sc_expiry_pre_timeout
- */
-union cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_enb_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_enb_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_expiry_pre_timeout_int_enb : 64;/**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sa_expiry_pre_timeout_int_enb : 64;/**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_enb_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_enb_0_rsvd cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_enb_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000b00ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_enb_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Expiry Pre Timeout Intr Rw 0 Register
- *
- * Read/write register for sc_expiry_pre_timeout
- */
-union cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000b10ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_expiry_pre_timeout_raw_0_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Expiry Pre Timeout Raw 0 Register
- *
- * Raw register for sc_expiry_pre_timeout
- */
-union cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_raw_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_raw_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](RO) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](RO) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_raw_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_raw_0_rsvd cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_raw_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000b08ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_expiry_pre_timeout_raw_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_timer_mem#_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Timer Mem Register
- *
- * SC Timer Memory - 64x32 : The per SC timers used in determining if an SA should be invalidated.
- */
-union cavm_mcsx_cpm_rx_slave_sc_timer_memx_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_timer_memx_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t timer                 : 32; /**< [ 31:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t timer                 : 32; /**< [ 31:  0](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_timer_memx_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_timer_memx_rsvd cavm_mcsx_cpm_rx_slave_sc_timer_memx_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=63)))
-        return 0x87e080005250ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3f);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) cavm_mcsx_cpm_rx_slave_sc_timer_memx_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) "MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_timer_rsvd1_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Timer Rsvd1 Register
- *
- * Reserved CSR.
- */
-union cavm_mcsx_cpm_rx_slave_sc_timer_rsvd1_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_timer_rsvd1_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_cpm_rx_slave_sc_timer_rsvd1_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_31         : 32;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_timer_rsvd1_rsvd cavm_mcsx_cpm_rx_slave_sc_timer_rsvd1_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080005020ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_timer_rsvd1_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD1_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_timer_rsvd2_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Timer Rsvd2 Register
- *
- * Reserved CSR.
- */
-union cavm_mcsx_cpm_rx_slave_sc_timer_rsvd2_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_timer_rsvd2_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_cpm_rx_slave_sc_timer_rsvd2_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_31         : 32;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_timer_rsvd2_rsvd cavm_mcsx_cpm_rx_slave_sc_timer_rsvd2_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080005028ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD(a) cavm_mcsx_cpm_rx_slave_sc_timer_rsvd2_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD(a) "MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_RSVD2_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_rx_slave_sc_timer_timeout_thresh#_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Sc Timer Timeout Thresh Register
- *
- * One of 4 configurable thresholds which can be used to generate an interrupt if the
- * corresponding SC's timer reaches the selected threshold.
- * This register is used in the SC/SA timer expiry mechanism.
- */
-union cavm_mcsx_cpm_rx_slave_sc_timer_timeout_threshx_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_sc_timer_timeout_threshx_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t threshold             : 32; /**< [ 31:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t threshold             : 32; /**< [ 31:  0](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_sc_timer_timeout_threshx_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_sc_timer_timeout_threshx_rsvd cavm_mcsx_cpm_rx_slave_sc_timer_timeout_threshx_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080005030ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) cavm_mcsx_cpm_rx_slave_sc_timer_timeout_threshx_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) "MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_cpm_rx_slave_sectag_rule_chk_enable
  *
  * MCS Cpm Rx Slave Sectag Rule Chk Enable Register
@@ -3690,46 +2897,6 @@ static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_SECY_PLCY_MEMX(uint64_t a, uint64_
 #define arguments_CAVM_MCSX_CPM_RX_SLAVE_SECY_PLCY_MEMX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) mcs#_cpm_rx_slave_time_unit_tick_rsvd
- *
- * INTERNAL: MCS Cpm Rx Slave Time Unit Tick Register
- *
- * Configures the duration of the time unit tick in terms of the number of core clock cycles.
- * This register is used in the SC/SA timer expiry mechanism.
- */
-union cavm_mcsx_cpm_rx_slave_time_unit_tick_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_rx_slave_time_unit_tick_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t num_cycles            : 32; /**< [ 31:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t num_cycles            : 32; /**< [ 31:  0](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_rx_slave_time_unit_tick_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_rx_slave_time_unit_tick_rsvd cavm_mcsx_cpm_rx_slave_time_unit_tick_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080005008ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD(a) cavm_mcsx_cpm_rx_slave_time_unit_tick_rsvd_t
-#define bustype_CAVM_MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD(a) "MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD"
-#define device_bar_CAVM_MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_RX_SLAVE_TIME_UNIT_TICK_RSVD(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) mcs#_cpm_rx_slave_xpn_threshold
  *
  * MCS Cpm Rx Slave Xpn Threshold Register
@@ -3823,14 +2990,8 @@ union cavm_mcsx_cpm_tx_slave_cpm_tx_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](R/W1C) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](R/W1C) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](R/W1C) Reserved. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](R/W1C) Reserved. */
         uint64_t sa_not_valid          : 1;  /**< [  2:  2](R/W1C) The SA corresponding to the packet is not valid.  The packet will not be sent. */
         uint64_t pn_thresh_reached     : 1;  /**< [  1:  1](R/W1C) Current PN is greater than or equal to the configurable threshold. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  0:  0](R/W1C) The current packet (X)PN is equal to zero. The packet will not be sent. */
@@ -3838,14 +2999,8 @@ union cavm_mcsx_cpm_tx_slave_cpm_tx_int
         uint64_t packet_xpn_eq0        : 1;  /**< [  0:  0](R/W1C) The current packet (X)PN is equal to zero. The packet will not be sent. */
         uint64_t pn_thresh_reached     : 1;  /**< [  1:  1](R/W1C) Current PN is greater than or equal to the configurable threshold. */
         uint64_t sa_not_valid          : 1;  /**< [  2:  2](R/W1C) The SA corresponding to the packet is not valid.  The packet will not be sent. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](R/W1C) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](R/W1C) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](R/W1C) Reserved. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](R/W1C) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -3881,14 +3036,8 @@ union cavm_mcsx_cpm_tx_slave_cpm_tx_int_enb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t sc_expiry_actual_timeout_enb : 1;/**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_pre_timeout_enb : 1;/**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_actual_timeout_enb : 1;/**< [  4:  4](R/W) Reserved. */
+        uint64_t sc_expiry_pre_timeout_enb : 1;/**< [  3:  3](R/W) Reserved. */
         uint64_t sa_not_valid_enb      : 1;  /**< [  2:  2](R/W) The SA corresponding to the packet is not valid.  The packet will not be sent. */
         uint64_t pn_thresh_reached_enb : 1;  /**< [  1:  1](R/W) Current PN is greater than or equal to the configurable threshold. */
         uint64_t packet_xpn_eq0_enb    : 1;  /**< [  0:  0](R/W) The current packet (X)PN is equal to zero. The packet will not be sent. */
@@ -3896,14 +3045,8 @@ union cavm_mcsx_cpm_tx_slave_cpm_tx_int_enb
         uint64_t packet_xpn_eq0_enb    : 1;  /**< [  0:  0](R/W) The current packet (X)PN is equal to zero. The packet will not be sent. */
         uint64_t pn_thresh_reached_enb : 1;  /**< [  1:  1](R/W) Current PN is greater than or equal to the configurable threshold. */
         uint64_t sa_not_valid_enb      : 1;  /**< [  2:  2](R/W) The SA corresponding to the packet is not valid.  The packet will not be sent. */
-        uint64_t sc_expiry_pre_timeout_enb : 1;/**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_actual_timeout_enb : 1;/**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_pre_timeout_enb : 1;/**< [  3:  3](R/W) Reserved. */
+        uint64_t sc_expiry_actual_timeout_enb : 1;/**< [  4:  4](R/W) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -3939,14 +3082,8 @@ union cavm_mcsx_cpm_tx_slave_cpm_tx_int_intr_rw
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](R/W) Reserved. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](R/W) Reserved. */
         uint64_t sa_not_valid          : 1;  /**< [  2:  2](R/W) The SA corresponding to the packet is not valid.  The packet will not be sent. */
         uint64_t pn_thresh_reached     : 1;  /**< [  1:  1](R/W) Current PN is greater than or equal to the configurable threshold. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  0:  0](R/W) The current packet (X)PN is equal to zero. The packet will not be sent. */
@@ -3954,14 +3091,8 @@ union cavm_mcsx_cpm_tx_slave_cpm_tx_int_intr_rw
         uint64_t packet_xpn_eq0        : 1;  /**< [  0:  0](R/W) The current packet (X)PN is equal to zero. The packet will not be sent. */
         uint64_t pn_thresh_reached     : 1;  /**< [  1:  1](R/W) Current PN is greater than or equal to the configurable threshold. */
         uint64_t sa_not_valid          : 1;  /**< [  2:  2](R/W) The SA corresponding to the packet is not valid.  The packet will not be sent. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](R/W) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -3997,14 +3128,8 @@ union cavm_mcsx_cpm_tx_slave_cpm_tx_int_raw
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](RO) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](RO) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](RO) Reserved. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](RO) Reserved. */
         uint64_t sa_not_valid          : 1;  /**< [  2:  2](RO) The SA corresponding to the packet is not valid.  The packet will not be sent. */
         uint64_t pn_thresh_reached     : 1;  /**< [  1:  1](RO) Current PN is greater than or equal to the configurable threshold. */
         uint64_t packet_xpn_eq0        : 1;  /**< [  0:  0](RO) The current packet (X)PN is equal to zero. The packet will not be sent. */
@@ -4012,14 +3137,8 @@ union cavm_mcsx_cpm_tx_slave_cpm_tx_int_raw
         uint64_t packet_xpn_eq0        : 1;  /**< [  0:  0](RO) The current packet (X)PN is equal to zero. The packet will not be sent. */
         uint64_t pn_thresh_reached     : 1;  /**< [  1:  1](RO) Current PN is greater than or equal to the configurable threshold. */
         uint64_t sa_not_valid          : 1;  /**< [  2:  2](RO) The SA corresponding to the packet is not valid.  The packet will not be sent. */
-        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](RO) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_pre_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
-        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](RO) Reserved.
-                                                                 Internal:
-                                                                 An active SC/SA has reached its sc_actual_timeout threshold.  See the leaf
-                                                                 interrupt register to determine which SC fired. */
+        uint64_t sc_expiry_pre_timeout : 1;  /**< [  3:  3](RO) Reserved. */
+        uint64_t sc_expiry_actual_timeout : 1;/**< [  4:  4](RO) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -4271,9 +3390,7 @@ union cavm_mcsx_cpm_tx_slave_flowid_tcam_data_2x
                                                                  3-15: Reserved for future use */
         uint64_t tag_match_bitmap      : 8;  /**< [ 55: 48](R/W) Maps 1 to 1 with the set of configurable Etype CSRs and set when the associated
                                                                  E-Type (or TPID) was found in the packet. */
-        uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 2 bytes of additional bonus data extracted from one of the custom tags. */
+        uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} */
         uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
         uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} */
@@ -4283,9 +3400,7 @@ union cavm_mcsx_cpm_tx_slave_flowid_tcam_data_2x
         uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} */
         uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
         uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} */
-        uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 2 bytes of additional bonus data extracted from one of the custom tags. */
+        uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t tag_match_bitmap      : 8;  /**< [ 55: 48](R/W) Maps 1 to 1 with the set of configurable Etype CSRs and set when the associated
                                                                  E-Type (or TPID) was found in the packet. */
         uint64_t packet_type           : 4;  /**< [ 59: 56](R/W) Encoded Packet Type from the parser:
@@ -4338,9 +3453,7 @@ union cavm_mcsx_cpm_tx_slave_flowid_tcam_data_3x
         uint64_t reserved_16_63        : 48;
         uint64_t flowid_user_field     : 4;  /**< [ 15: 12](R/W) User-Defined Flow_ID */
         uint64_t port                  : 2;  /**< [ 11: 10](R/W) Port number, 0-3. */
-        uint64_t express               : 1;  /**< [  9:  9](R/W) Reserved.
-                                                                 Internal:
-                                                                 Express packet. */
+        uint64_t express               : 1;  /**< [  9:  9](R/W) Reserved. */
         uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags before the SecTAG, excluding the Rx/Tx-MCS header tags.
                                                                  Bit 0: no tags before SecTAG
                                                                  Bit 1: 1 tag before SecTAG
@@ -4354,9 +3467,7 @@ union cavm_mcsx_cpm_tx_slave_flowid_tcam_data_3x
                                                                  Bit 1: 1 tag before SecTAG
                                                                  Bit 2: 2 tags before SecTAG
                                                                  Bit 3-6: Reserved */
-        uint64_t express               : 1;  /**< [  9:  9](R/W) Reserved.
-                                                                 Internal:
-                                                                 Express packet. */
+        uint64_t express               : 1;  /**< [  9:  9](R/W) Reserved. */
         uint64_t port                  : 2;  /**< [ 11: 10](R/W) Port number, 0-3. */
         uint64_t flowid_user_field     : 4;  /**< [ 15: 12](R/W) User-Defined Flow_ID */
         uint64_t reserved_16_63        : 48;
@@ -4478,9 +3589,7 @@ union cavm_mcsx_cpm_tx_slave_flowid_tcam_mask_2x
         uint64_t mask_outer_vlan_type  : 3;  /**< [ 62: 60](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_packet_type      : 4;  /**< [ 59: 56](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_tag_match_bitmap : 8;  /**< [ 55: 48](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
-        uint64_t mask_bonus_data       : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
+        uint64_t mask_bonus_data       : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t mask_second_outer_priority : 4;/**< [ 31: 28](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_second_outer_tag_id : 20;/**< [ 27:  8](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_outer_priority   : 4;  /**< [  7:  4](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
@@ -4490,9 +3599,7 @@ union cavm_mcsx_cpm_tx_slave_flowid_tcam_mask_2x
         uint64_t mask_outer_priority   : 4;  /**< [  7:  4](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_second_outer_tag_id : 20;/**< [ 27:  8](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_second_outer_priority : 4;/**< [ 31: 28](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
-        uint64_t mask_bonus_data       : 16; /**< [ 47: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
+        uint64_t mask_bonus_data       : 16; /**< [ 47: 32](R/W) Reserved. */
         uint64_t mask_tag_match_bitmap : 8;  /**< [ 55: 48](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_packet_type      : 4;  /**< [ 59: 56](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_outer_vlan_type  : 3;  /**< [ 62: 60](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
@@ -4534,17 +3641,13 @@ union cavm_mcsx_cpm_tx_slave_flowid_tcam_mask_3x
         uint64_t reserved_16_63        : 48;
         uint64_t mask_flowid_user_field : 4; /**< [ 15: 12](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_port             : 2;  /**< [ 11: 10](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
-        uint64_t mask_express          : 1;  /**< [  9:  9](R/W) Reserved.
-                                                                 Internal:
-                                                                 Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
+        uint64_t mask_express          : 1;  /**< [  9:  9](R/W) Reserved. */
         uint64_t mask_num_tags         : 7;  /**< [  8:  2](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_inner_vlan_type  : 2;  /**< [  1:  0](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
 #else /* Word 0 - Little Endian */
         uint64_t mask_inner_vlan_type  : 2;  /**< [  1:  0](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_num_tags         : 7;  /**< [  8:  2](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
-        uint64_t mask_express          : 1;  /**< [  9:  9](R/W) Reserved.
-                                                                 Internal:
-                                                                 Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
+        uint64_t mask_express          : 1;  /**< [  9:  9](R/W) Reserved. */
         uint64_t mask_port             : 2;  /**< [ 11: 10](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t mask_flowid_user_field : 4; /**< [ 15: 12](R/W) Set bits to 1 to mask/exclude corresponding flowid_tcam_data bit from compare. */
         uint64_t reserved_16_63        : 48;
@@ -4607,52 +3710,6 @@ static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_PN_THRESHOLD(uint64_t a)
 #define device_bar_CAVM_MCSX_CPM_TX_SLAVE_PN_THRESHOLD(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_CPM_TX_SLAVE_PN_THRESHOLD(a) (a)
 #define arguments_CAVM_MCSX_CPM_TX_SLAVE_PN_THRESHOLD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_reserved_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Reserved 0 Register
- *
- * Reserved.
- */
-union cavm_mcsx_cpm_tx_slave_reserved_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_reserved_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_cpm_tx_slave_reserved_0_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t reserved_0_4          : 5;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_4          : 5;
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_cpm_tx_slave_reserved_0_rsvd cavm_mcsx_cpm_tx_slave_reserved_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080005548ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD(a) cavm_mcsx_cpm_tx_slave_reserved_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD(a) "MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_RESERVED_0_RSVD(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mcs#_cpm_tx_slave_sa_index0_vld#
@@ -5260,474 +4317,6 @@ static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SA_PN_TABLE_MEMX(uint64_t a, uint6
 #define arguments_CAVM_MCSX_CPM_TX_SLAVE_SA_PN_TABLE_MEMX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) mcs#_cpm_tx_slave_sc_expiry_actual_timeout_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Expiry Actual Timeout 0 Register
- *
- * CPM SC/SA actual-timeout Leaf Interrupt Register
- */
-union cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](R/W1C) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](R/W1C) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_0_rsvd cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800054e0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_expiry_actual_timeout_enb_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Expiry Actual Timeout Enb 0 Register
- *
- * ENB register for sc_expiry_actual_timeout
- */
-union cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_enb_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_enb_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sc_expiry_actual_timeout_int_enb : 64;/**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sc_expiry_actual_timeout_int_enb : 64;/**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_enb_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_enb_0_rsvd cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_enb_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800054e8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_enb_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_ENB_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Expiry Actual Timeout Intr Rw 0 Register
- *
- * Read/write register for sc_expiry_actual_timeout
- */
-union cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800054f8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_intr_rw_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_INTR_RW_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_expiry_actual_timeout_raw_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Expiry Actual Timeout Raw 0 Register
- *
- * Raw register for sc_expiry_actual_timeout
- */
-union cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_raw_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_raw_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](RO) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sc_expiry_actual_timeout_int : 64;/**< [ 63:  0](RO) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_raw_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_raw_0_rsvd cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_raw_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800054f0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_expiry_actual_timeout_raw_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_ACTUAL_TIMEOUT_RAW_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_expiry_pre_timeout_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Expiry Pre Timeout 0 Register
- *
- * CPM SC/SA pre-timeout Leaf Interrupt Register
- */
-union cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](R/W1C) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](R/W1C) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_0_rsvd cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800054c0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_expiry_pre_timeout_enb_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Expiry Pre Timeout Enb 0 Register
- *
- * ENB register for sc_expiry_pre_timeout
- */
-union cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_enb_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_enb_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_expiry_pre_timeout_int_enb : 64;/**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sa_expiry_pre_timeout_int_enb : 64;/**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_enb_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_enb_0_rsvd cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_enb_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800054c8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_enb_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_ENB_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Expiry Pre Timeout Intr Rw 0 Register
- *
- * Read/write register for sc_expiry_pre_timeout
- */
-union cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800054d8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_intr_rw_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_INTR_RW_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_expiry_pre_timeout_raw_0_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Expiry Pre Timeout Raw 0 Register
- *
- * Raw register for sc_expiry_pre_timeout
- */
-union cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_raw_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_raw_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](RO) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t sa_expiry_pre_timeout_int : 64;/**< [ 63:  0](RO) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_raw_0_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_raw_0_rsvd cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_raw_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800054d0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_expiry_pre_timeout_raw_0_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_EXPIRY_PRE_TIMEOUT_RAW_0_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_timer_mem#_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Timer Mem Register
- *
- * SC Timer Memory - 64x32 : The per SC timers used in determining if an SA should be invaliated..
- */
-union cavm_mcsx_cpm_tx_slave_sc_timer_memx_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_timer_memx_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t timer                 : 32; /**< [ 31:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t timer                 : 32; /**< [ 31:  0](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_timer_memx_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_timer_memx_rsvd cavm_mcsx_cpm_tx_slave_sc_timer_memx_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=63)))
-        return 0x87e08000ba08ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3f);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) cavm_mcsx_cpm_tx_slave_sc_timer_memx_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) "MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_MEMX_RSVD(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_timer_rsvd1_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Timer Rsvd1 Register
- *
- * Reserved CSR.
- */
-union cavm_mcsx_cpm_tx_slave_sc_timer_rsvd1_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_timer_rsvd1_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_cpm_tx_slave_sc_timer_rsvd1_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_31         : 32;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_timer_rsvd1_rsvd cavm_mcsx_cpm_tx_slave_sc_timer_rsvd1_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e08000b7d8ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_timer_rsvd1_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD1_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_timer_rsvd2_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Timer Rsvd2 Register
- *
- * Reserved CSR.
- */
-union cavm_mcsx_cpm_tx_slave_sc_timer_rsvd2_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_timer_rsvd2_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_cpm_tx_slave_sc_timer_rsvd2_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_31         : 32;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_timer_rsvd2_rsvd cavm_mcsx_cpm_tx_slave_sc_timer_rsvd2_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e08000b7e0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD(a) cavm_mcsx_cpm_tx_slave_sc_timer_rsvd2_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD(a) "MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_RSVD2_RSVD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_sc_timer_timeout_thresh#_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Sc Timer Timeout Thresh Register
- *
- * One of 4 configurable thresholds which can be used to generate an interrupt if the
- * corresponding SC's timer reaches the selected threshold.
- * This register is used in the SC/SA timer expiry mechanism.
- */
-union cavm_mcsx_cpm_tx_slave_sc_timer_timeout_threshx_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_sc_timer_timeout_threshx_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t threshold             : 32; /**< [ 31:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t threshold             : 32; /**< [ 31:  0](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_sc_timer_timeout_threshx_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_sc_timer_timeout_threshx_rsvd cavm_mcsx_cpm_tx_slave_sc_timer_timeout_threshx_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e08000b7e8ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) cavm_mcsx_cpm_tx_slave_sc_timer_timeout_threshx_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) "MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_SC_TIMER_TIMEOUT_THRESHX_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_cpm_tx_slave_secy_map_mem_0#
  *
  * MCS Cpm Tx Slave Secy Map Mem 0 Register
@@ -5833,15 +4422,7 @@ union cavm_mcsx_cpm_tx_slave_secy_plcy_memx
     struct cavm_mcsx_cpm_tx_slave_secy_plcy_memx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mtu                   : 16; /**< [ 63: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 Specifies the outgoing maximum transmission unit (MTU) in bytes for this SecY.
-                                                                 The MTU must be checked on egress to ensure compliance with the configured MTU
-                                                                 due to the expansion that occurs because of inserting the SecTag and ICV into
-                                                                 the frame. MTU violation causes CRC corruption in the outgoing frame. The MTU is
-                                                                 checked on EOP by comparing this value against the actual computed packet
-                                                                 length. Violation causes the packet to be truncated and EOP-errored.  Note that
-                                                                 the maximum legal value is (2^16)-1 */
+        uint64_t mtu                   : 16; /**< [ 63: 48](R/W) Reserved. */
         uint64_t reserved_46_47        : 2;
         uint64_t sectag_tci            : 6;  /**< [ 45: 40](R/W) Tag Control Information excluding the AN field which originates from the SA
                                                                  Policy table. This field is inserted into the SecTag of the outgoing packet. */
@@ -5923,15 +4504,7 @@ union cavm_mcsx_cpm_tx_slave_secy_plcy_memx
         uint64_t sectag_tci            : 6;  /**< [ 45: 40](R/W) Tag Control Information excluding the AN field which originates from the SA
                                                                  Policy table. This field is inserted into the SecTag of the outgoing packet. */
         uint64_t reserved_46_47        : 2;
-        uint64_t mtu                   : 16; /**< [ 63: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 Specifies the outgoing maximum transmission unit (MTU) in bytes for this SecY.
-                                                                 The MTU must be checked on egress to ensure compliance with the configured MTU
-                                                                 due to the expansion that occurs because of inserting the SecTag and ICV into
-                                                                 the frame. MTU violation causes CRC corruption in the outgoing frame. The MTU is
-                                                                 checked on EOP by comparing this value against the actual computed packet
-                                                                 length. Violation causes the packet to be truncated and EOP-errored.  Note that
-                                                                 the maximum legal value is (2^16)-1 */
+        uint64_t mtu                   : 16; /**< [ 63: 48](R/W) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_cpm_tx_slave_secy_plcy_memx_s cn; */
@@ -5952,46 +4525,6 @@ static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_SECY_PLCY_MEMX(uint64_t a, uint64_
 #define device_bar_CAVM_MCSX_CPM_TX_SLAVE_SECY_PLCY_MEMX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_CPM_TX_SLAVE_SECY_PLCY_MEMX(a,b) (a)
 #define arguments_CAVM_MCSX_CPM_TX_SLAVE_SECY_PLCY_MEMX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_cpm_tx_slave_time_unit_tick_rsvd
- *
- * INTERNAL: MCS Cpm Tx Slave Time Unit Tick Register
- *
- * Configures the duration of the time unit tick in terms of the number of core clock cycles.
- * This register is used in the SC/SA timer expiry mechanism.
- */
-union cavm_mcsx_cpm_tx_slave_time_unit_tick_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cpm_tx_slave_time_unit_tick_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t num_cycles            : 32; /**< [ 31:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t num_cycles            : 32; /**< [ 31:  0](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_cpm_tx_slave_time_unit_tick_rsvd_s cn; */
-};
-typedef union cavm_mcsx_cpm_tx_slave_time_unit_tick_rsvd cavm_mcsx_cpm_tx_slave_time_unit_tick_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e08000b7c0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD(a) cavm_mcsx_cpm_tx_slave_time_unit_tick_rsvd_t
-#define bustype_CAVM_MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD(a) "MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD"
-#define device_bar_CAVM_MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD(a) (a)
-#define arguments_CAVM_MCSX_CPM_TX_SLAVE_TIME_UNIT_TICK_RSVD(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mcs#_cpm_tx_slave_tx_flowid_tcam_enable_0
@@ -7343,52 +5876,6 @@ static inline uint64_t CAVM_MCSX_CSE_RX_SLAVE_DEBUG_STATUS(uint64_t a)
 #define arguments_CAVM_MCSX_CSE_RX_SLAVE_DEBUG_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_cse_rx_slave_reserved0#_rsvd
- *
- * INTERNAL: MCS Cse Rx Slave Reserved0 Register
- *
- * This register is reserved.
- */
-union cavm_mcsx_cse_rx_slave_reserved0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cse_rx_slave_reserved0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_cse_rx_slave_reserved0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_cse_rx_slave_reserved0x_rsvd cavm_mcsx_cse_rx_slave_reserved0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800009a0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) cavm_mcsx_cse_rx_slave_reserved0x_rsvd_t
-#define bustype_CAVM_MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) "MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD"
-#define device_bar_CAVM_MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_cse_rx_slave_stats_clear
  *
  * MCS Cse Rx Slave Stats Clear Register
@@ -8373,52 +6860,6 @@ static inline uint64_t CAVM_MCSX_CSE_TX_SLAVE_DEBUG_STATUS(uint64_t a)
 #define arguments_CAVM_MCSX_CSE_TX_SLAVE_DEBUG_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_cse_tx_slave_reserved0#_rsvd
- *
- * INTERNAL: MCS Cse Tx Slave Reserved0 Register
- *
- * This register is reserved.
- */
-union cavm_mcsx_cse_tx_slave_reserved0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_cse_tx_slave_reserved0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_cse_tx_slave_reserved0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_cse_tx_slave_reserved0x_rsvd cavm_mcsx_cse_tx_slave_reserved0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800009e0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) cavm_mcsx_cse_tx_slave_reserved0x_rsvd_t
-#define bustype_CAVM_MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) "MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD"
-#define device_bar_CAVM_MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_cse_tx_slave_stats_clear
  *
  * MCS Cse Tx Slave Stats Clear Register
@@ -8485,43 +6926,6 @@ static inline uint64_t CAVM_MCSX_CSE_TX_SLAVE_STATS_CLEAR(uint64_t a)
 #define device_bar_CAVM_MCSX_CSE_TX_SLAVE_STATS_CLEAR(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_CSE_TX_SLAVE_STATS_CLEAR(a) (a)
 #define arguments_CAVM_MCSX_CSE_TX_SLAVE_STATS_CLEAR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_eco
- *
- * INTERNAL: MCS ECO Register
- */
-union cavm_mcsx_eco
-{
-    uint64_t u;
-    struct cavm_mcsx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_eco_s cn; */
-};
-typedef union cavm_mcsx_eco cavm_mcsx_eco_t;
-
-static inline uint64_t CAVM_MCSX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e080080010ll + 0x1000000ll * ((a) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080060010ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_ECO(a) cavm_mcsx_eco_t
-#define bustype_CAVM_MCSX_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_ECO(a) "MCSX_ECO"
-#define device_bar_CAVM_MCSX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_ECO(a) (a)
-#define arguments_CAVM_MCSX_ECO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mcs#_gae_rx_slave_dbg_mux_sel
@@ -14105,77 +12509,6 @@ static inline uint64_t CAVM_MCSX_HIL_GLOBAL(uint64_t a)
 #define arguments_CAVM_MCSX_HIL_GLOBAL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_hil_p2x_bp_test
- *
- * INTERNAL: MCS HIL P2X Backpressure Test Register
- */
-union cavm_mcsx_hil_p2x_bp_test
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_p2x_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Stop popping P2X data from FIFO towards MIL-TX. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Stop popping P2X data from FIFO towards MIL-TX. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_p2x_bp_test_s cn; */
-};
-typedef union cavm_mcsx_hil_p2x_bp_test cavm_mcsx_hil_p2x_bp_test_t;
-
-static inline uint64_t CAVM_MCSX_HIL_P2X_BP_TEST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_P2X_BP_TEST(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e0800c0020ll + 0x1000000ll * ((a) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800a0020ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_HIL_P2X_BP_TEST", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_P2X_BP_TEST(a) cavm_mcsx_hil_p2x_bp_test_t
-#define bustype_CAVM_MCSX_HIL_P2X_BP_TEST(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_P2X_BP_TEST(a) "MCSX_HIL_P2X_BP_TEST"
-#define device_bar_CAVM_MCSX_HIL_P2X_BP_TEST(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_P2X_BP_TEST(a) (a)
-#define arguments_CAVM_MCSX_HIL_P2X_BP_TEST(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) mcs#_hil_rx_gbl_int
  *
  * MCS HIL RX Interrupt Register
@@ -14367,129 +12700,6 @@ static inline uint64_t CAVM_MCSX_HIL_RX_GBL_INT_W1S(uint64_t a)
 #define device_bar_CAVM_MCSX_HIL_RX_GBL_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_HIL_RX_GBL_INT_W1S(a) (a)
 #define arguments_CAVM_MCSX_HIL_RX_GBL_INT_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_hil_rx_gbl_status
- *
- * INTERNAL: MCS HIL RX Status Register
- */
-union cavm_mcsx_hil_rx_gbl_status
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_rx_gbl_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t x2p_req_fifo_cnt      : 12; /**< [ 11:  0](RO/H) HIL RX X2P request FIFO fill level (a single async data FIFO, 64 entries per LMAC). */
-#else /* Word 0 - Little Endian */
-        uint64_t x2p_req_fifo_cnt      : 12; /**< [ 11:  0](RO/H) HIL RX X2P request FIFO fill level (a single async data FIFO, 64 entries per LMAC). */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_rx_gbl_status_s cn10; */
-    /* struct cavm_mcsx_hil_rx_gbl_status_s cn10kb; */
-    struct cavm_mcsx_hil_rx_gbl_status_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t x2p_req_fifo_cnt      : 9;  /**< [  8:  0](RO/H) HIL RX X2P request FIFO fill level (a single async data FIFO, 64 entries per LMAC). */
-#else /* Word 0 - Little Endian */
-        uint64_t x2p_req_fifo_cnt      : 9;  /**< [  8:  0](RO/H) HIL RX X2P request FIFO fill level (a single async data FIFO, 64 entries per LMAC). */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } cnf10kb;
-};
-typedef union cavm_mcsx_hil_rx_gbl_status cavm_mcsx_hil_rx_gbl_status_t;
-
-static inline uint64_t CAVM_MCSX_HIL_RX_GBL_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_RX_GBL_STATUS(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e0800c0028ll + 0x1000000ll * ((a) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800a0028ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_HIL_RX_GBL_STATUS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_RX_GBL_STATUS(a) cavm_mcsx_hil_rx_gbl_status_t
-#define bustype_CAVM_MCSX_HIL_RX_GBL_STATUS(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_RX_GBL_STATUS(a) "MCSX_HIL_RX_GBL_STATUS"
-#define device_bar_CAVM_MCSX_HIL_RX_GBL_STATUS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_RX_GBL_STATUS(a) (a)
-#define arguments_CAVM_MCSX_HIL_RX_GBL_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_hil_rx_grnt_lmac#_bp_test
- *
- * INTERNAL: MCS HIL RX Per LMAC Backpressure Test Register
- *
- * Applicable for bypass mode only.
- */
-union cavm_mcsx_hil_rx_grnt_lmacx_bp_test
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_rx_grnt_lmacx_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = On bypass,Stop granting X2P requests to MIL-RX. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = On bypass,Stop granting X2P requests to MIL-RX. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_rx_grnt_lmacx_bp_test_s cn; */
-};
-typedef union cavm_mcsx_hil_rx_grnt_lmacx_bp_test cavm_mcsx_hil_rx_grnt_lmacx_bp_test_t;
-
-static inline uint64_t CAVM_MCSX_HIL_RX_GRNT_LMACX_BP_TEST(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_RX_GRNT_LMACX_BP_TEST(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e0800d0010ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800b0010ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_HIL_RX_GRNT_LMACX_BP_TEST", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_RX_GRNT_LMACX_BP_TEST(a,b) cavm_mcsx_hil_rx_grnt_lmacx_bp_test_t
-#define bustype_CAVM_MCSX_HIL_RX_GRNT_LMACX_BP_TEST(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_RX_GRNT_LMACX_BP_TEST(a,b) "MCSX_HIL_RX_GRNT_LMACX_BP_TEST"
-#define device_bar_CAVM_MCSX_HIL_RX_GRNT_LMACX_BP_TEST(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_RX_GRNT_LMACX_BP_TEST(a,b) (a)
-#define arguments_CAVM_MCSX_HIL_RX_GRNT_LMACX_BP_TEST(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mcs#_hil_rx_lmac#_int
@@ -14713,159 +12923,6 @@ static inline uint64_t CAVM_MCSX_HIL_RX_LMACX_INT_W1S(uint64_t a, uint64_t b)
 #define arguments_CAVM_MCSX_HIL_RX_LMACX_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) mcs#_hil_rx_lmac#_skid_thresh
- *
- * INTERNAL: MCS HIL Per LMAC RX SKID Thresh Configuration Register
- */
-union cavm_mcsx_hil_rx_lmacx_skid_thresh
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_rx_lmacx_skid_thresh_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t rx_skid_full_thresh   : 7;  /**< [  6:  0](R/W) HIL RX SKID FIFO full threshold (Based on x2p2_p2x2_defs::X2P2_SKID_CREDIT) */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_skid_full_thresh   : 7;  /**< [  6:  0](R/W) HIL RX SKID FIFO full threshold (Based on x2p2_p2x2_defs::X2P2_SKID_CREDIT) */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_rx_lmacx_skid_thresh_s cn; */
-};
-typedef union cavm_mcsx_hil_rx_lmacx_skid_thresh cavm_mcsx_hil_rx_lmacx_skid_thresh_t;
-
-static inline uint64_t CAVM_MCSX_HIL_RX_LMACX_SKID_THRESH(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_RX_LMACX_SKID_THRESH(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e0800d0000ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800b0000ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_HIL_RX_LMACX_SKID_THRESH", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_RX_LMACX_SKID_THRESH(a,b) cavm_mcsx_hil_rx_lmacx_skid_thresh_t
-#define bustype_CAVM_MCSX_HIL_RX_LMACX_SKID_THRESH(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_RX_LMACX_SKID_THRESH(a,b) "MCSX_HIL_RX_LMACX_SKID_THRESH"
-#define device_bar_CAVM_MCSX_HIL_RX_LMACX_SKID_THRESH(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_RX_LMACX_SKID_THRESH(a,b) (a)
-#define arguments_CAVM_MCSX_HIL_RX_LMACX_SKID_THRESH(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_hil_rx_lmac#_status
- *
- * INTERNAL: MCS HIL RX Status Register
- */
-union cavm_mcsx_hil_rx_lmacx_status
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_rx_lmacx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t skid_data_fifo_cnt    : 7;  /**< [ 14:  8](RO/H) HIL RX SKID data FIFO fill level. */
-        uint64_t pab_bp                : 1;  /**< [  7:  7](RO/H) RX PAB back pressure status. */
-        uint64_t x2p_gnt_fifo_cnt      : 7;  /**< [  6:  0](RO/H) HIL RX X2P grant FIFO fill level, used only in External bypass mode. */
-#else /* Word 0 - Little Endian */
-        uint64_t x2p_gnt_fifo_cnt      : 7;  /**< [  6:  0](RO/H) HIL RX X2P grant FIFO fill level, used only in External bypass mode. */
-        uint64_t pab_bp                : 1;  /**< [  7:  7](RO/H) RX PAB back pressure status. */
-        uint64_t skid_data_fifo_cnt    : 7;  /**< [ 14:  8](RO/H) HIL RX SKID data FIFO fill level. */
-        uint64_t reserved_15_63        : 49;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_rx_lmacx_status_s cn; */
-};
-typedef union cavm_mcsx_hil_rx_lmacx_status cavm_mcsx_hil_rx_lmacx_status_t;
-
-static inline uint64_t CAVM_MCSX_HIL_RX_LMACX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_RX_LMACX_STATUS(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e0800d0018ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800b0018ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_HIL_RX_LMACX_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_RX_LMACX_STATUS(a,b) cavm_mcsx_hil_rx_lmacx_status_t
-#define bustype_CAVM_MCSX_HIL_RX_LMACX_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_RX_LMACX_STATUS(a,b) "MCSX_HIL_RX_LMACX_STATUS"
-#define device_bar_CAVM_MCSX_HIL_RX_LMACX_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_RX_LMACX_STATUS(a,b) (a)
-#define arguments_CAVM_MCSX_HIL_RX_LMACX_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_hil_rx_pab_lmac#_bp_test
- *
- * INTERNAL: MCS HIL RX Backpressure Test Register
- */
-union cavm_mcsx_hil_rx_pab_lmacx_bp_test
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_rx_pab_lmacx_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Set back-pressure from HIL-RX towards PAB. Valid only in non-bypass mode. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Set back-pressure from HIL-RX towards PAB. Valid only in non-bypass mode. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_rx_pab_lmacx_bp_test_s cn; */
-};
-typedef union cavm_mcsx_hil_rx_pab_lmacx_bp_test cavm_mcsx_hil_rx_pab_lmacx_bp_test_t;
-
-static inline uint64_t CAVM_MCSX_HIL_RX_PAB_LMACX_BP_TEST(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_RX_PAB_LMACX_BP_TEST(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e0800d0008ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800b0008ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_HIL_RX_PAB_LMACX_BP_TEST", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_RX_PAB_LMACX_BP_TEST(a,b) cavm_mcsx_hil_rx_pab_lmacx_bp_test_t
-#define bustype_CAVM_MCSX_HIL_RX_PAB_LMACX_BP_TEST(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_RX_PAB_LMACX_BP_TEST(a,b) "MCSX_HIL_RX_PAB_LMACX_BP_TEST"
-#define device_bar_CAVM_MCSX_HIL_RX_PAB_LMACX_BP_TEST(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_RX_PAB_LMACX_BP_TEST(a,b) (a)
-#define arguments_CAVM_MCSX_HIL_RX_PAB_LMACX_BP_TEST(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_hil_rx_x2p_err
  *
  * MCS HIL RX X2P Errors Register
@@ -14911,47 +12968,6 @@ static inline uint64_t CAVM_MCSX_HIL_RX_X2P_ERR(uint64_t a)
 #define arguments_CAVM_MCSX_HIL_RX_X2P_ERR(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_hil_tx_crdt_thresh
- *
- * INTERNAL: MCS HIL TX BBE Credits Thresh Configuration Register
- */
-union cavm_mcsx_hil_tx_crdt_thresh
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_tx_crdt_thresh_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t tx_bbe_plcy_credits   : 5;  /**< [ 11:  7](R/W) HIL TX BBE POLICY credits initial value (based on BBE POLICY FIFO depth). */
-        uint64_t tx_bbe_data_credits   : 7;  /**< [  6:  0](R/W) HIL TX BBE data credits initial value (based on BBE data FIFO depth). */
-#else /* Word 0 - Little Endian */
-        uint64_t tx_bbe_data_credits   : 7;  /**< [  6:  0](R/W) HIL TX BBE data credits initial value (based on BBE data FIFO depth). */
-        uint64_t tx_bbe_plcy_credits   : 5;  /**< [ 11:  7](R/W) HIL TX BBE POLICY credits initial value (based on BBE POLICY FIFO depth). */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_tx_crdt_thresh_s cn; */
-};
-typedef union cavm_mcsx_hil_tx_crdt_thresh cavm_mcsx_hil_tx_crdt_thresh_t;
-
-static inline uint64_t CAVM_MCSX_HIL_TX_CRDT_THRESH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_TX_CRDT_THRESH(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e0800c0008ll + 0x1000000ll * ((a) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800a0008ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_HIL_TX_CRDT_THRESH", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_TX_CRDT_THRESH(a) cavm_mcsx_hil_tx_crdt_thresh_t
-#define bustype_CAVM_MCSX_HIL_TX_CRDT_THRESH(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_TX_CRDT_THRESH(a) "MCSX_HIL_TX_CRDT_THRESH"
-#define device_bar_CAVM_MCSX_HIL_TX_CRDT_THRESH(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_TX_CRDT_THRESH(a) (a)
-#define arguments_CAVM_MCSX_HIL_TX_CRDT_THRESH(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) mcs#_hil_tx_gbl_int
  *
  * MCS HIL TX Per LMAC Interrupt Register
@@ -14968,12 +12984,7 @@ union cavm_mcsx_hil_tx_gbl_int
         uint64_t hil_tx_bridge_data_fifo_ovf : 1;/**< [  8:  8](R/W1C/H) HIL TX SKID data FIFO overflow. */
         uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1C/H) A data transfer which matched more than 1 of the
                                                                  MCS_LINK_LMAC(0..19)_CFG registers has been detected.
-                                                                 In that case, the data transfer is being ignored.
-
-                                                                 Internal:
-                                                                 HIL TX packet sideband field P2X.pkt_bus.chan match more than 1 of the
-                                                                 MCS_LINK_LMAC(0..19)_CFG registers.
-                                                                 Cycle is being dropped and SKID credits are not returned to HOST. */
+                                                                 In that case, the data transfer is being ignored. */
         uint64_t hil_tx_bbe_plcy_cred_ovf : 1;/**< [  6:  6](R/W1C/H) HIL TX BBE POLICY credits overflow. */
         uint64_t hil_tx_bbe_plcy_cred_unf : 1;/**< [  5:  5](R/W1C/H) New data beat from HIL TX SKID data, no credits in BBE POLICY counter. */
         uint64_t hil_tx_bbe_data_cred_ovf : 1;/**< [  4:  4](R/W1C/H) HIL TX BBE data credits overflow. */
@@ -14991,12 +13002,7 @@ union cavm_mcsx_hil_tx_gbl_int
         uint64_t hil_tx_bbe_plcy_cred_ovf : 1;/**< [  6:  6](R/W1C/H) HIL TX BBE POLICY credits overflow. */
         uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1C/H) A data transfer which matched more than 1 of the
                                                                  MCS_LINK_LMAC(0..19)_CFG registers has been detected.
-                                                                 In that case, the data transfer is being ignored.
-
-                                                                 Internal:
-                                                                 HIL TX packet sideband field P2X.pkt_bus.chan match more than 1 of the
-                                                                 MCS_LINK_LMAC(0..19)_CFG registers.
-                                                                 Cycle is being dropped and SKID credits are not returned to HOST. */
+                                                                 In that case, the data transfer is being ignored. */
         uint64_t hil_tx_bridge_data_fifo_ovf : 1;/**< [  8:  8](R/W1C/H) HIL TX SKID data FIFO overflow. */
         uint64_t hil_tx_bridge_data_fifo_unf : 1;/**< [  9:  9](R/W1C/H) HIL TX SKID data FIFO underflow. */
         uint64_t reserved_10_63        : 54;
@@ -15067,11 +13073,7 @@ union cavm_mcsx_hil_tx_gbl_int_ena_w1c
         uint64_t reserved_10_63        : 54;
         uint64_t hil_tx_bridge_data_fifo_unf : 1;/**< [  9:  9](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_UNF]. */
         uint64_t hil_tx_bridge_data_fifo_ovf : 1;/**< [  8:  8](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_OVF]. */
-        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH].
-                                                                 Internal:
-                                                                 HIL TX packet sideband field P2X.pkt_bus.chan match more than 1 of the
-                                                                 MCS_LINK_LMAC(0..19)_CFG registers.
-                                                                 Cycle is being dropped and SKID credits are not returned to HOST. */
+        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH]. */
         uint64_t hil_tx_bbe_plcy_cred_ovf : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_OVF]. */
         uint64_t hil_tx_bbe_plcy_cred_unf : 1;/**< [  5:  5](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_UNF]. */
         uint64_t hil_tx_bbe_data_cred_ovf : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_DATA_CRED_OVF]. */
@@ -15087,11 +13089,7 @@ union cavm_mcsx_hil_tx_gbl_int_ena_w1c
         uint64_t hil_tx_bbe_data_cred_ovf : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_DATA_CRED_OVF]. */
         uint64_t hil_tx_bbe_plcy_cred_unf : 1;/**< [  5:  5](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_UNF]. */
         uint64_t hil_tx_bbe_plcy_cred_ovf : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_OVF]. */
-        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH].
-                                                                 Internal:
-                                                                 HIL TX packet sideband field P2X.pkt_bus.chan match more than 1 of the
-                                                                 MCS_LINK_LMAC(0..19)_CFG registers.
-                                                                 Cycle is being dropped and SKID credits are not returned to HOST. */
+        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH]. */
         uint64_t hil_tx_bridge_data_fifo_ovf : 1;/**< [  8:  8](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_OVF]. */
         uint64_t hil_tx_bridge_data_fifo_unf : 1;/**< [  9:  9](R/W1C/H) Reads or clears enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_UNF]. */
         uint64_t reserved_10_63        : 54;
@@ -15158,11 +13156,7 @@ union cavm_mcsx_hil_tx_gbl_int_ena_w1s
         uint64_t reserved_10_63        : 54;
         uint64_t hil_tx_bridge_data_fifo_unf : 1;/**< [  9:  9](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_UNF]. */
         uint64_t hil_tx_bridge_data_fifo_ovf : 1;/**< [  8:  8](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_OVF]. */
-        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH].
-                                                                 Internal:
-                                                                 HIL TX packet sideband field P2X.pkt_bus.chan match more than 1 of the
-                                                                 MCS_LINK_LMAC(0..19)_CFG registers.
-                                                                 Cycle is being dropped and SKID credits are not returned to HOST. */
+        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH]. */
         uint64_t hil_tx_bbe_plcy_cred_ovf : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_OVF]. */
         uint64_t hil_tx_bbe_plcy_cred_unf : 1;/**< [  5:  5](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_UNF]. */
         uint64_t hil_tx_bbe_data_cred_ovf : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_DATA_CRED_OVF]. */
@@ -15178,11 +13172,7 @@ union cavm_mcsx_hil_tx_gbl_int_ena_w1s
         uint64_t hil_tx_bbe_data_cred_ovf : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_DATA_CRED_OVF]. */
         uint64_t hil_tx_bbe_plcy_cred_unf : 1;/**< [  5:  5](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_UNF]. */
         uint64_t hil_tx_bbe_plcy_cred_ovf : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_OVF]. */
-        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH].
-                                                                 Internal:
-                                                                 HIL TX packet sideband field P2X.pkt_bus.chan match more than 1 of the
-                                                                 MCS_LINK_LMAC(0..19)_CFG registers.
-                                                                 Cycle is being dropped and SKID credits are not returned to HOST. */
+        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH]. */
         uint64_t hil_tx_bridge_data_fifo_ovf : 1;/**< [  8:  8](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_OVF]. */
         uint64_t hil_tx_bridge_data_fifo_unf : 1;/**< [  9:  9](R/W1S/H) Reads or sets enable for MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_UNF]. */
         uint64_t reserved_10_63        : 54;
@@ -15249,11 +13239,7 @@ union cavm_mcsx_hil_tx_gbl_int_w1s
         uint64_t reserved_10_63        : 54;
         uint64_t hil_tx_bridge_data_fifo_unf : 1;/**< [  9:  9](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_UNF]. */
         uint64_t hil_tx_bridge_data_fifo_ovf : 1;/**< [  8:  8](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_OVF]. */
-        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH].
-                                                                 Internal:
-                                                                 HIL TX packet sideband field P2X.pkt_bus.chan match more than 1 of the
-                                                                 MCS_LINK_LMAC(0..19)_CFG registers.
-                                                                 Cycle is being dropped and SKID credits are not returned to HOST. */
+        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH]. */
         uint64_t hil_tx_bbe_plcy_cred_ovf : 1;/**< [  6:  6](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_OVF]. */
         uint64_t hil_tx_bbe_plcy_cred_unf : 1;/**< [  5:  5](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_UNF]. */
         uint64_t hil_tx_bbe_data_cred_ovf : 1;/**< [  4:  4](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_DATA_CRED_OVF]. */
@@ -15269,11 +13255,7 @@ union cavm_mcsx_hil_tx_gbl_int_w1s
         uint64_t hil_tx_bbe_data_cred_ovf : 1;/**< [  4:  4](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_DATA_CRED_OVF]. */
         uint64_t hil_tx_bbe_plcy_cred_unf : 1;/**< [  5:  5](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_UNF]. */
         uint64_t hil_tx_bbe_plcy_cred_ovf : 1;/**< [  6:  6](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BBE_PLCY_CRED_OVF]. */
-        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH].
-                                                                 Internal:
-                                                                 HIL TX packet sideband field P2X.pkt_bus.chan match more than 1 of the
-                                                                 MCS_LINK_LMAC(0..19)_CFG registers.
-                                                                 Cycle is being dropped and SKID credits are not returned to HOST. */
+        uint64_t hil_tx_plcn_mismatch  : 1;  /**< [  7:  7](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_PLCN_MISMATCH]. */
         uint64_t hil_tx_bridge_data_fifo_ovf : 1;/**< [  8:  8](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_OVF]. */
         uint64_t hil_tx_bridge_data_fifo_unf : 1;/**< [  9:  9](R/W1S/H) Reads or sets MCS(0)_HIL_TX_GBL_INT[HIL_TX_BRIDGE_DATA_FIFO_UNF]. */
         uint64_t reserved_10_63        : 54;
@@ -15324,87 +13306,6 @@ static inline uint64_t CAVM_MCSX_HIL_TX_GBL_INT_W1S(uint64_t a)
 #define device_bar_CAVM_MCSX_HIL_TX_GBL_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_HIL_TX_GBL_INT_W1S(a) (a)
 #define arguments_CAVM_MCSX_HIL_TX_GBL_INT_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_hil_tx_gbl_status
- *
- * INTERNAL: MCS HIL TX Global Status Register
- */
-union cavm_mcsx_hil_tx_gbl_status
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_tx_gbl_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t bbe_plcy_crdt         : 5;  /**< [ 11:  7](RO/H) HIL TX BBE POLICY credits counter. */
-        uint64_t bbe_data_crdt         : 7;  /**< [  6:  0](RO/H) HIL TX BBE data credits counter. */
-#else /* Word 0 - Little Endian */
-        uint64_t bbe_data_crdt         : 7;  /**< [  6:  0](RO/H) HIL TX BBE data credits counter. */
-        uint64_t bbe_plcy_crdt         : 5;  /**< [ 11:  7](RO/H) HIL TX BBE POLICY credits counter. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_tx_gbl_status_s cn10; */
-    struct cavm_mcsx_hil_tx_gbl_status_cn10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_39_63        : 25;
-        uint64_t p2x_pkt_cnt           : 15; /**< [ 38: 24](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Dynamically counts the P2X packets in MCS at any given time. */
-        uint64_t skid_data_cnt         : 12; /**< [ 23: 12](RO/H) HIL TX SKID data FIFO fill level (a single async data FIFO, 64 entries per LMAC). */
-        uint64_t bbe_plcy_crdt         : 5;  /**< [ 11:  7](RO/H) HIL TX BBE POLICY credits counter. */
-        uint64_t bbe_data_crdt         : 7;  /**< [  6:  0](RO/H) HIL TX BBE data credits counter. */
-#else /* Word 0 - Little Endian */
-        uint64_t bbe_data_crdt         : 7;  /**< [  6:  0](RO/H) HIL TX BBE data credits counter. */
-        uint64_t bbe_plcy_crdt         : 5;  /**< [ 11:  7](RO/H) HIL TX BBE POLICY credits counter. */
-        uint64_t skid_data_cnt         : 12; /**< [ 23: 12](RO/H) HIL TX SKID data FIFO fill level (a single async data FIFO, 64 entries per LMAC). */
-        uint64_t p2x_pkt_cnt           : 15; /**< [ 38: 24](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Dynamically counts the P2X packets in MCS at any given time. */
-        uint64_t reserved_39_63        : 25;
-#endif /* Word 0 - End */
-    } cn10kb;
-    struct cavm_mcsx_hil_tx_gbl_status_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t p2x_pkt_cnt           : 12; /**< [ 32: 21](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Dynamically counts the P2X packets in MCS at any given time. */
-        uint64_t skid_data_cnt         : 9;  /**< [ 20: 12](RO/H) HIL TX SKID data FIFO fill level (a single async data FIFO, 64 entries per LMAC). */
-        uint64_t bbe_plcy_crdt         : 5;  /**< [ 11:  7](RO/H) HIL TX BBE POLICY credits counter. */
-        uint64_t bbe_data_crdt         : 7;  /**< [  6:  0](RO/H) HIL TX BBE data credits counter. */
-#else /* Word 0 - Little Endian */
-        uint64_t bbe_data_crdt         : 7;  /**< [  6:  0](RO/H) HIL TX BBE data credits counter. */
-        uint64_t bbe_plcy_crdt         : 5;  /**< [ 11:  7](RO/H) HIL TX BBE POLICY credits counter. */
-        uint64_t skid_data_cnt         : 9;  /**< [ 20: 12](RO/H) HIL TX SKID data FIFO fill level (a single async data FIFO, 64 entries per LMAC). */
-        uint64_t p2x_pkt_cnt           : 12; /**< [ 32: 21](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Dynamically counts the P2X packets in MCS at any given time. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } cnf10kb;
-};
-typedef union cavm_mcsx_hil_tx_gbl_status cavm_mcsx_hil_tx_gbl_status_t;
-
-static inline uint64_t CAVM_MCSX_HIL_TX_GBL_STATUS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_TX_GBL_STATUS(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e0800c0030ll + 0x1000000ll * ((a) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800a0030ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_HIL_TX_GBL_STATUS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_TX_GBL_STATUS(a) cavm_mcsx_hil_tx_gbl_status_t
-#define bustype_CAVM_MCSX_HIL_TX_GBL_STATUS(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_TX_GBL_STATUS(a) "MCSX_HIL_TX_GBL_STATUS"
-#define device_bar_CAVM_MCSX_HIL_TX_GBL_STATUS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_TX_GBL_STATUS(a) (a)
-#define arguments_CAVM_MCSX_HIL_TX_GBL_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mcs#_hil_tx_lmac#_int
@@ -15684,124 +13585,6 @@ static inline uint64_t CAVM_MCSX_HIL_TX_LMACX_INT_W1S(uint64_t a, uint64_t b)
 #define arguments_CAVM_MCSX_HIL_TX_LMACX_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) mcs#_hil_tx_lmac#_status
- *
- * INTERNAL: MCS HIL TX Per LMAC Status Register
- */
-union cavm_mcsx_hil_tx_lmacx_status
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_tx_lmacx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_29_63        : 35;
-        uint64_t mac_skid_crdt         : 7;  /**< [ 28: 22](RO/H) MAC P2X SKID counter. Used only in external bypass mode. */
-        uint64_t cc_fifo_cnt           : 7;  /**< [ 21: 15](RO/H) HIL TX channel credits FIFO fill level. */
-        uint64_t cc_ack_fifo_cnt       : 5;  /**< [ 14: 10](RO/H) HIL TX channel credits ack FIFO fill level. */
-        uint64_t skid_crdt_fifo_cnt    : 7;  /**< [  9:  3](RO/H) HIL TX SKID credit FIFO fill level. */
-        uint64_t cc_tx_sm              : 3;  /**< [  2:  0](RO/H) HIL TX channel credits state machine. */
-#else /* Word 0 - Little Endian */
-        uint64_t cc_tx_sm              : 3;  /**< [  2:  0](RO/H) HIL TX channel credits state machine. */
-        uint64_t skid_crdt_fifo_cnt    : 7;  /**< [  9:  3](RO/H) HIL TX SKID credit FIFO fill level. */
-        uint64_t cc_ack_fifo_cnt       : 5;  /**< [ 14: 10](RO/H) HIL TX channel credits ack FIFO fill level. */
-        uint64_t cc_fifo_cnt           : 7;  /**< [ 21: 15](RO/H) HIL TX channel credits FIFO fill level. */
-        uint64_t mac_skid_crdt         : 7;  /**< [ 28: 22](RO/H) MAC P2X SKID counter. Used only in external bypass mode. */
-        uint64_t reserved_29_63        : 35;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_tx_lmacx_status_s cn; */
-};
-typedef union cavm_mcsx_hil_tx_lmacx_status cavm_mcsx_hil_tx_lmacx_status_t;
-
-static inline uint64_t CAVM_MCSX_HIL_TX_LMACX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_TX_LMACX_STATUS(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e0800d0020ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800b0020ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_HIL_TX_LMACX_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_TX_LMACX_STATUS(a,b) cavm_mcsx_hil_tx_lmacx_status_t
-#define bustype_CAVM_MCSX_HIL_TX_LMACX_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_TX_LMACX_STATUS(a,b) "MCSX_HIL_TX_LMACX_STATUS"
-#define device_bar_CAVM_MCSX_HIL_TX_LMACX_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_TX_LMACX_STATUS(a,b) (a)
-#define arguments_CAVM_MCSX_HIL_TX_LMACX_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_hil_x2p_req_bp_test
- *
- * INTERNAL: MCS HIL X2P Request Backpressure Test Register
- */
-union cavm_mcsx_hil_x2p_req_bp_test
-{
-    uint64_t u;
-    struct cavm_mcsx_hil_x2p_req_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Stop sending X2P requests from HIL-RX to HOST. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Stop sending X2P requests from HIL-RX to HOST. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_x2p_req_bp_test_s cn; */
-};
-typedef union cavm_mcsx_hil_x2p_req_bp_test cavm_mcsx_hil_x2p_req_bp_test_t;
-
-static inline uint64_t CAVM_MCSX_HIL_X2P_REQ_BP_TEST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_HIL_X2P_REQ_BP_TEST(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e0800c0018ll + 0x1000000ll * ((a) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800a0018ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_HIL_X2P_REQ_BP_TEST", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_HIL_X2P_REQ_BP_TEST(a) cavm_mcsx_hil_x2p_req_bp_test_t
-#define bustype_CAVM_MCSX_HIL_X2P_REQ_BP_TEST(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_HIL_X2P_REQ_BP_TEST(a) "MCSX_HIL_X2P_REQ_BP_TEST"
-#define device_bar_CAVM_MCSX_HIL_X2P_REQ_BP_TEST(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_HIL_X2P_REQ_BP_TEST(a) (a)
-#define arguments_CAVM_MCSX_HIL_X2P_REQ_BP_TEST(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) mcs#_ip_clk_active_pc
  *
  * MCS sclk Domain ACTIVE PC Register
@@ -16031,45 +13814,6 @@ static inline uint64_t CAVM_MCSX_IP_INT_W1S(uint64_t a)
 #define device_bar_CAVM_MCSX_IP_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_IP_INT_W1S(a) (a)
 #define arguments_CAVM_MCSX_IP_INT_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_ip_lmac#_status
- *
- * INTERNAL: MCS IP Per LMAC Status Register
- */
-union cavm_mcsx_ip_lmacx_status
-{
-    uint64_t u;
-    struct cavm_mcsx_ip_lmacx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t tx_pkt_cnt            : 12; /**< [ 23: 12](RO/H) IP indication for packets on TX path inside the IP path. */
-        uint64_t rx_pkt_cnt            : 12; /**< [ 11:  0](RO/H) IP indication for packets on RX path inside the IP path. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_pkt_cnt            : 12; /**< [ 11:  0](RO/H) IP indication for packets on RX path inside the IP path. */
-        uint64_t tx_pkt_cnt            : 12; /**< [ 23: 12](RO/H) IP indication for packets on TX path inside the IP path. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_ip_lmacx_status_s cn; */
-};
-typedef union cavm_mcsx_ip_lmacx_status cavm_mcsx_ip_lmacx_status_t;
-
-static inline uint64_t CAVM_MCSX_IP_LMACX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_IP_LMACX_STATUS(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e0800900c0ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    __cavm_csr_fatal("MCSX_IP_LMACX_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_IP_LMACX_STATUS(a,b) cavm_mcsx_ip_lmacx_status_t
-#define bustype_CAVM_MCSX_IP_LMACX_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_IP_LMACX_STATUS(a,b) "MCSX_IP_LMACX_STATUS"
-#define device_bar_CAVM_MCSX_IP_LMACX_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_IP_LMACX_STATUS(a,b) (a)
-#define arguments_CAVM_MCSX_IP_LMACX_STATUS(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mcs#_link_lmac#_cfg
@@ -16602,12 +14346,7 @@ union cavm_mcsx_mil_global
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t pab_bp_latency        : 5;  /**< [ 12:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 PAB backpressure latency. Number of cycles from PAB BP input triggered to cease
-                                                                 PAB outbound traffic.
-                                                                 IP latency is 7 cycles, additional 1 cycle delay for sampling.
-                                                                 Default value (0x9) includes 1 cycle for margin. */
+        uint64_t pab_bp_latency        : 5;  /**< [ 12:  8](R/W) Reserved. */
         uint64_t soft_reset            : 1;  /**< [  7:  7](R/W) Reset MCS Datapath, for diagnostics only. */
         uint64_t external_bypass       : 1;  /**< [  6:  6](R/W) This is the very basic mode of MCS, functioning as a Clock Domain Cross block.
                                                                  MCS_IP is fully bypassed so there is no packet analysis or modification,
@@ -16635,12 +14374,7 @@ union cavm_mcsx_mil_global
                                                                  except X2P filtering features (X2P_PROTOCOL_PROTECT_EN and SMALL_PACKET_DROP_EN)
                                                                  and dropped cycles due to channel mismatch to MCS_LINK_LMAC(0..19)_CFG registers. */
         uint64_t soft_reset            : 1;  /**< [  7:  7](R/W) Reset MCS Datapath, for diagnostics only. */
-        uint64_t pab_bp_latency        : 5;  /**< [ 12:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 PAB backpressure latency. Number of cycles from PAB BP input triggered to cease
-                                                                 PAB outbound traffic.
-                                                                 IP latency is 7 cycles, additional 1 cycle delay for sampling.
-                                                                 Default value (0x9) includes 1 cycle for margin. */
+        uint64_t pab_bp_latency        : 5;  /**< [ 12:  8](R/W) Reserved. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -16650,11 +14384,7 @@ union cavm_mcsx_mil_global
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t pab_bp_latency        : 5;  /**< [ 12:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 PAB backpressure latency. Number of cycles from PAB BP input triggered to cease PAB out traffic.
-                                                                 IP latency is 7 cycles, additional 1 cycle delay for sampling.
-                                                                 Default value (0x9) includes 1 cycle for margin. */
+        uint64_t pab_bp_latency        : 5;  /**< [ 12:  8](R/W) Reserved. */
         uint64_t soft_reset            : 1;  /**< [  7:  7](R/W) Reset MCS Datapath, no impact on CSR. */
         uint64_t external_bypass       : 1;  /**< [  6:  6](R/W) This is the very basic mode of MCS, functioning as a Clock Domain Cross block.
                                                                  MCS_IP is totally bypassed so there is no packet analysis or modification,
@@ -16682,11 +14412,7 @@ union cavm_mcsx_mil_global
                                                                  except X2P filtering features (X2P protocol violation and SMALL_PACKET_DROP_EN)
                                                                  and dropped cycles due to channel mismatch to MCS_LINK_LMAC(0..3)_CFG registers. */
         uint64_t soft_reset            : 1;  /**< [  7:  7](R/W) Reset MCS Datapath, no impact on CSR. */
-        uint64_t pab_bp_latency        : 5;  /**< [ 12:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 PAB backpressure latency. Number of cycles from PAB BP input triggered to cease PAB out traffic.
-                                                                 IP latency is 7 cycles, additional 1 cycle delay for sampling.
-                                                                 Default value (0x9) includes 1 cycle for margin. */
+        uint64_t pab_bp_latency        : 5;  /**< [ 12:  8](R/W) Reserved. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -16727,31 +14453,15 @@ union cavm_mcsx_mil_ip_cfg
                                                                  statistics. To be configured after reset.
                                                                  0x0 - AE18. Default.
                                                                  0x1 - AE06. */
-        uint64_t ip_hw_init_done_en    : 1;  /**< [ 15: 15](R/W) Reserved.
-                                                                 Internal:
-                                                                 If set, use hw_init_done indication bit coming from IP for coarse clock gating purposes.
-                                                                 In that case, hw_init_done indication coming from IP = 1'b0, keeps the IP clk enable
-                                                                 active and IP input clk toggling. If unset, ignore IP hw_init_done indication. */
-        uint64_t ip_idle_en            : 1;  /**< [ 14: 14](R/W) Reserved.
-                                                                 Internal:
-                                                                 If set, use idle indication bit coming from IP for coarse clock gating purposes.
-                                                                 In that case, idle indication coming from IP = 1'b0, keeps the IP clk enable
-                                                                 active and IP input clk toggling. If unset, ignore IP idle indication. */
+        uint64_t ip_hw_init_done_en    : 1;  /**< [ 15: 15](R/W) Reserved. */
+        uint64_t ip_idle_en            : 1;  /**< [ 14: 14](R/W) Reserved. */
         uint64_t ip_cnt_cfg            : 14; /**< [ 13:  0](R/W) Statistics countdown counter for MCS MIL IP GLOBAL STATUS.MCS_IP_STATS_READY mechanism.
                                                                  In case of IP_IDLE_EN is set, this usage is redundant. */
 #else /* Word 0 - Little Endian */
         uint64_t ip_cnt_cfg            : 14; /**< [ 13:  0](R/W) Statistics countdown counter for MCS MIL IP GLOBAL STATUS.MCS_IP_STATS_READY mechanism.
                                                                  In case of IP_IDLE_EN is set, this usage is redundant. */
-        uint64_t ip_idle_en            : 1;  /**< [ 14: 14](R/W) Reserved.
-                                                                 Internal:
-                                                                 If set, use idle indication bit coming from IP for coarse clock gating purposes.
-                                                                 In that case, idle indication coming from IP = 1'b0, keeps the IP clk enable
-                                                                 active and IP input clk toggling. If unset, ignore IP idle indication. */
-        uint64_t ip_hw_init_done_en    : 1;  /**< [ 15: 15](R/W) Reserved.
-                                                                 Internal:
-                                                                 If set, use hw_init_done indication bit coming from IP for coarse clock gating purposes.
-                                                                 In that case, hw_init_done indication coming from IP = 1'b0, keeps the IP clk enable
-                                                                 active and IP input clk toggling. If unset, ignore IP hw_init_done indication. */
+        uint64_t ip_idle_en            : 1;  /**< [ 14: 14](R/W) Reserved. */
+        uint64_t ip_hw_init_done_en    : 1;  /**< [ 15: 15](R/W) Reserved. */
         uint64_t stats_cfg             : 1;  /**< [ 16: 16](R/W) AE statistics configuration. Selects between AE06 statistics and AE18
                                                                  statistics. To be configured after reset.
                                                                  0x0 - AE18. Default.
@@ -16803,18 +14513,8 @@ union cavm_mcsx_mil_ip_gbl_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t hw_init_done          : 1;  /**< [  3:  3](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Asserted when internal memory initialization has completed. This output is a
-                                                                 level signal that remains asserted until it is
-                                                                 cleared by a config_reset or logical reset. HW initialization clears all
-                                                                 counters and resets the free pool associated with
-                                                                 the dynamic input/output buffers. The WC hardware initialization time is
-                                                                 determined by the deepest memory that requires
-                                                                 initialization which is dependent on the scale selected during compile-time. */
-        uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved.
-                                                                 Internal:
-                                                                 APB bridge state machine. */
+        uint64_t hw_init_done          : 1;  /**< [  3:  3](RO/H) Reserved. */
+        uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
         uint64_t mcs_ip_stats_ready    : 1;  /**< [  0:  0](RO/H) Before SW reads statistics from IP:
                                                                  1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_CLK is set, the IP statistics counter counts
                                                                  MCS_MIL_IP_CFG.IP_CNT_CFG.
@@ -16826,18 +14526,8 @@ union cavm_mcsx_mil_ip_gbl_status
                                                                  MCS_MIL_IP_CFG.IP_CNT_CFG.
                                                                  2.When done, this field is set to 1'b1 indicating IP statistics are valid and ready to be read.
                                                                  In case MCS_MIL_IP_CFG.IP_IDLE_EN is set, this usage is redundant. */
-        uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved.
-                                                                 Internal:
-                                                                 APB bridge state machine. */
-        uint64_t hw_init_done          : 1;  /**< [  3:  3](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Asserted when internal memory initialization has completed. This output is a
-                                                                 level signal that remains asserted until it is
-                                                                 cleared by a config_reset or logical reset. HW initialization clears all
-                                                                 counters and resets the free pool associated with
-                                                                 the dynamic input/output buffers. The WC hardware initialization time is
-                                                                 determined by the deepest memory that requires
-                                                                 initialization which is dependent on the scale selected during compile-time. */
+        uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
+        uint64_t hw_init_done          : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -16847,9 +14537,7 @@ union cavm_mcsx_mil_ip_gbl_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved.
-                                                                 Internal:
-                                                                 APB bridge state machine. */
+        uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
         uint64_t mcs_ip_stats_ready    : 1;  /**< [  0:  0](RO/H) Before SW reads statistics from IP:
                                                                  1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_CLK is set, the IP statistics counter counts
                                                                  MCS_MIL_IP_CFG.IP_CNT_CFG.
@@ -16859,9 +14547,7 @@ union cavm_mcsx_mil_ip_gbl_status
                                                                  1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_CLK is set, the IP statistics counter counts
                                                                  MCS_MIL_IP_CFG.IP_CNT_CFG.
                                                                  2.When done, this field is set to 1'b1 indicating IP statistics are valid and ready to be read. */
-        uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved.
-                                                                 Internal:
-                                                                 APB bridge state machine. */
+        uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -16884,77 +14570,6 @@ static inline uint64_t CAVM_MCSX_MIL_IP_GBL_STATUS(uint64_t a)
 #define device_bar_CAVM_MCSX_MIL_IP_GBL_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_MIL_IP_GBL_STATUS(a) (a)
 #define arguments_CAVM_MCSX_MIL_IP_GBL_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_mil_rx_arb_lmac#_bp_test
- *
- * INTERNAL: MCS MIL RX Backpressure Test Register
- */
-union cavm_mcsx_mil_rx_arb_lmacx_bp_test
-{
-    uint64_t u;
-    struct cavm_mcsx_mil_rx_arb_lmacx_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Avoiding paritcipating in arbitration for poping data from SKID FIFO towards PEX. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Avoiding paritcipating in arbitration for poping data from SKID FIFO towards PEX. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_rx_arb_lmacx_bp_test_s cn; */
-};
-typedef union cavm_mcsx_mil_rx_arb_lmacx_bp_test cavm_mcsx_mil_rx_arb_lmacx_bp_test_t;
-
-static inline uint64_t CAVM_MCSX_MIL_RX_ARB_LMACX_BP_TEST(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_MIL_RX_ARB_LMACX_BP_TEST(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e080090018ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080070018ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_MIL_RX_ARB_LMACX_BP_TEST", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_MIL_RX_ARB_LMACX_BP_TEST(a,b) cavm_mcsx_mil_rx_arb_lmacx_bp_test_t
-#define bustype_CAVM_MCSX_MIL_RX_ARB_LMACX_BP_TEST(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_MIL_RX_ARB_LMACX_BP_TEST(a,b) "MCSX_MIL_RX_ARB_LMACX_BP_TEST"
-#define device_bar_CAVM_MCSX_MIL_RX_ARB_LMACX_BP_TEST(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_MIL_RX_ARB_LMACX_BP_TEST(a,b) (a)
-#define arguments_CAVM_MCSX_MIL_RX_ARB_LMACX_BP_TEST(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mcs#_mil_rx_err_cfg
@@ -17245,20 +14860,12 @@ union cavm_mcsx_mil_rx_gbl_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t x2p_pkt_cnt           : 15; /**< [ 31: 17](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Dynamically counts the X2P packets in MCS at any given time. */
+        uint64_t x2p_pkt_cnt           : 15; /**< [ 31: 17](RO/H) Reserved. */
         uint64_t calibrate_status      : 16; /**< [ 16:  1](RO/H) X2P device calibration state bit per MCS interface.
                                                                  0 = Device inactive.
                                                                  1 = Device ready.
 
-                                                                 Bits are enumerated by MCS_INTF_E.
-
-                                                                 Internal:
-                                                                 A device inactive status means that the X2P agent did not respond to the calibration
-                                                                 cycle.
-                                                                 This is most likely caused because the X2P agents (RPM) was in reset during the
-                                                                 calibration cycle. */
+                                                                 Bits are enumerated by MCS_INTF_E. */
         uint64_t calibrate_done        : 1;  /**< [  0:  0](RO/H) Calibrate cycle is complete. */
 #else /* Word 0 - Little Endian */
         uint64_t calibrate_done        : 1;  /**< [  0:  0](RO/H) Calibrate cycle is complete. */
@@ -17266,16 +14873,8 @@ union cavm_mcsx_mil_rx_gbl_status
                                                                  0 = Device inactive.
                                                                  1 = Device ready.
 
-                                                                 Bits are enumerated by MCS_INTF_E.
-
-                                                                 Internal:
-                                                                 A device inactive status means that the X2P agent did not respond to the calibration
-                                                                 cycle.
-                                                                 This is most likely caused because the X2P agents (RPM) was in reset during the
-                                                                 calibration cycle. */
-        uint64_t x2p_pkt_cnt           : 15; /**< [ 31: 17](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Dynamically counts the X2P packets in MCS at any given time. */
+                                                                 Bits are enumerated by MCS_INTF_E. */
+        uint64_t x2p_pkt_cnt           : 15; /**< [ 31: 17](RO/H) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -17285,20 +14884,12 @@ union cavm_mcsx_mil_rx_gbl_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_29_63        : 35;
-        uint64_t x2p_pkt_cnt           : 12; /**< [ 28: 17](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Dynamically counts the X2P packets in MCS at any given time. */
+        uint64_t x2p_pkt_cnt           : 12; /**< [ 28: 17](RO/H) Reserved. */
         uint64_t calibrate_status      : 16; /**< [ 16:  1](RO/H) X2P device calibration state bit per MCS interface.
                                                                  0 = Device inactive.
                                                                  1 = Device ready.
 
-                                                                 Bits are enumerated by MCS_INTF_E.
-
-                                                                 Internal:
-                                                                 A device inactive status means that the X2P agent did not respond to the calibration
-                                                                 cycle.
-                                                                 This is most likely caused because the X2P agents (RPM) was in reset during the
-                                                                 calibration cycle. */
+                                                                 Bits are enumerated by MCS_INTF_E. */
         uint64_t calibrate_done        : 1;  /**< [  0:  0](RO/H) Calibrate cycle is complete. */
 #else /* Word 0 - Little Endian */
         uint64_t calibrate_done        : 1;  /**< [  0:  0](RO/H) Calibrate cycle is complete. */
@@ -17306,16 +14897,8 @@ union cavm_mcsx_mil_rx_gbl_status
                                                                  0 = Device inactive.
                                                                  1 = Device ready.
 
-                                                                 Bits are enumerated by MCS_INTF_E.
-
-                                                                 Internal:
-                                                                 A device inactive status means that the X2P agent did not respond to the calibration
-                                                                 cycle.
-                                                                 This is most likely caused because the X2P agents (RPM) was in reset during the
-                                                                 calibration cycle. */
-        uint64_t x2p_pkt_cnt           : 12; /**< [ 28: 17](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Dynamically counts the X2P packets in MCS at any given time. */
+                                                                 Bits are enumerated by MCS_INTF_E. */
+        uint64_t x2p_pkt_cnt           : 12; /**< [ 28: 17](RO/H) Reserved. */
         uint64_t reserved_29_63        : 35;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -17340,47 +14923,6 @@ static inline uint64_t CAVM_MCSX_MIL_RX_GBL_STATUS(uint64_t a)
 #define arguments_CAVM_MCSX_MIL_RX_GBL_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_mil_rx_lmac#_bbe_credits
- *
- * INTERNAL: MCS MIL RX Per LMAC BBE Credits Configuration Register
- */
-union cavm_mcsx_mil_rx_lmacx_bbe_credits
-{
-    uint64_t u;
-    struct cavm_mcsx_mil_rx_lmacx_bbe_credits_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t rx_bbe_policy_credit_init : 5;/**< [ 11:  7](R/W) MIL RX BBE POLICY credit initialization (based on BBE POLICY FIFO depth). */
-        uint64_t rx_bbe_data_credit_init : 7;/**< [  6:  0](R/W) MIL RX BBE DATA credit initialization (based on BBE data FIFO depth). */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_bbe_data_credit_init : 7;/**< [  6:  0](R/W) MIL RX BBE DATA credit initialization (based on BBE data FIFO depth). */
-        uint64_t rx_bbe_policy_credit_init : 5;/**< [ 11:  7](R/W) MIL RX BBE POLICY credit initialization (based on BBE POLICY FIFO depth). */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_rx_lmacx_bbe_credits_s cn; */
-};
-typedef union cavm_mcsx_mil_rx_lmacx_bbe_credits cavm_mcsx_mil_rx_lmacx_bbe_credits_t;
-
-static inline uint64_t CAVM_MCSX_MIL_RX_LMACX_BBE_CREDITS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_MIL_RX_LMACX_BBE_CREDITS(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e080090020ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080070020ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_MIL_RX_LMACX_BBE_CREDITS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_MIL_RX_LMACX_BBE_CREDITS(a,b) cavm_mcsx_mil_rx_lmacx_bbe_credits_t
-#define bustype_CAVM_MCSX_MIL_RX_LMACX_BBE_CREDITS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_MIL_RX_LMACX_BBE_CREDITS(a,b) "MCSX_MIL_RX_LMACX_BBE_CREDITS"
-#define device_bar_CAVM_MCSX_MIL_RX_LMACX_BBE_CREDITS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_MIL_RX_LMACX_BBE_CREDITS(a,b) (a)
-#define arguments_CAVM_MCSX_MIL_RX_LMACX_BBE_CREDITS(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_mil_rx_lmac#_cfg
  *
  * MCS MIL RX Configurations Registers
@@ -17393,9 +14935,7 @@ union cavm_mcsx_mil_rx_lmacx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 Port priority for X2P request arbitration. */
+        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved. */
         uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats.
                                                                  Min value is 0x1. (0x0 is illegal). */
@@ -17403,9 +14943,7 @@ union cavm_mcsx_mil_rx_lmacx_cfg
         uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats.
                                                                  Min value is 0x1. (0x0 is illegal). */
-        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 Port priority for X2P request arbitration. */
+        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
@@ -17415,17 +14953,13 @@ union cavm_mcsx_mil_rx_lmacx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 Port priority for X2P request arbitration. */
+        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved. */
         uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats. */
 #else /* Word 0 - Little Endian */
         uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats. */
-        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved.
-                                                                 Internal:
-                                                                 Port priority for X2P request arbitration. */
+        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -17787,204 +15321,6 @@ static inline uint64_t CAVM_MCSX_MIL_RX_LMACX_INT_W1S(uint64_t a, uint64_t b)
 #define arguments_CAVM_MCSX_MIL_RX_LMACX_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) mcs#_mil_rx_lmac#_skd_crd_init
- *
- * INTERNAL: MCS MIL RX SKID CREDIT Configuration Register
- */
-union cavm_mcsx_mil_rx_lmacx_skd_crd_init
-{
-    uint64_t u;
-    struct cavm_mcsx_mil_rx_lmacx_skd_crd_init_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t rx_skid_credit_init   : 7;  /**< [  6:  0](R/W) RX SKID credit initialization (Init value based on x2p2_p2x2_defs::X2P2_SKID_CREDIT). */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_skid_credit_init   : 7;  /**< [  6:  0](R/W) RX SKID credit initialization (Init value based on x2p2_p2x2_defs::X2P2_SKID_CREDIT). */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_rx_lmacx_skd_crd_init_s cn; */
-};
-typedef union cavm_mcsx_mil_rx_lmacx_skd_crd_init cavm_mcsx_mil_rx_lmacx_skd_crd_init_t;
-
-static inline uint64_t CAVM_MCSX_MIL_RX_LMACX_SKD_CRD_INIT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_MIL_RX_LMACX_SKD_CRD_INIT(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e080090010ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080070010ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_MIL_RX_LMACX_SKD_CRD_INIT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_MIL_RX_LMACX_SKD_CRD_INIT(a,b) cavm_mcsx_mil_rx_lmacx_skd_crd_init_t
-#define bustype_CAVM_MCSX_MIL_RX_LMACX_SKD_CRD_INIT(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_MIL_RX_LMACX_SKD_CRD_INIT(a,b) "MCSX_MIL_RX_LMACX_SKD_CRD_INIT"
-#define device_bar_CAVM_MCSX_MIL_RX_LMACX_SKD_CRD_INIT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_MIL_RX_LMACX_SKD_CRD_INIT(a,b) (a)
-#define arguments_CAVM_MCSX_MIL_RX_LMACX_SKD_CRD_INIT(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_mil_rx_lmac#_status
- *
- * INTERNAL: MCS MIL RX Per LMAC Status Register
- */
-union cavm_mcsx_mil_rx_lmacx_status
-{
-    uint64_t u;
-    struct cavm_mcsx_mil_rx_lmacx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t bbe_data_crdt         : 7;  /**< [ 32: 26](RO/H) MIL RX BBE data credits (based on BBE data FIFO depth). */
-        uint64_t bbe_plcy_crdt         : 5;  /**< [ 25: 21](RO/H) MIL RX BBE POLICY credits (based on BBE POLICY FIFO depth). */
-        uint64_t req_heap              : 7;  /**< [ 20: 14](RO/H) MIL RX requests heap fill level. */
-        uint64_t skid_crdt             : 7;  /**< [ 13:  7](RO/H) MIL RX SKID credit count (Init value based on x2p2_p2x2_defs::X2P2_SKID_CREDIT). */
-        uint64_t skid_fifo_cnt         : 7;  /**< [  6:  0](RO/H) MIL RX SKID FIFO fill level. */
-#else /* Word 0 - Little Endian */
-        uint64_t skid_fifo_cnt         : 7;  /**< [  6:  0](RO/H) MIL RX SKID FIFO fill level. */
-        uint64_t skid_crdt             : 7;  /**< [ 13:  7](RO/H) MIL RX SKID credit count (Init value based on x2p2_p2x2_defs::X2P2_SKID_CREDIT). */
-        uint64_t req_heap              : 7;  /**< [ 20: 14](RO/H) MIL RX requests heap fill level. */
-        uint64_t bbe_plcy_crdt         : 5;  /**< [ 25: 21](RO/H) MIL RX BBE POLICY credits (based on BBE POLICY FIFO depth). */
-        uint64_t bbe_data_crdt         : 7;  /**< [ 32: 26](RO/H) MIL RX BBE data credits (based on BBE data FIFO depth). */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_rx_lmacx_status_s cn; */
-};
-typedef union cavm_mcsx_mil_rx_lmacx_status cavm_mcsx_mil_rx_lmacx_status_t;
-
-static inline uint64_t CAVM_MCSX_MIL_RX_LMACX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_MIL_RX_LMACX_STATUS(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e0800900b0ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800700b0ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_MIL_RX_LMACX_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_MIL_RX_LMACX_STATUS(a,b) cavm_mcsx_mil_rx_lmacx_status_t
-#define bustype_CAVM_MCSX_MIL_RX_LMACX_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_MIL_RX_LMACX_STATUS(a,b) "MCSX_MIL_RX_LMACX_STATUS"
-#define device_bar_CAVM_MCSX_MIL_RX_LMACX_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_MIL_RX_LMACX_STATUS(a,b) (a)
-#define arguments_CAVM_MCSX_MIL_RX_LMACX_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_mil_tx_bp_test
- *
- * INTERNAL: MCS MIL TX Backpressure Test Register
- */
-union cavm_mcsx_mil_tx_bp_test
-{
-    uint64_t u;
-    struct cavm_mcsx_mil_tx_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Sending BP from MIL-TX to PAB. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 2;  /**< [ 17: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_18_47        : 30;
-        uint64_t enable                : 1;  /**< [ 48: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<48\> = Sending BP from MIL-TX to PAB. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_tx_bp_test_s cn; */
-};
-typedef union cavm_mcsx_mil_tx_bp_test cavm_mcsx_mil_tx_bp_test_t;
-
-static inline uint64_t CAVM_MCSX_MIL_TX_BP_TEST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_MIL_TX_BP_TEST(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e080080018ll + 0x1000000ll * ((a) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080060018ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_MIL_TX_BP_TEST", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_MIL_TX_BP_TEST(a) cavm_mcsx_mil_tx_bp_test_t
-#define bustype_CAVM_MCSX_MIL_TX_BP_TEST(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_MIL_TX_BP_TEST(a) "MCSX_MIL_TX_BP_TEST"
-#define device_bar_CAVM_MCSX_MIL_TX_BP_TEST(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_MIL_TX_BP_TEST(a) (a)
-#define arguments_CAVM_MCSX_MIL_TX_BP_TEST(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_mil_tx_lmac#_cfg
- *
- * INTERNAL: RPM Buffer Size Configurations Register
- */
-union cavm_mcsx_mil_tx_lmacx_cfg
-{
-    uint64_t u;
-    struct cavm_mcsx_mil_tx_lmacx_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t rpm_buffer_size       : 16; /**< [ 15:  0](R/W) RPM buffer size in 16B resolution per LMAC. Used for
-                                                                 MIL_TX_CC_CNT_OVF/MIL_TX_CC_EOP_CNT_OVF Interrupts threshold. */
-#else /* Word 0 - Little Endian */
-        uint64_t rpm_buffer_size       : 16; /**< [ 15:  0](R/W) RPM buffer size in 16B resolution per LMAC. Used for
-                                                                 MIL_TX_CC_CNT_OVF/MIL_TX_CC_EOP_CNT_OVF Interrupts threshold. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_tx_lmacx_cfg_s cn; */
-};
-typedef union cavm_mcsx_mil_tx_lmacx_cfg cavm_mcsx_mil_tx_lmacx_cfg_t;
-
-static inline uint64_t CAVM_MCSX_MIL_TX_LMACX_CFG(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_MIL_TX_LMACX_CFG(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e080090008ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080070008ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_MIL_TX_LMACX_CFG", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_MIL_TX_LMACX_CFG(a,b) cavm_mcsx_mil_tx_lmacx_cfg_t
-#define bustype_CAVM_MCSX_MIL_TX_LMACX_CFG(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_MIL_TX_LMACX_CFG(a,b) "MCSX_MIL_TX_LMACX_CFG"
-#define device_bar_CAVM_MCSX_MIL_TX_LMACX_CFG(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_MIL_TX_LMACX_CFG(a,b) (a)
-#define arguments_CAVM_MCSX_MIL_TX_LMACX_CFG(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_mil_tx_lmac#_int
  *
  * MCS MIL TX Per LMAC Interrupt Register
@@ -18246,92 +15582,6 @@ static inline uint64_t CAVM_MCSX_MIL_TX_LMACX_INT_W1S(uint64_t a, uint64_t b)
 #define device_bar_CAVM_MCSX_MIL_TX_LMACX_INT_W1S(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_MIL_TX_LMACX_INT_W1S(a,b) (a)
 #define arguments_CAVM_MCSX_MIL_TX_LMACX_INT_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_mil_tx_lmac#_status
- *
- * INTERNAL: MCS MIL TX Per LMAC Status Register
- */
-union cavm_mcsx_mil_tx_lmacx_status
-{
-    uint64_t u;
-    struct cavm_mcsx_mil_tx_lmacx_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
-        uint64_t mil_ch_crdt_sm        : 2;  /**< [ 43: 42](RO/H) TX channel credit state machine. */
-        uint64_t accumulate_eop        : 17; /**< [ 41: 25](RO/H) MIL TX channel credit PAB/MAC eop accumulator. */
-        uint64_t accumulate_crdt       : 17; /**< [ 24:  8](RO/H) MIL TX channel credit PAB/MAC credits accumulator. */
-        uint64_t pab_bp                : 1;  /**< [  7:  7](RO/H) TX PAB back pressure status. */
-        uint64_t skid_crdt             : 7;  /**< [  6:  0](RO/H) MIL TX SKID credits counter (init value based on x2p2_p2x2_defs::P2X2_SKID_CREDIT). */
-#else /* Word 0 - Little Endian */
-        uint64_t skid_crdt             : 7;  /**< [  6:  0](RO/H) MIL TX SKID credits counter (init value based on x2p2_p2x2_defs::P2X2_SKID_CREDIT). */
-        uint64_t pab_bp                : 1;  /**< [  7:  7](RO/H) TX PAB back pressure status. */
-        uint64_t accumulate_crdt       : 17; /**< [ 24:  8](RO/H) MIL TX channel credit PAB/MAC credits accumulator. */
-        uint64_t accumulate_eop        : 17; /**< [ 41: 25](RO/H) MIL TX channel credit PAB/MAC eop accumulator. */
-        uint64_t mil_ch_crdt_sm        : 2;  /**< [ 43: 42](RO/H) TX channel credit state machine. */
-        uint64_t reserved_44_63        : 20;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_tx_lmacx_status_s cn; */
-};
-typedef union cavm_mcsx_mil_tx_lmacx_status cavm_mcsx_mil_tx_lmacx_status_t;
-
-static inline uint64_t CAVM_MCSX_MIL_TX_LMACX_STATUS(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_MIL_TX_LMACX_STATUS(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e0800900b8ll + 0x1000000ll * ((a) & 0x0) + 0x800ll * ((b) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800700b8ll + 0x1000000ll * ((a) & 0x7) + 0x800ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_MIL_TX_LMACX_STATUS", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_MIL_TX_LMACX_STATUS(a,b) cavm_mcsx_mil_tx_lmacx_status_t
-#define bustype_CAVM_MCSX_MIL_TX_LMACX_STATUS(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_MIL_TX_LMACX_STATUS(a,b) "MCSX_MIL_TX_LMACX_STATUS"
-#define device_bar_CAVM_MCSX_MIL_TX_LMACX_STATUS(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_MIL_TX_LMACX_STATUS(a,b) (a)
-#define arguments_CAVM_MCSX_MIL_TX_LMACX_STATUS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_mil_tx_skid_credit_init
- *
- * INTERNAL: MCS MIL TX SKID Credit Configuration Register
- */
-union cavm_mcsx_mil_tx_skid_credit_init
-{
-    uint64_t u;
-    struct cavm_mcsx_mil_tx_skid_credit_init_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t tx_skid_credit_init   : 7;  /**< [  6:  0](R/W) TX SKID credit initialization (Init value based on x2p2_p2x2_defs::P2X2_SKID_CREDIT). */
-#else /* Word 0 - Little Endian */
-        uint64_t tx_skid_credit_init   : 7;  /**< [  6:  0](R/W) TX SKID credit initialization (Init value based on x2p2_p2x2_defs::P2X2_SKID_CREDIT). */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_tx_skid_credit_init_s cn; */
-};
-typedef union cavm_mcsx_mil_tx_skid_credit_init cavm_mcsx_mil_tx_skid_credit_init_t;
-
-static inline uint64_t CAVM_MCSX_MIL_TX_SKID_CREDIT_INIT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_MIL_TX_SKID_CREDIT_INIT(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e080080020ll + 0x1000000ll * ((a) & 0x0);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080060020ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_MIL_TX_SKID_CREDIT_INIT", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_MIL_TX_SKID_CREDIT_INIT(a) cavm_mcsx_mil_tx_skid_credit_init_t
-#define bustype_CAVM_MCSX_MIL_TX_SKID_CREDIT_INIT(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_MIL_TX_SKID_CREDIT_INIT(a) "MCSX_MIL_TX_SKID_CREDIT_INIT"
-#define device_bar_CAVM_MCSX_MIL_TX_SKID_CREDIT_INIT(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_MIL_TX_SKID_CREDIT_INIT(a) (a)
-#define arguments_CAVM_MCSX_MIL_TX_SKID_CREDIT_INIT(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mcs#_msix_pba#
@@ -19612,14 +16862,8 @@ union cavm_mcsx_pex_rx_slave_etype_enable
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t txmcs_etype_en        : 1;  /**< [ 14: 14](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable EthType stored in the field tx_mcs_header in the opt_header_cfg register.
-                                                                 Set to 1 to enable the EthTypes, or 0 to disable. */
-        uint64_t rxmcs_etype_en        : 1;  /**< [ 13: 13](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable EthType stored in the field rx_mcs_header in the opt_header_cfg register.
-                                                                 Set to 1 to enable the EthType, or 0 to disable. */
+        uint64_t txmcs_etype_en        : 1;  /**< [ 14: 14](R/W) Reserved. */
+        uint64_t rxmcs_etype_en        : 1;  /**< [ 13: 13](R/W) Reserved. */
         uint64_t st_etype_en           : 1;  /**< [ 12: 12](R/W) Enable EthType stored in the sectag_cfg registers.  Set to 1 to enable the
                                                                  EthType, or 0 to disable. */
         uint64_t reserved_8_11         : 4;
@@ -19631,14 +16875,8 @@ union cavm_mcsx_pex_rx_slave_etype_enable
         uint64_t reserved_8_11         : 4;
         uint64_t st_etype_en           : 1;  /**< [ 12: 12](R/W) Enable EthType stored in the sectag_cfg registers.  Set to 1 to enable the
                                                                  EthType, or 0 to disable. */
-        uint64_t rxmcs_etype_en        : 1;  /**< [ 13: 13](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable EthType stored in the field rx_mcs_header in the opt_header_cfg register.
-                                                                 Set to 1 to enable the EthType, or 0 to disable. */
-        uint64_t txmcs_etype_en        : 1;  /**< [ 14: 14](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable EthType stored in the field tx_mcs_header in the opt_header_cfg register.
-                                                                 Set to 1 to enable the EthTypes, or 0 to disable. */
+        uint64_t rxmcs_etype_en        : 1;  /**< [ 13: 13](R/W) Reserved. */
+        uint64_t txmcs_etype_en        : 1;  /**< [ 14: 14](R/W) Reserved. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
@@ -19660,47 +16898,6 @@ static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_ETYPE_ENABLE(uint64_t a)
 #define device_bar_CAVM_MCSX_PEX_RX_SLAVE_ETYPE_ENABLE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_PEX_RX_SLAVE_ETYPE_ENABLE(a) (a)
 #define arguments_CAVM_MCSX_PEX_RX_SLAVE_ETYPE_ENABLE(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_pex_rx_slave_opt_header_cfg_rsvd
- *
- * INTERNAL: MCS Pex Rx Slave Opt Header Cfg Register
- *
- * E-Type/TPID configuration for optional Rx-MCS and Tx-MCS headers tags
- */
-union cavm_mcsx_pex_rx_slave_opt_header_cfg_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_pex_rx_slave_opt_header_cfg_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t tx_mcs_header         : 16; /**< [ 31: 16](R/W) Reserved. */
-        uint64_t rx_mcs_header         : 16; /**< [ 15:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_mcs_header         : 16; /**< [ 15:  0](R/W) Reserved. */
-        uint64_t tx_mcs_header         : 16; /**< [ 31: 16](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_pex_rx_slave_opt_header_cfg_rsvd_s cn; */
-};
-typedef union cavm_mcsx_pex_rx_slave_opt_header_cfg_rsvd cavm_mcsx_pex_rx_slave_opt_header_cfg_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e080000550ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD(a) cavm_mcsx_pex_rx_slave_opt_header_cfg_rsvd_t
-#define bustype_CAVM_MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD(a) "MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD"
-#define device_bar_CAVM_MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD(a) (a)
-#define arguments_CAVM_MCSX_PEX_RX_SLAVE_OPT_HEADER_CFG_RSVD(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mcs#_pex_rx_slave_pex_configuration
@@ -19745,144 +16942,6 @@ static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_PEX_CONFIGURATION(uint64_t a)
 #define device_bar_CAVM_MCSX_PEX_RX_SLAVE_PEX_CONFIGURATION(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_PEX_RX_SLAVE_PEX_CONFIGURATION(a) (a)
 #define arguments_CAVM_MCSX_PEX_RX_SLAVE_PEX_CONFIGURATION(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_pex_rx_slave_reserved0#_rsvd
- *
- * INTERNAL: MCS Pex Rx Slave Reserved0 Register
- *
- * This register is reserved.
- */
-union cavm_mcsx_pex_rx_slave_reserved0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_pex_rx_slave_reserved0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_pex_rx_slave_reserved0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_pex_rx_slave_reserved0x_rsvd cavm_mcsx_pex_rx_slave_reserved0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800004a0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD(a,b) cavm_mcsx_pex_rx_slave_reserved0x_rsvd_t
-#define bustype_CAVM_MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD(a,b) "MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD"
-#define device_bar_CAVM_MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_PEX_RX_SLAVE_RESERVED0X_RSVD(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_pex_rx_slave_reserved1#_rsvd
- *
- * INTERNAL: MCS Pex Rx Slave Reserved1 Register
- *
- * This register is reserved.
- */
-union cavm_mcsx_pex_rx_slave_reserved1x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_pex_rx_slave_reserved1x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_pex_rx_slave_reserved1x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_pex_rx_slave_reserved1x_rsvd cavm_mcsx_pex_rx_slave_reserved1x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800006f0ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD(a,b) cavm_mcsx_pex_rx_slave_reserved1x_rsvd_t
-#define bustype_CAVM_MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD(a,b) "MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD"
-#define device_bar_CAVM_MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_PEX_RX_SLAVE_RESERVED1X_RSVD(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_pex_rx_slave_reserved_0#_rsvd
- *
- * INTERNAL: MCS Pex Rx Slave Reserved 0 Register
- *
- * Reserved.
- */
-union cavm_mcsx_pex_rx_slave_reserved_0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_pex_rx_slave_reserved_0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_pex_rx_slave_reserved_0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t reserved_0_15         : 16;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_15         : 16;
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_pex_rx_slave_reserved_0x_rsvd cavm_mcsx_pex_rx_slave_reserved_0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080000528ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD(a,b) cavm_mcsx_pex_rx_slave_reserved_0x_rsvd_t
-#define bustype_CAVM_MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD(a,b) "MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD"
-#define device_bar_CAVM_MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_PEX_RX_SLAVE_RESERVED_0X_RSVD(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mcs#_pex_rx_slave_rule_combo_et#
@@ -20492,14 +17551,8 @@ union cavm_mcsx_pex_tx_slave_etype_enable
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
-        uint64_t txmcs_etype_en        : 1;  /**< [ 14: 14](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable EthType stored in the field tx_mcs_header in the opt_header_cfg register.
-                                                                 Set to 1 to enable the EthTypes, or 0 to disable. */
-        uint64_t rxmcs_etype_en        : 1;  /**< [ 13: 13](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable EthType stored in the field rx_mcs_header in the opt_header_cfg register.
-                                                                 Set to 1 to enable the EthType, or 0 to disable. */
+        uint64_t txmcs_etype_en        : 1;  /**< [ 14: 14](R/W) Reserved. */
+        uint64_t rxmcs_etype_en        : 1;  /**< [ 13: 13](R/W) Reserved. */
         uint64_t st_etype_en           : 1;  /**< [ 12: 12](R/W) Enable EthType stored in the sectag_cfg registers.  Set to 1 to enable the
                                                                  EthType, or 0 to disable. */
         uint64_t reserved_8_11         : 4;
@@ -20511,14 +17564,8 @@ union cavm_mcsx_pex_tx_slave_etype_enable
         uint64_t reserved_8_11         : 4;
         uint64_t st_etype_en           : 1;  /**< [ 12: 12](R/W) Enable EthType stored in the sectag_cfg registers.  Set to 1 to enable the
                                                                  EthType, or 0 to disable. */
-        uint64_t rxmcs_etype_en        : 1;  /**< [ 13: 13](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable EthType stored in the field rx_mcs_header in the opt_header_cfg register.
-                                                                 Set to 1 to enable the EthType, or 0 to disable. */
-        uint64_t txmcs_etype_en        : 1;  /**< [ 14: 14](R/W) Reserved.
-                                                                 Internal:
-                                                                 Enable EthType stored in the field tx_mcs_header in the opt_header_cfg register.
-                                                                 Set to 1 to enable the EthTypes, or 0 to disable. */
+        uint64_t rxmcs_etype_en        : 1;  /**< [ 13: 13](R/W) Reserved. */
+        uint64_t txmcs_etype_en        : 1;  /**< [ 14: 14](R/W) Reserved. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
@@ -20542,47 +17589,6 @@ static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_ETYPE_ENABLE(uint64_t a)
 #define arguments_CAVM_MCSX_PEX_TX_SLAVE_ETYPE_ENABLE(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_pex_tx_slave_opt_header_cfg_rsvd
- *
- * INTERNAL: MCS Pex Tx Slave Opt Header Cfg Register
- *
- * E-Type/TPID configuration for optional Rx-MCS and Tx-MCS headers tags
- */
-union cavm_mcsx_pex_tx_slave_opt_header_cfg_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_pex_tx_slave_opt_header_cfg_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t tx_mcs_header         : 16; /**< [ 31: 16](R/W) Reserved. */
-        uint64_t rx_mcs_header         : 16; /**< [ 15:  0](R/W) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_mcs_header         : 16; /**< [ 15:  0](R/W) Reserved. */
-        uint64_t tx_mcs_header         : 16; /**< [ 31: 16](R/W) Reserved. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_pex_tx_slave_opt_header_cfg_rsvd_s cn; */
-};
-typedef union cavm_mcsx_pex_tx_slave_opt_header_cfg_rsvd cavm_mcsx_pex_tx_slave_opt_header_cfg_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e0800007d0ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD(a) cavm_mcsx_pex_tx_slave_opt_header_cfg_rsvd_t
-#define bustype_CAVM_MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD(a) "MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD"
-#define device_bar_CAVM_MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD(a) (a)
-#define arguments_CAVM_MCSX_PEX_TX_SLAVE_OPT_HEADER_CFG_RSVD(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) mcs#_pex_tx_slave_pex_configuration
  *
  * MCS Pex Tx Slave Pex Configuration Register
@@ -20597,15 +17603,9 @@ union cavm_mcsx_pex_tx_slave_pex_configuration
         uint64_t reserved_6_63         : 58;
         uint64_t non_dix_err           : 1;  /**< [  5:  5](R/W) Set to 1 to trigger a parse error when non-DIX frames are received */
         uint64_t reserved_4            : 1;
-        uint64_t custom_header         : 4;  /**< [  3:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Per-port custom header enable. Port number 'i' packets are expected to have 8B
-                                                                 custom header before DA/SA if bit 'i' is set. */
+        uint64_t custom_header         : 4;  /**< [  3:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t custom_header         : 4;  /**< [  3:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 Per-port custom header enable. Port number 'i' packets are expected to have 8B
-                                                                 custom header before DA/SA if bit 'i' is set. */
+        uint64_t custom_header         : 4;  /**< [  3:  0](R/W) Reserved. */
         uint64_t reserved_4            : 1;
         uint64_t non_dix_err           : 1;  /**< [  5:  5](R/W) Set to 1 to trigger a parse error when non-DIX frames are received */
         uint64_t reserved_6_63         : 58;
@@ -20629,144 +17629,6 @@ static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_PEX_CONFIGURATION(uint64_t a)
 #define device_bar_CAVM_MCSX_PEX_TX_SLAVE_PEX_CONFIGURATION(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_PEX_TX_SLAVE_PEX_CONFIGURATION(a) (a)
 #define arguments_CAVM_MCSX_PEX_TX_SLAVE_PEX_CONFIGURATION(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_pex_tx_slave_reserved0#_rsvd
- *
- * INTERNAL: MCS Pex Tx Slave Reserved0 Register
- *
- * This register is reserved.
- */
-union cavm_mcsx_pex_tx_slave_reserved0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_pex_tx_slave_reserved0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_pex_tx_slave_reserved0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_pex_tx_slave_reserved0x_rsvd cavm_mcsx_pex_tx_slave_reserved0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080000720ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD(a,b) cavm_mcsx_pex_tx_slave_reserved0x_rsvd_t
-#define bustype_CAVM_MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD(a,b) "MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD"
-#define device_bar_CAVM_MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_PEX_TX_SLAVE_RESERVED0X_RSVD(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_pex_tx_slave_reserved1#_rsvd
- *
- * INTERNAL: MCS Pex Tx Slave Reserved1 Register
- *
- * This register is reserved.
- */
-union cavm_mcsx_pex_tx_slave_reserved1x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_pex_tx_slave_reserved1x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_pex_tx_slave_reserved1x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_pex_tx_slave_reserved1x_rsvd cavm_mcsx_pex_tx_slave_reserved1x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e080000970ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD(a,b) cavm_mcsx_pex_tx_slave_reserved1x_rsvd_t
-#define bustype_CAVM_MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD(a,b) "MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD"
-#define device_bar_CAVM_MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_PEX_TX_SLAVE_RESERVED1X_RSVD(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_pex_tx_slave_reserved_0#_rsvd
- *
- * INTERNAL: MCS Pex Tx Slave Reserved 0 Register
- *
- * Reserved.
- */
-union cavm_mcsx_pex_tx_slave_reserved_0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_pex_tx_slave_reserved_0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_pex_tx_slave_reserved_0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t reserved_0_15         : 16;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_15         : 16;
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_pex_tx_slave_reserved_0x_rsvd cavm_mcsx_pex_tx_slave_reserved_0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=6) && (b<=3)))
-        return 0x87e0800007a8ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD(a,b) cavm_mcsx_pex_tx_slave_reserved_0x_rsvd_t
-#define bustype_CAVM_MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD(a,b) "MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD"
-#define device_bar_CAVM_MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_PEX_TX_SLAVE_RESERVED_0X_RSVD(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mcs#_pex_tx_slave_rule_combo_et#
@@ -21424,59 +18286,6 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_2X(uint6
 #define arguments_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_2X(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_3#_rsvd
- *
- * INTERNAL: MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Data 3 Register
- *
- * Flow ID TCAM - 128x120: With standard MACsec, a Security Association can only be
- * associated with a port.  WAN based MACsec allows different flows on the same port to
- * support different SecYs and Security Associations (SA) greatly expanding upon its
- * usefulness.  The first step in the classification process involves performing a
- * lookup in the Flow-ID TCAM based on the information extracted by the Packet
- * Extractor block to determine the Flow-ID index.  All packets including control
- * packets trigger a lookup in this TCAM. Note that there is also 128 entries of per
- * bit masks (flowid_tcam_mask).  The lookup key consists of the following sub-fields.
- */
-union cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_3x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_3x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_3x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t reserved_0_19         : 20;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_19         : 20;
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_3x_rsvd cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_3x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=127)))
-        return 0x87e080067898ll + 0x1000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x7f);
-    __cavm_csr_fatal("MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_3x_rsvd_t
-#define bustype_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) "MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD"
-#define device_bar_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_0#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Mask 0 Register
@@ -21602,53 +18411,6 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_2X(uint6
 #define device_bar_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_2X(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_2X(a,b) (a)
 #define arguments_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_2X(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_3#_rsvd
- *
- * INTERNAL: MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Mask 3 Register
- *
- * Flow ID TCAM_MASK - 128x182: Set mask bit to 1 to mask/exclude corresponding
- * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
- */
-union cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_3x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_3x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_3x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t reserved_0_19         : 20;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_19         : 20;
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_3x_rsvd cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_3x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=127)))
-        return 0x87e08006b898ll + 0x1000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x7f);
-    __cavm_csr_fatal("MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_3x_rsvd_t
-#define bustype_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) "MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD"
-#define device_bar_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_rx_flowid_tcam_enable#
@@ -22164,59 +18926,6 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_2X(uint6
 #define arguments_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_2X(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_3#_rsvd
- *
- * INTERNAL: MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Data 3 Register
- *
- * Flow ID TCAM - 128x120: With standard MACsec, a Security Association can only be
- * associated with a port.  WAN based MACsec allows different flows on the same port to
- * support different SecYs and Security Associations (SA) greatly expanding upon its
- * usefulness.  The first step in the classification process involves performing a
- * lookup in the Flow-ID TCAM based on the information extracted by the Packet
- * Extractor block to determine the Flow-ID index.  All packets including control
- * packets trigger a lookup in this TCAM. Note that there is also 128 entries of per
- * bit masks (flowid_tcam_mask).  The lookup key consists of the following sub-fields.
- */
-union cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_3x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_3x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_3x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t reserved_0_19         : 20;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_19         : 20;
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_3x_rsvd cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_3x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=127)))
-        return 0x87e080077aa8ll + 0x1000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x7f);
-    __cavm_csr_fatal("MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_3x_rsvd_t
-#define bustype_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) "MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD"
-#define device_bar_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_3X_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_0#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Mask 0 Register
@@ -22342,53 +19051,6 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_2X(uint6
 #define device_bar_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_2X(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_2X(a,b) (a)
 #define arguments_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_2X(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_3#_rsvd
- *
- * INTERNAL: MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Mask 3 Register
- *
- * Flow ID TCAM_MASK - 128x182: Set mask bit to 1 to mask/exclude corresponding
- * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
- */
-union cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_3x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_3x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_3x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t reserved_0_19         : 20;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_19         : 20;
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_3x_rsvd cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_3x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=127)))
-        return 0x87e08007baa8ll + 0x1000000ll * ((a) & 0x0) + 0x20ll * ((b) & 0x7f);
-    __cavm_csr_fatal("MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_3x_rsvd_t
-#define bustype_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) "MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD"
-#define device_bar_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_3X_RSVD(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_hdr_sc_mem#
@@ -28903,52 +25565,6 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_PN_THRESHOLD(uint64_t a)
 #define arguments_CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_PN_THRESHOLD(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_reserved_0_rsvd
- *
- * INTERNAL: MCS Rs Mcs Cpm Tx Slave Reserved 0 Register
- *
- * Reserved.
- */
-union cavm_mcsx_rs_mcs_cpm_tx_slave_reserved_0_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_mcs_cpm_tx_slave_reserved_0_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_rs_mcs_cpm_tx_slave_reserved_0_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t reserved_0_4          : 5;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_4          : 5;
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_rs_mcs_cpm_tx_slave_reserved_0_rsvd cavm_mcsx_rs_mcs_cpm_tx_slave_reserved_0_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e08003e500ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD(a) cavm_mcsx_rs_mcs_cpm_tx_slave_reserved_0_rsvd_t
-#define bustype_CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD(a) "MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD"
-#define device_bar_CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD(a) (a)
-#define arguments_CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_RESERVED_0_RSVD(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_sa_key_lockout#
  *
  * MCS Rs Mcs Cpm Tx Slave Sa Key Lockout Register
@@ -31236,52 +27852,6 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_DEBUG_STATUS(uint64_t a)
 #define arguments_CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_DEBUG_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_rs_mcs_cse_rx_slave_reserved0#_rsvd
- *
- * INTERNAL: MCS Rs Mcs Cse Rx Slave Reserved0 Register
- *
- * This register is reserved.
- */
-union cavm_mcsx_rs_mcs_cse_rx_slave_reserved0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_mcs_cse_rx_slave_reserved0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_rs_mcs_cse_rx_slave_reserved0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_rs_mcs_cse_rx_slave_reserved0x_rsvd cavm_mcsx_rs_mcs_cse_rx_slave_reserved0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=3)))
-        return 0x87e080005280ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) cavm_mcsx_rs_mcs_cse_rx_slave_reserved0x_rsvd_t
-#define bustype_CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) "MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD"
-#define device_bar_CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_RS_MCS_CSE_RX_SLAVE_RESERVED0X_RSVD(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_rs_mcs_cse_rx_slave_stats_clear
  *
  * MCS Rs Mcs Cse Rx Slave Stats Clear Register
@@ -32413,52 +28983,6 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_DEBUG_STATUS(uint64_t a)
 #define device_bar_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_DEBUG_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_DEBUG_STATUS(a) (a)
 #define arguments_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_DEBUG_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mcs#_rs_mcs_cse_tx_slave_reserved0#_rsvd
- *
- * INTERNAL: MCS Rs Mcs Cse Tx Slave Reserved0 Register
- *
- * This register is reserved.
- */
-union cavm_mcsx_rs_mcs_cse_tx_slave_reserved0x_rsvd
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_mcs_cse_tx_slave_reserved0x_rsvd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_mcsx_rs_mcs_cse_tx_slave_reserved0x_rsvd_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_mcsx_rs_mcs_cse_tx_slave_reserved0x_rsvd cavm_mcsx_rs_mcs_cse_tx_slave_reserved0x_rsvd_t;
-
-static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=3)))
-        return 0x87e080005480ll + 0x1000000ll * ((a) & 0x0) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) cavm_mcsx_rs_mcs_cse_tx_slave_reserved0x_rsvd_t
-#define bustype_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) "MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD"
-#define device_bar_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) (a)
-#define arguments_CAVM_MCSX_RS_MCS_CSE_TX_SLAVE_RESERVED0X_RSVD(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) mcs#_rs_mcs_cse_tx_slave_stats_clear

@@ -47,8 +47,6 @@
  *
  * PSM Set 0 MAB Device ID Enumeration
  * Enumerates the PSM device IDs for Set 0 (MegaHABs).
- * Internal:
- * For rtl/verif, use the params defined in bphy_params.svh
  */
 #define CAVM_PSM_SET0_MABDID_E_ARXEX_PSM_DID(a) (0x1a + (a))
 #define CAVM_PSM_SET0_MABDID_E_ARXLX_PSM_DID(a) (0x1e + (a))
@@ -106,8 +104,6 @@
  *
  * PSM Set 1 MAB Device ID Enumeration
  * Enumerates the PSM device IDs for Set 1 (DSPs).
- * Internal:
- * For rtl/verif, use the params defined in bphy_params.svh
  */
 #define CAVM_PSM_SET1_MABDID_E_CBPX_PSM_DID(a) (0 + (a))
 #define CAVM_PSM_SET1_MABDID_E_LBPX_PSM_DID(a) (0x37 + (a))
@@ -120,8 +116,6 @@
  *
  * PSM Set 2 MAB Device ID Enumeration
  * Enumerates the PSM device IDs for Set 2 (RF Engines).
- * Internal:
- * For rtl/verif, use the params defined in bphy_params.svh
  */
 #define CAVM_PSM_SET2_MABDID_E_CPRIX_PSM_DID(a) (0x12 + (a))
 #define CAVM_PSM_SET2_MABDID_E_RFOERXX_PSM_DID_CNF10KA(a) (6 + (a))
@@ -285,11 +279,7 @@ union cavm_psm_cmd_addnotif_s
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t gmid                  : 3;  /**< [127:125] GMID.
-                                                                 Internal:
-                                                                 It might not make sense to have a GMID for the MSGPTR, since
-                                                                 the MSGPTR is only used by s/w.  This field might be removed
-                                                                 in the future. */
+        uint64_t gmid                  : 3;  /**< [127:125] GMID. */
         uint64_t reserved_117_124      : 8;
         uint64_t msgptr                : 53; /**< [116: 64] Value to be written to the PSM_NOTIF_S[MSGPTR] field.  Must be
                                                                  64-bit aligned. */
@@ -297,11 +287,7 @@ union cavm_psm_cmd_addnotif_s
         uint64_t msgptr                : 53; /**< [116: 64] Value to be written to the PSM_NOTIF_S[MSGPTR] field.  Must be
                                                                  64-bit aligned. */
         uint64_t reserved_117_124      : 8;
-        uint64_t gmid                  : 3;  /**< [127:125] GMID.
-                                                                 Internal:
-                                                                 It might not make sense to have a GMID for the MSGPTR, since
-                                                                 the MSGPTR is only used by s/w.  This field might be removed
-                                                                 in the future. */
+        uint64_t gmid                  : 3;  /**< [127:125] GMID. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_psm_cmd_addnotif_s_s cn; */
@@ -1404,11 +1390,7 @@ union cavm_psm_notif_s
         uint64_t frame                 : 12; /**< [ 63: 52] Value of PSM_TIMER_BPHY_VAL[FRAME]. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t msg_gmid              : 3;  /**< [127:125] GMID.
-                                                                 Internal:
-                                                                 It might not make sense to have a GMID for the MSGPTR, since
-                                                                 the MSGPTR is only used by s/w.  This field might be removed
-                                                                 in the future. */
+        uint64_t msg_gmid              : 3;  /**< [127:125] GMID. */
         uint64_t reserved_117_124      : 8;
         uint64_t msgptr                : 53; /**< [116: 64] Message pointer.  The value is taken from the [MSGPTR] field
                                                                  of the PSM_CMD_ADDNOTIF_S command. */
@@ -1416,11 +1398,7 @@ union cavm_psm_notif_s
         uint64_t msgptr                : 53; /**< [116: 64] Message pointer.  The value is taken from the [MSGPTR] field
                                                                  of the PSM_CMD_ADDNOTIF_S command. */
         uint64_t reserved_117_124      : 8;
-        uint64_t msg_gmid              : 3;  /**< [127:125] GMID.
-                                                                 Internal:
-                                                                 It might not make sense to have a GMID for the MSGPTR, since
-                                                                 the MSGPTR is only used by s/w.  This field might be removed
-                                                                 in the future. */
+        uint64_t msg_gmid              : 3;  /**< [127:125] GMID. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_psm_notif_s_s cn; */
@@ -1457,81 +1435,6 @@ union cavm_psm_status_s
     } s;
     /* struct cavm_psm_status_s_s cn; */
 };
-
-/**
- * Register (NCB) psm_bp_test
- *
- * INTERNAL: PHY Scheduler Backpressure Test Register
- */
-union cavm_psm_bp_test
-{
-    uint64_t u;
-    struct cavm_psm_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t enable                : 4;  /**< [ 51: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure. */
-        uint64_t reserved_24_47        : 24;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<23:22\> = Config 3.
-                                                                    \<21:20\> = Config 2.
-                                                                    \<19:18\> = Config 1.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in BCLK cycles, minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in BCLK cycles, minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 8;  /**< [ 23: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                    \<23:22\> = Config 3.
-                                                                    \<21:20\> = Config 2.
-                                                                    \<19:18\> = Config 1.
-                                                                    \<17:16\> = Config 0.
-
-                                                                  When using 0x0, the constant backpressure means the testbench must toggle the
-                                                                  corresponding [ENABLE] bit to keep traffic flowing. */
-        uint64_t reserved_24_47        : 24;
-        uint64_t enable                : 4;  /**< [ 51: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure. */
-        uint64_t reserved_52_63        : 12;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_bp_test_s cn; */
-};
-typedef union cavm_psm_bp_test cavm_psm_bp_test_t;
-
-#define CAVM_PSM_BP_TEST CAVM_PSM_BP_TEST_FUNC()
-static inline uint64_t CAVM_PSM_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_BP_TEST_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010fff00ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010fff00ll;
-    __cavm_csr_fatal("PSM_BP_TEST", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_BP_TEST cavm_psm_bp_test_t
-#define bustype_CAVM_PSM_BP_TEST CSR_TYPE_NCB
-#define basename_CAVM_PSM_BP_TEST "PSM_BP_TEST"
-#define busnum_CAVM_PSM_BP_TEST 0
-#define arguments_CAVM_PSM_BP_TEST -1,-1,-1,-1
 
 /**
  * Register (NCB) psm_cmd_dma#_addr
@@ -1642,12 +1545,7 @@ union cavm_psm_cmd_dmax_start
     struct cavm_psm_cmd_dmax_start_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t flush                 : 1;  /**< [ 63: 63](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 Write 1 to initiate a flush of this DMA channel.  This
-                                                                 is only intended for use in recovering from a DMA
-                                                                 operation that has resulted in an error and has frozen
-                                                                 the Command-List DMA logic. */
+        uint64_t flush                 : 1;  /**< [ 63: 63](R/W/H) Reserved. */
         uint64_t reserved_1_62         : 62;
         uint64_t start                 : 1;  /**< [  0:  0](R/W/H) Initiates a command-list DMA operation when written to 1.  After
                                                                  the DMA is complete and all the commands have been enqueued, the
@@ -1657,12 +1555,7 @@ union cavm_psm_cmd_dmax_start
                                                                  the DMA is complete and all the commands have been enqueued, the
                                                                  bit will return to 0. */
         uint64_t reserved_1_62         : 62;
-        uint64_t flush                 : 1;  /**< [ 63: 63](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 Write 1 to initiate a flush of this DMA channel.  This
-                                                                 is only intended for use in recovering from a DMA
-                                                                 operation that has resulted in an error and has frozen
-                                                                 the Command-List DMA logic. */
+        uint64_t flush                 : 1;  /**< [ 63: 63](R/W/H) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_cmd_dmax_start_s cn; */
@@ -1690,9 +1583,6 @@ static inline uint64_t CAVM_PSM_CMD_DMAX_START(uint64_t a)
  *
  * PHY Scheduler Command-List DMA Error Handling Register
  * Reserved.
- * Internal:
- * This register contains control and status information about
- * command-list DMA errors.
  */
 union cavm_psm_cmd_dma_error
 {
@@ -1766,12 +1656,7 @@ union cavm_psm_cmd_dma_status
                                                                  separate timer per channel.  A [TO_CFG] value of 0 will disable
                                                                  the timeout check. */
         uint64_t reserved_19_47        : 29;
-        uint64_t cur_chan              : 3;  /**< [ 18: 16](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Number of the command-list DMA channel which is currently
-                                                                 in progress.  When [ACTIVE] is 0x0, indicating that no
-                                                                 channels are active, this field indicates the most recent
-                                                                 DMA channel. */
+        uint64_t cur_chan              : 3;  /**< [ 18: 16](RO/H) Reserved. */
         uint64_t reserved_8_15         : 8;
         uint64_t active                : 8;  /**< [  7:  0](RO/H) Each bit indicates which command-list DMA channels have a DMA
                                                                  operation in progress. */
@@ -1779,12 +1664,7 @@ union cavm_psm_cmd_dma_status
         uint64_t active                : 8;  /**< [  7:  0](RO/H) Each bit indicates which command-list DMA channels have a DMA
                                                                  operation in progress. */
         uint64_t reserved_8_15         : 8;
-        uint64_t cur_chan              : 3;  /**< [ 18: 16](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Number of the command-list DMA channel which is currently
-                                                                 in progress.  When [ACTIVE] is 0x0, indicating that no
-                                                                 channels are active, this field indicates the most recent
-                                                                 DMA channel. */
+        uint64_t cur_chan              : 3;  /**< [ 18: 16](RO/H) Reserved. */
         uint64_t reserved_19_47        : 29;
         uint64_t to_cfg                : 4;  /**< [ 51: 48](R/W) Configures the timeout limit of the command-list DMA watchdog
                                                                  timer.  The timeout limit is 2^[TO_CFG] * 16.  There is a
@@ -1907,221 +1787,6 @@ static inline uint64_t CAVM_PSM_CONST2_FUNC(void)
 #define arguments_CAVM_PSM_CONST2 -1,-1,-1,-1
 
 /**
- * Register (NCB) psm_ctrl
- *
- * INTERNAL: PHY Scheduler Control Register
- *
- * This register controls arbitration modes and access to testing and
- * diagnostic registers.
- * For now, these features are marked internal and all users should use the
- * default values.
- */
-union cavm_psm_ctrl
-{
-    uint64_t u;
-    struct cavm_psm_ctrl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
-        uint64_t internal_access_mode  : 1;  /**< [ 36: 36](R/W) Set to one to allow writing to PSM_MAB_RES when reseting individual
-                                                                 PSM queues.
-
-                                                                 Internal:
-                                                                 Enable for internal_access_mode.  When set to 1, various
-                                                                 internal registers and fields become writeable.  The intention is
-                                                                 to permit some error recovery or software workarounds.  Extreme
-                                                                 care must be taken when writing internal values. */
-        uint64_t nonjob_arb_mode       : 1;  /**< [ 35: 35](R/W) Arbitration scheme when selecting non-job commands from the 128 queues.
-                                                                 0 = Fixed (Queue 0 = highest priority, queue 127 = lowest priority).
-                                                                 1 = Round-robin. */
-        uint64_t qram_wr_arb_mode      : 1;  /**< [ 34: 34](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode used when mutliple command enqueues are
-                                                                 avaiable for different queues. Command enqueues from MAB FIFOs and
-                                                                 from register writes are first processed by the queue logic, and then
-                                                                 the queues arbitrate according to this setting.
-                                                                 1 = Round-robin.
-                                                                 0 = Fixed priority (queue 0 is highest priority). */
-        uint64_t qram_rd_arb_mode      : 1;  /**< [ 33: 33](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode used when multiple queues need to read the
-                                                                 head command. Note that these reads always have higher priority than
-                                                                 writes to enqueue new commands.
-                                                                 1 = Round-robin.
-                                                                 0 = Fixed priority (queue 0 is highest priority). */
-        uint64_t reserved_5_32         : 28;
-        uint64_t jca_arb_mode          : 1;  /**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for the JCA interface. 1=round-robin, 0=fixed. */
-        uint64_t mabenq_arb_mode       : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for command enqueue from the MAB FIFOs. 1=round-robin, 0=fixed. */
-        uint64_t immexec_arb_mode      : 1;  /**< [  2:  2](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for immediate execution commands from the MAB FIFOs. 1=round-
-                                                                 robin, 0=fixed. */
-        uint64_t mabrsp_arb_mode       : 1;  /**< [  1:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for queue responses from the MAB FIFOs. 1=round-robin, 0=fixed. */
-        uint64_t force_cclk            : 1;  /**< [  0:  0](R/W) Forces the conditional clock to run. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t force_cclk            : 1;  /**< [  0:  0](R/W) Forces the conditional clock to run. For diagnostic use only. */
-        uint64_t mabrsp_arb_mode       : 1;  /**< [  1:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for queue responses from the MAB FIFOs. 1=round-robin, 0=fixed. */
-        uint64_t immexec_arb_mode      : 1;  /**< [  2:  2](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for immediate execution commands from the MAB FIFOs. 1=round-
-                                                                 robin, 0=fixed. */
-        uint64_t mabenq_arb_mode       : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for command enqueue from the MAB FIFOs. 1=round-robin, 0=fixed. */
-        uint64_t jca_arb_mode          : 1;  /**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for the JCA interface. 1=round-robin, 0=fixed. */
-        uint64_t reserved_5_32         : 28;
-        uint64_t qram_rd_arb_mode      : 1;  /**< [ 33: 33](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode used when multiple queues need to read the
-                                                                 head command. Note that these reads always have higher priority than
-                                                                 writes to enqueue new commands.
-                                                                 1 = Round-robin.
-                                                                 0 = Fixed priority (queue 0 is highest priority). */
-        uint64_t qram_wr_arb_mode      : 1;  /**< [ 34: 34](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode used when mutliple command enqueues are
-                                                                 avaiable for different queues. Command enqueues from MAB FIFOs and
-                                                                 from register writes are first processed by the queue logic, and then
-                                                                 the queues arbitrate according to this setting.
-                                                                 1 = Round-robin.
-                                                                 0 = Fixed priority (queue 0 is highest priority). */
-        uint64_t nonjob_arb_mode       : 1;  /**< [ 35: 35](R/W) Arbitration scheme when selecting non-job commands from the 128 queues.
-                                                                 0 = Fixed (Queue 0 = highest priority, queue 127 = lowest priority).
-                                                                 1 = Round-robin. */
-        uint64_t internal_access_mode  : 1;  /**< [ 36: 36](R/W) Set to one to allow writing to PSM_MAB_RES when reseting individual
-                                                                 PSM queues.
-
-                                                                 Internal:
-                                                                 Enable for internal_access_mode.  When set to 1, various
-                                                                 internal registers and fields become writeable.  The intention is
-                                                                 to permit some error recovery or software workarounds.  Extreme
-                                                                 care must be taken when writing internal values. */
-        uint64_t reserved_37_63        : 27;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_psm_ctrl_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
-        uint64_t internal_access_mode  : 1;  /**< [ 36: 36](R/W) Set to one to allow writing to PSM_MAB_RES when reseting individual
-                                                                 PSM queues.
-
-                                                                 Internal:
-                                                                 Enable for internal_access_mode.  When set to 1, various
-                                                                 internal registers and fields become writeable.  The intention is
-                                                                 to permit some error recovery or software workarounds.  Extreme
-                                                                 care must be taken when writing internal values. */
-        uint64_t nonjob_arb_mode       : 1;  /**< [ 35: 35](R/W) Arbitration scheme when selecting non-job commands from the 128 queues.
-                                                                 0 = Fixed (Queue 0 = highest priority, queue 127 = lowest priority).
-                                                                 1 = Round-robin. */
-        uint64_t qram_wr_arb_mode      : 1;  /**< [ 34: 34](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode used when mutliple command enqueues are
-                                                                 avaiable for different queues. Command enqueues from MAB FIFOs and
-                                                                 from register writes are first processed by the queue logic, and then
-                                                                 the queues arbitrate according to this setting.
-                                                                 1 = Round-robin.
-                                                                 0 = Fixed priority (queue 0 is highest priority). */
-        uint64_t qram_rd_arb_mode      : 1;  /**< [ 33: 33](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode used when multiple queues need to read the
-                                                                 head command. Note that these reads always have higher priority than
-                                                                 writes to enqueue new commands.
-                                                                 1 = Round-robin.
-                                                                 0 = Fixed priority (queue 0 is highest priority). */
-        uint64_t reserved_32           : 1;
-        uint64_t reserved_5_31         : 27;
-        uint64_t jca_arb_mode          : 1;  /**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for the JCA interface. 1=round-robin, 0=fixed. */
-        uint64_t mabenq_arb_mode       : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for command enqueue from the MAB FIFOs. 1=round-robin, 0=fixed. */
-        uint64_t immexec_arb_mode      : 1;  /**< [  2:  2](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for immediate execution commands from the MAB FIFOs. 1=round-
-                                                                 robin, 0=fixed. */
-        uint64_t mabrsp_arb_mode       : 1;  /**< [  1:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for queue responses from the MAB FIFOs. 1=round-robin, 0=fixed. */
-        uint64_t force_cclk            : 1;  /**< [  0:  0](R/W) Forces the conditional clock to run. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t force_cclk            : 1;  /**< [  0:  0](R/W) Forces the conditional clock to run. For diagnostic use only. */
-        uint64_t mabrsp_arb_mode       : 1;  /**< [  1:  1](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for queue responses from the MAB FIFOs. 1=round-robin, 0=fixed. */
-        uint64_t immexec_arb_mode      : 1;  /**< [  2:  2](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for immediate execution commands from the MAB FIFOs. 1=round-
-                                                                 robin, 0=fixed. */
-        uint64_t mabenq_arb_mode       : 1;  /**< [  3:  3](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for command enqueue from the MAB FIFOs. 1=round-robin, 0=fixed. */
-        uint64_t jca_arb_mode          : 1;  /**< [  4:  4](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode for the JCA interface. 1=round-robin, 0=fixed. */
-        uint64_t reserved_5_31         : 27;
-        uint64_t reserved_32           : 1;
-        uint64_t qram_rd_arb_mode      : 1;  /**< [ 33: 33](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode used when multiple queues need to read the
-                                                                 head command. Note that these reads always have higher priority than
-                                                                 writes to enqueue new commands.
-                                                                 1 = Round-robin.
-                                                                 0 = Fixed priority (queue 0 is highest priority). */
-        uint64_t qram_wr_arb_mode      : 1;  /**< [ 34: 34](R/W) Reserved.
-                                                                 Internal:
-                                                                 Arbitration mode used when mutliple command enqueues are
-                                                                 avaiable for different queues. Command enqueues from MAB FIFOs and
-                                                                 from register writes are first processed by the queue logic, and then
-                                                                 the queues arbitrate according to this setting.
-                                                                 1 = Round-robin.
-                                                                 0 = Fixed priority (queue 0 is highest priority). */
-        uint64_t nonjob_arb_mode       : 1;  /**< [ 35: 35](R/W) Arbitration scheme when selecting non-job commands from the 128 queues.
-                                                                 0 = Fixed (Queue 0 = highest priority, queue 127 = lowest priority).
-                                                                 1 = Round-robin. */
-        uint64_t internal_access_mode  : 1;  /**< [ 36: 36](R/W) Set to one to allow writing to PSM_MAB_RES when reseting individual
-                                                                 PSM queues.
-
-                                                                 Internal:
-                                                                 Enable for internal_access_mode.  When set to 1, various
-                                                                 internal registers and fields become writeable.  The intention is
-                                                                 to permit some error recovery or software workarounds.  Extreme
-                                                                 care must be taken when writing internal values. */
-        uint64_t reserved_37_63        : 27;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_psm_ctrl cavm_psm_ctrl_t;
-
-#define CAVM_PSM_CTRL CAVM_PSM_CTRL_FUNC()
-static inline uint64_t CAVM_PSM_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_CTRL_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010f0000ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010f0000ll;
-    __cavm_csr_fatal("PSM_CTRL", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_CTRL cavm_psm_ctrl_t
-#define bustype_CAVM_PSM_CTRL CSR_TYPE_NCB
-#define basename_CAVM_PSM_CTRL "PSM_CTRL"
-#define busnum_CAVM_PSM_CTRL 0
-#define arguments_CAVM_PSM_CTRL -1,-1,-1,-1
-
-/**
  * Register (NCB) psm_dbg_break_cfg
  *
  * PHY Scheduler Debug Breakpoint Configuration Register
@@ -2210,10 +1875,7 @@ union cavm_psm_djcntx_cfg
         uint64_t djcnt_sat             : 1;  /**< [ 33: 33](R/W) Enable counter saturation.  When set, the DJCNT will not
                                                                  increment past 0xFFFF or decrement below 0x0. */
         uint64_t djcnt_sosf            : 1;  /**< [ 32: 32](R/W) Enable start-of-subframe (SOSF) auto-decrement. When set, the
-                                                                 DJCNT will decrement by one when an SOSF is received.
-
-                                                                 Internal:
-                                                                 For 105n, this feature is unpredictable in UTU mode. */
+                                                                 DJCNT will decrement by one when an SOSF is received. */
         uint64_t reserved_19_31        : 13;
         uint64_t djcnt_incr            : 1;  /**< [ 18: 18](R/W/H) When [DJCNT_INCR] is 1, the DJCNT will be increased by the
                                                                  amount specified in [DJCNT_VAL]. */
@@ -2260,10 +1922,7 @@ union cavm_psm_djcntx_cfg
                                                                  amount specified in [DJCNT_VAL]. */
         uint64_t reserved_19_31        : 13;
         uint64_t djcnt_sosf            : 1;  /**< [ 32: 32](R/W) Enable start-of-subframe (SOSF) auto-decrement. When set, the
-                                                                 DJCNT will decrement by one when an SOSF is received.
-
-                                                                 Internal:
-                                                                 For 105n, this feature is unpredictable in UTU mode. */
+                                                                 DJCNT will decrement by one when an SOSF is received. */
         uint64_t djcnt_sat             : 1;  /**< [ 33: 33](R/W) Enable counter saturation.  When set, the DJCNT will not
                                                                  increment past 0xFFFF or decrement below 0x0. */
         uint64_t reserved_34_63        : 30;
@@ -2303,71 +1962,23 @@ union cavm_psm_djcnt_extdecr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved. */
         uint64_t reserved_55           : 1;
-        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved. */
         uint64_t reserved_47           : 1;
-        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved. */
         uint64_t reserved_39           : 1;
-        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
         uint64_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_31         : 32;
-        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
         uint64_t reserved_39           : 1;
-        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved. */
         uint64_t reserved_47           : 1;
-        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved. */
         uint64_t reserved_55           : 1;
-        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -2376,133 +1987,37 @@ union cavm_psm_djcnt_extdecr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved. */
         uint64_t reserved_55           : 1;
-        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved. */
         uint64_t reserved_47           : 1;
-        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved. */
         uint64_t reserved_39           : 1;
-        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
         uint64_t reserved_31           : 1;
-        uint64_t djcnt_decr_id_3       : 7;  /**< [ 30: 24](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[3].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_3       : 7;  /**< [ 30: 24](R/W) Reserved. */
         uint64_t reserved_23           : 1;
-        uint64_t djcnt_decr_id_2       : 7;  /**< [ 22: 16](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[2].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_2       : 7;  /**< [ 22: 16](R/W) Reserved. */
         uint64_t reserved_15           : 1;
-        uint64_t djcnt_decr_id_1       : 7;  /**< [ 14:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[1].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_1       : 7;  /**< [ 14:  8](R/W) Reserved. */
         uint64_t reserved_7            : 1;
-        uint64_t djcnt_decr_id_0       : 7;  /**< [  6:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[0].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_0       : 7;  /**< [  6:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t djcnt_decr_id_0       : 7;  /**< [  6:  0](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[0].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_0       : 7;  /**< [  6:  0](R/W) Reserved. */
         uint64_t reserved_7            : 1;
-        uint64_t djcnt_decr_id_1       : 7;  /**< [ 14:  8](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[1].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_1       : 7;  /**< [ 14:  8](R/W) Reserved. */
         uint64_t reserved_15           : 1;
-        uint64_t djcnt_decr_id_2       : 7;  /**< [ 22: 16](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[2].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_2       : 7;  /**< [ 22: 16](R/W) Reserved. */
         uint64_t reserved_23           : 1;
-        uint64_t djcnt_decr_id_3       : 7;  /**< [ 30: 24](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[3].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_3       : 7;  /**< [ 30: 24](R/W) Reserved. */
         uint64_t reserved_31           : 1;
-        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
         uint64_t reserved_39           : 1;
-        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved. */
         uint64_t reserved_47           : 1;
-        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved. */
         uint64_t reserved_55           : 1;
-        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cnf10ka;
@@ -2510,37 +2025,13 @@ union cavm_psm_djcnt_extdecr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
-        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved. */
         uint64_t reserved_55           : 1;
-        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved. */
         uint64_t reserved_47           : 1;
-        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved. */
         uint64_t reserved_39           : 1;
-        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
         uint64_t reserved_31           : 1;
         uint64_t cest3_decr_id         : 7;  /**< [ 30: 24](R/W) Selects the DJCNT counter that will be decremented by the PSM when it
                                                                  receives a write completion signal from CEST3.  Values 1-127 will
@@ -2590,37 +2081,13 @@ union cavm_psm_djcnt_extdecr
                                                                  on any counter.  This field may not select the same counter
                                                                  as [CEST2_DECR_ID], [CEST1_DECR_ID], or [CEST0_DECR_ID]. */
         uint64_t reserved_31           : 1;
-        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[4].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_4       : 7;  /**< [ 38: 32](R/W) Reserved. */
         uint64_t reserved_39           : 1;
-        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[5].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_5       : 7;  /**< [ 46: 40](R/W) Reserved. */
         uint64_t reserved_47           : 1;
-        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[6].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_6       : 7;  /**< [ 54: 48](R/W) Reserved. */
         uint64_t reserved_55           : 1;
-        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved.
-                                                                 Internal:
-                                                                 For future use.
-                                                                 Selects the DJCNT counter that will be decremented by the PSM when it
-                                                                 receives an input strobe djcnt_decr[7].  Values 1-127
-                                                                 will select a DJCNT, while 0 will cause the event signal to have no
-                                                                 effect on any counter. */
+        uint64_t djcnt_decr_id_7       : 7;  /**< [ 62: 56](R/W) Reserved. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -2643,44 +2110,6 @@ static inline uint64_t CAVM_PSM_DJCNT_EXTDECR_FUNC(void)
 #define basename_CAVM_PSM_DJCNT_EXTDECR "PSM_DJCNT_EXTDECR"
 #define busnum_CAVM_PSM_DJCNT_EXTDECR 0
 #define arguments_CAVM_PSM_DJCNT_EXTDECR -1,-1,-1,-1
-
-/**
- * Register (NCB) psm_eco#
- *
- * INTERNAL: PHY Scheduler ECO Register
- */
-union cavm_psm_ecox
-{
-    uint64_t u;
-    struct cavm_psm_ecox_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Internal:
-                                                                 Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Internal:
-                                                                 Reserved for ECO usage. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_ecox_s cn; */
-};
-typedef union cavm_psm_ecox cavm_psm_ecox_t;
-
-static inline uint64_t CAVM_PSM_ECOX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_ECOX(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
-        return 0x8600010fffe0ll + 8ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
-        return 0x8600010fffe0ll + 8ll * ((a) & 0x3);
-    __cavm_csr_fatal("PSM_ECOX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_ECOX(a) cavm_psm_ecox_t
-#define bustype_CAVM_PSM_ECOX(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_ECOX(a) "PSM_ECOX"
-#define busnum_CAVM_PSM_ECOX(a) (a)
-#define arguments_CAVM_PSM_ECOX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_errcap_queue_badcmd#
@@ -2948,234 +2377,6 @@ static inline uint64_t CAVM_PSM_LOG_CFG_FUNC(void)
 #define arguments_CAVM_PSM_LOG_CFG -1,-1,-1,-1
 
 /**
- * Register (NCB) psm_log_ctrl
- *
- * INTERNAL: PHY Scheduler Additional Log Control Register
- *
- * This register contains additional controls for the logging
- * functionality, to reduce or avoid log overflows.
- */
-union cavm_psm_log_ctrl
-{
-    uint64_t u;
-    struct cavm_psm_log_ctrl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t log_set_dis           : 9;  /**< [ 40: 32](R/W) This field contains a bit mask which can block logging of
-                                                                 specific types of events from the resource sets.  A bit set
-                                                                 to 1 will disable logging of that particular type.  The
-                                                                 mapping is as follows:
-                                                                   [32] = Job starts to set0
-                                                                   [33] = Job starts to set1
-                                                                   [34] = Job starts to set2
-                                                                   [35] = Job responses from set0
-                                                                   [36] = Job responses from set1
-                                                                   [37] = Job responses from set2
-                                                                   [38] = Nonjob commands from set0
-                                                                   [39] = Nonjob commands from set1
-                                                                   [40] = Nonjob commands from set2 */
-        uint64_t reserved_9_31         : 23;
-        uint64_t log_fifo_bp_level     : 9;  /**< [  8:  0](R/W) Sets the internal log FIFO level at which backpressure is
-                                                                 asserted to the PSM arbitration logic.  If this field is left
-                                                                 at 0, backpressure is never asserted on account of the FIFO
-                                                                 level. */
-#else /* Word 0 - Little Endian */
-        uint64_t log_fifo_bp_level     : 9;  /**< [  8:  0](R/W) Sets the internal log FIFO level at which backpressure is
-                                                                 asserted to the PSM arbitration logic.  If this field is left
-                                                                 at 0, backpressure is never asserted on account of the FIFO
-                                                                 level. */
-        uint64_t reserved_9_31         : 23;
-        uint64_t log_set_dis           : 9;  /**< [ 40: 32](R/W) This field contains a bit mask which can block logging of
-                                                                 specific types of events from the resource sets.  A bit set
-                                                                 to 1 will disable logging of that particular type.  The
-                                                                 mapping is as follows:
-                                                                   [32] = Job starts to set0
-                                                                   [33] = Job starts to set1
-                                                                   [34] = Job starts to set2
-                                                                   [35] = Job responses from set0
-                                                                   [36] = Job responses from set1
-                                                                   [37] = Job responses from set2
-                                                                   [38] = Nonjob commands from set0
-                                                                   [39] = Nonjob commands from set1
-                                                                   [40] = Nonjob commands from set2 */
-        uint64_t reserved_41_63        : 23;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_log_ctrl_s cn; */
-};
-typedef union cavm_psm_log_ctrl cavm_psm_log_ctrl_t;
-
-#define CAVM_PSM_LOG_CTRL CAVM_PSM_LOG_CTRL_FUNC()
-static inline uint64_t CAVM_PSM_LOG_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_LOG_CTRL_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010f40f0ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010f40f0ll;
-    __cavm_csr_fatal("PSM_LOG_CTRL", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_LOG_CTRL cavm_psm_log_ctrl_t
-#define bustype_CAVM_PSM_LOG_CTRL CSR_TYPE_NCB
-#define basename_CAVM_PSM_LOG_CTRL "PSM_LOG_CTRL"
-#define busnum_CAVM_PSM_LOG_CTRL 0
-#define arguments_CAVM_PSM_LOG_CTRL -1,-1,-1,-1
-
-/**
- * Register (NCB) psm_log_filter#_cfg
- *
- * INTERNAL: PHY Scheduler Log Filter Configuration Registers
- *
- * These registers, along with PSM_LOG_FILTER()_OPCODE, will
- * configure a set of log filters that block commands from being
- * written into the PSM command log.  If a command matches any of
- * the log filters, it will not be logged.
- * Each filter has an opcode bitmap, programmed by software in
- * PSM_LOG_FILTER()_OPCODE, which selects command opcodes for which
- * the filter will be active.  The filter also has a [MASK], [VALUE],
- * and [OFFSET], which specify a portion of the command to be
- * compared.  The comparison match can also be inverted by the
- * [INVERT] bit.
- * Any command which is selected by the opcode bitmap and results
- * in a successful match will not be logged.
- */
-union cavm_psm_log_filterx_cfg
-{
-    uint64_t u;
-    struct cavm_psm_log_filterx_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t invert                : 1;  /**< [ 63: 63](R/W) When 1, inverts the comparison match. */
-        uint64_t reserved_60_62        : 3;
-        uint64_t offset                : 4;  /**< [ 59: 56](R/W) Byte offset into the command for the [MASK] and [VALUE]
-                                                                 comparison. */
-        uint64_t reserved_48_55        : 8;
-        uint64_t mask                  : 24; /**< [ 47: 24](R/W) Mask bits for the comparison. */
-        uint64_t value                 : 24; /**< [ 23:  0](R/W) Bits to be compared against the command. */
-#else /* Word 0 - Little Endian */
-        uint64_t value                 : 24; /**< [ 23:  0](R/W) Bits to be compared against the command. */
-        uint64_t mask                  : 24; /**< [ 47: 24](R/W) Mask bits for the comparison. */
-        uint64_t reserved_48_55        : 8;
-        uint64_t offset                : 4;  /**< [ 59: 56](R/W) Byte offset into the command for the [MASK] and [VALUE]
-                                                                 comparison. */
-        uint64_t reserved_60_62        : 3;
-        uint64_t invert                : 1;  /**< [ 63: 63](R/W) When 1, inverts the comparison match. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_log_filterx_cfg_s cn; */
-};
-typedef union cavm_psm_log_filterx_cfg cavm_psm_log_filterx_cfg_t;
-
-static inline uint64_t CAVM_PSM_LOG_FILTERX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_LOG_FILTERX_CFG(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
-        return 0x8600010f4200ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x8600010f4200ll + 0x10ll * ((a) & 0x7);
-    __cavm_csr_fatal("PSM_LOG_FILTERX_CFG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_LOG_FILTERX_CFG(a) cavm_psm_log_filterx_cfg_t
-#define bustype_CAVM_PSM_LOG_FILTERX_CFG(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_LOG_FILTERX_CFG(a) "PSM_LOG_FILTERX_CFG"
-#define busnum_CAVM_PSM_LOG_FILTERX_CFG(a) (a)
-#define arguments_CAVM_PSM_LOG_FILTERX_CFG(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_log_filter#_opcode
- *
- * INTERNAL: PHY Scheduler Log Filter Opcode Registers
- *
- * Log filter opcode bitmap.  See PSM_LOG_FILTER()_CFG for
- * more details.
- */
-union cavm_psm_log_filterx_opcode
-{
-    uint64_t u;
-    struct cavm_psm_log_filterx_opcode_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t opc_bitmap            : 40; /**< [ 39:  0](R/W) Selects the command opcodes to which the log filter will
-                                                                 apply.  The bit assignments are as follows:
-                                                                  0      - PSM_OP_ADDJOB (set0)   opc=0x01.
-                                                                  1      - PSM_OP_CONTJOB (set0)   opc=0x02.
-                                                                  2      - PSM_OP_ADDJOB (set1)   opc=0x41.
-                                                                  3      - PSM_OP_CONTJOB (set1)   opc=0x42.
-                                                                  4      - PSM_OP_ADDJOB (set2)   opc=0x81.
-                                                                  5      - PSM_OP_CONTJOB (set2)   opc=0x82.
-                                                                  6,7    - reserved.
-                                                                  8      - PSM_OP_RSP (set0)   opc=0x3F.
-                                                                  9      - PSM_OP_RSP (set1)   opc=0x3F.
-                                                                 10      - PSM_OP_RSP (set2)   opc=0x3F.
-                                                                 11-15   - reserved.
-                                                                 16      - PSM_OP_DJCNT   opc=0x10.
-                                                                 17      - PSM_OP_GPINT   opc=0x11.
-                                                                 18      - reserved.
-                                                                 19      - PSM_OP_ADDWORK   opc=0x13.
-                                                                 20      - PSM_OP_FREE   opc=0x14.
-                                                                 21      - PSM_OP_WRSTS   opc=0x15.
-                                                                 22      - PSM_OP_WRMSG   opc=0x16.
-                                                                 23      - PSM_OP_ADDNOTIF   opc=0x17.
-                                                                 24-31   - reserved.
-                                                                 32      - PSM_OP_QRST   opc=0x20.
-                                                                 33      - PSM_OP_QBLK   opc=0x21.
-                                                                 34      - PSM_OP_QRUN   opc=0x22.
-                                                                 35-39   - reserved. */
-#else /* Word 0 - Little Endian */
-        uint64_t opc_bitmap            : 40; /**< [ 39:  0](R/W) Selects the command opcodes to which the log filter will
-                                                                 apply.  The bit assignments are as follows:
-                                                                  0      - PSM_OP_ADDJOB (set0)   opc=0x01.
-                                                                  1      - PSM_OP_CONTJOB (set0)   opc=0x02.
-                                                                  2      - PSM_OP_ADDJOB (set1)   opc=0x41.
-                                                                  3      - PSM_OP_CONTJOB (set1)   opc=0x42.
-                                                                  4      - PSM_OP_ADDJOB (set2)   opc=0x81.
-                                                                  5      - PSM_OP_CONTJOB (set2)   opc=0x82.
-                                                                  6,7    - reserved.
-                                                                  8      - PSM_OP_RSP (set0)   opc=0x3F.
-                                                                  9      - PSM_OP_RSP (set1)   opc=0x3F.
-                                                                 10      - PSM_OP_RSP (set2)   opc=0x3F.
-                                                                 11-15   - reserved.
-                                                                 16      - PSM_OP_DJCNT   opc=0x10.
-                                                                 17      - PSM_OP_GPINT   opc=0x11.
-                                                                 18      - reserved.
-                                                                 19      - PSM_OP_ADDWORK   opc=0x13.
-                                                                 20      - PSM_OP_FREE   opc=0x14.
-                                                                 21      - PSM_OP_WRSTS   opc=0x15.
-                                                                 22      - PSM_OP_WRMSG   opc=0x16.
-                                                                 23      - PSM_OP_ADDNOTIF   opc=0x17.
-                                                                 24-31   - reserved.
-                                                                 32      - PSM_OP_QRST   opc=0x20.
-                                                                 33      - PSM_OP_QBLK   opc=0x21.
-                                                                 34      - PSM_OP_QRUN   opc=0x22.
-                                                                 35-39   - reserved. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_log_filterx_opcode_s cn; */
-};
-typedef union cavm_psm_log_filterx_opcode cavm_psm_log_filterx_opcode_t;
-
-static inline uint64_t CAVM_PSM_LOG_FILTERX_OPCODE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_LOG_FILTERX_OPCODE(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
-        return 0x8600010f4300ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x8600010f4300ll + 0x10ll * ((a) & 0x7);
-    __cavm_csr_fatal("PSM_LOG_FILTERX_OPCODE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_LOG_FILTERX_OPCODE(a) cavm_psm_log_filterx_opcode_t
-#define bustype_CAVM_PSM_LOG_FILTERX_OPCODE(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_LOG_FILTERX_OPCODE(a) "PSM_LOG_FILTERX_OPCODE"
-#define busnum_CAVM_PSM_LOG_FILTERX_OPCODE(a) (a)
-#define arguments_CAVM_PSM_LOG_FILTERX_OPCODE(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) psm_log_ptr
  *
  * PHY Scheduler Log Pointer Register
@@ -3221,68 +2422,6 @@ static inline uint64_t CAVM_PSM_LOG_PTR_FUNC(void)
 #define basename_CAVM_PSM_LOG_PTR "PSM_LOG_PTR"
 #define busnum_CAVM_PSM_LOG_PTR 0
 #define arguments_CAVM_PSM_LOG_PTR -1,-1,-1,-1
-
-/**
- * Register (NCB) psm_nonjob_rsrc#
- *
- * INTERNAL: PHY Scheduler Nonjob Resource Register
- *
- * These registers reports the status of nonjob resources.
- */
-union cavm_psm_nonjob_rsrcx
-{
-    uint64_t u;
-    struct cavm_psm_nonjob_rsrcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t rsrc_in_use           : 1;  /**< [ 16: 16](R/W/H) This bit indicates if the nonjob resource is in use.
-                                                                 Internal:
-                                                                 In internal_access_mode, this bit is writeable. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t rsrc_owner_type       : 1;  /**< [  8:  8](R/W/H) This bit indicates if the nonjob resource is currently owned by a MAB FIFO (1) or a
-                                                                 command queue (0).
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this bit is writeable. */
-        uint64_t rsrc_owner            : 8;  /**< [  7:  0](R/W/H) This field shows the identity of nonjob resource owner.
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable. */
-#else /* Word 0 - Little Endian */
-        uint64_t rsrc_owner            : 8;  /**< [  7:  0](R/W/H) This field shows the identity of nonjob resource owner.
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable. */
-        uint64_t rsrc_owner_type       : 1;  /**< [  8:  8](R/W/H) This bit indicates if the nonjob resource is currently owned by a MAB FIFO (1) or a
-                                                                 command queue (0).
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this bit is writeable. */
-        uint64_t reserved_9_15         : 7;
-        uint64_t rsrc_in_use           : 1;  /**< [ 16: 16](R/W/H) This bit indicates if the nonjob resource is in use.
-                                                                 Internal:
-                                                                 In internal_access_mode, this bit is writeable. */
-        uint64_t reserved_17_63        : 47;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_nonjob_rsrcx_s cn; */
-};
-typedef union cavm_psm_nonjob_rsrcx cavm_psm_nonjob_rsrcx_t;
-
-static inline uint64_t CAVM_PSM_NONJOB_RSRCX(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_NONJOB_RSRCX(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
-        return 0x8600010f5000ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=7))
-        return 0x8600010f5000ll + 0x10ll * ((a) & 0x7);
-    __cavm_csr_fatal("PSM_NONJOB_RSRCX", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_NONJOB_RSRCX(a) cavm_psm_nonjob_rsrcx_t
-#define bustype_CAVM_PSM_NONJOB_RSRCX(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_NONJOB_RSRCX(a) "PSM_NONJOB_RSRCX"
-#define busnum_CAVM_PSM_NONJOB_RSRCX(a) (a)
-#define arguments_CAVM_PSM_NONJOB_RSRCX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_nring#_addr
@@ -3370,12 +2509,7 @@ union cavm_psm_nringx_cfg
                                                                  0x4 = 4K entries.
                                                                  0x5 = 16K entries.
                                                                  0x6 = 64K entries.
-                                                                 0x7-0xF = Reserved.
-
-                                                                 Internal:
-                                                                 Maybe useful for testing wrap cases.
-                                                                 0x0 = 16 entries.
-                                                                 0x1 = 64 entries. */
+                                                                 0x7-0xF = Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t size                  : 4;  /**< [  3:  0](R/W) Size of the notification ring buffer in 128-bit entries.
                                                                  0x0-0x1 = Reserved.
@@ -3384,12 +2518,7 @@ union cavm_psm_nringx_cfg
                                                                  0x4 = 4K entries.
                                                                  0x5 = 16K entries.
                                                                  0x6 = 64K entries.
-                                                                 0x7-0xF = Reserved.
-
-                                                                 Internal:
-                                                                 Maybe useful for testing wrap cases.
-                                                                 0x0 = 16 entries.
-                                                                 0x1 = 64 entries. */
+                                                                 0x7-0xF = Reserved. */
         uint64_t reserved_4_7          : 4;
         uint64_t tmem                  : 1;  /**< [  8:  8](R/W) Location of the notification ring.
                                                                  0 = BPHY SMEM.
@@ -3431,9 +2560,6 @@ static inline uint64_t CAVM_PSM_NRINGX_CFG(uint64_t a)
  *
  * PHY Scheduler Notification Ring Current Command Register
  * Reserved.
- * Internal:
- * This register contains the lower 64 bits of the current ADDNOTIF
- * command that is being processed.
  */
 union cavm_psm_nring_cmd
 {
@@ -3480,23 +2606,13 @@ union cavm_psm_nring_ctrl
     struct cavm_psm_nring_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t discard               : 1;  /**< [ 63: 63](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 Write 1 to discard the ADDNOTIF command that is currently
-                                                                 being processed.  This is only intended for use in clearing
-                                                                 an command that has caused an error and has frozen the
-                                                                 notification ring logic. */
+        uint64_t discard               : 1;  /**< [ 63: 63](R/W/H) Reserved. */
         uint64_t reserved_16_62        : 47;
         uint64_t ring_en               : 16; /**< [ 15:  0](R/W) Enable bits for the notification rings. */
 #else /* Word 0 - Little Endian */
         uint64_t ring_en               : 16; /**< [ 15:  0](R/W) Enable bits for the notification rings. */
         uint64_t reserved_16_62        : 47;
-        uint64_t discard               : 1;  /**< [ 63: 63](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 Write 1 to discard the ADDNOTIF command that is currently
-                                                                 being processed.  This is only intended for use in clearing
-                                                                 an command that has caused an error and has frozen the
-                                                                 notification ring logic. */
+        uint64_t discard               : 1;  /**< [ 63: 63](R/W/H) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_nring_ctrl_s cn; */
@@ -3691,94 +2807,44 @@ union cavm_psm_queuex_info
                                                                  is only valid when [CUR_CMD_VLD] is set. */
         uint64_t reserved_39           : 1;
         uint64_t cont_mab_id           : 7;  /**< [ 38: 32](RO/H) When [IN_CONT_SEQ] is set to one, this field provides the MAB ID of the
-                                                                 MHAB/MDAB reserved by the CONTJOB.
-
-                                                                 Internal:
-                                                                 The PSM does not record the resource set of the MHAB/MDAB reserved
-                                                                 by a CONTJOB.  Software is responsible for ensuring that all the
-                                                                 jobs of a continuation sequence are able to go to the same MHAB/MDAB,
-                                                                 and that requires that they are all within the same resource set. */
+                                                                 MHAB/MDAB reserved by the CONTJOB. */
         uint64_t badcmd_subopc         : 2;  /**< [ 31: 30](R/W/H) Contains the sub-opcode for the most recent bad command.  Write any nonzero value to clear. */
         uint64_t badcmd_opc            : 6;  /**< [ 29: 24](R/W/H) Contains the opcode for the most recent bad command.  Write any nonzero value to clear. */
-        uint64_t runjob_ctr            : 8;  /**< [ 23: 16](R/W/H) Contains the current count of running jobs issued by the queue.
-                                                                 Internal:
-                                                                 When internal_access_mode is enabled, this field may
-                                                                 be written. */
-        uint64_t queue_mabq            : 1;  /**< [ 15: 15](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's MABQ signal. */
-        uint64_t queue_njreq           : 3;  /**< [ 14: 12](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's nonjob request signal. */
-        uint64_t state                 : 4;  /**< [ 11:  8](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue state machine's state. */
-        uint64_t queue_jobreq          : 1;  /**< [  7:  7](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's job request signal. */
-        uint64_t cont_job_wait_cdt     : 1;  /**< [  6:  6](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's cont_job_wait_cdt signal. */
-        uint64_t cont_job_wait_done    : 1;  /**< [  5:  5](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's cont_job_wait_done signal. */
+        uint64_t runjob_ctr            : 8;  /**< [ 23: 16](R/W/H) Contains the current count of running jobs issued by the queue. */
+        uint64_t queue_mabq            : 1;  /**< [ 15: 15](RO/H) Reserved. */
+        uint64_t queue_njreq           : 3;  /**< [ 14: 12](RO/H) Reserved. */
+        uint64_t state                 : 4;  /**< [ 11:  8](RO/H) Reserved. */
+        uint64_t queue_jobreq          : 1;  /**< [  7:  7](RO/H) Reserved. */
+        uint64_t cont_job_wait_cdt     : 1;  /**< [  6:  6](RO/H) Reserved. */
+        uint64_t cont_job_wait_done    : 1;  /**< [  5:  5](RO/H) Reserved. */
         uint64_t rdy_for_followup      : 1;  /**< [  4:  4](RO/H) When set, indicates the queue is ready to schedule a follow-up job
                                                                  after completing a continued job. */
         uint64_t in_cont_seq           : 1;  /**< [  3:  3](RO/H) When set, indicates that the queue holds a reservation from a
                                                                  continued job. */
         uint64_t cur_cmd_vld           : 1;  /**< [  2:  2](RO/H) When set, indicates that the command at the head of the queue
                                                                  is valid and is being processed. */
-        uint64_t new_cmdlo_vld         : 1;  /**< [  1:  1](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's new_cmdlo_vld signal. */
-        uint64_t new_cmd_vld           : 1;  /**< [  0:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's new_cmd_vld signal. */
+        uint64_t new_cmdlo_vld         : 1;  /**< [  1:  1](RO/H) Reserved. */
+        uint64_t new_cmd_vld           : 1;  /**< [  0:  0](RO/H) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t new_cmd_vld           : 1;  /**< [  0:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's new_cmd_vld signal. */
-        uint64_t new_cmdlo_vld         : 1;  /**< [  1:  1](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's new_cmdlo_vld signal. */
+        uint64_t new_cmd_vld           : 1;  /**< [  0:  0](RO/H) Reserved. */
+        uint64_t new_cmdlo_vld         : 1;  /**< [  1:  1](RO/H) Reserved. */
         uint64_t cur_cmd_vld           : 1;  /**< [  2:  2](RO/H) When set, indicates that the command at the head of the queue
                                                                  is valid and is being processed. */
         uint64_t in_cont_seq           : 1;  /**< [  3:  3](RO/H) When set, indicates that the queue holds a reservation from a
                                                                  continued job. */
         uint64_t rdy_for_followup      : 1;  /**< [  4:  4](RO/H) When set, indicates the queue is ready to schedule a follow-up job
                                                                  after completing a continued job. */
-        uint64_t cont_job_wait_done    : 1;  /**< [  5:  5](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's cont_job_wait_done signal. */
-        uint64_t cont_job_wait_cdt     : 1;  /**< [  6:  6](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's cont_job_wait_cdt signal. */
-        uint64_t queue_jobreq          : 1;  /**< [  7:  7](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's job request signal. */
-        uint64_t state                 : 4;  /**< [ 11:  8](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue state machine's state. */
-        uint64_t queue_njreq           : 3;  /**< [ 14: 12](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's nonjob request signal. */
-        uint64_t queue_mabq            : 1;  /**< [ 15: 15](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Contains the current value of the queue's MABQ signal. */
-        uint64_t runjob_ctr            : 8;  /**< [ 23: 16](R/W/H) Contains the current count of running jobs issued by the queue.
-                                                                 Internal:
-                                                                 When internal_access_mode is enabled, this field may
-                                                                 be written. */
+        uint64_t cont_job_wait_done    : 1;  /**< [  5:  5](RO/H) Reserved. */
+        uint64_t cont_job_wait_cdt     : 1;  /**< [  6:  6](RO/H) Reserved. */
+        uint64_t queue_jobreq          : 1;  /**< [  7:  7](RO/H) Reserved. */
+        uint64_t state                 : 4;  /**< [ 11:  8](RO/H) Reserved. */
+        uint64_t queue_njreq           : 3;  /**< [ 14: 12](RO/H) Reserved. */
+        uint64_t queue_mabq            : 1;  /**< [ 15: 15](RO/H) Reserved. */
+        uint64_t runjob_ctr            : 8;  /**< [ 23: 16](R/W/H) Contains the current count of running jobs issued by the queue. */
         uint64_t badcmd_opc            : 6;  /**< [ 29: 24](R/W/H) Contains the opcode for the most recent bad command.  Write any nonzero value to clear. */
         uint64_t badcmd_subopc         : 2;  /**< [ 31: 30](R/W/H) Contains the sub-opcode for the most recent bad command.  Write any nonzero value to clear. */
         uint64_t cont_mab_id           : 7;  /**< [ 38: 32](RO/H) When [IN_CONT_SEQ] is set to one, this field provides the MAB ID of the
-                                                                 MHAB/MDAB reserved by the CONTJOB.
-
-                                                                 Internal:
-                                                                 The PSM does not record the resource set of the MHAB/MDAB reserved
-                                                                 by a CONTJOB.  Software is responsible for ensuring that all the
-                                                                 jobs of a continuation sequence are able to go to the same MHAB/MDAB,
-                                                                 and that requires that they are all within the same resource set. */
+                                                                 MHAB/MDAB reserved by the CONTJOB. */
         uint64_t reserved_39           : 1;
         uint64_t cur_cmd_opcode        : 6;  /**< [ 45: 40](RO/H) Contains the opcode of the currently executing command.  This
                                                                  is only valid when [CUR_CMD_VLD] is set. */
@@ -3818,8 +2884,6 @@ static inline uint64_t CAVM_PSM_QUEUEX_INFO(uint64_t a)
  *
  * PHY Scheduler Queue Pointer Register
  * These registers return the status of each queue's head and tail pointers.
- * Internal:
- * In internal_access_mode, this register is writeable.
  */
 union cavm_psm_queuex_ptr
 {
@@ -4415,86 +3479,6 @@ static inline uint64_t CAVM_PSM_SET0_GRPX_MASK(uint64_t a)
 #define arguments_CAVM_PSM_SET0_GRPX_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) psm_set0_job_pri#_req#
- *
- * INTERNAL: PHY Scheduler Set 0 Job Request Register
- *
- * These registers reports the current value of the job request signals of the queues, at various
- * priority levels.
- */
-union cavm_psm_set0_job_prix_reqx
-{
-    uint64_t u;
-    struct cavm_psm_set0_job_prix_reqx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t job_req               : 64; /**< [ 63:  0](RO/H) This field indicates the current value of the job request signals of the queues. */
-#else /* Word 0 - Little Endian */
-        uint64_t job_req               : 64; /**< [ 63:  0](RO/H) This field indicates the current value of the job request signals of the queues. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set0_job_prix_reqx_s cn; */
-};
-typedef union cavm_psm_set0_job_prix_reqx cavm_psm_set0_job_prix_reqx_t;
-
-static inline uint64_t CAVM_PSM_SET0_JOB_PRIX_REQX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET0_JOB_PRIX_REQX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
-        return 0x860001070000ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=3)))
-        return 0x860001070000ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("PSM_SET0_JOB_PRIX_REQX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET0_JOB_PRIX_REQX(a,b) cavm_psm_set0_job_prix_reqx_t
-#define bustype_CAVM_PSM_SET0_JOB_PRIX_REQX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET0_JOB_PRIX_REQX(a,b) "PSM_SET0_JOB_PRIX_REQX"
-#define busnum_CAVM_PSM_SET0_JOB_PRIX_REQX(a,b) (a)
-#define arguments_CAVM_PSM_SET0_JOB_PRIX_REQX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) psm_set0_job_pri#_unserved#
- *
- * INTERNAL: PHY Scheduler Set 0 Job Unserved Register
- *
- * These registers reports the current value of the job unserved vector of the queues, at various
- * priority levels.
- */
-union cavm_psm_set0_job_prix_unservedx
-{
-    uint64_t u;
-    struct cavm_psm_set0_job_prix_unservedx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t unserved_vec          : 64; /**< [ 63:  0](RO/H) This register reports the current value of the job unserved vector of the queues, at
-                                                                 various priority levels. */
-#else /* Word 0 - Little Endian */
-        uint64_t unserved_vec          : 64; /**< [ 63:  0](RO/H) This register reports the current value of the job unserved vector of the queues, at
-                                                                 various priority levels. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set0_job_prix_unservedx_s cn; */
-};
-typedef union cavm_psm_set0_job_prix_unservedx cavm_psm_set0_job_prix_unservedx_t;
-
-static inline uint64_t CAVM_PSM_SET0_JOB_PRIX_UNSERVEDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET0_JOB_PRIX_UNSERVEDX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
-        return 0x860001070400ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=3)))
-        return 0x860001070400ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("PSM_SET0_JOB_PRIX_UNSERVEDX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET0_JOB_PRIX_UNSERVEDX(a,b) cavm_psm_set0_job_prix_unservedx_t
-#define bustype_CAVM_PSM_SET0_JOB_PRIX_UNSERVEDX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET0_JOB_PRIX_UNSERVEDX(a,b) "PSM_SET0_JOB_PRIX_UNSERVEDX"
-#define busnum_CAVM_PSM_SET0_JOB_PRIX_UNSERVEDX(a,b) (a)
-#define arguments_CAVM_PSM_SET0_JOB_PRIX_UNSERVEDX(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) psm_set0_mab_res
  *
  * PHY Scheduler Set 0 MAB Reservation Register
@@ -4510,17 +3494,11 @@ union cavm_psm_set0_mab_res
         uint64_t reserved_57_63        : 7;
         uint64_t mabres                : 57; /**< [ 56:  0](R/W/H) This field reports the current value of the per-MHAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET0_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET0_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
         uint64_t mabres                : 57; /**< [ 56:  0](R/W/H) This field reports the current value of the per-MHAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET0_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET0_MABDID_E enumeration. */
         uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
@@ -4531,17 +3509,11 @@ union cavm_psm_set0_mab_res
         uint64_t reserved_45_63        : 19;
         uint64_t mabres                : 45; /**< [ 44:  0](R/W/H) This field reports the current value of the per-MHAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET0_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET0_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
         uint64_t mabres                : 45; /**< [ 44:  0](R/W/H) This field reports the current value of the per-MHAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET0_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET0_MABDID_E enumeration. */
         uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } cnf10ka;
@@ -4595,45 +3567,19 @@ union cavm_psm_set0_mabfifox_ctrl
         uint64_t reserved_28_31        : 4;
         uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the MHAB FIFO. */
         uint64_t reserved_17_23        : 7;
-        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to pop the head entry from the MHAB FIFO.  The FIFO
-                                                                 entry will be discarded.  The pop operation is initiated by writing this
-                                                                 bit as 1, and is only allowed in internal_access_mode. */
+        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved. */
         uint64_t reserved_12_15        : 4;
-        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MHAB for making JCA requests.
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable. */
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MHAB for making JCA requests. */
         uint64_t reserved_2_7          : 6;
-        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to flush a MHAB FIFO.  When flushing is enabled,
-                                                                 only job responses from the MHAB will be processed, and all other commands
-                                                                 will be discarded.  In internal_access_mode, this field is writeable. */
-        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to disable a MHAB FIFO.  If disabled, it will ignore any JCA
-                                                                 requests from the MHAB.  In internal_access_mode, this field is writeable. */
+        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved. */
+        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to disable a MHAB FIFO.  If disabled, it will ignore any JCA
-                                                                 requests from the MHAB.  In internal_access_mode, this field is writeable. */
-        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to flush a MHAB FIFO.  When flushing is enabled,
-                                                                 only job responses from the MHAB will be processed, and all other commands
-                                                                 will be discarded.  In internal_access_mode, this field is writeable. */
+        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved. */
+        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved. */
         uint64_t reserved_2_7          : 6;
-        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MHAB for making JCA requests.
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable. */
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MHAB for making JCA requests. */
         uint64_t reserved_12_15        : 4;
-        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to pop the head entry from the MHAB FIFO.  The FIFO
-                                                                 entry will be discarded.  The pop operation is initiated by writing this
-                                                                 bit as 1, and is only allowed in internal_access_mode. */
+        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved. */
         uint64_t reserved_17_23        : 7;
         uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the MHAB FIFO. */
         uint64_t reserved_28_31        : 4;
@@ -4670,123 +3616,6 @@ static inline uint64_t CAVM_PSM_SET0_MABFIFOX_CTRL(uint64_t a)
 #define basename_CAVM_PSM_SET0_MABFIFOX_CTRL(a) "PSM_SET0_MABFIFOX_CTRL"
 #define busnum_CAVM_PSM_SET0_MABFIFOX_CTRL(a) (a)
 #define arguments_CAVM_PSM_SET0_MABFIFOX_CTRL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set0_mabfifo#_head_hi
- *
- * INTERNAL: PHY Scheduler Set 0 MAB FIFO Head Command High Registers
- *
- * These registers contains the high 64-bits of the MAB FIFO head command.
- */
-union cavm_psm_set0_mabfifox_head_hi
-{
-    uint64_t u;
-    struct cavm_psm_set0_mabfifox_head_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t head_hi               : 64; /**< [ 63:  0](RO/H) Contains the upper 64-bits of the MAB FIFO head command. */
-#else /* Word 0 - Little Endian */
-        uint64_t head_hi               : 64; /**< [ 63:  0](RO/H) Contains the upper 64-bits of the MAB FIFO head command. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set0_mabfifox_head_hi_s cn; */
-};
-typedef union cavm_psm_set0_mabfifox_head_hi cavm_psm_set0_mabfifox_head_hi_t;
-
-static inline uint64_t CAVM_PSM_SET0_MABFIFOX_HEAD_HI(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET0_MABFIFOX_HEAD_HI(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=44))
-        return 0x860001081008ll + 0x10ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=56))
-        return 0x860001081008ll + 0x10ll * ((a) & 0x3f);
-    __cavm_csr_fatal("PSM_SET0_MABFIFOX_HEAD_HI", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET0_MABFIFOX_HEAD_HI(a) cavm_psm_set0_mabfifox_head_hi_t
-#define bustype_CAVM_PSM_SET0_MABFIFOX_HEAD_HI(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET0_MABFIFOX_HEAD_HI(a) "PSM_SET0_MABFIFOX_HEAD_HI"
-#define busnum_CAVM_PSM_SET0_MABFIFOX_HEAD_HI(a) (a)
-#define arguments_CAVM_PSM_SET0_MABFIFOX_HEAD_HI(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set0_mabfifo#_head_lo
- *
- * INTERNAL: PHY Scheduler Set 0 MAB FIFO Head Command Low Registers
- *
- * These registers contains the low 64-bits of the MAB FIFO head command.
- */
-union cavm_psm_set0_mabfifox_head_lo
-{
-    uint64_t u;
-    struct cavm_psm_set0_mabfifox_head_lo_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t head_lo               : 64; /**< [ 63:  0](RO/H) Contains the low 64-bits of the MAB FIFO head command. */
-#else /* Word 0 - Little Endian */
-        uint64_t head_lo               : 64; /**< [ 63:  0](RO/H) Contains the low 64-bits of the MAB FIFO head command. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set0_mabfifox_head_lo_s cn; */
-};
-typedef union cavm_psm_set0_mabfifox_head_lo cavm_psm_set0_mabfifox_head_lo_t;
-
-static inline uint64_t CAVM_PSM_SET0_MABFIFOX_HEAD_LO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET0_MABFIFOX_HEAD_LO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=44))
-        return 0x860001081000ll + 0x10ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=56))
-        return 0x860001081000ll + 0x10ll * ((a) & 0x3f);
-    __cavm_csr_fatal("PSM_SET0_MABFIFOX_HEAD_LO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET0_MABFIFOX_HEAD_LO(a) cavm_psm_set0_mabfifox_head_lo_t
-#define bustype_CAVM_PSM_SET0_MABFIFOX_HEAD_LO(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET0_MABFIFOX_HEAD_LO(a) "PSM_SET0_MABFIFOX_HEAD_LO"
-#define busnum_CAVM_PSM_SET0_MABFIFOX_HEAD_LO(a) (a)
-#define arguments_CAVM_PSM_SET0_MABFIFOX_HEAD_LO(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set0_mabfifo#_req_cnt
- *
- * INTERNAL: PHY Scheduler Set 0 MAB FIFO Request Count Registers
- *
- * Internal:
- * In internal_access_mode, this register is writeable.
- */
-union cavm_psm_set0_mabfifox_req_cnt
-{
-    uint64_t u;
-    struct cavm_psm_set0_mabfifox_req_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t req_cnt               : 3;  /**< [  2:  0](R/W/H) Current count of pending JCA requests for set 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t req_cnt               : 3;  /**< [  2:  0](R/W/H) Current count of pending JCA requests for set 0. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set0_mabfifox_req_cnt_s cn; */
-};
-typedef union cavm_psm_set0_mabfifox_req_cnt cavm_psm_set0_mabfifox_req_cnt_t;
-
-static inline uint64_t CAVM_PSM_SET0_MABFIFOX_REQ_CNT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET0_MABFIFOX_REQ_CNT(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=44))
-        return 0x860001082000ll + 0x10ll * ((a) & 0x3f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=56))
-        return 0x860001082000ll + 0x10ll * ((a) & 0x3f);
-    __cavm_csr_fatal("PSM_SET0_MABFIFOX_REQ_CNT", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET0_MABFIFOX_REQ_CNT(a) cavm_psm_set0_mabfifox_req_cnt_t
-#define bustype_CAVM_PSM_SET0_MABFIFOX_REQ_CNT(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET0_MABFIFOX_REQ_CNT(a) "PSM_SET0_MABFIFOX_REQ_CNT"
-#define busnum_CAVM_PSM_SET0_MABFIFOX_REQ_CNT(a) (a)
-#define arguments_CAVM_PSM_SET0_MABFIFOX_REQ_CNT(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_set0_mabfifo_busy
@@ -5218,86 +4047,6 @@ static inline uint64_t CAVM_PSM_SET1_GRPX_MASK_HI(uint64_t a)
 #define arguments_CAVM_PSM_SET1_GRPX_MASK_HI(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) psm_set1_job_pri#_req#
- *
- * INTERNAL: PHY Scheduler Set 1 Job Request Register
- *
- * These registers reports the current value of the job request signals of the queues, at various
- * priority levels.
- */
-union cavm_psm_set1_job_prix_reqx
-{
-    uint64_t u;
-    struct cavm_psm_set1_job_prix_reqx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t job_req               : 64; /**< [ 63:  0](RO/H) This field indicates the current value of the job request signals of the queues. */
-#else /* Word 0 - Little Endian */
-        uint64_t job_req               : 64; /**< [ 63:  0](RO/H) This field indicates the current value of the job request signals of the queues. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_job_prix_reqx_s cn; */
-};
-typedef union cavm_psm_set1_job_prix_reqx cavm_psm_set1_job_prix_reqx_t;
-
-static inline uint64_t CAVM_PSM_SET1_JOB_PRIX_REQX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_JOB_PRIX_REQX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
-        return 0x860001071000ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=3)))
-        return 0x860001071000ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("PSM_SET1_JOB_PRIX_REQX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET1_JOB_PRIX_REQX(a,b) cavm_psm_set1_job_prix_reqx_t
-#define bustype_CAVM_PSM_SET1_JOB_PRIX_REQX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_JOB_PRIX_REQX(a,b) "PSM_SET1_JOB_PRIX_REQX"
-#define busnum_CAVM_PSM_SET1_JOB_PRIX_REQX(a,b) (a)
-#define arguments_CAVM_PSM_SET1_JOB_PRIX_REQX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) psm_set1_job_pri#_unserved#
- *
- * INTERNAL: PHY Scheduler Set 1 Job Unserved Register
- *
- * These registers reports the current value of the job unserved vector of the queues, at various
- * priority levels.
- */
-union cavm_psm_set1_job_prix_unservedx
-{
-    uint64_t u;
-    struct cavm_psm_set1_job_prix_unservedx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t unserved_vec          : 64; /**< [ 63:  0](RO/H) This register reports the current value of the job unserved vector of the queues, at
-                                                                 various priority levels. */
-#else /* Word 0 - Little Endian */
-        uint64_t unserved_vec          : 64; /**< [ 63:  0](RO/H) This register reports the current value of the job unserved vector of the queues, at
-                                                                 various priority levels. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_job_prix_unservedx_s cn; */
-};
-typedef union cavm_psm_set1_job_prix_unservedx cavm_psm_set1_job_prix_unservedx_t;
-
-static inline uint64_t CAVM_PSM_SET1_JOB_PRIX_UNSERVEDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_JOB_PRIX_UNSERVEDX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
-        return 0x860001071400ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=3)))
-        return 0x860001071400ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("PSM_SET1_JOB_PRIX_UNSERVEDX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET1_JOB_PRIX_UNSERVEDX(a,b) cavm_psm_set1_job_prix_unservedx_t
-#define bustype_CAVM_PSM_SET1_JOB_PRIX_UNSERVEDX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_JOB_PRIX_UNSERVEDX(a,b) "PSM_SET1_JOB_PRIX_UNSERVEDX"
-#define busnum_CAVM_PSM_SET1_JOB_PRIX_UNSERVEDX(a,b) (a)
-#define arguments_CAVM_PSM_SET1_JOB_PRIX_UNSERVEDX(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) psm_set1_mab_res
  *
  * PHY Scheduler Set 1 MAB Reservation Register
@@ -5312,17 +4061,11 @@ union cavm_psm_set1_mab_res
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mabres                : 64; /**< [ 63:  0](R/W/H) This field reports the current value of the per-MDAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET1_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET1_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
         uint64_t mabres                : 64; /**< [ 63:  0](R/W/H) This field reports the current value of the per-MDAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET1_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET1_MABDID_E enumeration. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_psm_set1_mab_res_s cn10; */
@@ -5333,17 +4076,11 @@ union cavm_psm_set1_mab_res
         uint64_t reserved_48_63        : 16;
         uint64_t mabres                : 48; /**< [ 47:  0](R/W/H) This field reports the current value of the per-MDAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET1_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET1_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
         uint64_t mabres                : 48; /**< [ 47:  0](R/W/H) This field reports the current value of the per-MDAB
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET1_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET1_MABDID_E enumeration. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -5383,17 +4120,11 @@ union cavm_psm_set1_mab_res_hi
         uint64_t reserved_4_63         : 60;
         uint64_t mabres                : 4;  /**< [  3:  0](R/W/H) This field reports the current value of the per-MDAB
                                                                  reservation vector, for CONT_JOB commands.  The bits in
-                                                                 this register map to MDABs 64-67.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 this register map to MDABs 64-67. */
 #else /* Word 0 - Little Endian */
         uint64_t mabres                : 4;  /**< [  3:  0](R/W/H) This field reports the current value of the per-MDAB
                                                                  reservation vector, for CONT_JOB commands.  The bits in
-                                                                 this register map to MDABs 64-67.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 this register map to MDABs 64-67. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -5445,45 +4176,19 @@ union cavm_psm_set1_mabfifox_ctrl
         uint64_t reserved_28_31        : 4;
         uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the MDAB FIFO. */
         uint64_t reserved_17_23        : 7;
-        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to pop the head entry from the MDAB FIFO.  The FIFO
-                                                                 entry will be discarded.  The pop operation is initiated by writing this
-                                                                 bit as 1, and is only allowed in internal_access_mode. */
+        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved. */
         uint64_t reserved_12_15        : 4;
-        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MDAB for making JCA requests.
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable. */
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MDAB for making JCA requests. */
         uint64_t reserved_2_7          : 6;
-        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to flush a MDAB FIFO.  When flushing is enabled,
-                                                                 only job responses from the MDAB will be processed, and all other commands
-                                                                 will be discarded.  In internal_access_mode, this field is writeable. */
-        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to disable a MDAB FIFO.  If disabled, it will ignore any JCA
-                                                                 requests from the MAB.  In internal_access_mode, this field is writeable. */
+        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved. */
+        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to disable a MDAB FIFO.  If disabled, it will ignore any JCA
-                                                                 requests from the MAB.  In internal_access_mode, this field is writeable. */
-        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to flush a MDAB FIFO.  When flushing is enabled,
-                                                                 only job responses from the MDAB will be processed, and all other commands
-                                                                 will be discarded.  In internal_access_mode, this field is writeable. */
+        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved. */
+        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved. */
         uint64_t reserved_2_7          : 6;
-        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MDAB for making JCA requests.
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable. */
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the MDAB for making JCA requests. */
         uint64_t reserved_12_15        : 4;
-        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to pop the head entry from the MDAB FIFO.  The FIFO
-                                                                 entry will be discarded.  The pop operation is initiated by writing this
-                                                                 bit as 1, and is only allowed in internal_access_mode. */
+        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved. */
         uint64_t reserved_17_23        : 7;
         uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the MDAB FIFO. */
         uint64_t reserved_28_31        : 4;
@@ -5520,123 +4225,6 @@ static inline uint64_t CAVM_PSM_SET1_MABFIFOX_CTRL(uint64_t a)
 #define basename_CAVM_PSM_SET1_MABFIFOX_CTRL(a) "PSM_SET1_MABFIFOX_CTRL"
 #define busnum_CAVM_PSM_SET1_MABFIFOX_CTRL(a) (a)
 #define arguments_CAVM_PSM_SET1_MABFIFOX_CTRL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set1_mabfifo#_head_hi
- *
- * INTERNAL: PHY Scheduler Set 1 MAB FIFO Head Command High Registers
- *
- * These registers contains the high 64-bits of the MAB FIFO head command.
- */
-union cavm_psm_set1_mabfifox_head_hi
-{
-    uint64_t u;
-    struct cavm_psm_set1_mabfifox_head_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t head_hi               : 64; /**< [ 63:  0](RO/H) Contains the upper 64-bits of the MAB FIFO head command. */
-#else /* Word 0 - Little Endian */
-        uint64_t head_hi               : 64; /**< [ 63:  0](RO/H) Contains the upper 64-bits of the MAB FIFO head command. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_mabfifox_head_hi_s cn; */
-};
-typedef union cavm_psm_set1_mabfifox_head_hi cavm_psm_set1_mabfifox_head_hi_t;
-
-static inline uint64_t CAVM_PSM_SET1_MABFIFOX_HEAD_HI(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_MABFIFOX_HEAD_HI(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=67))
-        return 0x860001091008ll + 0x10ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x860001091008ll + 0x10ll * ((a) & 0x3f);
-    __cavm_csr_fatal("PSM_SET1_MABFIFOX_HEAD_HI", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET1_MABFIFOX_HEAD_HI(a) cavm_psm_set1_mabfifox_head_hi_t
-#define bustype_CAVM_PSM_SET1_MABFIFOX_HEAD_HI(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_MABFIFOX_HEAD_HI(a) "PSM_SET1_MABFIFOX_HEAD_HI"
-#define busnum_CAVM_PSM_SET1_MABFIFOX_HEAD_HI(a) (a)
-#define arguments_CAVM_PSM_SET1_MABFIFOX_HEAD_HI(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set1_mabfifo#_head_lo
- *
- * INTERNAL: PHY Scheduler Set 1 MAB FIFO Head Command Low Registers
- *
- * These registers contains the low 64-bits of the MAB FIFO head command.
- */
-union cavm_psm_set1_mabfifox_head_lo
-{
-    uint64_t u;
-    struct cavm_psm_set1_mabfifox_head_lo_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t head_lo               : 64; /**< [ 63:  0](RO/H) Contains the low 64-bits of the MAB FIFO head command. */
-#else /* Word 0 - Little Endian */
-        uint64_t head_lo               : 64; /**< [ 63:  0](RO/H) Contains the low 64-bits of the MAB FIFO head command. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_mabfifox_head_lo_s cn; */
-};
-typedef union cavm_psm_set1_mabfifox_head_lo cavm_psm_set1_mabfifox_head_lo_t;
-
-static inline uint64_t CAVM_PSM_SET1_MABFIFOX_HEAD_LO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_MABFIFOX_HEAD_LO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=67))
-        return 0x860001091000ll + 0x10ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x860001091000ll + 0x10ll * ((a) & 0x3f);
-    __cavm_csr_fatal("PSM_SET1_MABFIFOX_HEAD_LO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET1_MABFIFOX_HEAD_LO(a) cavm_psm_set1_mabfifox_head_lo_t
-#define bustype_CAVM_PSM_SET1_MABFIFOX_HEAD_LO(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_MABFIFOX_HEAD_LO(a) "PSM_SET1_MABFIFOX_HEAD_LO"
-#define busnum_CAVM_PSM_SET1_MABFIFOX_HEAD_LO(a) (a)
-#define arguments_CAVM_PSM_SET1_MABFIFOX_HEAD_LO(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set1_mabfifo#_req_cnt
- *
- * INTERNAL: PHY Scheduler Set 1 MAB FIFO Request Count Registers
- *
- * Internal:
- * In internal_access_mode, this register is writeable.
- */
-union cavm_psm_set1_mabfifox_req_cnt
-{
-    uint64_t u;
-    struct cavm_psm_set1_mabfifox_req_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t req_cnt               : 3;  /**< [  2:  0](R/W/H) Current count of pending JCA requests for set 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t req_cnt               : 3;  /**< [  2:  0](R/W/H) Current count of pending JCA requests for set 1. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set1_mabfifox_req_cnt_s cn; */
-};
-typedef union cavm_psm_set1_mabfifox_req_cnt cavm_psm_set1_mabfifox_req_cnt_t;
-
-static inline uint64_t CAVM_PSM_SET1_MABFIFOX_REQ_CNT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET1_MABFIFOX_REQ_CNT(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=67))
-        return 0x860001092000ll + 0x10ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x860001092000ll + 0x10ll * ((a) & 0x3f);
-    __cavm_csr_fatal("PSM_SET1_MABFIFOX_REQ_CNT", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET1_MABFIFOX_REQ_CNT(a) cavm_psm_set1_mabfifox_req_cnt_t
-#define bustype_CAVM_PSM_SET1_MABFIFOX_REQ_CNT(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET1_MABFIFOX_REQ_CNT(a) "PSM_SET1_MABFIFOX_REQ_CNT"
-#define busnum_CAVM_PSM_SET1_MABFIFOX_REQ_CNT(a) (a)
-#define arguments_CAVM_PSM_SET1_MABFIFOX_REQ_CNT(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_set1_mabfifo_busy
@@ -6078,12 +4666,6 @@ static inline uint64_t CAVM_PSM_SET2_GRPX_CDT(uint64_t a)
  * These registers define membership of RF Engines within each of eight groups.  Along
  * with the PSM_SET2_GRP()_CDT registers, these registers can be used to load balance
  * jobs across many homogeneous RF Engines.
- *
- * Internal:
- * The GRP_MASK/CDT functionality isn't too useful for the RF Engines, since they will
- * not typically be considered to be homogenous.  E.g., a specific packet-tx job
- * will need to go to a specific RF Engine.  The registers are implemented due to re-use of shared
- * logic, but maybe they should be made hidden/internal for HRM purposes?
  */
 union cavm_psm_set2_grpx_mask
 {
@@ -6146,86 +4728,6 @@ static inline uint64_t CAVM_PSM_SET2_GRPX_MASK(uint64_t a)
 #define arguments_CAVM_PSM_SET2_GRPX_MASK(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) psm_set2_job_pri#_req#
- *
- * INTERNAL: PHY Scheduler Set 2 Job Request Register
- *
- * These registers reports the current value of the job request signals of the queues, at various
- * priority levels.
- */
-union cavm_psm_set2_job_prix_reqx
-{
-    uint64_t u;
-    struct cavm_psm_set2_job_prix_reqx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t job_req               : 64; /**< [ 63:  0](RO/H) This field indicates the current value of the job request signals of the queues. */
-#else /* Word 0 - Little Endian */
-        uint64_t job_req               : 64; /**< [ 63:  0](RO/H) This field indicates the current value of the job request signals of the queues. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set2_job_prix_reqx_s cn; */
-};
-typedef union cavm_psm_set2_job_prix_reqx cavm_psm_set2_job_prix_reqx_t;
-
-static inline uint64_t CAVM_PSM_SET2_JOB_PRIX_REQX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET2_JOB_PRIX_REQX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
-        return 0x860001072000ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=3)))
-        return 0x860001072000ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("PSM_SET2_JOB_PRIX_REQX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET2_JOB_PRIX_REQX(a,b) cavm_psm_set2_job_prix_reqx_t
-#define bustype_CAVM_PSM_SET2_JOB_PRIX_REQX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET2_JOB_PRIX_REQX(a,b) "PSM_SET2_JOB_PRIX_REQX"
-#define busnum_CAVM_PSM_SET2_JOB_PRIX_REQX(a,b) (a)
-#define arguments_CAVM_PSM_SET2_JOB_PRIX_REQX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) psm_set2_job_pri#_unserved#
- *
- * INTERNAL: PHY Scheduler Set 2 Job Unserved Register
- *
- * These registers reports the current value of the job unserved vector of the queues, at various
- * priority levels.
- */
-union cavm_psm_set2_job_prix_unservedx
-{
-    uint64_t u;
-    struct cavm_psm_set2_job_prix_unservedx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t unserved_vec          : 64; /**< [ 63:  0](RO/H) This register reports the current value of the job unserved vector of the queues, at
-                                                                 various priority levels. */
-#else /* Word 0 - Little Endian */
-        uint64_t unserved_vec          : 64; /**< [ 63:  0](RO/H) This register reports the current value of the job unserved vector of the queues, at
-                                                                 various priority levels. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set2_job_prix_unservedx_s cn; */
-};
-typedef union cavm_psm_set2_job_prix_unservedx cavm_psm_set2_job_prix_unservedx_t;
-
-static inline uint64_t CAVM_PSM_SET2_JOB_PRIX_UNSERVEDX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET2_JOB_PRIX_UNSERVEDX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=3) && (b<=3)))
-        return 0x860001072400ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=3) && (b<=3)))
-        return 0x860001072400ll + 0x100ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    __cavm_csr_fatal("PSM_SET2_JOB_PRIX_UNSERVEDX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET2_JOB_PRIX_UNSERVEDX(a,b) cavm_psm_set2_job_prix_unservedx_t
-#define bustype_CAVM_PSM_SET2_JOB_PRIX_UNSERVEDX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET2_JOB_PRIX_UNSERVEDX(a,b) "PSM_SET2_JOB_PRIX_UNSERVEDX"
-#define busnum_CAVM_PSM_SET2_JOB_PRIX_UNSERVEDX(a,b) (a)
-#define arguments_CAVM_PSM_SET2_JOB_PRIX_UNSERVEDX(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) psm_set2_mab_res
  *
  * PHY Scheduler Set 2 MAB Reservation Register
@@ -6241,17 +4743,11 @@ union cavm_psm_set2_mab_res
         uint64_t reserved_21_63        : 43;
         uint64_t mabres                : 21; /**< [ 20:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET2_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET2_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
         uint64_t mabres                : 21; /**< [ 20:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET2_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET2_MABDID_E enumeration. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
@@ -6262,17 +4758,11 @@ union cavm_psm_set2_mab_res
         uint64_t reserved_8_63         : 56;
         uint64_t mabres                : 8;  /**< [  7:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET2_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET2_MABDID_E enumeration. */
 #else /* Word 0 - Little Endian */
         uint64_t mabres                : 8;  /**< [  7:  0](R/W/H) This field reports the current value of the per-RF-Engine
                                                                  reservation vector, for CONT_JOB commands.  The bit number
-                                                                 is indexed by the PSM_SET2_MABDID_E enumeration.
-
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable.  A 1 written to a bit will clear it. */
+                                                                 is indexed by the PSM_SET2_MABDID_E enumeration. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cnf10ka;
@@ -6326,45 +4816,19 @@ union cavm_psm_set2_mabfifox_ctrl
         uint64_t reserved_28_31        : 4;
         uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the RF Engine FIFO. */
         uint64_t reserved_17_23        : 7;
-        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to pop the head entry from the RF Engine FIFO.  The FIFO
-                                                                 entry will be discarded.  The pop operation is initiated by writing this
-                                                                 bit as 1, and is only allowed in internal_access_mode. */
+        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved. */
         uint64_t reserved_12_15        : 4;
-        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the RF Engine for making JCA requests.
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable. */
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the RF Engine for making JCA requests. */
         uint64_t reserved_2_7          : 6;
-        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to flush a RF Engine FIFO.  When flushing is enabled,
-                                                                 only job responses from the RF Engine will be processed, and all other commands
-                                                                 will be discarded.  In internal_access_mode, this field is writeable. */
-        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to disable a RF Engine FIFO.  If disabled, it will ignore any JCA
-                                                                 requests from the MAB.  In internal_access_mode, this field is writeable. */
+        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved. */
+        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to disable a RF Engine FIFO.  If disabled, it will ignore any JCA
-                                                                 requests from the MAB.  In internal_access_mode, this field is writeable. */
-        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to flush a RF Engine FIFO.  When flushing is enabled,
-                                                                 only job responses from the RF Engine will be processed, and all other commands
-                                                                 will be discarded.  In internal_access_mode, this field is writeable. */
+        uint64_t mabfifo_dis           : 1;  /**< [  0:  0](R/W/H) Reserved. */
+        uint64_t mabfifo_flush_en      : 1;  /**< [  1:  1](R/W/H) Reserved. */
         uint64_t reserved_2_7          : 6;
-        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the RF Engine for making JCA requests.
-                                                                 Internal:
-                                                                 In internal_access_mode, this field is writeable. */
+        uint64_t fifo_cdt              : 4;  /**< [ 11:  8](R/W/H) Contains the number of credits held by the RF Engine for making JCA requests. */
         uint64_t reserved_12_15        : 4;
-        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved.
-                                                                 Internal:
-                                                                 This bit can be used to pop the head entry from the RF Engine FIFO.  The FIFO
-                                                                 entry will be discarded.  The pop operation is initiated by writing this
-                                                                 bit as 1, and is only allowed in internal_access_mode. */
+        uint64_t force_pop             : 1;  /**< [ 16: 16](R/W/H) Reserved. */
         uint64_t reserved_17_23        : 7;
         uint64_t fifo_level            : 4;  /**< [ 27: 24](RO/H) Contains the number of entries held in the RF Engine FIFO. */
         uint64_t reserved_28_31        : 4;
@@ -6401,123 +4865,6 @@ static inline uint64_t CAVM_PSM_SET2_MABFIFOX_CTRL(uint64_t a)
 #define basename_CAVM_PSM_SET2_MABFIFOX_CTRL(a) "PSM_SET2_MABFIFOX_CTRL"
 #define busnum_CAVM_PSM_SET2_MABFIFOX_CTRL(a) (a)
 #define arguments_CAVM_PSM_SET2_MABFIFOX_CTRL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set2_mabfifo#_head_hi
- *
- * INTERNAL: PHY Scheduler Set 1 MAB FIFO Head Command High Registers
- *
- * These registers contains the high 64-bits of the MAB FIFO head command.
- */
-union cavm_psm_set2_mabfifox_head_hi
-{
-    uint64_t u;
-    struct cavm_psm_set2_mabfifox_head_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t head_hi               : 64; /**< [ 63:  0](RO/H) Contains the upper 64-bits of the MAB FIFO head command. */
-#else /* Word 0 - Little Endian */
-        uint64_t head_hi               : 64; /**< [ 63:  0](RO/H) Contains the upper 64-bits of the MAB FIFO head command. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set2_mabfifox_head_hi_s cn; */
-};
-typedef union cavm_psm_set2_mabfifox_head_hi cavm_psm_set2_mabfifox_head_hi_t;
-
-static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_HI(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_HI(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
-        return 0x8600010a1008ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=20))
-        return 0x8600010a1008ll + 0x10ll * ((a) & 0x1f);
-    __cavm_csr_fatal("PSM_SET2_MABFIFOX_HEAD_HI", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET2_MABFIFOX_HEAD_HI(a) cavm_psm_set2_mabfifox_head_hi_t
-#define bustype_CAVM_PSM_SET2_MABFIFOX_HEAD_HI(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET2_MABFIFOX_HEAD_HI(a) "PSM_SET2_MABFIFOX_HEAD_HI"
-#define busnum_CAVM_PSM_SET2_MABFIFOX_HEAD_HI(a) (a)
-#define arguments_CAVM_PSM_SET2_MABFIFOX_HEAD_HI(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set2_mabfifo#_head_lo
- *
- * INTERNAL: PHY Scheduler Set 2 MAB FIFO Head Command Low Registers
- *
- * These registers contains the low 64-bits of the MAB FIFO head command.
- */
-union cavm_psm_set2_mabfifox_head_lo
-{
-    uint64_t u;
-    struct cavm_psm_set2_mabfifox_head_lo_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t head_lo               : 64; /**< [ 63:  0](RO/H) Contains the low 64-bits of the MAB FIFO head command. */
-#else /* Word 0 - Little Endian */
-        uint64_t head_lo               : 64; /**< [ 63:  0](RO/H) Contains the low 64-bits of the MAB FIFO head command. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set2_mabfifox_head_lo_s cn; */
-};
-typedef union cavm_psm_set2_mabfifox_head_lo cavm_psm_set2_mabfifox_head_lo_t;
-
-static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_LO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET2_MABFIFOX_HEAD_LO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
-        return 0x8600010a1000ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=20))
-        return 0x8600010a1000ll + 0x10ll * ((a) & 0x1f);
-    __cavm_csr_fatal("PSM_SET2_MABFIFOX_HEAD_LO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET2_MABFIFOX_HEAD_LO(a) cavm_psm_set2_mabfifox_head_lo_t
-#define bustype_CAVM_PSM_SET2_MABFIFOX_HEAD_LO(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET2_MABFIFOX_HEAD_LO(a) "PSM_SET2_MABFIFOX_HEAD_LO"
-#define busnum_CAVM_PSM_SET2_MABFIFOX_HEAD_LO(a) (a)
-#define arguments_CAVM_PSM_SET2_MABFIFOX_HEAD_LO(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) psm_set2_mabfifo#_req_cnt
- *
- * INTERNAL: PHY Scheduler Set 2 MAB FIFO Request Count Registers
- *
- * Internal:
- * In internal_access_mode, this register is writeable.
- */
-union cavm_psm_set2_mabfifox_req_cnt
-{
-    uint64_t u;
-    struct cavm_psm_set2_mabfifox_req_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t req_cnt               : 3;  /**< [  2:  0](R/W/H) Current count of pending JCA requests for set 2. */
-#else /* Word 0 - Little Endian */
-        uint64_t req_cnt               : 3;  /**< [  2:  0](R/W/H) Current count of pending JCA requests for set 2. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_set2_mabfifox_req_cnt_s cn; */
-};
-typedef union cavm_psm_set2_mabfifox_req_cnt cavm_psm_set2_mabfifox_req_cnt_t;
-
-static inline uint64_t CAVM_PSM_SET2_MABFIFOX_REQ_CNT(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_SET2_MABFIFOX_REQ_CNT(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=7))
-        return 0x8600010a2000ll + 0x10ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=20))
-        return 0x8600010a2000ll + 0x10ll * ((a) & 0x1f);
-    __cavm_csr_fatal("PSM_SET2_MABFIFOX_REQ_CNT", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_SET2_MABFIFOX_REQ_CNT(a) cavm_psm_set2_mabfifox_req_cnt_t
-#define bustype_CAVM_PSM_SET2_MABFIFOX_REQ_CNT(a) CSR_TYPE_NCB
-#define basename_CAVM_PSM_SET2_MABFIFOX_REQ_CNT(a) "PSM_SET2_MABFIFOX_REQ_CNT"
-#define busnum_CAVM_PSM_SET2_MABFIFOX_REQ_CNT(a) (a)
-#define arguments_CAVM_PSM_SET2_MABFIFOX_REQ_CNT(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) psm_set2_mabfifo_busy
@@ -6874,9 +5221,6 @@ static inline uint64_t CAVM_PSM_SWX_ENQUEUE_LO(uint64_t a)
  *
  * PHY Scheduler Software Enqueue Control Register
  * Reserved.
- * Internal:
- * This register contains control and status information about
- * the Software Enqueue slots.
  */
 union cavm_psm_sw_enq_ctrl
 {
@@ -6933,9 +5277,6 @@ static inline uint64_t CAVM_PSM_SW_ENQ_CTRL_FUNC(void)
  *
  * PHY Scheduler Software Enqueue Error Register
  * Reserved.
- * Internal:
- * Records the Software Enqueue slots on which errors are
- * detected.
  */
 union cavm_psm_sw_enq_err
 {
@@ -7068,18 +5409,12 @@ union cavm_psm_timer_cfg
                                                                  signals to the PSM. */
         uint64_t reserved_49_55        : 7;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
-                                                                 message to the MDABs each time a new frame begins.
-
-                                                                 Internal:
-                                                                 See PSM_CMD_BCAST_S. */
+                                                                 message to the MDABs each time a new frame begins. */
         uint64_t reserved_0_47         : 48;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_47         : 48;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
-                                                                 message to the MDABs each time a new frame begins.
-
-                                                                 Internal:
-                                                                 See PSM_CMD_BCAST_S. */
+                                                                 message to the MDABs each time a new frame begins. */
         uint64_t reserved_49_55        : 7;
         uint64_t internal_timer_mode   : 1;  /**< [ 56: 56](R/W/H) Enables the timer's internal-timer mode, which drives the
                                                                  timer logic with BCLK domain signals.  This may be useful
@@ -7109,18 +5444,12 @@ union cavm_psm_timer_cfg
                                                                  signals to the PSM. */
         uint64_t reserved_49_55        : 7;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
-                                                                 message to the MDABs each time a new frame begins.
-
-                                                                 Internal:
-                                                                 See PSM_CMD_BCAST_S. */
+                                                                 message to the MDABs each time a new frame begins. */
         uint64_t reserved_0_47         : 48;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_47         : 48;
         uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
-                                                                 message to the MDABs each time a new frame begins.
-
-                                                                 Internal:
-                                                                 See PSM_CMD_BCAST_S. */
+                                                                 message to the MDABs each time a new frame begins. */
         uint64_t reserved_49_55        : 7;
         uint64_t internal_timer_mode   : 1;  /**< [ 56: 56](R/W/H) Enables the timer's internal-timer mode, which drives the
                                                                  timer logic with BCLK domain signals.  This may be useful
@@ -7153,63 +5482,6 @@ static inline uint64_t CAVM_PSM_TIMER_CFG_FUNC(void)
 #define basename_CAVM_PSM_TIMER_CFG "PSM_TIMER_CFG"
 #define busnum_CAVM_PSM_TIMER_CFG 0
 #define arguments_CAVM_PSM_TIMER_CFG -1,-1,-1,-1
-
-/**
- * Register (NCB) psm_timer_ieee1914_val
- *
- * INTERNAL: PHY Scheduler Timer IEEE 1914 Value Register
- *
- * This register holds the IEEE 1914 timestamp value, which consists
- * of integer and fractional parts of a nanosecond scale value.
- * In internal-timer mode, these values can be written, and they are
- * read-only when in BTN mode.  The IEEE 1914 time value is used
- * in processing Ethernet packets in the RFOE.
- *
- * Internal:
- * This is a legacy f95n register.  It may be removed from 105n in the
- * future, but we'll keep it for now to avoid verif breakage.
- */
-union cavm_psm_timer_ieee1914_val
-{
-    uint64_t u;
-    struct cavm_psm_timer_ieee1914_val_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_57_63        : 7;
-        uint64_t ts_update             : 1;  /**< [ 56: 56](R/W/H) If written 1, update [TS_VAL] count.  If written 0, the [TS_VAL]
-                                                                 count remains unchanged. */
-        uint64_t reserved_29_55        : 27;
-        uint64_t ts_val                : 29; /**< [ 28:  0](R/W/H) Current IEEE 1914 timer value.  This consists of a 24-bit
-                                                                 integer portion and a 5-bit fractional portion. */
-#else /* Word 0 - Little Endian */
-        uint64_t ts_val                : 29; /**< [ 28:  0](R/W/H) Current IEEE 1914 timer value.  This consists of a 24-bit
-                                                                 integer portion and a 5-bit fractional portion. */
-        uint64_t reserved_29_55        : 27;
-        uint64_t ts_update             : 1;  /**< [ 56: 56](R/W/H) If written 1, update [TS_VAL] count.  If written 0, the [TS_VAL]
-                                                                 count remains unchanged. */
-        uint64_t reserved_57_63        : 7;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_psm_timer_ieee1914_val_s cn; */
-};
-typedef union cavm_psm_timer_ieee1914_val cavm_psm_timer_ieee1914_val_t;
-
-#define CAVM_PSM_TIMER_IEEE1914_VAL CAVM_PSM_TIMER_IEEE1914_VAL_FUNC()
-static inline uint64_t CAVM_PSM_TIMER_IEEE1914_VAL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_PSM_TIMER_IEEE1914_VAL_FUNC(void)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA))
-        return 0x8600010f1020ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
-        return 0x8600010f1020ll;
-    __cavm_csr_fatal("PSM_TIMER_IEEE1914_VAL", 0, 0, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_PSM_TIMER_IEEE1914_VAL cavm_psm_timer_ieee1914_val_t
-#define bustype_CAVM_PSM_TIMER_IEEE1914_VAL CSR_TYPE_NCB
-#define basename_CAVM_PSM_TIMER_IEEE1914_VAL "PSM_TIMER_IEEE1914_VAL"
-#define busnum_CAVM_PSM_TIMER_IEEE1914_VAL 0
-#define arguments_CAVM_PSM_TIMER_IEEE1914_VAL -1,-1,-1,-1
 
 /**
  * Register (NCB) psm_timer_internal_bcast_cfg

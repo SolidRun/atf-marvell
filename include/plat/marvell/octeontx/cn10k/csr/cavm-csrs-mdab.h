@@ -45,90 +45,6 @@
 #define CAVM_MDAB_RSL_SUBID_E_SBPX(a) (0x50 + (a))
 
 /**
- * Register (MULTIRSL32b) mdab#_block_config
- *
- * INTERNAL: MDAB Block Configuration Register
- *
- * This register contains information about the MDAB block configuration.
- */
-union cavm_mdabx_block_config
-{
-    uint32_t u;
-    struct cavm_mdabx_block_config_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_17_31        : 15;
-        uint32_t pflt_en               : 1;  /**< [ 16: 16](RO/H) Pfilter enable. */
-        uint32_t master_max_bl         : 4;  /**< [ 15: 12](RO/H) AXI master max burst length
-                                                                 0x0 = BL1, 0x1 = BL2, 0x2 = BL4, 0x3 = BL8, 0x4 = BL16 */
-        uint32_t icache_size           : 4;  /**< [ 11:  8](RO/H) iCache size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory/No IPB */
-        uint32_t imem_size             : 4;  /**< [  7:  4](RO/H) IMEM size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory */
-        uint32_t dmem_size             : 4;  /**< [  3:  0](RO/H) DMEM size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory */
-#else /* Word 0 - Little Endian */
-        uint32_t dmem_size             : 4;  /**< [  3:  0](RO/H) DMEM size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory */
-        uint32_t imem_size             : 4;  /**< [  7:  4](RO/H) IMEM size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory */
-        uint32_t icache_size           : 4;  /**< [ 11:  8](RO/H) iCache size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory/No IPB */
-        uint32_t master_max_bl         : 4;  /**< [ 15: 12](RO/H) AXI master max burst length
-                                                                 0x0 = BL1, 0x1 = BL2, 0x2 = BL4, 0x3 = BL8, 0x4 = BL16 */
-        uint32_t pflt_en               : 1;  /**< [ 16: 16](RO/H) Pfilter enable. */
-        uint32_t reserved_17_31        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_block_config_s cn10; */
-    /* struct cavm_mdabx_block_config_s cnf10ka; */
-    struct cavm_mdabx_block_config_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_17_31        : 15;
-        uint32_t pflt_en               : 1;  /**< [ 16: 16](RO/H) Reserved. */
-        uint32_t master_max_bl         : 4;  /**< [ 15: 12](RO/H) AXI master max burst length
-                                                                 0x0 = BL1, 0x1 = BL2, 0x2 = BL4, 0x3 = BL8, 0x4 = BL16 */
-        uint32_t icache_size           : 4;  /**< [ 11:  8](RO/H) iCache size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory/No IPB */
-        uint32_t imem_size             : 4;  /**< [  7:  4](RO/H) IMEM size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory */
-        uint32_t dmem_size             : 4;  /**< [  3:  0](RO/H) DMEM size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory */
-#else /* Word 0 - Little Endian */
-        uint32_t dmem_size             : 4;  /**< [  3:  0](RO/H) DMEM size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory */
-        uint32_t imem_size             : 4;  /**< [  7:  4](RO/H) IMEM size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory */
-        uint32_t icache_size           : 4;  /**< [ 11:  8](RO/H) iCache size in 32KB units - 32*2^n
-                                                                 0x0 = 32KB, 0x1 = 64KB, 0x2 = 128KB, 0x3 = 256KB, 0xF = No memory/No IPB */
-        uint32_t master_max_bl         : 4;  /**< [ 15: 12](RO/H) AXI master max burst length
-                                                                 0x0 = BL1, 0x1 = BL2, 0x2 = BL4, 0x3 = BL8, 0x4 = BL16 */
-        uint32_t pflt_en               : 1;  /**< [ 16: 16](RO/H) Reserved. */
-        uint32_t reserved_17_31        : 15;
-#endif /* Word 0 - End */
-    } cnf10kb;
-};
-typedef union cavm_mdabx_block_config cavm_mdabx_block_config_t;
-
-static inline uint64_t CAVM_MDABX_BLOCK_CONFIG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_BLOCK_CONFIG(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008f10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008f10ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_BLOCK_CONFIG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_BLOCK_CONFIG(a) cavm_mdabx_block_config_t
-#define bustype_CAVM_MDABX_BLOCK_CONFIG(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_BLOCK_CONFIG(a) "MDABX_BLOCK_CONFIG"
-#define device_bar_CAVM_MDABX_BLOCK_CONFIG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_BLOCK_CONFIG(a) (a)
-#define arguments_CAVM_MDABX_BLOCK_CONFIG(a) (a),-1,-1,-1
-
-/**
  * Register (MULTIRSL32b) mdab#_cfg_addr
  *
  * MDAB Configuration DMA Address Register
@@ -612,48 +528,6 @@ static inline uint64_t CAVM_MDABX_DAC_CTRL(uint64_t a)
 #define arguments_CAVM_MDABX_DAC_CTRL(a) (a),-1,-1,-1
 
 /**
- * Register (MULTIRSL32b) mdab#_dac_eco
- *
- * INTERNAL: DAC ECO Register
- *
- * Internal:
- * Reserved for ECO usage
- */
-union cavm_mdabx_dac_eco
-{
-    uint32_t u;
-    struct cavm_mdabx_dac_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
-                                                                 Reserved for ECO usage */
-#else /* Word 0 - Little Endian */
-        uint32_t eco_rw                : 32; /**< [ 31:  0](R/W) Internal:
-                                                                 Reserved for ECO usage */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_dac_eco_s cn; */
-};
-typedef union cavm_mdabx_dac_eco cavm_mdabx_dac_eco_t;
-
-static inline uint64_t CAVM_MDABX_DAC_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_DAC_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008300ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008300ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_DAC_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_DAC_ECO(a) cavm_mdabx_dac_eco_t
-#define bustype_CAVM_MDABX_DAC_ECO(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_DAC_ECO(a) "MDABX_DAC_ECO"
-#define device_bar_CAVM_MDABX_DAC_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_DAC_ECO(a) (a)
-#define arguments_CAVM_MDABX_DAC_ECO(a) (a),-1,-1,-1
-
-/**
  * Register (MULTIRSL32b) mdab#_dac_err_log_addr
  *
  * MDAB Address Error Log Address Register
@@ -1022,145 +896,6 @@ static inline uint64_t CAVM_MDABX_DAC_ERR_LOG_SRC(uint64_t a)
 #define arguments_CAVM_MDABX_DAC_ERR_LOG_SRC(a) (a),-1,-1,-1
 
 /**
- * Register (MULTIRSL32b) mdab#_dsp_cnf
- *
- * INTERNAL: MDAB DSP Configuration Register
- *
- * Set configuration values driven on the DSP interface, which changes the DSP hardware behavior.
- */
-union cavm_mdabx_dsp_cnf
-{
-    uint32_t u;
-    struct cavm_mdabx_dsp_cnf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
-        uint32_t nmi_bkp_en            : 1;  /**< [  2:  2](R/W) When set, NMI triggers a core break point. */
-        uint32_t int0_bkp_en           : 1;  /**< [  1:  1](R/W) When set, INT0 triggers a core breakpoint. */
-        uint32_t axi_b                 : 1;  /**< [  0:  0](R/W) When set, limits the DSP burst size to BL4. */
-#else /* Word 0 - Little Endian */
-        uint32_t axi_b                 : 1;  /**< [  0:  0](R/W) When set, limits the DSP burst size to BL4. */
-        uint32_t int0_bkp_en           : 1;  /**< [  1:  1](R/W) When set, INT0 triggers a core breakpoint. */
-        uint32_t nmi_bkp_en            : 1;  /**< [  2:  2](R/W) When set, NMI triggers a core break point. */
-        uint32_t reserved_3_31         : 29;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_dsp_cnf_s cn; */
-};
-typedef union cavm_mdabx_dsp_cnf cavm_mdabx_dsp_cnf_t;
-
-static inline uint64_t CAVM_MDABX_DSP_CNF(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_DSP_CNF(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008b10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008b10ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_DSP_CNF", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_DSP_CNF(a) cavm_mdabx_dsp_cnf_t
-#define bustype_CAVM_MDABX_DSP_CNF(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_DSP_CNF(a) "MDABX_DSP_CNF"
-#define device_bar_CAVM_MDABX_DSP_CNF(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_DSP_CNF(a) (a)
-#define arguments_CAVM_MDABX_DSP_CNF(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL32b) mdab#_dsp_dma_ctrl
- *
- * INTERNAL: MDAB DSP DMA Control Register
- *
- * Controls the DMA external interface.
- */
-union cavm_mdabx_dsp_dma_ctrl
-{
-    uint32_t u;
-    struct cavm_mdabx_dsp_dma_ctrl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_13_31        : 19;
-        uint32_t trigin_idma           : 1;  /**< [ 12: 12](R/W) The trigger input that increases the iDMA trigger count when it is asserted. */
-        uint32_t max_outstd_flits      : 10; /**< [ 11:  2](R/W) Max number of outstanding flits of job dma write requests that can cross
-                                                                 the async boundary before async FIFO returns a write response. A value of 0
-                                                                 disables this limit. Limit can be disabled if DSP clock frequency is greater than
-                                                                 BCLK frequency. Typical value should be 256. */
-        uint32_t ext_ddma_dbg_match_ack : 1; /**< [  1:  1](R/W) Indication to the DMA debug match mechanism that the ext_ddma_dbg_match was accepted. */
-        uint32_t ddma_next             : 1;  /**< [  0:  0](R/W) Setting this bit forces the DDMA to the next queue entry. */
-#else /* Word 0 - Little Endian */
-        uint32_t ddma_next             : 1;  /**< [  0:  0](R/W) Setting this bit forces the DDMA to the next queue entry. */
-        uint32_t ext_ddma_dbg_match_ack : 1; /**< [  1:  1](R/W) Indication to the DMA debug match mechanism that the ext_ddma_dbg_match was accepted. */
-        uint32_t max_outstd_flits      : 10; /**< [ 11:  2](R/W) Max number of outstanding flits of job dma write requests that can cross
-                                                                 the async boundary before async FIFO returns a write response. A value of 0
-                                                                 disables this limit. Limit can be disabled if DSP clock frequency is greater than
-                                                                 BCLK frequency. Typical value should be 256. */
-        uint32_t trigin_idma           : 1;  /**< [ 12: 12](R/W) The trigger input that increases the iDMA trigger count when it is asserted. */
-        uint32_t reserved_13_31        : 19;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_dsp_dma_ctrl_s cn; */
-};
-typedef union cavm_mdabx_dsp_dma_ctrl cavm_mdabx_dsp_dma_ctrl_t;
-
-static inline uint64_t CAVM_MDABX_DSP_DMA_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_DSP_DMA_CTRL(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008b30ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008b30ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_DSP_DMA_CTRL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_DSP_DMA_CTRL(a) cavm_mdabx_dsp_dma_ctrl_t
-#define bustype_CAVM_MDABX_DSP_DMA_CTRL(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_DSP_DMA_CTRL(a) "MDABX_DSP_DMA_CTRL"
-#define device_bar_CAVM_MDABX_DSP_DMA_CTRL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_DSP_DMA_CTRL(a) (a)
-#define arguments_CAVM_MDABX_DSP_DMA_CTRL(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL32b) mdab#_dsp_dma_sts
- *
- * INTERNAL: MDAB DSP DMAs Status Register
- *
- * DSP DMA external status interface.
- */
-union cavm_mdabx_dsp_dma_sts
-{
-    uint32_t u;
-    struct cavm_mdabx_dsp_dma_sts_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t ddma_dbg_match_r      : 1;  /**< [  0:  0](RO/H) TBD. */
-#else /* Word 0 - Little Endian */
-        uint32_t ddma_dbg_match_r      : 1;  /**< [  0:  0](RO/H) TBD. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_dsp_dma_sts_s cn; */
-};
-typedef union cavm_mdabx_dsp_dma_sts cavm_mdabx_dsp_dma_sts_t;
-
-static inline uint64_t CAVM_MDABX_DSP_DMA_STS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_DSP_DMA_STS(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008b40ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008b40ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_DSP_DMA_STS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_DSP_DMA_STS(a) cavm_mdabx_dsp_dma_sts_t
-#define bustype_CAVM_MDABX_DSP_DMA_STS(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_DSP_DMA_STS(a) "MDABX_DSP_DMA_STS"
-#define device_bar_CAVM_MDABX_DSP_DMA_STS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_DSP_DMA_STS(a) (a)
-#define arguments_CAVM_MDABX_DSP_DMA_STS(a) (a),-1,-1,-1
-
-/**
  * Register (MULTIRSL32b) mdab#_dsp_fyi
  *
  * MDAB DSP FYI Register
@@ -1350,112 +1085,6 @@ static inline uint64_t CAVM_MDABX_EDAP_STS(uint64_t a)
 #define device_bar_CAVM_MDABX_EDAP_STS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_EDAP_STS(a) (a)
 #define arguments_CAVM_MDABX_EDAP_STS(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL32b) mdab#_edp_brdg_sts
- *
- * INTERNAL: MDAB EDP Bridge Status Register
- *
- * Status of the EDP bridge.
- */
-union cavm_mdabx_edp_brdg_sts
-{
-    uint32_t u;
-    struct cavm_mdabx_edp_brdg_sts_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t monitor_addr          : 24; /**< [ 31:  8](RO/H) Exclusive monitor address, valid when [MONITOR_STS]=1. */
-        uint32_t monitor_sts           : 1;  /**< [  7:  7](RO/H) Exclusive monitor lock state:
-                                                                 0x0 = Free.
-                                                                 0x1 = Locked. */
-        uint32_t reserved_6            : 1;
-        uint32_t edp_w_rsp_empty       : 1;  /**< [  5:  5](RO/H) EDP bridge write channel response is EMPTY. */
-        uint32_t edp_r_rsp_empty       : 1;  /**< [  4:  4](RO/H) EDP bridge read channel response is EMPTY. */
-        uint32_t edp_w_barr_actv       : 1;  /**< [  3:  3](RO/H) EDP bridge write channel barrier is active. */
-        uint32_t edp_r_barr_actv       : 1;  /**< [  2:  2](RO/H) EDP bridge read channel barrier is active. */
-        uint32_t edp_w_freetag         : 1;  /**< [  1:  1](RO/H) EDP bridge has free tag for write. */
-        uint32_t edp_r_freetag         : 1;  /**< [  0:  0](RO/H) EDP bridge has free tag for read. */
-#else /* Word 0 - Little Endian */
-        uint32_t edp_r_freetag         : 1;  /**< [  0:  0](RO/H) EDP bridge has free tag for read. */
-        uint32_t edp_w_freetag         : 1;  /**< [  1:  1](RO/H) EDP bridge has free tag for write. */
-        uint32_t edp_r_barr_actv       : 1;  /**< [  2:  2](RO/H) EDP bridge read channel barrier is active. */
-        uint32_t edp_w_barr_actv       : 1;  /**< [  3:  3](RO/H) EDP bridge write channel barrier is active. */
-        uint32_t edp_r_rsp_empty       : 1;  /**< [  4:  4](RO/H) EDP bridge read channel response is EMPTY. */
-        uint32_t edp_w_rsp_empty       : 1;  /**< [  5:  5](RO/H) EDP bridge write channel response is EMPTY. */
-        uint32_t reserved_6            : 1;
-        uint32_t monitor_sts           : 1;  /**< [  7:  7](RO/H) Exclusive monitor lock state:
-                                                                 0x0 = Free.
-                                                                 0x1 = Locked. */
-        uint32_t monitor_addr          : 24; /**< [ 31:  8](RO/H) Exclusive monitor address, valid when [MONITOR_STS]=1. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_edp_brdg_sts_s cn; */
-};
-typedef union cavm_mdabx_edp_brdg_sts cavm_mdabx_edp_brdg_sts_t;
-
-static inline uint64_t CAVM_MDABX_EDP_BRDG_STS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_EDP_BRDG_STS(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008bb0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008bb0ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_EDP_BRDG_STS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_EDP_BRDG_STS(a) cavm_mdabx_edp_brdg_sts_t
-#define bustype_CAVM_MDABX_EDP_BRDG_STS(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_EDP_BRDG_STS(a) "MDABX_EDP_BRDG_STS"
-#define device_bar_CAVM_MDABX_EDP_BRDG_STS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_EDP_BRDG_STS(a) (a)
-#define arguments_CAVM_MDABX_EDP_BRDG_STS(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL32b) mdab#_epdp_brdg_sts
- *
- * INTERNAL: MDAB EPDP Bridge Status Register
- *
- * Status of the EPDP bridge.
- */
-union cavm_mdabx_epdp_brdg_sts
-{
-    uint32_t u;
-    struct cavm_mdabx_epdp_brdg_sts_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t epdp_w_rsp_empty      : 1;  /**< [  3:  3](RO/H) EDP bridge write channel response is empty. */
-        uint32_t epdp_r_rsp_empty      : 1;  /**< [  2:  2](RO/H) EDP bridge read channel response is empty. */
-        uint32_t epdp_w_freetag        : 1;  /**< [  1:  1](RO/H) EPDP bridge has free tag for write. */
-        uint32_t epdp_r_freetag        : 1;  /**< [  0:  0](RO/H) EPDP bridge has free tag for read. */
-#else /* Word 0 - Little Endian */
-        uint32_t epdp_r_freetag        : 1;  /**< [  0:  0](RO/H) EPDP bridge has free tag for read. */
-        uint32_t epdp_w_freetag        : 1;  /**< [  1:  1](RO/H) EPDP bridge has free tag for write. */
-        uint32_t epdp_r_rsp_empty      : 1;  /**< [  2:  2](RO/H) EDP bridge read channel response is empty. */
-        uint32_t epdp_w_rsp_empty      : 1;  /**< [  3:  3](RO/H) EDP bridge write channel response is empty. */
-        uint32_t reserved_4_31         : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_epdp_brdg_sts_s cn; */
-};
-typedef union cavm_mdabx_epdp_brdg_sts cavm_mdabx_epdp_brdg_sts_t;
-
-static inline uint64_t CAVM_MDABX_EPDP_BRDG_STS(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_EPDP_BRDG_STS(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008b90ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008b90ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_EPDP_BRDG_STS", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_EPDP_BRDG_STS(a) cavm_mdabx_epdp_brdg_sts_t
-#define bustype_CAVM_MDABX_EPDP_BRDG_STS(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_EPDP_BRDG_STS(a) "MDABX_EPDP_BRDG_STS"
-#define device_bar_CAVM_MDABX_EPDP_BRDG_STS(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_EPDP_BRDG_STS(a) (a)
-#define arguments_CAVM_MDABX_EPDP_BRDG_STS(a) (a),-1,-1,-1
 
 /**
  * Register (MULTIRSL32b) mdab#_err_int_ena_w1c
@@ -1660,76 +1289,41 @@ union cavm_mdabx_err_int_int0_ena
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_18_31        : 14;
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) FDEQ filter error. */
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) LFSR co-processor error. */
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) Reserved. */
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) Reserved. */
         uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) General violation error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction prefetch buffer error. */
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
         uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
         uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DAC DMA errors. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DSP Master DMA errors. */
         uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
         uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
 #else /* Word 0 - Little Endian */
         uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
         uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DAC DMA errors. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DSP Master DMA errors. */
         uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
         uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction prefetch buffer error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) General violation error. */
         uint32_t reserved_9_15         : 7;
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) LFSR co-processor error. */
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) FDEQ filter error. */
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) Reserved. */
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) Reserved. */
         uint32_t reserved_18_31        : 14;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_err_int_int0_ena_s cn10; */
-    /* struct cavm_mdabx_err_int_int0_ena_s cnf10ka; */
-    struct cavm_mdabx_err_int_int0_ena_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_18_31        : 14;
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) Reserved. */
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) General violation error. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction prefetch buffer error. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DSP Master DMA errors. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-#else /* Word 0 - Little Endian */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DSP Master DMA errors. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction prefetch buffer error. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) General violation error. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) Reserved. */
-        uint32_t reserved_18_31        : 14;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_err_int_int0_ena_s cn; */
 };
 typedef union cavm_mdabx_err_int_int0_ena cavm_mdabx_err_int_int0_ena_t;
 
 static inline uint64_t CAVM_MDABX_ERR_INT_INT0_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDABX_ERR_INT_INT0_ENA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008ab0ll + 0x80000ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
         return 0x87e044008ab0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_ERR_INT_INT0_ENA", 1, a, 0, 0, 0, 0, 0);
@@ -1741,198 +1335,6 @@ static inline uint64_t CAVM_MDABX_ERR_INT_INT0_ENA(uint64_t a)
 #define device_bar_CAVM_MDABX_ERR_INT_INT0_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MDABX_ERR_INT_INT0_ENA(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_INT0_ENA(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL32b) mdab#_err_int_intvec_ena
- *
- * INTERNAL: MDAB Error Cause Interrupt INTVEC Enable Register
- *
- * This register is used to Enable Reporting MDAB Secondary interrupts  To DSP Interrupt Vector.
- */
-union cavm_mdabx_err_int_intvec_ena
-{
-    uint32_t u;
-    struct cavm_mdabx_err_int_intvec_ena_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_18_31        : 14;
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) FDEQ filter error. */
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) LFSR co-processor error. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) Reserved. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction Prefetch Buffer Error. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) Reserved. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-#else /* Word 0 - Little Endian */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) Reserved. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction Prefetch Buffer Error. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) Reserved. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) LFSR co-processor error. */
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) FDEQ filter error. */
-        uint32_t reserved_18_31        : 14;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_err_int_intvec_ena_s cn10; */
-    /* struct cavm_mdabx_err_int_intvec_ena_s cnf10ka; */
-    struct cavm_mdabx_err_int_intvec_ena_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_18_31        : 14;
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) Reserved. */
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) General violation error. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction Prefetch Buffer Error. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DAC DMA errors. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-#else /* Word 0 - Little Endian */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DAC DMA errors. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction Prefetch Buffer Error. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) General violation error. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) Reserved. */
-        uint32_t reserved_18_31        : 14;
-#endif /* Word 0 - End */
-    } cnf10kb;
-};
-typedef union cavm_mdabx_err_int_intvec_ena cavm_mdabx_err_int_intvec_ena_t;
-
-static inline uint64_t CAVM_MDABX_ERR_INT_INTVEC_ENA(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_ERR_INT_INTVEC_ENA(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008ac0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008ac0ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_ERR_INT_INTVEC_ENA", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) cavm_mdabx_err_int_intvec_ena_t
-#define bustype_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) "MDABX_ERR_INT_INTVEC_ENA"
-#define device_bar_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) (a)
-#define arguments_CAVM_MDABX_ERR_INT_INTVEC_ENA(a) (a),-1,-1,-1
-
-/**
- * Register (MULTIRSL32b) mdab#_err_int_nmi_ena
- *
- * INTERNAL: MDAB Error Cause Interrupt NMI Enable Register
- *
- * This register is used to Enable Reporting MDAB ERROR to DSP NMI.
- */
-union cavm_mdabx_err_int_nmi_ena
-{
-    uint32_t u;
-    struct cavm_mdabx_err_int_nmi_ena_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_18_31        : 14;
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) FDEQ filter error. */
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) LFSR co-processor error. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) Reserved. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction prefetch buffer error. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) Reserved. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-#else /* Word 0 - Little Endian */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) Reserved. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction prefetch buffer error. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) Reserved. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) LFSR co-processor error. */
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) FDEQ filter error. */
-        uint32_t reserved_18_31        : 14;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_err_int_nmi_ena_s cn10; */
-    /* struct cavm_mdabx_err_int_nmi_ena_s cnf10ka; */
-    struct cavm_mdabx_err_int_nmi_ena_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_18_31        : 14;
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) Reserved. */
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) General violation error. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction prefetch buffer error. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DAC DMA errors. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-#else /* Word 0 - Little Endian */
-        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W) DSP iCache ECC error on data RAM. */
-        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W) DSP code violation/fatal error. */
-        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W) DAC DMA errors. */
-        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W) DSP complex LD/ST master port errors. */
-        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W) DSP complex iFetch master port errors. */
-        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W) DSP complex slave port error. */
-        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W) Instruction prefetch buffer error. */
-        uint32_t dac_err               : 1;  /**< [  7:  7](R/W) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W) General violation error. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W) Reserved. */
-        uint32_t reserved_18_31        : 14;
-#endif /* Word 0 - End */
-    } cnf10kb;
-};
-typedef union cavm_mdabx_err_int_nmi_ena cavm_mdabx_err_int_nmi_ena_t;
-
-static inline uint64_t CAVM_MDABX_ERR_INT_NMI_ENA(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_ERR_INT_NMI_ENA(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008ad0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008ad0ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_ERR_INT_NMI_ENA", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_ERR_INT_NMI_ENA(a) cavm_mdabx_err_int_nmi_ena_t
-#define bustype_CAVM_MDABX_ERR_INT_NMI_ENA(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_ERR_INT_NMI_ENA(a) "MDABX_ERR_INT_NMI_ENA"
-#define device_bar_CAVM_MDABX_ERR_INT_NMI_ENA(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_ERR_INT_NMI_ENA(a) (a)
-#define arguments_CAVM_MDABX_ERR_INT_NMI_ENA(a) (a),-1,-1,-1
 
 /**
  * Register (MULTIRSL32b) mdab#_err_int_sum
@@ -2755,8 +2157,7 @@ static inline uint64_t CAVM_MDABX_INT_ENA_W1S(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_int_sel
  *
- * INTERNAL: MDAB Interrupt Level Select Register
- *
+ * MDAB Interrupt Level Select Register
  * This register is used to configure the MDAB interrupts to the DSP cores.
  */
 union cavm_mdabx_int_sel
@@ -2787,19 +2188,13 @@ union cavm_mdabx_int_sel
                                                                  0 = LEVEL 1 Interrupt.
                                                                  1 = LEVEL 2 Interrupt.
                                                                  NOTE: To ensure correct generation of outstanding interrupts, this bit MUST be programmed
-                                                                 prior to initial configuration of the interrupt enable register.
-
-                                                                 Internal:
-                                                                 This bit in F95 control the level of interrupt reported - level 1 or level 2. */
+                                                                 prior to initial configuration of the interrupt enable register. */
 #else /* Word 0 - Little Endian */
         uint32_t int_rout_sel          : 1;  /**< [  0:  0](R/W) Selects interrupt routing for MDAB()_INT_SUM interrupts.
                                                                  0 = LEVEL 1 Interrupt.
                                                                  1 = LEVEL 2 Interrupt.
                                                                  NOTE: To ensure correct generation of outstanding interrupts, this bit MUST be programmed
-                                                                 prior to initial configuration of the interrupt enable register.
-
-                                                                 Internal:
-                                                                 This bit in F95 control the level of interrupt reported - level 1 or level 2. */
+                                                                 prior to initial configuration of the interrupt enable register. */
         uint32_t dma_int_trig_style    : 1;  /**< [  1:  1](R/W) Determines whether interrupts reported via MDAB_INT_SUM are level or
                                                                  edge triggered:
                                                                  0 = Level-sensitive.
@@ -2820,74 +2215,7 @@ union cavm_mdabx_int_sel
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_int_sel_s cn10; */
-    /* struct cavm_mdabx_int_sel_s cnf10ka; */
-    struct cavm_mdabx_int_sel_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t rout_err_int_sel      : 1;  /**< [  3:  3](R/W) Reserved. must be 0.
-                                                                 Internal:
-                                                                 Determines whether ERR_INT interrupts are routed to NMI or DSP INT 5.
-                                                                 0 = NMI
-                                                                 1 = DSP Interrupt 5 */
-        uint32_t ld_lcl_trig_style     : 1;  /**< [  2:  2](R/W) Reserved. must be 0.
-                                                                 Internal:
-                                                                 Determines whether load local start/finish interrupts are level or
-                                                                 edge triggered:
-                                                                 0 = Level-sensitive.
-                                                                 1 = Edge-triggered.
-                                                                 NOTE: To ensure correct generation of outstanding interrupts, this bit MUST be programmed
-                                                                 prior to initial configuration of the interrupt enable register. */
-        uint32_t dma_int_trig_style    : 1;  /**< [  1:  1](R/W) Reserved. Must be 0.
-                                                                 Internal:
-                                                                 Determines whether interrupts reported via MDAB_INT_SUM are level or
-                                                                 edge triggered:
-                                                                 0 = Level-sensitive.
-                                                                 1 = Edge-triggered.
-                                                                 NOTE: To ensure correct generation of outstanding interrupts, this bit MUST be programmed
-                                                                 prior to initial configuration of the interrupt enable register. */
-        uint32_t int_rout_sel          : 1;  /**< [  0:  0](R/W) Selects interrupt routing for MDAB()_INT_SUM interrupts.
-                                                                 0 = LEVEL 1 Interrupt.
-                                                                 1 = LEVEL 2 Interrupt.
-                                                                 NOTE: To ensure correct generation of outstanding interrupts, this bit MUST be programmed
-                                                                 prior to initial configuration of the interrupt enable register.
-
-                                                                 Internal:
-                                                                 This bit in F95 control the level of interrupt reported - level 1 or level 2. */
-#else /* Word 0 - Little Endian */
-        uint32_t int_rout_sel          : 1;  /**< [  0:  0](R/W) Selects interrupt routing for MDAB()_INT_SUM interrupts.
-                                                                 0 = LEVEL 1 Interrupt.
-                                                                 1 = LEVEL 2 Interrupt.
-                                                                 NOTE: To ensure correct generation of outstanding interrupts, this bit MUST be programmed
-                                                                 prior to initial configuration of the interrupt enable register.
-
-                                                                 Internal:
-                                                                 This bit in F95 control the level of interrupt reported - level 1 or level 2. */
-        uint32_t dma_int_trig_style    : 1;  /**< [  1:  1](R/W) Reserved. Must be 0.
-                                                                 Internal:
-                                                                 Determines whether interrupts reported via MDAB_INT_SUM are level or
-                                                                 edge triggered:
-                                                                 0 = Level-sensitive.
-                                                                 1 = Edge-triggered.
-                                                                 NOTE: To ensure correct generation of outstanding interrupts, this bit MUST be programmed
-                                                                 prior to initial configuration of the interrupt enable register. */
-        uint32_t ld_lcl_trig_style     : 1;  /**< [  2:  2](R/W) Reserved. must be 0.
-                                                                 Internal:
-                                                                 Determines whether load local start/finish interrupts are level or
-                                                                 edge triggered:
-                                                                 0 = Level-sensitive.
-                                                                 1 = Edge-triggered.
-                                                                 NOTE: To ensure correct generation of outstanding interrupts, this bit MUST be programmed
-                                                                 prior to initial configuration of the interrupt enable register. */
-        uint32_t rout_err_int_sel      : 1;  /**< [  3:  3](R/W) Reserved. must be 0.
-                                                                 Internal:
-                                                                 Determines whether ERR_INT interrupts are routed to NMI or DSP INT 5.
-                                                                 0 = NMI
-                                                                 1 = DSP Interrupt 5 */
-        uint32_t reserved_4_31         : 28;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_int_sel_s cn; */
 };
 typedef union cavm_mdabx_int_sel cavm_mdabx_int_sel_t;
 
@@ -2896,8 +2224,6 @@ static inline uint64_t CAVM_MDABX_INT_SEL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008190ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008190ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_INT_SEL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -3134,8 +2460,6 @@ typedef union cavm_mdabx_int_vec_addr cavm_mdabx_int_vec_addr_t;
 static inline uint64_t CAVM_MDABX_INT_VEC_ADDR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDABX_INT_VEC_ADDR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008ae0ll + 0x80000ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
         return 0x87e044008ae0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_INT_VEC_ADDR", 1, a, 0, 0, 0, 0, 0);
@@ -3463,55 +2787,13 @@ union cavm_mdabx_ipb_pfrange_max
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t prefetch_max          : 28; /**< [ 31:  4](R/W) The upper (max) address bound for Prefetch Range check. Value must be aligned to cache line size.
                                                                  Address must be within the SMEM address space. For more details see "IPB Prefetch
-                                                                 Range-Check" section.
-
-                                                                 Internal:
-                                                                 The upper (max) address bound within SMEM which is only compared against
-                                                                 the requested cache line address. Subsequent IPB prefetch addresses are not
-                                                                 compared. Margin must be included in the PREFETCH_MIN to PREFETCH_MAX
-                                                                 range to allow for prefetching beyond the requested cache line address.
-                                                                 See the following example. The SMEM total address range is [0x63FF_FFFF:0x6000_0000].
-                                                                 PREFETCH_RANGE is 0 (within configured PREFETCH_MIN and PREFETCH_MAX range):
-                                                                 margin =  (PREFETCH_SIZE + 1) * cache line size
-                                                                 PREFETCH_RANGE is 1 (outside configured PREFETCH_MIN and PREFETCH_MAX range):
-                                                                 margin = 0
-                                                                 F105 EXAMPLE:
-                                                                 Intended maximum SMEM boundary of 0x6000_8000 when PREFETCH_RANGE is 0,
-                                                                 PREFETCH_SIZE is 4, and cache line size is 8 (16B words).
-                                                                 intended maximum boundary - margin
-                                                                 0x6000_8000 - ((4 + 1) * 8) = 0x6000_7FD8 (value for PREFETCH_MAX)
-                                                                 F105N EXAMPLE:
-                                                                 Intended maximum SMEM boundary of 0x6000_8000 when PREFETCH_RANGE is 0,
-                                                                 PREFETCH_SIZE is 4, and cache line size is 2 (16B words).
-                                                                 intended maximum boundary - margin
-                                                                 0x6000_8000 - ((4 + 1) * 2) = 0x6000_7FF6 (value for PREFETCH_MAX) */
+                                                                 Range-Check" section. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t prefetch_max          : 28; /**< [ 31:  4](R/W) The upper (max) address bound for Prefetch Range check. Value must be aligned to cache line size.
                                                                  Address must be within the SMEM address space. For more details see "IPB Prefetch
-                                                                 Range-Check" section.
-
-                                                                 Internal:
-                                                                 The upper (max) address bound within SMEM which is only compared against
-                                                                 the requested cache line address. Subsequent IPB prefetch addresses are not
-                                                                 compared. Margin must be included in the PREFETCH_MIN to PREFETCH_MAX
-                                                                 range to allow for prefetching beyond the requested cache line address.
-                                                                 See the following example. The SMEM total address range is [0x63FF_FFFF:0x6000_0000].
-                                                                 PREFETCH_RANGE is 0 (within configured PREFETCH_MIN and PREFETCH_MAX range):
-                                                                 margin =  (PREFETCH_SIZE + 1) * cache line size
-                                                                 PREFETCH_RANGE is 1 (outside configured PREFETCH_MIN and PREFETCH_MAX range):
-                                                                 margin = 0
-                                                                 F105 EXAMPLE:
-                                                                 Intended maximum SMEM boundary of 0x6000_8000 when PREFETCH_RANGE is 0,
-                                                                 PREFETCH_SIZE is 4, and cache line size is 8 (16B words).
-                                                                 intended maximum boundary - margin
-                                                                 0x6000_8000 - ((4 + 1) * 8) = 0x6000_7FD8 (value for PREFETCH_MAX)
-                                                                 F105N EXAMPLE:
-                                                                 Intended maximum SMEM boundary of 0x6000_8000 when PREFETCH_RANGE is 0,
-                                                                 PREFETCH_SIZE is 4, and cache line size is 2 (16B words).
-                                                                 intended maximum boundary - margin
-                                                                 0x6000_8000 - ((4 + 1) * 2) = 0x6000_7FF6 (value for PREFETCH_MAX) */
+                                                                 Range-Check" section. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_ipb_pfrange_max_s cn; */
@@ -3548,28 +2830,7 @@ union cavm_mdabx_ipb_pfrange_min
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t prefetch_min          : 28; /**< [ 31:  4](R/W) The lower (min) address bound for prefetch range check. Value must be aligned to cache line size.
                                                                  Address must be within the SMEM address space. For more details see "IPB Prefetch
-                                                                 Range-Check" section.
-
-                                                                 Internal:
-                                                                 The lower (min) address bound within SMEM which is only compared against
-                                                                 the requested cache line address. Subsequent IPB prefetch addresses are not
-                                                                 compared. Margin must be included in the PREFETCH_MIN to PREFETCH_MAX
-                                                                 range to allow for prefetching beyond the requested cache line address.
-                                                                 See the following example. The SMEM total address range is [0x63FF_FFFF:0x6000_0000].
-                                                                 PREFETCH_RANGE is 0 (within configured PREFETCH_MIN and PREFETCH_MAX range):
-                                                                 margin = 0
-                                                                 PREFETCH_RANGE is 1 (outside configured PREFETCH_MIN and PREFETCH_MAX range):
-                                                                 margin = (PREFETCH_SIZE + 1) * cache line size
-                                                                 F105 EXAMPLE:
-                                                                 Intended minimum SMEM boundary of 0x6000_4000 when PREFETCH_RANGE is 1,
-                                                                 PREFETCH_SIZE is 4, and cache line size is 8 (16B words).
-                                                                 intended minimum boundary - margin
-                                                                 0x6000_4000 - ((4 + 1) * 8) = 0x6000_3FD8 (value for PREFETCH_MIN)
-                                                                 F105N EXAMPLE:
-                                                                 Intended minimum SMEM boundary of 0x6000_4000 when PREFETCH_RANGE is 1,
-                                                                 PREFETCH_SIZE is 4, and cache line size is 2 (16B words).
-                                                                 intended minimum boundary - margin
-                                                                 0x6000_4000 - ((4 + 1) * 2) = 0x6000_3FF6 (value for PREFETCH_MIN) */
+                                                                 Range-Check" section. */
         uint32_t reserved_1_3          : 3;
         uint32_t prefetch_range        : 1;  /**< [  0:  0](R/W) When RANGE=0(IN) - All I$ Miss addresses \>= MIN AND \<= MAX
                                                                  will generate the 'n' programmable PFETCHes.
@@ -3583,28 +2844,7 @@ union cavm_mdabx_ipb_pfrange_min
         uint32_t reserved_1_3          : 3;
         uint32_t prefetch_min          : 28; /**< [ 31:  4](R/W) The lower (min) address bound for prefetch range check. Value must be aligned to cache line size.
                                                                  Address must be within the SMEM address space. For more details see "IPB Prefetch
-                                                                 Range-Check" section.
-
-                                                                 Internal:
-                                                                 The lower (min) address bound within SMEM which is only compared against
-                                                                 the requested cache line address. Subsequent IPB prefetch addresses are not
-                                                                 compared. Margin must be included in the PREFETCH_MIN to PREFETCH_MAX
-                                                                 range to allow for prefetching beyond the requested cache line address.
-                                                                 See the following example. The SMEM total address range is [0x63FF_FFFF:0x6000_0000].
-                                                                 PREFETCH_RANGE is 0 (within configured PREFETCH_MIN and PREFETCH_MAX range):
-                                                                 margin = 0
-                                                                 PREFETCH_RANGE is 1 (outside configured PREFETCH_MIN and PREFETCH_MAX range):
-                                                                 margin = (PREFETCH_SIZE + 1) * cache line size
-                                                                 F105 EXAMPLE:
-                                                                 Intended minimum SMEM boundary of 0x6000_4000 when PREFETCH_RANGE is 1,
-                                                                 PREFETCH_SIZE is 4, and cache line size is 8 (16B words).
-                                                                 intended minimum boundary - margin
-                                                                 0x6000_4000 - ((4 + 1) * 8) = 0x6000_3FD8 (value for PREFETCH_MIN)
-                                                                 F105N EXAMPLE:
-                                                                 Intended minimum SMEM boundary of 0x6000_4000 when PREFETCH_RANGE is 1,
-                                                                 PREFETCH_SIZE is 4, and cache line size is 2 (16B words).
-                                                                 intended minimum boundary - margin
-                                                                 0x6000_4000 - ((4 + 1) * 2) = 0x6000_3FF6 (value for PREFETCH_MIN) */
+                                                                 Range-Check" section. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_ipb_pfrange_min_s cn; */
@@ -4030,8 +3270,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_SUM_W1S(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_c_init
  *
- * INTERNAL: MDAB LFSR Initial Value Shift Register
- *
+ * MDAB LFSR Initial Value Shift Register
  * Initial value for LFSR register 1 in the sequence generator.
  */
 union cavm_mdabx_lfsr_c_init
@@ -4056,8 +3295,6 @@ static inline uint64_t CAVM_MDABX_LFSR_C_INIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e10ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_C_INIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4071,7 +3308,7 @@ static inline uint64_t CAVM_MDABX_LFSR_C_INIT(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_cnt
  *
- * INTERNAL: MDAB LFSR Count Register
+ * MDAB LFSR Count Register
  */
 union cavm_mdabx_lfsr_cnt
 {
@@ -4090,20 +3327,7 @@ union cavm_mdabx_lfsr_cnt
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_lfsr_cnt_s cn10; */
-    /* struct cavm_mdabx_lfsr_cnt_s cnf10ka; */
-    struct cavm_mdabx_lfsr_cnt_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t task_cnt              : 8;  /**< [  7:  0](R/W) This Register sets the number of tasks finished before issuing co-processor done interrupt.
-                                                                 Software must not change this value while Co-processor is active else behaviour is unpredictable. */
-#else /* Word 0 - Little Endian */
-        uint32_t task_cnt              : 8;  /**< [  7:  0](R/W) This Register sets the number of tasks finished before issuing co-processor done interrupt.
-                                                                 Software must not change this value while Co-processor is active else behaviour is unpredictable. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_lfsr_cnt_s cn; */
 };
 typedef union cavm_mdabx_lfsr_cnt cavm_mdabx_lfsr_cnt_t;
 
@@ -4112,8 +3336,6 @@ static inline uint64_t CAVM_MDABX_LFSR_CNT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e50ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e50ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_CNT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4127,7 +3349,7 @@ static inline uint64_t CAVM_MDABX_LFSR_CNT(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_ctrl
  *
- * INTERNAL: MDAB LFSR Control Register
+ * MDAB LFSR Control Register
  */
 union cavm_mdabx_lfsr_ctrl
 {
@@ -4153,8 +3375,6 @@ static inline uint64_t CAVM_MDABX_LFSR_CTRL(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e40ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e40ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4168,7 +3388,7 @@ static inline uint64_t CAVM_MDABX_LFSR_CTRL(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_j_stt
  *
- * INTERNAL: MDAB LFSR Job Status Register
+ * MDAB LFSR Job Status Register
  */
 union cavm_mdabx_lfsr_j_stt
 {
@@ -4194,8 +3414,6 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e70ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e70ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4209,8 +3427,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_j_stt_c_init
  *
- * INTERNAL: MDAB LFSR Initial Value Shift Register
- *
+ * MDAB LFSR Initial Value Shift Register
  * Initial value for LFSR reg 1 for the current job.
  */
 union cavm_mdabx_lfsr_j_stt_c_init
@@ -4235,8 +3452,6 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_C_INIT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e90ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e90ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT_C_INIT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4250,8 +3465,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_C_INIT(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_j_stt_lngth
  *
- * INTERNAL: MDAB LFSR Length Register
- *
+ * MDAB LFSR Length Register
  * Number of 16b flits to generate for the current task.
  */
 union cavm_mdabx_lfsr_j_stt_lngth
@@ -4276,8 +3490,6 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_LNGTH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008eb0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008eb0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT_LNGTH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4291,8 +3503,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_LNGTH(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_j_stt_shft
  *
- * INTERNAL: MDAB LFSR Initial Shift Register
- *
+ * MDAB LFSR Initial Shift Register
  * Initial LFSR shift for the current task.
  */
 union cavm_mdabx_lfsr_j_stt_shft
@@ -4317,8 +3528,6 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_SHFT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ea0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008ea0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT_SHFT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4332,8 +3541,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_SHFT(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_j_stt_taddr
  *
- * INTERNAL: MDAB LFSR Target Address Register
- *
+ * MDAB LFSR Target Address Register
  * This register contains the target address of the current job for the LFSR coprocessor.
  */
 union cavm_mdabx_lfsr_j_stt_taddr
@@ -4358,8 +3566,6 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_TADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e80ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e80ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_J_STT_TADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4373,8 +3579,7 @@ static inline uint64_t CAVM_MDABX_LFSR_J_STT_TADDR(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_lngth
  *
- * INTERNAL: MDAB LFSR Length Register
- *
+ * MDAB LFSR Length Register
  * Number of 16b flits to generate.
  */
 union cavm_mdabx_lfsr_lngth
@@ -4399,8 +3604,6 @@ static inline uint64_t CAVM_MDABX_LFSR_LNGTH(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e30ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e30ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_LNGTH", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4414,7 +3617,7 @@ static inline uint64_t CAVM_MDABX_LFSR_LNGTH(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_q_stt
  *
- * INTERNAL: MDAB LFSR Queue Status Register
+ * MDAB LFSR Queue Status Register
  */
 union cavm_mdabx_lfsr_q_stt
 {
@@ -4440,8 +3643,6 @@ static inline uint64_t CAVM_MDABX_LFSR_Q_STT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e60ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e60ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_Q_STT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4455,7 +3656,7 @@ static inline uint64_t CAVM_MDABX_LFSR_Q_STT(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_shft
  *
- * INTERNAL: MDAB LFSR Initial Shift Register
+ * MDAB LFSR Initial Shift Register
  */
 union cavm_mdabx_lfsr_shft
 {
@@ -4479,8 +3680,6 @@ static inline uint64_t CAVM_MDABX_LFSR_SHFT(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e20ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e20ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_SHFT", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4494,8 +3693,7 @@ static inline uint64_t CAVM_MDABX_LFSR_SHFT(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_lfsr_taddr
  *
- * INTERNAL: MDAB LFSR Target Address Register
- *
+ * MDAB LFSR Target Address Register
  * This register contains the target address of the LFSR coprocessor.
  */
 union cavm_mdabx_lfsr_taddr
@@ -4521,22 +3719,7 @@ union cavm_mdabx_lfsr_taddr
                                                                  CSR should be written after the other LFSR configuration CSRs. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_lfsr_taddr_s cn10; */
-    /* struct cavm_mdabx_lfsr_taddr_s cnf10ka; */
-    struct cavm_mdabx_lfsr_taddr_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
-                                                                 to store its output data. Bits 3..0 of this register are zeroed to force the
-                                                                 addess to be 128bit aligned. */
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
-                                                                 to store its output data. Bits 3..0 of this register are zeroed to force the
-                                                                 addess to be 128bit aligned. */
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_lfsr_taddr_s cn; */
 };
 typedef union cavm_mdabx_lfsr_taddr cavm_mdabx_lfsr_taddr_t;
 
@@ -4545,8 +3728,6 @@ static inline uint64_t CAVM_MDABX_LFSR_TADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008e00ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008e00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_LFSR_TADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4560,9 +3741,8 @@ static inline uint64_t CAVM_MDABX_LFSR_TADDR(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pfault_info_hi
  *
- * INTERNAL: MDAB Processor Debug Register
- *
- * Reserved.
+ * MDAB Processor Debug Register
+ * This register contains the status of the PFaultInfo bus[63:32].
  */
 union cavm_mdabx_pfault_info_hi
 {
@@ -4579,16 +3759,7 @@ union cavm_mdabx_pfault_info_hi
                                                                  captured to this register. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_pfault_info_hi_s cn10; */
-    /* struct cavm_mdabx_pfault_info_hi_s cnf10ka; */
-    struct cavm_mdabx_pfault_info_hi_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pfaultinfo_hi         : 32; /**< [ 31:  0](RO/H) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint32_t pfaultinfo_hi         : 32; /**< [ 31:  0](RO/H) Reserved. */
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_pfault_info_hi_s cn; */
 };
 typedef union cavm_mdabx_pfault_info_hi cavm_mdabx_pfault_info_hi_t;
 
@@ -4597,8 +3768,6 @@ static inline uint64_t CAVM_MDABX_PFAULT_INFO_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ed0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008ed0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFAULT_INFO_HI", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4612,9 +3781,8 @@ static inline uint64_t CAVM_MDABX_PFAULT_INFO_HI(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pfault_info_lo
  *
- * INTERNAL: MDAB Processor Debug Register
- *
- * Reserved.
+ * MDAB Processor Debug Register
+ * This register contains the status of the PFaultInfo bus.
  */
 union cavm_mdabx_pfault_info_lo
 {
@@ -4631,16 +3799,7 @@ union cavm_mdabx_pfault_info_lo
                                                                  captured to this register. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_pfault_info_lo_s cn10; */
-    /* struct cavm_mdabx_pfault_info_lo_s cnf10ka; */
-    struct cavm_mdabx_pfault_info_lo_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pfaultinfo_lo         : 32; /**< [ 31:  0](RO/H) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint32_t pfaultinfo_lo         : 32; /**< [ 31:  0](RO/H) Reserved. */
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_pfault_info_lo_s cn; */
 };
 typedef union cavm_mdabx_pfault_info_lo cavm_mdabx_pfault_info_lo_t;
 
@@ -4649,8 +3808,6 @@ static inline uint64_t CAVM_MDABX_PFAULT_INFO_LO(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ec0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008ec0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFAULT_INFO_LO", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4662,74 +3819,9 @@ static inline uint64_t CAVM_MDABX_PFAULT_INFO_LO(uint64_t a)
 #define arguments_CAVM_MDABX_PFAULT_INFO_LO(a) (a),-1,-1,-1
 
 /**
- * Register (MULTIRSL32b) mdab#_pfio_ctl
- *
- * INTERNAL: MDAB PFIO Control Register
- *
- * PFI and PFO control.
- */
-union cavm_mdabx_pfio_ctl
-{
-    uint32_t u;
-    struct cavm_mdabx_pfio_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_10_31        : 22;
-        uint32_t pfo_rd_dswap          : 3;  /**< [  9:  7](R/W) Determines the swap data field on PFO read requests to system memory (not SMEM).
-                                                                 0x0: no swapping.
-                                                                 0x1: byte swapping (0x0123456789abcdef -\> 0xefcdab8967452301).
-                                                                 0x2: 16-bit swapping (0x0123456789abcdef -\> 0xcdef89ab45670123).
-                                                                 0x3: 32-bit swapping (0x0123456789abcdef -\> 0x89abcdef01234567).
-                                                                 0x4-0x7: Reserved. */
-        uint32_t pfo_wr_dswap          : 3;  /**< [  6:  4](R/W) Determines the swap data field on PFO write requests to system memory (not SMEM).
-                                                                 0x0: no swapping.
-                                                                 0x1: byte swapping (0x0123456789abcdef -\> 0xefcdab8967452301).
-                                                                 0x2: 16-bit swapping (0x0123456789abcdef -\> 0xcdef89ab45670123).
-                                                                 0x3: 32-bit swapping (0x0123456789abcdef -\> 0x89abcdef01234567).
-                                                                 0x4-0x7: Reserved. */
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t pfo_wr_dswap          : 3;  /**< [  6:  4](R/W) Determines the swap data field on PFO write requests to system memory (not SMEM).
-                                                                 0x0: no swapping.
-                                                                 0x1: byte swapping (0x0123456789abcdef -\> 0xefcdab8967452301).
-                                                                 0x2: 16-bit swapping (0x0123456789abcdef -\> 0xcdef89ab45670123).
-                                                                 0x3: 32-bit swapping (0x0123456789abcdef -\> 0x89abcdef01234567).
-                                                                 0x4-0x7: Reserved. */
-        uint32_t pfo_rd_dswap          : 3;  /**< [  9:  7](R/W) Determines the swap data field on PFO read requests to system memory (not SMEM).
-                                                                 0x0: no swapping.
-                                                                 0x1: byte swapping (0x0123456789abcdef -\> 0xefcdab8967452301).
-                                                                 0x2: 16-bit swapping (0x0123456789abcdef -\> 0xcdef89ab45670123).
-                                                                 0x3: 32-bit swapping (0x0123456789abcdef -\> 0x89abcdef01234567).
-                                                                 0x4-0x7: Reserved. */
-        uint32_t reserved_10_31        : 22;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_pfio_ctl_s cn; */
-};
-typedef union cavm_mdabx_pfio_ctl cavm_mdabx_pfio_ctl_t;
-
-static inline uint64_t CAVM_MDABX_PFIO_CTL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MDABX_PFIO_CTL(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008330ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008330ll + 0x80000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("MDABX_PFIO_CTL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MDABX_PFIO_CTL(a) cavm_mdabx_pfio_ctl_t
-#define bustype_CAVM_MDABX_PFIO_CTL(a) CSR_TYPE_MULTIRSL32b
-#define basename_CAVM_MDABX_PFIO_CTL(a) "MDABX_PFIO_CTL"
-#define device_bar_CAVM_MDABX_PFIO_CTL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MDABX_PFIO_CTL(a) (a)
-#define arguments_CAVM_MDABX_PFIO_CTL(a) (a),-1,-1,-1
-
-/**
  * Register (MULTIRSL32b) mdab#_pflt_block_num
  *
- * INTERNAL: PMEM Filter Block Number Register
+ * PMEM Filter Block Number Register
  */
 union cavm_mdabx_pflt_block_num
 {
@@ -4761,8 +3853,6 @@ static inline uint64_t CAVM_MDABX_PFLT_BLOCK_NUM(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d50ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d50ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_BLOCK_NUM", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4776,7 +3866,7 @@ static inline uint64_t CAVM_MDABX_PFLT_BLOCK_NUM(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_buffer_xfr_sts
  *
- * INTERNAL: PMEM Filter Buffer Transfer Status Register
+ * PMEM Filter Buffer Transfer Status Register
  */
 union cavm_mdabx_pflt_buffer_xfr_sts
 {
@@ -4797,24 +3887,7 @@ union cavm_mdabx_pflt_buffer_xfr_sts
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_pflt_buffer_xfr_sts_s cn10; */
-    /* struct cavm_mdabx_pflt_buffer_xfr_sts_s cnf10ka; */
-    struct cavm_mdabx_pflt_buffer_xfr_sts_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_25_31        : 7;
-        uint32_t buffer_xfr_cnt        : 25; /**< [ 24:  0](RO/H) Internal buffer input transfer count (one per clock cycle) for filter mode
-                                                                 while MDAB()_PFLT_RUN[RUN]s enabled. Counter is cleared at the start of
-                                                                 each job when MDAB()_PFLT_RUN[RUN] transitions from 0 to 1. Only Hrs data
-                                                                 is included in this count. */
-#else /* Word 0 - Little Endian */
-        uint32_t buffer_xfr_cnt        : 25; /**< [ 24:  0](RO/H) Internal buffer input transfer count (one per clock cycle) for filter mode
-                                                                 while MDAB()_PFLT_RUN[RUN]s enabled. Counter is cleared at the start of
-                                                                 each job when MDAB()_PFLT_RUN[RUN] transitions from 0 to 1. Only Hrs data
-                                                                 is included in this count. */
-        uint32_t reserved_25_31        : 7;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_pflt_buffer_xfr_sts_s cn; */
 };
 typedef union cavm_mdabx_pflt_buffer_xfr_sts cavm_mdabx_pflt_buffer_xfr_sts_t;
 
@@ -4823,8 +3896,6 @@ static inline uint64_t CAVM_MDABX_PFLT_BUFFER_XFR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008dc0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008dc0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_BUFFER_XFR_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4838,8 +3909,7 @@ static inline uint64_t CAVM_MDABX_PFLT_BUFFER_XFR_STS(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_first_block_size
  *
- * INTERNAL: PMEM Filter First Block Size Register
- *
+ * PMEM Filter First Block Size Register
  * First block sizes.
  */
 union cavm_mdabx_pflt_first_block_size
@@ -4876,8 +3946,6 @@ static inline uint64_t CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d20ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d20ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_FIRST_BLOCK_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4891,7 +3959,7 @@ static inline uint64_t CAVM_MDABX_PFLT_FIRST_BLOCK_SIZE(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_input_xfr_sts
  *
- * INTERNAL: PMEM Filter Input Transfer Status Register
+ * PMEM Filter Input Transfer Status Register
  */
 union cavm_mdabx_pflt_input_xfr_sts
 {
@@ -4910,22 +3978,7 @@ union cavm_mdabx_pflt_input_xfr_sts
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_pflt_input_xfr_sts_s cn10; */
-    /* struct cavm_mdabx_pflt_input_xfr_sts_s cnf10ka; */
-    struct cavm_mdabx_pflt_input_xfr_sts_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_25_31        : 7;
-        uint32_t input_xfr_cnt         : 25; /**< [ 24:  0](RO/H) Input interface 128 bit transfer count for filter mode while
-                                                                 MDAB()_PFLT_RUN[RUN] is enabled.  Counter is cleared at the start of each
-                                                                 job whenMDAB()_PFLT_RUN[RUN]N transitions from 0 to 1. */
-#else /* Word 0 - Little Endian */
-        uint32_t input_xfr_cnt         : 25; /**< [ 24:  0](RO/H) Input interface 128 bit transfer count for filter mode while
-                                                                 MDAB()_PFLT_RUN[RUN] is enabled.  Counter is cleared at the start of each
-                                                                 job whenMDAB()_PFLT_RUN[RUN]N transitions from 0 to 1. */
-        uint32_t reserved_25_31        : 7;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_pflt_input_xfr_sts_s cn; */
 };
 typedef union cavm_mdabx_pflt_input_xfr_sts cavm_mdabx_pflt_input_xfr_sts_t;
 
@@ -4934,8 +3987,6 @@ static inline uint64_t CAVM_MDABX_PFLT_INPUT_XFR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008db0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008db0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_INPUT_XFR_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4949,8 +4000,7 @@ static inline uint64_t CAVM_MDABX_PFLT_INPUT_XFR_STS(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_last_block_size
  *
- * INTERNAL: PMEM Filter Last Block Size Register
- *
+ * PMEM Filter Last Block Size Register
  * Last block sizes.
  */
 union cavm_mdabx_pflt_last_block_size
@@ -4983,8 +4033,6 @@ static inline uint64_t CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d40ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d40ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_LAST_BLOCK_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -4998,8 +4046,7 @@ static inline uint64_t CAVM_MDABX_PFLT_LAST_BLOCK_SIZE(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_mid_block_size
  *
- * INTERNAL: PMEM Filter Mid Block Size Register
- *
+ * PMEM Filter Mid Block Size Register
  * Mid block sizes.
  */
 union cavm_mdabx_pflt_mid_block_size
@@ -5028,8 +4075,6 @@ static inline uint64_t CAVM_MDABX_PFLT_MID_BLOCK_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d30ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d30ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_MID_BLOCK_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5043,7 +4088,7 @@ static inline uint64_t CAVM_MDABX_PFLT_MID_BLOCK_SIZE(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_output_xfr_sts
  *
- * INTERNAL: PMEM Filter Output Transfer Status Register
+ * PMEM Filter Output Transfer Status Register
  */
 union cavm_mdabx_pflt_output_xfr_sts
 {
@@ -5071,8 +4116,6 @@ static inline uint64_t CAVM_MDABX_PFLT_OUTPUT_XFR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008dd0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008dd0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_OUTPUT_XFR_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5086,7 +4129,7 @@ static inline uint64_t CAVM_MDABX_PFLT_OUTPUT_XFR_STS(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_pmem_addr_sts
  *
- * INTERNAL: PMEM Filter PMEM Address Status Register
+ * PMEM Filter PMEM Address Status Register
  */
 union cavm_mdabx_pflt_pmem_addr_sts
 {
@@ -5112,8 +4155,6 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_ADDR_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008df0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008df0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_PMEM_ADDR_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5127,8 +4168,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_ADDR_STS(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_pmem_position
  *
- * INTERNAL: PMEM Filter PMEM Position Register
- *
+ * PMEM Filter PMEM Position Register
  * PMEM data position configuration.
  */
 union cavm_mdabx_pflt_pmem_position
@@ -5154,32 +4194,7 @@ union cavm_mdabx_pflt_pmem_position
         uint32_t reserved_2_31         : 30;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_pflt_pmem_position_s cn10; */
-    /* struct cavm_mdabx_pflt_pmem_position_s cnf10ka; */
-    struct cavm_mdabx_pflt_pmem_position_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_2_31         : 30;
-        uint32_t pmem_job_column       : 2;  /**< [  1:  0](R/W) Indicates job column position for writing data into PMEM
-                                                                 within a 256 bit boundary (2 column options) or 512 bit
-                                                                 boundary (2 or 4 column options) in PMEM. Column position 0
-                                                                 is aligned to the least significant bit position for the
-                                                                 configured MDAB_PFLT_PMEM_START_ADDR. Other job positions
-                                                                 are relative to 0.
-                                                                 Valid values for jobs with 2 column options: 0x0, 0x1.
-                                                                 Valid values for jobs with 4 column options: 0x0, 0x1, 0x2, 0x3. */
-#else /* Word 0 - Little Endian */
-        uint32_t pmem_job_column       : 2;  /**< [  1:  0](R/W) Indicates job column position for writing data into PMEM
-                                                                 within a 256 bit boundary (2 column options) or 512 bit
-                                                                 boundary (2 or 4 column options) in PMEM. Column position 0
-                                                                 is aligned to the least significant bit position for the
-                                                                 configured MDAB_PFLT_PMEM_START_ADDR. Other job positions
-                                                                 are relative to 0.
-                                                                 Valid values for jobs with 2 column options: 0x0, 0x1.
-                                                                 Valid values for jobs with 4 column options: 0x0, 0x1, 0x2, 0x3. */
-        uint32_t reserved_2_31         : 30;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_pflt_pmem_position_s cn; */
 };
 typedef union cavm_mdabx_pflt_pmem_position cavm_mdabx_pflt_pmem_position_t;
 
@@ -5188,8 +4203,6 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_POSITION(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d80ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d80ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_PMEM_POSITION", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5203,8 +4216,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_POSITION(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_pmem_start_addr
  *
- * INTERNAL: PMEM Filter PMEM Address Register
- *
+ * PMEM Filter PMEM Address Register
  * PMEM start address configuration.
  */
 union cavm_mdabx_pflt_pmem_start_addr
@@ -5237,8 +4249,6 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_START_ADDR(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d60ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d60ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_PMEM_START_ADDR", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5252,8 +4262,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_START_ADDR(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_pmem_stride
  *
- * INTERNAL: PMEM Filter PMEM Stride Register
- *
+ * PMEM Filter PMEM Stride Register
  * PMEM layer stride configuration.
  */
 union cavm_mdabx_pflt_pmem_stride
@@ -5282,8 +4291,6 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_STRIDE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d70ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d70ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_PMEM_STRIDE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5297,8 +4304,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PMEM_STRIDE(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_pre_block_size
  *
- * INTERNAL: PMEM Filter Pre Block Size Register
- *
+ * PMEM Filter Pre Block Size Register
  * Pre Hrs block size.
  */
 union cavm_mdabx_pflt_pre_block_size
@@ -5323,8 +4329,6 @@ static inline uint64_t CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d10ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d10ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_PRE_BLOCK_SIZE", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5338,7 +4342,7 @@ static inline uint64_t CAVM_MDABX_PFLT_PRE_BLOCK_SIZE(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_rs_cfg
  *
- * INTERNAL: PMEM Filter Reference Signal Configuration Register
+ * PMEM Filter Reference Signal Configuration Register
  */
 union cavm_mdabx_pflt_rs_cfg
 {
@@ -5397,62 +4401,7 @@ union cavm_mdabx_pflt_rs_cfg
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_pflt_rs_cfg_s cn10; */
-    /* struct cavm_mdabx_pflt_rs_cfg_s cnf10ka; */
-    struct cavm_mdabx_pflt_rs_cfg_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t start_re_index        : 2;  /**< [ 25: 24](R/W) Starting index within a Resource Block for selecting Resource Elements to keep:
-                                                                 0x0: valid for sparsity 0.25 and 0.5.
-                                                                 0x1: valid for sparsity 0.25 and 0.5.
-                                                                 0x2: valid for sparsity 0.25.
-                                                                 0x3: valid for sparsity 0.25. */
-        uint32_t reserved_18_23        : 6;
-        uint32_t sparsity              : 2;  /**< [ 17: 16](R/W) Encoded fraction of Resource Elements per Resource Block to keep after filtering:
-                                                                 0x0: keep all Resource Elements (sparsity = 1).
-                                                                 0x1: keep every 2 Resource Elements (sparsity = 0.5).
-                                                                 0x2: keep every 4 Resource Elements (sparsity = 0.25).
-                                                                 0x3: reserved. */
-        uint32_t reserved_10_15        : 6;
-        uint32_t layers                : 2;  /**< [  9:  8](R/W) Encoded number of antenna layers:
-                                                                 0x0: 1 layers (all antenna counts).
-                                                                 0x1: 2 layers (all antenna counts).
-                                                                 0x2: 4 layers (4, 8, 16 antennas only).
-                                                                 0x3: 8 layers (16 antennas only). */
-        uint32_t reserved_2_7          : 6;
-        uint32_t antennas              : 2;  /**< [  1:  0](R/W) Encoded number of antennas:
-                                                                 0x0: 2  antennas.
-                                                                 0x1: 4  antennas.
-                                                                 0x2: 8  antennas.
-                                                                 0x3: 16 antennas. */
-#else /* Word 0 - Little Endian */
-        uint32_t antennas              : 2;  /**< [  1:  0](R/W) Encoded number of antennas:
-                                                                 0x0: 2  antennas.
-                                                                 0x1: 4  antennas.
-                                                                 0x2: 8  antennas.
-                                                                 0x3: 16 antennas. */
-        uint32_t reserved_2_7          : 6;
-        uint32_t layers                : 2;  /**< [  9:  8](R/W) Encoded number of antenna layers:
-                                                                 0x0: 1 layers (all antenna counts).
-                                                                 0x1: 2 layers (all antenna counts).
-                                                                 0x2: 4 layers (4, 8, 16 antennas only).
-                                                                 0x3: 8 layers (16 antennas only). */
-        uint32_t reserved_10_15        : 6;
-        uint32_t sparsity              : 2;  /**< [ 17: 16](R/W) Encoded fraction of Resource Elements per Resource Block to keep after filtering:
-                                                                 0x0: keep all Resource Elements (sparsity = 1).
-                                                                 0x1: keep every 2 Resource Elements (sparsity = 0.5).
-                                                                 0x2: keep every 4 Resource Elements (sparsity = 0.25).
-                                                                 0x3: reserved. */
-        uint32_t reserved_18_23        : 6;
-        uint32_t start_re_index        : 2;  /**< [ 25: 24](R/W) Starting index within a Resource Block for selecting Resource Elements to keep:
-                                                                 0x0: valid for sparsity 0.25 and 0.5.
-                                                                 0x1: valid for sparsity 0.25 and 0.5.
-                                                                 0x2: valid for sparsity 0.25.
-                                                                 0x3: valid for sparsity 0.25. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_pflt_rs_cfg_s cn; */
 };
 typedef union cavm_mdabx_pflt_rs_cfg cavm_mdabx_pflt_rs_cfg_t;
 
@@ -5461,8 +4410,6 @@ static inline uint64_t CAVM_MDABX_PFLT_RS_CFG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d00ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d00ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_RS_CFG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5476,7 +4423,7 @@ static inline uint64_t CAVM_MDABX_PFLT_RS_CFG(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_run
  *
- * INTERNAL: PMEM Filter Run Control Register
+ * PMEM Filter Run Control Register
  */
 union cavm_mdabx_pflt_run
 {
@@ -5503,30 +4450,7 @@ union cavm_mdabx_pflt_run
         uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_pflt_run_s cn10; */
-    /* struct cavm_mdabx_pflt_run_s cnf10ka; */
-    struct cavm_mdabx_pflt_run_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t run                   : 1;  /**< [  0:  0](R/W/H) When written from 0 to 1, filter mode is enabled and the internal
-                                                                 state of PMEM Filter is cleared and initialized for a new job based upon
-                                                                 configuration. Note that all PMEM Filter configuration must be written
-                                                                 before this bit is set and must not be changed until after the filter
-                                                                 job has completed. This bit is automatically cleared by hardware when the
-                                                                 filter job completes. Writing this bit from 1 to 0 after a RD DMA has
-                                                                 started is forbidden since it will result in unpredictable behavior. */
-#else /* Word 0 - Little Endian */
-        uint32_t run                   : 1;  /**< [  0:  0](R/W/H) When written from 0 to 1, filter mode is enabled and the internal
-                                                                 state of PMEM Filter is cleared and initialized for a new job based upon
-                                                                 configuration. Note that all PMEM Filter configuration must be written
-                                                                 before this bit is set and must not be changed until after the filter
-                                                                 job has completed. This bit is automatically cleared by hardware when the
-                                                                 filter job completes. Writing this bit from 1 to 0 after a RD DMA has
-                                                                 started is forbidden since it will result in unpredictable behavior. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_pflt_run_s cn; */
 };
 typedef union cavm_mdabx_pflt_run cavm_mdabx_pflt_run_t;
 
@@ -5535,8 +4459,6 @@ static inline uint64_t CAVM_MDABX_PFLT_RUN(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008d90ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008d90ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_RUN", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5550,7 +4472,7 @@ static inline uint64_t CAVM_MDABX_PFLT_RUN(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_state_sts
  *
- * INTERNAL: PMEM Filter State Status Register
+ * PMEM Filter State Status Register
  */
 union cavm_mdabx_pflt_state_sts
 {
@@ -5594,8 +4516,6 @@ static inline uint64_t CAVM_MDABX_PFLT_STATE_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008de0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008de0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_STATE_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5609,7 +4529,7 @@ static inline uint64_t CAVM_MDABX_PFLT_STATE_STS(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_pflt_sts
  *
- * INTERNAL: PMEM Filter Status Register
+ * PMEM Filter Status Register
  */
 union cavm_mdabx_pflt_sts
 {
@@ -5635,8 +4555,6 @@ static inline uint64_t CAVM_MDABX_PFLT_STS(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008da0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008da0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PFLT_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -5677,12 +4595,7 @@ union cavm_mdabx_proc_ctl
                                                                  this value +1 clocks. The minimum valid value is 15, which provides a count of
                                                                  16 clocks. This register provides
                                                                  a maximum count of 1024. */
-        uint32_t cya_ld_lcl_rst_rs_clr : 1;  /**< [  7:  7](R/W) This register contains backdoor cleanup state.
-                                                                 Internal:
-                                                                 When performing a load local with reset operation, if this bit is set
-                                                                 it will override the logic that holds reset and run_stall active until the slice with
-                                                                 last == 1 is completed.  This will result in reset and run_stall being deasserted after
-                                                                 each slice of a multislice ld_lcl_wrst operation. */
+        uint32_t cya_ld_lcl_rst_rs_clr : 1;  /**< [  7:  7](R/W) This register contains backdoor cleanup state. */
         uint32_t stlcl_stall           : 1;  /**< [  6:  6](R/W) Local stall bit.  During a ST_LCL transaction, if this
                                                                  bit is SET, the DAC hardware will assert the DSP RunStall input. If the bit
                                                                  is CLEAR, the DAC hardware will NOT assert the DSP RunStall input. */
@@ -5730,12 +4643,7 @@ union cavm_mdabx_proc_ctl
         uint32_t stlcl_stall           : 1;  /**< [  6:  6](R/W) Local stall bit.  During a ST_LCL transaction, if this
                                                                  bit is SET, the DAC hardware will assert the DSP RunStall input. If the bit
                                                                  is CLEAR, the DAC hardware will NOT assert the DSP RunStall input. */
-        uint32_t cya_ld_lcl_rst_rs_clr : 1;  /**< [  7:  7](R/W) This register contains backdoor cleanup state.
-                                                                 Internal:
-                                                                 When performing a load local with reset operation, if this bit is set
-                                                                 it will override the logic that holds reset and run_stall active until the slice with
-                                                                 last == 1 is completed.  This will result in reset and run_stall being deasserted after
-                                                                 each slice of a multislice ld_lcl_wrst operation. */
+        uint32_t cya_ld_lcl_rst_rs_clr : 1;  /**< [  7:  7](R/W) This register contains backdoor cleanup state. */
         uint32_t powersave_on_cnt      : 10; /**< [ 17:  8](R/W) This register provides the on (high) count for RUN_STALL powersaving mode. The
                                                                  RUN_STALL signal will be driven high for
                                                                  this value +1 clocks. The minimum valid value is 15, which provides a count of
@@ -5782,12 +4690,7 @@ union cavm_mdabx_proc_ctl
                                                                  this value +1 clocks. The minimum valid value is 15, which provides a count of
                                                                  16 clocks. This register provides
                                                                  a maximum count of 1024. */
-        uint32_t cya_ld_lcl_rst_rs_clr : 1;  /**< [  7:  7](R/W) This register contains backdoor cleanup state.
-                                                                 Internal:
-                                                                 When performing a load local with reset operation, if this bit is set
-                                                                 it will override the logic that holds reset and run_stall active until the slice with
-                                                                 last == 1 is completed.  This will result in reset and run_stall being deasserted after
-                                                                 each slice of a multislice ld_lcl_wrst operation. */
+        uint32_t cya_ld_lcl_rst_rs_clr : 1;  /**< [  7:  7](R/W) This register contains backdoor cleanup state. */
         uint32_t stlcl_stall           : 1;  /**< [  6:  6](R/W) Local stall bit.  During a ST_LCL transaction, if this
                                                                  bit is SET, the DAC hardware will assert the DSP RunStall input. If the bit
                                                                  is CLEAR, the DAC hardware will NOT assert the DSP RunStall input. */
@@ -5837,12 +4740,7 @@ union cavm_mdabx_proc_ctl
         uint32_t stlcl_stall           : 1;  /**< [  6:  6](R/W) Local stall bit.  During a ST_LCL transaction, if this
                                                                  bit is SET, the DAC hardware will assert the DSP RunStall input. If the bit
                                                                  is CLEAR, the DAC hardware will NOT assert the DSP RunStall input. */
-        uint32_t cya_ld_lcl_rst_rs_clr : 1;  /**< [  7:  7](R/W) This register contains backdoor cleanup state.
-                                                                 Internal:
-                                                                 When performing a load local with reset operation, if this bit is set
-                                                                 it will override the logic that holds reset and run_stall active until the slice with
-                                                                 last == 1 is completed.  This will result in reset and run_stall being deasserted after
-                                                                 each slice of a multislice ld_lcl_wrst operation. */
+        uint32_t cya_ld_lcl_rst_rs_clr : 1;  /**< [  7:  7](R/W) This register contains backdoor cleanup state. */
         uint32_t powersave_on_cnt      : 10; /**< [ 17:  8](R/W) This register provides the on (high) count for RUN_STALL powersaving mode. The
                                                                  RUN_STALL signal will be driven high for
                                                                  this value +1 clocks. The minimum valid value is 15, which provides a count of
@@ -5889,8 +4787,7 @@ static inline uint64_t CAVM_MDABX_PROC_CTL(uint64_t a)
 /**
  * Register (MULTIRSL32b) mdab#_proc_debug
  *
- * INTERNAL: MDAB Processor Debug Register
- *
+ * MDAB Processor Debug Register
  * This register contains iram data store and dram conditional store status bits.
  */
 union cavm_mdabx_proc_debug
@@ -5918,30 +4815,7 @@ union cavm_mdabx_proc_debug
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_proc_debug_s cn10; */
-    /* struct cavm_mdabx_proc_debug_s cnf10ka; */
-    struct cavm_mdabx_proc_debug_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t dblexccnt             : 8;  /**< [ 15:  8](R/W/H) DSP Double Exception Fault Counter. Counts the number double exceptions which
-                                                                 have occurred. write zeroes to clear. */
-        uint32_t pfatalerr             : 1;  /**< [  7:  7](RO/H) Reserved. */
-        uint32_t debugmode             : 1;  /**< [  6:  6](RO/H) Reserved. */
-        uint32_t iram1loadstore        : 1;  /**< [  5:  5](RO/H) Reserved. */
-        uint32_t iram0loadstore        : 1;  /**< [  4:  4](RO/H) Reserved. */
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t iram0loadstore        : 1;  /**< [  4:  4](RO/H) Reserved. */
-        uint32_t iram1loadstore        : 1;  /**< [  5:  5](RO/H) Reserved. */
-        uint32_t debugmode             : 1;  /**< [  6:  6](RO/H) Reserved. */
-        uint32_t pfatalerr             : 1;  /**< [  7:  7](RO/H) Reserved. */
-        uint32_t dblexccnt             : 8;  /**< [ 15:  8](R/W/H) DSP Double Exception Fault Counter. Counts the number double exceptions which
-                                                                 have occurred. write zeroes to clear. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_proc_debug_s cn; */
 };
 typedef union cavm_mdabx_proc_debug cavm_mdabx_proc_debug_t;
 
@@ -5950,8 +4824,6 @@ static inline uint64_t CAVM_MDABX_PROC_DEBUG(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
         return 0x87e044008ee0ll + 0x80000ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
-        return 0x87e044008ee0ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_PROC_DEBUG", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6281,24 +5153,14 @@ union cavm_mdabx_psm_timer_lo
                                                                  time.
 
                                                                  Software must read PSM_TIMER_LO first in order to capture the value of PSM_TIMER_HI for
-                                                                 reading.
-
-                                                                 Internal:
-                                                                 "These bits are generated by a local counter running in the BPHY Freq to allow finer
-                                                                 granularity of the BFN timer (in #of BPHY clock cycles). The PSM_LSB will be loaded with zero
-                                                                 on every new broadcast interval event. The CSR is also writeable to test overflow conditions." */
+                                                                 reading. */
 #else /* Word 0 - Little Endian */
         uint32_t timer_lsb             : 24; /**< [ 23:  0](R/W/H) Local timer that is incremented every BPHY clock cycle. This timer is reset every PSM timer
                                                                  broadcast, and together with the MDAB()_PSM_TIMER_HI[TIMER_HI\<15:0\>] provide an accurate BFN
                                                                  time.
 
                                                                  Software must read PSM_TIMER_LO first in order to capture the value of PSM_TIMER_HI for
-                                                                 reading.
-
-                                                                 Internal:
-                                                                 "These bits are generated by a local counter running in the BPHY Freq to allow finer
-                                                                 granularity of the BFN timer (in #of BPHY clock cycles). The PSM_LSB will be loaded with zero
-                                                                 on every new broadcast interval event. The CSR is also writeable to test overflow conditions." */
+                                                                 reading. */
         uint32_t timer_lo              : 8;  /**< [ 31: 24](RO/H) Reserved. */
 #endif /* Word 0 - End */
     } s;
@@ -6327,12 +5189,7 @@ union cavm_mdabx_psm_timer_lo
                                                                  \<pre\>
                                                                  PSM_TIMER\<63:24\> = { PSM_TIMER_HI[TIMER_HI]\<63:32\>, PSM_TIMER_LO[TIMER_LO]\<31:24\> }
                                                                  PSM_TIMER\<23:0\>  = PSM_TIMER_LO[TIMER_LSB]\<23:0\>
-                                                                 \</pre\>"
-
-                                                                 Internal:
-                                                                 "These bits are generated by a local counter running in the BPHY clock Freq to allow finer
-                                                                 granularity of the BCN timer (in #of BPHY clock cycles). The BCN_LSB will be loaded with zero
-                                                                 on every new broadcast interval event. The CSR is also writeable to test overflow conditions." */
+                                                                 \</pre\>" */
 #else /* Word 0 - Little Endian */
         uint32_t timer_lsb             : 24; /**< [ 23:  0](R/W/H) "Bits \<23:0\> of the BCN timer. The value is generated using a local timer which is reset on
                                                                  a PSM_TIMER broadcast, which happens every 10 milliseconds. The timer is incremented every
@@ -6353,12 +5210,7 @@ union cavm_mdabx_psm_timer_lo
                                                                  \<pre\>
                                                                  PSM_TIMER\<63:24\> = { PSM_TIMER_HI[TIMER_HI]\<63:32\>, PSM_TIMER_LO[TIMER_LO]\<31:24\> }
                                                                  PSM_TIMER\<23:0\>  = PSM_TIMER_LO[TIMER_LSB]\<23:0\>
-                                                                 \</pre\>"
-
-                                                                 Internal:
-                                                                 "These bits are generated by a local counter running in the BPHY clock Freq to allow finer
-                                                                 granularity of the BCN timer (in #of BPHY clock cycles). The BCN_LSB will be loaded with zero
-                                                                 on every new broadcast interval event. The CSR is also writeable to test overflow conditions." */
+                                                                 \</pre\>" */
         uint32_t timer_lo              : 8;  /**< [ 31: 24](RO/H) Bits \<31:24\> of the BCN timer value sent by the PSM. */
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -7284,7 +6136,7 @@ union cavm_mdabx_sec_int_int1_ena
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_17_31        : 15;
-        uint32_t lfsr_job_done         : 1;  /**< [ 16: 16](R/W) LFSR Job done */
+        uint32_t lfsr_job_done         : 1;  /**< [ 16: 16](R/W) Reserved. */
         uint32_t reserved_9_15         : 7;
         uint32_t cti_int               : 1;  /**< [  8:  8](R/W) If enabled, CTI_INT event is reported to DSP INT1. 0x1 - Enable, 0x0 - Disable. */
         uint32_t reserved_2_7          : 6;
@@ -7296,40 +6148,17 @@ union cavm_mdabx_sec_int_int1_ena
         uint32_t reserved_2_7          : 6;
         uint32_t cti_int               : 1;  /**< [  8:  8](R/W) If enabled, CTI_INT event is reported to DSP INT1. 0x1 - Enable, 0x0 - Disable. */
         uint32_t reserved_9_15         : 7;
-        uint32_t lfsr_job_done         : 1;  /**< [ 16: 16](R/W) LFSR Job done */
+        uint32_t lfsr_job_done         : 1;  /**< [ 16: 16](R/W) Reserved. */
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_sec_int_int1_ena_s cn10; */
-    /* struct cavm_mdabx_sec_int_int1_ena_s cnf10ka; */
-    struct cavm_mdabx_sec_int_int1_ena_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_17_31        : 15;
-        uint32_t lfsr_job_done         : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t cti_int               : 1;  /**< [  8:  8](R/W) If enabled, CTI_INT event is reported to DSP INT1. 0x1 - Enable, 0x0 - Disable. */
-        uint32_t reserved_2_7          : 6;
-        uint32_t qman_irq              : 1;  /**< [  1:  1](R/W) If enabled, QMAN_IRQ event is reported to DSP INT1. 0x1 - Enable, 0x0 - Disable. */
-        uint32_t sgi                   : 1;  /**< [  0:  0](R/W) If enabled, SGO event is reported to DSP INT1. 0x1 - Enable, 0x0 - Disable. */
-#else /* Word 0 - Little Endian */
-        uint32_t sgi                   : 1;  /**< [  0:  0](R/W) If enabled, SGO event is reported to DSP INT1. 0x1 - Enable, 0x0 - Disable. */
-        uint32_t qman_irq              : 1;  /**< [  1:  1](R/W) If enabled, QMAN_IRQ event is reported to DSP INT1. 0x1 - Enable, 0x0 - Disable. */
-        uint32_t reserved_2_7          : 6;
-        uint32_t cti_int               : 1;  /**< [  8:  8](R/W) If enabled, CTI_INT event is reported to DSP INT1. 0x1 - Enable, 0x0 - Disable. */
-        uint32_t reserved_9_15         : 7;
-        uint32_t lfsr_job_done         : 1;  /**< [ 16: 16](R/W) Reserved. */
-        uint32_t reserved_17_31        : 15;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_sec_int_int1_ena_s cn; */
 };
 typedef union cavm_mdabx_sec_int_int1_ena cavm_mdabx_sec_int_int1_ena_t;
 
 static inline uint64_t CAVM_MDABX_SEC_INT_INT1_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDABX_SEC_INT_INT1_ENA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008a40ll + 0x80000ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
         return 0x87e044008a40ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_SEC_INT_INT1_ENA", 1, a, 0, 0, 0, 0, 0);
@@ -7378,8 +6207,6 @@ typedef union cavm_mdabx_sec_int_intvec_ena cavm_mdabx_sec_int_intvec_ena_t;
 static inline uint64_t CAVM_MDABX_SEC_INT_INTVEC_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDABX_SEC_INT_INTVEC_ENA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008a50ll + 0x80000ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
         return 0x87e044008a50ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_SEC_INT_INTVEC_ENA", 1, a, 0, 0, 0, 0, 0);
@@ -7428,8 +6255,6 @@ typedef union cavm_mdabx_sec_int_nmi_ena cavm_mdabx_sec_int_nmi_ena_t;
 static inline uint64_t CAVM_MDABX_SEC_INT_NMI_ENA(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MDABX_SEC_INT_NMI_ENA(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=54) || ((a>=64)&&(a<=74)) || ((a>=80)&&(a<=81))))
-        return 0x87e044008a60ll + 0x80000ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=47))
         return 0x87e044008a60ll + 0x80000ll * ((a) & 0x3f);
     __cavm_csr_fatal("MDABX_SEC_INT_NMI_ENA", 1, a, 0, 0, 0, 0, 0);

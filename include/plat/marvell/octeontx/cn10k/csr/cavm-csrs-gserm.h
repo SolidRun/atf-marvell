@@ -7504,26 +7504,7 @@ union cavm_gsermx_anagrp_ctl2
                                                                  PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current. */
         uint64_t test_ana              : 5;  /**< [  5:  1](R/W) Analog Test Control Bits.
                                                                  Also logic OR with JTAG TDR.
-                                                                 0x0: Tristate the output.
-
-                                                                 Internal:
-                                                                 encodings for analog observe on TP
-                                                                 0x01: AVDD = 1.2V
-                                                                 0x02: AVSS = 0
-                                                                 0x03: DVDD = 0.8V
-                                                                 0x04: VREF0P74V = 0.74V
-                                                                 0x05: VDD_RING = 0.4V
-                                                                 0x06: BG_RDY = DVDD
-                                                                 0x07: VDDR0P95V_MAS = 1.0V
-                                                                 0x08: VDDR0P95V_SLV = 1.0V
-                                                                 0x09: VDDR0P95V_SLV_BUF = 1.0V
-                                                                 0x0A: VDDR0P75V_MAS = 0.75V
-                                                                 0x0B: XTAL_NB = 0.4V
-                                                                 0x0C: VBGOUT = 0.74V
-                                                                 0x0D: VDDR_CP = 0.45 V
-                                                                 0x0E: VFB_CP = 0.66V
-                                                                 0x0F: VREF_CP = 0.66V
-                                                                 0x10 to 0x1F: Reserved */
+                                                                 0x0: Tristate the output. */
         uint64_t pu                    : 1;  /**< [  0:  0](R/W) Analog Group Power-up.
                                                                  Power up control for current reference.
                                                                  0x0: Power off
@@ -7537,26 +7518,7 @@ union cavm_gsermx_anagrp_ctl2
                                                                  Note: also controlled by JTAG IDDQ TDR. */
         uint64_t test_ana              : 5;  /**< [  5:  1](R/W) Analog Test Control Bits.
                                                                  Also logic OR with JTAG TDR.
-                                                                 0x0: Tristate the output.
-
-                                                                 Internal:
-                                                                 encodings for analog observe on TP
-                                                                 0x01: AVDD = 1.2V
-                                                                 0x02: AVSS = 0
-                                                                 0x03: DVDD = 0.8V
-                                                                 0x04: VREF0P74V = 0.74V
-                                                                 0x05: VDD_RING = 0.4V
-                                                                 0x06: BG_RDY = DVDD
-                                                                 0x07: VDDR0P95V_MAS = 1.0V
-                                                                 0x08: VDDR0P95V_SLV = 1.0V
-                                                                 0x09: VDDR0P95V_SLV_BUF = 1.0V
-                                                                 0x0A: VDDR0P75V_MAS = 0.75V
-                                                                 0x0B: XTAL_NB = 0.4V
-                                                                 0x0C: VBGOUT = 0.74V
-                                                                 0x0D: VDDR_CP = 0.45 V
-                                                                 0x0E: VFB_CP = 0.66V
-                                                                 0x0F: VREF_CP = 0.66V
-                                                                 0x10 to 0x1F: Reserved */
+                                                                 0x0: Tristate the output. */
         uint64_t reserve_in_2          : 12; /**< [ 17:  6](R/W) Reserved Input Register 2 Pins.
 
                                                                  [11:7]
@@ -25150,22 +25112,12 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  Legacy bit unused in design. */
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0 = APB bus reset deasserted.
-                                                                   1 = APB bus reset asserted.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error.
-                                                                 Only resets the PMEM gserm_comphy_pram block. */
+                                                                   1 = APB bus reset asserted. */
         uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
                                                                  addresses that are not documented in this csr file. This provides a mechanism to
                                                                  allow RSL access to APB registers that may exist in the phy IP, but which
                                                                  are not documented in the IP's IPXACT register description file which
-                                                                 was imported to form the APB subblock of this csr file.
-
-                                                                 Internal:
-                                                                 Note that setting this bit may result in somewhat unexpected behavior in the RSL
-                                                                 bus, since the IP's APB bus will directll control the response to commands,
-                                                                 including error any indications. */
+                                                                 was imported to form the APB subblock of this csr file. */
         uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
                                                                  this bit should be set to 1 prior to asserting POR or CPU_RESET. This bit may be written
                                                                  to 0 or 1 by software as necessary.
@@ -25391,20 +25343,10 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  addresses that are not documented in this csr file. This provides a mechanism to
                                                                  allow RSL access to APB registers that may exist in the phy IP, but which
                                                                  are not documented in the IP's IPXACT register description file which
-                                                                 was imported to form the APB subblock of this csr file.
-
-                                                                 Internal:
-                                                                 Note that setting this bit may result in somewhat unexpected behavior in the RSL
-                                                                 bus, since the IP's APB bus will directll control the response to commands,
-                                                                 including error any indications. */
+                                                                 was imported to form the APB subblock of this csr file. */
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0 = APB bus reset deasserted.
-                                                                   1 = APB bus reset asserted.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error.
-                                                                 Only resets the PMEM gserm_comphy_pram block. */
+                                                                   1 = APB bus reset asserted. */
         uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by hardware.   When
                                                                  [REFCLK_OVERRIDE] = 0, writes to these fields are ignored.
                                                                  When [REFCLK_OVERRIDE] = 1, writes to these fields are applied. For diagnostic use only.
@@ -25443,22 +25385,12 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  Legacy bit unused in design. */
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0 = APB bus reset deasserted.
-                                                                   1 = APB bus reset asserted.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error.
-                                                                 Only resets the PMEM gserm_comphy_pram block. */
+                                                                   1 = APB bus reset asserted. */
         uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
                                                                  addresses that are not documented in this csr file. This provides a mechanism to
                                                                  allow RSL access to APB registers that may exist in the phy IP, but which
                                                                  are not documented in the IP's IPXACT register description file which
-                                                                 was imported to form the APB subblock of this csr file.
-
-                                                                 Internal:
-                                                                 Note that setting this bit may result in somewhat unexpected behavior in the RSL
-                                                                 bus, since the IP's APB bus will directll control the response to commands,
-                                                                 including error any indications. */
+                                                                 was imported to form the APB subblock of this csr file. */
         uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
                                                                  this bit should be set to 1 prior to asserting POR or CPU_RESET. This bit may be written
                                                                  to 0 or 1 by software as necessary.
@@ -25684,20 +25616,10 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  addresses that are not documented in this csr file. This provides a mechanism to
                                                                  allow RSL access to APB registers that may exist in the phy IP, but which
                                                                  are not documented in the IP's IPXACT register description file which
-                                                                 was imported to form the APB subblock of this csr file.
-
-                                                                 Internal:
-                                                                 Note that setting this bit may result in somewhat unexpected behavior in the RSL
-                                                                 bus, since the IP's APB bus will directll control the response to commands,
-                                                                 including error any indications. */
+                                                                 was imported to form the APB subblock of this csr file. */
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0 = APB bus reset deasserted.
-                                                                   1 = APB bus reset asserted.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error.
-                                                                 Only resets the PMEM gserm_comphy_pram block. */
+                                                                   1 = APB bus reset asserted. */
         uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by hardware.   When
                                                                  [REFCLK_OVERRIDE] = 0, writes to these fields are ignored.
                                                                  When [REFCLK_OVERRIDE] = 1, writes to these fields are applied. For diagnostic use only.
@@ -46134,19 +46056,11 @@ union cavm_gsermx_domain_rst_en
         uint64_t reserved_1_63         : 63;
         uint64_t en                    : 1;  /**< [  0:  0](R/W) Domain reset enable.
                                                                      0 = Prevent resetting lane logic with domain reset.
-                                                                     1 = Enable resetting all lane logic, except CSRCOLD CSR subblock registers, with domain reset.
-
-                                                                 Internal:
-                                                                 For PCIe configurations, set to 1 for a root complex and to 0 for an
-                                                                 endpoint. For ethernet configurations, set to 1. */
+                                                                     1 = Enable resetting all lane logic, except CSRCOLD CSR subblock registers, with domain reset. */
 #else /* Word 0 - Little Endian */
         uint64_t en                    : 1;  /**< [  0:  0](R/W) Domain reset enable.
                                                                      0 = Prevent resetting lane logic with domain reset.
-                                                                     1 = Enable resetting all lane logic, except CSRCOLD CSR subblock registers, with domain reset.
-
-                                                                 Internal:
-                                                                 For PCIe configurations, set to 1 for a root complex and to 0 for an
-                                                                 endpoint. For ethernet configurations, set to 1. */
+                                                                     1 = Enable resetting all lane logic, except CSRCOLD CSR subblock registers, with domain reset. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -59562,8 +59476,6 @@ static inline uint64_t CAVM_GSERMX_INT_ENA_W1C(uint64_t a)
  *
  * GSERM Interrupt Enable Set Register
  * This register sets interrupt enable bits.
- * Internal:
- * Lowest address of Marvell wrapper CSRs that are reset by cold reset (when enabled).
  */
 union cavm_gsermx_int_ena_w1s
 {
@@ -60651,16 +60563,9 @@ union cavm_gsermx_lanex_control_bcfg
         uint64_t jesd_mode             : 1;  /**< [ 57: 57](R/W) JESD mode.
                                                                    0x0: Ethernet mode
                                                                    0x1: JESD mode */
-        uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
-        uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved.
-                                                                 Internal:
-                                                                 Not used.
-                                                                 This field deprecated. */
-        uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
+        uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved. */
+        uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved. */
+        uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved. */
         uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Not used.
                                                                  For diagnostic use only. */
         uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Not used.
@@ -60888,16 +60793,9 @@ union cavm_gsermx_lanex_control_bcfg
                                                                  For diagnostic use only. */
         uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Not used.
                                                                  For diagnostic use only. */
-        uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
-        uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved.
-                                                                 Internal:
-                                                                 Not used.
-                                                                 This field deprecated. */
-        uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
+        uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved. */
+        uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved. */
+        uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved. */
         uint64_t jesd_mode             : 1;  /**< [ 57: 57](R/W) JESD mode.
                                                                    0x0: Ethernet mode
                                                                    0x1: JESD mode */
@@ -60937,16 +60835,9 @@ union cavm_gsermx_lanex_control_bcfg
                                                                    0x7: 156.25
                                                                    Others = Reserved. */
         uint64_t jesd_mode             : 1;  /**< [ 57: 57](R/W) Reserved. Must be zero. */
-        uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
-        uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved.
-                                                                 Internal:
-                                                                 Not used.
-                                                                 This field deprecated. */
-        uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
+        uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved. */
+        uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved. */
+        uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved. */
         uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Not used.
                                                                  For diagnostic use only. */
         uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Not used.
@@ -61174,16 +61065,9 @@ union cavm_gsermx_lanex_control_bcfg
                                                                  For diagnostic use only. */
         uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Not used.
                                                                  For diagnostic use only. */
-        uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
-        uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved.
-                                                                 Internal:
-                                                                 Not used.
-                                                                 This field deprecated. */
-        uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved.
-                                                                 Internal:
-                                                                 40b20b gearbox deprecated. */
+        uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved. */
+        uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved. */
+        uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved. */
         uint64_t jesd_mode             : 1;  /**< [ 57: 57](R/W) Reserved. Must be zero. */
         uint64_t ref_fref_sel          : 5;  /**< [ 62: 58](R/W) Reference Clock Frequency Select. (unit MHz)
                                                                    0x0: 25
@@ -73789,12 +73673,7 @@ union cavm_gsermx_misc_ctrl_2x
                                                                  data rate of 2:1. Other ratios are not supported.
                                                                  0 = NED loopback disable.
                                                                  1 = NED loopback enable. */
-        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Reserved. Must be one.
-                                                                 Internal:
-                                                                 Selects between CPRI/JESD interface. This should be used along with
-                                                                 GSERM_MISC_CTRL_2[JESD_CLK_EN] to enable disable JESD(CPRI) interface. 0 = JSED
-                                                                 interface is used as MAC
-                                                                 lane(0-3). 1 = CPRI interface is used as MAC lane(0-3). */
+        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Reserved. Must be one. */
         uint64_t rpm1_clk_en           : 1;  /**< [  8:  8](R/W) Clock enable for RPM1. This bit should be programmed before swizzling starts. */
         uint64_t jesd_clk_en           : 1;  /**< [  7:  7](R/W) Clk enable for JESD. This bit should be programmed before swizziling starts. */
         uint64_t rpm_clk_en            : 1;  /**< [  6:  6](R/W) Clock enable for RPM. This bit should be programmed before swizzling starts. */
@@ -73840,12 +73719,7 @@ union cavm_gsermx_misc_ctrl_2x
         uint64_t rpm_clk_en            : 1;  /**< [  6:  6](R/W) Clock enable for RPM. This bit should be programmed before swizzling starts. */
         uint64_t jesd_clk_en           : 1;  /**< [  7:  7](R/W) Clk enable for JESD. This bit should be programmed before swizziling starts. */
         uint64_t rpm1_clk_en           : 1;  /**< [  8:  8](R/W) Clock enable for RPM1. This bit should be programmed before swizzling starts. */
-        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Reserved. Must be one.
-                                                                 Internal:
-                                                                 Selects between CPRI/JESD interface. This should be used along with
-                                                                 GSERM_MISC_CTRL_2[JESD_CLK_EN] to enable disable JESD(CPRI) interface. 0 = JSED
-                                                                 interface is used as MAC
-                                                                 lane(0-3). 1 = CPRI interface is used as MAC lane(0-3). */
+        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Reserved. Must be one. */
         uint64_t ned_en                : 1;  /**< [ 10: 10](R/W) Control register to enable near-end digital loopback. This works for tx to rx
                                                                  data rate of 2:1. Other ratios are not supported.
                                                                  0 = NED loopback disable.
@@ -73914,12 +73788,7 @@ union cavm_gsermx_misc_ctrl_2x
                                                                  data rate of 2:1. Other ratios are not supported.
                                                                  0 = NED loopback disable.
                                                                  1 = NED loopback enable. */
-        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Reserved. Must be one.
-                                                                 Internal:
-                                                                 Selects between CPRI/JESD interface. This should be used along with
-                                                                 GSERM_MISC_CTRL_2[JESD_CLK_EN] to enable disable JESD(CPRI) interface. 0 = JSED
-                                                                 interface is used as MAC
-                                                                 lane(0-3). 1 = CPRI interface is used as MAC lane(0-3). */
+        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Reserved. Must be one. */
         uint64_t rpm1_clk_en           : 1;  /**< [  8:  8](R/W) Clock enable for RPM1. This bit should be programmed before swizzling starts. */
         uint64_t jesd_clk_en           : 1;  /**< [  7:  7](R/W) Reserved. */
         uint64_t rpm_clk_en            : 1;  /**< [  6:  6](R/W) Clock enable for RPM. This bit should be programmed before swizzling starts. */
@@ -73965,12 +73834,7 @@ union cavm_gsermx_misc_ctrl_2x
         uint64_t rpm_clk_en            : 1;  /**< [  6:  6](R/W) Clock enable for RPM. This bit should be programmed before swizzling starts. */
         uint64_t jesd_clk_en           : 1;  /**< [  7:  7](R/W) Reserved. */
         uint64_t rpm1_clk_en           : 1;  /**< [  8:  8](R/W) Clock enable for RPM1. This bit should be programmed before swizzling starts. */
-        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Reserved. Must be one.
-                                                                 Internal:
-                                                                 Selects between CPRI/JESD interface. This should be used along with
-                                                                 GSERM_MISC_CTRL_2[JESD_CLK_EN] to enable disable JESD(CPRI) interface. 0 = JSED
-                                                                 interface is used as MAC
-                                                                 lane(0-3). 1 = CPRI interface is used as MAC lane(0-3). */
+        uint64_t cpri_jesd_sel         : 1;  /**< [  9:  9](R/W) Reserved. Must be one. */
         uint64_t ned_en                : 1;  /**< [ 10: 10](R/W) Control register to enable near-end digital loopback. This works for tx to rx
                                                                  data rate of 2:1. Other ratios are not supported.
                                                                  0 = NED loopback disable.
@@ -93006,17 +92870,7 @@ union cavm_gsermx_refclk_ctl1
                                                                  0x2: 620mV
                                                                  0x3: 640mV */
         uint64_t test_ana              : 3;  /**< [ 12: 10](R/W) Analog Test Point Selection:
-                                                                 0x0: High-Z
-
-                                                                 Internal:
-                                                                 encodings for analog observe
-                                                                 0x1: VDDR_LV    = 0.8V
-                                                                 0x2: DVDD
-                                                                 0x3: PU_RX_CORE = 0.9V
-                                                                 0x4: VDD_RING   = 0.58V to 0.76V
-                                                                 0x5: NBIAS_CORE = 0.58V to 0.68V
-                                                                 0x6: RX_OFFSET_INTERNAL = 0
-                                                                 0x7: AVDD1815 */
+                                                                 0x0: High-Z */
         uint64_t test_en               : 1;  /**< [  9:  9](R/W) Enable/Disable Test Point Monitor.
                                                                  0x0: Disable internal test point monitor.  Put TP into high-Z state
                                                                  0x1: Enable internal test point monitor */
@@ -93115,17 +92969,7 @@ union cavm_gsermx_refclk_ctl1
                                                                  0x0: Disable internal test point monitor.  Put TP into high-Z state
                                                                  0x1: Enable internal test point monitor */
         uint64_t test_ana              : 3;  /**< [ 12: 10](R/W) Analog Test Point Selection:
-                                                                 0x0: High-Z
-
-                                                                 Internal:
-                                                                 encodings for analog observe
-                                                                 0x1: VDDR_LV    = 0.8V
-                                                                 0x2: DVDD
-                                                                 0x3: PU_RX_CORE = 0.9V
-                                                                 0x4: VDD_RING   = 0.58V to 0.76V
-                                                                 0x5: NBIAS_CORE = 0.58V to 0.68V
-                                                                 0x6: RX_OFFSET_INTERNAL = 0
-                                                                 0x7: AVDD1815 */
+                                                                 0x0: High-Z */
         uint64_t pecl_ac_cm_sel        : 2;  /**< [ 14: 13](R/W) Internal Receiver Common Mode voltage select:
                                                                  when VCM_SEL=0:
                                                                  0x0: 360mV
@@ -102708,9 +102552,6 @@ static inline uint64_t CAVM_GSERMX_RX_TERM_CTL(uint64_t a)
  * Register (RSL) gserm#_scratch#
  *
  * GSERM Scratch Registers
- * Internal:
- * Lowest address of Marvell wrapper CSRs. Also lowest address of Marvell wrapper CSRs
- * that are reset by cold reset only, i.e, never reset by domain reset.
  */
 union cavm_gsermx_scratchx
 {
@@ -102718,13 +102559,9 @@ union cavm_gsermx_scratchx
     struct cavm_gsermx_scratchx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t scratch               : 64; /**< [ 63:  0](R/W) Scratch registers for software use, no hardware impact.
-                                                                 Internal:
-                                                                 Reset by cold reset (only). */
+        uint64_t scratch               : 64; /**< [ 63:  0](R/W) Scratch registers for software use, no hardware impact. */
 #else /* Word 0 - Little Endian */
-        uint64_t scratch               : 64; /**< [ 63:  0](R/W) Scratch registers for software use, no hardware impact.
-                                                                 Internal:
-                                                                 Reset by cold reset (only). */
+        uint64_t scratch               : 64; /**< [ 63:  0](R/W) Scratch registers for software use, no hardware impact. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_scratchx_s cn; */
@@ -102763,13 +102600,9 @@ union cavm_gsermx_scratch_dom_rstx
     struct cavm_gsermx_scratch_dom_rstx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t scratch               : 64; /**< [ 63:  0](R/W) Scratch registers for software use, no hardware impact.
-                                                                 Internal:
-                                                                 Reset by cold reset and (if enabled by GSERM()_DOMAIN_RST_EN) domain reset. */
+        uint64_t scratch               : 64; /**< [ 63:  0](R/W) Scratch registers for software use, no hardware impact. */
 #else /* Word 0 - Little Endian */
-        uint64_t scratch               : 64; /**< [ 63:  0](R/W) Scratch registers for software use, no hardware impact.
-                                                                 Internal:
-                                                                 Reset by cold reset and (if enabled by GSERM()_DOMAIN_RST_EN) domain reset. */
+        uint64_t scratch               : 64; /**< [ 63:  0](R/W) Scratch registers for software use, no hardware impact. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_scratch_dom_rstx_s cn; */

@@ -193,12 +193,7 @@ union cavm_npa_aq_inst_s
         uint64_t lf                    : 9;  /**< [ 16:  8] Local function. Software must map the LF to a PF and function with
                                                                  NPA_PRIV_LF()_CFG[PF_FUNC] before issuing the AQ instruction.
                                                                  NPA_PRIV_LF()_CFG[ENA] is not required to be set when executing AQ
-                                                                 instructions.
-
-                                                                 Internal:
-                                                                 Hardware uses PF(0)'s stream ID when accessing hardware context structures
-                                                                 in LLC/DRAM, but NDC tracks the LF for context structures in its cache
-                                                                 using the PF_FUNC's stream ID. */
+                                                                 instructions. */
         uint64_t ctype                 : 4;  /**< [  7:  4] Context type of instruction enumerated by NPA_AQ_CTYPE_E. */
         uint64_t op                    : 4;  /**< [  3:  0] Instruction op code enumerated by NPA_AQ_INSTOP_E. */
 #else /* Word 0 - Little Endian */
@@ -207,12 +202,7 @@ union cavm_npa_aq_inst_s
         uint64_t lf                    : 9;  /**< [ 16:  8] Local function. Software must map the LF to a PF and function with
                                                                  NPA_PRIV_LF()_CFG[PF_FUNC] before issuing the AQ instruction.
                                                                  NPA_PRIV_LF()_CFG[ENA] is not required to be set when executing AQ
-                                                                 instructions.
-
-                                                                 Internal:
-                                                                 Hardware uses PF(0)'s stream ID when accessing hardware context structures
-                                                                 in LLC/DRAM, but NDC tracks the LF for context structures in its cache
-                                                                 using the PF_FUNC's stream ID. */
+                                                                 instructions. */
         uint64_t reserved_17_23        : 7;
         uint64_t cindex                : 20; /**< [ 43: 24] Context index. Aura index of the instruction within [LF]. */
         uint64_t reserved_44_62        : 19;
@@ -237,10 +227,7 @@ union cavm_npa_aq_inst_s
                                                                  * Otherwise, software must reserve at least one cache line.
 
                                                                  Hardware always stores full cache lines when writing NPA_AQ_RES_S and
-                                                                 following NPA_AURA_S/NPA_POOL_S structures, if any.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<6:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 following NPA_AURA_S/NPA_POOL_S structures, if any. */
 #else /* Word 1 - Little Endian */
         uint64_t res_addr              : 64; /**< [127: 64] Result AF IOVA. Specifies where to write NPA_AQ_RES_S.
 
@@ -257,10 +244,7 @@ union cavm_npa_aq_inst_s
                                                                  * Otherwise, software must reserve at least one cache line.
 
                                                                  Hardware always stores full cache lines when writing NPA_AQ_RES_S and
-                                                                 following NPA_AURA_S/NPA_POOL_S structures, if any.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<6:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 following NPA_AURA_S/NPA_POOL_S structures, if any. */
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_npa_aq_inst_s_s cn; */
@@ -374,20 +358,14 @@ union cavm_npa_aura_s
 
                                                                  Bits \<5:0\> must be zero; address must be 64-byte aligned. Bits \<63:53\> are
                                                                  ignored by hardware; software should use a sign-extended bit \<52\> for forward
-                                                                 compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<5:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 compatibility. */
 #else /* Word 0 - Little Endian */
         uint64_t pool_addr             : 64; /**< [ 63:  0] AF IOVA of the associated pool's NPA_POOL_HW_S structure in NDC/LLC/DRAM. The
                                                                  size of the structure is 1 \<\< NPA_AF_CONST1[POOL_LOG2BYTES] bytes.
 
                                                                  Bits \<5:0\> must be zero; address must be 64-byte aligned. Bits \<63:53\> are
                                                                  ignored by hardware; software should use a sign-extended bit \<52\> for forward
-                                                                 compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<5:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 compatibility. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t avg_level             : 8;  /**< [127:120] Current moving average of the 8-bit shifted and saturated count of available aura buffers
@@ -435,24 +413,13 @@ union cavm_npa_aura_s
                                                                  long enough for the average timer to wrap around and cross [UPDATE_TIME].
                                                                  For higher accuracy, software can periodically write
                                                                  NPA_LF_AURA_OP_CNT[CNT_ADD,COUNT] = {1,0x0} to ensure that the average
-                                                                 timer does not cross [UPDATE_TIME].
-
-                                                                 Internal:
-                                                                 Setting [AVG_CON] \<= 240 ensures that [AVG_LEVEL] is properly updated when
-                                                                 the shifted and saturated aura count is less than 15/16 of the saturation
-                                                                 value. With a higher [AVG_CON] value, if [AVG_LEVEL] reaches 0, it may
-                                                                 remain stuck at 0 because the following expression may evaluate to 0 due to
-                                                                 integer truncation:
-                                                                 _ ((256 - adjusted_CON)*shifted_CNT) / 256. */
+                                                                 timer does not cross [UPDATE_TIME]. */
         uint64_t pool_way_mask         : 16; /**< [ 83: 68] Way partitioning mask for allocating associated NPA_POOL_HW_S in NDC (1
                                                                  means do not use).
 
                                                                  If [POOL_WAY_MASK] is all ones for one of two consecutive NPA_POOL_HW_S
                                                                  that share the same cache line, it must also be all ones for the other
-                                                                 NPA_POOL_HW_S.
-
-                                                                 Internal:
-                                                                 Bypass NDC when all ones. */
+                                                                 NPA_POOL_HW_S. */
         uint64_t pool_caching          : 1;  /**< [ 67: 67] Selects the style read for accessing NPA_POOL_HW_S in LLC/DRAM:
                                                                  0x0 = NPA_POOL_HW_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_POOL_HW_S reads are allocated into the LLC.
@@ -481,10 +448,7 @@ union cavm_npa_aura_s
 
                                                                  If [POOL_WAY_MASK] is all ones for one of two consecutive NPA_POOL_HW_S
                                                                  that share the same cache line, it must also be all ones for the other
-                                                                 NPA_POOL_HW_S.
-
-                                                                 Internal:
-                                                                 Bypass NDC when all ones. */
+                                                                 NPA_POOL_HW_S. */
         uint64_t avg_con               : 9;  /**< [ 92: 84] This value controls how much of the present average resource level is used
                                                                  to calculate the new resource level. The value is a number from 0 to 256,
                                                                  which represents [AVG_CON]/256 of the average resource level that will be
@@ -512,15 +476,7 @@ union cavm_npa_aura_s
                                                                  long enough for the average timer to wrap around and cross [UPDATE_TIME].
                                                                  For higher accuracy, software can periodically write
                                                                  NPA_LF_AURA_OP_CNT[CNT_ADD,COUNT] = {1,0x0} to ensure that the average
-                                                                 timer does not cross [UPDATE_TIME].
-
-                                                                 Internal:
-                                                                 Setting [AVG_CON] \<= 240 ensures that [AVG_LEVEL] is properly updated when
-                                                                 the shifted and saturated aura count is less than 15/16 of the saturation
-                                                                 value. With a higher [AVG_CON] value, if [AVG_LEVEL] reaches 0, it may
-                                                                 remain stuck at 0 because the following expression may evaluate to 0 due to
-                                                                 integer truncation:
-                                                                 _ ((256 - adjusted_CON)*shifted_CNT) / 256. */
+                                                                 timer does not cross [UPDATE_TIME]. */
         uint64_t reserved_93           : 1;
         uint64_t pool_drop_ena         : 1;  /**< [ 94: 94] Enable aura-unique pool DROP based on the [POOL_DROP] level. */
         uint64_t aura_drop_ena         : 1;  /**< [ 95: 95] Enable aura DROP based on the [AURA_DROP] level. */
@@ -542,10 +498,7 @@ union cavm_npa_aura_s
 #endif /* Word 1 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
         uint64_t reserved_189_191      : 3;
-        uint64_t nix1_bpid             : 9;  /**< [188:180] Reserved.
-                                                                 Internal:
-                                                                 NIX(1) RX BPID (BPID index of NIX_AF_RX_BPID()_STATUS) to which backpressure
-                                                                 is asserted when the corresponding [BP_ENA] bit is set. */
+        uint64_t nix1_bpid             : 9;  /**< [188:180] Reserved. */
         uint64_t reserved_177_179      : 3;
         uint64_t nix0_bpid             : 9;  /**< [176:168] NIX(0) RX BPID (BPID index of NIX_AF_RX_BPID()_STATUS) to which backpressure
                                                                  is asserted when the corresponding [BP_ENA] bit is set. */
@@ -557,10 +510,7 @@ union cavm_npa_aura_s
         uint64_t nix0_bpid             : 9;  /**< [176:168] NIX(0) RX BPID (BPID index of NIX_AF_RX_BPID()_STATUS) to which backpressure
                                                                  is asserted when the corresponding [BP_ENA] bit is set. */
         uint64_t reserved_177_179      : 3;
-        uint64_t nix1_bpid             : 9;  /**< [188:180] Reserved.
-                                                                 Internal:
-                                                                 NIX(1) RX BPID (BPID index of NIX_AF_RX_BPID()_STATUS) to which backpressure
-                                                                 is asserted when the corresponding [BP_ENA] bit is set. */
+        uint64_t nix1_bpid             : 9;  /**< [188:180] Reserved. */
         uint64_t reserved_189_191      : 3;
 #endif /* Word 2 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
@@ -675,10 +625,7 @@ union cavm_npa_aura_s
 
                                                                  Bits \<2:0\> must be zero; address must be 8-byte aligned.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended bit \<52\> for
-                                                                 forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<2:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 forward compatibility. */
 #else /* Word 4 - Little Endian */
         uint64_t fc_addr               : 64; /**< [319:256] Flow control address. LF IOVA in LLC/DRAM to write the count. See also
                                                                  [FC_ENA] and [FC_STYPE]. Must be on a dedicated 128-byte cache line when
@@ -686,10 +633,7 @@ union cavm_npa_aura_s
 
                                                                  Bits \<2:0\> must be zero; address must be 8-byte aligned.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended bit \<52\> for
-                                                                 forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<2:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 forward compatibility. */
 #endif /* Word 4 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
         uint64_t reserved_379_383      : 5;
@@ -709,20 +653,7 @@ union cavm_npa_aura_s
                                                                  [COUNT] goes to or above [THRESH]. When [THRESH_UP] is clear, hardware sets
                                                                  this bit when [COUNT] drops below [THRESH].
 
-                                                                 Software can read, set, or clear this bit with NPA_LF_AURA_OP_INT.
-
-                                                                 Internal:
-                                                                 "When [THRESH_UP]==0:
-                                                                 * Interrupt set to QINT when ([THRESH_INT] &
-                                                                 [THRESH_INT_ENA]) goes from 0 to 1.
-                                                                 * Interrupt clear to QINT when ([THRESH_INT] &
-                                                                 [THRESH_INT_ENA]) goes from 1 to 0.
-                                                                 * Interrupt resend to QINT when [THRESH_INT_ENA] = 1, software clears
-                                                                 [THRESH_INT], and [COUNT] \< [THRESH].
-                                                                 Similar when [THRESH_UP]==1, except:
-                                                                 * Interrupt resend to QINT when [THRESH_INT_ENA] = 1, software clears
-                                                                 [THRESH_INT], and [COUNT] \>= [THRESH].
-                                                                 " */
+                                                                 Software can read, set, or clear this bit with NPA_LF_AURA_OP_INT. */
         uint64_t err_int_ena           : 8;  /**< [359:352] Error interrupt enables. Bits enumerated by NPA_AURA_ERR_INT_E. Software
                                                                  can read, set or clear these bits with NPA_LF_AURA_OP_INT. */
         uint64_t err_int               : 8;  /**< [351:344] Error interrupts. Bits enumerated by NPA_AURA_ERR_INT_E, which also defines
@@ -750,20 +681,7 @@ union cavm_npa_aura_s
                                                                  [COUNT] goes to or above [THRESH]. When [THRESH_UP] is clear, hardware sets
                                                                  this bit when [COUNT] drops below [THRESH].
 
-                                                                 Software can read, set, or clear this bit with NPA_LF_AURA_OP_INT.
-
-                                                                 Internal:
-                                                                 "When [THRESH_UP]==0:
-                                                                 * Interrupt set to QINT when ([THRESH_INT] &
-                                                                 [THRESH_INT_ENA]) goes from 0 to 1.
-                                                                 * Interrupt clear to QINT when ([THRESH_INT] &
-                                                                 [THRESH_INT_ENA]) goes from 1 to 0.
-                                                                 * Interrupt resend to QINT when [THRESH_INT_ENA] = 1, software clears
-                                                                 [THRESH_INT], and [COUNT] \< [THRESH].
-                                                                 Similar when [THRESH_UP]==1, except:
-                                                                 * Interrupt resend to QINT when [THRESH_INT_ENA] = 1, software clears
-                                                                 [THRESH_INT], and [COUNT] \>= [THRESH].
-                                                                 " */
+                                                                 Software can read, set, or clear this bit with NPA_LF_AURA_OP_INT. */
         uint64_t thresh_int_ena        : 1;  /**< [361:361] Threshold interrupt enable. Software can read, set, or clear this bit with
                                                                  NPA_LF_AURA_OP_INT. */
         uint64_t thresh_up             : 1;  /**< [362:362] Threshold up direction. When set, [THRESH_INT] is set when [COUNT] rises to
@@ -905,150 +823,6 @@ union cavm_npa_batch_alloc_swap_s
 };
 
 /**
- * Structure npa_lf_aura_op_free0_swap_s
- *
- * INTERNAL: NPA LF AURA OP FREE0 SWAP Structure
- *
- * This structure specifies the swap data format of a 128-bit atomic CAS
- * operation to NPA_LF_POOL_OP_FREE0 register.
- */
-union cavm_npa_lf_aura_op_free0_swap_s
-{
-    uint64_t u;
-    struct cavm_npa_lf_aura_op_free0_swap_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to be returned to the aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0] Pointer to be returned to the aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_lf_aura_op_free0_swap_s_s cn; */
-};
-
-/**
- * Structure npa_lf_aura_op_free1_swap_s
- *
- * INTERNAL: NPA LF AURA OP FREE1 SWAP Structure
- *
- * This structure specifies the swap data format of a 128-bit atomic CAS
- * operation to NPA_LF_POOL_OP_FREE1 register.
- */
-union cavm_npa_lf_aura_op_free1_swap_s
-{
-    uint64_t u;
-    struct cavm_npa_lf_aura_op_free1_swap_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t fabs                  : 1;  /**< [ 63: 63] Free absolute. If set, the pointer is absolute and is pushed to
-                                                                 the pool exactly as provided. If clear, the freed pointer is adjusted based
-                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
-        uint64_t reserved_20_62        : 43;
-        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF. */
-#else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF. */
-        uint64_t reserved_20_62        : 43;
-        uint64_t fabs                  : 1;  /**< [ 63: 63] Free absolute. If set, the pointer is absolute and is pushed to
-                                                                 the pool exactly as provided. If clear, the freed pointer is adjusted based
-                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_lf_aura_op_free1_swap_s_s cn; */
-};
-
-/**
- * Structure npa_pool_ptr_end0_swap_s
- *
- * INTERNAL: NPA LF POOL OP Pointer END0 SWAP Structure
- *
- * This structure specifies the swap data format of a 128-bit atomic CAS
- * operation to NPA_LF_POOL_OP_PTR_END0 register.
- */
-union cavm_npa_pool_ptr_end0_swap_s
-{
-    uint64_t u;
-    struct cavm_npa_pool_ptr_end0_swap_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr_end               : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_END]. */
-#else /* Word 0 - Little Endian */
-        uint64_t ptr_end               : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_END]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_pool_ptr_end0_swap_s_s cn; */
-};
-
-/**
- * Structure npa_pool_ptr_end1_swap_s
- *
- * INTERNAL: NPA LF POOL OP Pointer END1 SWAP Structure
- *
- * This structure specifies the swap data format of a 128-bit atomic CAS
- * operation to NPA_LF_POOL_OP_PTR_END1 register.
- */
-union cavm_npa_pool_ptr_end1_swap_s
-{
-    uint64_t u;
-    struct cavm_npa_pool_ptr_end1_swap_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF that points to this pool. */
-#else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF that points to this pool. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_pool_ptr_end1_swap_s_s cn; */
-};
-
-/**
- * Structure npa_pool_ptr_start0_swap_s
- *
- * INTERNAL: NPA LF POOL OP Pointer Start0 SWAP Structure
- *
- * This structure specifies the swap data format of a 128-bit atomic CAS
- * operation to NPA_LF_POOL_OP_PTR_START0 register.
- */
-union cavm_npa_pool_ptr_start0_swap_s
-{
-    uint64_t u;
-    struct cavm_npa_pool_ptr_start0_swap_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr_start             : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_START]. */
-#else /* Word 0 - Little Endian */
-        uint64_t ptr_start             : 64; /**< [ 63:  0] Value written to NPA_POOL_S[PTR_START]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_pool_ptr_start0_swap_s_s cn; */
-};
-
-/**
- * Structure npa_pool_ptr_start1_swap_s
- *
- * INTERNAL: NPA LF POOL OP Pointer START1 SWAP Structure
- *
- * This structure specifies the swap data format of a 128-bit atomic CAS
- * operation to NPA_LF_POOL_OP_PTR_START1 register.
- */
-union cavm_npa_pool_ptr_start1_swap_s
-{
-    uint64_t u;
-    struct cavm_npa_pool_ptr_start1_swap_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF that points to this pool. */
-#else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0] Aura within VF that points to this pool. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_pool_ptr_start1_swap_s_s cn; */
-};
-
-/**
  * Structure npa_pool_s
  *
  * NPA Pool Context Structure
@@ -1066,19 +840,13 @@ union cavm_npa_pool_s
 
                                                                  Bits \<6:0\> must be zero; address must be 128-byte aligned.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended bit \<52\> for
-                                                                 forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<6:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 forward compatibility. */
 #else /* Word 0 - Little Endian */
         uint64_t stack_base            : 64; /**< [ 63:  0] Pool stack base LF IOVA in NDC/LLC/DRAM. This is the lowest address used by the stack.
 
                                                                  Bits \<6:0\> must be zero; address must be 128-byte aligned.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended bit \<52\> for
-                                                                 forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<6:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 forward compatibility. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_115_127      : 13;
@@ -1095,9 +863,7 @@ union cavm_npa_pool_s
                                                                  If [NAT_ALIGN] is set, the pointer stored in the pool is normally [BUF_OFFSET] from the
                                                                  beginning of the buffer. [BUF_OFFSET] will normally be zero or positive to adjust the
                                                                  pointer into the buffer. */
-        uint64_t stack_way_mask        : 16; /**< [ 87: 72] Way partitioning mask for allocating stack pages in NDC (1 means do not use).
-                                                                 Internal:
-                                                                 Bypass NDC when all ones. */
+        uint64_t stack_way_mask        : 16; /**< [ 87: 72] Way partitioning mask for allocating stack pages in NDC (1 means do not use). */
         uint64_t reserved_69_71        : 3;
         uint64_t stack_caching         : 1;  /**< [ 68: 68] Selects the style read for accessing NPA_STACK_PAGE_S in LLC/DRAM:
                                                                  0x0 = NPA_STACK_PAGE_S reads will not allocate into the LLC.
@@ -1125,9 +891,7 @@ union cavm_npa_pool_s
                                                                  NPA_STACK_PAGE_S writes that are not allocated in NDC will always allocate
                                                                  into LLC. */
         uint64_t reserved_69_71        : 3;
-        uint64_t stack_way_mask        : 16; /**< [ 87: 72] Way partitioning mask for allocating stack pages in NDC (1 means do not use).
-                                                                 Internal:
-                                                                 Bypass NDC when all ones. */
+        uint64_t stack_way_mask        : 16; /**< [ 87: 72] Way partitioning mask for allocating stack pages in NDC (1 means do not use). */
         uint64_t buf_offset            : 12; /**< [ 99: 88] Number of 128-byte cache lines to offset the stored pointer. This field is sign-extended
                                                                  so that two's complement numbers may be used to do subtractions.
 
@@ -1151,19 +915,11 @@ union cavm_npa_pool_s
                                                                  _ COUNT = NPA_AF_CONST[STACK_PAGE_PTRS]*[STACK_PAGES] + [STACK_OFFSET]. */
         uint64_t stack_max_pages       : 32; /**< [159:128] Maximum number of pages in the stack starting at [STACK_BASE], with
                                                                  NPA_AF_CONST[STACK_PAGE_PTRS] free pointers per page. Stack is full if
-                                                                 [STACK_PAGES] equals this value.
-
-                                                                 Internal:
-                                                                 Provides more than 2^35 pointers, 2^42 phisical memory with one cache line
-                                                                 per pointer. */
+                                                                 [STACK_PAGES] equals this value. */
 #else /* Word 2 - Little Endian */
         uint64_t stack_max_pages       : 32; /**< [159:128] Maximum number of pages in the stack starting at [STACK_BASE], with
                                                                  NPA_AF_CONST[STACK_PAGE_PTRS] free pointers per page. Stack is full if
-                                                                 [STACK_PAGES] equals this value.
-
-                                                                 Internal:
-                                                                 Provides more than 2^35 pointers, 2^42 phisical memory with one cache line
-                                                                 per pointer. */
+                                                                 [STACK_PAGES] equals this value. */
         uint64_t stack_pages           : 32; /**< [191:160] Number of nonpartial pages in the stack, with NPA_AF_CONST[STACK_PAGE_PTRS]
                                                                  pointers per page. Must be initialized to zero when stack is created.
                                                                  The stack page format is defined by NPA_STACK_PAGE_S.
@@ -1327,10 +1083,7 @@ union cavm_npa_pool_s
 
                                                                  Bits \<2:0\> must be zero; address must be 8-byte aligned.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended bit \<52\> for
-                                                                 forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<2:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 forward compatibility. */
 #else /* Word 5 - Little Endian */
         uint64_t fc_addr               : 64; /**< [383:320] Flow control address. LF IOVA in LLC/DRAM to write the count. See also
                                                                  [FC_ENA] and [FC_STYPE]. Must be on a dedicated 128-byte cache line when
@@ -1338,10 +1091,7 @@ union cavm_npa_pool_s
 
                                                                  Bits \<2:0\> must be zero; address must be 8-byte aligned.
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended bit \<52\> for
-                                                                 forward compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<2:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 forward compatibility. */
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t ptr_start             : 64; /**< [447:384] Pointer start LF IOVA. Pointers freed to this pool after alignment must be
@@ -1350,10 +1100,7 @@ union cavm_npa_pool_s
 
                                                                  Bits \<6:0\> must be zero; address must be 128-byte aligned. Bits \<63:53\> are
                                                                  ignored by hardware; software should use a sign-extended bit \<52\> for forward
-                                                                 compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<6:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 compatibility. */
 #else /* Word 6 - Little Endian */
         uint64_t ptr_start             : 64; /**< [447:384] Pointer start LF IOVA. Pointers freed to this pool after alignment must be
                                                                  greater than or equal to this value. Typically nonzero so that a NULL
@@ -1361,10 +1108,7 @@ union cavm_npa_pool_s
 
                                                                  Bits \<6:0\> must be zero; address must be 128-byte aligned. Bits \<63:53\> are
                                                                  ignored by hardware; software should use a sign-extended bit \<52\> for forward
-                                                                 compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<6:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 compatibility. */
 #endif /* Word 6 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 7 - Big Endian */
         uint64_t ptr_end               : 64; /**< [511:448] Pointer end LF IOVA. Pointers freed to this pool after alignment must be equal to or
@@ -1372,20 +1116,14 @@ union cavm_npa_pool_s
 
                                                                  Bits \<6:0\> must be zero; address must be 128-byte aligned. Bits \<63:53\> are
                                                                  ignored by hardware; software should use a sign-extended bit \<52\> for forward
-                                                                 compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<6:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 compatibility. */
 #else /* Word 7 - Little Endian */
         uint64_t ptr_end               : 64; /**< [511:448] Pointer end LF IOVA. Pointers freed to this pool after alignment must be equal to or
                                                                  less than this address.
 
                                                                  Bits \<6:0\> must be zero; address must be 128-byte aligned. Bits \<63:53\> are
                                                                  ignored by hardware; software should use a sign-extended bit \<52\> for forward
-                                                                 compatibility.
-
-                                                                 Internal:
-                                                                 Bits \<63:53\>, \<6:0\> are ignored by hardware, treated as always 0x0. */
+                                                                 compatibility. */
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
         uint64_t reserved_571_575      : 5;
@@ -1406,10 +1144,7 @@ union cavm_npa_pool_s
                                                                  [THRESH_UP] is clear, hardware sets this bit when COUNT drops below
                                                                  [THRESH].
 
-                                                                 Software can read, set, or clear this bit with NPA_LF_POOL_OP_INT.
-
-                                                                 Internal:
-                                                                 See NPA_AURA_S[THRESH_INT]. */
+                                                                 Software can read, set, or clear this bit with NPA_LF_POOL_OP_INT. */
         uint64_t err_int_ena           : 8;  /**< [551:544] Error interrupt enables. Bits enumerated by NPA_POOL_ERR_INT_E. Software
                                                                  can read, set or clear these bits with NPA_LF_POOL_OP_INT. */
         uint64_t err_int               : 8;  /**< [543:536] Error interrupts. Bits enumerated by NPA_POOL_ERR_INT_E, which also defines
@@ -1428,10 +1163,7 @@ union cavm_npa_pool_s
                                                                  [THRESH_UP] is clear, hardware sets this bit when COUNT drops below
                                                                  [THRESH].
 
-                                                                 Software can read, set, or clear this bit with NPA_LF_POOL_OP_INT.
-
-                                                                 Internal:
-                                                                 See NPA_AURA_S[THRESH_INT]. */
+                                                                 Software can read, set, or clear this bit with NPA_LF_POOL_OP_INT. */
         uint64_t thresh_int_ena        : 1;  /**< [553:553] Threshold interrupt enable. Software can read, set, or clear this bit with
                                                                  NPA_LF_POOL_OP_INT. */
         uint64_t thresh_up             : 1;  /**< [554:554] Threshold up direction. When set, [THRESH_INT] is set when COUNT (see
@@ -1615,15 +1347,7 @@ union cavm_npa_af_aq_cfg
                                                                  0x4-0xF = Reserved.
 
                                                                  Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
-                                                                 means empty).
-
-                                                                 Internal:
-                                                                 For diagnostic use only:
-                                                                 0x4 = 4K entries.
-                                                                 0x5 = 16K entries.
-                                                                 0x6 = 64K entries.
-                                                                 0x7 = 256K entries.
-                                                                 0x8 = 1M entries. */
+                                                                 means empty). */
 #else /* Word 0 - Little Endian */
         uint64_t qsize                 : 4;  /**< [  3:  0](R/W) Specifies AQ ring size in entries of 16 bytes:
                                                                  0x0 = 16 entries.
@@ -1633,15 +1357,7 @@ union cavm_npa_af_aq_cfg
                                                                  0x4-0xF = Reserved.
 
                                                                  Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
-                                                                 means empty).
-
-                                                                 Internal:
-                                                                 For diagnostic use only:
-                                                                 0x4 = 4K entries.
-                                                                 0x5 = 16K entries.
-                                                                 0x6 = 64K entries.
-                                                                 0x7 = 256K entries.
-                                                                 0x8 = 1M entries. */
+                                                                 means empty). */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -1778,21 +1494,13 @@ union cavm_npa_af_aq_done_ack
 
                                                                  Written by software to acknowledge interrupts. If NPA_AF_AQ_DONE[DONE] is
                                                                  still nonzero the interrupt will be re-sent if the conditions described in
-                                                                 NPA_AF_AQ_DONE[DONE] are satisfied.
-
-                                                                 Internal:
-                                                                 If [DONE_ACK] write value is greater than NPA_AF_AQ_DONE[DONE], hardware
-                                                                 resets NPA_AF_AQ_DONE[DONE] to zero. */
+                                                                 NPA_AF_AQ_DONE[DONE] are satisfied. */
 #else /* Word 0 - Little Endian */
         uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to NPA_AF_AQ_DONE[DONE]. Reads NPA_AF_AQ_DONE[DONE].
 
                                                                  Written by software to acknowledge interrupts. If NPA_AF_AQ_DONE[DONE] is
                                                                  still nonzero the interrupt will be re-sent if the conditions described in
-                                                                 NPA_AF_AQ_DONE[DONE] are satisfied.
-
-                                                                 Internal:
-                                                                 If [DONE_ACK] write value is greater than NPA_AF_AQ_DONE[DONE], hardware
-                                                                 resets NPA_AF_AQ_DONE[DONE] to zero. */
+                                                                 NPA_AF_AQ_DONE[DONE] are satisfied. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -1927,46 +1635,6 @@ static inline uint64_t CAVM_NPA_AF_AQ_DONE_INT_FUNC(void)
 #define device_bar_CAVM_NPA_AF_AQ_DONE_INT 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPA_AF_AQ_DONE_INT 0
 #define arguments_CAVM_NPA_AF_AQ_DONE_INT -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npa_af_aq_done_int_w1s
- *
- * INTERNAL: NPA AF AQ Done Interrupt Set Register
- */
-union cavm_npa_af_aq_done_int_w1s
-{
-    uint64_t u;
-    struct cavm_npa_af_aq_done_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See NPA_AF_AQ_DONE[DONE]. Note this bit is read-only, to
-                                                                 acknowledge interrupts use NPA_AF_AQ_DONE_ACK. To test interrupts, write
-                                                                 nonzero to NPA_AF_AQ_DONE[DONE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See NPA_AF_AQ_DONE[DONE]. Note this bit is read-only, to
-                                                                 acknowledge interrupts use NPA_AF_AQ_DONE_ACK. To test interrupts, write
-                                                                 nonzero to NPA_AF_AQ_DONE[DONE]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_aq_done_int_w1s_s cn; */
-};
-typedef union cavm_npa_af_aq_done_int_w1s cavm_npa_af_aq_done_int_w1s_t;
-
-#define CAVM_NPA_AF_AQ_DONE_INT_W1S CAVM_NPA_AF_AQ_DONE_INT_W1S_FUNC()
-static inline uint64_t CAVM_NPA_AF_AQ_DONE_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_AF_AQ_DONE_INT_W1S_FUNC(void)
-{
-    return 0x840030000688ll;
-}
-
-#define typedef_CAVM_NPA_AF_AQ_DONE_INT_W1S cavm_npa_af_aq_done_int_w1s_t
-#define bustype_CAVM_NPA_AF_AQ_DONE_INT_W1S CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPA_AF_AQ_DONE_INT_W1S "NPA_AF_AQ_DONE_INT_W1S"
-#define device_bar_CAVM_NPA_AF_AQ_DONE_INT_W1S 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPA_AF_AQ_DONE_INT_W1S 0
-#define arguments_CAVM_NPA_AF_AQ_DONE_INT_W1S -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npa_af_aq_done_timer
@@ -2407,26 +2075,14 @@ union cavm_npa_af_batch_accept_ctl
         uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore disable wait control bit in batch allocate command. For diagnostic use only. */
         uint64_t reserved_10_13        : 4;
         uint64_t fifo_thr              : 6;  /**< [  9:  4](R/W) Batch FIFO acceptance threshold in batch alloc transactions.  A value of zero is
-                                                                 unconditional acceptance.  Maximum value is 32 transactions.
-
-                                                                 Internal:
-                                                                 Max of 32 is due to number of NCBo credits as NBA enqueues 2-of-3 cycles for each CAS64 cycle. */
+                                                                 unconditional acceptance.  Maximum value is 32 transactions. */
         uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance thresholdin batch alloc transactions.  A value of zero is
-                                                                 unconditional acceptance.  Maximum value is 15 transactions.
-
-                                                                 Internal:
-                                                                 Max of 32 is due to number of NCBo credits as NBA enqueues 2-of-3 cycles for each CAS64 cycle. */
+                                                                 unconditional acceptance.  Maximum value is 15 transactions. */
 #else /* Word 0 - Little Endian */
         uint64_t ap_thr                : 4;  /**< [  3:  0](R/W) Batch AP acceptance thresholdin batch alloc transactions.  A value of zero is
-                                                                 unconditional acceptance.  Maximum value is 15 transactions.
-
-                                                                 Internal:
-                                                                 Max of 32 is due to number of NCBo credits as NBA enqueues 2-of-3 cycles for each CAS64 cycle. */
+                                                                 unconditional acceptance.  Maximum value is 15 transactions. */
         uint64_t fifo_thr              : 6;  /**< [  9:  4](R/W) Batch FIFO acceptance threshold in batch alloc transactions.  A value of zero is
-                                                                 unconditional acceptance.  Maximum value is 32 transactions.
-
-                                                                 Internal:
-                                                                 Max of 32 is due to number of NCBo credits as NBA enqueues 2-of-3 cycles for each CAS64 cycle. */
+                                                                 unconditional acceptance.  Maximum value is 32 transactions. */
         uint64_t reserved_10_13        : 4;
         uint64_t ign_dis_wait          : 1;  /**< [ 14: 14](R/W) Ignore disable wait control bit in batch allocate command. For diagnostic use only. */
         uint64_t stash_disable         : 1;  /**< [ 15: 15](R/W) Stash Disable control. When 1, disables stashing for batch alloc pointer returns
@@ -2452,176 +2108,6 @@ static inline uint64_t CAVM_NPA_AF_BATCH_ACCEPT_CTL_FUNC(void)
 #define device_bar_CAVM_NPA_AF_BATCH_ACCEPT_CTL 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPA_AF_BATCH_ACCEPT_CTL 0
 #define arguments_CAVM_NPA_AF_BATCH_ACCEPT_CTL -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npa_af_batch_aux_dbg_sel
- *
- * INTERNAL: NPA AF BATCH AUX Debug Select Register
- */
-union cavm_npa_af_batch_aux_dbg_sel
-{
-    uint64_t u;
-    struct cavm_npa_af_batch_aux_dbg_sel_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t sel                   : 8;  /**< [  7:  0](R/W) Extra debug select bits */
-#else /* Word 0 - Little Endian */
-        uint64_t sel                   : 8;  /**< [  7:  0](R/W) Extra debug select bits */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_batch_aux_dbg_sel_s cn; */
-};
-typedef union cavm_npa_af_batch_aux_dbg_sel cavm_npa_af_batch_aux_dbg_sel_t;
-
-#define CAVM_NPA_AF_BATCH_AUX_DBG_SEL CAVM_NPA_AF_BATCH_AUX_DBG_SEL_FUNC()
-static inline uint64_t CAVM_NPA_AF_BATCH_AUX_DBG_SEL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_AF_BATCH_AUX_DBG_SEL_FUNC(void)
-{
-    return 0x8400300006e0ll;
-}
-
-#define typedef_CAVM_NPA_AF_BATCH_AUX_DBG_SEL cavm_npa_af_batch_aux_dbg_sel_t
-#define bustype_CAVM_NPA_AF_BATCH_AUX_DBG_SEL CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPA_AF_BATCH_AUX_DBG_SEL "NPA_AF_BATCH_AUX_DBG_SEL"
-#define device_bar_CAVM_NPA_AF_BATCH_AUX_DBG_SEL 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPA_AF_BATCH_AUX_DBG_SEL 0
-#define arguments_CAVM_NPA_AF_BATCH_AUX_DBG_SEL -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npa_af_batch_bp_test
- *
- * INTERNAL: NPA AF BATCH Backpressure Test Register
- */
-union cavm_npa_af_batch_bp_test
-{
-    uint64_t u;
-    struct cavm_npa_af_batch_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Reserved.
-                                                                 \<62\> = Reserved.
-                                                                 \<61\> = Reserved.
-                                                                 \<60\> = Reserved.
-                                                                 \<59\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<23:22\>.
-                                                                 \<58\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<21:20\>.
-                                                                 \<57\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<19:18\>.
-                                                                 \<56\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<17:16\>.
-                                                                 \<55\> = Apply backpressure to BATCH logic (ncbi_dma).       Backpressure weight
-                                                                 controlled by [BP_CFG]\<15:14\>.
-                                                                 \<54\> = Apply backpressure to BATCH logic (ncbi_rsp).       Backpressure weight
-                                                                 controlled by [BP_CFG]\<13:12\>.
-                                                                 \<53\> = Apply backpressure to BATCH logic (hwreq_free).     Backpressure weight
-                                                                 controlled by [BP_CFG]\<11:10\>.
-                                                                 \<52\> = Apply backpressure to BATCH logic (hwreq_alloc1).   Backpressure weight
-                                                                 controlled by [BP_CFG]\<9:8\>.
-                                                                 \<51\> = Apply backpressure to BATCH logic (hwreq_alloc0).   Backpressure weight
-                                                                 controlled by [BP_CFG]\<7:6\>.
-                                                                 \<50\> = Apply backpressure to BATCH logic (req_fif_lmtst).  Backpressure weight
-                                                                 controlled by [BP_CFG]\<5:4\>.
-                                                                 \<49\> = Apply backpressure to BATCH logic (req_fif_alloc1). Backpressure weight
-                                                                 controlled by [BP_CFG]\<3:2\>.
-                                                                 \<48\> = Apply backpressure to BATCH logic (req_fif_alloc0). Backpressure weight
-                                                                 controlled by [BP_CFG]\<1:0\>. */
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Reserved.
-                                                                 \<62\> = Reserved.
-                                                                 \<61\> = Reserved.
-                                                                 \<60\> = Reserved.
-                                                                 \<59\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<23:22\>.
-                                                                 \<58\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<21:20\>.
-                                                                 \<57\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<19:18\>.
-                                                                 \<56\> = Apply backpressure to BATCH logic. Backpressure weight controlled by [BP_CFG]\<17:16\>.
-                                                                 \<55\> = Apply backpressure to BATCH logic (ncbi_dma).       Backpressure weight
-                                                                 controlled by [BP_CFG]\<15:14\>.
-                                                                 \<54\> = Apply backpressure to BATCH logic (ncbi_rsp).       Backpressure weight
-                                                                 controlled by [BP_CFG]\<13:12\>.
-                                                                 \<53\> = Apply backpressure to BATCH logic (hwreq_free).     Backpressure weight
-                                                                 controlled by [BP_CFG]\<11:10\>.
-                                                                 \<52\> = Apply backpressure to BATCH logic (hwreq_alloc1).   Backpressure weight
-                                                                 controlled by [BP_CFG]\<9:8\>.
-                                                                 \<51\> = Apply backpressure to BATCH logic (hwreq_alloc0).   Backpressure weight
-                                                                 controlled by [BP_CFG]\<7:6\>.
-                                                                 \<50\> = Apply backpressure to BATCH logic (req_fif_lmtst).  Backpressure weight
-                                                                 controlled by [BP_CFG]\<5:4\>.
-                                                                 \<49\> = Apply backpressure to BATCH logic (req_fif_alloc1). Backpressure weight
-                                                                 controlled by [BP_CFG]\<3:2\>.
-                                                                 \<48\> = Apply backpressure to BATCH logic (req_fif_alloc0). Backpressure weight
-                                                                 controlled by [BP_CFG]\<1:0\>. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_batch_bp_test_s cn; */
-};
-typedef union cavm_npa_af_batch_bp_test cavm_npa_af_batch_bp_test_t;
-
-#define CAVM_NPA_AF_BATCH_BP_TEST CAVM_NPA_AF_BATCH_BP_TEST_FUNC()
-static inline uint64_t CAVM_NPA_AF_BATCH_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_AF_BATCH_BP_TEST_FUNC(void)
-{
-    return 0x8400300006b0ll;
-}
-
-#define typedef_CAVM_NPA_AF_BATCH_BP_TEST cavm_npa_af_batch_bp_test_t
-#define bustype_CAVM_NPA_AF_BATCH_BP_TEST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPA_AF_BATCH_BP_TEST "NPA_AF_BATCH_BP_TEST"
-#define device_bar_CAVM_NPA_AF_BATCH_BP_TEST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPA_AF_BATCH_BP_TEST 0
-#define arguments_CAVM_NPA_AF_BATCH_BP_TEST -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npa_af_batch_ctl
@@ -2663,42 +2149,6 @@ static inline uint64_t CAVM_NPA_AF_BATCH_CTL_FUNC(void)
 #define device_bar_CAVM_NPA_AF_BATCH_CTL 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPA_AF_BATCH_CTL 0
 #define arguments_CAVM_NPA_AF_BATCH_CTL -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npa_af_batch_eco
- *
- * INTERNAL: NPA AF BATCH ECO Register
- */
-union cavm_npa_af_batch_eco
-{
-    uint64_t u;
-    struct cavm_npa_af_batch_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_batch_eco_s cn; */
-};
-typedef union cavm_npa_af_batch_eco cavm_npa_af_batch_eco_t;
-
-#define CAVM_NPA_AF_BATCH_ECO CAVM_NPA_AF_BATCH_ECO_FUNC()
-static inline uint64_t CAVM_NPA_AF_BATCH_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_AF_BATCH_ECO_FUNC(void)
-{
-    return 0x8400300006b8ll;
-}
-
-#define typedef_CAVM_NPA_AF_BATCH_ECO cavm_npa_af_batch_eco_t
-#define bustype_CAVM_NPA_AF_BATCH_ECO CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPA_AF_BATCH_ECO "NPA_AF_BATCH_ECO"
-#define device_bar_CAVM_NPA_AF_BATCH_ECO 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPA_AF_BATCH_ECO 0
-#define arguments_CAVM_NPA_AF_BATCH_ECO -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npa_af_batch_err_data0
@@ -2821,146 +2271,6 @@ static inline uint64_t CAVM_NPA_AF_BLK_RST_FUNC(void)
 #define device_bar_CAVM_NPA_AF_BLK_RST 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPA_AF_BLK_RST 0
 #define arguments_CAVM_NPA_AF_BLK_RST -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npa_af_bp_test
- *
- * INTERNAL: NPA AF Backpressure Test Register
- */
-union cavm_npa_af_bp_test
-{
-    uint64_t u;
-    struct cavm_npa_af_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Reserved.
-                                                                 \<62\> = Reserved.
-                                                                 \<61\> = Reserved.
-                                                                 \<60\> = Reserved.
-                                                                 \<59\> = Apply backpressure to the npa_aq_master ndci accesses. Backpressure weight controlled
-                                                                 by [BP_CFG]\<23:22\>.
-                                                                 \<58\> = Apply backpressure to the npa_qint_pipeline ndci accesses. Backpressure weight controlled
-                                                                 by [BP_CFG]\<21:20\>.
-                                                                 \<57:56\> = Apply backpressure to the 2 stack ndci ports. Backpressure weight controlled
-                                                                 by [BP_CFG]\<19:18\> and [BP_CFG]\<17:16\>.
-                                                                 \<55:54\> = Apply backpressure to the 2 pool ndci ports. Backpressure weight controlled
-                                                                 by [BP_CFG]\<15:14\> and [BP_CFG]\<13:12\>.
-                                                                 \<53:52\> = Apply backpressure to the 2 aura ndci ports (note that OOB and AQM
-                                                                 also access NDCI through these ports as they get muxed in). Backpressure weight
-                                                                 controlled
-                                                                 by [BP_CFG]\<11:10\> and [BP_CFG]\<9:8\>.
-                                                                 \<51\> = Apply backpressure to npa_buffer_alloc (back-pressures the buffer_id
-                                                                 allocation. Includes noncsr/oob accesses). Backpressure weight controlled
-                                                                 by [BP_CFG]\<7:6\>.
-                                                                 \<50\> = Apply backpressure to npa_alloc arb (5 input interfaces share this common
-                                                                 control at the point where NPA picks one of them). Backpressure weight
-                                                                 controlled
-                                                                 by [BP_CFG]\<5:4\>.
-                                                                 \<49\> = Apply backpressure to npa_lf_to_pipe traffic. Backpressure weight controlled
-                                                                 by [BP_CFG]\<3:2\>.
-                                                                 \<48\> = Apply backpressure to npa_atomic_blk (i.e. s/w ops) traffic. Backpressure weight controlled
-                                                                 by [BP_CFG]\<1:0\>. */
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=25% of the time, 0x2=50% of the time,
-                                                                 0x3=75% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> = Reserved.
-                                                                 \<62\> = Reserved.
-                                                                 \<61\> = Reserved.
-                                                                 \<60\> = Reserved.
-                                                                 \<59\> = Apply backpressure to the npa_aq_master ndci accesses. Backpressure weight controlled
-                                                                 by [BP_CFG]\<23:22\>.
-                                                                 \<58\> = Apply backpressure to the npa_qint_pipeline ndci accesses. Backpressure weight controlled
-                                                                 by [BP_CFG]\<21:20\>.
-                                                                 \<57:56\> = Apply backpressure to the 2 stack ndci ports. Backpressure weight controlled
-                                                                 by [BP_CFG]\<19:18\> and [BP_CFG]\<17:16\>.
-                                                                 \<55:54\> = Apply backpressure to the 2 pool ndci ports. Backpressure weight controlled
-                                                                 by [BP_CFG]\<15:14\> and [BP_CFG]\<13:12\>.
-                                                                 \<53:52\> = Apply backpressure to the 2 aura ndci ports (note that OOB and AQM
-                                                                 also access NDCI through these ports as they get muxed in). Backpressure weight
-                                                                 controlled
-                                                                 by [BP_CFG]\<11:10\> and [BP_CFG]\<9:8\>.
-                                                                 \<51\> = Apply backpressure to npa_buffer_alloc (back-pressures the buffer_id
-                                                                 allocation. Includes noncsr/oob accesses). Backpressure weight controlled
-                                                                 by [BP_CFG]\<7:6\>.
-                                                                 \<50\> = Apply backpressure to npa_alloc arb (5 input interfaces share this common
-                                                                 control at the point where NPA picks one of them). Backpressure weight
-                                                                 controlled
-                                                                 by [BP_CFG]\<5:4\>.
-                                                                 \<49\> = Apply backpressure to npa_lf_to_pipe traffic. Backpressure weight controlled
-                                                                 by [BP_CFG]\<3:2\>.
-                                                                 \<48\> = Apply backpressure to npa_atomic_blk (i.e. s/w ops) traffic. Backpressure weight controlled
-                                                                 by [BP_CFG]\<1:0\>. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_bp_test_s cn; */
-};
-typedef union cavm_npa_af_bp_test cavm_npa_af_bp_test_t;
-
-#define CAVM_NPA_AF_BP_TEST CAVM_NPA_AF_BP_TEST_FUNC()
-static inline uint64_t CAVM_NPA_AF_BP_TEST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_AF_BP_TEST_FUNC(void)
-{
-    return 0x840030000200ll;
-}
-
-#define typedef_CAVM_NPA_AF_BP_TEST cavm_npa_af_bp_test_t
-#define bustype_CAVM_NPA_AF_BP_TEST CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPA_AF_BP_TEST "NPA_AF_BP_TEST"
-#define device_bar_CAVM_NPA_AF_BP_TEST 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPA_AF_BP_TEST 0
-#define arguments_CAVM_NPA_AF_BP_TEST -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npa_af_const
@@ -3099,42 +2409,6 @@ static inline uint64_t CAVM_NPA_AF_DTX_FILTER_CTL_FUNC(void)
 #define device_bar_CAVM_NPA_AF_DTX_FILTER_CTL 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_NPA_AF_DTX_FILTER_CTL 0
 #define arguments_CAVM_NPA_AF_DTX_FILTER_CTL -1,-1,-1,-1
-
-/**
- * Register (RVU_PF_BAR0) npa_af_eco
- *
- * INTERNAL: NPA AF ECO Register
- */
-union cavm_npa_af_eco
-{
-    uint64_t u;
-    struct cavm_npa_af_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_af_eco_s cn; */
-};
-typedef union cavm_npa_af_eco cavm_npa_af_eco_t;
-
-#define CAVM_NPA_AF_ECO CAVM_NPA_AF_ECO_FUNC()
-static inline uint64_t CAVM_NPA_AF_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_AF_ECO_FUNC(void)
-{
-    return 0x840030000300ll;
-}
-
-#define typedef_CAVM_NPA_AF_ECO cavm_npa_af_eco_t
-#define bustype_CAVM_NPA_AF_ECO CSR_TYPE_RVU_PF_BAR0
-#define basename_CAVM_NPA_AF_ECO "NPA_AF_ECO"
-#define device_bar_CAVM_NPA_AF_ECO 0x0 /* RVU_BAR0 */
-#define busnum_CAVM_NPA_AF_ECO 0
-#define arguments_CAVM_NPA_AF_ECO -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) npa_af_err_int
@@ -3326,19 +2600,11 @@ union cavm_npa_af_gen_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t stash_cmd_ststf       : 1;  /**< [ 16: 16](R/W) Replace the use of STSTP in NCBi commands with STSTF when the stashing command option is selected.
-                                                                 Internal:
-                                                                 Use of STSTP should work, so this is a fallback option that likely won't be used. */
+        uint64_t stash_cmd_ststf       : 1;  /**< [ 16: 16](R/W) Replace the use of STSTP in NCBi commands with STSTF when the stashing command option is selected. */
         uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
-                                                                 alloc/frees are slower. For diagnostic use only.
-
-                                                                 Internal:
-                                                                 Used for OCLA visibility. */
+                                                                 alloc/frees are slower. For diagnostic use only. */
         uint64_t reserved_11           : 1;
-        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved.
-                                                                 Internal:
-                                                                 OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
-                                                                 alloc/frees. See also [RATEM1]. */
+        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved. */
         uint64_t reserved_5_9          : 5;
         uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
         uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
@@ -3352,19 +2618,11 @@ union cavm_npa_af_gen_cfg
         uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
         uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
         uint64_t reserved_5_9          : 5;
-        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved.
-                                                                 Internal:
-                                                                 OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
-                                                                 alloc/frees. See also [RATEM1]. */
+        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved. */
         uint64_t reserved_11           : 1;
         uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
-                                                                 alloc/frees are slower. For diagnostic use only.
-
-                                                                 Internal:
-                                                                 Used for OCLA visibility. */
-        uint64_t stash_cmd_ststf       : 1;  /**< [ 16: 16](R/W) Replace the use of STSTP in NCBi commands with STSTF when the stashing command option is selected.
-                                                                 Internal:
-                                                                 Use of STSTP should work, so this is a fallback option that likely won't be used. */
+                                                                 alloc/frees are slower. For diagnostic use only. */
+        uint64_t stash_cmd_ststf       : 1;  /**< [ 16: 16](R/W) Replace the use of STSTP in NCBi commands with STSTF when the stashing command option is selected. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -3374,15 +2632,9 @@ union cavm_npa_af_gen_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
-                                                                 alloc/frees are slower. For diagnostic use only.
-
-                                                                 Internal:
-                                                                 Used for OCLA visibility. */
+                                                                 alloc/frees are slower. For diagnostic use only. */
         uint64_t reserved_11           : 1;
-        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved.
-                                                                 Internal:
-                                                                 OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
-                                                                 alloc/frees. See also [RATEM1]. */
+        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved. */
         uint64_t reserved_5_9          : 5;
         uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
         uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
@@ -3396,16 +2648,10 @@ union cavm_npa_af_gen_cfg
         uint64_t force_cond_clk_en     : 1;  /**< [  3:  3](R/W) Force clock enables within block. For diagnostic use only. */
         uint64_t force_intf_clk_en     : 1;  /**< [  4:  4](R/W) Force clock enables on interface buses between blocks. For diagnostic use only. */
         uint64_t reserved_5_9          : 5;
-        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved.
-                                                                 Internal:
-                                                                 OCLA backpressure enable. When OCLA FIFOs are near full, allow OCLA to backpressure
-                                                                 alloc/frees. See also [RATEM1]. */
+        uint64_t ocla_bp               : 1;  /**< [ 10: 10](R/W) Reserved. */
         uint64_t reserved_11           : 1;
         uint64_t ratem1                : 4;  /**< [ 15: 12](R/W) Limit peak alloc/frees to once per [RATEM1]+1 clock cycles to ensure all
-                                                                 alloc/frees are slower. For diagnostic use only.
-
-                                                                 Internal:
-                                                                 Used for OCLA visibility. */
+                                                                 alloc/frees are slower. For diagnostic use only. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn10ka;
@@ -3626,20 +2872,12 @@ union cavm_npa_af_inp_ctl
         uint64_t free_dis              : 16; /**< [ 15:  0](R/W) Free input disable.
                                                                  Each bit corresponds to a hardware allocation input queue from a coprocessor. Bit indices
                                                                  are enumerated by NPA_INPQ_E.
-                                                                 If set, a FREE request to the queue is dropped and NPA_AF_GEN_INT[FREE_DIS] is set.
-
-                                                                 Internal:
-                                                                 Once the grant is sent, the request is marked and it is dropped when the request
-                                                                 data is received. */
+                                                                 If set, a FREE request to the queue is dropped and NPA_AF_GEN_INT[FREE_DIS] is set. */
 #else /* Word 0 - Little Endian */
         uint64_t free_dis              : 16; /**< [ 15:  0](R/W) Free input disable.
                                                                  Each bit corresponds to a hardware allocation input queue from a coprocessor. Bit indices
                                                                  are enumerated by NPA_INPQ_E.
-                                                                 If set, a FREE request to the queue is dropped and NPA_AF_GEN_INT[FREE_DIS] is set.
-
-                                                                 Internal:
-                                                                 Once the grant is sent, the request is marked and it is dropped when the request
-                                                                 data is received. */
+                                                                 If set, a FREE request to the queue is dropped and NPA_AF_GEN_INT[FREE_DIS] is set. */
         uint64_t alloc_dis             : 16; /**< [ 31: 16](R/W) Allocation input disable.
                                                                  Each bit corresponds to a hardware allocation input queue from a coprocessor. Bit indices
                                                                  are enumerated by NPA_INPQ_E.
@@ -3677,22 +2915,9 @@ union cavm_npa_af_lfx_auras_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t rmt_lf                : 7;  /**< [ 60: 54](R/W) Reserved.
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote local function. NPA LF on the remote node that manages the aura
-                                                                 range specified by [RMT_AURA_OFFSET] and [RMT_AURA_SIZE]. See
-                                                                 [LOC_AURA_OFFSET]. */
-        uint64_t rmt_aura_offset       : 14; /**< [ 53: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Minimum aura number managed by the NPA on the remote node divided by 64.
-                                                                 See [LOC_AURA_OFFSET]. */
-        uint64_t rmt_aura_size         : 4;  /**< [ 39: 36](R/W) Reserved. Must be zero.
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Specifies number of auras managed by the NPA on the remote node. See
-                                                                 [LOC_AURA_SIZE] and [LOC_AURA_OFFSET]. */
+        uint64_t rmt_lf                : 7;  /**< [ 60: 54](R/W) Reserved. */
+        uint64_t rmt_aura_offset       : 14; /**< [ 53: 40](R/W) Reserved. */
+        uint64_t rmt_aura_size         : 4;  /**< [ 39: 36](R/W) Reserved. Must be zero. */
         uint64_t reserved_35           : 1;
         uint64_t caching               : 1;  /**< [ 34: 34](R/W) Selects the style read for accessing NPA_AURA_HW_S in LLC/DRAM:
                                                                  0x0 = NPA_AURA_HW_S reads will not allocate into the LLC.
@@ -3709,17 +2934,7 @@ union cavm_npa_af_lfx_auras_cfg
                                                                  _ loc_start = [LOC_AURA_OFFSET]*64
                                                                  _ loc_limit = [LOC_AURA_OFFSET]*64 + (1 \<\< ([LOC_AURA_SIZE] + 6))
 
-                                                                 See also NPA_AF_LF()_LOC_AURAS_BASE.
-
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Likewise, when [RMT_AURA_SIZE] is zero, there are no remote auras for this
-                                                                 LF. Otherwise, the range of remote aura numbers managed by the NPA on
-                                                                 the remote node is rmt_start through rmt_limit-1, inclusive, where:
-                                                                 _ rmt_start = [RMT_AURA_OFFSET]*64
-                                                                 _ rmt_limit = [RMT_AURA_OFFSET]*64 + (1 \<\< ([RMT_AURA_SIZE] + 6))
-
-                                                                 The local and remote aura ranges must not overlap. */
+                                                                 See also NPA_AF_LF()_LOC_AURAS_BASE. */
         uint64_t loc_aura_size         : 4;  /**< [ 19: 16](R/W) Local aura size. Specifies number of auras managed by this NPA as follows:
                                                                  0x0 = 0 auras.
                                                                  0x1 = 128 auras.
@@ -3740,16 +2955,10 @@ union cavm_npa_af_lfx_auras_cfg
 
                                                                  See [LOC_AURA_OFFSET]. */
         uint64_t way_mask              : 16; /**< [ 15:  0](R/W) Way partitioning mask for allocating associated NPA_AURA_HW_S in NDC (1
-                                                                 means do not use). All ones disables allocation in NDC.
-
-                                                                 Internal:
-                                                                 Bypass NDC when all ones. */
+                                                                 means do not use). All ones disables allocation in NDC. */
 #else /* Word 0 - Little Endian */
         uint64_t way_mask              : 16; /**< [ 15:  0](R/W) Way partitioning mask for allocating associated NPA_AURA_HW_S in NDC (1
-                                                                 means do not use). All ones disables allocation in NDC.
-
-                                                                 Internal:
-                                                                 Bypass NDC when all ones. */
+                                                                 means do not use). All ones disables allocation in NDC. */
         uint64_t loc_aura_size         : 4;  /**< [ 19: 16](R/W) Local aura size. Specifies number of auras managed by this NPA as follows:
                                                                  0x0 = 0 auras.
                                                                  0x1 = 128 auras.
@@ -3778,17 +2987,7 @@ union cavm_npa_af_lfx_auras_cfg
                                                                  _ loc_start = [LOC_AURA_OFFSET]*64
                                                                  _ loc_limit = [LOC_AURA_OFFSET]*64 + (1 \<\< ([LOC_AURA_SIZE] + 6))
 
-                                                                 See also NPA_AF_LF()_LOC_AURAS_BASE.
-
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Likewise, when [RMT_AURA_SIZE] is zero, there are no remote auras for this
-                                                                 LF. Otherwise, the range of remote aura numbers managed by the NPA on
-                                                                 the remote node is rmt_start through rmt_limit-1, inclusive, where:
-                                                                 _ rmt_start = [RMT_AURA_OFFSET]*64
-                                                                 _ rmt_limit = [RMT_AURA_OFFSET]*64 + (1 \<\< ([RMT_AURA_SIZE] + 6))
-
-                                                                 The local and remote aura ranges must not overlap. */
+                                                                 See also NPA_AF_LF()_LOC_AURAS_BASE. */
         uint64_t caching               : 1;  /**< [ 34: 34](R/W) Selects the style read for accessing NPA_AURA_HW_S in LLC/DRAM:
                                                                  0x0 = NPA_AURA_HW_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_AURA_HW_S reads are allocated into the LLC.
@@ -3796,22 +2995,9 @@ union cavm_npa_af_lfx_auras_cfg
                                                                  NPA_AURA_HW_S writes that are not allocated in NDC will always allocate
                                                                  into LLC. */
         uint64_t reserved_35           : 1;
-        uint64_t rmt_aura_size         : 4;  /**< [ 39: 36](R/W) Reserved. Must be zero.
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Specifies number of auras managed by the NPA on the remote node. See
-                                                                 [LOC_AURA_SIZE] and [LOC_AURA_OFFSET]. */
-        uint64_t rmt_aura_offset       : 14; /**< [ 53: 40](R/W) Reserved.
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Minimum aura number managed by the NPA on the remote node divided by 64.
-                                                                 See [LOC_AURA_OFFSET]. */
-        uint64_t rmt_lf                : 7;  /**< [ 60: 54](R/W) Reserved.
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote local function. NPA LF on the remote node that manages the aura
-                                                                 range specified by [RMT_AURA_OFFSET] and [RMT_AURA_SIZE]. See
-                                                                 [LOC_AURA_OFFSET]. */
+        uint64_t rmt_aura_size         : 4;  /**< [ 39: 36](R/W) Reserved. Must be zero. */
+        uint64_t rmt_aura_offset       : 14; /**< [ 53: 40](R/W) Reserved. */
+        uint64_t rmt_lf                : 7;  /**< [ 60: 54](R/W) Reserved. */
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;
@@ -3951,18 +3137,12 @@ union cavm_npa_af_lfx_qints_cfg
                                                                  NPA_QINT_HW_S writes that are not allocated in NDC will always allocate
                                                                  into LLC. */
         uint64_t way_mask              : 16; /**< [ 35: 20](R/W) Way partitioning mask for allocating context structures in NDC (1 means do
-                                                                 not use). All ones disables allocation in NDC.
-
-                                                                 Internal:
-                                                                 Bypass NDC when all ones. */
+                                                                 not use). All ones disables allocation in NDC. */
         uint64_t reserved_0_19         : 20;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_19         : 20;
         uint64_t way_mask              : 16; /**< [ 35: 20](R/W) Way partitioning mask for allocating context structures in NDC (1 means do
-                                                                 not use). All ones disables allocation in NDC.
-
-                                                                 Internal:
-                                                                 Bypass NDC when all ones. */
+                                                                 not use). All ones disables allocation in NDC. */
         uint64_t caching               : 2;  /**< [ 37: 36](R/W) Selects the style read for accessing NPA_QINT_HW_S in LLC/DRAM:
                                                                  0x0 = NPA_QINT_HW_S reads will not allocate into the LLC.
                                                                  0x1 = NPA_QINT_HW_S reads are allocated into the LLC.
@@ -4007,17 +3187,7 @@ union cavm_npa_af_lf_rst
         uint64_t reserved_13_63        : 51;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
-                                                                 done.
-
-                                                                 Internal:
-                                                                 This comment applies to all blocks that refer to this register:
-
-                                                                 This should preferrably reset all registers/state associated with the LF, including
-                                                                 any BLK_LF_* and BLK_AF_LF()_* registers. It would also be nice to reset any per-LF
-                                                                 bits in other registers but its OK to have exceptions as long as the AF software has
-                                                                 another way to reset them, e.g. by writing to the bits. Such additional steps
-                                                                 expected from software should be documented in the HRM, e.g. in section 19.11.5
-                                                                 "VF Function Level Reset". */
+                                                                 done. */
         uint64_t reserved_8_11         : 4;
         uint64_t lf                    : 8;  /**< [  7:  0](R/W) Local function that is reset when [EXEC] is set. */
 #else /* Word 0 - Little Endian */
@@ -4025,17 +3195,7 @@ union cavm_npa_af_lf_rst
         uint64_t reserved_8_11         : 4;
         uint64_t exec                  : 1;  /**< [ 12: 12](R/W1S/H) Execute LF software-initiated reset. When software writes a one to set this bit, hardware
                                                                  resets the local function selected by [LF]. Hardware clears this bit when
-                                                                 done.
-
-                                                                 Internal:
-                                                                 This comment applies to all blocks that refer to this register:
-
-                                                                 This should preferrably reset all registers/state associated with the LF, including
-                                                                 any BLK_LF_* and BLK_AF_LF()_* registers. It would also be nice to reset any per-LF
-                                                                 bits in other registers but its OK to have exceptions as long as the AF software has
-                                                                 another way to reset them, e.g. by writing to the bits. Such additional steps
-                                                                 expected from software should be documented in the HRM, e.g. in section 19.11.5
-                                                                 "VF Function Level Reset". */
+                                                                 done. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
@@ -4348,16 +3508,10 @@ union cavm_npa_af_rvu_int
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Unmapped slot. Received an I/O request to a VF/PF slot in BAR2 that is not
-                                                                 reverse mapped to an LF. See NPA_PRIV_LF()_CFG.
-
-                                                                 Internal:
-                                                                 A reverse lookup using NPA_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+                                                                 reverse mapped to an LF. See NPA_PRIV_LF()_CFG. */
 #else /* Word 0 - Little Endian */
         uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Unmapped slot. Received an I/O request to a VF/PF slot in BAR2 that is not
-                                                                 reverse mapped to an LF. See NPA_PRIV_LF()_CFG.
-
-                                                                 Internal:
-                                                                 A reverse lookup using NPA_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+                                                                 reverse mapped to an LF. See NPA_PRIV_LF()_CFG. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -4392,13 +3546,9 @@ union cavm_npa_af_rvu_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NPA_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using NPA_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NPA_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NPA_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using NPA_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NPA_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -4433,13 +3583,9 @@ union cavm_npa_af_rvu_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NPA_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using NPA_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NPA_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NPA_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using NPA_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NPA_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -4474,13 +3620,9 @@ union cavm_npa_af_rvu_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NPA_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using NPA_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NPA_AF_RVU_INT[UNMAPPED_SLOT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NPA_AF_RVU_INT[UNMAPPED_SLOT].
-                                                                 Internal:
-                                                                 A reverse lookup using NPA_AF_RVU_LF_CFG_DEBUG will never set this bit. */
+        uint64_t unmapped_slot         : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NPA_AF_RVU_INT[UNMAPPED_SLOT]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -4668,24 +3810,7 @@ union cavm_npa_lf_aura_batch_free0
         uint64_t reserved_33_62        : 30;
         uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Least significant bit of the count of the number of valid pointers to free on
                                                                  the LMTST transaction. COUNT_EOT must be 0 when the number of pointers to free
-                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd.
-
-                                                                 Internal:
-                                                                 "[COUNT_EOT] is defined so that it would be consistent as the LSB of a full
-                                                                 COUNT field which would range from 1 to 15. If software provides feedback that
-                                                                 the full COUNT field is required, the HW will maintain some level of
-                                                                 compatibility in the case we decide to revert to the original definition and add
-                                                                 error reporting. For reference, the original 4b COUNT field definition was -
-                                                                 Count of number of pointers to free. Maximum value of 15 and minimum value 1.
-
-                                                                 Count of number of valid pointers on the final 128b word of the LMTST
-                                                                 transaction. COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid
-                                                                 pointer, word[127:64] is ignored. COUNT_EOT=1, indicates that the final LMTST
-                                                                 word[63:0] and word[127:64] have valid pointers.
-
-                                                                 For the single pointer free case, COUNT_EOT must be 0 as the control information
-                                                                 will reside in LMTST word[63:0] and the single pointer free in word[127:64].
-                                                                 " */
+                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd. */
         uint64_t reserved_20_31        : 12;
         uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
 #else /* Word 0 - Little Endian */
@@ -4693,24 +3818,7 @@ union cavm_npa_lf_aura_batch_free0
         uint64_t reserved_20_31        : 12;
         uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Least significant bit of the count of the number of valid pointers to free on
                                                                  the LMTST transaction. COUNT_EOT must be 0 when the number of pointers to free
-                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd.
-
-                                                                 Internal:
-                                                                 "[COUNT_EOT] is defined so that it would be consistent as the LSB of a full
-                                                                 COUNT field which would range from 1 to 15. If software provides feedback that
-                                                                 the full COUNT field is required, the HW will maintain some level of
-                                                                 compatibility in the case we decide to revert to the original definition and add
-                                                                 error reporting. For reference, the original 4b COUNT field definition was -
-                                                                 Count of number of pointers to free. Maximum value of 15 and minimum value 1.
-
-                                                                 Count of number of valid pointers on the final 128b word of the LMTST
-                                                                 transaction. COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid
-                                                                 pointer, word[127:64] is ignored. COUNT_EOT=1, indicates that the final LMTST
-                                                                 word[63:0] and word[127:64] have valid pointers.
-
-                                                                 For the single pointer free case, COUNT_EOT must be 0 as the control information
-                                                                 will reside in LMTST word[63:0] and the single pointer free in word[127:64].
-                                                                 " */
+                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd. */
         uint64_t reserved_33_62        : 30;
         uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
                                                                  provided. If clear, the pointers are adjusted based on NPA_POOL_S[NAT_ALIGN],
@@ -4727,24 +3835,7 @@ union cavm_npa_lf_aura_batch_free0
         uint64_t reserved_33_35        : 3;
         uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Least significant bit of the count of the number of valid pointers to free on
                                                                  the LMTST transaction. COUNT_EOT must be 0 when the number of pointers to free
-                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd.
-
-                                                                 Internal:
-                                                                 "[COUNT_EOT] is defined so that it would be consistent as the LSB of a full
-                                                                 COUNT field which would range from 1 to 15. If software provides feedback that
-                                                                 the full COUNT field is required, the HW will maintain some level of
-                                                                 compatibility in the case we decide to revert to the original definition and add
-                                                                 error reporting. For reference, the original 4b COUNT field definition was -
-                                                                 Count of number of pointers to free. Maximum value of 15 and minimum value 1.
-
-                                                                 Count of number of valid pointers on the final 128b word of the LMTST
-                                                                 transaction. COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid
-                                                                 pointer, word[127:64] is ignored. COUNT_EOT=1, indicates that the final LMTST
-                                                                 word[63:0] and word[127:64] have valid pointers.
-
-                                                                 For the single pointer free case, COUNT_EOT must be 0 as the control information
-                                                                 will reside in LMTST word[63:0] and the single pointer free in word[127:64].
-                                                                 " */
+                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd. */
         uint64_t reserved_20_31        : 12;
         uint64_t aura                  : 20; /**< [ 19:  0](R/W/H) Aura to which to free pointers. */
 #else /* Word 0 - Little Endian */
@@ -4752,24 +3843,7 @@ union cavm_npa_lf_aura_batch_free0
         uint64_t reserved_20_31        : 12;
         uint64_t count_eot             : 1;  /**< [ 32: 32](R/W/H) Least significant bit of the count of the number of valid pointers to free on
                                                                  the LMTST transaction. COUNT_EOT must be 0 when the number of pointers to free
-                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd.
-
-                                                                 Internal:
-                                                                 "[COUNT_EOT] is defined so that it would be consistent as the LSB of a full
-                                                                 COUNT field which would range from 1 to 15. If software provides feedback that
-                                                                 the full COUNT field is required, the HW will maintain some level of
-                                                                 compatibility in the case we decide to revert to the original definition and add
-                                                                 error reporting. For reference, the original 4b COUNT field definition was -
-                                                                 Count of number of pointers to free. Maximum value of 15 and minimum value 1.
-
-                                                                 Count of number of valid pointers on the final 128b word of the LMTST
-                                                                 transaction. COUNT_EOT=0, indicates that final LMTST word[63:0] is a valid
-                                                                 pointer, word[127:64] is ignored. COUNT_EOT=1, indicates that the final LMTST
-                                                                 word[63:0] and word[127:64] have valid pointers.
-
-                                                                 For the single pointer free case, COUNT_EOT must be 0 as the control information
-                                                                 will reside in LMTST word[63:0] and the single pointer free in word[127:64].
-                                                                 " */
+                                                                 is even. COUNT_EOT must be 1 when the number of pointers to free is odd. */
         uint64_t reserved_33_35        : 3;
         uint64_t reserved_36_62        : 27;
         uint64_t fabs                  : 1;  /**< [ 63: 63](R/W/H) Free absolute. If set, the pointers are absolute and pushed to the pool exactly as
@@ -4926,15 +4000,6 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_CNT_FUNC(void)
  * RAZ/WI.
  *
  * RSL accesses to this register are RAZ/WI.
- *
- * Internal:
- * A 128-bit atomic CAS to NPA_LF_AURA_OP_FREE0 and NPA_LF_AURA_OP_FREE1 frees a pointer
- * into a given aura's pool. All other accesses to these registers (e.g. reads and 64-bit
- * writes) are RAZ/WI.  RSL accesses to this register are RAZ/WI. The CAS data format is
- * given by NPA_LF_AURA_OP_FREE0_SWAP_S and NPA_LF_AURA_OP_FREE1_SWAP_S. The swap
- * data for the CAS is written to the registers, while the compare data is ignored.
- * The CAS result value will always be zero.
- * Note that the register field descriptions below are OBSOLETE.
  */
 union cavm_npa_lf_aura_op_free0
 {
@@ -4942,13 +4007,9 @@ union cavm_npa_lf_aura_op_free0
     struct cavm_npa_lf_aura_op_free0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](WO) Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA].
-                                                                 Internal:
-                                                                 ADDR is OBSOLETE when using CAS access. */
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](WO) Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA].
-                                                                 Internal:
-                                                                 ADDR is OBSOLETE when using CAS access. */
+        uint64_t addr                  : 64; /**< [ 63:  0](WO) Pointer to be returned to the Aura specified in NPA_LF_AURA_OP_FREE1[AURA]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_op_free0_s cn; */
@@ -4976,12 +4037,6 @@ static inline uint64_t CAVM_NPA_LF_AURA_OP_FREE0_FUNC(void)
  * See NPA_LF_AURA_OP_FREE0.
  *
  * RSL accesses to this register are RAZ/WI.
- *
- * Internal:
- * See NPA_LF_AURA_OP_FREE0. Access only as part of a CAS operation to NPA_LF_AURA_OP_FREE0.
- * All other accesses to these registers (e.g. reads and 64-bit writes) are RAZ/WI.
- * RSL accesses to this register are RAZ/WI.
- * Note that the register field descriptions below are OBSOLETE.
  */
 union cavm_npa_lf_aura_op_free1
 {
@@ -4991,25 +4046,15 @@ union cavm_npa_lf_aura_op_free1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t fabs                  : 1;  /**< [ 63: 63](WO) Free absolute. If set, the pointer is absolute and is pushed to
                                                                  the pool exactly as provided. If clear, the freed pointer is adjusted based
-                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE].
-
-                                                                 Internal:
-                                                                 FABS is OBSOLETE when using CAS access. */
+                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
         uint64_t reserved_20_62        : 43;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF.
-                                                                 Internal:
-                                                                 AURA is OBSOLETE when using CAS access. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF.
-                                                                 Internal:
-                                                                 AURA is OBSOLETE when using CAS access. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF. */
         uint64_t reserved_20_62        : 43;
         uint64_t fabs                  : 1;  /**< [ 63: 63](WO) Free absolute. If set, the pointer is absolute and is pushed to
                                                                  the pool exactly as provided. If clear, the freed pointer is adjusted based
-                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE].
-
-                                                                 Internal:
-                                                                 FABS is OBSOLETE when using CAS access. */
+                                                                 on NPA_POOL_S[NAT_ALIGN], NPA_POOL_S[BUF_SIZE]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_aura_op_free1_s cn; */
@@ -5219,10 +4264,7 @@ union cavm_npa_lf_err_int
         uint64_t reserved_17_63        : 47;
         uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Exception in batch pointer request operation.  Interrupt conditions are
                                                                  enumerated by NPA_AF_BATCH_FAIL_E.  Additional exception state may be captured
-                                                                 in NPA_AF_BATCH_ERR_DATA0/1.
-
-                                                                 Internal:
-                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
+                                                                 in NPA_AF_BATCH_ERR_DATA0/1. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on NPA_QINT_HW_S read or write. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Memory fault on NPA_STACK_PAGE_S read or write. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Memory fault on NPA_POOL_HW_S read or write, or on write to LF IOVA
@@ -5230,24 +4272,12 @@ union cavm_npa_lf_err_int
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1C/H) Memory fault on NPA_AURA_HW_S read or write, or on write to LF IOVA
                                                                  specified by NPA_AURA_S[FC_ADDR]. */
         uint64_t reserved_4_11         : 8;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote request out of range. ALLOC or FREE from the remote node was dropped
-                                                                 because the aura number was outside of the local range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reserved. */
         uint64_t reserved_2            : 1;
         uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1C/H) Aura out of range. Coprocessor ALLOC or FREE or
                                                                  NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
                                                                  was outside of the range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET].
-
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Aura out of range. Coprocessor ALLOC or FREE or
-                                                                 NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
-                                                                 was outside of the local and remote ranges specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET,RMT_AURA_SIZE,RMT_AURA_OFFSET]. */
+                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1C/H) Aura disabled. Coprocessor allocate/return or
                                                                  NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped due to disabled aura
                                                                  (NPA_AURA_HW_S[ENA] is clear). */
@@ -5258,21 +4288,9 @@ union cavm_npa_lf_err_int
         uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1C/H) Aura out of range. Coprocessor ALLOC or FREE or
                                                                  NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
                                                                  was outside of the range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET].
-
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Aura out of range. Coprocessor ALLOC or FREE or
-                                                                 NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
-                                                                 was outside of the local and remote ranges specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET,RMT_AURA_SIZE,RMT_AURA_OFFSET]. */
-        uint64_t reserved_2            : 1;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reserved.
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote request out of range. ALLOC or FREE from the remote node was dropped
-                                                                 because the aura number was outside of the local range specified by
                                                                  NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
+        uint64_t reserved_2            : 1;
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reserved. */
         uint64_t reserved_4_11         : 8;
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1C/H) Memory fault on NPA_AURA_HW_S read or write, or on write to LF IOVA
                                                                  specified by NPA_AURA_S[FC_ADDR]. */
@@ -5282,10 +4300,7 @@ union cavm_npa_lf_err_int
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on NPA_QINT_HW_S read or write. */
         uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Exception in batch pointer request operation.  Interrupt conditions are
                                                                  enumerated by NPA_AF_BATCH_FAIL_E.  Additional exception state may be captured
-                                                                 in NPA_AF_BATCH_ERR_DATA0/1.
-
-                                                                 Internal:
-                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
+                                                                 in NPA_AF_BATCH_ERR_DATA0/1. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5320,53 +4335,27 @@ union cavm_npa_lf_err_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT].
-                                                                 Internal:
-                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t reserved_4_11         : 8;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[RMT_REQ_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote request out of range. ALLOC or FREE from the remote node was dropped
-                                                                 because the aura number was outside of the local range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[RMT_REQ_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Aura out of range. Coprocessor ALLOC or FREE or
-                                                                 NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
-                                                                 was outside of the local and remote ranges specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET,RMT_AURA_SIZE,RMT_AURA_OFFSET]. */
+        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_DIS]. */
 #else /* Word 0 - Little Endian */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_DIS]. */
-        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Aura out of range. Coprocessor ALLOC or FREE or
-                                                                 NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
-                                                                 was outside of the local and remote ranges specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET,RMT_AURA_SIZE,RMT_AURA_OFFSET]. */
+        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[RMT_REQ_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote request out of range. ALLOC or FREE from the remote node was dropped
-                                                                 because the aura number was outside of the local range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[RMT_REQ_OOR]. */
         uint64_t reserved_4_11         : 8;
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT].
-                                                                 Internal:
-                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5401,53 +4390,27 @@ union cavm_npa_lf_err_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT].
-                                                                 Internal:
-                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t reserved_4_11         : 8;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[RMT_REQ_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote request out of range. ALLOC or FREE from the remote node was dropped
-                                                                 because the aura number was outside of the local range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[RMT_REQ_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Aura out of range. Coprocessor ALLOC or FREE or
-                                                                 NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
-                                                                 was outside of the local and remote ranges specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET,RMT_AURA_SIZE,RMT_AURA_OFFSET]. */
+        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_DIS]. */
 #else /* Word 0 - Little Endian */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_DIS]. */
-        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Aura out of range. Coprocessor ALLOC or FREE or
-                                                                 NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
-                                                                 was outside of the local and remote ranges specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET,RMT_AURA_SIZE,RMT_AURA_OFFSET]. */
+        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[RMT_REQ_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote request out of range. ALLOC or FREE from the remote node was dropped
-                                                                 because the aura number was outside of the local range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[RMT_REQ_OOR]. */
         uint64_t reserved_4_11         : 8;
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT].
-                                                                 Internal:
-                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5482,53 +4445,27 @@ union cavm_npa_lf_err_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT].
-                                                                 Internal:
-                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NPA_LF_ERR_INT[QINT_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t reserved_4_11         : 8;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NPA_LF_ERR_INT[RMT_REQ_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote request out of range. ALLOC or FREE from the remote node was dropped
-                                                                 because the aura number was outside of the local range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NPA_LF_ERR_INT[RMT_REQ_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Aura out of range. Coprocessor ALLOC or FREE or
-                                                                 NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
-                                                                 was outside of the local and remote ranges specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET,RMT_AURA_SIZE,RMT_AURA_OFFSET]. */
+        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_DIS]. */
 #else /* Word 0 - Little Endian */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_DIS]. */
-        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Aura out of range. Coprocessor ALLOC or FREE or
-                                                                 NPA_LF_AURA_OP_* /NPA_LF_POOL_OP_* access dropped because the aura number
-                                                                 was outside of the local and remote ranges specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET,RMT_AURA_SIZE,RMT_AURA_OFFSET]. */
+        uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NPA_LF_ERR_INT[RMT_REQ_OOR].
-                                                                 Internal:
-                                                                 For dual-node support in future products:
-                                                                 Remote request out of range. ALLOC or FREE from the remote node was dropped
-                                                                 because the aura number was outside of the local range specified by
-                                                                 NPA_AF_LF()_AURAS_CFG[LOC_AURA_SIZE,LOC_AURA_OFFSET]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NPA_LF_ERR_INT[RMT_REQ_OOR]. */
         uint64_t reserved_4_11         : 8;
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t stack_fault           : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NPA_LF_ERR_INT[STACK_FAULT]. */
         uint64_t qint_fault            : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NPA_LF_ERR_INT[QINT_FAULT]. */
-        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT].
-                                                                 Internal:
-                                                                 This is the unified NBA interrupt as defined by NPA_AF_BATCH_FAIL_E per LF. */
+        uint64_t batch_fault           : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets NPA_LF_ERR_INT[BATCH_FAULT]. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
@@ -5734,17 +4671,6 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PC_FUNC(void)
  * RAZ/WI.
  *
  * RSL accesses to this register are RAZ/WI.
- *
- * Internal:
- * A 128-bit CAS to the NPA_LF_POOL_OP_PTR_END0 and NPA_LF_POOL_OP_PTR_END1
- * registers writes to a given pool's pointer end value. CAS data format is
- * given by NPA_POOL_PTR_END0_SWAP_S and NPA_POOL_PTR_END1_SWAP_S. The swap
- * data for the CAS is written to the registers, while the compare data is ignored.
- * The CAS result value will always be zero.
- * Note that the register field descriptions below are OBSOLETE.
- *
- * All other accesses to this register (e.g. reads and 64-bit writes) are RAZ/WI.
- * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_pool_op_ptr_end0
 {
@@ -5752,13 +4678,9 @@ union cavm_npa_lf_pool_op_ptr_end0
     struct cavm_npa_lf_pool_op_ptr_end0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_END].
-                                                                 Internal:
-                                                                 PTR_END is OBSOLETE when using CAS access. */
+        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_END]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_END].
-                                                                 Internal:
-                                                                 PTR_END is OBSOLETE when using CAS access. */
+        uint64_t ptr_end               : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_END]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_pool_op_ptr_end0_s cn; */
@@ -5786,13 +4708,6 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END0_FUNC(void)
  * See NPA_LF_POOL_OP_PTR_END0.
  *
  * RSL accesses to this register are RAZ/WI.
- *
- * Internal:
- * See NPA_LF_POOL_OP_PTR_END0. Access only with 128-bit CAS operation.
- * Note that the register field descriptions below are OBSOLETE.
- *
- * All other accesses to this register (e.g. reads and 64-bit writes) are RAZ/WI.
- * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_pool_op_ptr_end1
 {
@@ -5801,13 +4716,9 @@ union cavm_npa_lf_pool_op_ptr_end1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool.
-                                                                 Internal:
-                                                                 AURA is OBSOLETE when using CAS access. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool.
-                                                                 Internal:
-                                                                 AURA is OBSOLETE when using CAS access. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -5839,19 +4750,6 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_END1_FUNC(void)
  * RAZ/WI.
  *
  * RSL accesses to this register are RAZ/WI.
- *
- * Internal:
- * The following is the implemented but unpublished CAS access description.
- *
- * A 128-bit CAS to the NPA_LF_POOL_OP_PTR_START0 and NPA_LF_POOL_OP_PTR_START1
- * registers writes to a given pool's pointer start value. CAS data format is
- * given by NPA_POOL_PTR_START0_SWAP_S and NPA_POOL_PTR_START1_SWAP_S. The swap
- * data for the CAS is written to the registers, while the compare data is ignored.
- * The CAS result value will always be zero.
- * Note that the register field descriptions below are OBSOLETE.
- *
- * All other accesses to this register (e.g. reads and 64-bit writes) are RAZ/WI.
- * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_pool_op_ptr_start0
 {
@@ -5859,13 +4757,9 @@ union cavm_npa_lf_pool_op_ptr_start0
     struct cavm_npa_lf_pool_op_ptr_start0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_START].
-                                                                 Internal:
-                                                                 PTR_START is OBSOLETE when using CAS access. */
+        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_START]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_START].
-                                                                 Internal:
-                                                                 PTR_START is OBSOLETE when using CAS access. */
+        uint64_t ptr_start             : 64; /**< [ 63:  0](WO) Value written to NPA_POOL_S[PTR_START]. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_lf_pool_op_ptr_start0_s cn; */
@@ -5893,15 +4787,6 @@ static inline uint64_t CAVM_NPA_LF_POOL_OP_PTR_START0_FUNC(void)
  * See NPA_LF_POOL_OP_PTR_START0.
  *
  * RSL accesses to this register are RAZ/WI.
- *
- * Internal:
- * The following is the implemented but unpublished CAS access description.
- *
- * See NPA_LF_POOL_OP_PTR_START0. Access only with 128-bit CAS operation.
- * Note that the register field descriptions below are OBSOLETE.
- *
- * All other accesses to this register (e.g. reads and 64-bit writes) are RAZ/WI.
- * RSL accesses to this register are RAZ/WI.
  */
 union cavm_npa_lf_pool_op_ptr_start1
 {
@@ -5910,13 +4795,9 @@ union cavm_npa_lf_pool_op_ptr_start1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool.
-                                                                 Internal:
-                                                                 AURA is OBSOLETE when using CAS access. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool.
-                                                                 Internal:
-                                                                 AURA is OBSOLETE when using CAS access. */
+        uint64_t aura                  : 20; /**< [ 19:  0](WO) Aura within VF that points to this pool. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -6156,43 +5037,6 @@ static inline uint64_t CAVM_NPA_LF_QINTX_INT(uint64_t a)
 #define arguments_CAVM_NPA_LF_QINTX_INT(a) (a),-1,-1,-1
 
 /**
- * Register (RVU_PFVF_BAR2) npa_lf_qint#_int_w1s
- *
- * INTERNAL: NPA LF Queue Interrupt Set Registers
- */
-union cavm_npa_lf_qintx_int_w1s
-{
-    uint64_t u;
-    struct cavm_npa_lf_qintx_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t intr                  : 1;  /**< [  0:  0](RO/H) Interrupt pending. Set when NPA_LF_QINT()_CNT[COUNT] is nonzero. */
-#else /* Word 0 - Little Endian */
-        uint64_t intr                  : 1;  /**< [  0:  0](RO/H) Interrupt pending. Set when NPA_LF_QINT()_CNT[COUNT] is nonzero. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_npa_lf_qintx_int_w1s_s cn; */
-};
-typedef union cavm_npa_lf_qintx_int_w1s cavm_npa_lf_qintx_int_w1s_t;
-
-static inline uint64_t CAVM_NPA_LF_QINTX_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NPA_LF_QINTX_INT_W1S(uint64_t a)
-{
-    if (a<=63)
-        return 0x840200300318ll + 0x1000ll * ((a) & 0x3f);
-    __cavm_csr_fatal("NPA_LF_QINTX_INT_W1S", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NPA_LF_QINTX_INT_W1S(a) cavm_npa_lf_qintx_int_w1s_t
-#define bustype_CAVM_NPA_LF_QINTX_INT_W1S(a) CSR_TYPE_RVU_PFVF_BAR2
-#define basename_CAVM_NPA_LF_QINTX_INT_W1S(a) "NPA_LF_QINTX_INT_W1S"
-#define device_bar_CAVM_NPA_LF_QINTX_INT_W1S(a) 0x2 /* RVU_BAR2 */
-#define busnum_CAVM_NPA_LF_QINTX_INT_W1S(a) (a)
-#define arguments_CAVM_NPA_LF_QINTX_INT_W1S(a) (a),-1,-1,-1
-
-/**
  * Register (RVU_PFVF_BAR2) npa_lf_ras
  *
  * NPA LF RAS Interrupt Register
@@ -6422,17 +5266,6 @@ static inline uint64_t CAVM_NPA_PRIV_AF_INT_CFG_FUNC(void)
  * [PF_FUNC] before issuing transactions to the mapped PF and function.
  *
  * [SLOT] must be zero.
- *
- * Internal:
- * Hardware ignores [SLOT] and always assumes 0x0.
- *
- * When a read request results in an unmapped slot interrupt (see NPA_AF_RVU_INT[UNMAPPED_SLOT]), the
- * fault bit in the response sent on NCBi is also set. This applies to read requests to these CSRs:
- * NPA_LF_AURA_OP_ALLOC(0..1), NPA_LF_AURA_OP_CNT, NPA_LF_AURA_OP_LIMIT,
- * NPA_LF_AURA_OP_INT, NPA_LF_AURA_OP_THRESH,
- * NPA_LF_POOL_OP_PC, NPA_LF_POOL_OP_AVAILABLE, NPA_LF_POOL_OP_PTR_START0, NPA_LF_POOL_OP_PTR_START1,
- * NPA_LF_POOL_OP_PTR_END0, NPA_LF_POOL_OP_PTR_END1, NPA_LF_POOL_OP_INT, and NPA_LF_POOL_OP_THRESH.
- * The fault bit is not set on write requests that result in an unmapped slot interrupt.
  */
 union cavm_npa_priv_lfx_cfg
 {

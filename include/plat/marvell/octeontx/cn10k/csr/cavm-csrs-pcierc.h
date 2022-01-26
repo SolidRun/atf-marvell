@@ -586,28 +586,16 @@ union cavm_pciercx_bnum
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
         uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number.
-                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
-
-                                                                 Internal:
-                                                                 Note IOB/ECAM snoops on writes to this register. */
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus. */
         uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number.
-                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
-
-                                                                 Internal:
-                                                                 Note IOB/ECAM snoops on writes to this register. */
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus. */
         uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number. */
 #else /* Word 0 - Little Endian */
         uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number. */
         uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number.
-                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
-
-                                                                 Internal:
-                                                                 Note IOB/ECAM snoops on writes to this register. */
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus. */
         uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number.
-                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
-
-                                                                 Internal:
-                                                                 Note IOB/ECAM snoops on writes to this register. */
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus. */
         uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
 #endif /* Word 0 - End */
     } s;
@@ -1247,10 +1235,7 @@ union cavm_pciercx_dbg0
                                                                  \<24\> = Receiver 2nd symbol is also idle.
                                                                  \<23:8\> = mac_phy_txdata.
                                                                  \<7:6\> = mac_phy_txdatak.
-                                                                 \<5:0\> = LTSSM current state.
-
-                                                                 Internal:
-                                                                 cxpl_debug_info[31:0]. */
+                                                                 \<5:0\> = LTSSM current state. */
 #else /* Word 0 - Little Endian */
         uint32_t dbg_info_l32          : 32; /**< [ 31:  0](RO/H) State of selected internal signals for debug purposes.
                                                                  \<31:28\> = Link control bits advertised by link partner.
@@ -1260,10 +1245,7 @@ union cavm_pciercx_dbg0
                                                                  \<24\> = Receiver 2nd symbol is also idle.
                                                                  \<23:8\> = mac_phy_txdata.
                                                                  \<7:6\> = mac_phy_txdatak.
-                                                                 \<5:0\> = LTSSM current state.
-
-                                                                 Internal:
-                                                                 cxpl_debug_info[31:0]. */
+                                                                 \<5:0\> = LTSSM current state. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_dbg0_s cn; */
@@ -1320,10 +1302,7 @@ union cavm_pciercx_dbg1
                                                                  \<3\> = Receiver reports skip reception.
                                                                  \<2\> = TS1 training sequence received (pulse).
                                                                  \<1\> = TS2 training sequence received (pulse).
-                                                                 \<0\> = Receiver detected lane reversal.
-
-                                                                 Internal:
-                                                                 cxpl_debug_info[63:32]. */
+                                                                 \<0\> = Receiver detected lane reversal. */
 #else /* Word 0 - Little Endian */
         uint32_t dbg_info_u32          : 32; /**< [ 31:  0](RO/H) State of selected internal signals for debug purposes.
                                                                  \<31\> = Scrambling disabled for the link.
@@ -1344,10 +1323,7 @@ union cavm_pciercx_dbg1
                                                                  \<3\> = Receiver reports skip reception.
                                                                  \<2\> = TS1 training sequence received (pulse).
                                                                  \<1\> = TS2 training sequence received (pulse).
-                                                                 \<0\> = Receiver detected lane reversal.
-
-                                                                 Internal:
-                                                                 cxpl_debug_info[63:32]. */
+                                                                 \<0\> = Receiver detected lane reversal. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_dbg1_s cn; */
@@ -2463,17 +2439,13 @@ union cavm_pciercx_ea_entry3
     struct cavm_pciercx_ea_entry3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t moffs                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  This field is writable through PEM()_CFG_TBL().
-                                                                 Internal:
-                                                                 This is the offset to cover PEMRC BAR4 0xfffff & 0xffffc \>\>2 */
+        uint32_t moffs                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  This field is writable through PEM()_CFG_TBL(). */
         uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_TBL(). */
         uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
 #else /* Word 0 - Little Endian */
         uint32_t ea_rsvd               : 1;  /**< [  0:  0](RO/WRSL) Reserved.  This field is writable through PEM()_CFG_TBL(). */
         uint32_t size                  : 1;  /**< [  1:  1](RO/WRSL) Size - 64-bit (1), 32-bit (0).  This field is writable through PEM()_CFG_TBL(). */
-        uint32_t moffs                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  This field is writable through PEM()_CFG_TBL().
-                                                                 Internal:
-                                                                 This is the offset to cover PEMRC BAR4 0xfffff & 0xffffc \>\>2 */
+        uint32_t moffs                 : 30; /**< [ 31:  2](RO/WRSL) Lower base.  This field is writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_ea_entry3_s cn; */
@@ -2511,13 +2483,9 @@ union cavm_pciercx_ea_entry4
     struct cavm_pciercx_ea_entry4_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ubase                 : 32; /**< [ 31:  0](RO/WRSL) Upper base.  This field is writable through PEM()_CFG_TBL().
-                                                                 Internal:
-                                                                 This is the upper 32 bits of PEM_BAR_E::PEM()_PF_BAR0 */
+        uint32_t ubase                 : 32; /**< [ 31:  0](RO/WRSL) Upper base.  This field is writable through PEM()_CFG_TBL(). */
 #else /* Word 0 - Little Endian */
-        uint32_t ubase                 : 32; /**< [ 31:  0](RO/WRSL) Upper base.  This field is writable through PEM()_CFG_TBL().
-                                                                 Internal:
-                                                                 This is the upper 32 bits of PEM_BAR_E::PEM()_PF_BAR0 */
+        uint32_t ubase                 : 32; /**< [ 31:  0](RO/WRSL) Upper base.  This field is writable through PEM()_CFG_TBL(). */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_pciercx_ea_entry4_s cn; */
@@ -12823,17 +12791,7 @@ union cavm_pciercx_ras_sd_statuspm
         uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
                                                                  Indicates the value of N_FTS in the received TS ordered
                                                                  sets from the link partner. */
-        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state.
-                                                                 Internal:
-                                                                 0x0 = Idle state.
-                                                                 0x1 = Wait for aux_clk_active.
-                                                                 0x2 = Wait for pclkack.
-                                                                 0x3 = Wait for clkreq.
-                                                                 0x4 = Check clkreq_in_n is de-asserted for t_power_off time.
-                                                                 0x5 = L1 substate, turn off txcommonmode circuits (L1.2 only)
-                                                                      and rx electrical idle detection circuits.
-                                                                 0x6 = Locally/remotely initiated exit, assert pclkreq, wait for pclkack.
-                                                                 0x7 = Wait for pclkack when aborting an attempt to enter L1_N. */
+        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state. */
         uint32_t pme_rsnd_flag         : 1;  /**< [ 12: 12](RO) PME resend flag.
                                                                  When the DUT sends a PM_PME message TLP, the DUT
                                                                  sets PME_Status bit. If host software does not clear
@@ -12935,17 +12893,7 @@ union cavm_pciercx_ras_sd_statuspm
                                                                  PME_Status bit for 100ms (+50%/-5%), the DUT resends the
                                                                  PM_PME message. This bit indicates that a PM_PME was
                                                                  resent. */
-        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state.
-                                                                 Internal:
-                                                                 0x0 = Idle state.
-                                                                 0x1 = Wait for aux_clk_active.
-                                                                 0x2 = Wait for pclkack.
-                                                                 0x3 = Wait for clkreq.
-                                                                 0x4 = Check clkreq_in_n is de-asserted for t_power_off time.
-                                                                 0x5 = L1 substate, turn off txcommonmode circuits (L1.2 only)
-                                                                      and rx electrical idle detection circuits.
-                                                                 0x6 = Locally/remotely initiated exit, assert pclkreq, wait for pclkack.
-                                                                 0x7 = Wait for pclkack when aborting an attempt to enter L1_N. */
+        uint32_t l1sub_state           : 3;  /**< [ 15: 13](RO/H) Indicates the internal L1Sub state machine state. */
         uint32_t latched_nfts          : 8;  /**< [ 23: 16](RO/H) Latched N_FTS.
                                                                  Indicates the value of N_FTS in the received TS ordered
                                                                  sets from the link partner. */

@@ -105,16 +105,10 @@ union cavm_dssx_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t dmc_mdc_dis           : 1;  /**< [  6:  6](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Disables DMC's MDC HUB. */
+        uint64_t dmc_mdc_dis           : 1;  /**< [  6:  6](SR/W) Reserved. */
         uint64_t ecc_discor            : 1;  /**< [  5:  5](R/W) Disable correction in the ECC checkers/generators. */
         uint64_t ecc_dispsn            : 1;  /**< [  4:  4](R/W) Disable poison code creation and detection in the ECC checkers/generators. */
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 0x1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0x0 = Leave the KBD as is (data from MC).
-                                                                 This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved. */
         uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1 = Forces the crypto clock to be the slow clock (i.e. equal to
                                                                  DFI_CLK - MC_CORE_CLOCK).
                                                                  The default is fast clock (turbo) which is MC_CORE_CLK x 2. */
@@ -126,16 +120,10 @@ union cavm_dssx_ctrl
         uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1 = Forces the crypto clock to be the slow clock (i.e. equal to
                                                                  DFI_CLK - MC_CORE_CLOCK).
                                                                  The default is fast clock (turbo) which is MC_CORE_CLK x 2. */
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 0x1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0x0 = Leave the KBD as is (data from MC).
-                                                                 This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved. */
         uint64_t ecc_dispsn            : 1;  /**< [  4:  4](R/W) Disable poison code creation and detection in the ECC checkers/generators. */
         uint64_t ecc_discor            : 1;  /**< [  5:  5](R/W) Disable correction in the ECC checkers/generators. */
-        uint64_t dmc_mdc_dis           : 1;  /**< [  6:  6](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Disables DMC's MDC HUB. */
+        uint64_t dmc_mdc_dis           : 1;  /**< [  6:  6](SR/W) Reserved. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -146,11 +134,7 @@ union cavm_dssx_ctrl
         uint64_t reserved_6_63         : 58;
         uint64_t ecc_discor            : 1;  /**< [  5:  5](R/W) Disable correction in the ECC checkers/generators. */
         uint64_t ecc_dispsn            : 1;  /**< [  4:  4](R/W) Disable poison code creation and detection in the ECC checkers/generators. */
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 0x1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0x0 = Leave the KBD as is (data from MC).
-                                                                 This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved. */
         uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1 = Forces the crypto clock to be the slow clock (i.e. equal to
                                                                  DFI_CLK - MC_CORE_CLOCK).
                                                                  The default is fast clock (turbo) which is MC_CORE_CLK x 2. */
@@ -162,11 +146,7 @@ union cavm_dssx_ctrl
         uint64_t s_force_mct_slow_clk  : 1;  /**< [  2:  2](SR/W) 1 = Forces the crypto clock to be the slow clock (i.e. equal to
                                                                  DFI_CLK - MC_CORE_CLOCK).
                                                                  The default is fast clock (turbo) which is MC_CORE_CLK x 2. */
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 0x1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0x0 = Leave the KBD as is (data from MC).
-                                                                 This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved. */
         uint64_t ecc_dispsn            : 1;  /**< [  4:  4](R/W) Disable poison code creation and detection in the ECC checkers/generators. */
         uint64_t ecc_discor            : 1;  /**< [  5:  5](R/W) Disable correction in the ECC checkers/generators. */
         uint64_t reserved_6_63         : 58;
@@ -176,29 +156,17 @@ union cavm_dssx_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t dmc_mdc_dis           : 1;  /**< [  6:  6](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Disables DMC's MDC HUB. */
+        uint64_t dmc_mdc_dis           : 1;  /**< [  6:  6](SR/W) Reserved. */
         uint64_t ecc_discor            : 1;  /**< [  5:  5](SR/W) Disable correction in the ECC checkers/generators. */
         uint64_t ecc_dispsn            : 1;  /**< [  4:  4](SR/W) Disable poison code creation and detection in the ECC checkers/generators. */
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 0x1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0x0 = Leave the KBD as is (data from MC).
-                                                                 This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
-        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 0x1 = forcing the KBD (poison) bit driven into the chi read buffer sram to 0.
-                                                                 0x0 = Leave the KBD as is (data from MC).
-                                                                 This bit is used to overcome the fact that the MC will dirve the KBD as X in case of ECC disabled. */
+        uint64_t s_force_kbd_0_chi_read_buf_ram : 1;/**< [  3:  3](SR/W) Reserved. */
         uint64_t ecc_dispsn            : 1;  /**< [  4:  4](SR/W) Disable poison code creation and detection in the ECC checkers/generators. */
         uint64_t ecc_discor            : 1;  /**< [  5:  5](SR/W) Disable correction in the ECC checkers/generators. */
-        uint64_t dmc_mdc_dis           : 1;  /**< [  6:  6](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Disables DMC's MDC HUB. */
+        uint64_t dmc_mdc_dis           : 1;  /**< [  6:  6](SR/W) Reserved. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } cn10kb;
@@ -7779,23 +7747,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                      0x0 = only supported value
                                                                      0x1-0x3 = Reserved
 
-                                                                 Programming Mode: Static.
-
-                                                                 Internal:
-                                                                 0x0 = Except for RDIMM
-                                                                 0x1 = RDIMM
-                                                                 0x2 = Reserved
-                                                                 0x3 = Reserved */
-        uint32_t reserved_7_9          : 3;
-        uint32_t lrdimm_bcom_cmd_prot  : 1;  /**< [  6:  6](R/W) Must be set to 0.
-                                                                 Internal:
-                                                                 Protects the timing restrictions (tBCW/tMRC) between consecutive BCOM commands
-                                                                 defined in the Data Buffer specification. When using DDR4 LRDIMM, this bit must
-                                                                 be set to 1. Otherwise, this bit must be set to 0.
-
-                                                                 DDR5: Not supported.
-
                                                                  Programming Mode: Static. */
+        uint32_t reserved_7_9          : 3;
+        uint32_t lrdimm_bcom_cmd_prot  : 1;  /**< [  6:  6](R/W) Must be set to 0. */
         uint32_t dimm_dis_bg_mirroring : 1;  /**< [  5:  5](R/W) Disabling Address Mirroring for BG bits. When this is set to 1, BG0 and BG1 are
                                                                  NOT swapped even if Address Mirroring is enabled. This will be required for DDR4
                                                                  DIMMs with x16 devices.
@@ -7836,28 +7790,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                  DDR5: Not supported.
 
                                                                  Programming Mode: Static. */
-        uint32_t dimm_output_inv_en    : 1;  /**< [  2:  2](R/W) reserved - should be set to 0.
-                                                                 Internal:
-                                                                 Output Inversion Enable (for DDR4 RDIMM/LRDIMM implementations only).
-
-                                                                 DDR4 RDIMM/LRDIMM implements the Output Inversion feature by default, which
-                                                                 means that the following address, bank address and bank group bits of B-side
-                                                                 DRAMs are inverted: A3-A9, A11, A13, A17, BA0-BA1, BG0-BG1. Setting this bit
-                                                                 ensures that, for mode register accesses generated by the DDRCTL during the
-                                                                 automatic initialization routine and enabling of a particular DDR4 feature,
-                                                                 separate A-side and B-side mode register accesses are generated. For B-side mode
-                                                                 register accesses, these bits are inverted within the DDRCTL to compensate for
-                                                                 this RDIMM/LRDIMM inversion.  It is recommended to set this bit always, if using
-                                                                 DDR4 RDIMMs/LRDIMMs.
-
-                                                                 Note: This has no effect on the address of any other memory accesses, or of
-                                                                 software-driven mode register accesses.
-                                                                     - 1 - Implement output inversion for B-side DRAMs.
-                                                                     - 0 - Do not implement output inversion for B-side DRAMs.
-
-                                                                 DDR5: Not supported.
-
-                                                                 Programming Mode: Static. */
+        uint32_t dimm_output_inv_en    : 1;  /**< [  2:  2](R/W) reserved - should be set to 0. */
         uint32_t dimm_addr_mirr_en     : 1;  /**< [  1:  1](R/W) Address Mirroring Enable (for multi-rank UDIMM implementations).
 
                                                                  Some UDIMMs implement address mirroring for odd ranks,
@@ -7935,28 +7868,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                  DDR5: Not supported.
 
                                                                  Programming Mode: Static. */
-        uint32_t dimm_output_inv_en    : 1;  /**< [  2:  2](R/W) reserved - should be set to 0.
-                                                                 Internal:
-                                                                 Output Inversion Enable (for DDR4 RDIMM/LRDIMM implementations only).
-
-                                                                 DDR4 RDIMM/LRDIMM implements the Output Inversion feature by default, which
-                                                                 means that the following address, bank address and bank group bits of B-side
-                                                                 DRAMs are inverted: A3-A9, A11, A13, A17, BA0-BA1, BG0-BG1. Setting this bit
-                                                                 ensures that, for mode register accesses generated by the DDRCTL during the
-                                                                 automatic initialization routine and enabling of a particular DDR4 feature,
-                                                                 separate A-side and B-side mode register accesses are generated. For B-side mode
-                                                                 register accesses, these bits are inverted within the DDRCTL to compensate for
-                                                                 this RDIMM/LRDIMM inversion.  It is recommended to set this bit always, if using
-                                                                 DDR4 RDIMMs/LRDIMMs.
-
-                                                                 Note: This has no effect on the address of any other memory accesses, or of
-                                                                 software-driven mode register accesses.
-                                                                     - 1 - Implement output inversion for B-side DRAMs.
-                                                                     - 0 - Do not implement output inversion for B-side DRAMs.
-
-                                                                 DDR5: Not supported.
-
-                                                                 Programming Mode: Static. */
+        uint32_t dimm_output_inv_en    : 1;  /**< [  2:  2](R/W) reserved - should be set to 0. */
         uint32_t mrs_a17_en            : 1;  /**< [  3:  3](R/W) Enable for A17 bit of MRS command.
 
                                                                  A17 bit of the mode register address is specified as RFU (Reserved for Future
@@ -7997,15 +7909,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                  DDR5: Not supported.
 
                                                                  Programming Mode: Static. */
-        uint32_t lrdimm_bcom_cmd_prot  : 1;  /**< [  6:  6](R/W) Must be set to 0.
-                                                                 Internal:
-                                                                 Protects the timing restrictions (tBCW/tMRC) between consecutive BCOM commands
-                                                                 defined in the Data Buffer specification. When using DDR4 LRDIMM, this bit must
-                                                                 be set to 1. Otherwise, this bit must be set to 0.
-
-                                                                 DDR5: Not supported.
-
-                                                                 Programming Mode: Static. */
+        uint32_t lrdimm_bcom_cmd_prot  : 1;  /**< [  6:  6](R/W) Must be set to 0. */
         uint32_t reserved_7_9          : 3;
         uint32_t dimm_type             : 2;  /**< [ 11: 10](R/W) Indicates the type of DIMM.
 
@@ -8014,13 +7918,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_dimmctl
                                                                      0x0 = only supported value
                                                                      0x1-0x3 = Reserved
 
-                                                                 Programming Mode: Static.
-
-                                                                 Internal:
-                                                                 0x0 = Except for RDIMM
-                                                                 0x1 = RDIMM
-                                                                 0x2 = Reserved
-                                                                 0x3 = Reserved */
+                                                                 Programming Mode: Static. */
         uint32_t rcd_weak_drive        : 1;  /**< [ 12: 12](R/W) Weak Drive mode to set to the RCD. This field is used only when the DDRCTL disables CAL mode.
 
                                                                  When weak drive mode in the RCD is enabled during initialization, this field must be set to 1.
@@ -19453,10 +19351,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg1
 
                                                                  Unit: DRAM clock cycles.
 
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4.
-
-                                                                 Internal:
-                                                                 - DDR5 RDIMM: max (tXP, tRPDX) */
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
         uint32_t rd2pre                : 8;  /**< [ 15:  8](R/W) TRTP:  Minimum time from read to precharge of same bank.
                                                                   * DDR4: Max of following two equations:
                                                                             _ tAL +  max (RoundUp(tRTP/tCK), 4) or,
@@ -19508,10 +19403,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg1
 
                                                                  Unit: DRAM clock cycles.
 
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4.
-
-                                                                 Internal:
-                                                                 - DDR5 RDIMM: max (tXP, tRPDX) */
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
         uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
@@ -19976,19 +19868,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg15
                                                                  "Register Descriptions" chapter for details on how to program this register
                                                                  field.
 
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4.
-
-                                                                 Internal:
-                                                                 It is required in the following two cases for DDR4 RDIMM :
-                                                                    - when exiting power saving mode, if the clock was stopped, after re-enabling
-                                                                 it the clock must be stable for a time specified by tSTAB
-                                                                    - in the case of input clock frequency change (DDR4)
-                                                                    - after issuing control words that refers to clock timing
-                                                                   (Specification: 5us for DDR4)
-
-                                                                 It is required in self-refresh sequence for DDR5 RDIMM.
-
-                                                                 Unit: Multiples of 32 DRAM clock cycles. */
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
 #else /* Word 0 - Little Endian */
         uint32_t t_stab_x32            : 10; /**< [  9:  0](R/W) Stabilization time.
 
@@ -20000,19 +19880,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg15
                                                                  "Register Descriptions" chapter for details on how to program this register
                                                                  field.
 
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4.
-
-                                                                 Internal:
-                                                                 It is required in the following two cases for DDR4 RDIMM :
-                                                                    - when exiting power saving mode, if the clock was stopped, after re-enabling
-                                                                 it the clock must be stable for a time specified by tSTAB
-                                                                    - in the case of input clock frequency change (DDR4)
-                                                                    - after issuing control words that refers to clock timing
-                                                                   (Specification: 5us for DDR4)
-
-                                                                 It is required in self-refresh sequence for DDR5 RDIMM.
-
-                                                                 Unit: Multiples of 32 DRAM clock cycles. */
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
         uint32_t reserved_10_30        : 21;
         uint32_t en_dfi_lp_t_stab      : 1;  /**< [ 31: 31](R/W) _ 1 = Enable using tSTAB when exiting DFI LP. Needs to be set when the PHY is
                                                                  stopping the clock during DFI LP to save maximum power.
@@ -20063,16 +19931,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg18
 
                                                                  Unit: DRAM clock cycles.
 
-                                                                 Programming Mode: Quasi-dynamic Group2, Group 4.
-
-                                                                 Internal:
-                                                                 DDR5 RDIMM: max(tPD,tPDEX)/tCK
-
-                                                                   Other Protocol: tPD/tCK
-
-                                                                   Unit: DRAM clock cycles.
-
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+                                                                 Programming Mode: Quasi-dynamic Group2, Group 4. */
         uint32_t reserved_23           : 1;
         uint32_t t_mpsmx               : 7;  /**< [ 22: 16](R/W) TMPSMX/tCK.
 
@@ -20102,16 +19961,7 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg18
 
                                                                  Unit: DRAM clock cycles.
 
-                                                                 Programming Mode: Quasi-dynamic Group2, Group 4.
-
-                                                                 Internal:
-                                                                 DDR5 RDIMM: max(tPD,tPDEX)/tCK
-
-                                                                   Other Protocol: tPD/tCK
-
-                                                                   Unit: DRAM clock cycles.
-
-                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+                                                                 Programming Mode: Quasi-dynamic Group2, Group 4. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -26196,25 +26046,13 @@ union cavm_dssx_mc_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 Value of the sysack_ddrc port from the MC (See Synopsys MC reference manual). */
-        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 Value of the sysack_ddrc port from the MC (See Synopsys MC reference manual). */
-        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Controls the value driven MC csysreq_ddrc port (See Synopsys MC reference manual). */
+        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Reserved. */
+        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Reserved. */
+        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Controls the value driven MC csysreq_ddrc port (See Synopsys MC reference manual). */
-        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 Value of the sysack_ddrc port from the MC (See Synopsys MC reference manual). */
-        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 Value of the sysack_ddrc port from the MC (See Synopsys MC reference manual). */
+        uint64_t s_mc_csysreq          : 1;  /**< [  0:  0](SR/W) Reserved. */
+        uint64_t s_mc_csysack          : 1;  /**< [  1:  1](SRO/H) Reserved. */
+        uint64_t s_mc_cactive          : 1;  /**< [  2:  2](SRO/H) Reserved. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -26345,19 +26183,11 @@ union cavm_dssx_mct_ctrl
                                                                  0 = Single-beat ECC.
                                                                  1 = Multi-beat ECC. */
         uint64_t reserved_6_7          : 2;
-        uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Configure if write DBI is enabled:
-                                                                 0x0 = Write dbi is disabled.
-                                                                 0x1 = Write dbi is enabled. */
+        uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved. */
         uint64_t reserved_0_4          : 5;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_4          : 5;
-        uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Configure if write DBI is enabled:
-                                                                 0x0 = Write dbi is disabled.
-                                                                 0x1 = Write dbi is enabled. */
+        uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved. */
         uint64_t reserved_6_7          : 2;
         uint64_t s_ecc_type            : 1;  /**< [  8:  8](SR/W) ECC type:
                                                                  0 = Single-beat ECC.
@@ -26391,16 +26221,8 @@ union cavm_dssx_mct_ctrl
         uint64_t s_ecc_en              : 1;  /**< [  7:  7](SR/W) Configure if ECC is enabled:
                                                                  0 = ECC is disabled.
                                                                  1 = ECC is enabled. */
-        uint64_t s_rd_dbi_en           : 1;  /**< [  6:  6](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Configure if read DBI is enabled:
-                                                                 0x0 = Read dbi is disabled.
-                                                                 0x1 = Read dbi is enabled. */
-        uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Configure if write DBI is enabled:
-                                                                 0x0 = Write dbi is disabled.
-                                                                 0x1 = Write dbi is enabled. */
+        uint64_t s_rd_dbi_en           : 1;  /**< [  6:  6](SR/W) Reserved. */
+        uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved. */
         uint64_t s_key_scramble        : 1;  /**< [  4:  4](SR/W) Key scramble with system address:
                                                                  0 = The key is not scrambled.
                                                                  1 = The key is scrambled. */
@@ -26458,16 +26280,8 @@ union cavm_dssx_mct_ctrl
         uint64_t s_key_scramble        : 1;  /**< [  4:  4](SR/W) Key scramble with system address:
                                                                  0 = The key is not scrambled.
                                                                  1 = The key is scrambled. */
-        uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Configure if write DBI is enabled:
-                                                                 0x0 = Write dbi is disabled.
-                                                                 0x1 = Write dbi is enabled. */
-        uint64_t s_rd_dbi_en           : 1;  /**< [  6:  6](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Configure if read DBI is enabled:
-                                                                 0x0 = Read dbi is disabled.
-                                                                 0x1 = Read dbi is enabled. */
+        uint64_t s_wr_dbi_en           : 1;  /**< [  5:  5](SR/W) Reserved. */
+        uint64_t s_rd_dbi_en           : 1;  /**< [  6:  6](SR/W) Reserved. */
         uint64_t s_ecc_en              : 1;  /**< [  7:  7](SR/W) Configure if ECC is enabled:
                                                                  0 = ECC is disabled.
                                                                  1 = ECC is enabled. */
@@ -27653,8 +27467,6 @@ static inline uint64_t CAVM_DSSX_MCT_WIN_CTRLX(uint64_t a, uint64_t b)
  * Register (RSL) dss#_msix_pba#
  *
  * DSS MSI-X Pending Bit Array Registers
- * Internal:
- * This register is the MSI-X PBA table;
  */
 union cavm_dssx_msix_pbax
 {
@@ -29088,9 +28900,7 @@ union cavm_dssx_perf_cnt_value_rd_op
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 This bit should be ignored. */
+        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved. */
         uint64_t s_rd_op_counter_value : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of DRAM read events happened.
 
                                                                  Note: If the counter overflows, the value will be reseted and overflow field will go high. */
@@ -29098,9 +28908,7 @@ union cavm_dssx_perf_cnt_value_rd_op
         uint64_t s_rd_op_counter_value : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of DRAM read events happened.
 
                                                                  Note: If the counter overflows, the value will be reseted and overflow field will go high. */
-        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 This bit should be ignored. */
+        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn10ka;
@@ -29162,9 +28970,7 @@ union cavm_dssx_perf_cnt_value_wr_op
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 This bit should be ignored. */
+        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved. */
         uint64_t s_wr_op_counter_value : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of DRAM write events happened.
 
                                                                  Note: If the counter overflows, the value will be reseted and overflow field will go high. */
@@ -29172,9 +28978,7 @@ union cavm_dssx_perf_cnt_value_wr_op
         uint64_t s_wr_op_counter_value : 48; /**< [ 47:  0](SRO/H) The value in this status register is number of DRAM write events happened.
 
                                                                  Note: If the counter overflows, the value will be reseted and overflow field will go high. */
-        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved.
-                                                                 Internal:
-                                                                 This bit should be ignored. */
+        uint64_t s_overflow            : 1;  /**< [ 48: 48](SRO/H) Reserved. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn10ka;
@@ -29271,35 +29075,13 @@ union cavm_dssx_phy_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t s_phy_mdc_dis         : 1;  /**< [  4:  4](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Disables PHY's MDC HUB. */
-        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Used as scratchpad register to indicate Warm/Cold reset state.
-                                                                 After cold reset, the init value of the register is set (0), meaning ramp up from  cold reset
-                                                                 After DDR init, software sets this bit to 1, indicating warm reset.
-                                                                 Values:
-                                                                 0 = Chip ramp up from cold reset
-                                                                 1 = Chip ramp up from warm reset */
-        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Controls the value driven to the ddr_phy's pprot_pin input port. */
+        uint64_t s_phy_mdc_dis         : 1;  /**< [  4:  4](SR/W) Reserved. */
+        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved. */
+        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Controls the value driven to the ddr_phy's pprot_pin input port. */
-        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Used as scratchpad register to indicate Warm/Cold reset state.
-                                                                 After cold reset, the init value of the register is set (0), meaning ramp up from  cold reset
-                                                                 After DDR init, software sets this bit to 1, indicating warm reset.
-                                                                 Values:
-                                                                 0 = Chip ramp up from cold reset
-                                                                 1 = Chip ramp up from warm reset */
-        uint64_t s_phy_mdc_dis         : 1;  /**< [  4:  4](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Disables PHY's MDC HUB. */
+        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved. */
+        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved. */
+        uint64_t s_phy_mdc_dis         : 1;  /**< [  4:  4](SR/W) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -29308,29 +29090,11 @@ union cavm_dssx_phy_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Used as scratchpad register to indicate Warm/Cold reset state.
-                                                                 After cold reset, the init value of the register is set (0), meaning ramp up from  cold reset
-                                                                 After DDR init, software sets this bit to 1, indicating warm reset.
-                                                                 Values:
-                                                                 0 = Chip ramp up from cold reset
-                                                                 1 = Chip ramp up from warm reset */
-        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Controls the value driven to the ddr_phy's pprot_pin input port. */
+        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved. */
+        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Controls the value driven to the ddr_phy's pprot_pin input port. */
-        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved.
-                                                                 Internal:
-                                                                 Used as scratchpad register to indicate Warm/Cold reset state.
-                                                                 After cold reset, the init value of the register is set (0), meaning ramp up from  cold reset
-                                                                 After DDR init, software sets this bit to 1, indicating warm reset.
-                                                                 Values:
-                                                                 0 = Chip ramp up from cold reset
-                                                                 1 = Chip ramp up from warm reset */
+        uint64_t s_phy_pprot           : 3;  /**< [  2:  0](SR/W) Reserved. */
+        uint64_t s_phy_pwrok           : 1;  /**< [  3:  3](SR/W) Reserved. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn10ka;
@@ -29425,13 +29189,7 @@ union cavm_dssx_sac_ctrl
         uint64_t s_sac_dimm_type       : 2;  /**< [ 47: 46](SR/W) Drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dimm_type).
 
                                                                  0x0 = NoDIMM.
-                                                                 0x1-0x3 = Reserved.
-
-                                                                 Internal:
-                                                                 drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dimm_type)
-                                                                 0x0-NoDIMM
-                                                                 0x1-RDIMM
-                                                                 0x2-0x3-Reserved */
+                                                                 0x1-0x3 = Reserved. */
         uint64_t s_sac_dual_channel_en : 1;  /**< [ 45: 45](SR/W) Drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dual_channel_en). */
         uint64_t s_sac_dfi_dram_clk_disable : 1;/**< [ 44: 44](SR/W) Drives the input of the dfi_ic inside the shared_ac (port named
                                                                  reg_ddrc_share_dfi_dram_clk_disable). */
@@ -29530,13 +29288,7 @@ union cavm_dssx_sac_ctrl
         uint64_t s_sac_dimm_type       : 2;  /**< [ 47: 46](SR/W) Drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dimm_type).
 
                                                                  0x0 = NoDIMM.
-                                                                 0x1-0x3 = Reserved.
-
-                                                                 Internal:
-                                                                 drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_dimm_type)
-                                                                 0x0-NoDIMM
-                                                                 0x1-RDIMM
-                                                                 0x2-0x3-Reserved */
+                                                                 0x1-0x3 = Reserved. */
         uint64_t s_sac_ddr5            : 1;  /**< [ 48: 48](SR/W) Drives the input of the dfi_ic inside the shared_ac (port named reg_ddrc_ddr5).
 
                                                                  0 = DDR4.
@@ -29566,47 +29318,6 @@ static inline uint64_t CAVM_DSSX_SAC_CTRL(uint64_t a)
 #define device_bar_CAVM_DSSX_SAC_CTRL(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_DSSX_SAC_CTRL(a) (a)
 #define arguments_CAVM_DSSX_SAC_CTRL(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) dss#_scratch
- *
- * INTERNAL: DSS Scratch Register
- */
-union cavm_dssx_scratch
-{
-    uint64_t u;
-    struct cavm_dssx_scratch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t scratch               : 64; /**< [ 63:  0](R/W) General purpose scratch register. */
-#else /* Word 0 - Little Endian */
-        uint64_t scratch               : 64; /**< [ 63:  0](R/W) General purpose scratch register. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_scratch_s cn; */
-};
-typedef union cavm_dssx_scratch cavm_dssx_scratch_t;
-
-static inline uint64_t CAVM_DSSX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DSSX_SCRATCH(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
-        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=3))
-        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=3))
-        return 0x87e1c0000100ll + 0x1000000ll * ((a) & 0x3);
-    __cavm_csr_fatal("DSSX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DSSX_SCRATCH(a) cavm_dssx_scratch_t
-#define bustype_CAVM_DSSX_SCRATCH(a) CSR_TYPE_RSL
-#define basename_CAVM_DSSX_SCRATCH(a) "DSSX_SCRATCH"
-#define device_bar_CAVM_DSSX_SCRATCH(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DSSX_SCRATCH(a) (a)
-#define arguments_CAVM_DSSX_SCRATCH(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) dss#_top_global_clock_enable

@@ -527,35 +527,15 @@ union cavm_tad_cmn_mn_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
-                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
-        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
-                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
-        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is set by a tie cell hardcoded to 3'b0. */
-        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU.
-                                                                 Internal:
-                                                                 RTL: Reset is set by a tie cell set by chip-specific ncb_util.vh. Tied to 3'h1 in 106 */
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. Reset value is 0. */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0. */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. Reset value is 0. */
+        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU. */
 #else /* Word 0 - Little Endian */
-        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU.
-                                                                 Internal:
-                                                                 RTL: Reset is set by a tie cell set by chip-specific ncb_util.vh. Tied to 3'h1 in 106 */
-        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is set by a tie cell hardcoded to 3'b0. */
-        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
-                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
-        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
-                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
+        uint64_t iid                   : 3;  /**< [  2:  0](R/W) IOB index that contains SMMU. */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](R/W) NCB Device of IOB. Reset value is 0. */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](R/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0. */
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](R/W) Value to use in QoS field of MN snoops. Reset value is 0. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
@@ -565,35 +545,15 @@ union cavm_tad_cmn_mn_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t snp_qos               : 4;  /**< [ 13: 10](SR/W) Value to use in QoS field of MN snoops. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
-                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
-        uint64_t comp_qos              : 4;  /**< [  9:  6](SR/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
-                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
-        uint64_t dev_ncb               : 3;  /**< [  5:  3](SR/W) NCB Device of IOB. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is set by a tie cell hardcoded to 3'b0. */
-        uint64_t iid                   : 3;  /**< [  2:  0](SR/W) IOB index that contains SMMU.
-                                                                 Internal:
-                                                                 RTL: Reset is set by a tie cell set by chip-specific ncb_util.vh. Tied to 3'h1 in 106 */
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](SR/W) Value to use in QoS field of MN snoops. Reset value is 0. */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](SR/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0. */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](SR/W) NCB Device of IOB. Reset value is 0. */
+        uint64_t iid                   : 3;  /**< [  2:  0](SR/W) IOB index that contains SMMU. */
 #else /* Word 0 - Little Endian */
-        uint64_t iid                   : 3;  /**< [  2:  0](SR/W) IOB index that contains SMMU.
-                                                                 Internal:
-                                                                 RTL: Reset is set by a tie cell set by chip-specific ncb_util.vh. Tied to 3'h1 in 106 */
-        uint64_t dev_ncb               : 3;  /**< [  5:  3](SR/W) NCB Device of IOB. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is set by a tie cell hardcoded to 3'b0. */
-        uint64_t comp_qos              : 4;  /**< [  9:  6](SR/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
-                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.comp_qos, which is tied to 0 */
-        uint64_t snp_qos               : 4;  /**< [ 13: 10](SR/W) Value to use in QoS field of MN snoops. Reset value is 0.
-                                                                 Internal:
-                                                                 RTL: Reset is not set in CSR file because [DEV_NCB]/[IID] fields of this CSR are set by tie cells.
-                                                                 Reset value is set by tad_ctl_csr.tie__mn_ctl_reg_rst_data.snp_qos, which is tied to 0 */
+        uint64_t iid                   : 3;  /**< [  2:  0](SR/W) IOB index that contains SMMU. */
+        uint64_t dev_ncb               : 3;  /**< [  5:  3](SR/W) NCB Device of IOB. Reset value is 0. */
+        uint64_t comp_qos              : 4;  /**< [  9:  6](SR/W) Value to use in QoS field of MN CompDBID_Resp/Comp. Reset value is 0. */
+        uint64_t snp_qos               : 4;  /**< [ 13: 10](SR/W) Value to use in QoS field of MN snoops. Reset value is 0. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn10kb;
@@ -615,55 +575,6 @@ static inline uint64_t CAVM_TAD_CMN_MN_CTL_FUNC(void)
 #define device_bar_CAVM_TAD_CMN_MN_CTL 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TAD_CMN_MN_CTL 0
 #define arguments_CAVM_TAD_CMN_MN_CTL -1,-1,-1,-1
-
-/**
- * Register (RSL) tad_cmn_mpam#_mask
- *
- * INTERNAL: TAD Common Memory Partitioning Mask Registers
- *
- * MPAM partitioning.
- */
-union cavm_tad_cmn_mpamx_mask
-{
-    uint64_t u;
-    struct cavm_tad_cmn_mpamx_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t dtg                   : 12; /**< [ 27: 16](R/W) Each bit set to 0 prevents the use of the corresponding DTG way by sources that
-                                                                 are using this MPAMID. It is illegal to prevent all DTG ways from being used. */
-        uint64_t ltg                   : 16; /**< [ 15:  0](R/W) Each bit set to 0 prevents the use of the corresponding LTG way by sources
-                                                                 that are using this MPAMID. */
-#else /* Word 0 - Little Endian */
-        uint64_t ltg                   : 16; /**< [ 15:  0](R/W) Each bit set to 0 prevents the use of the corresponding LTG way by sources
-                                                                 that are using this MPAMID. */
-        uint64_t dtg                   : 12; /**< [ 27: 16](R/W) Each bit set to 0 prevents the use of the corresponding DTG way by sources that
-                                                                 are using this MPAMID. It is illegal to prevent all DTG ways from being used. */
-        uint64_t reserved_28_63        : 36;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tad_cmn_mpamx_mask_s cn; */
-};
-typedef union cavm_tad_cmn_mpamx_mask cavm_tad_cmn_mpamx_mask_t;
-
-static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TAD_CMN_MPAMX_MASK(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=127))
-        return 0x87e053005000ll + 8ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=127))
-        return 0x87e053005000ll + 8ll * ((a) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=127))
-        return 0x87e053005000ll + 8ll * ((a) & 0x7f);
-    __cavm_csr_fatal("TAD_CMN_MPAMX_MASK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_TAD_CMN_MPAMX_MASK(a) cavm_tad_cmn_mpamx_mask_t
-#define bustype_CAVM_TAD_CMN_MPAMX_MASK(a) CSR_TYPE_RSL
-#define basename_CAVM_TAD_CMN_MPAMX_MASK(a) "TAD_CMN_MPAMX_MASK"
-#define device_bar_CAVM_TAD_CMN_MPAMX_MASK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TAD_CMN_MPAMX_MASK(a) (a)
-#define arguments_CAVM_TAD_CMN_MPAMX_MASK(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tad_cmn_mpamcfg_cpbm_ns
@@ -1381,23 +1292,14 @@ union cavm_tad_cmn_mpamf_iidr_ns
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t productid             : 12; /**< [ 31: 20](RO) Part number, bits [11:0]. The part number is selected by the
-                                                                 designer of the component.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
+                                                                 designer of the component. */
         uint64_t variant               : 4;  /**< [ 19: 16](RO) Component major revision.
 
                                                                  This field distinguishes product variants or major revisions of
-                                                                 the product.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
+                                                                 the product. */
         uint64_t revision              : 4;  /**< [ 15: 12](RO) Component minor revision.
 
-                                                                 This field distinguishes minor revisions of the product.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
+                                                                 This field distinguishes minor revisions of the product. */
         uint64_t implementer           : 12; /**< [ 11:  0](RO) Contains the JEP106 code of the company that implemented the MPAM MSC.
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
 #else /* Word 0 - Little Endian */
@@ -1405,22 +1307,13 @@ union cavm_tad_cmn_mpamf_iidr_ns
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
         uint64_t revision              : 4;  /**< [ 15: 12](RO) Component minor revision.
 
-                                                                 This field distinguishes minor revisions of the product.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
+                                                                 This field distinguishes minor revisions of the product. */
         uint64_t variant               : 4;  /**< [ 19: 16](RO) Component major revision.
 
                                                                  This field distinguishes product variants or major revisions of
-                                                                 the product.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
+                                                                 the product. */
         uint64_t productid             : 12; /**< [ 31: 20](RO) Part number, bits [11:0]. The part number is selected by the
-                                                                 designer of the component.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
+                                                                 designer of the component. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1465,23 +1358,14 @@ union cavm_tad_cmn_mpamf_iidr_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t productid             : 12; /**< [ 31: 20](SRO) Part number, bits [11:0]. The part number is selected by the
-                                                                 designer of the component.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
+                                                                 designer of the component. */
         uint64_t variant               : 4;  /**< [ 19: 16](SRO) Component major revision.
 
                                                                  This field distinguishes product variants or major revisions of
-                                                                 the product.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
+                                                                 the product. */
         uint64_t revision              : 4;  /**< [ 15: 12](SRO) Component minor revision.
 
-                                                                 This field distinguishes minor revisions of the product.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
+                                                                 This field distinguishes minor revisions of the product. */
         uint64_t implementer           : 12; /**< [ 11:  0](SRO) Contains the JEP106 code of the company that implemented the MPAM MSC.
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
 #else /* Word 0 - Little Endian */
@@ -1489,22 +1373,13 @@ union cavm_tad_cmn_mpamf_iidr_s
                                                                  For an Arm implementation, bits[11:0] are 0x43B. */
         uint64_t revision              : 4;  /**< [ 15: 12](SRO) Component minor revision.
 
-                                                                 This field distinguishes minor revisions of the product.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[3:0]. */
+                                                                 This field distinguishes minor revisions of the product. */
         uint64_t variant               : 4;  /**< [ 19: 16](SRO) Component major revision.
 
                                                                  This field distinguishes product variants or major revisions of
-                                                                 the product.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain. gbl_fus__capt.chip_id[7:4]. */
+                                                                 the product. */
         uint64_t productid             : 12; /**< [ 31: 20](SRO) Part number, bits [11:0]. The part number is selected by the
-                                                                 designer of the component.
-
-                                                                 Internal:
-                                                                 RTL: This comes from the fuse chain.  {`PCC_PIDR_PARTNUM1_E__COMP_M, gbl_fus__capt.chip_type}. */
+                                                                 designer of the component. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -1663,57 +1538,5 @@ static inline uint64_t CAVM_TAD_CMN_REQ_RETRY_FUNC(void)
 #define device_bar_CAVM_TAD_CMN_REQ_RETRY 0x0 /* PF_BAR0 */
 #define busnum_CAVM_TAD_CMN_REQ_RETRY 0
 #define arguments_CAVM_TAD_CMN_REQ_RETRY -1,-1,-1,-1
-
-/**
- * Register (RSL) tad_cmn_scratch
- *
- * INTERNAL: TAD_CMN General Purpose Scratch Register
- *
- * These registers are reset only by hardware during chip cold reset. The values of the CSR
- * fields in these registers do not change during chip warm or soft resets.
- */
-union cavm_tad_cmn_scratch
-{
-    uint64_t u;
-    struct cavm_tad_cmn_scratch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t scratch               : 8;  /**< [  7:  0](R/W) General purpose scratch register. */
-#else /* Word 0 - Little Endian */
-        uint64_t scratch               : 8;  /**< [  7:  0](R/W) General purpose scratch register. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_tad_cmn_scratch_s cn10; */
-    /* struct cavm_tad_cmn_scratch_s cn10ka; */
-    struct cavm_tad_cmn_scratch_cn10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t scratch               : 8;  /**< [  7:  0](SR/W) General purpose scratch register. */
-#else /* Word 0 - Little Endian */
-        uint64_t scratch               : 8;  /**< [  7:  0](SR/W) General purpose scratch register. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_tad_cmn_scratch_s cnf10ka; */
-    /* struct cavm_tad_cmn_scratch_s cnf10kb; */
-};
-typedef union cavm_tad_cmn_scratch cavm_tad_cmn_scratch_t;
-
-#define CAVM_TAD_CMN_SCRATCH CAVM_TAD_CMN_SCRATCH_FUNC()
-static inline uint64_t CAVM_TAD_CMN_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_TAD_CMN_SCRATCH_FUNC(void)
-{
-    return 0x87e053000000ll;
-}
-
-#define typedef_CAVM_TAD_CMN_SCRATCH cavm_tad_cmn_scratch_t
-#define bustype_CAVM_TAD_CMN_SCRATCH CSR_TYPE_RSL
-#define basename_CAVM_TAD_CMN_SCRATCH "TAD_CMN_SCRATCH"
-#define device_bar_CAVM_TAD_CMN_SCRATCH 0x0 /* PF_BAR0 */
-#define busnum_CAVM_TAD_CMN_SCRATCH 0
-#define arguments_CAVM_TAD_CMN_SCRATCH -1,-1,-1,-1
 
 #endif /* __CAVM_CSRS_TAD_CMN_H__ */

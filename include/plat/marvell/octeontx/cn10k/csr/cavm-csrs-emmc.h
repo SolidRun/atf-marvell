@@ -142,43 +142,6 @@ static inline uint64_t CAVM_EMMCX_CONST(uint64_t a)
 #define arguments_CAVM_EMMCX_CONST(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) emmc#_eco
- *
- * INTERNAL: EMMC ECO Register
- */
-union cavm_emmcx_eco
-{
-    uint64_t u;
-    struct cavm_emmcx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_emmcx_eco_s cn; */
-};
-typedef union cavm_emmcx_eco cavm_emmcx_eco_t;
-
-static inline uint64_t CAVM_EMMCX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_EMMCX_ECO(uint64_t a)
-{
-    if (a==0)
-        return 0x824000000710ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("EMMCX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_EMMCX_ECO(a) cavm_emmcx_eco_t
-#define bustype_CAVM_EMMCX_ECO(a) CSR_TYPE_NCB
-#define basename_CAVM_EMMCX_ECO(a) "EMMCX_ECO"
-#define device_bar_CAVM_EMMCX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_EMMCX_ECO(a) (a)
-#define arguments_CAVM_EMMCX_ECO(a) (a),-1,-1,-1
-
-/**
  * Register (NCB32b) emmc#_host_cqrs_cqrs00
  *
  * EMMC Host Command Queuing Version Register

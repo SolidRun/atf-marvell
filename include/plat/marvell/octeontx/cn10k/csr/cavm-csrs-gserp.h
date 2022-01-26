@@ -6006,26 +6006,7 @@ union cavm_gserpx_anagrp_ctl2
                                                                  PIN RESERVE_IN_2[1:0] and ICC10U_IN_SEL together generate C_RING_ICC bias current. */
         uint64_t test_ana              : 5;  /**< [  5:  1](R/W) Analog Test Control Bits.
                                                                  Also logic OR with JTAG TDR.
-                                                                 0x0: Tristate the output.
-
-                                                                 Internal:
-                                                                 encodings for analog observe on TP
-                                                                 0x01: AVDD = 1.2V
-                                                                 0x02: AVSS = 0
-                                                                 0x03: DVDD = 0.8V
-                                                                 0x04: VREF0P74V = 0.74V
-                                                                 0x05: VDD_RING = 0.4V
-                                                                 0x06: BG_RDY = DVDD
-                                                                 0x07: VDDR0P95V_MAS = 1.0V
-                                                                 0x08: VDDR0P95V_SLV = 1.0V
-                                                                 0x09: VDDR0P95V_SLV_BUF = 1.0V
-                                                                 0x0A: VDDR0P75V_MAS = 0.75V
-                                                                 0x0B: XTAL_NB = 0.4V
-                                                                 0x0C: VBGOUT = 0.74V
-                                                                 0x0D: VDDR_CP = 0.45 V
-                                                                 0x0E: VFB_CP = 0.66V
-                                                                 0x0F: VREF_CP = 0.66V
-                                                                 0x10 to 0x1F: Reserved */
+                                                                 0x0: Tristate the output. */
         uint64_t pu                    : 1;  /**< [  0:  0](R/W) Analog Group Power-up.
                                                                  Power up control for current reference.
                                                                  0x0: Power down
@@ -6039,26 +6020,7 @@ union cavm_gserpx_anagrp_ctl2
                                                                  Note: also controlled by JTAG IDDQ TDR. */
         uint64_t test_ana              : 5;  /**< [  5:  1](R/W) Analog Test Control Bits.
                                                                  Also logic OR with JTAG TDR.
-                                                                 0x0: Tristate the output.
-
-                                                                 Internal:
-                                                                 encodings for analog observe on TP
-                                                                 0x01: AVDD = 1.2V
-                                                                 0x02: AVSS = 0
-                                                                 0x03: DVDD = 0.8V
-                                                                 0x04: VREF0P74V = 0.74V
-                                                                 0x05: VDD_RING = 0.4V
-                                                                 0x06: BG_RDY = DVDD
-                                                                 0x07: VDDR0P95V_MAS = 1.0V
-                                                                 0x08: VDDR0P95V_SLV = 1.0V
-                                                                 0x09: VDDR0P95V_SLV_BUF = 1.0V
-                                                                 0x0A: VDDR0P75V_MAS = 0.75V
-                                                                 0x0B: XTAL_NB = 0.4V
-                                                                 0x0C: VBGOUT = 0.74V
-                                                                 0x0D: VDDR_CP = 0.45 V
-                                                                 0x0E: VFB_CP = 0.66V
-                                                                 0x0F: VREF_CP = 0.66V
-                                                                 0x10 to 0x1F: Reserved */
+                                                                 0x0: Tristate the output. */
         uint64_t reserve_in_2          : 12; /**< [ 17:  6](R/W) Reserved Input Register 2 Pins.
 
                                                                  [11:7]
@@ -37748,47 +37710,6 @@ static inline uint64_t CAVM_GSERPX_DTX_REG2(uint64_t a)
 #define device_bar_CAVM_GSERPX_DTX_REG2(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_DTX_REG2(a) (a)
 #define arguments_CAVM_GSERPX_DTX_REG2(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) gserp#_eco
- *
- * INTERNAL: GSERP ECO Register
- */
-union cavm_gserpx_eco
-{
-    uint64_t u;
-    struct cavm_gserpx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO use. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO use. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_eco_s cn; */
-};
-typedef union cavm_gserpx_eco cavm_gserpx_eco_t;
-
-static inline uint64_t CAVM_GSERPX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
-        return 0x87e090020040ll + 0x1000000ll * ((a) & 0xf);
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
-        return 0x87e090020040ll + 0x1000000ll * ((a) & 0xf);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
-        return 0x87e090020040ll + 0x1000000ll * ((a) & 0xf);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
-        return 0x87e090020040ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("GSERPX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_ECO(a) cavm_gserpx_eco_t
-#define bustype_CAVM_GSERPX_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_ECO(a) "GSERPX_ECO"
-#define device_bar_CAVM_GSERPX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_ECO(a) (a)
-#define arguments_CAVM_GSERPX_ECO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_eom_ctrl_reg0
@@ -73907,17 +73828,7 @@ union cavm_gserpx_refclk_ctl1
                                                                  0x2: 620mV
                                                                  0x3: 640mV */
         uint64_t test_ana              : 3;  /**< [ 12: 10](R/W) Analog Test Point Selection:
-                                                                 0x0: High-Z
-
-                                                                 Internal:
-                                                                 encodings for analog observe
-                                                                 0x1: VDDR_LV    = 0.8V
-                                                                 0x2: DVDD
-                                                                 0x3: PU_RX_CORE = 0.9V
-                                                                 0x4: VDD_RING   = 0.58V to 0.76V
-                                                                 0x5: NBIAS_CORE = 0.58V to 0.68V
-                                                                 0x6: RX_OFFSET_INTERNAL = 0
-                                                                 0x7: AVDD1815 */
+                                                                 0x0: High-Z */
         uint64_t test_en               : 1;  /**< [  9:  9](R/W) Enable/Disable Test Point Monitor.
                                                                  0x0: Disable internal test point monitor.  Put TP into high-Z state
                                                                  0x1: Enable internal test point monitor */
@@ -74016,17 +73927,7 @@ union cavm_gserpx_refclk_ctl1
                                                                  0x0: Disable internal test point monitor.  Put TP into high-Z state
                                                                  0x1: Enable internal test point monitor */
         uint64_t test_ana              : 3;  /**< [ 12: 10](R/W) Analog Test Point Selection:
-                                                                 0x0: High-Z
-
-                                                                 Internal:
-                                                                 encodings for analog observe
-                                                                 0x1: VDDR_LV    = 0.8V
-                                                                 0x2: DVDD
-                                                                 0x3: PU_RX_CORE = 0.9V
-                                                                 0x4: VDD_RING   = 0.58V to 0.76V
-                                                                 0x5: NBIAS_CORE = 0.58V to 0.68V
-                                                                 0x6: RX_OFFSET_INTERNAL = 0
-                                                                 0x7: AVDD1815 */
+                                                                 0x0: High-Z */
         uint64_t pecl_ac_cm_sel        : 2;  /**< [ 14: 13](R/W) Internal Receiver Common Mode voltage select:
                                                                  when VCM_SEL=0:
                                                                  0x0: 360mV
@@ -83227,8 +83128,6 @@ static inline uint64_t CAVM_GSERPX_RX_SYSTEM_LANE(uint64_t a)
  * Register (RSL) gserp#_scratch#
  *
  * GSERP Scratch Registers
- * Internal:
- * Lowest address of Marvell wrapper CSRs
  */
 union cavm_gserpx_scratchx
 {

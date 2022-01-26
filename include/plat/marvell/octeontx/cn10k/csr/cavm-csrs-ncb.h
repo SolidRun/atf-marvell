@@ -348,13 +348,7 @@ union cavm_ncbx_arbidx_ctl
                                                                  1 = The inbound scheduler can accelerate transaction scheduling by considering
                                                                  PRs ordered when the transaction is scheduled to the memory interface.
                                                                  [SOW_DIS] should be set when [FAST_ORD] is set for a given ARBID.
-                                                                 Reset value represents the typical usage.  Set for all non-PEM ARBIDs.
-
-                                                                 Internal:
-                                                                 Normally, IOW considers an inbound transaction ordered when it receives the
-                                                                 ack.cmt from mesh via the relwrflid.rel/flid interface. The mesh interface will
-                                                                 inform IOW when a transaction has been slotted to the mesh interface via the
-                                                                 relwrflid.ord/flid fields. */
+                                                                 Reset value represents the typical usage.  Set for all non-PEM ARBIDs. */
         uint64_t sow_dis               : 1;  /**< [  8:  8](R/W) Disables the PCIe store widget for memory store performance. Does not affect
                                                                  observable ordering. No impact on IO stores.  For diagnostic use only.
                                                                  0 = Performance optimization on. Issue prefetches on stores to improve
@@ -446,13 +440,7 @@ union cavm_ncbx_arbidx_ctl
                                                                  1 = The inbound scheduler can accelerate transaction scheduling by considering
                                                                  PRs ordered when the transaction is scheduled to the memory interface.
                                                                  [SOW_DIS] should be set when [FAST_ORD] is set for a given ARBID.
-                                                                 Reset value represents the typical usage.  Set for all non-PEM ARBIDs.
-
-                                                                 Internal:
-                                                                 Normally, IOW considers an inbound transaction ordered when it receives the
-                                                                 ack.cmt from mesh via the relwrflid.rel/flid interface. The mesh interface will
-                                                                 inform IOW when a transaction has been slotted to the mesh interface via the
-                                                                 relwrflid.ord/flid fields. */
+                                                                 Reset value represents the typical usage.  Set for all non-PEM ARBIDs. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
@@ -529,65 +517,6 @@ static inline uint64_t CAVM_NCBX_ARBIDX_RR_CTL(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NCBX_ARBIDX_RR_CTL(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_NCBX_ARBIDX_RR_CTL(a,b) (a)
 #define arguments_CAVM_NCBX_ARBIDX_RR_CTL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) ncb#_bp_test
- *
- * INTERNAL: NCB Back Pressure Register
- */
-union cavm_ncbx_bp_test
-{
-    uint64_t u;
-    struct cavm_ncbx_bp_test_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Backpressure enable. Enables BP with weight noted below. One bit
-                                                                 per ARBID where \<48\> = ARBID0, \<49\> = ARBID1, etc.. */
-        uint64_t reserved_44_47        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 43: 32](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t bp_cfg                : 32; /**< [ 31:  0](R/W) Backpressure weight. For diagnostic use only. Two bits per ARBID where
-                                                                 \<1:0\> = ARBID0, \<3:2\> = ARBID1, etc...
-                                                                 0x0 = 100% of the time.
-                                                                 0x1 =  75% of the time.
-                                                                 0x2 =  50% of the time.
-                                                                 0x3 =  25% of the time. */
-#else /* Word 0 - Little Endian */
-        uint64_t bp_cfg                : 32; /**< [ 31:  0](R/W) Backpressure weight. For diagnostic use only. Two bits per ARBID where
-                                                                 \<1:0\> = ARBID0, \<3:2\> = ARBID1, etc...
-                                                                 0x0 = 100% of the time.
-                                                                 0x1 =  75% of the time.
-                                                                 0x2 =  50% of the time.
-                                                                 0x3 =  25% of the time. */
-        uint64_t lfsr_freq             : 12; /**< [ 43: 32](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_44_47        : 4;
-        uint64_t enable                : 16; /**< [ 63: 48](R/W) Backpressure enable. Enables BP with weight noted below. One bit
-                                                                 per ARBID where \<48\> = ARBID0, \<49\> = ARBID1, etc.. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ncbx_bp_test_s cn; */
-};
-typedef union cavm_ncbx_bp_test cavm_ncbx_bp_test_t;
-
-static inline uint64_t CAVM_NCBX_BP_TEST(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NCBX_BP_TEST(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=4))
-        return 0x87e1400f8000ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
-        return 0x87e1400f8000ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=6))
-        return 0x87e1400f8000ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e1400f8000ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("NCBX_BP_TEST", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NCBX_BP_TEST(a) cavm_ncbx_bp_test_t
-#define bustype_CAVM_NCBX_BP_TEST(a) CSR_TYPE_RSL
-#define basename_CAVM_NCBX_BP_TEST(a) "NCBX_BP_TEST"
-#define device_bar_CAVM_NCBX_BP_TEST(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_NCBX_BP_TEST(a) (a)
-#define arguments_CAVM_NCBX_BP_TEST(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) ncb#_ctl
@@ -849,46 +778,5 @@ static inline uint64_t CAVM_NCBX_RWX_SMMU_LAT_PC(uint64_t a, uint64_t b)
 #define device_bar_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) (a)
 #define arguments_CAVM_NCBX_RWX_SMMU_LAT_PC(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) ngnt#_eco
- *
- * INTERNAL: NGNT ECO Register
- */
-union cavm_ngntx_eco
-{
-    uint64_t u;
-    struct cavm_ngntx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ngntx_eco_s cn; */
-};
-typedef union cavm_ngntx_eco cavm_ngntx_eco_t;
-
-static inline uint64_t CAVM_NGNTX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_NGNTX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=4))
-        return 0x87e1400f8100ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=2))
-        return 0x87e1400f8100ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=6))
-        return 0x87e1400f8100ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=6))
-        return 0x87e1400f8100ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("NGNTX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_NGNTX_ECO(a) cavm_ngntx_eco_t
-#define bustype_CAVM_NGNTX_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_NGNTX_ECO(a) "NGNTX_ECO"
-#define device_bar_CAVM_NGNTX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_NGNTX_ECO(a) (a)
-#define arguments_CAVM_NGNTX_ECO(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_NCB_H__ */

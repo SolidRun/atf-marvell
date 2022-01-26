@@ -82,8 +82,6 @@
  *
  * IOBN RCLK Performance Event Enumeration
  * Enumerates the events that can be selected by IOBN_RPERF_CTRL()[SEL0,SEL1,SEL2].
- * Internal:
- * When assigning new events please keep all INRF events on 0-127 and INRM events on 128-255.
  */
 #define CAVM_IOBN_RPERF_EVENT_E_INRM_PERFX(a) (0x80 + (a))
 #define CAVM_IOBN_RPERF_EVENT_E_IOW_IO_CR_REQ (0x66)
@@ -351,59 +349,29 @@ union cavm_iobn_rperf_inrm_inbreq_s
                                                                  error. Category fields are ERR1 and ERR0. */
         uint32_t err1                  : 1;  /**< [  3:  3] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request with error associated. Category is transaction
-                                                                 error. Category fields are ERR1 and ERR0.
-
-                                                                 Internal:
-                                                                 Error can be set from SMMU translation exception or NCBI to NCBO opcode remap
-                                                                 failure. This can be expressed as: (smmu.abort || smmu.zero ||
-                                                                 iobn_xlat_defs::msh_cmd_to_ncbo_iop.err). When set, the transaction will target
-                                                                 the error handler AID which is LBK for IOBN instance 0 or IOB for all other IOBN
-                                                                 instance numbers. */
+                                                                 error. Category fields are ERR1 and ERR0. */
         uint32_t ccu                   : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to CCU. Category is transaction destination. Category
                                                                  fields are LBK, IOB, and CCU. */
         uint32_t iob                   : 1;  /**< [  1:  1] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to IOBN via the mesh. Category is transaction
-                                                                 destination. Category fields are LBK, IOB, and CCU.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID which is LBK for
-                                                                 IOBN instance 0 or IOB for all other IOBN instance numbers. */
+                                                                 destination. Category fields are LBK, IOB, and CCU. */
         uint32_t lbk                   : 1;  /**< [  0:  0] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to IOBN internal loopback. Category is transaction
-                                                                 destination. Category fields are LBK, IOB, and CCU.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID which is LBK for
-                                                                 IOBN instance 0 or IOB for all other IOBN instance numbers. */
+                                                                 destination. Category fields are LBK, IOB, and CCU. */
 #else /* Word 0 - Little Endian */
         uint32_t lbk                   : 1;  /**< [  0:  0] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to IOBN internal loopback. Category is transaction
-                                                                 destination. Category fields are LBK, IOB, and CCU.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID which is LBK for
-                                                                 IOBN instance 0 or IOB for all other IOBN instance numbers. */
+                                                                 destination. Category fields are LBK, IOB, and CCU. */
         uint32_t iob                   : 1;  /**< [  1:  1] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to IOBN via the mesh. Category is transaction
-                                                                 destination. Category fields are LBK, IOB, and CCU.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID which is LBK for
-                                                                 IOBN instance 0 or IOB for all other IOBN instance numbers. */
+                                                                 destination. Category fields are LBK, IOB, and CCU. */
         uint32_t ccu                   : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to CCU. Category is transaction destination. Category
                                                                  fields are LBK, IOB, and CCU. */
         uint32_t err1                  : 1;  /**< [  3:  3] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request with error associated. Category is transaction
-                                                                 error. Category fields are ERR1 and ERR0.
-
-                                                                 Internal:
-                                                                 Error can be set from SMMU translation exception or NCBI to NCBO opcode remap
-                                                                 failure. This can be expressed as: (smmu.abort || smmu.zero ||
-                                                                 iobn_xlat_defs::msh_cmd_to_ncbo_iop.err). When set, the transaction will target
-                                                                 the error handler AID which is LBK for IOBN instance 0 or IOB for all other IOBN
-                                                                 instance numbers. */
+                                                                 error. Category fields are ERR1 and ERR0. */
         uint32_t err0                  : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request without error associated. Category is transaction
                                                                  error. Category fields are ERR1 and ERR0. */
@@ -534,28 +502,16 @@ union cavm_iobn_rperf_inrm_outreq_s
         uint32_t reserved_13_31        : 19;
         uint32_t ncb2                  : 1;  /**< [ 12: 12] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to bus NCB0. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID. */
+                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb1                  : 1;  /**< [ 11: 11] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to bus NCB1. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID. */
+                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb0                  : 1;  /**< [ 10: 10] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to bus NCB2. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID. */
+                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t smmu                  : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to the SMMU. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID. */
+                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ret1                  : 1;  /**< [  8:  8] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request that is retried destined for NCB1. */
         uint32_t ret0                  : 1;  /**< [  7:  7] When set, increment the associated RPERF IRNM performance count when source
@@ -571,12 +527,7 @@ union cavm_iobn_rperf_inrm_outreq_s
                                                                  error. Category fields are ERR1 and ERR0. */
         uint32_t err1                  : 1;  /**< [  3:  3] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request with error/fault associated. Category is transaction
-                                                                 error. Category fields are ERR1 and ERR0.
-
-                                                                 Internal:
-                                                                 Error can be set from either the received cmd or from the outbound forwarding
-                                                                 checks (valid address, PERMIT, KILL, SECURE, CLASS A/B checks). When set, the
-                                                                 transaction will target the error handler AID. */
+                                                                 error. Category fields are ERR1 and ERR0. */
         uint32_t ccu                   : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from CCU. Category is transaction source. Category fields are
                                                                  LBK, IOB, and CCU. */
@@ -598,12 +549,7 @@ union cavm_iobn_rperf_inrm_outreq_s
                                                                  LBK, IOB, and CCU. */
         uint32_t err1                  : 1;  /**< [  3:  3] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request with error/fault associated. Category is transaction
-                                                                 error. Category fields are ERR1 and ERR0.
-
-                                                                 Internal:
-                                                                 Error can be set from either the received cmd or from the outbound forwarding
-                                                                 checks (valid address, PERMIT, KILL, SECURE, CLASS A/B checks). When set, the
-                                                                 transaction will target the error handler AID. */
+                                                                 error. Category fields are ERR1 and ERR0. */
         uint32_t err0                  : 1;  /**< [  4:  4] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request without error/fault associated. Category is transaction
                                                                  error. Category fields are ERR1 and ERR0. */
@@ -619,28 +565,16 @@ union cavm_iobn_rperf_inrm_outreq_s
                                                                  transaction is a request that is retried destined for NCB1. */
         uint32_t smmu                  : 1;  /**< [  9:  9] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to the SMMU. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID. */
+                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb0                  : 1;  /**< [ 10: 10] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to bus NCB2. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID. */
+                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb1                  : 1;  /**< [ 11: 11] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to bus NCB1. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID. */
+                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t ncb2                  : 1;  /**< [ 12: 12] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is targeted to bus NCB0. Category is transaction
-                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2.
-
-                                                                 Internal:
-                                                                 Transactions with ERR set will target the error handler AID. */
+                                                                 destination. Category fields are SMMU, NCB0, NCB1, and NCB2. */
         uint32_t reserved_13_31        : 19;
 #endif /* Word 0 - End */
     } s;
@@ -685,58 +619,28 @@ union cavm_iobn_rperf_inrm_outrsp_s
         uint32_t ccu                   : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from CCU. Category is transaction source. Category fields are
                                                                  LBK, IOB, and CCU. For accuracy, the LBK and IOB/CCU bits should be mutually
-                                                                 exclusive.
-
-                                                                 Internal:
-                                                                 The LBK and IOB/CCU bits should not be asserted together as LBK and IOB/CCU that
-                                                                 occur at the same time can collide and be reduced to a single counter
-                                                                 increment. Best to use two counters and track the events independently. */
+                                                                 exclusive. */
         uint32_t iob                   : 1;  /**< [  1:  1] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from IOBN via the mesh. Category is transaction source. Category
                                                                  fields are LBK, IOB, and CCU. For accuracy, the LBK and IOB/CCU bits should be
-                                                                 mutually exclusive.
-
-                                                                 Internal:
-                                                                 The LBK and IOB/CCU bits should not be asserted together as LBK and IOB/CCU that
-                                                                 occur at the same time can collide and be reduced to a single counter
-                                                                 increment. Best to use two counters and track the events independently. */
+                                                                 mutually exclusive. */
         uint32_t lbk                   : 1;  /**< [  0:  0] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from IOBN internal loopback. Category is transaction
                                                                  source. Category fields are LBK, IOB, and CCU. For accuracy, the LBK and IOB/CCU
-                                                                 bits should be mutually exclusive.
-
-                                                                 Internal:
-                                                                 The LBK and IOB/CCU bits should not be asserted together as LBK and IOB/CCU that
-                                                                 occur at the same time can collide and be reduced to a single counter
-                                                                 increment. Best to use two counters and track the events independently. */
+                                                                 bits should be mutually exclusive. */
 #else /* Word 0 - Little Endian */
         uint32_t lbk                   : 1;  /**< [  0:  0] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from IOBN internal loopback. Category is transaction
                                                                  source. Category fields are LBK, IOB, and CCU. For accuracy, the LBK and IOB/CCU
-                                                                 bits should be mutually exclusive.
-
-                                                                 Internal:
-                                                                 The LBK and IOB/CCU bits should not be asserted together as LBK and IOB/CCU that
-                                                                 occur at the same time can collide and be reduced to a single counter
-                                                                 increment. Best to use two counters and track the events independently. */
+                                                                 bits should be mutually exclusive. */
         uint32_t iob                   : 1;  /**< [  1:  1] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from IOBN via the mesh. Category is transaction source. Category
                                                                  fields are LBK, IOB, and CCU. For accuracy, the LBK and IOB/CCU bits should be
-                                                                 mutually exclusive.
-
-                                                                 Internal:
-                                                                 The LBK and IOB/CCU bits should not be asserted together as LBK and IOB/CCU that
-                                                                 occur at the same time can collide and be reduced to a single counter
-                                                                 increment. Best to use two counters and track the events independently. */
+                                                                 mutually exclusive. */
         uint32_t ccu                   : 1;  /**< [  2:  2] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is from CCU. Category is transaction source. Category fields are
                                                                  LBK, IOB, and CCU. For accuracy, the LBK and IOB/CCU bits should be mutually
-                                                                 exclusive.
-
-                                                                 Internal:
-                                                                 The LBK and IOB/CCU bits should not be asserted together as LBK and IOB/CCU that
-                                                                 occur at the same time can collide and be reduced to a single counter
-                                                                 increment. Best to use two counters and track the events independently. */
+                                                                 exclusive. */
         uint32_t err1                  : 1;  /**< [  3:  3] When set, increment the associated RPERF IRNM performance count when source
                                                                  transaction is a request with error/fault associated. Category is transaction
                                                                  error. Category fields are ERR1 and ERR0. */
@@ -761,217 +665,6 @@ union cavm_iobn_rperf_inrm_outrsp_s
     } s;
     /* struct cavm_iobn_rperf_inrm_outrsp_s_s cn; */
 };
-
-/**
- * Register (RSL) iobn#_bp_test#
- *
- * INTERNAL: IOBN Backpressure Test Registers
- */
-union cavm_iobnx_bp_testx
-{
-    uint64_t u;
-    struct cavm_iobnx_bp_testx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 8;  /**< [ 63: 56](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-
-                                                                 IOBN_BP_TEST(0) - INRF: Defined by iobn_defs::inrf_bp_test_t.
-                                                                 \<63\> = iow_imi_cr_debit  - backpressure credit returns from imi to iow for cr credits.
-                                                                 \<62\> = iow_imi_req_debit - backpressure credit returns from imi to iow for req credits.
-                                                                 \<61\> = rsvd1 - rsvd for future ncb buses
-                                                                 \<60\> = iow_ncb1_req_arb_debit - backpressure from ncb1 request to iob_iow_req_arb for credits.
-                                                                 \<59\> = iow_ncb0_req_arb_debit - backpressure from ncb0 request to iob_iow_req_arb for credits.
-                                                                 \<58\> = rsvd0 - rsvd for future ncb buses
-                                                                 \<57\> = iow_ncb1_cr_arb_debit  - backpressure from ncb0 CR to iob_iow_irf_arb for credits.
-                                                                 \<56\> = iow_ncb0_cr_arb_debit  - backpressure from ncb0 CR to iob_iow_irf_arb for credits.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(1) - INRM: Defined by iobn_defs::inrm_bp_test_t
-                                                                 \<63\> = LSW1 Request.
-                                                                 \<62\> = LSW0 Request.
-                                                                 \<61\> = NCBO1-RET.
-                                                                 \<60\> = NCBO0-PRET.
-                                                                 \<59\> = NCBO0-RET.
-                                                                 \<58\> = MSH - DAT. 10x.
-                                                                 \<57\> = MSH - RSP. 10x.
-                                                                 \<56\> = MSH - REQ. 10x.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(2) - INRF: Defined by iobn_defs::inrf_bp_test_t.
-                                                                 \<63\> = NCB2 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
-                                                                 \<62\> = NCB1 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
-                                                                 \<61\> = NCB0 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
-                                                                 \<60\> = TBD.
-                                                                 \<59\> = TBD.
-                                                                 \<58\> = TBD.
-                                                                 \<57\> = TBD.
-                                                                 \<56\> = iut_smmu_bp - emulates backpressure to IUT from SMMU.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
-                                                                 \<63\> = TBD.
-                                                                 \<62\> = imi_retry_smmu
-                                                                 \<61\> = imi_retry_sow
-                                                                 \<60\> = imi_tx_dat_stcpid
-                                                                 \<59\> = imi_tx_rsp
-                                                                 \<58\> = LBK - DAT. 10x.
-                                                                 \<57\> = LBK - RSP. 10x.
-                                                                 \<56\> = LBK - REQ. 10x.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(4) - INRF: Defined by iobn_defs::inrm_bp_test_t.
-                                                                 \<63\> = TBD.
-                                                                 \<62\> = TBD.
-                                                                 \<61\> = TBD.
-                                                                 \<60\> = TBD.
-                                                                 \<59\> = TBD.
-                                                                 \<58\> = TBD.
-                                                                 \<57\> = TBD.
-                                                                 \<56\> = TBD.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(5) - INRF: Defined by iobn_defs::iow_ill_bp_test_t. See
-                                                                 IOBN_ILL_BPTEST_SEL for how to map outputs to a ncb arbid.
-                                                                 \<63\> = irf__ill_rtn_crd0.cr.
-                                                                 \<62\> = irf__ill_rtn_crd0.np.
-                                                                 \<61\> = irf__ill_rtn_crd0.pr.
-                                                                 \<60\> = irf__ill_rtn_crd0.ps.
-                                                                 \<59\> = irf__ill_rtn_crd1.cr.
-                                                                 \<58\> = irf__ill_rtn_crd1.np.
-                                                                 \<57\> = irf__ill_rtn_crd1.pr.
-                                                                 \<56\> = irf__ill_rtn_crd1.ps. */
-        uint64_t reserved_32_55        : 24;
-        uint64_t bp_cfg                : 16; /**< [ 31: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](R/W) Test LFSR update frequency in coprocessor-clocks minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 16; /**< [ 31: 16](R/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_32_55        : 24;
-        uint64_t enable                : 8;  /**< [ 63: 56](R/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-
-                                                                 IOBN_BP_TEST(0) - INRF: Defined by iobn_defs::inrf_bp_test_t.
-                                                                 \<63\> = iow_imi_cr_debit  - backpressure credit returns from imi to iow for cr credits.
-                                                                 \<62\> = iow_imi_req_debit - backpressure credit returns from imi to iow for req credits.
-                                                                 \<61\> = rsvd1 - rsvd for future ncb buses
-                                                                 \<60\> = iow_ncb1_req_arb_debit - backpressure from ncb1 request to iob_iow_req_arb for credits.
-                                                                 \<59\> = iow_ncb0_req_arb_debit - backpressure from ncb0 request to iob_iow_req_arb for credits.
-                                                                 \<58\> = rsvd0 - rsvd for future ncb buses
-                                                                 \<57\> = iow_ncb1_cr_arb_debit  - backpressure from ncb0 CR to iob_iow_irf_arb for credits.
-                                                                 \<56\> = iow_ncb0_cr_arb_debit  - backpressure from ncb0 CR to iob_iow_irf_arb for credits.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(1) - INRM: Defined by iobn_defs::inrm_bp_test_t
-                                                                 \<63\> = LSW1 Request.
-                                                                 \<62\> = LSW0 Request.
-                                                                 \<61\> = NCBO1-RET.
-                                                                 \<60\> = NCBO0-PRET.
-                                                                 \<59\> = NCBO0-RET.
-                                                                 \<58\> = MSH - DAT. 10x.
-                                                                 \<57\> = MSH - RSP. 10x.
-                                                                 \<56\> = MSH - REQ. 10x.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(2) - INRF: Defined by iobn_defs::inrf_bp_test_t.
-                                                                 \<63\> = NCB2 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
-                                                                 \<62\> = NCB1 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
-                                                                 \<61\> = NCB0 ADD FLID - stop flow of NCBI FLID and CPID info from being passed to IOW.
-                                                                 \<60\> = TBD.
-                                                                 \<59\> = TBD.
-                                                                 \<58\> = TBD.
-                                                                 \<57\> = TBD.
-                                                                 \<56\> = iut_smmu_bp - emulates backpressure to IUT from SMMU.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(3) - INRF: Defined by iobn_defs::inrm_bp_test_t.
-                                                                 \<63\> = TBD.
-                                                                 \<62\> = imi_retry_smmu
-                                                                 \<61\> = imi_retry_sow
-                                                                 \<60\> = imi_tx_dat_stcpid
-                                                                 \<59\> = imi_tx_rsp
-                                                                 \<58\> = LBK - DAT. 10x.
-                                                                 \<57\> = LBK - RSP. 10x.
-                                                                 \<56\> = LBK - REQ. 10x.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(4) - INRF: Defined by iobn_defs::inrm_bp_test_t.
-                                                                 \<63\> = TBD.
-                                                                 \<62\> = TBD.
-                                                                 \<61\> = TBD.
-                                                                 \<60\> = TBD.
-                                                                 \<59\> = TBD.
-                                                                 \<58\> = TBD.
-                                                                 \<57\> = TBD.
-                                                                 \<56\> = TBD.
-
-                                                                 \<page\>
-                                                                 IOBN_BP_TEST(5) - INRF: Defined by iobn_defs::iow_ill_bp_test_t. See
-                                                                 IOBN_ILL_BPTEST_SEL for how to map outputs to a ncb arbid.
-                                                                 \<63\> = irf__ill_rtn_crd0.cr.
-                                                                 \<62\> = irf__ill_rtn_crd0.np.
-                                                                 \<61\> = irf__ill_rtn_crd0.pr.
-                                                                 \<60\> = irf__ill_rtn_crd0.ps.
-                                                                 \<59\> = irf__ill_rtn_crd1.cr.
-                                                                 \<58\> = irf__ill_rtn_crd1.np.
-                                                                 \<57\> = irf__ill_rtn_crd1.pr.
-                                                                 \<56\> = irf__ill_rtn_crd1.ps. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_iobnx_bp_testx_s cn; */
-};
-typedef union cavm_iobnx_bp_testx cavm_iobnx_bp_testx_t;
-
-static inline uint64_t CAVM_IOBNX_BP_TESTX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_BP_TESTX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=5)))
-        return 0x87e120083800ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=5)))
-        return 0x87e120083800ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=5)))
-        return 0x87e120083800ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=5)))
-        return 0x87e120083800ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7);
-    __cavm_csr_fatal("IOBNX_BP_TESTX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_BP_TESTX(a,b) cavm_iobnx_bp_testx_t
-#define bustype_CAVM_IOBNX_BP_TESTX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_BP_TESTX(a,b) "IOBNX_BP_TESTX"
-#define device_bar_CAVM_IOBNX_BP_TESTX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_BP_TESTX(a,b) (a)
-#define arguments_CAVM_IOBNX_BP_TESTX(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) iobn#_cfg0
@@ -1138,115 +831,6 @@ static inline uint64_t CAVM_IOBNX_CONST(uint64_t a)
 #define device_bar_CAVM_IOBNX_CONST(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_IOBNX_CONST(a) (a)
 #define arguments_CAVM_IOBNX_CONST(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) iobn#_dll
- *
- * INTERNAL: IOBN Core-Clock DLL Status Register
- *
- * Status of the CCU core-clock DLL. For diagnostic use only.
- */
-union cavm_iobnx_dll
-{
-    uint64_t u;
-    struct cavm_iobnx_dll_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_35_63        : 29;
-        uint64_t dbg_window            : 3;  /**< [ 34: 32](R/W/H) Defines a debug window, during which the DLL settings and the phase detector
-                                                                 outputs will be monitored. The min and the max DLL setting during that window is
-                                                                 going to be reported as well as any illegal phase detector outputs. Every write
-                                                                 to the [DBG_WINDOW] resets [ILLEGAL_PD_REVERSED], [ILLEGAL_PD_LATE],
-                                                                 [ILLEGAL_PD_EARLY], [MAX_DLL_SETTING] and [MIN_DLL_SETTING]. The debug window
-                                                                 will correspond to the following number of rclk cycles based on the [DBG_WINDOW]
-                                                                 value.
-                                                                 0x0 = Indefinetly.
-                                                                 0x1 = 2 ^ 12 core clock cycles.
-                                                                 0x2 = 2 ^ 18 core clock cycles.
-                                                                 0x3 = 2 ^ 24 core clock cycles.
-                                                                 0x4 = 2 ^ 30 core clock cycles.
-                                                                 0x5 = 2 ^ 36 core clock cycles.
-                                                                 0x6 = 2 ^ 42 core clock cycles.
-                                                                 0x7 = 2 ^ 48 core clock cycles. */
-        uint64_t dbg_window_done       : 1;  /**< [ 31: 31](RO/H) Indicates if the debug window set by [DBG_WINDOW] is completed. */
-        uint64_t illegal_pd_reversed   : 1;  /**< [ 30: 30](RO/H) clk_fast_rgt and clk_fast_lft outputs of the phase detector had concurrently an
-                                                                 illegal reading during the last debug window set by [DBG_WINDOW]. */
-        uint64_t illegal_pd_late       : 1;  /**< [ 29: 29](RO/H) clk_fast_rgt output of the phase detector had an illegal reading (1) during the
-                                                                 last debug window set by [DBG_WINDOW]. */
-        uint64_t illegal_pd_early      : 1;  /**< [ 28: 28](RO/H) clk_fast_lft output of the phase detector had an illegal reading (0) during the
-                                                                 last debug window set by [DBG_WINDOW]. */
-        uint64_t reserved_27           : 1;
-        uint64_t max_dll_setting       : 7;  /**< [ 26: 20](RO/H) Max reported DLL setting during the last debug window set by [DBG_WINDOW]. */
-        uint64_t reserved_19           : 1;
-        uint64_t min_dll_setting       : 7;  /**< [ 18: 12](RO/H) Min reported DLL setting during the last debug window set by [DBG_WINDOW]. */
-        uint64_t pd_out                : 3;  /**< [ 11:  9](RO/H) Synchronized output from CCU phase detector:
-                                                                 \<11\> = clk_fast_mid.
-                                                                 \<10\> = clk_fast_lft.
-                                                                 \<9\> = clk_fast_rgt. */
-        uint64_t dll_lock              : 1;  /**< [  8:  8](RO/H) The dll_lock signal from ROC core-clock DLL, from the positive edge of refclk. */
-        uint64_t reserved_7            : 1;
-        uint64_t dll_setting           : 7;  /**< [  6:  0](RO/H) The ROC core-clock DLL setting, from the negative edge of refclk. */
-#else /* Word 0 - Little Endian */
-        uint64_t dll_setting           : 7;  /**< [  6:  0](RO/H) The ROC core-clock DLL setting, from the negative edge of refclk. */
-        uint64_t reserved_7            : 1;
-        uint64_t dll_lock              : 1;  /**< [  8:  8](RO/H) The dll_lock signal from ROC core-clock DLL, from the positive edge of refclk. */
-        uint64_t pd_out                : 3;  /**< [ 11:  9](RO/H) Synchronized output from CCU phase detector:
-                                                                 \<11\> = clk_fast_mid.
-                                                                 \<10\> = clk_fast_lft.
-                                                                 \<9\> = clk_fast_rgt. */
-        uint64_t min_dll_setting       : 7;  /**< [ 18: 12](RO/H) Min reported DLL setting during the last debug window set by [DBG_WINDOW]. */
-        uint64_t reserved_19           : 1;
-        uint64_t max_dll_setting       : 7;  /**< [ 26: 20](RO/H) Max reported DLL setting during the last debug window set by [DBG_WINDOW]. */
-        uint64_t reserved_27           : 1;
-        uint64_t illegal_pd_early      : 1;  /**< [ 28: 28](RO/H) clk_fast_lft output of the phase detector had an illegal reading (0) during the
-                                                                 last debug window set by [DBG_WINDOW]. */
-        uint64_t illegal_pd_late       : 1;  /**< [ 29: 29](RO/H) clk_fast_rgt output of the phase detector had an illegal reading (1) during the
-                                                                 last debug window set by [DBG_WINDOW]. */
-        uint64_t illegal_pd_reversed   : 1;  /**< [ 30: 30](RO/H) clk_fast_rgt and clk_fast_lft outputs of the phase detector had concurrently an
-                                                                 illegal reading during the last debug window set by [DBG_WINDOW]. */
-        uint64_t dbg_window_done       : 1;  /**< [ 31: 31](RO/H) Indicates if the debug window set by [DBG_WINDOW] is completed. */
-        uint64_t dbg_window            : 3;  /**< [ 34: 32](R/W/H) Defines a debug window, during which the DLL settings and the phase detector
-                                                                 outputs will be monitored. The min and the max DLL setting during that window is
-                                                                 going to be reported as well as any illegal phase detector outputs. Every write
-                                                                 to the [DBG_WINDOW] resets [ILLEGAL_PD_REVERSED], [ILLEGAL_PD_LATE],
-                                                                 [ILLEGAL_PD_EARLY], [MAX_DLL_SETTING] and [MIN_DLL_SETTING]. The debug window
-                                                                 will correspond to the following number of rclk cycles based on the [DBG_WINDOW]
-                                                                 value.
-                                                                 0x0 = Indefinetly.
-                                                                 0x1 = 2 ^ 12 core clock cycles.
-                                                                 0x2 = 2 ^ 18 core clock cycles.
-                                                                 0x3 = 2 ^ 24 core clock cycles.
-                                                                 0x4 = 2 ^ 30 core clock cycles.
-                                                                 0x5 = 2 ^ 36 core clock cycles.
-                                                                 0x6 = 2 ^ 42 core clock cycles.
-                                                                 0x7 = 2 ^ 48 core clock cycles. */
-        uint64_t reserved_35_63        : 29;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_iobnx_dll_s cn; */
-};
-typedef union cavm_iobnx_dll cavm_iobnx_dll_t;
-
-static inline uint64_t CAVM_IOBNX_DLL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_DLL(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
-        return 0x87e1200b0180ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x87e1200b0180ll + 0x1000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
-        return 0x87e1200b0180ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
-        return 0x87e1200b0180ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("IOBNX_DLL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_DLL(a) cavm_iobnx_dll_t
-#define bustype_CAVM_IOBNX_DLL(a) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_DLL(a) "IOBNX_DLL"
-#define device_bar_CAVM_IOBNX_DLL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_DLL(a) (a)
-#define arguments_CAVM_IOBNX_DLL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) iobn#_dom#_bus#_streams
@@ -1463,88 +1047,6 @@ static inline uint64_t CAVM_IOBNX_DOMX_DEVX_STREAMS(uint64_t a, uint64_t b, uint
 #define arguments_CAVM_IOBNX_DOMX_DEVX_STREAMS(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (RSL) iobn#_eco_rclk
- *
- * INTERNAL: IOBN ECO RCLK Register
- */
-union cavm_iobnx_eco_rclk
-{
-    uint64_t u;
-    struct cavm_iobnx_eco_rclk_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_iobnx_eco_rclk_s cn; */
-};
-typedef union cavm_iobnx_eco_rclk cavm_iobnx_eco_rclk_t;
-
-static inline uint64_t CAVM_IOBNX_ECO_RCLK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_ECO_RCLK(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
-        return 0x87e120083038ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x87e120083038ll + 0x1000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
-        return 0x87e120083038ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
-        return 0x87e120083038ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("IOBNX_ECO_RCLK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_ECO_RCLK(a) cavm_iobnx_eco_rclk_t
-#define bustype_CAVM_IOBNX_ECO_RCLK(a) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_ECO_RCLK(a) "IOBNX_ECO_RCLK"
-#define device_bar_CAVM_IOBNX_ECO_RCLK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_ECO_RCLK(a) (a)
-#define arguments_CAVM_IOBNX_ECO_RCLK(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) iobn#_eco_sclk
- *
- * INTERNAL: IOBN ECO SCLK Register
- */
-union cavm_iobnx_eco_sclk
-{
-    uint64_t u;
-    struct cavm_iobnx_eco_sclk_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_iobnx_eco_sclk_s cn; */
-};
-typedef union cavm_iobnx_eco_sclk cavm_iobnx_eco_sclk_t;
-
-static inline uint64_t CAVM_IOBNX_ECO_SCLK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_ECO_SCLK(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
-        return 0x87e120003030ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x87e120003030ll + 0x1000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
-        return 0x87e120003030ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
-        return 0x87e120003030ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("IOBNX_ECO_SCLK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_ECO_SCLK(a) cavm_iobnx_eco_sclk_t
-#define bustype_CAVM_IOBNX_ECO_SCLK(a) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_ECO_SCLK(a) "IOBNX_ECO_SCLK"
-#define device_bar_CAVM_IOBNX_ECO_SCLK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_ECO_SCLK(a) (a)
-#define arguments_CAVM_IOBNX_ECO_SCLK(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) iobn#_err_ena
  *
  * IOBN Error Enable Register
@@ -1591,78 +1093,6 @@ static inline uint64_t CAVM_IOBNX_ERR_ENA(uint64_t a)
 #define device_bar_CAVM_IOBNX_ERR_ENA(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_IOBNX_ERR_ENA(a) (a)
 #define arguments_CAVM_IOBNX_ERR_ENA(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) iobn#_ill_bptest_sel
- *
- * INTERNAL: IOBN IOW LINK LIST Backpressure Test Select Registers
- *
- * Register selects which NCB arbid to apply bp_test(5) outputs to.
- */
-union cavm_iobnx_ill_bptest_sel
-{
-    uint64_t u;
-    struct cavm_iobnx_ill_bptest_sel_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t ncb_sel1              : 2;  /**< [ 13: 12](R/W) Selects the NCB bus number to apply bp_test(5) irf__ill_rtn_crd1 outputs to. */
-        uint64_t arbid_sel1            : 4;  /**< [ 11:  8](R/W) Selects the NCB arbid to apply bp_test(5) irf__ill_rtn_crd1 outputs to. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t ncb_sel0              : 2;  /**< [  5:  4](R/W) Selects the NCB bus number to apply bp_test(5) irf__ill_rtn_crd0 outputs to. */
-        uint64_t arbid_sel0            : 4;  /**< [  3:  0](R/W) Selects the NCB arbid to apply bp_test(5) irf__ill_rtn_crd0 outputs to. */
-#else /* Word 0 - Little Endian */
-        uint64_t arbid_sel0            : 4;  /**< [  3:  0](R/W) Selects the NCB arbid to apply bp_test(5) irf__ill_rtn_crd0 outputs to. */
-        uint64_t ncb_sel0              : 2;  /**< [  5:  4](R/W) Selects the NCB bus number to apply bp_test(5) irf__ill_rtn_crd0 outputs to. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t arbid_sel1            : 4;  /**< [ 11:  8](R/W) Selects the NCB arbid to apply bp_test(5) irf__ill_rtn_crd1 outputs to. */
-        uint64_t ncb_sel1              : 2;  /**< [ 13: 12](R/W) Selects the NCB bus number to apply bp_test(5) irf__ill_rtn_crd1 outputs to. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } s;
-    struct cavm_iobnx_ill_bptest_sel_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t reserved_14_15        : 2;
-        uint64_t ncb_sel1              : 2;  /**< [ 13: 12](R/W) Selects the NCB bus number to apply bp_test(5) irf__ill_rtn_crd1 outputs to. */
-        uint64_t arbid_sel1            : 4;  /**< [ 11:  8](R/W) Selects the NCB arbid to apply bp_test(5) irf__ill_rtn_crd1 outputs to. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t ncb_sel0              : 2;  /**< [  5:  4](R/W) Selects the NCB bus number to apply bp_test(5) irf__ill_rtn_crd0 outputs to. */
-        uint64_t arbid_sel0            : 4;  /**< [  3:  0](R/W) Selects the NCB arbid to apply bp_test(5) irf__ill_rtn_crd0 outputs to. */
-#else /* Word 0 - Little Endian */
-        uint64_t arbid_sel0            : 4;  /**< [  3:  0](R/W) Selects the NCB arbid to apply bp_test(5) irf__ill_rtn_crd0 outputs to. */
-        uint64_t ncb_sel0              : 2;  /**< [  5:  4](R/W) Selects the NCB bus number to apply bp_test(5) irf__ill_rtn_crd0 outputs to. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t arbid_sel1            : 4;  /**< [ 11:  8](R/W) Selects the NCB arbid to apply bp_test(5) irf__ill_rtn_crd1 outputs to. */
-        uint64_t ncb_sel1              : 2;  /**< [ 13: 12](R/W) Selects the NCB bus number to apply bp_test(5) irf__ill_rtn_crd1 outputs to. */
-        uint64_t reserved_14_15        : 2;
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn;
-};
-typedef union cavm_iobnx_ill_bptest_sel cavm_iobnx_ill_bptest_sel_t;
-
-static inline uint64_t CAVM_IOBNX_ILL_BPTEST_SEL(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_ILL_BPTEST_SEL(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
-        return 0x87e120083098ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x87e120083098ll + 0x1000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
-        return 0x87e120083098ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
-        return 0x87e120083098ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("IOBNX_ILL_BPTEST_SEL", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_ILL_BPTEST_SEL(a) cavm_iobnx_ill_bptest_sel_t
-#define bustype_CAVM_IOBNX_ILL_BPTEST_SEL(a) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_ILL_BPTEST_SEL(a) "IOBNX_ILL_BPTEST_SEL"
-#define device_bar_CAVM_IOBNX_ILL_BPTEST_SEL(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_ILL_BPTEST_SEL(a) (a)
-#define arguments_CAVM_IOBNX_ILL_BPTEST_SEL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) iobn#_inb_err_status
@@ -2561,62 +1991,6 @@ static inline uint64_t CAVM_IOBNX_NCBX_ACC(uint64_t a, uint64_t b)
 #define arguments_CAVM_IOBNX_NCBX_ACC(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) iobn#_ncb#_mrml_permit_shadow
- *
- * INTERNAL: IOBN NCB Access Registers
- *
- * This register provides a way to read back IOB's IOB captures writes to MRML's
- * MRML_NCB()_PERMIT. For diagnostic use only.
- */
-union cavm_iobnx_ncbx_mrml_permit_shadow
-{
-    uint64_t u;
-    struct cavm_iobnx_ncbx_mrml_permit_shadow_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t kill                  : 1;  /**< [  7:  7](SRO/H) Kill the device. Once written with one, stays
-                                                                 set until warm chip reset.  If set, no access
-                                                                 allowed by any initiator. */
-        uint64_t reserved_2_6          : 5;
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SRO/H) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by nonsecure devices. */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SRO/H) Secure disable. */
-#else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SRO/H) Secure disable. */
-        uint64_t nsec_dis              : 1;  /**< [  1:  1](SRO/H) Nonsecure disable. As with [SEC_DIS], but for accesses initiated by nonsecure devices. */
-        uint64_t reserved_2_6          : 5;
-        uint64_t kill                  : 1;  /**< [  7:  7](SRO/H) Kill the device. Once written with one, stays
-                                                                 set until warm chip reset.  If set, no access
-                                                                 allowed by any initiator. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_iobnx_ncbx_mrml_permit_shadow_s cn; */
-};
-typedef union cavm_iobnx_ncbx_mrml_permit_shadow cavm_iobnx_ncbx_mrml_permit_shadow_t;
-
-static inline uint64_t CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) && (b<=255)))
-        return 0x87e1200d0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=255)))
-        return 0x87e1200d0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xff);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=4) && (b<=255)))
-        return 0x87e1200d0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=4) && (b<=255)))
-        return 0x87e1200d0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xff);
-    __cavm_csr_fatal("IOBNX_NCBX_MRML_PERMIT_SHADOW", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(a,b) cavm_iobnx_ncbx_mrml_permit_shadow_t
-#define bustype_CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(a,b) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(a,b) "IOBNX_NCBX_MRML_PERMIT_SHADOW"
-#define device_bar_CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(a,b) (a)
-#define arguments_CAVM_IOBNX_NCBX_MRML_PERMIT_SHADOW(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) iobn#_ncbi#_cr_err_status
  *
  * IOBN NCBI Unexpected CR Error Status Register
@@ -3254,46 +2628,5 @@ static inline uint64_t CAVM_IOBNX_RSLX_STREAMS(uint64_t a, uint64_t b)
 #define device_bar_CAVM_IOBNX_RSLX_STREAMS(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_IOBNX_RSLX_STREAMS(a,b) (a)
 #define arguments_CAVM_IOBNX_RSLX_STREAMS(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) iobn#_scratch
- *
- * INTERNAL: IOBN Scratch Register
- */
-union cavm_iobnx_scratch
-{
-    uint64_t u;
-    struct cavm_iobnx_scratch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Test register for CSR access. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Test register for CSR access. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_iobnx_scratch_s cn; */
-};
-typedef union cavm_iobnx_scratch cavm_iobnx_scratch_t;
-
-static inline uint64_t CAVM_IOBNX_SCRATCH(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_IOBNX_SCRATCH(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=2))
-        return 0x87e120083020ll + 0x1000000ll * ((a) & 0x3);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
-        return 0x87e120083020ll + 0x1000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=4))
-        return 0x87e120083020ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=4))
-        return 0x87e120083020ll + 0x1000000ll * ((a) & 0x7);
-    __cavm_csr_fatal("IOBNX_SCRATCH", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_IOBNX_SCRATCH(a) cavm_iobnx_scratch_t
-#define bustype_CAVM_IOBNX_SCRATCH(a) CSR_TYPE_RSL
-#define basename_CAVM_IOBNX_SCRATCH(a) "IOBNX_SCRATCH"
-#define device_bar_CAVM_IOBNX_SCRATCH(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_IOBNX_SCRATCH(a) (a)
-#define arguments_CAVM_IOBNX_SCRATCH(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_IOBN_H__ */

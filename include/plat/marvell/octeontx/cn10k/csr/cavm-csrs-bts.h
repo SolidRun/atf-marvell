@@ -88,8 +88,6 @@
  *
  * BTS PLL Selection Enumeration
  * Enumerates the values of BTS_PLL[NEXT_PLL_SEL] and BTS_PLL[CUR_PLL_SEL].
- * Internal:
- * BTS_PLL_SEL_E definition is taken from RST counterpart (RST_PLL_SEL_E).
  */
 #define CAVM_BTS_PLL_SEL_E_ARO (6)
 #define CAVM_BTS_PLL_SEL_E_BYPASS (2)
@@ -344,42 +342,6 @@ static inline uint64_t CAVM_BTS_DAC_CLK_CTL_FUNC(void)
 #define arguments_CAVM_BTS_DAC_CLK_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) bts_eco
- *
- * INTERNAL: BTS ECO Register
- *
- * An ECO CSR.
- */
-union cavm_bts_eco
-{
-    uint64_t u;
-    struct cavm_bts_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO usage. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_bts_eco_s cn; */
-};
-typedef union cavm_bts_eco cavm_bts_eco_t;
-
-#define CAVM_BTS_ECO CAVM_BTS_ECO_FUNC()
-static inline uint64_t CAVM_BTS_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_BTS_ECO_FUNC(void)
-{
-    return 0x87e012000090ll;
-}
-
-#define typedef_CAVM_BTS_ECO cavm_bts_eco_t
-#define bustype_CAVM_BTS_ECO CSR_TYPE_RSL
-#define basename_CAVM_BTS_ECO "BTS_ECO"
-#define device_bar_CAVM_BTS_ECO 0x0 /* PF_BAR0 */
-#define busnum_CAVM_BTS_ECO 0
-#define arguments_CAVM_BTS_ECO -1,-1,-1,-1
-
-/**
  * Register (RSL) bts_ext_ref#_div_cfg0
  *
  * BTS External Reference (0..2) Divider Configuration 0 Register
@@ -569,13 +531,9 @@ union cavm_bts_global_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t bts_pll_lock          : 1;  /**< [  0:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Only in 9x chips - BTS hardware sets to one when the BTS PLL is locked. */
+        uint64_t bts_pll_lock          : 1;  /**< [  0:  0](RO/H) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t bts_pll_lock          : 1;  /**< [  0:  0](RO/H) Reserved.
-                                                                 Internal:
-                                                                 Only in 9x chips - BTS hardware sets to one when the BTS PLL is locked. */
+        uint64_t bts_pll_lock          : 1;  /**< [  0:  0](RO/H) Reserved. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -1826,18 +1784,12 @@ union cavm_bts_pll
         uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this value times 10nS.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
-                                                                 100 MHz clocks. Hardware will add additional clocks if required.
-
-                                                                 Internal:
-                                                                 Hardware will add counts to maintain 64 reference clock notification to hardware. */
+                                                                 100 MHz clocks. Hardware will add additional clocks if required. */
 #else /* Word 0 - Little Endian */
         uint64_t next_switch           : 14; /**< [ 13:  0](R/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this value times 10nS.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
-                                                                 100 MHz clocks. Hardware will add additional clocks if required.
-
-                                                                 Internal:
-                                                                 Hardware will add counts to maintain 64 reference clock notification to hardware. */
+                                                                 100 MHz clocks. Hardware will add additional clocks if required. */
         uint64_t reserved_14_15        : 2;
         uint64_t next_pgm              : 1;  /**< [ 16: 16](R/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
                                                                  using BTS_MAN_PLL() fields if set. Hardware automatically
@@ -2188,13 +2140,6 @@ static inline uint64_t CAVM_BTS_PWM_CTL_FUNC(void)
  * Register (RSL) bts_test_pll
  *
  * BTS PLL Test Register
- * Internal:
- * These registers are used to test the PLL operation and allow the pll output
- * clock to be stopped or restarted during testing.  Writes to this register
- * cause an update cycle to be sent thru the pll_intf.
- * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is always reset on a chip domain reset.
  */
 union cavm_bts_test_pll
 {

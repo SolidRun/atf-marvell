@@ -545,15 +545,6 @@ union cavm_ml_dod_byte_perf_cnt_s
  *
  * ML DOD CFG INT ENABLE HI Structure
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_enable_hi_s
 {
@@ -666,15 +657,6 @@ union cavm_ml_dod_cfg_int_enable_hi_s
  *
  * ML DOD CFG INT ENABLE LO Structure
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_enable_lo_s
 {
@@ -787,15 +769,6 @@ union cavm_ml_dod_cfg_int_enable_lo_s
  *
  * ML DOD CFG INT FORCE Structure
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_force_s
 {
@@ -908,15 +881,6 @@ union cavm_ml_dod_cfg_int_force_s
  *
  * ML DOD CFG INT STATUS Structure
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_status_s
 {
@@ -2558,13 +2522,6 @@ union cavm_ml_ins_scheduler_status_s
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_enable_hi_s
 {
@@ -2693,13 +2650,6 @@ union cavm_ml_ins_slv_int_enable_hi_s
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_enable_lo_s
 {
@@ -2828,13 +2778,6 @@ union cavm_ml_ins_slv_int_enable_lo_s
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_force_s
 {
@@ -2963,13 +2906,6 @@ union cavm_ml_ins_slv_int_force_s
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_status_s
 {
@@ -13608,15 +13544,6 @@ static inline uint64_t CAVM_MLX_DOD_BYTE_PERF_CNT_WX(uint64_t a, uint64_t b)
  *
  * ML DOD CFG INT ENABLE HI Word  Register
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_mlx_dod_cfg_int_enable_hi_wx
 {
@@ -13653,15 +13580,6 @@ static inline uint64_t CAVM_MLX_DOD_CFG_INT_ENABLE_HI_WX(uint64_t a, uint64_t b)
  *
  * ML DOD CFG INT ENABLE LO Word  Register
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_mlx_dod_cfg_int_enable_lo_wx
 {
@@ -13698,15 +13616,6 @@ static inline uint64_t CAVM_MLX_DOD_CFG_INT_ENABLE_LO_WX(uint64_t a, uint64_t b)
  *
  * ML DOD CFG INT FORCE Word  Register
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_mlx_dod_cfg_int_force_wx
 {
@@ -13743,15 +13652,6 @@ static inline uint64_t CAVM_MLX_DOD_CFG_INT_FORCE_WX(uint64_t a, uint64_t b)
  *
  * ML DOD CFG INT STATUS Word  Register
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_mlx_dod_cfg_int_status_wx
 {
@@ -22449,13 +22349,6 @@ static inline uint64_t CAVM_MLX_DPE_ALU_TRACE_CFG_STOP_COMP_WX(uint64_t a, uint6
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_0
 {
@@ -22537,13 +22430,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_0(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_1
 {
@@ -22625,13 +22511,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_1(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_2
 {
@@ -22713,13 +22592,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_2(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_3
 {
@@ -22801,13 +22673,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_3(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_4
 {
@@ -22889,13 +22754,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_4(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_5
 {
@@ -22977,13 +22835,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_5(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_6
 {
@@ -23065,13 +22916,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_6(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_hi_7
 {
@@ -23153,13 +22997,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_HI_7(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_0
 {
@@ -23241,13 +23078,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_0(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_1
 {
@@ -23329,13 +23159,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_1(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_2
 {
@@ -23417,13 +23240,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_2(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_3
 {
@@ -23505,13 +23321,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_3(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_4
 {
@@ -23593,13 +23402,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_4(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_5
 {
@@ -23681,13 +23483,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_5(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_6
 {
@@ -23769,13 +23564,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_6(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_enable_lo_7
 {
@@ -23857,13 +23645,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_ENABLE_LO_7(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_0
 {
@@ -23945,13 +23726,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_0(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_1
 {
@@ -24033,13 +23807,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_1(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_2
 {
@@ -24121,13 +23888,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_2(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_3
 {
@@ -24209,13 +23969,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_3(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_4
 {
@@ -24297,13 +24050,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_4(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_5
 {
@@ -24385,13 +24131,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_5(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_6
 {
@@ -24473,13 +24212,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_6(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_force_7
 {
@@ -24561,13 +24293,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_FORCE_7(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_0
 {
@@ -24659,13 +24384,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_0(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_1
 {
@@ -24757,13 +24475,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_1(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_2
 {
@@ -24855,13 +24566,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_2(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_3
 {
@@ -24953,13 +24657,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_3(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_4
 {
@@ -25051,13 +24748,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_4(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_5
 {
@@ -25149,13 +24839,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_5(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_6
 {
@@ -25247,13 +24930,6 @@ static inline uint64_t CAVM_MLX_DPE_CFG_INT_STATUS_6(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_dpe_cfg_int_status_7
 {
@@ -31424,13 +31100,6 @@ static inline uint64_t CAVM_MLX_INS_SCHEDULER_STATUS_WX(uint64_t a, uint64_t b)
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ins_slv_int_enable_hi_wx
 {
@@ -31469,13 +31138,6 @@ static inline uint64_t CAVM_MLX_INS_SLV_INT_ENABLE_HI_WX(uint64_t a, uint64_t b)
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ins_slv_int_enable_lo_wx
 {
@@ -31514,13 +31176,6 @@ static inline uint64_t CAVM_MLX_INS_SLV_INT_ENABLE_LO_WX(uint64_t a, uint64_t b)
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ins_slv_int_force_wx
 {
@@ -31559,13 +31214,6 @@ static inline uint64_t CAVM_MLX_INS_SLV_INT_FORCE_WX(uint64_t a, uint64_t b)
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication of the event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ins_slv_int_status_wx
 {
@@ -32169,12 +31817,6 @@ static inline uint64_t CAVM_MLX_INSTR_TX_CRD_4_1(uint64_t a)
  *
  * ML IRTR CFG INT ENABLE HI Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_irtr_cfg_int_enable_hi
 {
@@ -32223,12 +31865,6 @@ static inline uint64_t CAVM_MLX_IRTR_CFG_INT_ENABLE_HI(uint64_t a)
  *
  * ML IRTR CFG INT ENABLE LO Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_irtr_cfg_int_enable_lo
 {
@@ -32277,12 +31913,6 @@ static inline uint64_t CAVM_MLX_IRTR_CFG_INT_ENABLE_LO(uint64_t a)
  *
  * ML IRTR CFG INT FORCE Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_irtr_cfg_int_force
 {
@@ -32331,12 +31961,6 @@ static inline uint64_t CAVM_MLX_IRTR_CFG_INT_FORCE(uint64_t a)
  *
  * ML IRTR CFG INT STATUS Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_irtr_cfg_int_status
 {
@@ -36242,12 +35866,6 @@ static inline uint64_t CAVM_MLX_OCM_BLK_CONFIG_7(uint64_t a)
  *
  * ML OCM CFG INT ENABLE HI 0 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_0
 {
@@ -36308,12 +35926,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_0(uint64_t a)
  *
  * ML OCM CFG INT ENABLE HI 1 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_1
 {
@@ -36374,12 +35986,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_1(uint64_t a)
  *
  * ML OCM CFG INT ENABLE HI 2 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_2
 {
@@ -36440,12 +36046,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_2(uint64_t a)
  *
  * ML OCM CFG INT ENABLE HI 3 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_3
 {
@@ -36506,12 +36106,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_3(uint64_t a)
  *
  * ML OCM CFG INT ENABLE HI 4 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_4
 {
@@ -36572,12 +36166,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_4(uint64_t a)
  *
  * ML OCM CFG INT ENABLE HI 5 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_5
 {
@@ -36638,12 +36226,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_5(uint64_t a)
  *
  * ML OCM CFG INT ENABLE HI 6 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_6
 {
@@ -36704,12 +36286,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_6(uint64_t a)
  *
  * ML OCM CFG INT ENABLE HI 7 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_hi_7
 {
@@ -36770,12 +36346,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_HI_7(uint64_t a)
  *
  * ML OCM CFG INT ENABLE LO 0 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_0
 {
@@ -36836,12 +36406,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_0(uint64_t a)
  *
  * ML OCM CFG INT ENABLE LO 1 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_1
 {
@@ -36902,12 +36466,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_1(uint64_t a)
  *
  * ML OCM CFG INT ENABLE LO 2 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_2
 {
@@ -36968,12 +36526,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_2(uint64_t a)
  *
  * ML OCM CFG INT ENABLE LO 3 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_3
 {
@@ -37034,12 +36586,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_3(uint64_t a)
  *
  * ML OCM CFG INT ENABLE LO 4 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_4
 {
@@ -37100,12 +36646,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_4(uint64_t a)
  *
  * ML OCM CFG INT ENABLE LO 5 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_5
 {
@@ -37166,12 +36706,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_5(uint64_t a)
  *
  * ML OCM CFG INT ENABLE LO 6 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_6
 {
@@ -37232,12 +36766,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_6(uint64_t a)
  *
  * ML OCM CFG INT ENABLE LO 7 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_enable_lo_7
 {
@@ -37298,12 +36826,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_ENABLE_LO_7(uint64_t a)
  *
  * ML OCM CFG INT FORCE 0 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_0
 {
@@ -37364,12 +36886,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_0(uint64_t a)
  *
  * ML OCM CFG INT FORCE 1 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_1
 {
@@ -37430,12 +36946,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_1(uint64_t a)
  *
  * ML OCM CFG INT FORCE 2 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_2
 {
@@ -37496,12 +37006,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_2(uint64_t a)
  *
  * ML OCM CFG INT FORCE 3 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_3
 {
@@ -37562,12 +37066,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_3(uint64_t a)
  *
  * ML OCM CFG INT FORCE 4 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_4
 {
@@ -37628,12 +37126,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_4(uint64_t a)
  *
  * ML OCM CFG INT FORCE 5 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_5
 {
@@ -37694,12 +37186,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_5(uint64_t a)
  *
  * ML OCM CFG INT FORCE 6 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_6
 {
@@ -37760,12 +37246,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_6(uint64_t a)
  *
  * ML OCM CFG INT FORCE 7 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_force_7
 {
@@ -37826,12 +37306,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_FORCE_7(uint64_t a)
  *
  * ML OCM CFG INT STATUS 0 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_0
 {
@@ -37902,12 +37376,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_0(uint64_t a)
  *
  * ML OCM CFG INT STATUS 1 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_1
 {
@@ -37978,12 +37446,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_1(uint64_t a)
  *
  * ML OCM CFG INT STATUS 2 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_2
 {
@@ -38054,12 +37516,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_2(uint64_t a)
  *
  * ML OCM CFG INT STATUS 3 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_3
 {
@@ -38130,12 +37586,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_3(uint64_t a)
  *
  * ML OCM CFG INT STATUS 4 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_4
 {
@@ -38206,12 +37656,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_4(uint64_t a)
  *
  * ML OCM CFG INT STATUS 5 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_5
 {
@@ -38282,12 +37726,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_5(uint64_t a)
  *
  * ML OCM CFG INT STATUS 6 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_6
 {
@@ -38358,12 +37796,6 @@ static inline uint64_t CAVM_MLX_OCM_CFG_INT_STATUS_6(uint64_t a)
  *
  * ML OCM CFG INT STATUS 7 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_ocm_cfg_int_status_7
 {
@@ -52812,17 +52244,6 @@ static inline uint64_t CAVM_MLX_POD_BREG_CTRL_STATUS_WX(uint64_t a, uint64_t b)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_0
 {
@@ -52878,17 +52299,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_0(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_1
 {
@@ -52944,17 +52354,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_1(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_2
 {
@@ -53010,17 +52409,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_2(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_3
 {
@@ -53076,17 +52464,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_3(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_4
 {
@@ -53142,17 +52519,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_4(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_5
 {
@@ -53208,17 +52574,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_5(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_6
 {
@@ -53274,17 +52629,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_6(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_hi_7
 {
@@ -53340,17 +52684,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_HI_7(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_0
 {
@@ -53406,17 +52739,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_0(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_1
 {
@@ -53472,17 +52794,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_1(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_2
 {
@@ -53538,17 +52849,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_2(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_3
 {
@@ -53604,17 +52904,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_3(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_4
 {
@@ -53670,17 +52959,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_4(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_5
 {
@@ -53736,17 +53014,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_5(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_6
 {
@@ -53802,17 +53069,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_6(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_enable_lo_7
 {
@@ -53868,17 +53124,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_ENABLE_LO_7(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_0
 {
@@ -53934,17 +53179,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_0(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_1
 {
@@ -54000,17 +53234,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_1(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_2
 {
@@ -54066,17 +53289,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_2(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_3
 {
@@ -54132,17 +53344,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_3(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_4
 {
@@ -54198,17 +53399,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_4(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_5
 {
@@ -54264,17 +53454,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_5(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_6
 {
@@ -54330,17 +53509,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_6(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_force_7
 {
@@ -54396,17 +53564,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_FORCE_7(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_0
 {
@@ -54464,17 +53621,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_0(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_1
 {
@@ -54532,17 +53678,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_1(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_2
 {
@@ -54600,17 +53735,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_2(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_3
 {
@@ -54668,17 +53792,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_3(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_4
 {
@@ -54736,17 +53849,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_4(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_5
 {
@@ -54804,17 +53906,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_5(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_6
 {
@@ -54872,17 +53963,6 @@ static inline uint64_t CAVM_MLX_POD_CFG_INT_STATUS_6(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_mlx_pod_cfg_int_status_7
 {
@@ -63097,12 +62177,6 @@ static inline uint64_t CAVM_MLX_RST_MASK_CTRL(uint64_t a)
  *
  * ML RTR CFG INT ENABLE HI 1 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_enable_hi_1_wx
 {
@@ -63139,12 +62213,6 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_ENABLE_HI_1_WX(uint64_t a, uint64_t 
  *
  * ML RTR CFG INT ENABLE HI 0 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_enable_hi_wx
 {
@@ -63181,12 +62249,6 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_ENABLE_HI_WX(uint64_t a, uint64_t b)
  *
  * ML RTR CFG INT ENABLE LO 1 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_enable_lo_1_wx
 {
@@ -63223,12 +62285,6 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_ENABLE_LO_1_WX(uint64_t a, uint64_t 
  *
  * ML RTR CFG INT ENABLE LO 0 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_enable_lo_wx
 {
@@ -63265,12 +62321,6 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_ENABLE_LO_WX(uint64_t a, uint64_t b)
  *
  * ML RTR CFG INT FORCE 1 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_force_1_wx
 {
@@ -63307,12 +62357,6 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_FORCE_1_WX(uint64_t a, uint64_t b)
  *
  * ML RTR CFG INT FORCE 0 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_force_wx
 {
@@ -63349,12 +62393,6 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_FORCE_WX(uint64_t a, uint64_t b)
  *
  * ML RTR CFG INT STATUS 1 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_status_1_wx
 {
@@ -63391,12 +62429,6 @@ static inline uint64_t CAVM_MLX_RTR_CFG_INT_STATUS_1_WX(uint64_t a, uint64_t b)
  *
  * ML RTR CFG INT STATUS 0 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_mlx_rtr_cfg_int_status_wx
 {
@@ -64348,21 +63380,6 @@ static inline uint64_t CAVM_MLX_TCT_TMEM(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_0
 {
@@ -64454,21 +63471,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_0(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_1
 {
@@ -64560,21 +63562,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_1(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_2
 {
@@ -64666,21 +63653,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_2(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_3
 {
@@ -64772,21 +63744,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_3(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_4
 {
@@ -64878,21 +63835,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_4(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_5
 {
@@ -64984,21 +63926,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_5(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_6
 {
@@ -65090,21 +64017,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_6(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_hi_7
 {
@@ -65196,21 +64108,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_HI_7(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_0
 {
@@ -65302,21 +64199,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_0(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_1
 {
@@ -65408,21 +64290,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_1(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_2
 {
@@ -65514,21 +64381,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_2(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_3
 {
@@ -65620,21 +64472,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_3(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_4
 {
@@ -65726,21 +64563,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_4(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_5
 {
@@ -65832,21 +64654,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_5(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_6
 {
@@ -65938,21 +64745,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_6(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_enable_lo_7
 {
@@ -66044,21 +64836,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_ENABLE_LO_7(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_0
 {
@@ -66150,21 +64927,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_0(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_1
 {
@@ -66256,21 +65018,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_1(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_2
 {
@@ -66362,21 +65109,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_2(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_3
 {
@@ -66468,21 +65200,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_3(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_4
 {
@@ -66574,21 +65291,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_4(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_5
 {
@@ -66680,21 +65382,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_5(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_6
 {
@@ -66786,21 +65473,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_6(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_force_7
 {
@@ -66892,21 +65564,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_FORCE_7(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_0
 {
@@ -66998,21 +65655,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_0(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_1
 {
@@ -67104,21 +65746,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_1(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_2
 {
@@ -67210,21 +65837,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_2(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_3
 {
@@ -67316,21 +65928,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_3(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_4
 {
@@ -67422,21 +66019,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_4(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_5
 {
@@ -67528,21 +66110,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_5(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_6
 {
@@ -67634,21 +66201,6 @@ static inline uint64_t CAVM_MLX_TMR_CFG_INT_STATUS_6(uint64_t a)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_mlx_tmr_cfg_int_status_7
 {
@@ -88493,15 +87045,6 @@ static inline uint64_t CAVM_ML_DOD_BYTE_PERF_CNT_WX(uint64_t a)
  *
  * ML DOD CFG INT ENABLE HI Word  Register
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_enable_hi_wx
 {
@@ -88538,15 +87081,6 @@ static inline uint64_t CAVM_ML_DOD_CFG_INT_ENABLE_HI_WX(uint64_t a)
  *
  * ML DOD CFG INT ENABLE LO Word  Register
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_enable_lo_wx
 {
@@ -88583,15 +87117,6 @@ static inline uint64_t CAVM_ML_DOD_CFG_INT_ENABLE_LO_WX(uint64_t a)
  *
  * ML DOD CFG INT FORCE Word  Register
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_force_wx
 {
@@ -88628,15 +87153,6 @@ static inline uint64_t CAVM_ML_DOD_CFG_INT_FORCE_WX(uint64_t a)
  *
  * ML DOD CFG INT STATUS Word  Register
  * DoD interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 all the interrupts in DOD cause DOD to freeze if int_enable_hi = 1.
- * if in_enable_hi =0 DOD will only report the error but will not freeze. disp_freeze
- * and loop_arg_err are the only exceptions because they cause the dispatcher( module
- * borrowed from tmr) to freeze irrespective of int_enable_hi.
  */
 union cavm_ml_dod_cfg_int_status_wx
 {
@@ -97501,13 +96017,6 @@ static inline uint64_t CAVM_ML_DPE_ALU_TRACE_CFG_STOP_COMP_WX(uint64_t a)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_hi_0
 {
@@ -97590,13 +96099,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_HI_0_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_hi_1
 {
@@ -97679,13 +96181,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_HI_1_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_hi_2
 {
@@ -97768,13 +96263,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_HI_2_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_hi_3
 {
@@ -97857,13 +96345,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_HI_3_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_hi_4
 {
@@ -97946,13 +96427,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_HI_4_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_hi_5
 {
@@ -98035,13 +96509,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_HI_5_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_hi_6
 {
@@ -98124,13 +96591,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_HI_6_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_hi_7
 {
@@ -98213,13 +96673,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_HI_7_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_lo_0
 {
@@ -98302,13 +96755,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_LO_0_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_lo_1
 {
@@ -98391,13 +96837,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_LO_1_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_lo_2
 {
@@ -98480,13 +96919,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_LO_2_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_lo_3
 {
@@ -98569,13 +97001,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_LO_3_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_lo_4
 {
@@ -98658,13 +97083,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_LO_4_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_lo_5
 {
@@ -98747,13 +97165,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_LO_5_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_lo_6
 {
@@ -98836,13 +97247,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_LO_6_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_enable_lo_7
 {
@@ -98925,13 +97329,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_ENABLE_LO_7_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_force_0
 {
@@ -99014,13 +97411,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_FORCE_0_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_force_1
 {
@@ -99103,13 +97493,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_FORCE_1_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_force_2
 {
@@ -99192,13 +97575,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_FORCE_2_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_force_3
 {
@@ -99281,13 +97657,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_FORCE_3_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_force_4
 {
@@ -99370,13 +97739,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_FORCE_4_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_force_5
 {
@@ -99459,13 +97821,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_FORCE_5_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_force_6
 {
@@ -99548,13 +97903,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_FORCE_6_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_force_7
 {
@@ -99637,13 +97985,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_FORCE_7_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_status_0
 {
@@ -99736,13 +98077,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_STATUS_0_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_status_1
 {
@@ -99835,13 +98169,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_STATUS_1_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_status_2
 {
@@ -99934,13 +98261,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_STATUS_2_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_status_3
 {
@@ -100033,13 +98353,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_STATUS_3_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_status_4
 {
@@ -100132,13 +98445,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_STATUS_4_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_status_5
 {
@@ -100231,13 +98537,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_STATUS_5_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_status_6
 {
@@ -100330,13 +98629,6 @@ static inline uint64_t CAVM_ML_DPE_CFG_INT_STATUS_6_FUNC(void)
  * fatal error. First error will result into interrupt and freeze, default freeze
  * enable is on NF non-fatal error. When an error count is equal or greater than
  * threshold, interrupt will happen. default freeze enable is off.
- *
- * Internal:
- * Refer to this link for
- * Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_dpe_cfg_int_status_7
 {
@@ -106640,13 +104932,6 @@ static inline uint64_t CAVM_ML_INS_SCHEDULER_STATUS_WX(uint64_t a)
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_enable_hi_wx
 {
@@ -106685,13 +104970,6 @@ static inline uint64_t CAVM_ML_INS_SLV_INT_ENABLE_HI_WX(uint64_t a)
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_enable_lo_wx
 {
@@ -106730,13 +105008,6 @@ static inline uint64_t CAVM_ML_INS_SLV_INT_ENABLE_LO_WX(uint64_t a)
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_force_wx
 {
@@ -106775,13 +105046,6 @@ static inline uint64_t CAVM_ML_INS_SLV_INT_FORCE_WX(uint64_t a)
  * Instruction streamer interrupt register. INS has no Non Fatal (NF) interrupts. Here
  * is Non Error (NE) behavior NE Non Error. This is not an error and is just an
  * indication event. interrupt is set if enabled. Block does not freeze.
- *
- * Internal:
- * Refer to this
- * link for Fatal error (FT) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ins_slv_int_status_wx
 {
@@ -107399,12 +105663,6 @@ static inline uint64_t CAVM_ML_INSTR_TX_CRD_4_1_FUNC(void)
  *
  * ML IRTR CFG INT ENABLE HI Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_irtr_cfg_int_enable_hi
 {
@@ -107454,12 +105712,6 @@ static inline uint64_t CAVM_ML_IRTR_CFG_INT_ENABLE_HI_FUNC(void)
  *
  * ML IRTR CFG INT ENABLE LO Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_irtr_cfg_int_enable_lo
 {
@@ -107509,12 +105761,6 @@ static inline uint64_t CAVM_ML_IRTR_CFG_INT_ENABLE_LO_FUNC(void)
  *
  * ML IRTR CFG INT FORCE Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_irtr_cfg_int_force
 {
@@ -107564,12 +105810,6 @@ static inline uint64_t CAVM_ML_IRTR_CFG_INT_FORCE_FUNC(void)
  *
  * ML IRTR CFG INT STATUS Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_irtr_cfg_int_status
 {
@@ -111548,12 +109788,6 @@ static inline uint64_t CAVM_ML_OCM_BLK_CONFIG_7_FUNC(void)
  *
  * ML OCM CFG INT ENABLE HI 0 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_hi_0
 {
@@ -111615,12 +109849,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_HI_0_FUNC(void)
  *
  * ML OCM CFG INT ENABLE HI 1 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_hi_1
 {
@@ -111682,12 +109910,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_HI_1_FUNC(void)
  *
  * ML OCM CFG INT ENABLE HI 2 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_hi_2
 {
@@ -111749,12 +109971,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_HI_2_FUNC(void)
  *
  * ML OCM CFG INT ENABLE HI 3 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_hi_3
 {
@@ -111816,12 +110032,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_HI_3_FUNC(void)
  *
  * ML OCM CFG INT ENABLE HI 4 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_hi_4
 {
@@ -111883,12 +110093,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_HI_4_FUNC(void)
  *
  * ML OCM CFG INT ENABLE HI 5 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_hi_5
 {
@@ -111950,12 +110154,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_HI_5_FUNC(void)
  *
  * ML OCM CFG INT ENABLE HI 6 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_hi_6
 {
@@ -112017,12 +110215,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_HI_6_FUNC(void)
  *
  * ML OCM CFG INT ENABLE HI 7 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_hi_7
 {
@@ -112084,12 +110276,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_HI_7_FUNC(void)
  *
  * ML OCM CFG INT ENABLE LO 0 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_lo_0
 {
@@ -112151,12 +110337,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_LO_0_FUNC(void)
  *
  * ML OCM CFG INT ENABLE LO 1 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_lo_1
 {
@@ -112218,12 +110398,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_LO_1_FUNC(void)
  *
  * ML OCM CFG INT ENABLE LO 2 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_lo_2
 {
@@ -112285,12 +110459,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_LO_2_FUNC(void)
  *
  * ML OCM CFG INT ENABLE LO 3 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_lo_3
 {
@@ -112352,12 +110520,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_LO_3_FUNC(void)
  *
  * ML OCM CFG INT ENABLE LO 4 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_lo_4
 {
@@ -112419,12 +110581,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_LO_4_FUNC(void)
  *
  * ML OCM CFG INT ENABLE LO 5 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_lo_5
 {
@@ -112486,12 +110642,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_LO_5_FUNC(void)
  *
  * ML OCM CFG INT ENABLE LO 6 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_lo_6
 {
@@ -112553,12 +110703,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_LO_6_FUNC(void)
  *
  * ML OCM CFG INT ENABLE LO 7 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_enable_lo_7
 {
@@ -112620,12 +110764,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_ENABLE_LO_7_FUNC(void)
  *
  * ML OCM CFG INT FORCE 0 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_force_0
 {
@@ -112687,12 +110825,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_FORCE_0_FUNC(void)
  *
  * ML OCM CFG INT FORCE 1 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_force_1
 {
@@ -112754,12 +110886,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_FORCE_1_FUNC(void)
  *
  * ML OCM CFG INT FORCE 2 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_force_2
 {
@@ -112821,12 +110947,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_FORCE_2_FUNC(void)
  *
  * ML OCM CFG INT FORCE 3 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_force_3
 {
@@ -112888,12 +111008,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_FORCE_3_FUNC(void)
  *
  * ML OCM CFG INT FORCE 4 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_force_4
 {
@@ -112955,12 +111069,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_FORCE_4_FUNC(void)
  *
  * ML OCM CFG INT FORCE 5 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_force_5
 {
@@ -113022,12 +111130,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_FORCE_5_FUNC(void)
  *
  * ML OCM CFG INT FORCE 6 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_force_6
 {
@@ -113089,12 +111191,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_FORCE_6_FUNC(void)
  *
  * ML OCM CFG INT FORCE 7 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_force_7
 {
@@ -113156,12 +111252,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_FORCE_7_FUNC(void)
  *
  * ML OCM CFG INT STATUS 0 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_status_0
 {
@@ -113233,12 +111323,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_STATUS_0_FUNC(void)
  *
  * ML OCM CFG INT STATUS 1 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_status_1
 {
@@ -113310,12 +111394,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_STATUS_1_FUNC(void)
  *
  * ML OCM CFG INT STATUS 2 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_status_2
 {
@@ -113387,12 +111465,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_STATUS_2_FUNC(void)
  *
  * ML OCM CFG INT STATUS 3 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_status_3
 {
@@ -113464,12 +111536,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_STATUS_3_FUNC(void)
  *
  * ML OCM CFG INT STATUS 4 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_status_4
 {
@@ -113541,12 +111607,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_STATUS_4_FUNC(void)
  *
  * ML OCM CFG INT STATUS 5 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_status_5
 {
@@ -113618,12 +111678,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_STATUS_5_FUNC(void)
  *
  * ML OCM CFG INT STATUS 6 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_status_6
 {
@@ -113695,12 +111749,6 @@ static inline uint64_t CAVM_ML_OCM_CFG_INT_STATUS_6_FUNC(void)
  *
  * ML OCM CFG INT STATUS 7 Register
  * OCM interrupt register.
- * Internal:
- * Refer to this link for Fatal error (FT) and Non fatal error
- * (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_ocm_cfg_int_status_7
 {
@@ -128386,17 +126434,6 @@ static inline uint64_t CAVM_ML_POD_BREG_CTRL_STATUS_WX(uint64_t a)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_hi_0
 {
@@ -128453,17 +126490,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_HI_0_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_hi_1
 {
@@ -128520,17 +126546,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_HI_1_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_hi_2
 {
@@ -128587,17 +126602,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_HI_2_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_hi_3
 {
@@ -128654,17 +126658,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_HI_3_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_hi_4
 {
@@ -128721,17 +126714,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_HI_4_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_hi_5
 {
@@ -128788,17 +126770,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_HI_5_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_hi_6
 {
@@ -128855,17 +126826,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_HI_6_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_hi_7
 {
@@ -128922,17 +126882,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_HI_7_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_lo_0
 {
@@ -128989,17 +126938,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_LO_0_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_lo_1
 {
@@ -129056,17 +126994,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_LO_1_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_lo_2
 {
@@ -129123,17 +127050,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_LO_2_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_lo_3
 {
@@ -129190,17 +127106,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_LO_3_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_lo_4
 {
@@ -129257,17 +127162,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_LO_4_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_lo_5
 {
@@ -129324,17 +127218,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_LO_5_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_lo_6
 {
@@ -129391,17 +127274,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_LO_6_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_enable_lo_7
 {
@@ -129458,17 +127330,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_ENABLE_LO_7_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_force_0
 {
@@ -129525,17 +127386,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_FORCE_0_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_force_1
 {
@@ -129592,17 +127442,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_FORCE_1_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_force_2
 {
@@ -129659,17 +127498,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_FORCE_2_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_force_3
 {
@@ -129726,17 +127554,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_FORCE_3_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_force_4
 {
@@ -129793,17 +127610,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_FORCE_4_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_force_5
 {
@@ -129860,17 +127666,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_FORCE_5_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_force_6
 {
@@ -129927,17 +127722,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_FORCE_6_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_force_7
 {
@@ -129994,17 +127778,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_FORCE_7_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_status_0
 {
@@ -130063,17 +127836,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_STATUS_0_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_status_1
 {
@@ -130132,17 +127894,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_STATUS_1_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_status_2
 {
@@ -130201,17 +127952,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_STATUS_2_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_status_3
 {
@@ -130270,17 +128010,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_STATUS_3_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_status_4
 {
@@ -130339,17 +128068,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_STATUS_4_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_status_5
 {
@@ -130408,17 +128126,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_STATUS_5_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_status_6
 {
@@ -130477,17 +128184,6 @@ static inline uint64_t CAVM_ML_POD_CFG_INT_STATUS_6_FUNC(void)
  * (1) no new instruction is accepted from TMR, (2) no new dot product or elem-op is
  * performed and (3) no OCM requests are sent. To avoid freeze behavior, configure
  * ml_pod_freeze_cfg. NF set interrupt, PoD freezes only after thr exceeds.
- *
- * Internal:
- * Refer to
- * this link for detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For instr arg error, check ml_pod_main_status for details. Current
- * state of POD is logged in ml_pod_fp_except_cnt, ml_pod_areg_ctrl_status,
- * ml_pod_breg_ctrl_status, ml_pod_cmpt_req_ctrl_status, ml_pod_cmpt_resp_ctrl_status,
- * ml_pod_rslt_req_ctrl_status, ml_pod_rslt_resp_ctrl_status,
- * ml_pod_rslt_bias_ctrl_status, ml_pod_ocm_ctrl_status.
  */
 union cavm_ml_pod_cfg_int_status_7
 {
@@ -138854,12 +136550,6 @@ static inline uint64_t CAVM_ML_RST_MASK_CTRL_FUNC(void)
  *
  * ML RTR CFG INT ENABLE HI 1 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_rtr_cfg_int_enable_hi_1_wx
 {
@@ -138896,12 +136586,6 @@ static inline uint64_t CAVM_ML_RTR_CFG_INT_ENABLE_HI_1_WX(uint64_t a)
  *
  * ML RTR CFG INT ENABLE HI 0 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_rtr_cfg_int_enable_hi_wx
 {
@@ -138938,12 +136622,6 @@ static inline uint64_t CAVM_ML_RTR_CFG_INT_ENABLE_HI_WX(uint64_t a)
  *
  * ML RTR CFG INT ENABLE LO 1 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_rtr_cfg_int_enable_lo_1_wx
 {
@@ -138980,12 +136658,6 @@ static inline uint64_t CAVM_ML_RTR_CFG_INT_ENABLE_LO_1_WX(uint64_t a)
  *
  * ML RTR CFG INT ENABLE LO 0 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_rtr_cfg_int_enable_lo_wx
 {
@@ -139022,12 +136694,6 @@ static inline uint64_t CAVM_ML_RTR_CFG_INT_ENABLE_LO_WX(uint64_t a)
  *
  * ML RTR CFG INT FORCE 1 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_rtr_cfg_int_force_1_wx
 {
@@ -139064,12 +136730,6 @@ static inline uint64_t CAVM_ML_RTR_CFG_INT_FORCE_1_WX(uint64_t a)
  *
  * ML RTR CFG INT FORCE 0 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_rtr_cfg_int_force_wx
 {
@@ -139106,12 +136766,6 @@ static inline uint64_t CAVM_ML_RTR_CFG_INT_FORCE_WX(uint64_t a)
  *
  * ML RTR CFG INT STATUS 1 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_rtr_cfg_int_status_1_wx
 {
@@ -139148,12 +136802,6 @@ static inline uint64_t CAVM_ML_RTR_CFG_INT_STATUS_1_WX(uint64_t a)
  *
  * ML RTR CFG INT STATUS 0 Word  Register
  * IRTR interrupt register. All errors are Fatal (FT). Block does not freeze.
- * Internal:
- * Refer to this link for detailed Fatal error
- * (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2.
  */
 union cavm_ml_rtr_cfg_int_status_wx
 {
@@ -140126,21 +137774,6 @@ static inline uint64_t CAVM_ML_TCT_TMEM_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_hi_0
 {
@@ -140233,21 +137866,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_HI_0_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_hi_1
 {
@@ -140340,21 +137958,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_HI_1_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_hi_2
 {
@@ -140447,21 +138050,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_HI_2_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_hi_3
 {
@@ -140554,21 +138142,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_HI_3_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_hi_4
 {
@@ -140661,21 +138234,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_HI_4_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_hi_5
 {
@@ -140768,21 +138326,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_HI_5_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_hi_6
 {
@@ -140875,21 +138418,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_HI_6_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_hi_7
 {
@@ -140982,21 +138510,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_HI_7_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_lo_0
 {
@@ -141089,21 +138602,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_LO_0_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_lo_1
 {
@@ -141196,21 +138694,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_LO_1_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_lo_2
 {
@@ -141303,21 +138786,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_LO_2_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_lo_3
 {
@@ -141410,21 +138878,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_LO_3_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_lo_4
 {
@@ -141517,21 +138970,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_LO_4_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_lo_5
 {
@@ -141624,21 +139062,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_LO_5_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_lo_6
 {
@@ -141731,21 +139154,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_LO_6_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_enable_lo_7
 {
@@ -141838,21 +139246,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_ENABLE_LO_7_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_force_0
 {
@@ -141945,21 +139338,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_FORCE_0_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_force_1
 {
@@ -142052,21 +139430,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_FORCE_1_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_force_2
 {
@@ -142159,21 +139522,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_FORCE_2_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_force_3
 {
@@ -142266,21 +139614,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_FORCE_3_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_force_4
 {
@@ -142373,21 +139706,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_FORCE_4_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_force_5
 {
@@ -142480,21 +139798,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_FORCE_5_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_force_6
 {
@@ -142587,21 +139890,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_FORCE_6_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_force_7
 {
@@ -142694,21 +139982,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_FORCE_7_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_status_0
 {
@@ -142801,21 +140074,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_STATUS_0_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_status_1
 {
@@ -142908,21 +140166,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_STATUS_1_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_status_2
 {
@@ -143015,21 +140258,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_STATUS_2_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_status_3
 {
@@ -143122,21 +140350,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_STATUS_3_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_status_4
 {
@@ -143229,21 +140442,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_STATUS_4_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_status_5
 {
@@ -143336,21 +140534,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_STATUS_5_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_status_6
 {
@@ -143443,21 +140626,6 @@ static inline uint64_t CAVM_ML_TMR_CFG_INT_STATUS_6_FUNC(void)
  * freezes (1) no new instruction is accepted from router FIFO, (2) no new tasks are
  * executed, and (3) no new instruction is sent to POD or DPE. To avoid freeze
  * behavior, configure ml_tmr_freeze_cfg or ml_tmr_timeout_cfg.
- *
- * Internal:
- * Refer to this link for
- * detailed Fatal error (FT) and Non fatal error (NF) behavior
- * https//confluence.cavium.com/download/attachments/29835795/CMPC%20Block%20Fatal
- * %20Non-Fatal%20Error%20Behavior.docx?version=1&amp;amp;modificationDate=156383415400
- * 0&amp;amp;api=v2 For loop, param update releated errors, check ml_tmr_main_status
- * for details. Current state of TMR is logged in ml_tmr_timeout_status,
- * ml_tmr_rtr_instr_fifo_status, ml_tmr_task_exec_ctrl_status_instr_in,
- * ml_tmr_task_exec_ctrl_status, ml_tmr_instr_disp_status__0 (POD),
- * ml_tmr_instr_disp_status__1 (DPE), ml_tmr_instr_disp_status_instr_issue__0 (POD),
- * ml_tmr_instr_disp_status_instr_issue__1 (DPE), ml_tmr_instr_disp_status_instr_out__0
- * (POD), ml_tmr_instr_disp_status_instr_out__1 (DPE),
- * ml_tmr_instr_disp_status_instr_out2__0 (POD), ml_tmr_instr_disp_status_instr_out2__1
- * (DPE).
  */
 union cavm_ml_tmr_cfg_int_status_7
 {

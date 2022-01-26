@@ -863,131 +863,6 @@ static inline uint64_t CAVM_APAX_APAT_WDAT_BE(uint64_t a)
 #define arguments_CAVM_APAX_APAT_WDAT_BE(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) apa#_bp_test0
- *
- * INTERNAL: APA Backpressure Test Register 0
- */
-union cavm_apax_bp_test0
-{
-    uint64_t u;
-    struct cavm_apax_bp_test0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t enable                : 16; /**< [ 63: 48](SR/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> C15 = Prevent XRX DAT from popping.
-                                                                 \<62\> C14 = Prevent XRX RSP from popping.
-                                                                 \<61\> C13 = Prevent XRX SNP from popping.
-                                                                 \<60\> C12 = Prevent CRX DAT from popping.
-                                                                 \<59\> C11 = Prevent CRX RSP from popping.
-                                                                 \<58\> C10 = Prevent CRX REQ from popping.
-                                                                 \<57\> C9  = Prevent CRD FIFO from popping.
-                                                                 \<56\> C8  = Prevent TXN FIFO from advancing head.
-                                                                 \<55\> C7  = Prevent RQB FIFO from advancing head.
-                                                                 \<54\> C6  = Prevent DAT FIFO from advancing head.
-                                                                 \<53\> C5  = Pretend CTX DAT has no credits.
-                                                                 \<52\> C4  = Pretend CTX RSP has no credits.
-                                                                 \<51\> C3  = Pretend CTX SNP has no credits.
-                                                                 \<50\> C2  = Pretend XTX DAT has no credits.
-                                                                 \<49\> C1  = Pretend XTX RSP has no credits.
-                                                                 \<48\> C0  = Pretend XTX REQ has no credits. */
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](SR/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update period - clock cycles minus one. */
-#else /* Word 0 - Little Endian */
-        uint64_t lfsr_freq             : 12; /**< [ 11:  0](SR/W) Test LFSR update period - clock cycles minus one. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t bp_cfg                : 32; /**< [ 47: 16](SR/W) Backpressure weight. For diagnostic use only.
-                                                                 Internal:
-                                                                 There are 2 backpressure configuration bits per enable, with the two bits
-                                                                 defined as 0x0=100% of the time, 0x1=75% of the time, 0x2=50% of the time,
-                                                                 0x3=25% of the time.
-                                                                   \<47:46\> = Config 15.
-                                                                   \<45:44\> = Config 14.
-                                                                   \<43:42\> = Config 13.
-                                                                   \<41:40\> = Config 12.
-                                                                   \<39:38\> = Config 11.
-                                                                   \<37:36\> = Config 10.
-                                                                   \<35:34\> = Config 9.
-                                                                   \<33:32\> = Config 8.
-                                                                   \<31:30\> = Config 7.
-                                                                   \<29:28\> = Config 6.
-                                                                   \<27:26\> = Config 5.
-                                                                   \<25:24\> = Config 4.
-                                                                   \<23:22\> = Config 3.
-                                                                   \<21:20\> = Config 2.
-                                                                   \<19:18\> = Config 1.
-                                                                   \<17:16\> = Config 0. */
-        uint64_t enable                : 16; /**< [ 63: 48](SR/W) Enable test mode. For diagnostic use only.
-                                                                 Internal:
-                                                                 Once a bit is set, random backpressure is generated
-                                                                 at the corresponding point to allow for more frequent backpressure.
-                                                                 \<63\> C15 = Prevent XRX DAT from popping.
-                                                                 \<62\> C14 = Prevent XRX RSP from popping.
-                                                                 \<61\> C13 = Prevent XRX SNP from popping.
-                                                                 \<60\> C12 = Prevent CRX DAT from popping.
-                                                                 \<59\> C11 = Prevent CRX RSP from popping.
-                                                                 \<58\> C10 = Prevent CRX REQ from popping.
-                                                                 \<57\> C9  = Prevent CRD FIFO from popping.
-                                                                 \<56\> C8  = Prevent TXN FIFO from advancing head.
-                                                                 \<55\> C7  = Prevent RQB FIFO from advancing head.
-                                                                 \<54\> C6  = Prevent DAT FIFO from advancing head.
-                                                                 \<53\> C5  = Pretend CTX DAT has no credits.
-                                                                 \<52\> C4  = Pretend CTX RSP has no credits.
-                                                                 \<51\> C3  = Pretend CTX SNP has no credits.
-                                                                 \<50\> C2  = Pretend XTX DAT has no credits.
-                                                                 \<49\> C1  = Pretend XTX RSP has no credits.
-                                                                 \<48\> C0  = Pretend XTX REQ has no credits. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_bp_test0_s cn; */
-};
-typedef union cavm_apax_bp_test0 cavm_apax_bp_test0_t;
-
-static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_BP_TEST0(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
-        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e340001510ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
-        return 0x87e340001510ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("APAX_BP_TEST0", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_BP_TEST0(a) cavm_apax_bp_test0_t
-#define bustype_CAVM_APAX_BP_TEST0(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_BP_TEST0(a) "APAX_BP_TEST0"
-#define device_bar_CAVM_APAX_BP_TEST0(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_BP_TEST0(a) (a)
-#define arguments_CAVM_APAX_BP_TEST0(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) apa#_core_ecc_int_ena_w1c
  *
  * APA Core ECC Interrupt Enable Clear Registers
@@ -1437,159 +1312,6 @@ static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a)
 #define arguments_CAVM_APAX_DERR_INFO(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) apa#_diag
- *
- * INTERNAL: APA DIAG Register
- *
- * For diagnostic use only.
- */
-union cavm_apax_diag
-{
-    uint64_t u;
-    struct cavm_apax_diag_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_39_63        : 25;
-        uint64_t tim_crx_rdy           : 1;  /**< [ 38: 38](SRO/H) There is a free slot in the TIM transaction buffer. */
-        uint64_t sync                  : 1;  /**< [ 37: 37](SRO/H) a Sync is inflight. */
-        uint64_t cfif_valid            : 1;  /**< [ 36: 36](SRO/H) There is something in the credit FIFO. */
-        uint64_t dat_head              : 5;  /**< [ 35: 31](SRO/H) DAT head pointer. */
-        uint64_t dat_tail              : 5;  /**< [ 30: 26](SRO/H) DAT tail pointer. */
-        uint64_t to_retry_count        : 6;  /**< [ 25: 20](SRO/H) Pending retry count. */
-        uint64_t rqb_head              : 6;  /**< [ 19: 14](SRO/H) RQB head pointer. */
-        uint64_t tfif_head             : 7;  /**< [ 13:  7](SRO/H) TFIF head pointer. */
-        uint64_t tfif_tail             : 7;  /**< [  6:  0](SRO/H) TFIF head pointer. */
-#else /* Word 0 - Little Endian */
-        uint64_t tfif_tail             : 7;  /**< [  6:  0](SRO/H) TFIF head pointer. */
-        uint64_t tfif_head             : 7;  /**< [ 13:  7](SRO/H) TFIF head pointer. */
-        uint64_t rqb_head              : 6;  /**< [ 19: 14](SRO/H) RQB head pointer. */
-        uint64_t to_retry_count        : 6;  /**< [ 25: 20](SRO/H) Pending retry count. */
-        uint64_t dat_tail              : 5;  /**< [ 30: 26](SRO/H) DAT tail pointer. */
-        uint64_t dat_head              : 5;  /**< [ 35: 31](SRO/H) DAT head pointer. */
-        uint64_t cfif_valid            : 1;  /**< [ 36: 36](SRO/H) There is something in the credit FIFO. */
-        uint64_t sync                  : 1;  /**< [ 37: 37](SRO/H) a Sync is inflight. */
-        uint64_t tim_crx_rdy           : 1;  /**< [ 38: 38](SRO/H) There is a free slot in the TIM transaction buffer. */
-        uint64_t reserved_39_63        : 25;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_diag_s cn; */
-};
-typedef union cavm_apax_diag cavm_apax_diag_t;
-
-static inline uint64_t CAVM_APAX_DIAG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_DIAG(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
-        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e340001680ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
-        return 0x87e340001680ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("APAX_DIAG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_DIAG(a) cavm_apax_diag_t
-#define bustype_CAVM_APAX_DIAG(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_DIAG(a) "APAX_DIAG"
-#define device_bar_CAVM_APAX_DIAG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_DIAG(a) (a)
-#define arguments_CAVM_APAX_DIAG(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_diag_dat#_word#
- *
- * INTERNAL: APA Dignostic Data Register
- */
-union cavm_apax_diag_datx_wordx
-{
-    uint64_t u;
-    struct cavm_apax_diag_datx_wordx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of the DAT buffer. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of the DAT buffer. For diagnostic use only. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_diag_datx_wordx_s cn; */
-};
-typedef union cavm_apax_diag_datx_wordx cavm_apax_diag_datx_wordx_t;
-
-static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_DIAG_DATX_WORDX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=23) && (b<=63) && (c<=5)))
-        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=7) && (b<=63) && (c<=5)))
-        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=17) && (b<=63) && (c<=5)))
-        return 0x87e340000000ll + 0x1000000ll * ((a) & 0x1f) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=11) && (b<=63) && (c<=5)))
-        return 0x87e340000000ll + 0x1000000ll * ((a) & 0xf) + 8ll * ((b) & 0x3f) + 0x200ll * ((c) & 0x7);
-    __cavm_csr_fatal("APAX_DIAG_DATX_WORDX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) cavm_apax_diag_datx_wordx_t
-#define bustype_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) CSR_TYPE_RSL
-#define basename_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) "APAX_DIAG_DATX_WORDX"
-#define device_bar_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) (a)
-#define arguments_CAVM_APAX_DIAG_DATX_WORDX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RSL) apa#_dispblk
- *
- * INTERNAL: APA Dispatch Block Register
- *
- * This register throttles the core instruction dispatch.  This is meant to be used by
- * the SCP to mitigate overheat cases.  Note that this functionality has an errata in
- * CNXXXX APN.
- */
-union cavm_apax_dispblk
-{
-    uint64_t u;
-    struct cavm_apax_dispblk_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t en                    : 1;  /**< [ 15: 15](SR/W) Block core instruction dispatch. */
-        uint64_t reserved_8_14         : 7;
-        uint64_t count                 : 8;  /**< [  7:  0](SR/W) The number of cycles (-1) out of 256 that core instruction dispatch should blocked. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 8;  /**< [  7:  0](SR/W) The number of cycles (-1) out of 256 that core instruction dispatch should blocked. */
-        uint64_t reserved_8_14         : 7;
-        uint64_t en                    : 1;  /**< [ 15: 15](SR/W) Block core instruction dispatch. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_dispblk_s cn; */
-};
-typedef union cavm_apax_dispblk cavm_apax_dispblk_t;
-
-static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
-        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
-        return 0x87e340001700ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("APAX_DISPBLK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_DISPBLK(a) cavm_apax_dispblk_t
-#define bustype_CAVM_APAX_DISPBLK(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_DISPBLK(a) "APAX_DISPBLK"
-#define device_bar_CAVM_APAX_DISPBLK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_DISPBLK(a) (a)
-#define arguments_CAVM_APAX_DISPBLK(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) apa#_ecc_ctl
  *
  * APA ECC Generation/Checking Control Register
@@ -2015,51 +1737,6 @@ static inline uint64_t CAVM_APAX_ECC_INT_W1S(uint64_t a)
 #define device_bar_CAVM_APAX_ECC_INT_W1S(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_APAX_ECC_INT_W1S(a) (a)
 #define arguments_CAVM_APAX_ECC_INT_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) apa#_eco
- *
- * INTERNAL: APA ECO Register
- *
- * These registers exist to provide CSR flops in case they are needed for ECOs.
- */
-union cavm_apax_eco
-{
-    uint64_t u;
-    struct cavm_apax_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 60; /**< [ 63:  4](SR/W) ECO flops. */
-        uint64_t qos                   : 4;  /**< [  3:  0](SR/W) The QOS to be used for requests originating from the core. */
-#else /* Word 0 - Little Endian */
-        uint64_t qos                   : 4;  /**< [  3:  0](SR/W) The QOS to be used for requests originating from the core. */
-        uint64_t eco_rw                : 60; /**< [ 63:  4](SR/W) ECO flops. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_eco_s cn; */
-};
-typedef union cavm_apax_eco cavm_apax_eco_t;
-
-static inline uint64_t CAVM_APAX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_APAX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=23))
-        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
-        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
-        return 0x87e340001518ll + 0x1000000ll * ((a) & 0x1f);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
-        return 0x87e340001518ll + 0x1000000ll * ((a) & 0xf);
-    __cavm_csr_fatal("APAX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_APAX_ECO(a) cavm_apax_eco_t
-#define bustype_CAVM_APAX_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_APAX_ECO(a) "APAX_ECO"
-#define device_bar_CAVM_APAX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_APAX_ECO(a) (a)
-#define arguments_CAVM_APAX_ECO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) apa#_lsa#_diag_counts
@@ -2954,18 +2631,12 @@ union cavm_apax_pll
         uint64_t next_switch           : 14; /**< [ 13:  0](SR/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
-                                                                 100 MHz clocks. Hardware will add additional clocks if required.
-
-                                                                 Internal:
-                                                                 Hardware will add counts to maintain 64 reference clock notification to hardware. */
+                                                                 100 MHz clocks. Hardware will add additional clocks if required. */
 #else /* Word 0 - Little Endian */
         uint64_t next_switch           : 14; /**< [ 13:  0](SR/W/H) Switch the PLL specified by [NEXT_PLL_SEL] after delaying this number of 100 MHz clocks.
                                                                  When set to a nonzero value, the hardware will wait for
                                                                  any PLL programming to complete and then switch after the specified number of
-                                                                 100 MHz clocks. Hardware will add additional clocks if required.
-
-                                                                 Internal:
-                                                                 Hardware will add counts to maintain 64 reference clock notification to hardware. */
+                                                                 100 MHz clocks. Hardware will add additional clocks if required. */
         uint64_t reserved_14_15        : 2;
         uint64_t next_pgm              : 1;  /**< [ 16: 16](SR/W/H) Program PLL specified by [NEXT_PLL_SEL] using [NEXT_MUL] if [NEXT_MAN] is clear or
                                                                  using APA_MAN_PLL fields if set. Hardware automatically
@@ -3190,13 +2861,6 @@ static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
  * Register (RSL) apa#_test_pll
  *
  * APA PLL Test Register
- * Internal:
- * These registers are used to test the PLL operation and allow the pll output
- * clock to be stopped or restarted during testing.  Writes to this register
- * cause an update cycle to be sent thru the pll_intf.  Indexed by APA_PLL_E.
- * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
- *
- * This register is always reset on a chip domain reset.
  */
 union cavm_apax_test_pll
 {

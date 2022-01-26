@@ -65,76 +65,6 @@
 #define CAVM_MLAB_PNB_WR_CMD_E_STT (2)
 
 /**
- * Structure mlab_jce_s
- *
- * INTERNAL: MLAB Job Response Structure
- *
- * Internal:
- * Defines hardware format of job response from MLAB to PSM. Not visible to
- * software. See PSM_CMD_RSP_S.
- */
-union cavm_mlab_jce_s
-{
-    uint64_t u[2];
-    struct cavm_mlab_jce_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t adr_error             : 1;  /**< [ 62: 62] Job address error indicator. */
-        uint64_t dma_error             : 1;  /**< [ 61: 61] Job DMA error indicator. */
-        uint64_t timeout               : 1;  /**< [ 60: 60] Job timeout indicator. */
-        uint64_t nfat_error            : 1;  /**< [ 59: 59] Job non-fatal error indicator. */
-        uint64_t fat_error             : 1;  /**< [ 58: 58] Job fatal error indicator. */
-        uint64_t credit_rtn            : 1;  /**< [ 57: 57] Job credit return. */
-        uint64_t done                  : 1;  /**< [ 56: 56] Job completion indicator. */
-        uint64_t ab_id                 : 2;  /**< [ 55: 54] AB core number. */
-        uint64_t slot_id               : 2;  /**< [ 53: 52] Slot number. */
-        uint64_t reserved_49_51        : 3;
-        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
-        uint64_t reserved_41_47        : 7;
-        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
-        uint64_t job_tag               : 16; /**< [ 39: 24] Job ID. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t qid                   : 8;  /**< [ 15:  8] PSM queue ID. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t opcode                : 6;  /**< [  5:  0] Operation code. */
-#else /* Word 0 - Little Endian */
-        uint64_t opcode                : 6;  /**< [  5:  0] Operation code. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t qid                   : 8;  /**< [ 15:  8] PSM queue ID. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t job_tag               : 16; /**< [ 39: 24] Job ID. */
-        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
-        uint64_t reserved_41_47        : 7;
-        uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Job enqueue ID. */
-        uint64_t reserved_49_51        : 3;
-        uint64_t slot_id               : 2;  /**< [ 53: 52] Slot number. */
-        uint64_t ab_id                 : 2;  /**< [ 55: 54] AB core number. */
-        uint64_t done                  : 1;  /**< [ 56: 56] Job completion indicator. */
-        uint64_t credit_rtn            : 1;  /**< [ 57: 57] Job credit return. */
-        uint64_t fat_error             : 1;  /**< [ 58: 58] Job fatal error indicator. */
-        uint64_t nfat_error            : 1;  /**< [ 59: 59] Job non-fatal error indicator. */
-        uint64_t timeout               : 1;  /**< [ 60: 60] Job timeout indicator. */
-        uint64_t dma_error             : 1;  /**< [ 61: 61] Job DMA error indicator. */
-        uint64_t adr_error             : 1;  /**< [ 62: 62] Job address error indicator. */
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_111_127      : 17;
-        uint64_t drop                  : 1;  /**< [110:110] Job drop indicator. */
-        uint64_t elapsed_ticks         : 42; /**< [109: 68] Job execution time in number of clock cycles. */
-        uint64_t reserved_64_67        : 4;
-#else /* Word 1 - Little Endian */
-        uint64_t reserved_64_67        : 4;
-        uint64_t elapsed_ticks         : 42; /**< [109: 68] Job execution time in number of clock cycles. */
-        uint64_t drop                  : 1;  /**< [110:110] Job drop indicator. */
-        uint64_t reserved_111_127      : 17;
-#endif /* Word 1 - End */
-    } s;
-    /* struct cavm_mlab_jce_s_s cn; */
-};
-
-/**
  * Structure mlab_job_cmd_s
  *
  * MLAB Job Command Structure
@@ -154,31 +84,19 @@ union cavm_mlab_job_cmd_s
         uint64_t reserved_49_51        : 3;
         uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Same as PSM_CMD_ADDJOB_S[MABQ]. */
         uint64_t reserved_41_47        : 7;
-        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator.
-                                                                 Internal:
-                                                                 Should be clear since there is no reason to set [OPCODE] =
-                                                                 PSM_OPCODE_E::PSM_OP_CONTJOB for an MLAB job. */
+        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
         uint64_t job_tag               : 16; /**< [ 39: 24] Same as PSM_CMD_ADDJOB_S[JOBTAG]. */
         uint64_t reserved_16_23        : 8;
         uint64_t qid                   : 8;  /**< [ 15:  8] Same as PSM_CMD_ADDJOB_S[QID]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t opcode                : 6;  /**< [  5:  0] Same as PSM_CMD_ADDJOB_S[OPCODE].
-                                                                 Internal:
-                                                                 Value should be PSM_OPCODE_E::PSM_OP_ADDJOB; there is no reason to use
-                                                                 PSM_OPCODE_E::PSM_OP_CONTJOB for MLAB jobs. */
+        uint64_t opcode                : 6;  /**< [  5:  0] Same as PSM_CMD_ADDJOB_S[OPCODE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t opcode                : 6;  /**< [  5:  0] Same as PSM_CMD_ADDJOB_S[OPCODE].
-                                                                 Internal:
-                                                                 Value should be PSM_OPCODE_E::PSM_OP_ADDJOB; there is no reason to use
-                                                                 PSM_OPCODE_E::PSM_OP_CONTJOB for MLAB jobs. */
+        uint64_t opcode                : 6;  /**< [  5:  0] Same as PSM_CMD_ADDJOB_S[OPCODE]. */
         uint64_t reserved_6_7          : 2;
         uint64_t qid                   : 8;  /**< [ 15:  8] Same as PSM_CMD_ADDJOB_S[QID]. */
         uint64_t reserved_16_23        : 8;
         uint64_t job_tag               : 16; /**< [ 39: 24] Same as PSM_CMD_ADDJOB_S[JOBTAG]. */
-        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator.
-                                                                 Internal:
-                                                                 Should be clear since there is no reason to set [OPCODE] =
-                                                                 PSM_OPCODE_E::PSM_OP_CONTJOB for an MLAB job. */
+        uint64_t cont_job              : 1;  /**< [ 40: 40] Continued job indicator. */
         uint64_t reserved_41_47        : 7;
         uint64_t cmd_fifo_que          : 1;  /**< [ 48: 48] Same as PSM_CMD_ADDJOB_S[MABQ]. */
         uint64_t reserved_49_51        : 3;
@@ -236,41 +154,6 @@ static inline uint64_t CAVM_MLABX_ACTIVE_PC(uint64_t a)
 #define device_bar_CAVM_MLABX_ACTIVE_PC(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLABX_ACTIVE_PC(a) (a)
 #define arguments_CAVM_MLABX_ACTIVE_PC(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_amm_debug#
- *
- * INTERNAL: AMM System Debug Register
- */
-union cavm_mlabx_amm_debugx
-{
-    uint64_t u;
-    struct cavm_mlabx_amm_debugx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to AMM System */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to AMM System */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_amm_debugx_s cn; */
-};
-typedef union cavm_mlabx_amm_debugx cavm_mlabx_amm_debugx_t;
-
-static inline uint64_t CAVM_MLABX_AMM_DEBUGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_AMM_DEBUGX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) && (b<=5)))
-        return 0x860020011500ll + 0x1000000000ll * ((a) & 0x0) + 8ll * ((b) & 0x7);
-    __cavm_csr_fatal("MLABX_AMM_DEBUGX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_AMM_DEBUGX(a,b) cavm_mlabx_amm_debugx_t
-#define bustype_CAVM_MLABX_AMM_DEBUGX(a,b) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_AMM_DEBUGX(a,b) "MLABX_AMM_DEBUGX"
-#define device_bar_CAVM_MLABX_AMM_DEBUGX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_AMM_DEBUGX(a,b) (a)
-#define arguments_CAVM_MLABX_AMM_DEBUGX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB) mlab#_axi_bridge_ctrl#
@@ -783,158 +666,6 @@ static inline uint64_t CAVM_MLABX_CORE_INT_LO_W1S(uint64_t a)
 #define arguments_CAVM_MLABX_CORE_INT_LO_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) mlab#_csr_base
- *
- * INTERNAL: MLAB Wrapper Register Base Register
- */
-union cavm_mlabx_csr_base
-{
-    uint64_t u;
-    struct cavm_mlabx_csr_base_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR base offset in ACC/DOD outbound address map.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR base offset in ACC/DOD outbound address map.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-        uint64_t reserved_52_63        : 12;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_csr_base_s cn; */
-};
-typedef union cavm_mlabx_csr_base cavm_mlabx_csr_base_t;
-
-static inline uint64_t CAVM_MLABX_CSR_BASE(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_CSR_BASE(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x860020010010ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_CSR_BASE", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_CSR_BASE(a) cavm_mlabx_csr_base_t
-#define bustype_CAVM_MLABX_CSR_BASE(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_CSR_BASE(a) "MLABX_CSR_BASE"
-#define device_bar_CAVM_MLABX_CSR_BASE(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_CSR_BASE(a) (a)
-#define arguments_CAVM_MLABX_CSR_BASE(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_csr_debug
- *
- * INTERNAL: CSR System Debug Register
- */
-union cavm_mlabx_csr_debug
-{
-    uint64_t u;
-    struct cavm_mlabx_csr_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to CSR System */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to CSR System */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_csr_debug_s cn; */
-};
-typedef union cavm_mlabx_csr_debug cavm_mlabx_csr_debug_t;
-
-static inline uint64_t CAVM_MLABX_CSR_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_CSR_DEBUG(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x8600200113b0ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_CSR_DEBUG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_CSR_DEBUG(a) cavm_mlabx_csr_debug_t
-#define bustype_CAVM_MLABX_CSR_DEBUG(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_CSR_DEBUG(a) "MLABX_CSR_DEBUG"
-#define device_bar_CAVM_MLABX_CSR_DEBUG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_CSR_DEBUG(a) (a)
-#define arguments_CAVM_MLABX_CSR_DEBUG(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_csr_mask
- *
- * INTERNAL: MLAB Wrapper Register Mask Register
- */
-union cavm_mlabx_csr_mask
-{
-    uint64_t u;
-    struct cavm_mlabx_csr_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_52_63        : 12;
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR mask in ACC/DOD outbound address map.
-                                                                 For diagnostic use only. Reset value should be used during normal operation.
-                                                                 Reset value gives 64KB aperture. */
-#else /* Word 0 - Little Endian */
-        uint64_t base                  : 52; /**< [ 51:  0](R/W) Wrapper CSR mask in ACC/DOD outbound address map.
-                                                                 For diagnostic use only. Reset value should be used during normal operation.
-                                                                 Reset value gives 64KB aperture. */
-        uint64_t reserved_52_63        : 12;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_csr_mask_s cn; */
-};
-typedef union cavm_mlabx_csr_mask cavm_mlabx_csr_mask_t;
-
-static inline uint64_t CAVM_MLABX_CSR_MASK(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_CSR_MASK(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x860020010018ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_CSR_MASK", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_CSR_MASK(a) cavm_mlabx_csr_mask_t
-#define bustype_CAVM_MLABX_CSR_MASK(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_CSR_MASK(a) "MLABX_CSR_MASK"
-#define device_bar_CAVM_MLABX_CSR_MASK(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_CSR_MASK(a) (a)
-#define arguments_CAVM_MLABX_CSR_MASK(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_eco
- *
- * INTERNAL: MLAB ECO Register
- */
-union cavm_mlabx_eco
-{
-    uint64_t u;
-    struct cavm_mlabx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_eco_s cn; */
-};
-typedef union cavm_mlabx_eco cavm_mlabx_eco_t;
-
-static inline uint64_t CAVM_MLABX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x8600200100f8ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_ECO(a) cavm_mlabx_eco_t
-#define bustype_CAVM_MLABX_ECO(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_ECO(a) "MLABX_ECO"
-#define device_bar_CAVM_MLABX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_ECO(a) (a)
-#define arguments_CAVM_MLABX_ECO(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) mlab#_err_ena
  *
  * MLAB Wrapper Error Enable Register
@@ -1108,23 +839,11 @@ union cavm_mlabx_ghb_control
                                                                  1 = [DEFAULT_GMID] is used for job descriptor fetch. */
         uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID used for LLC/DRAM access by MLIP (ACC or DMA).
                                                                  When [OVERRIDE_JD_GMID] is set, this is also the GMID used by the wrapper
-                                                                 for job descriptor.
-
-                                                                 Internal:
-                                                                 PSM_CMD_ADDJOB_S[GMID] is never used for ACC/DMA memory access, since the
-                                                                 wrapper cannot always associate an ACC/DMA memory access to a job. More
-                                                                 specifically, the wrapper cannot distinguish between job and non-job memory
-                                                                 accesses when they are concurrent. */
+                                                                 for job descriptor. */
 #else /* Word 0 - Little Endian */
         uint64_t default_gmid          : 3;  /**< [  2:  0](R/W) GMID used for LLC/DRAM access by MLIP (ACC or DMA).
                                                                  When [OVERRIDE_JD_GMID] is set, this is also the GMID used by the wrapper
-                                                                 for job descriptor.
-
-                                                                 Internal:
-                                                                 PSM_CMD_ADDJOB_S[GMID] is never used for ACC/DMA memory access, since the
-                                                                 wrapper cannot always associate an ACC/DMA memory access to a job. More
-                                                                 specifically, the wrapper cannot distinguish between job and non-job memory
-                                                                 accesses when they are concurrent. */
+                                                                 for job descriptor. */
         uint64_t override_jd_gmid      : 1;  /**< [  3:  3](R/W) 0 = PSM_CMD_ADDJOB_S[GMID] is used for job descriptor fetch.
                                                                  1 = [DEFAULT_GMID] is used for job descriptor fetch. */
         uint64_t ghb_wr_weight         : 6;  /**< [  9:  4](R/W) The weighted round-robin arbitration weight used in the GHAB when
@@ -1316,41 +1035,6 @@ static inline uint64_t CAVM_MLABX_JCEQ_STATUS(uint64_t a)
 #define device_bar_CAVM_MLABX_JCEQ_STATUS(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLABX_JCEQ_STATUS(a) (a)
 #define arguments_CAVM_MLABX_JCEQ_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_jctl_debug
- *
- * INTERNAL: MLAB Job Controller Debug Register
- */
-union cavm_mlabx_jctl_debug
-{
-    uint64_t u;
-    struct cavm_mlabx_jctl_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to job controller. Data format is given in MLAB_JCTL_DEBUG_S. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](RO/H) Debug register connected to job controller. Data format is given in MLAB_JCTL_DEBUG_S. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_jctl_debug_s cn; */
-};
-typedef union cavm_mlabx_jctl_debug cavm_mlabx_jctl_debug_t;
-
-static inline uint64_t CAVM_MLABX_JCTL_DEBUG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_JCTL_DEBUG(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x860020011390ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_JCTL_DEBUG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_JCTL_DEBUG(a) cavm_mlabx_jctl_debug_t
-#define bustype_CAVM_MLABX_JCTL_DEBUG(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_JCTL_DEBUG(a) "MLABX_JCTL_DEBUG"
-#define device_bar_CAVM_MLABX_JCTL_DEBUG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_JCTL_DEBUG(a) (a)
-#define arguments_CAVM_MLABX_JCTL_DEBUG(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) mlab#_jd#
@@ -1597,123 +1281,6 @@ static inline uint64_t CAVM_MLABX_MLR_BASE(uint64_t a)
 #define device_bar_CAVM_MLABX_MLR_BASE(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MLABX_MLR_BASE(a) (a)
 #define arguments_CAVM_MLABX_MLR_BASE(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_outbound_addr_end
- *
- * INTERNAL: ML IP Outbound Transactions End Address Register
- */
-union cavm_mlabx_outbound_addr_end
-{
-    uint64_t u;
-    struct cavm_mlabx_outbound_addr_end_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) Ending MLIP AXI outbound address of BPHY SMEM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t end_addr              : 40; /**< [ 39:  0](R/W) Ending MLIP AXI outbound address of BPHY SMEM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_outbound_addr_end_s cn; */
-};
-typedef union cavm_mlabx_outbound_addr_end cavm_mlabx_outbound_addr_end_t;
-
-static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_END(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_END(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x860020010078ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_END", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_OUTBOUND_ADDR_END(a) cavm_mlabx_outbound_addr_end_t
-#define bustype_CAVM_MLABX_OUTBOUND_ADDR_END(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_OUTBOUND_ADDR_END(a) "MLABX_OUTBOUND_ADDR_END"
-#define device_bar_CAVM_MLABX_OUTBOUND_ADDR_END(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_OUTBOUND_ADDR_END(a) (a)
-#define arguments_CAVM_MLABX_OUTBOUND_ADDR_END(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_outbound_addr_sm_start
- *
- * INTERNAL: ML IP Outbound BPHY SMEM Start Address Register
- */
-union cavm_mlabx_outbound_addr_sm_start
-{
-    uint64_t u;
-    struct cavm_mlabx_outbound_addr_sm_start_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of BPHY SMEM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of BPHY SMEM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_outbound_addr_sm_start_s cn; */
-};
-typedef union cavm_mlabx_outbound_addr_sm_start cavm_mlabx_outbound_addr_sm_start_t;
-
-static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_SM_START(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_SM_START(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x860020010080ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_SM_START", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) cavm_mlabx_outbound_addr_sm_start_t
-#define bustype_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) "MLABX_OUTBOUND_ADDR_SM_START"
-#define device_bar_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) (a)
-#define arguments_CAVM_MLABX_OUTBOUND_ADDR_SM_START(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mlab#_outbound_addr_start
- *
- * INTERNAL: ML IP Outbound Transactions Start Address Register
- */
-union cavm_mlabx_outbound_addr_start
-{
-    uint64_t u;
-    struct cavm_mlabx_outbound_addr_start_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of ML region in LLC/DRAM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-#else /* Word 0 - Little Endian */
-        uint64_t start_addr            : 40; /**< [ 39:  0](R/W) Starting MLIP AXI outbound address of ML region in LLC/DRAM.
-                                                                 For diagnostic use only. Reset value should be used during normal operation. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mlabx_outbound_addr_start_s cn; */
-};
-typedef union cavm_mlabx_outbound_addr_start cavm_mlabx_outbound_addr_start_t;
-
-static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_START(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MLABX_OUTBOUND_ADDR_START(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==0))
-        return 0x860020010070ll + 0x1000000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MLABX_OUTBOUND_ADDR_START", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MLABX_OUTBOUND_ADDR_START(a) cavm_mlabx_outbound_addr_start_t
-#define bustype_CAVM_MLABX_OUTBOUND_ADDR_START(a) CSR_TYPE_NCB
-#define basename_CAVM_MLABX_OUTBOUND_ADDR_START(a) "MLABX_OUTBOUND_ADDR_START"
-#define device_bar_CAVM_MLABX_OUTBOUND_ADDR_START(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MLABX_OUTBOUND_ADDR_START(a) (a)
-#define arguments_CAVM_MLABX_OUTBOUND_ADDR_START(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) mlab#_pnb_cmd_type

@@ -3455,43 +3455,6 @@ static inline uint64_t CAVM_SPIX_DIRECT_ACCESSX(uint64_t a, uint64_t b)
 #define arguments_CAVM_SPIX_DIRECT_ACCESSX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) spi#_eco
- *
- * INTERNAL: SPI ECO Register
- */
-union cavm_spix_eco
-{
-    uint64_t u;
-    struct cavm_spix_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_spix_eco_s cn; */
-};
-typedef union cavm_spix_eco cavm_spix_eco_t;
-
-static inline uint64_t CAVM_SPIX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_SPIX_ECO(uint64_t a)
-{
-    if (a<=1)
-        return 0x804000001060ll + 0x1000000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("SPIX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_SPIX_ECO(a) cavm_spix_eco_t
-#define bustype_CAVM_SPIX_ECO(a) CSR_TYPE_NCB
-#define basename_CAVM_SPIX_ECO(a) "SPIX_ECO"
-#define device_bar_CAVM_SPIX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_SPIX_ECO(a) (a)
-#define arguments_CAVM_SPIX_ECO(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) spi#_intr
  *
  * SPI PF Interrupt Register
@@ -3576,8 +3539,6 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a)
  *
  * SPI PF Interrupt Enable Set Register
  * This register sets interrupt enable bits.
- * Internal:
- * Lowest address of Marvell wrapper CSRs that are reset by cold reset (when enabled).
  */
 union cavm_spix_intr_ena_w1s
 {
