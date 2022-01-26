@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, ARM Limited and Contributors. All rights reserved.
- * Copyright (c) 2016-2017, Marvell International Ltd. All rights reserved.<BR>
+ * Copyright (c) 2016-2022, Marvell International Ltd. All rights reserved.<BR>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -65,8 +65,8 @@ static uintptr_t spi_dev_handle;
 static const io_dev_connector_t *emmc_dev_con;
 static uintptr_t emmc_dev_handle;
 //static const io_dev_connector_t *memmap_dev_con;
-static uintptr_t memmap_dev_handle;
 
+static uintptr_t memmap_dev_handle;
 static io_block_spec_t fip_block_spec = {
 #ifdef FIP_IMG_FLASH_OFFSET
 	.offset	= FIP_IMG_FLASH_OFFSET,
@@ -74,6 +74,7 @@ static io_block_spec_t fip_block_spec = {
 #	pragma GCC error "missing definition FIP_IMG_FLASH_OFFSET"
 #endif
 };
+
 static const io_uuid_spec_t bl2_uuid_spec = {
 	.uuid = UUID_TRUSTED_BOOT_FIRMWARE_BL2,
 };
@@ -94,7 +95,7 @@ static const io_uuid_spec_t bl33_uuid_spec = {
 	.uuid = UUID_NON_TRUSTED_FIRMWARE_BL33,
 };
 
-#ifdef NT_FW_CONFIG
+#if defined(NT_FW_CONFIG)
 static const io_uuid_spec_t tb_fw_config_uuid_spec = {
 	.uuid = UUID_TB_FW_CONFIG,
 };
@@ -102,17 +103,13 @@ static const io_uuid_spec_t tb_fw_config_uuid_spec = {
 static const io_uuid_spec_t hw_config_uuid_spec = {
 	.uuid = UUID_HW_CONFIG,
 };
-#endif
 
-#if defined(PLAT_CN10K_FAMILY) || defined(NT_FW_CONFIG)
-static const io_uuid_spec_t soc_fw_config_uuid_spec = {
-	.uuid = UUID_SOC_FW_CONFIG,
-};
-#endif
-
-#ifdef NT_FW_CONFIG
 static const io_uuid_spec_t tos_fw_config_uuid_spec = {
 	.uuid = UUID_TOS_FW_CONFIG,
+};
+
+static const io_uuid_spec_t soc_fw_config_uuid_spec = {
+	.uuid = UUID_SOC_FW_CONFIG,
 };
 
 static const io_uuid_spec_t nt_fw_config_uuid_spec = {
@@ -170,13 +167,9 @@ static const int spi_boot_method[] = {
 	SPI_FORCE_LEGACY_MODE		/* Force legacy mode */
 };
 
-
 static int open_fip(const uintptr_t spec);
 static int open_memmap(const uintptr_t spec);
-#if defined(PLAT_CN10K_FAMILY)
-static int open_bl31_image(const uintptr_t spec);
-static int open_bl33_image(const uintptr_t spec);
-#endif
+
 struct plat_io_policy {
 	uintptr_t *dev_handle;
 	uintptr_t image_spec;
@@ -192,50 +185,33 @@ static const struct plat_io_policy policies[] = {
 		(uintptr_t)&bl2_uuid_spec,
 		open_fip
 	},
+
 	[SCP_BL2_IMAGE_ID] = {
 		&fip_dev_handle,
 		(uintptr_t)&scp_bl2_uuid_spec,
 		open_fip
 	},
-#if defined(PLAT_CN10K_FAMILY)
-	[BL31_IMAGE_ID] = {
-		&bl31_dev_handle,
-		(uintptr_t)&bl31_uuid_spec,
-		open_bl31_image
-	},
-#else
 	[BL31_IMAGE_ID] = {
 		&fip_dev_handle,
 		(uintptr_t)&bl31_uuid_spec,
 		open_fip
 	},
-#endif
 	[BL32_IMAGE_ID] = {
 		&fip_dev_handle,
 		(uintptr_t)&bl32_uuid_spec,
 		open_fip
 	},
-#if defined(PLAT_CN10K_FAMILY)
-	[BL33_IMAGE_ID] = {
-		&bl33_dev_handle,
-		(uintptr_t)&bl33_uuid_spec,
-		open_bl33_image
-	},
-#else
 	[BL33_IMAGE_ID] = {
 		&fip_dev_handle,
 		(uintptr_t)&bl33_uuid_spec,
 		open_fip
 	},
-#endif
-#if defined(PLAT_CN10K_FAMILY) || defined(NT_FW_CONFIG)
+#if defined(NT_FW_CONFIG)
 	[SOC_FW_CONFIG_ID] = {
 		&fip_dev_handle,
 		(uintptr_t)&soc_fw_config_uuid_spec,
 		open_fip
 	},
-#endif
-#ifdef NT_FW_CONFIG
 	[TB_FW_CONFIG_ID] = {
 		&fip_dev_handle,
 		(uintptr_t)&tb_fw_config_uuid_spec,
@@ -311,18 +287,6 @@ static const struct plat_io_policy policies[] = {
 #endif /* TRUSTED_BOARD_BOOT */
 };
 
-#if defined(PLAT_CN10K_FAMILY)
-static int open_bl31_image(const uintptr_t spec)
-{
-	return io_dev_init(bl31_dev_handle, 0);
-}
-
-static int open_bl33_image(const uintptr_t spec)
-{
-	return io_dev_init(bl33_dev_handle, 0);
-}
-#endif
-
 static int open_fip(const uintptr_t spec)
 {
 	int result;
@@ -340,7 +304,6 @@ static int open_fip(const uintptr_t spec)
 	return result;
 }
 
-
 static int open_spi(const uintptr_t spec)
 {
 	int result;
@@ -348,8 +311,10 @@ static int open_spi(const uintptr_t spec)
 
 	result = io_dev_init(spi_dev_handle,
 		(uintptr_t)&(spi_boot_method[spi_boot_try]));
+	VERBOSE("%s: dev init: 0x%x\n", __func__, result);
 	if (result == 0) {
 		result = io_open(spi_dev_handle, spec, &local_image_handle);
+		VERBOSE("%s: dev open: 0x%x\n", __func__, result);
 		if (result == 0) {
 			VERBOSE("Using SPI\n");
 			io_close(local_image_handle);
@@ -376,6 +341,7 @@ static int open_emmc(const uintptr_t spec)
 	return result;
 }
 
+#if !defined(PLAT_CN10K_FAMILY)
 static int open_memmap(const uintptr_t spec)
 {
 	int result;
@@ -391,6 +357,7 @@ static int open_memmap(const uintptr_t spec)
 	}
 	return result;
 }
+#endif
 
 static const char *spi_boot_method_to_string(int method)
 {
@@ -408,13 +375,7 @@ static const char *spi_boot_method_to_string(int method)
 
 static int check_model(void)
 {
-#if !(defined(PLAT_CN10K_FAMILY))
 	return cavm_is_model(OCTEONTX_CN9XXX);
-#else
-	return cavm_is_model(OCTEONTX_CN10KA) ||
-	       cavm_is_model(OCTEONTX_CNF10KA) ||
-	       cavm_is_model(OCTEONTX_CNF10KB);
-#endif
 }
 
 int plat_try_next_boot_source(void)
@@ -444,7 +405,6 @@ int plat_try_next_boot_source(void)
 void octeontx_io_setup(void)
 {
 	int io_result;
-
 	io_result = register_io_dev_fip(&fip_dev_con);
 	assert(io_result == 0);
 
@@ -594,22 +554,10 @@ int plat_get_fip_source(uintptr_t *dev_handle, uintptr_t *image_spec)
 int plat_get_image_source(unsigned int image_id, uintptr_t *dev_handle,
 			  uintptr_t *image_spec)
 {
-#if defined(PLAT_CN10K_FAMILY)
-	const char *medium;
-	int (*check)(const uintptr_t spec);
-	uintptr_t handle;
-	/* Temp spec to probe IO medium */
-	io_block_spec_t spec = {
-		.offset	= 0x361100,
-		.length = 0xF000,
-	};
-	int boot_type;
-#endif
 	int result;
 	const struct plat_io_policy *policy;
 
 	assert(image_id < ARRAY_SIZE(policies));
-
 
 	if (image_id == FIP_IMAGE_ID)
 		return plat_get_fip_source(dev_handle, image_spec);
@@ -617,46 +565,6 @@ int plat_get_image_source(unsigned int image_id, uintptr_t *dev_handle,
 	policy = &policies[image_id];
 	result = policy->check(policy->image_spec);
 
-#if defined(PLAT_CN10K_FAMILY)
-	/* Check for boot type */
-	boot_type = plat_octeontx_bcfg->bcfg.boot_dev.boot_type;
-	switch (boot_type) {
-		case OCTEONTX_BOOT_REMOTE:
-			plat_fill_fip_memmap_spec();
-			handle = memmap_dev_handle;
-			spec = fip_block_spec;
-			check = open_memmap;
-			medium = "memmap";
-			break;
-		case OCTEONTX_BOOT_SPI:
-			handle = spi_dev_handle;
-			check = open_spi;
-			medium = "SPI";
-			break;
-		case OCTEONTX_BOOT_EMMC:
-			handle = emmc_dev_handle;
-			check = open_emmc;
-			medium = "MMC";
-			break;
-		default:
-			ERROR("Boot medium: 0x%02x is not supported!\n",
-				boot_type);
-			while(1);
-	}
-	result = check((uintptr_t)&spec);
-	if (result) {
-		ERROR("Boot Medium %s not accesible\n", medium);
-		result = -ENOENT;
-	}
-
-	/* Read TIM from Source device */
-	result = plat_read_tim(boot_type, image_id, handle, image_spec);
-	if (result) {
-		WARN("Reading TIM returned %d\n", result);
-		return -ENOENT;
-	}
-	*dev_handle = handle;
-#else
 	if (result == 0) {
 		*image_spec = policy->image_spec;
 		*dev_handle = *(policy->dev_handle);
@@ -664,6 +572,5 @@ int plat_get_image_source(unsigned int image_id, uintptr_t *dev_handle,
 		WARN("%s: FIP not found\n", __func__);
 		result = -ENOENT;
 	}
-#endif
 	return result;
 }

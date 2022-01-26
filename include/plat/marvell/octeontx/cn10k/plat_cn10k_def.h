@@ -64,8 +64,8 @@
 #define CACHE_WRITEBACK_SHIFT   7
 #define CACHE_WRITEBACK_GRANULE (1 << CACHE_WRITEBACK_SHIFT)
 
-#define MAX_IO_DEVICES			5
-#define MAX_IO_HANDLES			4
+#define MAX_IO_DEVICES			10
+#define MAX_IO_HANDLES			10
 
 /*******************************************************************************
  * Platform specific page table and MMU setup constants

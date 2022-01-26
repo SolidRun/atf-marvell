@@ -74,7 +74,7 @@ LIBMCESD_SOURCES	:=	$(filter %.c, $(call rwildcard, $(LIBMCESD_DIR), *))
 LIBMCESD_INCLUDES	:=	$(patsubst %,-I%, $(sort $(dir $(call rwildcard, $(LIBMCESD_DIR), *))))
 
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/cn10k	\
-				-Iinclude/drivers/marvell/octeontx/cn10k \
+				-Iinclude/drivers/marvell/octeontx/cn10k\
 				-I${LIBTIM_DIR} \
 				$(LIBMCESD_INCLUDES)
 
@@ -83,10 +83,11 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c\
 				plat/marvell/octeontx/cn10k/plat_bcfg_init.c	\
 				plat/marvell/octeontx/cn10k/plat_setup.c	\
 				plat/marvell/octeontx/cn10k/plat_tim.c		\
-				plat/marvell/octeontx/cn10k/cn10k_ea.c \
-				lib/cpus/aarch64/neoverse_n2.S \
-				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S		\
+				plat/marvell/octeontx/cn10k/cn10k_ea.c		\
+				lib/cpus/aarch64/neoverse_n2.S			\
+				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S	\
 				plat/marvell/octeontx/cn10k/plat_portm_cfg.c	\
+				plat/marvell/octeontx/cn10k/plat_io_storage.c	\
 				drivers/marvell/octeontx/cn10k/qlm_cn10k.c	\
 				drivers/marvell/octeontx/cn10k/qlm_gserm.c	\
 				drivers/marvell/octeontx/cn10k/rpm.c		\
@@ -97,7 +98,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c\
 				drivers/marvell/octeontx/cn10k/eth_link_mgmt_intf.c \
 				drivers/marvell/octeontx/cn10k/rnm.c		\
 				$(LIBMCESD_SOURCES) \
-				drivers/marvell/octeontx/cn10k/fw_load.c		\
+				drivers/marvell/octeontx/cn10k/fw_load.c	\
 				drivers/marvell/octeontx/cn10k/gserm/gserm.c
 ifeq (${RECORD_FWLOG}, 1)
 $(eval $(call add_define,ENABLE_RECORD_FWLOG))
@@ -105,36 +106,36 @@ PLAT_BL_COMMON_SOURCES	+=	drivers/marvell/octeontx/cn10k/mem_console.S
 endif
 
 #rvu driver is same as octeon tx2.
-BL2_SOURCES		+=	drivers/marvell/octeontx/cn10k/sh_fwdata.c		\
+BL2_SOURCES		+=	drivers/marvell/octeontx/cn10k/sh_fwdata.c	\
 				drivers/marvell/octeontx/cn10k/rvu.c		\
 				drivers/marvell/octeontx/cn10k/portm_helper.c	\
 				plat/marvell/octeontx/cn10k/plat_board_cfg.c	\
 				plat/marvell/octeontx/cn10k/plat_scfg.c		\
-				plat/marvell/octeontx/cn10k/plat_cn10k_iobn.c			\
+				plat/marvell/octeontx/cn10k/plat_cn10k_iobn.c	\
 				${LIBTIM_SRCS}
 
-BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c		\
+BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c	\
 				drivers/marvell/octeontx/cn10k/rvu.c		\
-				drivers/marvell/octeontx/cn10k/rpm_intf.c		\
+				drivers/marvell/octeontx/cn10k/rpm_intf.c	\
 				drivers/marvell/octeontx/cn10k/portm_helper.c	\
-				drivers/marvell/octeontx/cn10k/phy/phy_mgmt.c		\
-				drivers/marvell/octeontx/cn10k/sfp_mgmt.c		\
-				drivers/marvell/octeontx/cn10k/phy/phy_gen.c		\
-				drivers/marvell/octeontx/cn10k/phy/phy_marvell.c	\
-				drivers/marvell/octeontx/cn10k/phy/phy_marvell_1514.c	\
-				drivers/marvell/octeontx/cn10k/spi_smc_load.c		\
-				drivers/marvell/octeontx/cn10k/tim_update.c		\
-				drivers/arm/gic/v3/gic-x00.c		\
-				plat/marvell/octeontx/cn10k/plat_pm.c			\
+				drivers/marvell/octeontx/cn10k/phy/phy_mgmt.c	\
+				drivers/marvell/octeontx/cn10k/sfp_mgmt.c	\
+				drivers/marvell/octeontx/cn10k/phy/phy_gen.c	\
+				drivers/marvell/octeontx/cn10k/phy/phy_marvell.c\
+				drivers/marvell/octeontx/cn10k/phy/phy_marvell_1514.c\
+				drivers/marvell/octeontx/cn10k/spi_smc_load.c	\
+				drivers/marvell/octeontx/cn10k/tim_update.c	\
+				drivers/arm/gic/v3/gic-x00.c			\
+				plat/marvell/octeontx/cn10k/plat_pm.c		\
 				plat/marvell/octeontx/cn10k/plat_pwrc.c		\
 				plat/marvell/octeontx/cn10k/plat_scmi.c		\
-				plat/marvell/octeontx/cn10k/plat_legacy_pm_ops.c		\
+				plat/marvell/octeontx/cn10k/plat_legacy_pm_ops.c\
 				plat/marvell/octeontx/cn10k/plat_svc.c		\
-				plat/marvell/octeontx/cn10k/plat_npc_mcam_profile.c	\
-				drivers/marvell/octeontx/cn10k/sh_fwdata.c \
-				drivers/marvell/octeontx/cn10k/mac_data_mgmt.c \
+				plat/marvell/octeontx/cn10k/plat_npc_mcam_profile.c\
+				drivers/marvell/octeontx/cn10k/sh_fwdata.c	\
+				drivers/marvell/octeontx/cn10k/mac_data_mgmt.c	\
 				drivers/marvell/octeontx/cn10k/ppr.c		\
-				drivers/marvell/octeontx/cn10k/rpm_flash_ops.c \
+				drivers/marvell/octeontx/cn10k/rpm_flash_ops.c	\
 				plat/marvell/octeontx/cn10k/dram_mapping.c
 
 ifeq (${RAS_EXTENSION},1)

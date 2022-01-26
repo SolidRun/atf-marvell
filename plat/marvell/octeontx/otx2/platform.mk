@@ -26,18 +26,20 @@ PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx2			\
 
 PLAT_BL_COMMON_SOURCES  +=      plat/marvell/octeontx/otx2/plat_security.c		\
 				plat/marvell/octeontx/otx2/plat_bcfg_init.c		\
-				drivers/marvell/octeontx/otx2/cgx.c		\
+				drivers/marvell/octeontx/otx2/cgx.c			\
 				drivers/marvell/octeontx/otx2/cgx_flash_ops.c		\
-				drivers/marvell/octeontx/otx2/gser_internal.c			\
+				drivers/marvell/octeontx/otx2/gser_internal.c		\
 				drivers/marvell/octeontx/otx2/qlm/qlm.c			\
-				drivers/marvell/octeontx/otx2/qlm/qlm_gserr.c			\
-				drivers/marvell/octeontx/otx2/qlm/qlm_gserr_ops.c		\
-				drivers/marvell/octeontx/otx2/qlm/qlm_gserx_tuning.c		\
-				plat/marvell/octeontx/otx2/plat_setup.c		\
+				drivers/marvell/octeontx/otx2/qlm/qlm_gserr.c		\
+				drivers/marvell/octeontx/otx2/qlm/qlm_gserr_ops.c	\
+				drivers/marvell/octeontx/otx2/qlm/qlm_gserx_tuning.c	\
+				plat/marvell/octeontx/otx2/plat_setup.c			\
+				plat/marvell/octeontx/otx2/plat_io_storage.c		\
 				plat/marvell/octeontx/otx2/aarch64/plat_octeontx_common.S	\
-				plat/marvell/octeontx/otx2/aarch64/plat_helpers.S		\
+				plat/marvell/octeontx/otx2/aarch64/plat_helpers.S	\
 
-BL2_SOURCES		+=	drivers/marvell/octeontx/otx2/sh_fwdata.c		\
+BL2_SOURCES		+=	drivers/io/io_fip.c					\
+				drivers/marvell/octeontx/otx2/sh_fwdata.c		\
 				drivers/marvell/octeontx/otx2/rvu.c		\
 				plat/marvell/octeontx/otx2/plat_npc_mcam_profile.c	\
 				plat/marvell/octeontx/otx2/plat_board_cfg.c			\

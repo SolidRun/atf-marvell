@@ -12,15 +12,15 @@
 #include <libtim.h>
 #include <drivers/io/io_storage.h>
 
-#define TIM_SPEC_BL31          0
-#define TIM_SPEC_BL33          1
+#define TIM_SPEC_BL31		0
+#define TIM_SPEC_BL33		1
 #define TIM_SPEC_SOC_FW_CONFIG	2
 
 #ifdef NT_FW_CONFIG
-#define TIM_SPEC_NT_FW_CONFIG	3
-#define TIM_NUM_SPECS		4
+# define TIM_SPEC_NT_FW_CONFIG	3
+# define TIM_NUM_SPECS		4
 #else
-#define TIM_NUM_SPECS		3
+# define TIM_NUM_SPECS		3
 #endif
 
 #define TIM_SPEC_SIGNATURE     (0xf65689bb7775c42eULL)
@@ -34,7 +34,7 @@ typedef struct {
 	struct tim_load_info tim_info;
 	unsigned int image_id;
 } tim_spec_info_t;
-#endif
+#endif	/* PLAT_CN10K_FAMILY */
 
 void octeontx_io_setup(void);
 
