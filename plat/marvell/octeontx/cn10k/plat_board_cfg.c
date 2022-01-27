@@ -2209,6 +2209,9 @@ static void cn10k_fill_portm_details(void *fdt)
 	const char *portm_mode_s;
 	cn10k_portm_fec_t fec, fec_orig;
 	int gserm_idx;
+	int lane_idx;
+	int baud_rate, flags = 0;
+	gserm_state_lane_t gserm_state;
 	int ret;
 
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
@@ -2410,6 +2413,13 @@ static void cn10k_fill_portm_details(void *fdt)
 		portm->fec = fec;
 		portm->port_enable = 1;
 
+		/* Program GSERM scratchpad Registers with port config */
+		/* Serdes lane connected to lowest MAC lane in the port */
+		lane_idx = portm->lane_map & 0xF;
+		baud_rate = cn10k_portm_get_mode_desc_speed_mhz(portm_mode);
+		gserm_state = gserm_build_state(portm_mode, baud_rate, flags);
+		gserm_set_state(gserm_idx, lane_idx, gserm_state);
+
 		/* Figure out how many portms are used by this port */
 		/* Note: CN10k does not support connecting 2 GSERM's to 1 RPM */
 		cn10k_fill_portms_used(portm_idx, portm_mode);
@@ -2433,11 +2443,7 @@ static void cn10k_fill_portm_details(void *fdt)
 
 static void cn10k_fill_rpm_details(void *fdt)
 {
-	int gserm_idx;
-	int lane_idx;
 	int rpm_idx;
-	int baud_rate, flags = 0;
-	gserm_state_lane_t gserm_state;
 	int fec = 0;
 	cn10k_portm_modes_t portm_mode = 0;
 	portm_config_t *portm;
@@ -2452,26 +2458,16 @@ static void cn10k_fill_rpm_details(void *fdt)
 
 		portm_mode = portm->portm_mode;
 		fec = portm->fec;
+		rpm_idx = portm->mac_num;
 
-		debug_dts("%s: portm %d, portm_mode %d fec %d\n", __func__, portm_idx, portm_mode,
-							fec);
-		gserm_idx = portm->gserm;
-		/* Serdes lane connected to lowest MAC lane in the port */
-		lane_idx = portm->lane_map & 0xF;
-
-		baud_rate = cn10k_portm_get_mode_desc_speed_mhz(portm_mode);
-		gserm_state = gserm_build_state(portm_mode, baud_rate, flags);
-		gserm_set_state(gserm_idx, lane_idx, gserm_state);
-
-		rpm_idx = cn10k_portm_get_rpm_num(portm_idx);
 		if ((rpm_idx < 0) ||
 		    (rpm_idx >= plat_octeontx_scfg->rpm_count)) {
 			portm_idx++;
 			continue;
 		}
 
-		debug_dts("RPM%d: portm_mode %d Configure GSERM%d Lane%d FEC %d\n",
-			rpm_idx, portm_mode, gserm_idx, lane_idx, fec);
+		debug_dts("%s: RPM%d: PORTM%d: portm_mode %d FEC %d\n",
+			  __func__, rpm_idx, portm_idx, portm_mode, fec);
 
 		cn10k_fill_rpm_struct(portm_idx, rpm_idx, fec);
 
