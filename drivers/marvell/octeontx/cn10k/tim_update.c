@@ -910,7 +910,6 @@ static enum update_ret update_process_tims(void)
 					     fentry->filename);
 					return UPDATE_TIM_ERROR;
 				}
-
 				debug_fw_update("%s: TIM associated with %s\n",
 						__func__, li->data_filename);
 				debug_fw_update("%s: img len: 0x%x, src addr: 0x%llx, load addr: 0x%llx, tim src addr: 0x%llx\n",
@@ -957,11 +956,19 @@ static enum update_ret update_process_tims(void)
 						dfile->filename, dfile->file_loc);
 			} else {
 				debug_fw_update("No data file present\n");
-				oentry->data_file = NULL;
-				oentry->no_data_file = 1;
-				fentry->file_loc = li->tim_src_address;
-				debug_fw_update("%s: %s does not load any image file\n",
-						__func__, fentry->filename);
+				tret = tim_get_version_info(&thandle,
+							    &oentry->version);
+				if (tret != TIM_NO_ERROR) {
+					oentry->data_file = NULL;
+					oentry->no_data_file = 1;
+					fentry->file_loc = li->tim_src_address;
+					debug_fw_update("%s: %s does not load any image file\n",
+							__func__,
+							fentry->filename);
+				} else {
+					debug_fw_update("%s: Obtained version for non-data file %s\n",
+							__func__, fentry->filename);
+				}
 			}
 		}
 	}
