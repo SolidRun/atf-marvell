@@ -809,32 +809,6 @@ static void set_gserm_refclk_config(int gserm, int gser_lane,
 }
 
 /**
- * Set Tx/RxDCLK 4x clock
- * The Tx/RxDCLK 4x clock must be enabled during Auto-negotiation
- *
- * @param *portm_cfg
- *
- */
-void set_txrx_4x_clk_enable(portm_config_t *portm_cfg)
-{
-	int gser_lane, gserm_idx;
-	int an_lane;
-
-	gserm_idx = portm_cfg->gserm;
-	an_lane = portm_cfg->an_master_lane;
-
-	/* ONLY programs AN master lane */
-	gser_lane = (portm_cfg->lane_map >> (an_lane * 4)) & 0xf;
-	CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_idx, gser_lane),
-		   c.s.rxdclk_4x_en = 1;   /* En/Disable 4x Rx clock */
-		   c.s.txdclk_4x_en = 1;   /* En/Disable 4x Tx clock */
-		   c.s.rxdclk_2x_sel = 0;  /* Select 4x Rx clock */
-		   c.s.txdclk_2x_sel = 0); /* Select 4x Tx clock */
-
-	debug_gserm("%s: GSERM%d.%d: AN_lane:%d: Enable 4x Tx/RxDCLK for autoneg\n", __func__, gserm_idx, gser_lane, an_lane);
-}
-
-/**
  * Program the GSERM Tx/Rx rates, gray code and precode settings
  *
  * @param gserm_cfg
@@ -895,10 +869,6 @@ static int set_gserm_rx_tx_config(int portm_idx, int portm_lidx, struct gserm_co
 	API_N5XC56GP5X4_SetTxRxBitRate(&gserm_cfg->mcesd_handle, gser_lane,
 				       portm_programming.phy_gen_tx,
 				       portm_programming.phy_gen_rx);
-
-	/* If 802.3ap mode configure clocks for AN */
-	if (portm->an_lt_ena)
-		set_txrx_4x_clk_enable(portm);
 
 	debug_gserm("%s: GSERM: phy_gen_tx:%d, phy_gen_rx:%d, tx_precode_en:%d, rx_precode_en:%d,\n", __func__,
 		    portm_programming.phy_gen_tx, portm_programming.phy_gen_rx, tx_precode, rx_precode);
@@ -1008,11 +978,17 @@ void gserm_reset_init(void)
 	}
 
 	/* (3b) Set the RX_INIT_OVR_EN so RX_INIT is controlled by Software */
+	/*      Enable the 4x rxdclk and txdclk. This is required for CL73 auto-negotiation */
 	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 		numlanes = plat_octeontx_scfg->qlm_max_lane_num[gserm_idx];
-		for (int lane_idx = 0; lane_idx < numlanes; lane_idx++)
+		for (int lane_idx = 0; lane_idx < numlanes; lane_idx++) {
 			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm_idx, lane_idx),
-				   c.s.pin_rx_init_ovr_en = 1);
+				   c.s.pin_rx_init_ovr_en = 1;
+				   c.s.rxdclk_4x_en = 1;   /* Enable 4x Rx clock */
+				   c.s.txdclk_4x_en = 1;   /* Enable 4x Tx clock */
+				   c.s.rxdclk_2x_sel = 0;  /* Select 4x Rx clock */
+				   c.s.txdclk_2x_sel = 0); /* Select 4x Tx clock */
+		}
 	}
 
 	/* (3c) Set AVDD_SEL to 0x7 = 1.2V */
