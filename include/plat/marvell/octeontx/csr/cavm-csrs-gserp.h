@@ -13016,17 +13016,9 @@ union cavm_gserpx_dmemx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data memory for GSERP microcontroller.
-                                                                 Internal:
-                                                                 Due to each entry in this array being on 8-byte boundary and there
-                                                                 only being 4 bytes of data in the register, this means the 36kB of
-                                                                 register address space really maps to 18kB of physical RAM. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data memory for GSERP microcontroller. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data memory for GSERP microcontroller.
-                                                                 Internal:
-                                                                 Due to each entry in this array being on 8-byte boundary and there
-                                                                 only being 4 bytes of data in the register, this means the 36kB of
-                                                                 register address space really maps to 18kB of physical RAM. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W) Data memory for GSERP microcontroller. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
@@ -13054,47 +13046,6 @@ static inline uint64_t CAVM_GSERPX_DMEMX(uint64_t a, uint64_t b)
 #define device_bar_CAVM_GSERPX_DMEMX(a,b) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_DMEMX(a,b) (a)
 #define arguments_CAVM_GSERPX_DMEMX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) gserp#_eco
- *
- * INTERNAL: GSERP ECO Register
- */
-union cavm_gserpx_eco
-{
-    uint64_t u;
-    struct cavm_gserpx_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO use. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) Reserved for ECO use. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gserpx_eco_s cn; */
-};
-typedef union cavm_gserpx_eco cavm_gserpx_eco_t;
-
-static inline uint64_t CAVM_GSERPX_ECO(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_GSERPX_ECO(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN96XX_PASS3_X) && (a<=5))
-        return 0x87e090080040ll + 0x1000000ll * ((a) & 0x7);
-    if (cavm_is_model(OCTEONTX_CN98XX) && (a<=9))
-        return 0x87e090080040ll + 0x1000000ll * ((a) & 0xf);
-    if (cavm_is_model(OCTEONTX_F95O) && (a<=1))
-        return 0x87e090080040ll + 0x1000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_LOKI) && (a<=1))
-        return 0x87e090080040ll + 0x1000000ll * ((a) & 0x1);
-    __cavm_csr_fatal("GSERPX_ECO", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_GSERPX_ECO(a) cavm_gserpx_eco_t
-#define bustype_CAVM_GSERPX_ECO(a) CSR_TYPE_RSL
-#define basename_CAVM_GSERPX_ECO(a) "GSERPX_ECO"
-#define device_bar_CAVM_GSERPX_ECO(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_GSERPX_ECO(a) (a)
-#define arguments_CAVM_GSERPX_ECO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_furcation_mode
@@ -13296,11 +13247,7 @@ union cavm_gserpx_init_ctl
         uint64_t split_fw_rdy          : 1;  /**< [  3:  3](R/W) Software sets this bit to indicate that the upper section of firmware
                                                                  image has been successfully loaded into GSERP()_PMEM(). */
         uint64_t apb_reset             : 1;  /**< [  2:  2](R/W) Active-high reset for the APB bus related to the CPU within this GSERP instance.
-                                                                 Must be clear prior to accessing APB bus via JTAG or RSL.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error. */
+                                                                 Must be clear prior to accessing APB bus via JTAG or RSL. */
         uint64_t cpu_reset             : 1;  /**< [  1:  1](R/W) Active-high CPU reset. When asserted, the CPU within this GSERP instance is halted
                                                                  and reset. When deasserted, the CPU will execute its program. */
         uint64_t por_reset             : 1;  /**< [  0:  0](R/W) Active-high power-on reset.  Only certain instances of this field have an effect.
@@ -13315,11 +13262,7 @@ union cavm_gserpx_init_ctl
         uint64_t cpu_reset             : 1;  /**< [  1:  1](R/W) Active-high CPU reset. When asserted, the CPU within this GSERP instance is halted
                                                                  and reset. When deasserted, the CPU will execute its program. */
         uint64_t apb_reset             : 1;  /**< [  2:  2](R/W) Active-high reset for the APB bus related to the CPU within this GSERP instance.
-                                                                 Must be clear prior to accessing APB bus via JTAG or RSL.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error. */
+                                                                 Must be clear prior to accessing APB bus via JTAG or RSL. */
         uint64_t split_fw_rdy          : 1;  /**< [  3:  3](R/W) Software sets this bit to indicate that the upper section of firmware
                                                                  image has been successfully loaded into GSERP()_PMEM(). */
         uint64_t reserved_4_63         : 60;
@@ -13335,11 +13278,7 @@ union cavm_gserpx_init_ctl
         uint64_t split_fw_rdy          : 1;  /**< [  3:  3](R/W) Software sets this bit to indicate that the upper section of firmware
                                                                  image has been successfully loaded into GSERP()_PMEM. */
         uint64_t apb_reset             : 1;  /**< [  2:  2](R/W) Active-high reset for the APB bus related to the CPU within this GSERP instance.
-                                                                 Must be clear prior to accessing APB bus via JTAG or RSL.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error. */
+                                                                 Must be clear prior to accessing APB bus via JTAG or RSL. */
         uint64_t cpu_reset             : 1;  /**< [  1:  1](R/W) Active-high CPU reset. When asserted, the CPU within this GSERP instance is halted
                                                                  and reset. When deasserted, the CPU will execute its program. */
         uint64_t por_reset             : 1;  /**< [  0:  0](R/W) Active-high power-on reset.  Only certain instances of this field have an effect.
@@ -13354,11 +13293,7 @@ union cavm_gserpx_init_ctl
         uint64_t cpu_reset             : 1;  /**< [  1:  1](R/W) Active-high CPU reset. When asserted, the CPU within this GSERP instance is halted
                                                                  and reset. When deasserted, the CPU will execute its program. */
         uint64_t apb_reset             : 1;  /**< [  2:  2](R/W) Active-high reset for the APB bus related to the CPU within this GSERP instance.
-                                                                 Must be clear prior to accessing APB bus via JTAG or RSL.
-
-                                                                 Internal:
-                                                                 When APB_RESET=1, an RSL access to an APB register address will return an RSL
-                                                                 error. */
+                                                                 Must be clear prior to accessing APB bus via JTAG or RSL. */
         uint64_t split_fw_rdy          : 1;  /**< [  3:  3](R/W) Software sets this bit to indicate that the upper section of firmware
                                                                  image has been successfully loaded into GSERP()_PMEM. */
         uint64_t reserved_4_63         : 60;
@@ -107473,10 +107408,6 @@ static inline uint64_t CAVM_GSERPX_PMEMX(uint64_t a, uint64_t b)
  * confirmation of reference clock frequency via software. Read the counter; wait some
  * time, e.g., 100ms; read the counter; calculate frequency based on the difference in
  * values during the known wait time.
- *
- * Internal:
- * Lowest address of Marvell wrapper CSRs that are reset by domain reset (when
- * enabled).
  */
 union cavm_gserpx_refclk_ctr
 {
@@ -107624,8 +107555,6 @@ static inline uint64_t CAVM_GSERPX_RX_TERM_CTL(uint64_t a)
  * Register (RSL) gserp#_scratch#
  *
  * GSERP Scratch Registers
- * Internal:
- * Lowest address of Marvell wrapper CSRs
  */
 union cavm_gserpx_scratchx
 {
