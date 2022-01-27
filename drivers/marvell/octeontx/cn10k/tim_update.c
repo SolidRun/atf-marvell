@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Marvell International Ltd.
+ * Copyright (C) 2020-2022 Marvell
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses
@@ -329,7 +329,7 @@ static const struct object_group file_groups_cn10k[] = {
 	OBJECT_GROUP_CREATE_ENTRY(NULL, false),
 };
 
-#elif defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
+#elif defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb) || defined(PLAT_cn10kb)
 # define file_groups	file_groups_cnf10k
 static const struct object_group file_groups_cnf10k[] = {
 #if 0

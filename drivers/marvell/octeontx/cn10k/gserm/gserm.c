@@ -961,6 +961,11 @@ void gserm_reset_init(void)
 	portm_count = plat_octeontx_scfg->portm_count;
 	gserm_count = plat_octeontx_scfg->gserm_count;
 
+	if (gserm_count <= 0) {
+		printf("Skipping GSERM initialization\n");
+		return;
+	}
+
 	/* (1) Reset the PHY by setting GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[RESET] = 0x1 and
 	 *     GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[APB_RESET] = 0x1.
 	 * (2) Wait a minimum of 1us for the reset to propagate.

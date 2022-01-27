@@ -255,6 +255,7 @@ unsigned int plat_configure_cpt_rid(void)
  *      cn10ka  : 0x5
  *      cnf10ka : 0x6
  *      cnf10kb : 0x7
+ *      cn10kb  : 0x8
  */
 unsigned int plat_configure_rid(void)
 {
@@ -264,6 +265,8 @@ unsigned int plat_configure_rid(void)
 		return 0x60;
 	else if (cavm_is_model(OCTEONTX_CNF10KB))
 		return 0x70;
+	else if (cavm_is_model(OCTEONTX_CN10KB))
+		return 0x80;
 
 	return 0;
 }

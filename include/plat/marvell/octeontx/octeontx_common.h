@@ -36,6 +36,7 @@
 #define CN10KAPARTNUM	0xB9
 #define CNF10KAPARTNUM	0xBA
 #define CNF10KBPARTNUM	0xBC
+#define CN10KBPARTNUM	0xBD
 
 /* Boot type definitions */
 #define OCTEONTX_BOOT_UNSUPPORTED	1

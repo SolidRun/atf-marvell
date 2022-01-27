@@ -24,7 +24,7 @@ $(eval $(call add_define,GIC_ENABLE_V4_EXTN))
 PLAT_CSR_INCLUDE        ?=       include/plat/marvell/octeontx/csr
 
 # Check if xSPI or MPI should be build
-CN10K_PLATS = cn10ka cnf10ka cnf10kb
+CN10K_PLATS = cn10ka cnf10ka cnf10kb cn10kb
 ifeq (${PLAT},$(filter ${PLAT}, ${CN10K_PLATS}))
        BUILD_XSPI=1
 else
