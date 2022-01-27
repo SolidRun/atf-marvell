@@ -111,6 +111,7 @@ typedef struct portm_ap_802_3_adv {
 	uint32_t  fec_25g_baser_cons : 1;  /* Advertise 25Gb/s per lane BASE-R FEC requested (Consortium Only) */
 	uint32_t  fc_pause : 1;            /* Advertise Symmetric pause capability */
 	uint32_t  fc_asm_dir : 1;          /* Advertise support for Asymmetric pause */
+	uint32_t  an_nonce_dis : 1;        /* Disables Nonce check. Loopback=1 (Nonce disabled), Normal=0 */
 } portm_ap_802_3_adv_t;
 
 typedef enum {
