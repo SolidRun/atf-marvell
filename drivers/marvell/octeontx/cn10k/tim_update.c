@@ -955,13 +955,14 @@ static enum update_ret update_process_tims(void)
 						fentry->filename, fentry->file_loc,
 						dfile->filename, dfile->file_loc);
 			} else {
+				uint64_t src_addr;
+
 				debug_fw_update("No data file present\n");
 				tret = tim_get_version_info(&thandle,
 							    &oentry->version);
+				oentry->data_file = NULL;
+				oentry->no_data_file = 1;
 				if (tret != TIM_NO_ERROR) {
-					oentry->data_file = NULL;
-					oentry->no_data_file = 1;
-					fentry->file_loc = li->tim_src_address;
 					debug_fw_update("%s: %s does not load any image file\n",
 							__func__,
 							fentry->filename);
@@ -969,6 +970,15 @@ static enum update_ret update_process_tims(void)
 					debug_fw_update("%s: Obtained version for non-data file %s\n",
 							__func__, fentry->filename);
 				}
+				tret = tim_get_tim_location_addr(&thandle,
+								 &src_addr);
+				fentry->file_loc = src_addr;
+				if (tret == TIM_NO_ERROR)
+					debug_fw_update("%s: Tim address 0x%llx\n",
+							__func__, src_addr);
+				else
+					WARN("%s: Tim address unknown for %s!\n",
+					     __func__, fentry->filename);
 			}
 		}
 	}
