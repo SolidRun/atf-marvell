@@ -526,6 +526,11 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 		if (pmem.s.data != user_buffer[index]) {
 			ERROR("GSERM%d: Mismatch loading firmware[%d], wrote 0x%x, read 0x%x\n",
 				cfg->gserm_idx, index, user_buffer[index], pmem.s.data);
+			/* As per IPBUDSS-38303, software should not perform Cold Domain reset */
+			if (cavm_is_model(OCTEONTX_CN10KA_PASS1_0) || cavm_is_model(OCTEONTX_CNF10KA_PASS1_0)) {
+				NOTICE("Perform Cold Reset to load new firmware\n");
+				while (1);
+			}
 			NOTICE("Performing cold reset so new firmware can be loaded\n");
 			if (!cavm_is_platform(PLATFORM_EMULATOR))
 				mdelay(10000);
