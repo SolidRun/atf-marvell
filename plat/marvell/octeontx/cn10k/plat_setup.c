@@ -128,6 +128,48 @@ static void plat_set_emmc_msix_vectors(void)
 		CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
 }
 
+#if defined(IMAGE_BL31)
+
+#define IRQ_TYPE_EDGE_RISING	1
+#define IRQ_TYPE_EDGE_FALLING	2
+#define IRQ_TYPE_EDGE_BOTH	(IRQ_TYPE_EDGE_FALLING | IRQ_TYPE_EDGE_RISING)
+#define IRQ_TYPE_LEVEL_HIGH	4
+#define IRQ_TYPE_LEVEL_LOW	8
+
+static void plat_initialize_interrupt_fdt(void *fdt)
+{
+	const uint32_t *reg;
+	uint32_t intr_cfg[3];
+	int node;
+
+	VERBOSE("Update interrupt configuration in FDT\n");
+
+	node = fdt_node_offset_by_compatible(fdt, -1, "cdns,sd6hc");
+	if (node > 0) {
+
+		intr_cfg[0] = cpu_to_fdt32(0);
+		intr_cfg[1] = cpu_to_fdt32(EMMC_SPI_IRQ(0) - SPI_IRQ_OFFSET);
+		if (!cavm_is_model(OCTEONTX_CNF10KB) && !cavm_is_model(OCTEONTX_CN10KB))
+			intr_cfg[2] = cpu_to_fdt32(IRQ_TYPE_EDGE_RISING);
+		else
+			intr_cfg[2] = cpu_to_fdt32(IRQ_TYPE_LEVEL_HIGH);
+
+		if (fdt_setprop(fdt, node, "interrupts", intr_cfg, sizeof(intr_cfg))) {
+			ERROR("Unable to set EMMC interrupt property\n");
+			return;
+		}
+
+		reg = fdt_getprop(fdt, node, "interrupts", NULL);
+		if (reg) {
+			VERBOSE("EMMC %s num %d intrtype %d\n",
+				fdt32_to_cpu(reg[0]) ? "PPI": "SPI",
+				fdt32_to_cpu(reg[1]) + SPI_IRQ_OFFSET,
+				fdt32_to_cpu(reg[2]));
+		}
+	}
+}
+#endif
+
 static void plat_set_coresight_funnel(void)
 {
 	uint64_t base;
@@ -176,10 +218,14 @@ void bl31_el3_plat_prepare_exit(void)
  */
 void plat_octeontx_setup(void)
 {
-#if defined(SAVE_FATAL_ERRLOGS) && defined(IMAGE_BL31)
+#if defined(IMAGE_BL31)
 	void *fdt = fdt_ptr;
 
+	plat_initialize_interrupt_fdt(fdt);
+
+#if defined(SAVE_FATAL_ERRLOGS)
 	crashdump_init(fdt);
+#endif
 #endif
 
 	plat_cn10k_apply_workaround();
