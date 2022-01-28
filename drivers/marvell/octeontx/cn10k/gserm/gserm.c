@@ -58,6 +58,8 @@
 #include <gserm_internal.h>
 #include <gserm.h>
 
+#include <plat/common/platform.h>
+
 /* define DEBUG_ATF_GSERM ro enable debug logs */
 #undef DEBUG_ATF_GSERM
 #if defined(MRVL_TF_LOG_MODULE)
@@ -1215,7 +1217,11 @@ void gserm_reset_init(void)
 
 	/* Download GSERM FW */
 	debug_gserm("%s: GSERM: Downloading firmware\n", __func__);
-	if (load_gserx_image(fw_data, &fw_data_size)) {
+	do {
+		ret = load_gserx_image(fw_data, &fw_data_size);
+	} while((ret != 0) && (plat_try_next_boot_source() != 0));
+
+	if (ret) {
 		ERROR("Failing to load GSERM Firmware\n");
 		return;
 	}

@@ -971,6 +971,9 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	spi_lock[0] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(0);
 	spi_lock[1] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(1);
 
+	if (mode != 0)
+		safemode = true;
+
 	/* Try to load config from db
 	 * In caise of load fail, rerun device-discovery
 	 */
