@@ -84,6 +84,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/cn10k/plat_non_fip_image.c\
 				plat/marvell/octeontx/cn10k/plat_setup.c	\
 				plat/marvell/octeontx/cn10k/plat_tim.c		\
 				plat/marvell/octeontx/cn10k/cn10k_ea.c		\
+				plat/marvell/octeontx/cn10k/aarch64/plat_octeontx_common.S	\
 				lib/cpus/aarch64/neoverse_n2.S			\
 				plat/marvell/octeontx/cn10k/aarch64/plat_helpers.S	\
 				plat/marvell/octeontx/cn10k/plat_portm_cfg.c	\

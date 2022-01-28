@@ -11,25 +11,9 @@
 #include <cpu_macros.S>
 #include <plat_macros.S>
 
-#define CN10K_T106XX_MIDR		0x410FD490
+#define EC_CAVIUM_IO_TRAP	U(0x1f)
 
-#define EC_CAVIUM_IO_TRAP		U(0x1f)
-
-func cn10k_reset_func
-	ret
-endfunc cn10k_reset_func
-
-func cn10k_core_pwr_dwn
-	ret
-endfunc cn10k_core_pwr_dwn
-
-func cn10k_cluster_pwr_dwn
-	ret
-endfunc cn10k_cluster_pwr_dwn
-
-func cn10k_cpu_reg_dump
-	ret
-endfunc cn10k_cpu_reg_dump
+	.global neoverse_n2_exception_handler
 
 	/* ----------------------------------------------
 	 * void cn10k_exception_handler(int)
@@ -38,7 +22,7 @@ endfunc cn10k_cpu_reg_dump
 	 * from el3_esr.
 	 * ----------------------------------------------
 	 */
-func cn10k_exception_handler
+func neoverse_n2_exception_handler
 /* These errors are handled only in runtime (in BL31) */
 #if defined(IMAGE_BL31)
 	/* -----------------------------------------------------
@@ -64,20 +48,4 @@ func cn10k_exception_handler
 	 * ---------------------------------------------------
 	 */
 	ret
-endfunc cn10k_exception_handler
-
-#if REPORT_ERRATA
-/*
- * Errata printing function for octeontx2. Must follow AAPCS.
- */
-func cn10k_errata_report
-	ret
-endfunc cn10k_errata_report
-#endif
-
-declare_cpu_ops_eh cn10k, CN10K_T106XX_MIDR, \
-	cn10k_reset_func, \
-	cn10k_exception_handler, \
-	cn10k_core_pwr_dwn, \
-	cn10k_cluster_pwr_dwn
-
+endfunc neoverse_n2_exception_handler

@@ -24,6 +24,8 @@
 	wa_cve_2022_23960_bhb_vector_table NEOVERSE_N2_BHB_LOOP_COUNT, neoverse_n2
 #endif /* WORKAROUND_CVE_2022_23960 */
 
+	.weak neoverse_n2_exception_handler
+
 /* --------------------------------------------------
  * Errata Workaround for Neoverse N2 Erratum 2002655.
  * This applies to revision r0p0 of Neoverse N2. it is still open.
@@ -580,6 +582,10 @@ func neoverse_n2_core_pwr_dwn
 	ret
 endfunc neoverse_n2_core_pwr_dwn
 
+func neoverse_n2_exception_handler
+	ret
+endfunc neoverse_n2_exception_handler
+
 #if REPORT_ERRATA
 /*
  * Errata printing function for Neoverse N2 cores. Must follow AAPCS.
@@ -636,4 +642,5 @@ endfunc neoverse_n2_cpu_reg_dump
 
 declare_cpu_ops neoverse_n2, NEOVERSE_N2_MIDR, \
 	neoverse_n2_reset_func, \
+	neoverse_n2_exception_handler, \
 	neoverse_n2_core_pwr_dwn
