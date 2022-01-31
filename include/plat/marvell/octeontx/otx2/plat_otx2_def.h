@@ -32,6 +32,8 @@
 					PLATFORM_NODE_COUNT)
 #define PLAT_MAX_PWR_LVL		MPIDR_AFFLVL2
 
+#define PLAT_OTX2_FAMILY		1
+
 /*******************************************************************************
  * Platform power states
  ******************************************************************************/

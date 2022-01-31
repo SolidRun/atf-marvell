@@ -15,8 +15,10 @@
 #include <octeontx_utils.h>
 #include <platform_def.h>
 #include <octeontx_irqs_def.h>
-#if !defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_OTX2_FAMILY)
 #  include <plat_otx2_configuration.h>
+#elif defined(PLAT_OTX_FAMILY)
+#  include <plat_otx_configuration.h>
 #endif
 
 #include "cavm-csrs-ecam.h"

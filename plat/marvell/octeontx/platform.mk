@@ -69,7 +69,6 @@ PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/aarch64/pl011_console.S	\
 				${LIBFDT_DIR}/fdt_wip.c				\
 				plat/marvell/octeontx/octeontx_common.c		\
 				plat/marvell/octeontx/octeontx_dram.c			\
-				drivers/marvell/octeontx/smi.c		\
 				plat/marvell/octeontx/dlmalloc.c		\
 				plat/marvell/octeontx/plat_mem_alloc.c		\
 				plat/marvell/octeontx/aarch64/octeontx_report_exception.S	\

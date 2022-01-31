@@ -16,9 +16,11 @@
 #include <drivers/delay_timer.h>
 #include <string.h>
 #include <plat_board_cfg.h>
+#if !defined(PLAT_OTX_FAMILY)
 #include <sfp_intf.h>
 #include <phy_mgmt.h>
 #include <smi.h>
+#endif
 #include <twsi.h>
 
 #include "cavm-csrs-smi.h"
@@ -198,7 +200,7 @@ int smi_reset(int bus_id)
 
 void smi_set_switch(phy_config_t *phy, int enable)
 {
-#ifndef PLAT_CN10K_FAMILY
+#ifdef PLAT_OTX2_FAMILY
 	uint8_t data[2], reg_val = 0x0;
 	int ret;
 	static uint8_t reg_read_mask;

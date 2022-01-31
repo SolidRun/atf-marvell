@@ -19,10 +19,12 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/otx/t83/plat_t83_setup.c	\
 				plat/marvell/octeontx/otx/aarch64/plat_octeontx_common.S	\
 				plat/marvell/octeontx/otx/aarch64/plat_helpers.S		\
 
-BL2_SOURCES		+=	plat/marvell/octeontx/otx/t83/plat_t83_ecam.c	\
+BL2_SOURCES		+=	drivers/io/io_fip.c 		\
+				plat/marvell/octeontx/otx/t83/plat_t83_ecam.c	\
 				plat/marvell/octeontx/otx/plat_board_cfg.c			\
 				plat/marvell/octeontx/otx/plat_scfg.c				\
 				plat/marvell/octeontx/otx/plat_otx_iobn.c			\
+				plat/marvell/octeontx/otx/plat_io_storage.c		\
 
 BL31_SOURCES		+=	plat/marvell/octeontx/otx/plat_topology.c		\
 				plat/marvell/octeontx/otx/plat_sata.c		\

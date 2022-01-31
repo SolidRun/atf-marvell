@@ -257,10 +257,13 @@ void bl31_plat_arch_setup()
 			MT_MEMORY | MT_RW | MT_SECURE);
 #endif
 
+#if !defined(PLAT_OTX_FAMILY)
 	{
 		extern void otx2_map_ghes(ras_config_t *rc);
 		otx2_map_ghes(&plat_octeontx_bcfg->ras_config);
 	}
+#endif
+
 	plat_add_mmio_map();
 
 	init_xlat_tables();

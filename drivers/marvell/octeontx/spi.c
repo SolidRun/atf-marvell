@@ -27,7 +27,6 @@ static file_state_t current_file = { 0 };
 
 uint32_t spi_mode;
 
-#if 0
 static int spi_config_cn8xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	int cpha, int spi_con, int cs)
 {
@@ -66,30 +65,21 @@ static int spi_config_cn8xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	CSR_WRITE(CAVM_MPI_CFG, mpi_cfg.u);
 	return 0;
 }
-#endif
 
 static int spi_config_cn9xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 	int cpha, int spi_con, int cs)
 {
 	uint64_t sclk;
-#if !(defined(PLAT_CN10K_FAMILY))
 	union cavm_rst_boot rst_boot;
-#endif
 	union cavm_mpix_cfg mpi_cfg;
 	mpi_cfg.u = CSR_READ(CAVM_MPIX_CFG(spi_con));
 
 	if (mode & SPI_FORCE_LEGACY_MODE) {
-#if !(defined(PLAT_CN10K_FAMILY))
 		rst_boot.u = CSR_READ(CAVM_RST_BOOT);
 		sclk = PLL_REF_CLK_CN9XXX * rst_boot.s.pnr_mul;
-#endif
 		mpi_cfg.s.legacy_dis = 0; /* Use legacy mode */
 	} else {
-#if defined(PLAT_CN10K_FAMILY)
-		sclk = PLL_REF_CLK_CN10K; /* IOCLK of fixed frequency - 800Mhz */
-#else
 		sclk = PLL_REF_CLK_CN9XXX; /* With tb100_en use always 100Mhz */
-#endif
 		mpi_cfg.s.legacy_dis = 1; /* We don't use legacy mode */
 		mpi_cfg.s.tb100_en = 1; /* Use 100Mhz main reference */
 		mpi_cfg.s.cs_espi_en = 0; /* Not using eSPI mode */
@@ -115,13 +105,10 @@ static int spi_config_cn9xxx(uint64_t spi_clk, uint32_t mode, int cpol,
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
 {
-#if 0
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		return spi_config_cn8xxx(
 				spi_clk, mode, cpol, cpha, spi_con, cs);
-	//} else if (cavm_is_model(OCTEONTX_CN9XXX)) {
-#endif
-	if (1) { /* Applicable for T106xxx as well */
+	} else if (cavm_is_model(OCTEONTX_CN9XXX)) {
 		return spi_config_cn9xxx(
 				spi_clk, mode, cpol, cpha, spi_con, cs);
 	} else {
@@ -142,7 +129,9 @@ static int spi_xfer_legacy(unsigned char *dout, unsigned char *din, int len,
 
 		if (dout) {
 			for (i = 0; i < size; i++) {
-				if (1)
+				if (cavm_is_model(OCTEONTX_CN8XXX))
+					CSR_WRITE(CAVM_MPI_DATX(i), *dout++);
+				else if (cavm_is_model(OCTEONTX_CN9XXX))
 					CSR_WRITE(CAVM_MPIX_DATX(spi_con, i), *dout++);
 				else
 					return -1;
@@ -159,14 +148,17 @@ static int spi_xfer_legacy(unsigned char *dout, unsigned char *din, int len,
 
 		mpi_tx.s.txnum = dout ? size : 0;
 		mpi_tx.s.totnum = size;
-		//else if (cavm_is_model(OCTEONTX_CN9XXX))
-		if (1)
+		if (cavm_is_model(OCTEONTX_CN8XXX))
+			CSR_WRITE(CAVM_MPI_TX, mpi_tx.u);
+		else if (cavm_is_model(OCTEONTX_CN9XXX))
 			CSR_WRITE(CAVM_MPIX_TX(spi_con), mpi_tx.u);
 		else
 			return -1;
 		/* Wait for tx/rx to complete */
 		do {
-			if (1)
+			if (cavm_is_model(OCTEONTX_CN8XXX))
+				mpi_sts.u = CSR_READ(CAVM_MPI_STS);
+			else if (cavm_is_model(OCTEONTX_CN9XXX))
 				mpi_sts.u = CSR_READ(CAVM_MPIX_STS(spi_con));
 			else
 				return -1;
@@ -174,7 +166,9 @@ static int spi_xfer_legacy(unsigned char *dout, unsigned char *din, int len,
 
 		if (din) {
 			for (i = 0; i < size; i++) {
-				if (1)
+				if (cavm_is_model(OCTEONTX_CN8XXX))
+					*din++ = CSR_READ(CAVM_MPI_DATX(i));
+				else if (cavm_is_model(OCTEONTX_CN9XXX))
 					*din++ = CSR_READ(CAVM_MPIX_DATX(spi_con, i));
 				else
 					return -1;
@@ -250,8 +244,7 @@ static inline int spi_xfer(unsigned char *dout, unsigned char *din, int len,
 {
 	union cavm_mpix_cfg mpi_cfg;
 
-	//if (cavm_is_model(OCTEONTX_CN9XXX)) {
-	if (1) {
+	if (cavm_is_model(OCTEONTX_CN9XXX)) {
 		mpi_cfg.u = CSR_READ(CAVM_MPIX_CFG(spi_con));
 		if (mpi_cfg.s.legacy_dis) {
 			return spi_xfer_cn9xxx(dout, din, len, spi_con, cs,
@@ -282,8 +275,7 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 	/* Address len + command byte */
 	len = (addr_len >> 3) + 1;
 
-	//if (cavm_is_model(OCTEONTX_CN9XXX) &&
-	if (1 && 
+	if (cavm_is_model(OCTEONTX_CN9XXX) &&
 		!(spi_mode & SPI_FORCE_X1_READ) &&
 		!(spi_mode & SPI_FORCE_LEGACY_MODE)) {
 
@@ -503,7 +495,6 @@ static int spi_block_seek(io_entity_t *entity, int mode,
 
 static inline void spi_update_addr_mode(int *addr_mode)
 {
-#if !(defined(PLAT_CN10K_FAMILY))
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		int boot_method;
 
@@ -511,7 +502,6 @@ static inline void spi_update_addr_mode(int *addr_mode)
 		if (boot_method == CAVM_RST_BOOT_METHOD_E_SPI32)
 			*addr_mode = SPI_ADDRESSING_32BIT;
 	}
-#endif
 }
 
 static int spi_block_read(io_entity_t *entity, uintptr_t buffer,

@@ -37,6 +37,7 @@ PLAT_BL_COMMON_SOURCES  +=      plat/marvell/octeontx/otx2/plat_security.c		\
 				plat/marvell/octeontx/otx2/plat_io_storage.c		\
 				plat/marvell/octeontx/otx2/aarch64/plat_octeontx_common.S	\
 				plat/marvell/octeontx/otx2/aarch64/plat_helpers.S	\
+				drivers/marvell/octeontx/smi.c
 
 BL2_SOURCES		+=	drivers/io/io_fip.c					\
 				drivers/marvell/octeontx/otx2/sh_fwdata.c		\

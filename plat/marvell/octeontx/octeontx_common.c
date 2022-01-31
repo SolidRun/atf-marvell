@@ -254,7 +254,7 @@ uint64_t cavm_fuse_read_range(cavm_node_t node, int fuse, int width)
 	int last;
 	uint64_t dat;
 
-#if !(defined(PLAT_CN10K_FAMILY))
+#if defined(PLAT_OTX_FAMILY)
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		WARN("%s: Not implemented for CN8XXX\n", __func__);
 		return 0xff;
