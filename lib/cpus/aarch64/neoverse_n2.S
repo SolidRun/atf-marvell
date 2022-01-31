@@ -586,6 +586,10 @@ func neoverse_n2_exception_handler
 	ret
 endfunc neoverse_n2_exception_handler
 
+func neoverse_n2_cluster_pwr_dwn
+	ret
+endfunc neoverse_n2_cluster_pwr_dwn
+
 #if REPORT_ERRATA
 /*
  * Errata printing function for Neoverse N2 cores. Must follow AAPCS.
@@ -640,7 +644,8 @@ func neoverse_n2_cpu_reg_dump
 	ret
 endfunc neoverse_n2_cpu_reg_dump
 
-declare_cpu_ops neoverse_n2, NEOVERSE_N2_MIDR, \
+declare_cpu_ops_eh neoverse_n2, NEOVERSE_N2_MIDR, \
 	neoverse_n2_reset_func, \
 	neoverse_n2_exception_handler, \
-	neoverse_n2_core_pwr_dwn
+	neoverse_n2_core_pwr_dwn, \
+	neoverse_n2_cluster_pwr_dwn
