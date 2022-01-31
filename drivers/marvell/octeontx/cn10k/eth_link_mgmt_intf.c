@@ -23,6 +23,8 @@
 #include <cn10k/csr/cavm-csrs-rst.h>
 #include <plat_scfg.h>
 #include <rpm.h>
+#include <spinlock.h>
+#include <plat_mem_alloc.h>
 
 /* define DEBUG_ATF_ETH_LINK_MGMT to enable debug logs */
 #undef DEBUG_ATF_ETH_LINK_MGMT
@@ -43,6 +45,7 @@
 #endif
 
 ecp_link_shared_data_t *ecp_sh_data_global = (void *)ETH_LINK_SHMEM_BASE;
+static spinlock_t ecp_print_buf_lock;
 
 int is_ecpcore_running(void)
 {
@@ -339,9 +342,19 @@ int ecp_dump_state_history(int portm_idx, const char *msg)
 	uint64_t timeout;
 	uint32_t *tail;
 	uint32_t head;
-	int count = 0;
-	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
-	static ecp_state_log_t ecp_logs_dump_buf[ECP_STS_ENTRIES_MAX];
+	int idx, count;
+	ecp_link_mgmt_sh_data_t *sh_data;
+	ecp_state_log_t *ecp_print_buf;
+
+#if defined(MRVL_TF_LOG_MODULE)
+	/* Check if feature is enabled, if not, there is no point to proceed */
+	if (!(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_ECP_SM_HIST))
+		return 0;
+#else
+	return 0;
+#endif
+
+	sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
@@ -368,17 +381,44 @@ int ecp_dump_state_history(int portm_idx, const char *msg)
 	tail = &sh_data->history.sl_tail;
 	head = sh_data->history.sl_head;
 
-	while (*tail != head) {
+	count = (*tail <= head) ? head - *tail : ECP_STS_ENTRIES_MAX - (*tail - head);
+	if (count <= 0) {
+		sh_data->history.sl_owner = LINK_OWN_NONE;
+		return 0;
+	}
+
+	/*
+	 * Need to acquire lock before calling dynamic allocation
+	 * as octeontx_malloc is not SMP safe.
+	 */
+	spin_lock(&ecp_print_buf_lock);
+	ecp_print_buf = (ecp_state_log_t *)octeontx_malloc(
+			count * sizeof(ecp_state_log_t));
+	spin_unlock(&ecp_print_buf_lock);
+
+	if (!ecp_print_buf) {
+		ERROR("%s: Could not allocate memory for dumping ECP logs\n",
+			__func__);
+		sh_data->history.sl_owner = LINK_OWN_NONE;
+		return -1;
+	}
+
+	idx = 0;
+	while (idx < count) {
 		ecp_state_log_t *in_entry = &sh_data->history.shared_logs[*tail];
-		ecp_state_log_t *out_entry = &ecp_logs_dump_buf[count++];
+		ecp_state_log_t *out_entry = &ecp_print_buf[idx++];
 
 		memcpy(out_entry, in_entry, sizeof(*in_entry));
 		*tail = (*tail + 1) & (ECP_STS_ENTRIES_MAX - 1);
 	}
 
 	sh_data->history.sl_owner = LINK_OWN_NONE;
+	_dump_state_history(ecp_print_buf, count, portm_idx, msg);
 
-	_dump_state_history(&ecp_logs_dump_buf[0], count, portm_idx, msg);
+	spin_lock(&ecp_print_buf_lock);
+	octeontx_free(ecp_print_buf);
+	spin_unlock(&ecp_print_buf_lock);
+
 	return 0;
 }
 
