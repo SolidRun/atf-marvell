@@ -195,6 +195,100 @@ static MZD_STATUS set_serdes_mux_f95n_vran_nic(IN MZD_DEV_PTR pDev)
 	return MZD_OK;
 }
 
+
+static MZD_STATUS phy_marvell_7121_led_ctrl(int cgx_id,
+					int lmac_id,
+					int led_pin_id)
+{
+	MZD_U16 lane;
+	phy_config_t *phy;
+	cgx_lmac_config_t *lmac_cfg;
+	MZD_LED_CTRL mzd_led_ctrl;
+	MZD_LED_TIMER_CONFIG led_timer_cfg;
+	MZD_STATUS status;
+
+	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+
+	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
+	phy = &lmac_cfg->phy_config;
+
+	lane = phy->port;
+
+	if ((led_pin_id < MZD_PIN_GPIO1)
+		|| (led_pin_id > MZD_PIN_GPIO4)) {
+		WARN("%s: %d:%d phy->addr %d Incorrect led_pin_id %d\n", __func__,
+					cgx_id, lmac_id,  phy->addr, led_pin_id);
+		return MZD_FAIL;
+	}
+
+	if (phy->led_host_or_line == -1)
+		mzd_led_ctrl.interfaceSelect = MZD_LINE_SIDE;
+	else
+		mzd_led_ctrl.interfaceSelect = phy->led_host_or_line;
+
+	debug_phy_driver("%s: %d:%d phy->addr %d  mzd_led_ctrl.interfaceSelect %d\n", __func__,
+				cgx_id, lmac_id, phy->addr, mzd_led_ctrl.interfaceSelect);
+
+	mzd_led_ctrl.portSelect = phy->addr;
+	mzd_led_ctrl.laneSelect = lane;
+
+	if (phy->led_blink_act == -1)
+		mzd_led_ctrl.blinkActivity = MZD_LED_ACT_LANE_TX_RX;
+	else
+		mzd_led_ctrl.blinkActivity = phy->led_blink_act;
+
+	debug_phy_driver("%s: %d:%d phy->addr %d mzd_led_ctrl.blinkActivity %d\n", __func__,
+				cgx_id, lmac_id, phy->addr, mzd_led_ctrl.blinkActivity);
+
+	if (phy->led_solid_act == -1)
+		mzd_led_ctrl.solidActivity = MZD_LED_ACT_LANE_LINK_UP;
+	else
+		mzd_led_ctrl.solidActivity = phy->led_solid_act;
+
+	debug_phy_driver("%s: %d:%d phy->addr %d mzd_led_ctrl.solidActivity %d\n", __func__,
+				cgx_id, lmac_id, phy->addr, mzd_led_ctrl.solidActivity);
+
+	mzd_led_ctrl.polarity = MZD_LED_ACTIVE_HIGH;
+
+	/* mixRateLevel - Valid range 0-8
+	 * blinkRateSelect - Valid range 0,1 or MZD_LED_CONFIG_UNCHANGED
+	 * See mzdIntrIOConfig.h for more details
+	 */
+	mzd_led_ctrl.mixRateLevel = 0;
+	mzd_led_ctrl.blinkRateSelect = 1;
+
+	status = mzdSetPinMode(phy->priv,
+				led_pin_id,
+				MZD_PIN_MODE_LED,
+				MZD_FALSE);
+	if (status != MZD_OK) {
+		WARN("%s: mzdSetPinMode failed with return value: 0x%x\n", __func__, status);
+		return status;
+	}
+	/* blinkRate1/2 - Valid range 0-7
+	 * pulseStretchDuration - Valid range 0-7
+	 * See mzdIntrIOConfig.h for more details
+	 */
+	led_timer_cfg.blinkRate1 = 4; /* 4 - 644 ms */
+	led_timer_cfg.blinkRate2 = 4;
+	led_timer_cfg.pulseStretchDuration = 5; /* 322 to 644 ms */
+
+	status = mzdSetLEDTimer(phy->priv,
+				led_timer_cfg);
+	if (status != MZD_OK) {
+
+		WARN("%s: mzdSetLEDTimer failed with return value: 0x%x\n", __func__, status);
+		return status;
+	}
+	status = mzdSetLEDControl(phy->priv,
+				led_pin_id,
+				mzd_led_ctrl);
+	if (status != MZD_OK) {
+		WARN("%s: mzdSetLEDControl failed with return value: 0x%x\n", __func__, status);
+	}
+	return status;
+}
+
 void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 {
 	MZD_STATUS status;
@@ -292,6 +386,7 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 		ERROR("%s: phy_7121_macsec_drv struct NULL\n", __func__);
 #endif
 	debug_phy_driver("%s: %d:%d phy->addr %d Init Done\n ", __func__, cgx_id, lmac_id, phy->addr);
+
 	return;
 }
 
@@ -503,11 +598,24 @@ void phy_marvell_7121_config(int cgx_id, int lmac_id)
 		     &result);
 
 	if (status == MZD_OK) {
+		/* Check if LEDs are enabled */
+		if (phy->led_pin != -1) {
+			status = phy_marvell_7121_led_ctrl(cgx_id,
+						lmac_id,
+						phy->led_pin);
+			if (status != MZD_OK) {
+				ERROR("%s: %d:%d  phy->addr %d phy_marvell_7121_led_ctrl() on led pin %d failed with error:0x%x\n",
+						__func__, cgx_id, lmac_id, phy->addr,  phy->led_pin, status);
+				return;
+			}
+		}
 		return;
 	}
 
 	ERROR("%s: %d:%d mzdSetModeSelection() failed, lane=%d, result=%d\n",
 	      __func__, cgx_id, lmac_id, lane, result);
+	return;
+
 }
 
 void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
@@ -521,7 +629,7 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 	MZD_DEV_PTR mzd_dev_p;
 	PMZD_MODE_CONFIG mzd_mode_config;
 
-	//debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
 
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 	phy = &lmac_cfg->phy_config;
@@ -529,8 +637,8 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 	//lane = lmac_cfg->lane_to_sds & 3;
 	lane = phy -> port;
 
-	//debug_phy_driver("%s: %d:%d phy->addr %d lane %d\n",
-	//		 __func__, cgx_id, lmac_id, phy->addr, lane);
+	debug_phy_driver("%s: %d:%d phy->addr %d lane %d\n",
+			 __func__, cgx_id, lmac_id, phy->addr, lane);
 
 	link->u64 = 0;
 
@@ -543,16 +651,16 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 
 	if (status != MZD_OK) {
 		ERROR("%s: %d:%d mzdGetDetailedLinkStatus failed for lane %d.\n",
-		__func__, cgx_id, lmac_id, lane);
+			__func__, cgx_id, lmac_id, lane);
 		return;
 	}
 
 
-	//debug_phy_driver("%s: %d:%d phy->addr %d lane %d currentStatus %d latchedStatus %d\n",
-	//	__func__, cgx_id, lmac_id, phy->addr, lane, currentStatus, latchedStatus);
+	debug_phy_driver("%s: %d:%d phy->addr %d lane %d currentStatus %d latchedStatus %d\n",
+		__func__, cgx_id, lmac_id, phy->addr, lane, currentStatus, latchedStatus);
 
 	if (currentStatus != MZD_LINK_UP) {
-		//debug_phy_driver("%s: %d:%d  Link Not Up", __func__,cgx_id, lmac_id);
+		debug_phy_driver("%s: %d:%d  Link Not Up", __func__, cgx_id, lmac_id);
 		return;
 	}
 
@@ -614,8 +722,8 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 		      mzd_mode_config->speed);
 		break;
 	}
-	//debug_phy_driver("%s: %d:%d phy->addr %d lane %d speed %d  Exit\n",
-	//		 __func__, cgx_id, lmac_id, phy->addr, lane, link->s.speed);
+	debug_phy_driver("%s: %d:%d phy->addr %d lane %d speed %d  Exit\n",
+			 __func__, cgx_id, lmac_id, phy->addr, lane, link->s.speed);
 
 }
 
@@ -1743,6 +1851,7 @@ phy_drv_t marvell_7121_drv = {
 		.get_eye		= phy_marvell_7121_get_eye,
 		.pkt_gen		= phy_marvell_7121_pkt_gen,
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
+
 #if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
 	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
 		.enable_prbs		= phy_marvell_7121_enable_prbs,

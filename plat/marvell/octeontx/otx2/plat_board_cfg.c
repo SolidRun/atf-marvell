@@ -2014,6 +2014,22 @@ static int octeontx2_cgx_get_phy_info(void *fdt, int lmac_offset, int cgx_idx, i
 		phy->line_order = octeontx2_fdt_get_int32(fdt,
 					"line_order", phy_offset);
 
+#ifdef MARVELL_PHY_7121
+		phy->led_pin = octeontx2_fdt_get_int32(fdt,
+					"led_pin", phy_offset);
+		if (phy->led_pin != -1) {
+			phy->led_host_or_line = octeontx2_fdt_get_int32(fdt,
+						"led_host_or_line", phy_offset);
+			phy->led_blink_act = octeontx2_fdt_get_int32(fdt,
+						"led_blink_act", phy_offset);
+			phy->led_solid_act = octeontx2_fdt_get_int32(fdt,
+						"led_solid_act", phy_offset);
+		}
+		debug_dts("%s: %d:%d PHY led_pin:%d led_host_or_line:%d led_blink_act:%d led_solid_act:%d\n",
+				__func__, cgx_idx, lmac_idx, phy->led_pin, phy->led_host_or_line,
+				phy->led_blink_act, phy->led_solid_act);
+#endif
+
 		/* Assign default lane order if property is not
 		 * present in DT
 		 */

@@ -297,6 +297,10 @@ typedef struct phy_config {
 #ifdef ATF_ENABLE_MAC_ADV_CMDS
 	void *phy_7121_macsec;
 #endif
+	int led_pin;
+	int led_host_or_line;
+	int led_blink_act;
+	int led_solid_act;
 #endif
 } phy_config_t;
 
