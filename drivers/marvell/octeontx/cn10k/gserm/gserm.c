@@ -2361,7 +2361,7 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 							lpbk_mode);
 
 	/* No need to do anything if requested mode is the current one */
-	if (cfg->gserm_lpbk_mode == lpbk_mode)
+	if (lane_idx == 0 && cfg->gserm_lpbk_mode == lpbk_mode)
 		return 0;
 
 	switch (lpbk_mode) {
@@ -2417,8 +2417,7 @@ int gserm_loopback_mode_set(int portm_idx, int lane_idx,
 		CSR_MODIFY(c, CAVM_GSERMX_MISC_CTRL_2X(cfg->gserm, gserm_lane),
 			   c.s.lpbk_sigdet_en = 1);
 
-	} else if (prev_mode == PORTM_LPBK_MODE_NEA ||
-			prev_mode == PORTM_LPBK_MODE_NED) {
+	} else {
 
 		/* LPBK_SIGDET_EN must be cleared on leaving NEA/NED loopback */
 		CSR_MODIFY(c, CAVM_GSERMX_MISC_CTRL_2X(cfg->gserm, gserm_lane),
