@@ -312,8 +312,18 @@
  */
 #define PLAT_OCTEONTX_WRITE_EFI_VAR             0xc2000b0a
 
+/*
+ * x1 - AVS bus status
+ *
+ * Return:
+ *      x0:
+ *               0 -- Success
+ *              -1 -- Error
+ */
+#define PLAT_OCTEONTX_SET_AVS_STATUS		0xc2000b08
+
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			15
+#define OTX2_NUM_SMC_CALLS			16
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
