@@ -1,0 +1,62 @@
+Mavell CN10K RAS implementation
+===============================
+
+Marvell CN10K implements the ARMv8 RAS (Reliability, Availability & Serviceability)
+specification.
+
+This decouples the tracking of hardware exception events from any outage to
+the data being transferred, allowing a RAS-aware OS to handle the outage 
+as it sees fit, by analyzing the context in which the data is being used.
+
+Errors in memory/cache transactions are detected by the hardware and handled
+by the firmware.  These can be correctable or uncorrectable 
+and result in a system notification.
+
+The firmware enables exceptions in relevant CN10K hardware units
+CORE (ARM processor), DSS (DRAM subsystem, DRAM Controller), 
+TAD (Cache Tag And Data), MDC (Memory Diagnostic Controller)
+and performs the following actions:
+
+- Capture hardware description of the error
+- Convert the hardware description of the error to CPER (Common Platform Error Record) format
+- Collect CPER errors per hardware component ring buffer.
+- Make SDEI notification towards kerne driver
+- Kernel driver forwards CPER errors to GHES/EDAC framework for processing and logging.
+- BERT support is not supported for the CN10K platform
+
+
+While the access procedure for GHES is well defined in a UEFI/ACPI platform,
+but also DeviceTree supported. So a custom platform device driver in Linux is 
+provided to derive the GHES location from the device tree, 
+and register the HEST, so the error indications flow to the
+standard processing of a kernel built with **MEMORY_FAILURE=y** option, which is
+notified in the standard fashion with an SDEI.
+
+The Device Tree "sdei-ghes" node describes this shared-memory
+The sdei-ghes module provides the required Hardware Error Source Table
+(HEST) to the kernel, allowing the GHES driver to load.
+
+For layout details of the Device Tree "sdei-ghes" node see the following kernel document:
+Documentation/devicetree/bindings/edac/marvell-sdei-ghes.txt
+
+Device Tree sdei-ghes implementation notes
+==========================================
+ATF and Linux share a common memory block (ring buffer) several CPER format
+error entries can fit into the ring buffer (currently 4 records). In current
+firmware first mode error identification interrupt is delivered
+to ATF. ATF writes error record into ring buffer head and triggers SDEI
+event callback. SDEI callback Linux registered at boot time beforehand.
+sdei-ghes callback move error record from ring buffer tail into Error Status
+Block (estatus) memory area, ESB block allocated for one error entry for HEST.
+Generic GHES driver makes periodic polling on Error Status Block and if ESB
+contains error data handler provide error presence notification and error clear.
+
+
+ACPI sdei-ghes implementation notes
+===================================
+Setup Linux bootarg acpi=on.
+GHES requires Sdei.asl table to enable SDEI events. Hest.asl describe
+corresponding table layout and initialization values like polling
+interval, Error Status Block address (8byte), actual Error Status Block, and
+Ring buffer memory block.
+
