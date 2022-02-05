@@ -143,6 +143,40 @@ out:
 	return ret;
 }
 
+#if defined(PLAT_CN10K_FAMILY)
+static int emmc_block_write(io_entity_t *entity, uintptr_t buffer,
+			    size_t length, size_t *length_written)
+{
+	file_state_t *fp;
+	int ret = 0;
+	unsigned int addr;
+
+	assert(entity != NULL);
+	assert(buffer != (uintptr_t)NULL);
+	assert(length_written != NULL);
+
+	if (buffer >= TZDRAM_BASE + TZDRAM_SIZE)
+		octeontx_configure_mmc_security(0); /* non-secure */
+	else
+		octeontx_configure_mmc_security(1); /* secure */
+
+	fp = (file_state_t *)entity->info;
+
+	addr = fp->offset_address + fp->file_pos;
+
+	ret = emmc_write(buffer, addr, length);
+	if (ret < 0)
+		goto out;
+
+	*length_written = length;
+	fp->file_pos += length;
+
+out:
+	octeontx_configure_mmc_security(0); /* non-secure */
+	return ret;
+}
+#endif
+
 static int emmc_dev_close(io_dev_info_t *dev_info)
 {
 	uint32_t status = emmc_close();
@@ -921,7 +955,11 @@ static const io_dev_funcs_t emmc_dev_funcs = {
 	.seek = emmc_block_seek,
 	.size = emmc_block_size,
 	.read = emmc_block_read,
+#if defined(PLAT_CN10K_FAMILY)
+	.write = emmc_block_write,
+#else
 	.write = NULL,
+#endif
 	.close = emmc_block_close,
 #if defined(PLAT_CN10K_FAMILY)
 	.dev_init = emmc_dev_init,
