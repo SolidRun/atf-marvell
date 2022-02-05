@@ -36,14 +36,23 @@
 #include <plat_board_cfg.h>
 #include <plat/common/platform.h>
 #include <gti_watchdog.h>
+#include <drivers/io/io_driver.h>
+#include <drivers/io/io_mmc.h>
+#include <drivers/io/io_spi.h>
+#include <drivers/io/io_storage.h>
+#include <drivers/io/io_block.h>
 
 #undef DEBUG_ATF_FW_UPDATE
 
 #if defined(MRVL_TF_LOG_MODULE)
 #  undef MRVL_TF_LOG_MODULE
 #  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_UPDATE
-#  define debug_fw_update(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+#  if DEBUG_ATF_FW_UPDATE
+#    define debug_fw_update(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
                           tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#  else
+#    define debug_fw_update(...)	((void)(0))
+#  endif
 #elif DEBUG_ATF_FW_UPDATE
   #define debug_fw_update(...)	printf(__VA_ARGS__)
 #else
@@ -63,8 +72,30 @@ static const int tim_ext_len = (sizeof(tim_ext) - 1);
 static const uint32_t MAX_NAME_LEN = 1024;
 static const char *TRAILER = "TRAILER!!!";
 
-__aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
+/*
+ * NOTE: There are TWO handles for SPI and eMMC.  The first handle is a
+ * device handle.  This represents the base block device.  This should only
+ * be opened once per device then closed when done.
+ * The second handle is the I/O handle.  This is used to perform reads,
+ * seeks, writes, etc.  The spec is also applied to this I/O handle when
+ * it is opened and it does things like specify an offset to be used for all
+ * I/O operations.
+ *
+ * The underlying block driver also must be registered, which can only happen
+ * once and it cannot be unregistered.  A connector is used to connect the
+ * registered device to its device handle.
+ */
+static const io_dev_connector_t *emmc_dev_con;
+static const io_dev_connector_t *spi_dev_con;
+static uintptr_t media_dev_handle;
+static io_block_spec_t media_spec;
+static uintptr_t media_handle;
+/* The following are used for copying media */
+static uintptr_t target_dev_handle;
+static io_block_spec_t target_spec;
+static uintptr_t target_handle;
 
+__aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
 
 struct unmap_params {
 	int ns_map_size;
@@ -84,6 +115,13 @@ enum fw_groups {
 	AP_GRP_GSERM,
 	AP_GRP_SWITCH_SUPER,
 	AP_GRP_SWITCH_AP,
+};
+
+struct io_handle {
+	uintptr_t *dev_handle;		/* Device handle */
+	uintptr_t *io_handle;		/* I/O handle */
+	io_block_spec_t *spec;		/* spec data used with I/O handle */
+	const struct smc_update_descriptor *desc;	/* Update descriptor */
 };
 
 /** CPIO header information */
@@ -115,6 +153,7 @@ struct file_entry {
 	struct object_entry	*object;
 	struct file_entry	*next;
 	struct file_entry	*prev;
+	bool file_written:1;		/** True if file written successfully */
 };
 
 struct object_group_entry {
@@ -145,6 +184,8 @@ struct object_entry {
 	unsigned int no_data_file:1;	/** Set if no data file */
 };
 
+static enum update_ret media_done(struct io_handle *io_handle);
+
 /**
  * This pets the watchdog.
  *
@@ -154,10 +195,10 @@ void pet_dog(void)
 {
 	unsigned int core_id = plat_my_core_pos();
 
-	//Core watchdog used by uboot
+	/* Core watchdog used by ATF */
 	gti_watchdog_poke(core_id);
 
-	//Poke GT_WR1, as linux is using only generic watchdog
+	/* Poke GT_WR1, as linux is using only generic watchdog */
 	gti_watchdog_generic_poke(1);
 }
 
@@ -1184,7 +1225,8 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
 		return UPDATE_EHSM_ERROR;
 	}
 
-	INFO("Verifying 0x%lx bytes starting at offset 0x%llx\n", size, offset);
+	debug_fw_update("Verifying 0x%lx bytes starting at offset 0x%llx\n",
+			size, offset);
 	blk_size = sizeof(tim_buffer);
 	while (size > blk_size) {
 		uret = octeontx_read_data(desc, offset, blk_size, tim_buffer);
@@ -1427,6 +1469,9 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 	return UPDATE_OK;
 }
 
+/**
+ * Check all files in the update file
+ */
 static enum update_ret check_files(void)
 {
 	struct object_entry *obj;
@@ -1437,7 +1482,7 @@ static enum update_ret check_files(void)
 		err = check_file_loc_size(obj->tim_file);
 		if (err)
 			return UPDATE_LOCATION_ERROR;
-
+		INFO("TIM %s OK\n", obj->tim_file->filename);
 		if (obj->data_file) {
 			err = check_file_loc_size(obj->data_file);
 			if (err)
@@ -1446,6 +1491,7 @@ static enum update_ret check_files(void)
 			err = validate_hash(obj);
 			if (err)
 				return err;
+			INFO("Object %s OK\n", obj->data_file->filename);
 		}
 	}
 	return UPDATE_OK;
@@ -1457,20 +1503,162 @@ static inline int get_spi_mode(uint64_t offset)
 				SPI_ADDRESSING_32BIT : SPI_ADDRESSING_24BIT;
 }
 
-static enum update_ret setup_media(const struct smc_update_descriptor *desc)
+/**
+ * Configure the media before updates
+ */
+static enum update_ret setup_media(struct io_handle *io_handle,
+				   const struct smc_update_descriptor *desc)
 {
 	int ret;
+	enum update_ret uret = UPDATE_OK;
+	const io_dev_connector_t *conn;
+	bool is_mmc = !!(desc->update_flags & UPDATE_FLAG_EMMC);
 
-	if (desc->update_flags & UPDATE_FLAG_EMMC) {
-
+	/* Set the starting offset and length of the block storage */
+	if (desc->update_flags & UPDATE_FLAG_BACKUP) {
+		io_handle->spec->offset = BACKUP_IMAGE_OFFSET;
+		io_handle->spec->length = BACKUP_IMAGE_OFFSET * 2;
 	} else {
-		ret = spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0,
-				 desc->bus, desc->cs);
-		if (ret) {
-			ERROR("Error initializiong SPI flash interface: %d\n",
-			      ret);
-			return UPDATE_IO_ERROR;
+		io_handle->spec->offset = 0;
+		io_handle->spec->length = BACKUP_IMAGE_OFFSET;
+	}
+	io_handle->desc = desc;
+
+	/*
+	 * We first need to connect to the proper driver before we can
+	 * open the device
+	 */
+	if (is_mmc) {
+		debug_fw_update("%s: Setting up eMMC media\n", __func__);
+		if (emmc_dev_con == NULL) {
+			debug_fw_update("Registering eMMC IO device connector\n");
+			ret = register_io_dev_emmc(&emmc_dev_con);
+			debug_fw_update("eMMC IO device connector: 0x%p\n",
+					emmc_dev_con);
+			if (ret != 0) {
+				WARN("Error registering connection to eMMC driver (%d)\n", ret);
+				uret = UPDATE_IO_DEV_REGISTER_ERROR;
+				goto media_error;
+			}
 		}
+		conn = emmc_dev_con;
+	} else {
+		if (spi_dev_con == NULL) {
+			debug_fw_update("%s: Setting up SPI media\n", __func__);
+			ret = register_io_dev_spi(&spi_dev_con);
+			if (ret != 0) {
+				WARN("Error registering SPI IO device connector\n");
+				uret = UPDATE_IO_DEV_REGISTER_ERROR;
+				goto media_error;
+			}
+		}
+		conn = spi_dev_con;
+	}
+
+	/* Now open the IO device */
+	debug_fw_update("Opening media IO device\n");
+	ret = io_dev_open(conn, (uintptr_t)io_handle->spec,
+			  io_handle->dev_handle);
+	if (ret != 0) {
+		WARN("Error opening device (%d)\n", ret);
+		uret = UPDATE_IO_DEV_OPEN_ERROR;
+		goto media_error;
+	}
+	/* Initialize it */
+	debug_fw_update("Initializing media\n");
+	ret = io_dev_init(*(io_handle->dev_handle), (uintptr_t)NULL);
+	if (ret != 0) {
+		WARN("Error initializing eMMC (%d)\n", ret);
+		uret = UPDATE_IO_DEV_INIT_ERROR;
+		goto media_error;
+	}
+	/* Open it for read/write/seek */
+	ret = io_open(*(io_handle->dev_handle), (uintptr_t)io_handle->spec,
+		      io_handle->io_handle);
+	if (ret != 0) {
+		WARN("Error opening media\n");
+		uret = UPDATE_IO_DEV_OPEN_ERROR;
+		goto media_error;
+	}
+
+	if (!is_mmc) {
+		/* Set controller and chip select for SPI */
+		ret = spi_block_config(*(io_handle->io_handle),
+				       desc->bus, desc->cs);
+		if (ret != 0) {
+			WARN("Error configuring SPI_%u CS: %u\n",
+			     desc->bus, desc->cs);
+			uret = UPDATE_IO_ERROR;
+			goto media_error;
+		}
+	}
+
+	return UPDATE_OK;
+
+media_error:
+	media_done(io_handle);
+
+	return uret;
+}
+
+/**
+ * Called after all I/O operations are finished
+ */
+static enum update_ret media_done(struct io_handle *io_handle)
+{
+	debug_fw_update("%s: Closing device handles\n", __func__);
+	if (*io_handle->io_handle != (uintptr_t)NULL) {
+		io_close(*io_handle->io_handle);
+		*io_handle->io_handle = (uintptr_t)NULL;
+	}
+	if (*io_handle->dev_handle != (uintptr_t)NULL) {
+		io_dev_close(*io_handle->dev_handle);
+		*io_handle->dev_handle = (uintptr_t)NULL;
+	}
+	return UPDATE_OK;
+}
+
+/**
+ * Read data from storage using an IO handle
+ *
+ * @param	io_handle	I/O handle to read from
+ * @param	offset		Offset in storage to read from
+ * @param	size		Number of bytes to read
+ * @param[out]	buffer		Buffer to read data in to
+ *
+ * @return	status of operation
+ */
+static enum update_ret
+octeontx_io_data_read(struct io_handle *io_handle, uint64_t offset,
+		      size_t size, void *buffer)
+{
+	size_t bytes_read;
+	int ret;
+
+	pet_dog();
+
+	debug_fw_update("%s: Reading 0x%lx bytes from media offset 0x%llx\n",
+			__func__, size, offset);
+	if (*io_handle->io_handle == (uintptr_t)NULL) {
+		WARN("%s: Media block device not initialized\n", __func__);
+		return UPDATE_IO_DEV_INIT_ERROR;
+	}
+	ret = io_seek(*io_handle->io_handle, IO_SEEK_SET, offset);
+	if (ret != 0) {
+		WARN("Media seek to offset 0x%llx failed: %d\n", offset, ret);
+		return UPDATE_IO_ERROR;
+	}
+	ret = io_read(*io_handle->io_handle, (uintptr_t)buffer, size,
+		      &bytes_read);
+	if (ret != 0) {
+		WARN("IO error reading 0x%lx bytes from offset 0x%llx (%d)\n",
+		     size, offset, ret);
+		return UPDATE_IO_ERROR;
+	}
+	if (bytes_read != size) {
+		WARN("Could not read %lu bytes, read %lu bytes instead\n",
+		     size, bytes_read);
+		return UPDATE_IO_ERROR;
 	}
 	return UPDATE_OK;
 }
@@ -1489,25 +1677,57 @@ static enum update_ret
 octeontx_read_data(const struct smc_update_descriptor *desc, uint64_t offset,
 		   size_t size, void *buffer)
 {
+	struct io_handle rd_handle;
+
+	rd_handle.desc = desc;
+	rd_handle.io_handle = &media_handle;
+	rd_handle.dev_handle = &media_dev_handle;
+	rd_handle.spec = &media_spec;
+
+	return octeontx_io_data_read(&rd_handle, offset, size, buffer);
+}
+
+/**
+ * Write data to storage using an IO handle
+ *
+ * @param	io_handle	I/O handle to write to
+ * @param	offset		Offset in storage to write to
+ * @param	size		Number of bytes to write
+ * @param[in]	buffer		Buffer to write data from
+ *
+ * @return	status of operation
+ */
+static enum update_ret
+octeontx_io_data_write(struct io_handle *io_handle, uint64_t offset,
+		       size_t size, const void *buffer)
+{
+	size_t bytes_written;
 	int ret;
 
-	if (desc->update_flags & UPDATE_FLAG_BACKUP)
-		offset += BACKUP_IMAGE_OFFSET;
-
 	pet_dog();
-	if (desc->update_flags & UPDATE_FLAG_EMMC) {
-		/* Read from eMMC */
-		return UPDATE_INVALID_MEDIA;
-	} else {
-		int mode = get_spi_mode(offset);
 
-		ret = spi_nor_read(buffer, size, offset, mode,
-				   desc->bus, desc->cs);
-		if (ret != size) {
-			WARN("SPI IO error %d reading 0x%lx bytes from offset 0x%llx from bus %d:%d\n",
-			     ret, size, offset, desc->bus, desc->cs);
-			return UPDATE_IO_ERROR;
-		}
+	debug_fw_update("%s: Writing 0x%lx bytes to media offset 0x%llx\n",
+			__func__, size, offset);
+	if (*io_handle->io_handle == (uintptr_t)NULL) {
+		WARN("Media block device not initialized\n");
+		return UPDATE_IO_DEV_INIT_ERROR;
+	}
+	ret = io_seek(*io_handle->io_handle, IO_SEEK_SET, offset);
+	if (ret != 0) {
+		WARN("Media seek to offset 0x%llx failed: %d\n", offset, ret);
+		return UPDATE_IO_ERROR;
+	}
+	ret = io_write(*io_handle->io_handle, (uintptr_t)buffer, size,
+		       &bytes_written);
+	if (ret != 0) {
+		WARN("Media IO writeting 0x%lx bytes to offset 0x%llx (%d)\n",
+		     size, offset, ret);
+		return UPDATE_IO_ERROR;
+	}
+	if (bytes_written != size) {
+		WARN("Could not write %lu bytes, wrote %lu bytes instead\n",
+		     size, bytes_written);
+		return UPDATE_IO_ERROR;
 	}
 	return UPDATE_OK;
 }
@@ -1529,39 +1749,22 @@ static enum update_ret
 octeontx_write_data(const struct smc_update_descriptor *desc,
 		    uint64_t offset, size_t size, const void *buffer)
 {
-	int ret;
+	struct io_handle wr_handle;
 
-	pet_dog();
-	if (desc->update_flags & UPDATE_FLAG_BACKUP)
-		offset += BACKUP_IMAGE_OFFSET;
+	wr_handle.desc = desc;
+	wr_handle.io_handle = &media_handle;
+	wr_handle.dev_handle = &media_dev_handle;
+	wr_handle.spec = &media_spec;
 
-	if (desc->update_flags & UPDATE_FLAG_EMMC) {
-		/* Read from eMMC */
-		return UPDATE_INVALID_MEDIA;
-	} else {
-		int mode = get_spi_mode(offset);
-
-		VERBOSE("Writing 0x%lx bytes to offset 0x%llx %s %u:%u\n", size,
-			offset,
-			desc->update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI",
-			desc->bus, desc->cs);
-		ret = spi_nor_write((uint8_t *)buffer, size, offset, mode,
-				    desc->bus, desc->cs);
-		if (ret != size) {
-			WARN("SPI: write failed for offset 0x%llx, size: 0x%lx, ret: %d\n",
-			     offset, size, ret);
-			return UPDATE_IO_ERROR;
-		}
-	}
-	return UPDATE_OK;
+	return octeontx_io_data_write(&wr_handle, offset, size, buffer);
 }
 
 /**
  * Erase flash data
  *
- * @param[in]	media descriptor
- * @param	offset	offset to erase
- * @param	size	number of bytes to erase
+ * @param	desc		Descriptor to use
+ * @param	offset		offset to erase
+ * @param	size		number of bytes to erase
  *
  * @return status of operation
  *
@@ -1573,33 +1776,108 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 		    uint64_t offset, int size)
 {
 	int ret;
-	int mode = get_spi_mode(offset);
-
-	if (desc->update_flags & UPDATE_FLAG_EMMC)
-		return UPDATE_OK;
-
-	if (offset % SPI_NOR_ERASE_SIZE) {
-		WARN("SPI: Erase offset 0x%llx invalid, must be on %d byte boundary\n",
-		     offset, SPI_NOR_ERASE_SIZE);
-		return UPDATE_IO_ERROR;
-	}
+	enum update_ret uret;
+	bool is_mmc = !!(desc->update_flags & UPDATE_FLAG_EMMC);
+	uint32_t start_off, start_size;
+	uint32_t end_off;
+	uint32_t wr_size;
+	uint32_t erase_size;
+	uint32_t erase_adj;
+	uint32_t erase_blk_cnt;
 
 	if (desc->update_flags & UPDATE_FLAG_BACKUP)
-		offset += BACKUP_IMAGE_OFFSET;
+		erase_adj = BACKUP_IMAGE_OFFSET;
+	else
+		erase_adj = 0;
 
-	VERBOSE("Erasing 0x%x bytes at offset 0x%llx %s %u:%u\n", size, offset,
-		desc->update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI",
-		desc->bus, desc->cs);
-	while (size > 0) {
-		pet_dog();
-		ret = spi_nor_erase(offset, mode, desc->bus, desc->cs);
-		if (ret) {
-			WARN("Cannot erase SPI at offset 0x%llx\n", offset);
+	start_off = offset % SPI_NOR_ERASE_SIZE;
+	start_size = SPI_NOR_ERASE_SIZE - start_off;
+
+	if (is_mmc) {
+		/* For eMMC we just write all zeros */
+		zeromem(wr_buffer, sizeof(wr_buffer));
+
+		/*
+		 * Handle small blocks at the beginning and align rest of data
+		 */
+		if (start_off != 0) {
+			uret = octeontx_write_data(desc, offset, start_size,
+						   wr_buffer);
+			if (uret != UPDATE_OK) {
+				WARN("Error erasing 0x%x bytes at offset 0x%llx\n",
+				     start_size, offset + erase_adj);
+				return uret;
+			}
+			offset += start_off;
+			size -= start_size;
+		}
+		/*
+		 * Erase rest of aligned data and end block, the write
+		 * operation takes care of handling partial blocks.
+		 */
+		while (size > 0) {
+			pet_dog();
+			wr_size = (size > SPI_NOR_ERASE_SIZE) ?
+						SPI_NOR_ERASE_SIZE : size;
+			uret = octeontx_write_data(desc, offset, wr_size,
+						   wr_buffer);
+			if (uret != UPDATE_OK) {
+				WARN("Error erasing 0x%x bytes at offset 0x%llx\n",
+				     wr_size, offset + erase_adj);
+				return uret;
+			}
+			offset += wr_size;
+			size -= wr_size;
+		}
+	} else {
+		/*
+		 * For SPI NOR we write 0xff and use the erase command when
+		 * full blocks are present to speed up the process since there
+		 * is no need to do a read, erase, write operation.  If
+		 * partial blocks are to be erased we use the write operation
+		 * for any partial blocks at the beginning or end.
+		 */
+		end_off = (offset + size) % SPI_NOR_ERASE_SIZE;
+		if (start_off != 0 || end_off != 0)
+			memset(wr_buffer, 0xff, sizeof(wr_buffer));
+
+		if (start_off != 0) {
+			uret = octeontx_write_data(desc, offset, start_size,
+						   wr_buffer);
+			if (uret != UPDATE_OK) {
+				WARN("Error erasing 0x%x bytes at offset 0x%llx\n",
+				     start_size, offset + erase_adj);
+				return uret;
+			}
+			size -= start_size;
+			offset += start_size;
+		}
+
+		/* Erase full blocks */
+		erase_blk_cnt = size / SPI_NOR_ERASE_SIZE;
+		ret = spi_nor_erase(offset + erase_adj, erase_blk_cnt,
+				    desc->bus, desc->cs);
+		if (ret != 0) {
+			WARN("Error erasing SPI block at offset 0x%llx\n",
+			     offset + erase_adj);
 			return UPDATE_IO_ERROR;
 		}
-		offset += SPI_NOR_ERASE_SIZE;
-		size -= SPI_NOR_ERASE_SIZE;
+		erase_size = erase_blk_cnt * SPI_NOR_ERASE_SIZE;
+		offset += erase_size;
+		size -= erase_size;
+
+		if (size > 0) {
+			/* Read, erase, write any data at the end */
+			uret = octeontx_write_data(desc, offset, size,
+						   wr_buffer);
+			if (uret != UPDATE_OK) {
+				WARN("Error erasing 0x%x bytes at offset 0x%llx\n",
+				     size, offset);
+				return uret;
+			}
+		}
 	}
+
 	return UPDATE_OK;
 }
 
@@ -1715,6 +1993,15 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 	size_t size = fentry->file_size;
 	void *user_buffer = (void *)fentry->data;
 
+	/*
+	 * Don't write a file multiple times.  There can be multiple TIMs
+	 * pointing to the same file.
+	 */
+	if (fentry->file_written) {
+		INFO("File %s already written, skipping\n", fentry->filename);
+		return UPDATE_OK;
+	}
+
 	if (async_operation) {
 		spi_async_add_block_update(desc->bus, desc->cs, offset, user_buffer, size, NULL, NULL);
 	} else {
@@ -1722,33 +2009,29 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 			xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
 			/* TODO: remove wr_buffer */
 			memcpy((void *)wr_buffer, (const void *)user_buffer,
-			xfer_len);
+			       xfer_len);
 
-			/*
-			 * First read the data so we can skip writes if it is the
-			 * same
-			 */
-			ret =  octeontx_read_data(desc, offset, xfer_len, rd_buffer);
-			if (ret != UPDATE_OK) {
-				WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
-				offset, fentry->filename);
-				break;
-			}
+			/* Don't do read/skip if we're forcing writes */
+			if (!(desc->update_flags & UPDATE_FLAG_FORCE_WRITE)) {
+				/*
+				 * First read the data so we can skip writes if
+				 * it is the same
+				 */
+				ret =  octeontx_read_data(desc, offset, xfer_len,
+							  rd_buffer);
+				if (ret != UPDATE_OK) {
+					WARN("SPI: Read flash failed for offset: 0x%llx, file: %s\n",
+					     offset, fentry->filename);
+					break;
+				}
 
-			/* Skip blocks where the data is identical */
-			if (!memcmp(wr_buffer, rd_buffer, xfer_len)) {
-				offset += xfer_len;
-				user_buffer += xfer_len;
-				size -= xfer_len;
-				continue;
-			}
-
-			/* Erase the block being written */
-			ret = octeontx_erase_data(desc, offset, BUF_SIZE);
-			if (ret != UPDATE_OK) {
-				WARN("SPI: Erase flash failed for offset: 0x%llx, file: %s\n",
-				offset, fentry->filename);
-				break;
+				/* Skip blocks where the data is identical */
+				if (!memcmp(wr_buffer, rd_buffer, xfer_len)) {
+					offset += xfer_len;
+					user_buffer += xfer_len;
+					size -= xfer_len;
+					continue;
+				}
 			}
 
 			/* Write new data */
@@ -1767,9 +2050,16 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 				break;
 			}
 			if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
+				int i;
 				WARN("SPI: Compare data failed for file: %s at offset 0x%llx, compare len: 0x%llx\n",
-				fentry->filename, offset, xfer_len);
+				     fentry->filename, offset, xfer_len);
 				ret = UPDATE_IO_ERROR;
+				for (i = 0; i < xfer_len; i++)
+					if (wr_buffer[i] != rd_buffer[i])
+						WARN("offset 0x%llx: w 0x%02x != r 0x%02x\n",
+						     offset + i,
+						     wr_buffer[i],
+						     rd_buffer[i]);
 				break;
 			}
 			offset += xfer_len;
@@ -1779,6 +2069,9 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 		zeromem(wr_buffer, sizeof(wr_buffer));
 		zeromem(rd_buffer, sizeof(rd_buffer));
 	}
+	if (ret == UPDATE_OK)
+		fentry->file_written = true;
+
 	return ret;
 }
 
@@ -1804,7 +2097,7 @@ octeontx_write_files(const struct smc_update_descriptor *desc, bool async_operat
 			ret = octeontx_update_fw_file(desc, fentry, async_operation);
 			if (ret != UPDATE_OK)
 				return ret;
-		} else {
+	} else {
 			INFO("Skipping file %s\n", fentry->filename);
 		}
 	}
@@ -1824,7 +2117,9 @@ void done_callback(void *p)
 /**
  * Validates and updates the firmware in secure storage for CN10K.
  */
-static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc, struct unmap_params *p, bool async_operation)
+static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
+				    struct unmap_params *p,
+				    bool async_operation)
 {
 	int err;
 	enum update_ret ret;
@@ -1907,6 +2202,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	uint64_t base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
+	struct io_handle io_handle;
 
 	assert(uret);
 	debug_fw_update("desc: 0x%lx, desc size: 0x%llx, dram size: 0x%llx\n",
@@ -2001,11 +2297,6 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		goto error;
 	}
 
-	err = setup_media(&update_desc);
-	if (err) {
-		*uret = err;
-		goto error;
-	}
 	/* Round up to page size */
 	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
 	/* Make sure address is page aligned */
@@ -2049,6 +2340,16 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	uParams.ns_map_size = ns_map_size;
 	uParams.base_addr = base_addr;
 
+	io_handle.dev_handle = &media_dev_handle;
+	io_handle.io_handle = &media_handle;
+	io_handle.spec = &media_spec;
+
+	err = setup_media(&io_handle, &update_desc);
+	if (err) {
+		*uret = err;
+		goto error;
+	}
+
 	*uret = octeontx_cn10k_update_fw(&update_desc, &uParams, async_operation);
 	if (*uret) {
 		ERROR("Firmware update failed\n");
@@ -2056,6 +2357,9 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 
 error:
+
+	media_done(&io_handle);
+
 	/* unmap non-secure memory buffer */
 	if (err) {
 		if (base_addr && ns_map_size)
@@ -2223,8 +2527,7 @@ static int check_get_version(struct smc_version_info *vinfo,
  * @return	VERSION_OK if no error, otherwise the appropriate I/O error
  */
 enum smc_version_ret
-flash_copy_object(const struct smc_update_descriptor *src_desc,
-		      const struct smc_update_descriptor *dst_desc,
+flash_copy_object(struct io_handle *src_handle, struct io_handle *dst_handle,
 		      uint64_t src_object_addr, size_t src_object_size,
 		      uint64_t src_tim_addr, size_t src_tim_size)
 {
@@ -2239,24 +2542,15 @@ flash_copy_object(const struct smc_update_descriptor *src_desc,
 	while (bytes_left) {
 		read_size = (bytes_left < sizeof(tim_buffer)) ?
 						bytes_left : sizeof(tim_buffer);
-		ret = octeontx_read_data(src_desc, offset,
-					 read_size, tim_buffer);
+		ret = octeontx_io_data_read(src_handle, offset,
+					    read_size, tim_buffer);
 		if (ret) {
 			INFO("I/O error reading TIM object at offset 0x%lx\n",
 			     offset);
 			return BACKUP_IO_SRC_ERROR;
 		}
-		if ((offset % SPI_NOR_ERASE_SIZE) == 0) {
-			ret = octeontx_erase_data(dst_desc, offset,
-						  read_size);
-			if (ret) {
-				INFO("I/O error erasing target object block at offset 0x%lx\n",
-				     offset);
-				return BACKUP_IO_DST_ERROR;
-			}
-		}
-		ret = octeontx_write_data(dst_desc, offset, read_size,
-					  tim_buffer);
+		ret = octeontx_io_data_write(dst_handle, offset, read_size,
+					     tim_buffer);
 		if (ret) {
 			INFO("I/O error writing 0x%lx bytes to object at offset 0x%lx\n",
 			     read_size, offset);
@@ -2272,24 +2566,15 @@ flash_copy_object(const struct smc_update_descriptor *src_desc,
 	while (bytes_left) {
 		read_size = (bytes_left < sizeof(tim_buffer)) ?
 						bytes_left : sizeof(tim_buffer);
-		ret = octeontx_read_data(src_desc, offset,
+		ret = octeontx_io_data_read(src_handle, offset,
 					 read_size, tim_buffer);
 		if (ret) {
 			INFO("I/O error reading TIM at offset 0x%lx\n",
 			     offset);
 			return BACKUP_IO_SRC_ERROR;
 		}
-		if ((offset % SPI_NOR_ERASE_SIZE) == 0) {
-			ret = octeontx_erase_data(dst_desc, offset,
-						  SPI_NOR_ERASE_SIZE);
-			if (ret) {
-				INFO("I/O error erasing TIM target block at offset 0x%lx\n",
-				     offset);
-				return BACKUP_IO_ERASE_ERROR;
-			}
-		}
-		ret = octeontx_write_data(dst_desc, offset, read_size,
-					  tim_buffer);
+		ret = octeontx_io_data_write(dst_handle, offset, read_size,
+					     tim_buffer);
 		if (ret) {
 			INFO("I/O error writing 0x%lx bytes to TIM at offset 0x%lx\n",
 			     read_size, offset);
@@ -2323,6 +2608,8 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	int i;
 	struct smc_version_info_entry *ventry;
 	struct smc_update_descriptor src_desc, dst_desc;
+	struct io_handle src_io, dest_io;
+	enum update_ret uret;
 
 	/* See if we're backing things up. */
 	if (!(vinfo->version_flags & (SMC_VERSION_COPY_TO_BACKUP_EMMC |
@@ -2389,6 +2676,36 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 		dst_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI",
 		dst_desc.bus, dst_desc.cs);
 
+	zeromem(&src_io, sizeof(src_io));
+	uret = setup_media(&src_io, &src_desc);
+	src_io.dev_handle = &media_dev_handle;
+	src_io.io_handle = &media_handle;
+	src_io.spec = &media_spec;
+	if (uret != UPDATE_OK) {
+		vinfo->retcode = BACKUP_IO_SRC_ERROR;
+		err = uret;
+		goto src_io_error;
+	}
+
+	zeromem(&dest_io, sizeof(dest_io));
+	/*
+	 * If the source and destination are the same device then we use
+	 * the same device I/O handle and separate I/O handles.
+	 */
+	if ((src_desc.update_flags & UPDATE_FLAG_EMMC) ==
+	    (dst_desc.update_flags & UPDATE_FLAG_EMMC))
+		dest_io.dev_handle = src_io.dev_handle;
+	else
+		dest_io.dev_handle = &target_dev_handle;
+
+	dest_io.io_handle = &target_handle;
+	dest_io.spec = &target_spec;
+	uret = setup_media(&dest_io, &dst_desc);
+	if (uret != UPDATE_OK) {
+		vinfo->retcode = BACKUP_IO_DST_ERROR;
+		err = uret;
+		goto dest_io_error;
+	}
 	/* Copy entries */
 	for (i = 0; i < vinfo->num_objects; i++) {
 		uint32_t src_offset =
@@ -2409,7 +2726,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 			dst_desc.bus, dst_desc.cs,
 			ventry->tim_address + dst_offset,
 			ventry->object_address + dst_offset);
-		err = flash_copy_object(&src_desc, &dst_desc,
+		err = flash_copy_object(&src_io, &dest_io,
 					ventry->object_address,
 					ventry->object_size,
 					ventry->tim_address,
@@ -2423,6 +2740,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 		}
 	}
 
+dest_io_error:
 	/*
 	 * If there is an error writing to the destination, attempt to
 	 * erase the destination TIM.
@@ -2435,9 +2753,13 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 			octeontx_erase_data(&dst_desc,
 					    ventry->tim_address,
 					    SPI_NOR_ERASE_SIZE);
+
 		}
 	}
+	media_done(&dest_io);
 
+src_io_error:
+	media_done(&src_io);
 	return err;
 }
 
@@ -2463,6 +2785,7 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 	uint64_t addr, size;
 	int len;
 	uint32_t tim_size;
+	struct io_handle io_handle;
 
 	if (vinfo->magic_number != VERSION_MAGIC) {
 		ERROR("Invalid descriptor, bad magic number!\n");
@@ -2497,7 +2820,11 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 	if (vinfo->version_flags & VERSION_FLAG_BACKUP)
 		udesc.update_flags |= UPDATE_FLAG_BACKUP;
 
-	err = setup_media(&udesc);
+	io_handle.dev_handle = &media_dev_handle;
+	io_handle.io_handle = &media_handle;
+	io_handle.spec = &media_spec;
+
+	err = setup_media(&io_handle, &udesc);
 	if (err) {
 		vinfo->retcode = INVALID_DEVICE_TREE;
 		return -1;
@@ -2636,6 +2963,8 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 		}
 		vinfo->num_objects = obj_num;
 	}
+	media_done(&io_handle);
+
 	return 0;
 }
 

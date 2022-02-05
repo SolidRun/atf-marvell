@@ -89,6 +89,12 @@ enum update_ret {
 	 * another core.
 	 */
 	UPDATE_ALREADY_IN_PROGRESS = -22,
+	/** Failed to register to the media IO driver */
+	UPDATE_IO_DEV_REGISTER_ERROR = -23,
+	/** Failed to open media I/O driver */
+	UPDATE_IO_DEV_OPEN_ERROR = -24,
+	/** Error initializing IO device */
+	UPDATE_IO_DEV_INIT_ERROR = -25,
 	/** Unknown error */
 	UPDATE_UNKNOWN_ERROR = -1000,
 };
@@ -109,6 +115,7 @@ struct smc_update_obj_info {
 #define UPDATE_FLAG_EMMC	0x0002	/** Set to update eMMC instead of SPI */
 #define UPDATE_FLAG_ERASE_PART	0x0004	/** Erase eMMC partition data */
 #define UPDATE_FLAG_IGNORE_VERSION 0x0008 /** Don't perform version check */
+#define UPDATE_FLAG_FORCE_WRITE	0x0010	/** Always overwrite even if data matches */
 /** Set when user parameters are passed */
 #define UPDATE_FLAG_USER_PARMS	0x8000
 
