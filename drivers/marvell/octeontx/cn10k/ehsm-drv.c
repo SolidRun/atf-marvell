@@ -26,6 +26,18 @@
 #include <octeontx_security.h>
 #include <plat_mem_alloc.h>
 
+#undef DEBUG_ATF_EHSM
+
+#if DEBUG_ATF_EHSM
+# if defined(MRVL_TF_LOG_MODULE)
+#  define debug_ehsm(...) tf_log(LOG_MARKER_NOTICE __VA_ARGS__)
+# else
+#  define debug_ehsm(...) printf(__VA_ARGS__)
+# endif
+#else
+# define debug_ehsm(...) ((void)(0))
+#endif
+
 #define NONSECURE_BLOCK_SIZE	0x1000
 
 __aligned(32) static uint8_t ehsm_buffer[NONSECURE_BLOCK_SIZE];
@@ -128,8 +140,8 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 	bool nonsecure = ((uintptr_t)image >= TZDRAM_BASE + TZDRAM_SIZE);
 	uint8_t digest_out[TIM_MAX_HASH_SIZE_BYTES];
 
-	INFO("%s(%p, %p, %p, %p) size: 0x%lx\n", __func__, image, li, digest,
-	     hash_size, size);
+	debug_ehsm("%s(%p, %p, %p, %p) size: 0x%lx\n", __func__, image, li,
+		   digest, hash_size, size);
 	assert(image != NULL);
 	assert(size > 0);
 	assert(li != NULL);
@@ -185,8 +197,8 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 	 * blocks of the non-secure data and update the hash for each
 	 * block.  If the data is all secure then we don't need to do this.
 	 */
-	INFO("Verifying 0x%lx byte %ssecure image at %p\n",
-	     size, nonsecure ? "non-" : "", image);
+	debug_ehsm("Verifying 0x%lx byte %ssecure image at %p\n",
+		   size, nonsecure ? "non-" : "", image);
 	if (nonsecure) {
 		while (size > sizeof(ehsm_buffer)) {
 			memcpy(ehsm_buffer, image, sizeof(ehsm_buffer));
