@@ -330,7 +330,6 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	return 0;
 }
 
-#if MDC_RAS_ENABLE()
 static int plat_ras_mdc_handler(const struct err_record_info *info,
 		int probe_data, const struct err_handler_data *const data)
 {
@@ -343,7 +342,6 @@ static int plat_ras_mdc_handler(const struct err_record_info *info,
 
 	return ret;
 }
-#endif
 
 static int plat_ras_tad_handler(const struct err_record_info *info,
 		int probe_data, const struct err_handler_data *const data)
@@ -374,12 +372,10 @@ static int plat_ras_dss_handler(const struct err_record_info *info,
 struct err_record_info cn10k_err_records[RAS_HANDLERS] = {
 	[RAS_CORE_HANDLER] = ERR_RECORD_SYSREG_V1(ERR_RECORD_START_IDX, ERR_RECORD_NUM_IDX,
 			cn10k_core_ras_probe_sysreg, cn10k_core_ras_ext_handler, NULL),
-#if MDC_RAS_ENABLE()
 	[RAS_MDC_HANDLER] = {
 		.probe = cn10k_ras_mdc_probe,
 		.handler = plat_ras_mdc_handler,
 	},
-#endif
 	[RAS_TAD_HANDLER] = {
 		.probe = cn10k_ras_tad_probe,
 		.handler = plat_ras_tad_handler,
@@ -522,13 +518,11 @@ int cn10k_ras_init(void)
 	int i;
 	int idx = 0, irq, core;
 
-#if MDC_RAS_ENABLE()
 	for (irq = 0; irq < MDC_SPI_IRQS; irq++) {
 		cn10k_ras_interrupts[idx].intr_number = MDC_SPI_IRQ(irq);
 		cn10k_ras_interrupts[idx].err_record = &cn10k_err_records[RAS_MDC_HANDLER];
 		idx++;
 	}
-#endif
 
 	for (irq = 0; irq < TAD_SPI_IRQS; irq++) {
 		cn10k_ras_interrupts[idx].intr_number = TAD_SPI_IRQ(irq);
@@ -554,10 +548,8 @@ int cn10k_ras_init(void)
 	/* PER CPU core ras init */
 	cn10k_per_cpu_ras_init();
 
-#if MDC_RAS_ENABLE()
 	/*MDC ras init */
 	cn10k_ras_enable_mdc();
-#endif
 
 	/* TAD ras init */
 	cn10k_ras_enable_tad();

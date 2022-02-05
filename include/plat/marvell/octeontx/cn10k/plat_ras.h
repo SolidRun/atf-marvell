@@ -12,21 +12,13 @@
 #include <plat_board_cfg.h>
 #include <octeontx_ras.h>
 
-#define MDC_RAS_ENABLE()	(0)
-
 /*
  * It is number of all RAS interrupts.
  */
-#if MDC_RAS_ENABLE()
 #define NUMBER_OF_RAS_INTERRUPTS	(RAS_CORE_SPI_IRQS+ \
 					MDC_SPI_IRQS + \
 					TAD_SPI_IRQS + \
 					DSS_SPI_IRQS)
-#else
-#define NUMBER_OF_RAS_INTERRUPTS	(RAS_CORE_SPI_IRQS + \
-					TAD_SPI_IRQS + \
-					DSS_SPI_IRQS)
-#endif
 
 /*
  * CN10K core RAS:
@@ -319,11 +311,9 @@ static inline void ras_atomic_add64_nosync(int64_t *ptr, int64_t incr)
 
 extern int64_t plat_ras_smc_op(u_register_t x1, u_register_t x2,
 				u_register_t x3, u_register_t x4);
-#ifdef MDC_RAS
 extern int cn10k_ras_mdc_probe(const struct err_record_info *info, int *probe_data);
 extern int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_mdc(void);
-#endif
 extern int cn10k_ras_tad_probe(const struct err_record_info *info, int *probe_data);
 extern int cn10k_ras_tad_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_tad(void);
