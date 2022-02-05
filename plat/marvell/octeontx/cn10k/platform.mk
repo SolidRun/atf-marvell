@@ -138,8 +138,9 @@ BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_topology.c	\
 				drivers/marvell/octeontx/cn10k/mac_data_mgmt.c	\
 				drivers/marvell/octeontx/cn10k/ppr.c		\
 				drivers/marvell/octeontx/cn10k/rpm_flash_ops.c	\
-				plat/marvell/octeontx/cn10k/dram_mapping.c
-
+				plat/marvell/octeontx/cn10k/dram_mapping.c	\
+				drivers/io/io_storage.c				\
+				drivers/io/io_block.c
 ifeq (${RAS_EXTENSION},1)
 BL31_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_ras.c \
 				plat/marvell/octeontx/cn10k/smc_ras.c \
