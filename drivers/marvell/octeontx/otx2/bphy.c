@@ -201,6 +201,9 @@ uint64_t bphy_psm_irq_handler(uint32_t id, uint32_t flags, void *cookie)
 	return 0;
 }
 
+#define MPIDR_MASK24	0xFFFFFF
+#define CPU_TO_MPIDR(cpu) ((read_mpidr() & ~(MPIDR_MASK24)) | (cpu << MPIDR_AFF2_SHIFT))
+
 static int setup_interrupt_entries(int irq_num, int cpu, int enable)
 {
 	int select_irq = -1;
@@ -220,7 +223,7 @@ static int setup_interrupt_entries(int irq_num, int cpu, int enable)
 			select_irq = BPHY_PSM_IRQ(irq_num);
 			gicv3_set_spi_routing(select_irq,
 					      GICV3_IRM_PE,
-					      read_mpidr());
+					      CPU_TO_MPIDR(cpu));
 		} else {
 			NOTICE("ERR: handler already registered for MSI-X %d\n",
 			       irq_num);
