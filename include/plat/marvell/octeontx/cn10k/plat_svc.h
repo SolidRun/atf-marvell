@@ -541,6 +541,17 @@
  */
 #define PLAT_OCTEONTX_RESET_RNG_EBG_HEALTH_STATE    0xc2000b0f
 
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEONTX_INJECT_ERROR RAS ECC injection
+ * Return:
+ *      0 on Success
+ *      -1 on Failure
+ */
+#define PLAT_OCTEONTX_INJECT_ERROR	0xc2000b10
+
+#define PLAT_OCTEONTX_EINJ_DSS		(0xd)
+
  /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			18
 

@@ -18,18 +18,20 @@
 #include <plat_cn10k_configuration.h>
 #include <cavm-csrs-dss.h>
 #include <cavm-csrs-gic.h>
+#include <octeontx_mmap_utils.h>
+#include <drivers/delay_timer.h>
 #include "dss_ras.h"
 
-typedef struct {
-	union {
+typedef union {
+	struct {
 		uint32_t dbe:1;
 		uint32_t is_sbr:1;
 		uint32_t ecc_err:8;
 		uint32_t ecc_cnt:8;
 		uint32_t ecc_bit:8;
 		uint32_t rsvd0:6;
-		uint64_t u;
 	};
+	uint32_t u;
 } dss_err_info_t;
 
 static uint8_t get_num_channels(void)
@@ -245,7 +247,7 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 			/* Clear error count and corrected err */
 			eccctl.s.ecc_corr_err_cnt_clr = 1;
 			eccctl.s.ecc_corrected_err_clr = 1;
-			debug_ras("error %d is_sbr %d ecc cnt %d eccctl 0x%x\n",
+			debug_ras("0x%08x: error %d is_sbr %d ecc cnt %d eccctl 0x%x\n", dss_err_info.u,
 				dss_err_info.dbe, dss_err_info.is_sbr, dss_err_info.ecc_cnt, eccctl.u);
 		}
 
@@ -257,5 +259,342 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 		if (int_stat.s.ecc_uncorrected_err_intr)
 			cn10k_fatal_error_handler();
 	}
+	return 0;
+}
+
+#define ECCOPCTRL1	(0x87e1c0210b84ll + 0x1000000ll)
+#define ECCSWCTL	(0x87e1c0210c80ll + 0x1000000ll)
+#define ECCCFG2		(0x87e1c0210668ll + 0x1000000ll)
+#define ECCCFG1		(0x87e1c0210604ll + 0x1000000ll)
+#define ECCADDR0	(0x87e1c0210648ll + 0x1000000ll)
+#define ECCADDR1	(0x87e1c021064cll + 0x1000000ll)
+#define DATA_LANE_BITS 2 // for 32-bit channels
+#define MAX_DATA_LANES (1 << DATA_LANE_BITS)
+#define BLM (MAX_DATA_LANES - 1) // BLM == Byte-Lane Mask
+
+#define ERASSBRST	1002
+
+/*
+ * @param address For DED/SEC: Physical address to corrupt, and
+ *                 any byte alignment is supported
+ *
+ * @param etype   Error type: 0 = DED (double), 1 = SEC (single)
+ * @param in_bits   For DED/SEC: LSbit to corrupt for SEC in the byte (0-7),
+ *                 for DED, MSbit to corrupt in the byte.
+ */
+static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
+{
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccpoisonaddr0_t reg_ECCPOISONADDR0;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccpoisonaddr1_t reg_ECCPOISONADDR1;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg0_t reg_ECCCFG0;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg1_t reg_ECCCFG1;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg2_t reg_ECCCFG2;
+
+	cavm_dssx_ddrctl_regb_ddrc_ch0_opctrl1_t reg_OPCTRL1;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_opctrl1_t reg_OPCTRL1_2;
+
+	cavm_dssx_ddrctl_regb_ddrc_ch0_swctl_t reg_SWCTL;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_swctl_t reg_SWCTL_2;
+
+	cavm_dssx_ddrctl_regb_arb_port0_sbrctl_t reg_SBRCTL;
+	cavm_dssx_ddrctl_regb_arb_port0_sbrstat_t reg_SBRSTAT;
+	static uint32_t sbr_state;
+
+	int time_out;
+	uint64_t aligned_address = address & ~BLM;
+	int byte_offset = (address & BLM);
+	addr_xlate_t xlate;
+	int ch = 0;
+
+	xlate.phys_addr = aligned_address;
+	xlate.ch_mask = cn10k_get_ch_mask();
+	cn10k_dram_xlate_from_pa(&xlate);
+
+	reg_ECCCFG0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(xlate.ch));
+	if (reg_ECCCFG0.s.ecc_mode == 0) {
+		ERROR("%s no ecc mode\n", __func__);
+		return -1;
+	}
+
+	if (xlate.col & 0x0F) {
+		ERROR("%s unaligned address\n", __func__);
+		return -1;
+	}
+
+	ch = xlate.ch;
+
+	if (cavm_is_model(OCTEONTX_CN10KA) && (ch > 5))
+		return -1;
+	if (cavm_is_model(OCTEONTX_CN10KB) && (ch > 1))
+		return -1;
+	if (cavm_is_model(OCTEONTX_CNF10KA) && (ch > 3))
+		return -1;
+	if (cavm_is_model(OCTEONTX_CNF10KB) && (ch > 3))
+		return -1;
+
+	// Start poison prepare
+	reg_ECCPOISONADDR0.u = 0;
+	reg_ECCPOISONADDR0.s.ecc_poison_rank = xlate.rank;
+	reg_ECCPOISONADDR0.s.ecc_poison_col = xlate.col;
+	reg_ECCPOISONADDR1.u = 0;
+	reg_ECCPOISONADDR1.s.ecc_poison_bg = xlate.bg;
+	reg_ECCPOISONADDR1.s.ecc_poison_bank = xlate.bank;
+	reg_ECCPOISONADDR1.s.ecc_poison_row = xlate.row;
+
+	reg_ECCCFG2.u = 0;
+	if (in_bits > 0x0FF) {
+		byte_offset = 8;
+	}
+
+	int byte_offset_bits = byte_offset << 3;
+	int bits = in_bits & 0xFF;
+	int bit0 = (__builtin_ffs(bits) - 1) & 0x7;
+	int bit1 = (__builtin_ffs(bits ^ (1 << bit0)) - 1) & 0x7;
+	int pos0 = cn10k_dram_bit2flip(bit0 + byte_offset_bits);
+	int pos1 = cn10k_dram_bit2flip(bit1 + byte_offset_bits);
+
+	reg_ECCCFG2.s.flip_bit_pos0 = pos0;
+	reg_ECCCFG2.s.flip_bit_pos1 = pos1;
+
+	reg_ECCCFG1.u = 0;
+	reg_ECCCFG1.s.data_poison_bit = !!etype;
+	reg_ECCCFG1.s.data_poison_en = 1;
+	debug_ras("%s ch%d addr0 %x addr1 %x cfg1 %x cfg2 %x\n", __func__, ch,
+			reg_ECCPOISONADDR0.u, reg_ECCPOISONADDR1.u, reg_ECCCFG1.u,
+			reg_ECCCFG2.u);
+	// End poison prepare
+
+	sbr_state = 0;
+	reg_SBRCTL.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch));
+	if (reg_SBRCTL.s.scrub_en) {
+		sbr_state = reg_SBRCTL.s.scrub_en;
+		reg_SBRCTL.s.scrub_en = 0x0;
+		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch), reg_SBRCTL.u);
+		time_out = 0x1000;
+		while (time_out-- > 0) {
+			reg_SBRSTAT.u = CSR_READ(
+					CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT(ch));
+			if (reg_SBRSTAT.s.scrub_busy == 0)
+				break;
+		}
+		if (time_out <= 0)
+			return -ERASSBRST;
+	}
+
+	reg_SWCTL.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL(ch));
+	reg_SWCTL_2.u = reg_SWCTL.u;
+	reg_SWCTL.s.sw_done = 0x0;
+
+	reg_OPCTRL1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1(ch));
+	reg_OPCTRL1_2.u = reg_OPCTRL1.u;
+	reg_OPCTRL1.s.dis_hif = 0x1;
+
+	reg_SWCTL_2.s.sw_done = 1;
+	reg_OPCTRL1_2.s.dis_hif = 0;
+
+	dmbsy();
+
+	//setup poison start
+	octeontx_write32(ECCOPCTRL1 * ch, reg_OPCTRL1.u);
+	octeontx_write32(ECCSWCTL * ch, reg_SWCTL.u);
+
+	octeontx_write32(ECCADDR0 * ch, reg_ECCPOISONADDR0.u);
+	octeontx_write32(ECCADDR1 * ch, reg_ECCPOISONADDR1.u);
+	octeontx_write32(ECCCFG2 * ch, reg_ECCCFG2.u);
+	octeontx_write32(ECCCFG1 * ch, reg_ECCCFG1.u);
+
+	octeontx_write32(ECCSWCTL * ch, reg_SWCTL_2.u);
+	octeontx_write32(ECCOPCTRL1 * ch, reg_OPCTRL1_2.u);
+	//setup poison end
+
+	dmbsy();
+
+	if (sbr_state) {
+		reg_SBRCTL.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch));
+		reg_SBRCTL.s.scrub_en = sbr_state;
+		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch), reg_SBRCTL.u);
+	}
+
+	return 0;
+}
+
+static int dss_disable_einj(int ch)
+{
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg1_t reg_ECCCFG1;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_opctrl1_t reg_OPCTRL1;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_opctrl1_t reg_OPCTRL1_2;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_swctl_t reg_SWCTL;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_swctl_t reg_SWCTL_2;
+	cavm_dssx_ddrctl_regb_arb_port0_sbrctl_t reg_SBRCTL;
+	cavm_dssx_ddrctl_regb_arb_port0_sbrstat_t reg_SBRSTAT;
+	static uint32_t sbr_state;
+	int time_out;
+
+	if (cavm_is_model(OCTEONTX_CN10KA) && (ch > 5))
+		return -1;
+	if (cavm_is_model(OCTEONTX_CN10KB) && (ch > 1))
+		return -1;
+	if (cavm_is_model(OCTEONTX_CNF10KA) && (ch > 3))
+		return -1;
+	if (cavm_is_model(OCTEONTX_CNF10KB) && (ch > 3))
+		return -1;
+
+	debug_ras("%s %d\n", __func__, ch);
+
+	sbr_state = 0;
+	reg_SBRCTL.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch));
+	if (reg_SBRCTL.s.scrub_en) {
+		sbr_state = reg_SBRCTL.s.scrub_en;
+		reg_SBRCTL.s.scrub_en = 0x0;
+		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch), reg_SBRCTL.u);
+		time_out = 0x1000;
+		while (time_out-- > 0) {
+			reg_SBRSTAT.u = CSR_READ(
+					CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRSTAT(ch));
+			if (reg_SBRSTAT.s.scrub_busy == 0)
+				break;
+		}
+		if (time_out <= 0)
+			return -ERASSBRST;
+	}
+
+	reg_SWCTL.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_SWCTL(ch));
+	reg_SWCTL_2.u = reg_SWCTL.u;
+	reg_SWCTL.s.sw_done = 0x0;
+
+	reg_OPCTRL1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_OPCTRL1(ch));
+	reg_OPCTRL1_2.u = reg_OPCTRL1.u;
+	reg_OPCTRL1.s.dis_hif = 0x1;
+
+	reg_SWCTL_2.s.sw_done = 1;
+	reg_OPCTRL1_2.s.dis_hif = 0;
+
+	reg_ECCCFG1.s.data_poison_en = 0;
+
+	dmbsy();
+
+	//setup poison start
+	octeontx_write32(ECCOPCTRL1 * ch, reg_OPCTRL1.u);
+	octeontx_write32(ECCSWCTL * ch, reg_SWCTL.u);
+
+	octeontx_write32(ECCCFG1 * ch, reg_ECCCFG1.u);
+
+	octeontx_write32(ECCSWCTL * ch, reg_SWCTL_2.u);
+	octeontx_write32(ECCOPCTRL1 * ch, reg_OPCTRL1_2.u);
+	//setup poison end
+
+	dmbsy();
+
+	if (sbr_state) {
+		reg_SBRCTL.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch));
+		reg_SBRCTL.s.scrub_en = sbr_state;
+		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_ARB_PORT0_SBRCTL(ch), reg_SBRCTL.u);
+	}
+
+	return 0;
+}
+
+static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
+{
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccfg0_t reg_ECCCFG0;
+
+	int64_t aligned_address = address & ~BLM;
+	addr_xlate_t xlate;
+	int32_t ret = 0;
+
+	xlate.phys_addr = aligned_address;
+	xlate.ch_mask = cn10k_get_ch_mask();
+	cn10k_dram_xlate_from_pa(&xlate);
+
+	ret = octeontx_mmap_add_dynamic_region_with_sync(address, address,
+			PAGE_SIZE, MT_EXECUTE_NEVER | MT_NS | MT_MEMORY | MT_RW);
+	if (ret)
+		goto err;
+
+	reg_ECCCFG0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(xlate.ch));
+	if (reg_ECCCFG0.s.ecc_mode == 0) {
+		ERROR("%s(%x): Inject ECC error ignored - ECC not enabled.\n", __func__,
+				reg_ECCCFG0.u);
+	} else {
+		debug_ras("ECCCFG0: ECC mode 0x%x, type 0x%x\n", reg_ECCCFG0.s.ecc_mode,
+				reg_ECCCFG0.s.ecc_type);
+	}
+
+	INFO("INJECT: Injecting ECC %s at DSS%d (Rank%d,BG%1d,Bank%1d,Row 0x%05x,Col 0x%04x)[0x%llx/0x%llx]\n",
+			(!etype) ? "double" : "single", xlate.ch, xlate.rank, xlate.bg,
+			xlate.bank, xlate.row, xlate.col, xlate.phys_addr, xlate.offset);
+
+	if (xlate.col & 0x0F) {
+		debug_ras(
+				"Address has unaligned COL bits - ignoring; try another address\n");
+	}
+
+	dmbsy();
+#if DATA_LANE_BITS == 2
+	uint32_t before = (uint32_t)*(volatile uint32_t *)aligned_address;
+#else
+	uint64_t before = (uint64_t)*(volatile uint64_t *)aligned_address;
+#endif
+	dmbsy();
+	udelay(1000);
+
+	debug_ras("Original value 0x%llx: %x\n", aligned_address, before);
+
+	dmbsy();
+#if DATA_LANE_BITS == 2
+	*(volatile uint32_t *) aligned_address = before;
+#else
+	*(volatile uint64_t *) aligned_address = before;
+#endif
+	dmbsy();
+	flush_dcache_range(aligned_address, 64);
+	dmbsy();
+	udelay(1000);
+
+	dmbsy();
+#if DATA_LANE_BITS == 2
+	uint32_t after = (uint32_t)*(volatile uint32_t *) aligned_address;
+#else
+	uint64_t after = (uint64_t)*(volatile uint64_t *) aligned_address;
+#endif
+	dmbsy();
+
+	if (after != before) {
+		debug_ras("INJECT: before and after data not the same: XOR 0x%llx\n",
+				(uint64_t) (before ^ after));
+		dmbsy();
+#if DATA_LANE_BITS == 2
+		*(volatile uint32_t*) aligned_address = before;
+#else
+		*(volatile uint64_t*) aligned_address = before;
+#endif
+		dmbsy();
+		flush_dcache_range(aligned_address, 64);
+		dmbsy();
+		udelay(1000);
+	}
+
+	octeontx_mmap_remove_dynamic_region_with_sync(address, PAGE_SIZE);
+
+err:
+	dss_disable_einj(xlate.ch);
+
+	return 0;
+}
+
+int cn10k_inject_dss_error(uint64_t address, uint64_t etype, uint64_t in_bits)
+{
+	debug_ras("%s param1 0x%llx param2 0x%llx param3 0x%llx\n", __func__,
+			address, etype, in_bits);
+
+	int ret = dss_setup_einj_addr(address, etype, in_bits);
+
+	if (ret) {
+		ERROR("%s error %d\n", __func__, ret);
+		return -1;
+	}
+
+	dss_read_poisoned_address(address, etype);
+
 	return 0;
 }

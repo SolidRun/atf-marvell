@@ -741,10 +741,27 @@ err4:
 	break;
 
 	case PLAT_OCTEONTX_ASYNC_SPI_STATUS:
+	{
 		SMC_RET1(handle, async_spi_is_ready());
+	}
+	break;
+
+	case PLAT_OCTEONTX_INJECT_ERROR:
+	{
+		extern int cn10k_inject_dss_error(uint64_t addr, uint64_t etype, uint64_t bits);
+		switch (x1) {
+		case PLAT_OCTEONTX_EINJ_DSS:
+			ret = cn10k_inject_dss_error(x2, x3, x4);
+			SMC_RET1(handle, ret);
+		break;
+		}
+	}
+	break;
 
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);
 	}
+
+	return 0;
 }
