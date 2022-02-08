@@ -19,9 +19,12 @@
 #  include <plat_otx2_configuration.h>
 #elif defined(PLAT_OTX_FAMILY)
 #  include <plat_otx_configuration.h>
+#elif defined(PLAT_CN10K_FAMILY)
+#  include <plat_cn10k_configuration.h>
 #endif
 
 #include "cavm-csrs-ecam.h"
+#include "cavm-csrs-gpio.h"
 #include "cavm-csrs-gic.h"
 #include "cavm-csrs-gti.h"
 #include "cavm-csrs-iobn.h"
@@ -305,59 +308,6 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	}
 }
 
-#if defined(PLAT_CN10K_FAMILY)
-static void init_pem5(uint64_t config_base, uint64_t config_size)
-{
-	struct pcie_config *pconfig = (struct pcie_config *)config_base;
-	uint8_t cap_pointer = pconfig->cap_pointer;
-	uint16_t table_size = 0;
-	uint8_t bir = 0;
-	uint64_t vector_base = 0;
-	int i;
-	uint64_t msg;
-	uint32_t *sctl = (uint32_t *) (config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
-	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
-	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
-
-	debug_io("PEM(%d) init called config_base:%llx size:%llx\n",
-		 vsec_ctl.s.inst_num, config_base, config_size);
-	print_config_space(pconfig);
-	enable_msix(config_base, cap_pointer, &table_size, &bir);
-	/* initialise MSI-X Vector table */
-
-	if (table_size) {
-		debug_io("table_size :%x bir:%1x \n", table_size, bir);
-		vector_base = get_bar_val(pconfig, bir);
-		debug_io("MSI-X vector base:%llx\n", vector_base);
-
-		/* configure interrupt vectors first */
-		for (i = 0; i < table_size; i++) {
-			debug_io("MSI-X vector base[%llx]<=%llx\n", vector_base,
-				 (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
-			octeontx_write64(vector_base, (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
-			vector_base += 8;
-			if (i >= PEM_INT_VEC_E_INTA && i < PEM_INT_VEC_E_INT_SUM)
-				msg = PEM_SPI_IRQ(vsec_ctl.s.inst_num,
-						(i - PEM_INT_VEC_E_INTA) / 2);
-			else
-				msg = 0x100000000ull;	/* Masked */
-			debug_io("MSI-X vector base[%llx]<=%llx\n", vector_base, msg);
-			octeontx_write64(vector_base, msg);
-			vector_base += 8;
-			debug_io
-			    ("PEM(%d): Vector:%d address :%llx irq:%llu\n",
-			     vsec_ctl.s.inst_num, i,
-			     ((i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR),
-			     msg);
-		}
-	}
-	/* Bypass SMMU translation for MSIx delivery in PEM
-	 * This helps legacy INT support for Switch as endpoint
-	 * Other PEM endpoints generally use MSI/MSI-X.
-	 */
-	*sctl |= 0x1;
-}
-#else
 static void init_pem(uint64_t config_base, uint64_t config_size)
 {
 	struct pcie_config *pconfig = (struct pcie_config *)config_base;
@@ -442,10 +392,18 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 	 */
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 	vsec_sctl.s.msix_phys = is_pem_in_ep_mode(vsec_ctl.s.inst_num);
+	/* Bypass SMMU translation for MSIx delivery in PEM
+	 * This helps legacy INT support for Switch as endpoint
+	 */
+#if defined(PLAT_CN10K_FAMILY)
+	if (cavm_is_model(OCTEONTX_CN10KA) && (vsec_ctl.s.inst_num == 5) &&
+	    (cavm_is_platform(PLATFORM_ASIM) ||
+		(CSR_READ(CAVM_GPIO_PKG_VER) == 0x0)))
+		vsec_sctl.s.msix_phys = 1;
+#endif
 	vsec_sctl.s.msix_sec_phys = is_pem_in_rc_mode(vsec_ctl.s.inst_num);
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
-#endif
 
 static void init_gti(uint64_t config_base, uint64_t config_size)
 {
@@ -520,11 +478,9 @@ static void init_iobn(uint64_t config_base, uint64_t config_size)
 struct ecam_init_callback init_callbacks[] = {
 #if !(defined(PLAT_CN10K_FAMILY))
 	{0xa008, 0x177d, init_smmu},
+#endif
 	{0xa020, 0x177d, init_pem},
 	{0xa06c, 0x177d, init_pem},
-#else
-	{0xa06c, 0x177d, init_pem5},
-#endif
 	{0xa00f, 0x177d, init_uaa},
 	{0xa017, 0x177d, init_gti},
 	{0xa027, 0x177d, init_iobn},
