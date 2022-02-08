@@ -834,8 +834,10 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 					goto mode_err;
 				}
 				portm->an_lt_ena = 1;
-			} else
+			} else {
 				numlanes = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
+				portm->an_lt_ena = 0;
+			}
 
 			portm->gser_numlanes = numlanes;
 			cn10k_fill_portm_tx_eq_info(lmac->portm_idx, portm_mode);
