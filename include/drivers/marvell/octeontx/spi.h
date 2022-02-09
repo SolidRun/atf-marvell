@@ -8,6 +8,8 @@
 #ifndef __SPI_H__
 #define __SPI_H__
 
+#include <drivers/io/io_driver.h>
+
 /* Flag used to change configuration of SPI */
 #define	SPI_CS_HIGH		0x04		/* CS active high */
 #define	SPI_LSB_FIRST		0x08		/* per-word bits-on-wire */
@@ -55,14 +57,15 @@
 /* Driver will select 12.5MHz */
 #define CONFIG_SPI_FREQUENCY		13000000
 
-typedef struct {
+typedef struct file_state {
 	/*
 	 * Use the 'in_use' flag as any value for base and file_pos could be
 	 * valid.
 	 */
 	int		in_use;
-	unsigned int	spi_con;
-	unsigned int	cs;
+	io_entity_t	*entity;	/** IO handle we belong to */
+	unsigned int	spi_con;	/** Bus number */
+	unsigned int	cs;		/** chip select */
 	size_t		file_pos;
 	size_t		offset_address;
 	size_t		length;
@@ -144,8 +147,14 @@ int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 								int spi_con, int cs);
 
 int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs);
+
+#if (defined(PLAT_CN10K_FAMILY))
+int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
+			int addr_len, int spi_con, int cs);
+#else
 int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs);
+#endif
 int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs);
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
@@ -155,6 +164,10 @@ uint32_t spi_dev_unlock(int spi_con);
 
 /* Async operations are avalible only in CN10K*/
 #if (defined(PLAT_CN10K_FAMILY))
+/**
+ * Set the SPI controller and chip select for an open handle
+ */
+int spi_block_config(uintptr_t handle, uint32_t spi_con, uint32_t cs);
 
 void spi_async_start(void (*block_callback)(void *), void *params);
 void spi_async_add_block_write(int bus, int cs, uint64_t spi_addr, void *mem_addr, uint64_t size,

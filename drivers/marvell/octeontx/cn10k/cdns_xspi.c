@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <spi.h>
+#include <utils.h>
 #include <drivers/delay_timer.h>
 #include <octeontx_common.h>
 #include <drivers/io/io_storage.h>
@@ -15,6 +15,7 @@
 #include <drivers/io/io_driver.h>
 #include <debug.h>
 #include <plat_board_cfg.h>
+#include <spi.h>
 
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-spi.h"
@@ -66,13 +67,17 @@
 
 #define BOOTROM_AP_SECURE_ARB 2
 
-static file_state_t current_file = { 0 };
+#define SPI_MAX_STATES		(MAX_SPI_BUS * MAX_SPI_CS)
 
 uint32_t spi_mode;
+static file_state_t spi_state_data[SPI_MAX_STATES];
 
 /* Global lock to sync between ATF and OS */
 uint32_t *spi_lock[] = {NULL, NULL};
 #define ATF_OWN		0x01
+
+/** Needed for block writes to temporarily store data */
+static uint8_t spi_buffer[SPI_NOR_ERASE_SIZE];
 
 enum cdns_xspi_mode {
 	XSPI_MODE_DIRECT = 0x00,
@@ -80,9 +85,9 @@ enum cdns_xspi_mode {
 	XSPI_MODE_STIG = 0x01,
 };
 
-enum xspi_adressing {
-	XSPI_ADRESSING_3B = 0,
-	XSPI_ADRESSING_4B = 1,
+enum xspi_addressing {
+	XSPI_ADDRESSING_3B = 0,
+	XSPI_ADDRESSING_4B = 1,
 };
 
 const int cdns_xspi_clk_div_list[] = {
@@ -102,6 +107,14 @@ const int cdns_xspi_clk_div_list[] = {
 	128,	//0xD = Divide by 128. SPI clock is 6.25 MHz.
 	-1	//End of list
 };
+
+static inline enum xspi_addressing xspi_get_addr_mode(uint32_t addr, uint32_t size)
+{
+	if (addr + size >= 0x1 << 24)
+		return XSPI_ADDRESSING_4B;
+	else
+		return XSPI_ADDRESSING_3B;
+}
 
 #define REGCHECK(reg, val, result) if(CSR_READ(reg) != val) result=true;
 static int cdns_xspi_verify_phy(int spi_con)
@@ -389,7 +402,8 @@ static int cdns_xspi_set_mode(int spi_con, enum cdns_xspi_mode m)
 	return 0;
 }
 
-static void update_spi_op_read_params(int spi_con, int mode, enum xspi_adressing addressing_mode)
+static void update_spi_op_read_params(int spi_con, int mode,
+				      enum xspi_addressing addressing_mode)
 {
 	/* Discovery Debug */
 	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
@@ -402,7 +416,7 @@ static void update_spi_op_read_params(int spi_con, int mode, enum xspi_adressing
 		read_seq_0.s.read_seq_p1_addr_ios = 0;
 		read_seq_0.s.read_seq_p1_data_ios = 0;
 		read_seq_0.s.read_seq_p1_dummy_cnt = 0;
-		if (addressing_mode == XSPI_ADRESSING_4B) {
+		if (addressing_mode == XSPI_ADDRESSING_4B) {
 			read_seq_0.s.read_seq_p1_addr_cnt = 4;
 			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_4B;
 		} else {
@@ -419,7 +433,7 @@ static void update_spi_op_read_params(int spi_con, int mode, enum xspi_adressing
 		read_seq_0.s.read_seq_p1_cmd_ios = 0; // 0 = x1
 		read_seq_0.s.read_seq_p1_addr_ios = 2; // 2 = x4
 		read_seq_0.s.read_seq_p1_data_ios = 2; // 2 = x4
-		if (addressing_mode == XSPI_ADRESSING_4B) {
+		if (addressing_mode == XSPI_ADDRESSING_4B) {
 			read_seq_0.s.read_seq_p1_addr_cnt = 4;
 			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4_4B;
 		} else {
@@ -432,7 +446,8 @@ static void update_spi_op_read_params(int spi_con, int mode, enum xspi_adressing
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con), read_seq_1.u);
 }
 
-static void update_spi_op_prog_params(int spi_con, int mode, enum xspi_adressing addressing_mode)
+static void update_spi_op_prog_params(int spi_con, int mode,
+				      enum xspi_addressing addressing_mode)
 {
 	/* Discovery Debug */
 	CSR_INIT(prog_seq_0, CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con));
@@ -445,7 +460,7 @@ static void update_spi_op_prog_params(int spi_con, int mode, enum xspi_adressing
 		prog_seq_0.s.prog_seq_p1_addr_ios = 0;
 		prog_seq_0.s.prog_seq_p1_data_ios = 0;
 		prog_seq_0.s.prog_seq_p1_dummy_cnt = 0;
-		if (addressing_mode == XSPI_ADRESSING_4B) {
+		if (addressing_mode == XSPI_ADDRESSING_4B) {
 			prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
 			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_4B;
 		} else {
@@ -459,7 +474,7 @@ static void update_spi_op_prog_params(int spi_con, int mode, enum xspi_adressing
 		prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
 		prog_seq_0.s.prog_seq_p1_addr_ios = 2;
 		prog_seq_0.s.prog_seq_p1_data_ios = 2;
-		if (addressing_mode == XSPI_ADRESSING_4B) {
+		if (addressing_mode == XSPI_ADDRESSING_4B) {
 			prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
 			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4_4B;
 		} else {
@@ -472,11 +487,12 @@ static void update_spi_op_prog_params(int spi_con, int mode, enum xspi_adressing
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_1(spi_con), prog_seq_1.u);
 }
 
-static void update_spi_op_erase_params(int spi_con, enum xspi_adressing addressing_mode)
+static void update_spi_op_erase_params(int spi_con,
+				       enum xspi_addressing addressing_mode)
 {
 	CSR_INIT(erase_ctrl, CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con));
 
-	if (addressing_mode == XSPI_ADRESSING_4B) {
+	if (addressing_mode == XSPI_ADDRESSING_4B) {
 		erase_ctrl.s.erss_seq_p1_addr_cnt = 4;
 		erase_ctrl.s.erss_seq_p1_cmd_val = SPINOR_OP_BE_4K_4B;
 	} else {
@@ -503,7 +519,8 @@ static bool verify_discovery_opcmd(int spi_con)
 	return true;
 }
 
-static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_adressing mode)
+static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
+			    enum xspi_addressing mode)
 {
 	union cavm_spix_ctrl_consts_spi_ctrl_version hw_version;
 	union cavm_spix_cmn_seq_regs_direct_access_cfg direct_config;
@@ -570,14 +587,14 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_ad
 		INFO("%s: SPI_%d: CS: %d config: x4 25MHz\n", __func__, spi_con, cs);
 	}
 
-	if (mode == XSPI_ADRESSING_3B) {
-		update_spi_op_read_params(spi_con, safemode, XSPI_ADRESSING_3B);
-		update_spi_op_prog_params(spi_con, safemode, XSPI_ADRESSING_3B);
-		update_spi_op_erase_params(spi_con, XSPI_ADRESSING_3B);
+	if (mode == XSPI_ADDRESSING_3B) {
+		update_spi_op_read_params(spi_con, safemode, XSPI_ADDRESSING_3B);
+		update_spi_op_prog_params(spi_con, safemode, XSPI_ADDRESSING_3B);
+		update_spi_op_erase_params(spi_con, XSPI_ADDRESSING_3B);
 	} else {
-		update_spi_op_read_params(spi_con, safemode, XSPI_ADRESSING_4B);
-		update_spi_op_prog_params(spi_con, safemode, XSPI_ADRESSING_4B);
-		update_spi_op_erase_params(spi_con, XSPI_ADRESSING_4B);
+		update_spi_op_read_params(spi_con, safemode, XSPI_ADDRESSING_4B);
+		update_spi_op_prog_params(spi_con, safemode, XSPI_ADDRESSING_4B);
+		update_spi_op_erase_params(spi_con, XSPI_ADDRESSING_4B);
 	}
 
 	/* Finish config */
@@ -595,7 +612,7 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training, enum xspi_ad
 }
 
 static void cdns_xspi_remap_config(bool enabled, uint64_t remap_addr,
-								   int spi_con)
+				   int spi_con)
 {
 	union cavm_spix_cmn_seq_regs_direct_access_cfg config;
 	union cavm_spix_cmn_seq_regs_direct_access_rmp remap_addr_low;
@@ -728,24 +745,24 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 
 static void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
 {
-	enum xspi_adressing addr_current, addr_new;
+	enum xspi_addressing addr_current, addr_new;
 	char *currstr, *newstr;
 
 	/*Check current and new xSPI mode*/
 	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
 	if (read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_4B ||
 	    read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_1_4_4_4B)
-		addr_current = XSPI_ADRESSING_4B;
+		addr_current = XSPI_ADDRESSING_4B;
 	else
-		addr_current = XSPI_ADRESSING_3B;
-	addr_new = end_spi_addr < ADDR_LIMIT_3B ? XSPI_ADRESSING_3B : XSPI_ADRESSING_4B;
+		addr_current = XSPI_ADDRESSING_3B;
+	addr_new = end_spi_addr < ADDR_LIMIT_3B ? XSPI_ADDRESSING_3B : XSPI_ADDRESSING_4B;
 
-	/* There is no need to switch adressing */
+	/* There is no need to switch addressing */
 	if (addr_current == addr_new)
 		return;
 
-	currstr = addr_current == XSPI_ADRESSING_3B ? "XSPI_ADRESSING_3B" : "XSPI_ADRESSING_4B";
-	newstr = addr_new == XSPI_ADRESSING_3B ? "XSPI_ADRESSING_3B" : "XSPI_ADRESSING_4B";
+	currstr = addr_current == XSPI_ADDRESSING_3B ? "XSPI_ADDRESSING_3B" : "XSPI_ADDRESSING_4B";
+	newstr = addr_new == XSPI_ADDRESSING_3B ? "XSPI_ADDRESSING_3B" : "XSPI_ADDRESSING_4B";
 
 	INFO("%s: SPI_%d CS: %d - Mode change: previous: %s, new %s\n", __func__, spi_con, cs, currstr, newstr);
 
@@ -841,7 +858,7 @@ int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 }
 
 int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
-								int spi_con, int cs)
+			 int spi_con, int cs)
 {
 	CSR_INIT(erase_ctrl, CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con));
 	union cavm_spix_ctrl_cmd_stat_cmd_reg0 reg_0;
@@ -965,7 +982,7 @@ uint32_t spi_dev_unlock(int spi_con)
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
 {
-	bool phy_training;
+	bool phy_training = false;
 	bool safemode = false;
 
 	spi_lock[0] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(0);
@@ -978,7 +995,8 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	 * In caise of load fail, rerun device-discovery
 	 */
 	if (cdns_xspi_load_cs_configuration(spi_con, cs, safemode))
-		return cdns_xspi_config(spi_con, cs, phy_training, XSPI_ADRESSING_3B);
+		return cdns_xspi_config(spi_con, cs, phy_training,
+					XSPI_ADDRESSING_3B);
 
 	return 0;
 }
@@ -988,10 +1006,10 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 {
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
-			cdns_xspi_config(spi_con, cs, false, XSPI_ADRESSING_3B);
+			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_4B);
 	}
 
-	/* Verify if opcomands are valid for adressing mode that will be used */
+	/* Verify if opcomands are valid for addressing mode that will be used */
 	prepare_opcomands(spi_con, cs, addr + buf_size);
 
 	if (cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_READ) != 0)
@@ -999,18 +1017,19 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 	return buf_size;
 }
 
-int spi_nor_write(uint8_t *buf, int buf_size, uint32_t addr,
-			int addr_len, int spi_con, int cs)
+int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
+		  int addr_len, int spi_con, int cs)
 {
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
-			cdns_xspi_config(spi_con, cs, false, XSPI_ADRESSING_3B);
+			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_3B);
 	}
 
-	/* Verify if opcomands are valid for adressing mode that will be used */
+	/* Verify if opcomands are valid for addressing mode that will be used */
 	prepare_opcomands(spi_con, cs, addr + buf_size);
 
-	if (cdns_xspi_direct_op(addr, buf, buf_size, spi_con, CDNS_DIRECT_WRITE) != 0)
+	if (cdns_xspi_direct_op(addr, (uint8_t *)buf, buf_size, spi_con,
+				CDNS_DIRECT_WRITE) != 0)
 		return -1;
 	return buf_size;
 }
@@ -1019,15 +1038,14 @@ int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 {
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0) != CONFIG_OK)
-			cdns_xspi_config(spi_con, cs, false, XSPI_ADRESSING_3B);
+			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_3B);
 	}
 
-	/* Verify if opcomands are valid for adressing mode that will be used */
+	/* Verify if opcomands are valid for addressing mode that will be used */
 	prepare_opcomands(spi_con, cs, addr);
 
 	return cdns_xspi_auto_erase(addr, 0, spi_con, cs);
 }
-
 
 /*
  * APIs to read from SPI NOR flash
@@ -1041,37 +1059,80 @@ static io_type_t device_type_spi(void)
 	return IO_TYPE_SPI;
 }
 
-static int spi_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
-			     io_entity_t *entity)
+static file_state_t *spi_state_alloc(io_entity_t *entity,
+				     uint32_t spi_con, uint32_t cs,
+				     size_t length,
+				     size_t offset_address)
 {
-	int result = -ENOMEM;
+	int i;
+	file_state_t *fs;
+
+	assert(entity != NULL);
+
+	for (i = 0; i < SPI_MAX_STATES; i++) {
+		fs = &spi_state_data[i];
+		if (fs->in_use && fs->spi_con == spi_con && fs->cs == cs)
+			/* Technically this is OK */
+			WARN("SPI controller %u:%u already in use\n",
+			     spi_con, cs);
+	}
+	for (i = 0; i < SPI_MAX_STATES; i++) {
+		fs = &spi_state_data[i];
+		if (!fs->in_use) {
+			zeromem(fs, sizeof(*fs));
+			fs->in_use = 1;
+			fs->spi_con = spi_con;
+			fs->cs = cs;
+			fs->entity = entity;
+			fs->length = length;
+			fs->offset_address = offset_address;
+			entity->info = (uintptr_t)fs;
+			return fs;
+		}
+	}
+	return NULL;
+}
+
+static void spi_state_free(file_state_t *fs)
+{
+
+	assert(fs != NULL);
+	assert(fs->in_use);
+	assert(fs->entity != NULL);
+
+	fs->entity->info = (uintptr_t)NULL;
+	zeromem(fs, sizeof(*fs));
+}
+
+static int spi_block_open(io_dev_info_t *dev_info, const uintptr_t spec,
+			  io_entity_t *entity)
+{
 	const io_block_spec_t *block_spec = (io_block_spec_t *)spec;
+	file_state_t *fs;
+
+	assert(dev_info != NULL);
+	assert(spec != 0);
+	assert(block_spec != NULL);
+	assert(entity != NULL);
+
+	fs = spi_state_alloc(entity,
+			     plat_octeontx_bcfg->bcfg.boot_dev.controller,
+			     plat_octeontx_bcfg->bcfg.boot_dev.cs,
+			     block_spec->length,
+			     block_spec->offset);
+
+	if (fs == NULL) {
+		WARN("Error: out of state handles!\n");
+		return -ENOMEM;
+	}
 
 	/* Since we need to track open state for seek() we only allow one open
 	 * spec at a time. When we have dynamic memory we can malloc and set
 	 * entity->info.
 	 */
-	if (current_file.in_use == 0) {
-		assert(block_spec != NULL);
-		assert(entity != NULL);
 
-		current_file.in_use = 1;
-		// FIXME current_file.cs = block_spec->offset;
-		/* File cursor offset for seek and incremental reads etc. */
-		current_file.file_pos = 0;
-		current_file.offset_address = block_spec->offset;
-		current_file.length = block_spec->length;
-		current_file.spi_con = plat_octeontx_bcfg->bcfg.boot_dev.controller;
-		current_file.cs = plat_octeontx_bcfg->bcfg.boot_dev.cs;
-		entity->info = (uintptr_t)&current_file;
-
-		return spi_config(CONFIG_SPI_FREQUENCY, spi_mode, 0, 0,
-				  current_file.spi_con, current_file.cs);
-	} else {
-		WARN("An SPI device is already active. Close first.\n");
-	}
-
-	return result;
+	return spi_config(CONFIG_SPI_FREQUENCY, spi_mode, 0, 0,
+			  fs->spi_con, fs->cs);
 }
 
 static int spi_block_seek(io_entity_t *entity, int mode,
@@ -1099,7 +1160,7 @@ static int spi_block_seek(io_entity_t *entity, int mode,
 
 
 static int spi_block_read(io_entity_t *entity, uintptr_t buffer,
-			     size_t length, size_t *length_read)
+			  size_t length, size_t *length_read)
 {
 	file_state_t *fp;
 	ssize_t ret;
@@ -1114,8 +1175,13 @@ static int spi_block_read(io_entity_t *entity, uintptr_t buffer,
 	ret = spi_nor_read((void *)buffer, length,
 			   fp->offset_address + fp->file_pos,
 			   addr_mode, fp->spi_con, fp->cs);
-	if (ret < 0)
+	if (ret < 0) {
+		WARN("%s: Error reading 0x%lx bytes from SPI %u:%u address 0x%lx\n",
+		     __func__, length, fp->spi_con, fp->cs,
+		     fp->file_pos + fp->offset_address);
+		*length_read = 0;
 		return ret;
+	}
 
 	*length_read = ret;
 	fp->file_pos += ret;
@@ -1123,23 +1189,200 @@ static int spi_block_read(io_entity_t *entity, uintptr_t buffer,
 	return 0;
 }
 
+static int spi_block_write(io_entity_t *entity, const uintptr_t buffer,
+			   size_t length, size_t *length_written)
+{
+	file_state_t *fp;
+	const uint8_t *bptr = (uint8_t *)buffer;
+	ssize_t ret;
+	int addr_mode = SPI_ADDRESSING_24BIT;
+	uint32_t start_addr;
+	uint32_t block_start_addr;
+	uint32_t block_start_off;
+	uint32_t block_end_off;
+	uint32_t end_addr;
+	uint32_t write_len;
+	uint32_t erase_blk_cnt;
+	uint32_t erase_addr;
+
+	assert(entity != NULL);
+	assert(buffer != (uintptr_t)NULL);
+	assert(length_written != NULL);
+
+	fp = (file_state_t *)entity->info;
+	assert(fp != NULL);
+
+	start_addr = fp->offset_address + fp->file_pos;
+	end_addr = start_addr + length;
+	block_start_off = start_addr % SPI_NOR_ERASE_SIZE;
+	block_end_off = end_addr % SPI_NOR_ERASE_SIZE;
+	/* Starting block address */
+	block_start_addr = start_addr & ~(SPI_NOR_ERASE_SIZE - 1);
+	*length_written = 0;
+
+	/*
+	 * Handle the first block if it does not begin on an erase block
+	 * boundary by first reading the block into a buffer, write to the
+	 * block buffer, then write the block back.
+	 */
+	if (block_start_off != 0) {
+		ret = spi_nor_read(spi_buffer, SPI_NOR_ERASE_SIZE,
+				   block_start_addr, addr_mode,
+				   fp->spi_con, fp->cs);
+		if (ret != SPI_NOR_ERASE_SIZE) {
+			WARN("%s: Error reading 0x%x bytes from SPI %u:%u at address 0x%x\n",
+			     __func__, SPI_NOR_ERASE_SIZE, fp->spi_con, fp->cs,
+			     block_start_addr);
+			goto error;
+		}
+
+		if (start_addr - block_start_addr > SPI_NOR_ERASE_SIZE)
+			write_len = SPI_NOR_ERASE_SIZE - (start_addr % SPI_NOR_ERASE_SIZE);
+		else
+			write_len = length;
+		memcpy(spi_buffer + block_start_off, bptr, write_len);
+		bptr += write_len;
+		length -= write_len;
+		ret = spi_nor_erase(block_start_addr, 0,
+				    fp->spi_con, fp->cs);
+		if (ret < 0) {
+			WARN("Error erasing SPI NOR at address 0x%x\n",
+			     block_start_addr);
+			goto error;
+		}
+		ret = spi_nor_write(spi_buffer, SPI_NOR_ERASE_SIZE,
+				    block_start_addr, addr_mode,
+				    fp->spi_con, fp->cs);
+		if (ret != SPI_NOR_ERASE_SIZE) {
+			WARN("Error writing block to SPI NOR at address 0x%x\n",
+			     block_start_addr);
+			goto error;
+		}
+		block_start_addr += SPI_NOR_ERASE_SIZE;
+		*length_written += write_len;
+	}
+
+	if (length > 0) {
+		write_len = length & ~(SPI_NOR_ERASE_SIZE - 1);
+		erase_blk_cnt = write_len / SPI_NOR_ERASE_SIZE;
+		/* Write entire blocks */
+		if (write_len > 0) {
+			/* Erase all of the blocks */
+			erase_addr = block_start_addr;
+			while (erase_blk_cnt) {
+				ret = spi_nor_erase(erase_addr, addr_mode,
+						    fp->spi_con, fp->cs);
+				if (ret < 0) {
+					WARN("Error erasing block at address 0x%x\n",
+					     block_start_addr);
+					goto error;
+				}
+				erase_addr += SPI_NOR_ERASE_SIZE;
+				erase_blk_cnt--;
+			}
+			/* Now write them */
+			ret = spi_nor_write(bptr, write_len,
+					    block_start_addr, addr_mode,
+					    fp->spi_con, fp->cs);
+			if (ret != write_len) {
+				WARN("Error writing 0x%x  bytes at address 0x%x\n",
+					write_len, block_start_addr);
+				goto error;
+			}
+			*length_written += write_len;
+			bptr += write_len;
+			length -= write_len;
+			block_start_addr += write_len;
+		}
+		/* Check for end partial write at end */
+		if (length) {
+			block_start_addr = end_addr & ~(SPI_NOR_ERASE_SIZE - 1);
+			block_end_off = end_addr % SPI_NOR_ERASE_SIZE;
+			/* Read block of data */
+			ret = spi_nor_read(spi_buffer, SPI_NOR_ERASE_SIZE,
+					   block_start_addr, addr_mode,
+					   fp->spi_con, fp->cs);
+			if (ret != SPI_NOR_ERASE_SIZE) {
+				WARN("Error reading last block at address 0x%x\n",
+				     block_start_addr);
+				goto error;
+			}
+			ret = spi_nor_erase(block_start_addr, addr_mode,
+					    fp->spi_con, fp->cs);
+			if (ret != 0) {
+				WARN("Error erasing SPI %u:%u block at 0x%x\n",
+				     fp->spi_con, fp->cs, block_start_addr);
+				goto error;
+			}
+			memcpy(spi_buffer, bptr, block_end_off);
+			ret = spi_nor_write(spi_buffer, SPI_NOR_ERASE_SIZE,
+					    block_start_addr,
+					    addr_mode, fp->spi_con, fp->cs);
+			if (ret != SPI_NOR_ERASE_SIZE) {
+				WARN("Error writing 0x%x bytes to SPI %u:%u address 0x%x\n",
+				     SPI_NOR_ERASE_SIZE, fp->spi_con, fp->cs,
+				     block_start_addr);
+				goto error;
+			}
+			*length_written += block_end_off;
+		}
+	}
+
+	fp->file_pos += *length_written;
+
+	return 0;
+
+error:
+	return -EIO;
+}
+
 static int spi_block_close(io_entity_t *entity)
 {
+	file_state_t *fp;
+
 	assert(entity != NULL);
 
-	entity->info = 0;
+	fp = (file_state_t *)entity->info;
+	assert(fp != NULL);
 
-	/* This would be a mem free() if we had malloc.*/
-	memset((void *)&current_file, 0, sizeof(current_file));
+	spi_state_free(fp);
+	entity->info = 0;
 
 	return 0;
 }
 
 static int spi_block_size(io_entity_t *entity, size_t *length)
 {
-	*length = current_file.length;
+	file_state_t *fp = (file_state_t *)entity->info;
+	*length = fp->length;
 	return 0;
 }
+
+int spi_block_config(uintptr_t handle, uint32_t spi_con, uint32_t cs)
+{
+	io_entity_t *entity = (io_entity_t *)handle;
+	file_state_t *fp;
+
+	assert(entity != NULL);
+	fp = (file_state_t *)entity->info;
+	assert(fp != NULL);
+
+	if (spi_con >= MAX_SPI_BUS) {
+		WARN("%s: SPI_%u: Unsupported SPI controller\n", __func__,
+		     spi_con);
+		return -EINVAL;
+	}
+	if (cs >= MAX_SPI_CS) {
+		WARN("%s: SPI_%u: Unsupported SPI CS %u\n", __func__,
+		     spi_con, cs);
+		return -EINVAL;
+	}
+	fp->spi_con = spi_con;
+	fp->cs = cs;
+
+	return 0;
+}
+
 
 static int spi_dev_init(io_dev_info_t *dev_info, const uintptr_t init_params)
 {
@@ -1150,7 +1393,6 @@ static int spi_dev_init(io_dev_info_t *dev_info, const uintptr_t init_params)
 
 static int spi_dev_close(io_dev_info_t *dev_info)
 {
-	/* NOP */
 	/* TODO: Consider tracking open files and cleaning them up here */
 	return 0;
 }
@@ -1162,12 +1404,11 @@ static const io_dev_funcs_t spi_dev_funcs = {
 	.seek = spi_block_seek,
 	.size = spi_block_size,
 	.read = spi_block_read,
-	.write = NULL,
+	.write = spi_block_write,
 	.close = spi_block_close,
 	.dev_init = spi_dev_init,
 	.dev_close = spi_dev_close,
 };
-
 
 /* No state associated with this device so structure can be const */
 static const io_dev_info_t spi_dev_info = {
