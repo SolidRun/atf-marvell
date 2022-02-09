@@ -1663,6 +1663,40 @@ octeontx_io_data_read(struct io_handle *io_handle, uint64_t offset,
 	return UPDATE_OK;
 }
 
+
+#define EBF_CONFIG_OFFSET_CNF10KB 0x00FD0000
+#define EBF_CONFIG_OFFSET 0x01FD0000
+#define EBF_CONFIG_SIZE 0x20000
+static int erase_ebf_config_data(void)
+{
+
+	int ret;
+	int erase_count = EBF_CONFIG_SIZE / SPI_NOR_ERASE_SIZE;
+	int erase_start_addr;
+
+	if (cavm_is_model(OCTEONTX_CNF10KB))
+		erase_start_addr = EBF_CONFIG_OFFSET_CNF10KB;
+	else
+		erase_start_addr = EBF_CONFIG_OFFSET;
+
+	if (plat_octeontx_bcfg->bcfg.boot_dev.boot_type == OCTEONTX_BOOT_SPI) {
+		VERBOSE("Erasing ebf config data at: 0x%x, size: 0x%x\n", erase_start_addr, EBF_CONFIG_SIZE);
+		while (erase_count) {
+			ret = spi_nor_erase(erase_start_addr, 0,
+					    plat_octeontx_bcfg->bcfg.boot_dev.controller,
+					    plat_octeontx_bcfg->bcfg.boot_dev.cs);
+			if (ret) {
+				WARN("Cannot erase SPI at offset 0x%x\n", erase_start_addr);
+				return UPDATE_IO_ERROR;
+			}
+			erase_start_addr += SPI_NOR_ERASE_SIZE;
+			erase_count--;
+		}
+	}
+
+	return 0;
+}
+
 /**
  * Read data from flash storage
  *
@@ -2203,6 +2237,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
 	struct io_handle io_handle;
+
+	erase_ebf_config_data();
 
 	assert(uret);
 	debug_fw_update("desc: 0x%lx, desc size: 0x%llx, dram size: 0x%llx\n",
