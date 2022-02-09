@@ -916,70 +916,82 @@ Replace argument ``0xXXXXXXX`` from the below table for the corresponding mode.
      - ETHTOOL_LINK_MODE_10000baseLR_Full_BIT
      - 0x100000000000
    * - 6
+     - ETH_MODE_10G_KR
+     - ETHTOOL_LINK_MODE_10000BaseKR_Full_BIT
+     - 0x80000
+   * - 7
      - ETH_MODE_25G_C2C
      - ETHTOOL_LINK_MODE_25000baseSR_Full_BIT
      - 0x200000000
-   * - 7
+   * - 8
      - ETH_MODE_25G_C2M
      - ETHTOOL_LINK_MODE_10000baseR_FEC_Full_BIT
      - 0x100000
-   * - 8
+   * - 9
+     - ETH_MODE_25G_CR
+     - ETHTOOL_LINK_MODE_25000BaseCR_Full_BIT
+     - 0x80000000
+   * - 10
+     - ETH_MODE_25G_KR
+     - ETHTOOL_LINK_MODE_25000BaseKR_Full_BIT
+     - 0x100000000
+   * - 11
      - ETH_MODE_40G_C2C
      - ETHTOOL_LINK_MODE_40000BaseSR4_Full_BIT
      - 0x2000000
-   * - 9
+   * - 12
      - ETH_MODE_40G_C2M
      - ETHTOOL_LINK_MODE_40000BaseLR4_Full_BIT
      - 0x4000000
-   * - 10
+   * - 13
      - ETH_MODE_50G_C2C			/* This is 1 lane 50G */
      - ETHTOOL_LINK_MODE_50000baseSR2_Full_BIT
      - 0x10000000000
-   * - 11
+   * - 14
      - ETH_MODE_50G_C2M			/* This is 1 lane 50G */
      - ETHTOOL_LINK_MODE_50000baseDR_Full_BIT
      - 0x100000000000000
-   * - 12
+   * - 15
      - ETH_MODE_50GAUI_2_C2C
      - ETHTOOL_LINK_MODE_50000baseSR_Full_BIT	/* This is 2 lanes 50G */
      - 0x20000000000000
-   * - 13
+   * - 16
      - ETH_MODE_50GAUI_2_C2M
      - ETHTOOL_LINK_MODE_50000baseLR_ER_FR_Full_BIT	/* This is 2 lanes 50G */
      - 0x80000000000000
-   * - 14
+   * - 17
      - ETH_MODE_100GAUI_2_C2C
      - ETHTOOL_LINK_MODE_100000baseSR2_Full_BIT		/* This is 2 lanes 100G */
      - 0x400000000000000
-   * - 15
+   * - 18
      - ETH_MODE_100GAUI_2_C2M
      - ETHTOOL_LINK_MODE_100000baseLR2_ER2_FR2_Full_BIT /* This is 2 lanes 100G */
      - 0x1000000000000000
-   * - 16
+   * - 19
      - ETH_MODE_100G_C2C
      - ETHTOOL_LINK_MODE_100000BaseSR4_Full_BIT	/* This is 4 lanes 100G */
      - 0x2000000000
-   * - 17
+   * - 20
      - ETH_MODE_100G_C2M
      - ETHTOOL_LINK_MODE_100000BaseLR4_ER4_Full_BIT /* This is 4 lanes 100G */
      - 0x8000000000
-   * - 18
+   * - 21
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_10BaseT_Full_BIT
      - 0x2
-   * - 19
+   * - 22
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_100BaseT_Half_BIT
      - 0x4
-   * - 20
+   * - 23
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_100BaseT_Full_BIT
      - 0x8
-   * - 21
+   * - 24
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_1000BaseT_Half_BIT
      - 0x10
-   * - 22
+   * - 25
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_1000BaseT_Full_BIT
      - 0x20
@@ -999,7 +1011,7 @@ Single Lane Chip-to-Chip Protocols
 * MODE change between SGMII / 1000BASEX(1G_X) / 10G_C2C(XFI) / 25G_C2C(25GAUI_C2C)
 
 Single Lane Cable Protocols
-* MODE change between SGMII / 1000BASEX(1G_X) / 10G_C2M(SFI) / 25G_C2M(25GAUI_C2M) / 50G_C2C / 50G_C2M
+* MODE change between SGMII / 1000BASEX(1G_X) / 10G_C2M(SFI) / 25G_C2M(25GAUI_C2M) / 50G_C2C / 50G_C2M / 10G_KR / 25G_CR / 25G_KR
 
 Two Lane Protocols
 * MODE change between 100_2_C2C / 100_2_C2M
