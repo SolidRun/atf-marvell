@@ -188,13 +188,19 @@ typedef enum {
 
 /* Supported CPRI modes */
 typedef enum {
-	ETH_MODE_CPRI_2_4G_BIT = 1,
+	ETH_MODE_CPRI_2_4G_BIT,
+	ETH_MODE_CPRI_3_1G_BIT,
 	ETH_MODE_CPRI_4_9G_BIT,
 	ETH_MODE_CPRI_6_1G_BIT,
 	ETH_MODE_CPRI_9_8G_BIT,
 	ETH_MODE_CPRI_10_1_BIT,
 	ETH_MODE_CPRI_24_3G_BIT,
 } eth_cpri_mode_t;
+
+typedef enum {
+	MODE_GROUP_ETH,		/* Groups 0 and 1 are reserved for ethernet */
+	MODE_GROUP_CPRI = 2,
+} mode_group_t;
 
 #define ETH_ALL_SUPPORTED_MODES 0xFFFFFFFFFFFFFFFF
 
@@ -412,7 +418,12 @@ struct eth_mode_change_args {
 	uint64_t speed:4; /* eth_link_speed enum */
 	uint64_t duplex:1; /* 0 - full duplex, 1 - half duplex */
 	uint64_t an:1;	/* 0 - disable AN, 1 - enable AN */
+#ifdef PLAT_CN10K_FAMILY
+	uint64_t use_portm_idx:1;
+	uint64_t portm_idx:5;
+#else
 	uint64_t reserved2:6;
+#endif
 	/* This field categorize the mode ID range to accommodate more modes.
 	 * To specify mode ID range of 0 - 41, this field will be 0.
 	 * To specify mode ID range of 42 - 83, this field will be 1 and so.

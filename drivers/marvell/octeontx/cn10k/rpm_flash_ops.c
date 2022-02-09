@@ -42,25 +42,21 @@ static int rpm_read_flash_lmac_params(uint8_t *buf, uint64_t *buflen)
 	return spi_read_ethernet_persistent_data((uintptr_t) buf, buflen);
 }
 
-static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
+static int rpm_update_flash_lmac_params(int portm_idx, int cmd,
 					int arg)
 {
-	rpm_lmac_config_t *lmac;
 	rpm_lmac_flash_ctx_t fctx[MAX_PORTM];
 	rpm_lmac_flash_ctx_t *ptr;
 	int err;
-	int portm_idx;
 	uint64_t buf_size = sizeof(fctx);
 	portm_config_t *portm;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
 	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
 	err = rpm_read_flash_lmac_params((uint8_t *)fctx, &buf_size);
 	if (err < 0) {
-		debug_rpm_flash("%s: %d:%d Read flash failed for lmac params\n", __func__,
-				rpm_id, lmac_id);
+		debug_rpm_flash("%s: PORTM%d Read flash failed for lmac params\n", __func__,
+				portm_idx);
 		return -1;
 	}
 	ptr = &fctx[portm_idx];
@@ -85,14 +81,14 @@ static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
 		ptr->s.portm_mode = arg;
 		ptr->s.fec_invalid = 0;
 		/* FIXME for line FEC when support is available */
-		ptr->s.fec_type = lmac->fec;
+		ptr->s.fec_type = portm->fec;
 	}
 
-	debug_rpm_flash("%s %d:%d flash status %d portm %d portm mode %x\n",
-			__func__, rpm_id, lmac_id, ptr->s.status, ptr->s.portm_idx,
+	debug_rpm_flash("%s PORTM%d flash status %d portm %d portm mode %x\n",
+			__func__, portm_idx, ptr->s.status, ptr->s.portm_idx,
 			ptr->s.portm_mode);
-	debug_rpm_flash("%s %d:%d fec invalid %d type %x\n",
-			__func__, rpm_id, lmac_id, ptr->s.fec_invalid, ptr->s.fec_type);
+	debug_rpm_flash("%s PORTM%d fec invalid %d type %x\n",
+			__func__, portm_idx, ptr->s.fec_invalid, ptr->s.fec_type);
 
 	err = spi_update_ethernet_persistent_data((uintptr_t)fctx, sizeof(fctx));
 	if (err < 0) {
@@ -103,15 +99,33 @@ static int rpm_update_flash_lmac_params(int rpm_id, int lmac_id, int cmd,
 	return 0;
 }
 
+int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode)
+{
+	return rpm_update_flash_lmac_params(portm_idx, PORTM_MODE,
+		portm_mode);
+}
+
 int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode)
 {
-	return rpm_update_flash_lmac_params(rpm_id, lmac_id, PORTM_MODE,
+	rpm_lmac_config_t *lmac;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+
+	return rpm_update_flash_lmac_params(portm_idx, PORTM_MODE,
 					    portm_mode);
 }
 
 int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec)
 {
-	return rpm_update_flash_lmac_params(rpm_id, lmac_id, FEC, fec);
+	rpm_lmac_config_t *lmac;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+
+	return rpm_update_flash_lmac_params(portm_idx, FEC, fec);
 }
 
 

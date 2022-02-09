@@ -173,18 +173,30 @@ void sh_fwdata_init(void)
 	sh_fwdata_update_ptp(fwdata);
 }
 
-void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id)
+void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id, int mac_type)
 {
-	struct eth_lmac_fwdata_s *fwdata;
-	rpm_lmac_config_t *lmac_cfg;
+	struct eth_lmac_fwdata_s *fwdata =
+		get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 
-	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
+	if (mac_type == PORTM_ETH) {
+		rpm_lmac_config_t *lmac_cfg;
 
-	fwdata->lmac_type = lmac_cfg->mode;
-	debug_shmem_mgmt("%s: %d:%d LMAC mode 0x%llx\n", __func__,
+		lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+		fwdata->lmac_type = lmac_cfg->mode;
+		debug_shmem_mgmt("%s: %d:%d LMAC mode 0x%llx\n",
+			__func__,
 			rpm_id, lmac_id,
 			fwdata->lmac_type);
+	} else {
+		fwdata->rw_valid = 0;
+		fwdata->supported_link_modes = 0;
+		fwdata->supported_an = 0;
+		fwdata->supported_fec = 0;
+		fwdata->lmac_type = 0;
+
+		debug_shmem_mgmt("%s: %d:%d Ethernet LMAC disabled\n",
+			__func__, rpm_id, lmac_id);
+	}
 }
 
 void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id)

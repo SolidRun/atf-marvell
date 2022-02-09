@@ -94,7 +94,7 @@ void sh_fwdata_update_phy_can_change_mod_type(int cgx_id, int lmac_id);
 void sh_fwdata_update_phy_has_fec_stats(int cgx_id, int lmac_id);
 void sh_fwdata_update_phy_fec_stats(int cgx_id, int lmac_id);
 void sh_fwdata_set_supported_link_modes(int cgx_id, int lmac_id);
-void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id);
+void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id, int mac_type);
 void sh_fwdata_set_supported_an(int rpm_id, int lmac_id);
 
 static inline uint64_t get_sh_fwdata_base(void)

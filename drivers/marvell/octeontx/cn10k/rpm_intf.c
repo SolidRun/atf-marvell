@@ -522,7 +522,7 @@ fec_fail:
 	return -1;
 }
 
-static const rpm_speed_mode_map_s rpm_speed_mode_map[] = {
+static const speed_mode_map_s rpm_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_DISABLED */
 	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_INVALID  */
 	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_INACTIVE */
@@ -568,14 +568,35 @@ static const rpm_speed_mode_map_s rpm_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_100GBASE_KR2_BIT)}, /* PORTM_MODE_100GBASE_KR2 */
 };
 
-static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask)
+static const speed_mode_map_s cpri_speed_mode_map[] =
 {
-	for (int i = 0; i < ARRAY_SIZE(rpm_speed_mode_map); i++) {
-		debug_rpm_intf("%s: i %d mode_bitmask 0x%llx speed_mode_map[i].mode_bitmask 0x%llx\n", __func__,
+	{(1ULL << ETH_MODE_CPRI_2_4G_BIT)},
+	{(1ULL << ETH_MODE_CPRI_3_1G_BIT)},
+	{(1ULL << ETH_MODE_CPRI_4_9G_BIT)},
+	{(1ULL << ETH_MODE_CPRI_6_1G_BIT)},
+	{(1ULL << ETH_MODE_CPRI_9_8G_BIT)},
+};
+
+static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask, int mode_group)
+{
+	const speed_mode_map_s *map = rpm_speed_mode_map;
+	size_t len = ARRAY_SIZE(rpm_speed_mode_map);
+	const char *group = "rpm";
+
+	if (mode_group == MODE_GROUP_CPRI) {
+		map = cpri_speed_mode_map;
+		len = ARRAY_SIZE(cpri_speed_mode_map);
+		group = "cpri";
+	}
+
+	for (int i = 0; i < len; i++) {
+		debug_rpm_intf("%s: i %d mode_bitmask 0x%llx %s_speed_mode_map[i].mode_bitmask 0x%llx\n", __func__,
 				i, mode_bitmask,
-				rpm_speed_mode_map[i].mode_bitmask);
-		if (rpm_speed_mode_map[i].mode_bitmask == mode_bitmask)
-			return i;
+				group,
+				map[i].mode_bitmask);
+		if (map[i].mode_bitmask == mode_bitmask)
+			return mode_group == MODE_GROUP_ETH ?
+				i : i + PORTM_MODE_CPRI_2_4G;
 	}
 	return PORTM_MODE_INVALID;
 }
@@ -696,59 +717,219 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	sh_fwdata_set_supported_link_modes(rpm_id, lmac_id);
 }
 
-static int rpm_check_mode_change_allowed(int rpm_id, int lmac_id, int new_portm_mode,
-						uint64_t mode_bitmask)
+static int rpm_check_mode_change_allowed(rpm_lmac_config_t *lmac_cfg,
+				uint64_t mode_bitmask)
 {
-	int change = 0;
-	rpm_lmac_config_t *lmac_cfg;
-	int new_lc, current_lc;
-	portm_config_t *portm;
-
-	debug_rpm_intf("%s: %d:%d mode_bitmask 0x%llx\n", __func__, rpm_id, lmac_id, mode_bitmask);
-
-	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
-
 	/* Check if mode is in the supported link modes */
 	if (!(mode_bitmask & lmac_cfg->supported_link_modes)) {
 		debug_rpm_intf("%s: Not supported link mode bitmask 0x%llx link_mode 0x%llx\n",
 			__func__, mode_bitmask,
 			lmac_cfg->supported_link_modes);
+		return -1;
+	}
+
+	return 0;
+}
+
+static void rpm_update_lmac_mode_config(int rpm_id, int lmac_id)
+{
+	rpm_lmac_config_t *lmac;
+	lmac_mode_info_t *mode_info;
+	portm_config_t *portm;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
+	mode_info = &lmac->lmac_mode_info[lmac->mode];
+
+	lmac->sfp_slot = 0;
+	lmac->sfp_info = NULL;
+	portm->an_disable = 0;
+
+	if (mode_info->sfp) {
+		lmac->sfp_info =
+			&plat_octeontx_bcfg->sfp_slots[mode_info->sfp_info_idx];
+		lmac->sfp_slot = 1;
+	}
+
+	if (mode_info->an_disable)
+		portm->an_disable = 1;
+
+	rpm_set_supported_link_modes(rpm_id, lmac_id);
+}
+
+static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
+			rpm_lmac_context_t *lmac_ctx, ecp_link_state_t *link_state)
+{
+	uint64_t init_time, link_timeout;
+	int ret, status = 0;
+
+	ret = ecp_send_link_req(portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE, lmac_ctx);
+	if (ret == -1) {
+		/* Request not sent */
+		debug_rpm_intf("%s: PORTM%d (RPM%d.LMAC%d) Request not sent\n",
+			__func__, portm_idx, rpm_id, lmac_id);
+		return -1;
+	}
+
+	debug_rpm_intf("%s: PORTM%d (RPM%d.LMAC%d) Mode Change Request sent to ECP\n",
+		__func__, portm_idx, rpm_id, lmac_id);
+
+	init_time = clock_get_count(GSER_CLOCK_TIME);
+	link_timeout = init_time + RPM_POLL_LINK_BRINGUP_STATUS *
+			clock_get_rate(GSER_CLOCK_TIME)/1000000;
+	while (clock_get_count(GSER_CLOCK_TIME)
+		< link_timeout) {
+		status = ecp_get_link_state(portm_idx, link_state);
+
+		if (status == ETH_LINK_STATE_LINK_UP)
+			return 0;
+		else if (status == ETH_LINK_STATE_LINK_STOPPED) {
+			/* FIXME : KR/CR modes state */
+			return 0;
+		}
+		mdelay(5);
+	}
+
+	return 0;
+}
+
+static int rpm_get_validated_portm_mode(int portm_idx, uint64_t req_mode,
+					int mode_group)
+{
+	int portm_mode;
+
+	/* Get PORTM mode for requested mode */
+	portm_mode = rpm_obtain_portm_mode(req_mode, mode_group);
+	if (portm_mode == PORTM_MODE_INVALID) {
+		debug_rpm_intf("%s: PORTM%d: No valid PORTM mode for requested mode : 0x%llx (mode group: %d)\n",
+				__func__,
+				portm_idx,
+				req_mode, mode_group);
+		return -1;
+	}
+	debug_rpm_intf("%s: req_mode 0x%llx (mode group: %d) portm_mode %d\n",
+		__func__, req_mode, mode_group, portm_mode);
+
+	/* If portm_mode is non-zero, validate if it is one of
+	 * modes applicable for the PORTM
+	 */
+	if (cn10k_portm_mode_valid(portm_idx, portm_mode) != 1) {
+		ERROR("PORTM%d: Invalid mode configuration : %d\n",
+				portm_idx,
+				portm_mode);
+		return -1;
+	}
+
+	return portm_mode;
+}
+
+static int rpm_handle_cpri_mode_change(int portm_idx,
+				struct eth_mode_change_args *args)
+{
+	portm_config_t *portm;
+	ecp_link_state_t link_state;
+	int switch_from_eth = 0;
+	uint64_t req_mode = 0;
+	int ret, mode_group, portm_mode;
+	int rpm_id, lmac_id;
+
+	portm = &plat_octeontx_bcfg->portm_cfg[portm_idx];
+
+	/* Check if switching from ethernet mode */
+	if (portm->mac_type == PORTM_ETH) {
+		rpm_id = portm->mac_num;
+		lmac_id = portm->mac_lane;
+		switch_from_eth = 1;
+	} else {
+		rpm_id = -1;
+		lmac_id = -1;
+	}
+
+	req_mode = args->mode;
+	mode_group = args->mode_group_idx;
+
+	/* This handler should only be called when switching to CPRI */
+	if (mode_group != MODE_GROUP_CPRI)
+		return -1;
+
+	portm_mode = rpm_get_validated_portm_mode(portm_idx, req_mode, mode_group);
+	if (portm_mode == -1)
+		return -1;
+
+	if (portm->portm_mode == portm_mode) {
+		WARN("%s: PORTM%d Requested mode is same as current mode, Ignore request\n",
+				__func__, portm_idx);
 		return 0;
 	}
 
-	/* Allow mode change if new mode's requested serdes lane is less
-	 * than current mode lane num
-	 */
-	current_lc = cn10k_portm_get_mode_desc_serdes_num(portm->portm_mode);
-	new_lc = cn10k_portm_get_mode_desc_serdes_num(new_portm_mode);
-	if (new_lc && current_lc >= new_lc)
-		change = 1;
+	/* Update the PORTM config struct */
+	portm->portm_mode = portm_mode;
+	portm->gser_numlanes = 1;
+	cn10k_fill_portm_tx_eq_info(portm_idx, portm_mode);
+	cn10k_fill_portm_mac_info(portm_idx, portm_mode);
+	cn10k_fill_portms_used(portm_idx, portm_mode);
 
-	debug_rpm_intf("%s: %d:%d change %d new_lc %d max lane count %d\n",
-				__func__, rpm_id, lmac_id, change,
-				new_lc, current_lc);
-	return change;
+	/* Send request to ECP for mode change */
+	ret = rpm_ecp_req_mode_change(portm_idx, rpm_id, lmac_id,
+		NULL, &link_state);
+	if (ret)
+		return -1;
+
+	debug_rpm_intf("%s: PORTM%d change to mode=%d completed\n",
+		__func__, portm_idx, portm_mode);
+
+	if (switch_from_eth) {
+		rpm_config_t *rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
+		rpm_lmac_config_t *lmac = &rpm->lmac_cfg[lmac_id];
+
+		lmac->portm_idx = 0;
+		lmac->port_enable = 0;
+		lmac->lmac_enable = 0;
+		rpm->lmac_count--;
+
+		/* Disable Ethernet LMAC in shared memory */
+		sh_fwdata_set_lmac_type(rpm_id, lmac_id, PORTM_CPRI);
+	}
+
+	if (rpm_update_flash_mode_param_by_portm_idx(portm_idx, portm->portm_mode))
+		debug_rpm_intf("%s: PORTM%d Flash update mode failed\n",
+			__func__, portm_idx);
+
+	return 0;
 }
 
-static int rpm_handle_mode_change(int rpm_id, int lmac_id,
+static int rpm_handle_eth_mode_change(int portm_idx,
 				struct eth_mode_change_args *args)
 {
 	rpm_link_state_t link;
 	rpm_lmac_context_t *lmac_ctx;
+	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
-	int req_speed, req_duplex, valid = 1;
-	int invalid_req = 0, portm_mode = 0;
+	int req_speed, req_duplex;
+	int invalid_req = 0, portm_mode = 0, mode_group;
 	uint64_t req_mode = 0;
-	uint64_t init_time, link_timeout;
-	int ret = 0, status = 0;
+	int ret = 0;
 	ecp_link_state_t link_state;
+	int rpm_id, lmac_id;
 	portm_config_t *portm;
 	int numlanes;
 	cn10k_portm_fec_t fec, fec_orig;
+	int switch_from_cpri = 0;
+	int current_lc, new_lc;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
+	portm = &plat_octeontx_bcfg->portm_cfg[portm_idx];
+
+	if (portm->mac_type == PORTM_ETH) {
+		rpm_id = portm->mac_num;
+		lmac_id = portm->mac_lane;
+	} else {
+		switch_from_cpri = 1;
+		rpm_id = cn10k_portm_get_rpm_num(portm_idx);
+		lmac_id = cn10k_portm_get_rpm_lmac_num(portm_idx);
+	}
+
+	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_id];
+	lmac = &rpm->lmac_cfg[lmac_id];
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	req_speed = args->speed;
 	/* mode_group_idx categorizes the mode ID range to accommodate more modes.
@@ -757,11 +938,12 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 	 * mode ID will be still mentioned as 1 << (0 - 41). Obtain mode accordingly
 	 * using mode_group_idx
 	 */
-	req_mode = args->mode + (args->mode_group_idx * 42);
+	req_mode = args->mode;
+	mode_group = args->mode_group_idx;
 	req_duplex = args->duplex;
 
-	debug_rpm_intf("%s: %d:%d speed %d req_speed %d req_duplex %d req_mode 0x%llx\n",
-				__func__, rpm_id, lmac_id, lmac_ctx->s.speed,
+	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%llx\n",
+				__func__, portm_idx, lmac_ctx->s.speed,
 					req_speed, req_duplex, req_mode);
 
 	/* Check if arguments are valid */
@@ -769,154 +951,142 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 		invalid_req = 1;
 		/* FIXME for duplex, AN */
 		if (invalid_req == 1) {
-			debug_rpm_intf("%s: %d: %d Invalid speed/AN/mode request\n",
-					 __func__, rpm_id, lmac_id);
+			debug_rpm_intf("%s: PORTM%d Invalid speed/AN/mode request\n",
+					 __func__, portm_idx);
 			rpm_set_error_type(rpm_id, lmac_id,
 					ETH_ERR_SPEED_CHANGE_INVALID);
 			goto mode_err;
 		}
 	}
 
-	/* Get PORTM mode for requested mode */
-	portm_mode = rpm_obtain_portm_mode(req_mode);
-	if (portm_mode == PORTM_MODE_INVALID) {
-		debug_rpm_intf("%s: portm%d: Not valid PORTM mode found for requested mode : 0x%llx\n",
-				__func__,
-				lmac->portm_idx,
-				req_mode);
+	portm_mode = rpm_get_validated_portm_mode(portm_idx, req_mode, mode_group);
+	if (portm_mode == -1) {
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
-		goto mode_err;
-	}
-	debug_rpm_intf("%s: req_mode 0x%llx portm_mode %d\n", __func__, req_mode, portm_mode);
-
-	/* If portm_mode is non-zero, validate if it is one of
-	 * modes applicable for the PORTM
-	 */
-	if (cn10k_portm_mode_valid(lmac->portm_idx, portm_mode) != 1) {
-		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
-		ERROR("portm%d: Invalid mode configuration : %d\n",
-				lmac->portm_idx,
-				portm_mode);
-		goto mode_err;
+		return -1;
 	}
 
-	if (portm->portm_mode != portm_mode) {
-		/* Validate against supported link modes */
-		valid = rpm_check_mode_change_allowed(rpm_id, lmac_id, portm_mode,
-								req_mode);
-		if (valid) {
-			/* Update the PORTM cfg struct */
-			portm->portm_mode = portm_mode;
-
-			/* Check if fec type was specified and is supported by the
-			 * requested mode. If not, then set to lowest supported FEC.
-			 */
-			fec_orig = fec = portm->fec;
-			ret = cn10k_portm_fec_valid(portm_mode, &fec);
-			if (!ret)
-				debug_rpm_intf("PORTM%d: FEC %s not supported by mode %s, using FEC %s\n",
-					       lmac->portm_idx, cn10k_portm_fec_type_to_str(fec_orig),
-					       cn10k_portm_mode_to_cfg_str(portm_mode),
-					       cn10k_portm_fec_type_to_str(fec));
-			/* Updates FEC if current portm->fec not supported */
-			portm->fec = fec;
-
-			/* Only support individual KR/CR modes
-			 * Multiple modes only supported in EBF dts
-			 */
-			if (cn10k_portm_get_mode_desc_ap_sup(portm_mode)) {
-				portm_ap_802_3_config_t ap_802_3_cfg = {0};
-				cn10k_portm_modes_t portm_mode_temp;
-
-				/* Alway advertise BASE-R/RS FEC ability during AN */
-				ap_802_3_cfg.portm_mode[0] = portm_mode;
-				ap_802_3_cfg.fec_req[0] = portm->fec;
-				ap_802_3_cfg.fec_abil[0] = PORTM_FEC_ABIL_BASER_RS;
-
-				if (!cn10k_portm_802_3ap_cfg(lmac->portm_idx, &ap_802_3_cfg,
-							     &portm_mode_temp, &numlanes)) {
-					debug_rpm_intf("%s: %d:%d Invalid 802.3AP mode\n",
-						       __func__, rpm_id, lmac_id);
-					goto mode_err;
-				}
-				portm->an_lt_ena = 1;
-			} else {
-				numlanes = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
-				portm->an_lt_ena = 0;
-			}
-
-			portm->gser_numlanes = numlanes;
-			cn10k_fill_portm_tx_eq_info(lmac->portm_idx, portm_mode);
-			cn10k_fill_portm_mac_info(lmac->portm_idx, portm_mode);
-			cn10k_fill_portms_used(lmac->portm_idx, portm_mode);
-
-			/* Update the LMAC type */
-			lmac->mode = gserm_get_mode_strmap(portm_mode).mode;
-			/* Send request to ECP for mode change */
-			ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE, lmac_ctx);
-			if (ret == -1) {
-				/* Request not sent */
-				debug_rpm_intf("%s: %d:%d Request not sent to ECP\n",
-					__func__, rpm_id, lmac_id);
-				rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
-				goto mode_err;
-			} else {
-				debug_rpm_intf("%s: %d:%d Request sent to ECP\n",
-					__func__, rpm_id, lmac_id);
-				/* Wait for
-				 * RPM_POLL_LINK_BRINGUP_STATUS ms after
-				 * sending the request to check if ECP has completed
-				 * link bring up. For subsequent requests, just check the status
-				 * and return without wait.
-				 */
-				init_time = clock_get_count(GSER_CLOCK_TIME);
-				link_timeout = init_time + RPM_POLL_LINK_BRINGUP_STATUS *
-						clock_get_rate(GSER_CLOCK_TIME)/1000000;
-				while (clock_get_count(GSER_CLOCK_TIME)
-					< link_timeout) {
-					status = ecp_get_link_state(lmac->portm_idx, &link_state);
-					/* Clear any errors set during LINK bring up as the mode
-					 * is changed now successfully and link may come up
-					 * later
-					 */
-					rpm_set_error_type(rpm_id, lmac_id, 0);
-					if (status == ETH_LINK_STATE_LINK_UP)
-						goto link_state;
-					else if (status == ETH_LINK_STATE_LINK_STOPPED) {
-						/* FIXME : KR/CR modes state */
-						goto link_state;
-					}
-					mdelay(5);
-				}
-				goto link_state;
-			}
-		} else {
-			debug_rpm_intf("%s: %d:%d Invalid speed/AN/mode request\n", __func__, rpm_id, lmac_id);
-			rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
-			goto mode_err;
-		}
-	} else {
-		WARN("%s: %d:%d Requested mode is same as current mode, Ignore request\n",
-				__func__, rpm_id, lmac_id);
+	if (portm->portm_mode == portm_mode) {
+		WARN("%s: PORTM%d Requested mode is same as current mode, Ignore request\n",
+				__func__, portm_idx);
 		link.s.fec = lmac_ctx->s.fec;
 		link.s.link_up = lmac_ctx->s.link_up;
 		link.s.full_duplex = lmac_ctx->s.full_duplex;
 		link.s.speed = lmac_ctx->s.speed;
 		rpm_set_link_state(rpm_id, lmac_id, &link, 0);
+		return 0;
 	}
-	return 0;
 
-link_state:
-	debug_rpm_intf("%s: %d:%d Mode Change Completed\n", __func__, rpm_id, lmac_id);
+	/* Validate against supported link modes */
+	if (portm->mac_type == PORTM_ETH &&
+		rpm_check_mode_change_allowed(lmac, req_mode)) {
+
+		debug_rpm_intf("%s: PORTM%d Invalid speed/AN/mode request\n",
+			__func__, portm_idx);
+		rpm_set_error_type(rpm_id, lmac_id,
+			ETH_ERR_SPEED_CHANGE_INVALID);
+		goto mode_err;
+	}
+
+	/* Allow mode change if new mode's requested serdes lane is less
+	 * than current mode lane num
+	 */
+	current_lc = cn10k_portm_get_mode_desc_serdes_num(portm->portm_mode);
+	new_lc = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
+	if (new_lc == -1 || current_lc < new_lc) {
+		ERROR("%s: PORTM%d: requested lane count (%d) higher than available (%d)\n",
+			__func__, portm_idx, new_lc, current_lc);
+		return -1;
+	}
+
+	debug_rpm_intf("%s: PORTM%d new_lc %d max lane count %d\n",
+				__func__, portm_idx,
+				new_lc, current_lc);
+
+	/* Update the PORTM cfg struct */
+	portm->portm_mode = portm_mode;
+
+	/* Check if fec type was specified and is supported by the
+	 * requested mode. If not, then set to lowest supported FEC.
+	 */
+	fec_orig = fec = portm->fec;
+	ret = cn10k_portm_fec_valid(portm_mode, &fec);
+	if (!ret)
+		debug_rpm_intf("PORTM%d: FEC %s not supported by mode %s, using FEC %s\n",
+			       portm_idx, cn10k_portm_fec_type_to_str(fec_orig),
+			       cn10k_portm_mode_to_cfg_str(portm_mode),
+			       cn10k_portm_fec_type_to_str(fec));
+	/* Updates FEC if current portm->fec not supported */
+	portm->fec = fec;
+
+	/* Only support individual KR/CR modes
+	 * Multiple modes only supported in EBF dts
+	 */
+	if (cn10k_portm_get_mode_desc_ap_sup(portm_mode)) {
+		portm_ap_802_3_config_t ap_802_3_cfg = {0};
+		cn10k_portm_modes_t portm_mode_temp;
+
+		/* Alway advertise BASE-R/RS FEC ability during AN */
+		ap_802_3_cfg.portm_mode[0] = portm_mode;
+		ap_802_3_cfg.fec_req[0] = portm->fec;
+		ap_802_3_cfg.fec_abil[0] = PORTM_FEC_ABIL_BASER_RS;
+
+		if (!cn10k_portm_802_3ap_cfg(portm_idx, &ap_802_3_cfg,
+					     &portm_mode_temp, &numlanes)) {
+			debug_rpm_intf("%s: %d:%d Invalid 802.3AP mode\n",
+				       __func__, rpm_id, lmac_id);
+			goto mode_err;
+		}
+		portm->an_lt_ena = 1;
+	} else {
+		numlanes = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
+		portm->an_lt_ena = 0;
+	}
+
+	portm->gser_numlanes = numlanes;
+	cn10k_fill_portm_tx_eq_info(portm_idx, portm_mode);
+	cn10k_fill_portm_mac_info(portm_idx, portm_mode);
+	cn10k_fill_portms_used(portm_idx, portm_mode);
+
+	/* Update the LMAC type */
+	lmac->mode = gserm_get_mode_strmap(portm_mode).mode;
+
+	/* Clear the errors and send request to ECP for mode change */
+	rpm_set_error_type(rpm_id, lmac_id, 0);
+	ret = rpm_ecp_req_mode_change(portm_idx, rpm_id, lmac_id,
+		lmac_ctx, &link_state);
+	if (ret) {
+		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
+		goto mode_err;
+	}
+
+	debug_rpm_intf("%s: PORTM%d (RPM%d.LMAC%d) change to mode=%d completed\n",
+		__func__, portm_idx, rpm_id, lmac_id, portm_mode);
 	/* Update link status and LMAC context structure */
 	lmac_ctx->s.link_up = link.s.link_up = link_state.s.link_up;
 	lmac_ctx->s.full_duplex = link.s.full_duplex = link_state.s.duplex;
 	lmac_ctx->s.speed = link.s.speed = link_state.s.speed;
 	lmac_ctx->s.fec = link.s.fec = link_state.s.fec;
+
+	if (switch_from_cpri) {
+		lmac->fec = portm->fec;
+		lmac->portm_idx = portm_idx;
+		lmac->port_enable = 1;
+		lmac->lmac_enable = 1;
+
+		rpm->lmac_count++;
+		rpm->enable = 1;
+	}
+	rpm_update_lmac_mode_config(rpm_id, lmac_id);
+
 	rpm_set_link_state(rpm_id, lmac_id, &link,
 			rpm_get_error_type(rpm_id, lmac_id));
 	/* Update new LMAC mode to shared memory */
-	sh_fwdata_set_lmac_type(rpm_id, lmac_id);
+	sh_fwdata_set_lmac_type(rpm_id, lmac_id, PORTM_ETH);
+
+	if (rpm_update_flash_mode_param(rpm_id, lmac_id, portm->portm_mode))
+		debug_rpm_intf("%s: %d:%d Flash update mode failed\n", __func__,
+			rpm_id, lmac_id);
+
 	return 0;
 mode_err:
 	/* In case of not performing MODE change, update the link as saved status */
@@ -927,6 +1097,61 @@ mode_err:
 	rpm_set_link_state(rpm_id, lmac_id, &link,
 			rpm_get_error_type(rpm_id, lmac_id));
 	return -1;
+}
+
+static int rpm_handle_mode_change(int rpm_id, int lmac_id,
+				struct eth_mode_change_args *args)
+{
+	portm_config_t *portm;
+	int ret = -1, portm_idx;
+	int use_portm_idx = args->use_portm_idx;
+	int dest_mode_grp = args->mode_group_idx;
+	rpm_lmac_config_t *lmac =
+		&plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	if (!lmac->lmac_enable && !use_portm_idx) {
+		ERROR("%s: Missing PORTM index required for non-ethernet mode\n",
+			__func__);
+		return -1;
+	}
+
+	portm_idx = use_portm_idx ? args->portm_idx : lmac->portm_idx;
+
+	if (portm_idx < 0 || portm_idx >= MAX_PORTM) {
+		ERROR("%s: '%d' is not valid PORTM index\n",
+			__func__, portm_idx);
+		return -1;
+	}
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+
+	if (portm->portm_mode == PORTM_MODE_INACTIVE) {
+		debug_rpm_intf("%s: PORTM%d used by another mode\n",
+			__func__, portm_idx);
+
+		return -1;
+	}
+
+	if (portm->mac_type == PORTM_CPRI && !use_portm_idx) {
+		ERROR("%s: Use PORTM index when switching from CPRI\n",
+			__func__);
+		return -1;
+	}
+
+	switch (dest_mode_grp) {
+	case MODE_GROUP_CPRI:
+		ret = rpm_handle_cpri_mode_change(portm_idx, args);
+		break;
+
+	case MODE_GROUP_ETH:
+		ret = rpm_handle_eth_mode_change(portm_idx, args);
+		break;
+
+	default:
+		break;
+	}
+
+	return ret;
 }
 
 /* Note : this function executes with lock acquired */
@@ -965,7 +1190,8 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	if ((request_id == ETH_CMD_INTF_SHUTDOWN) ||
 		(request_id == ETH_CMD_SET_MAC_ADDR) ||
 		(request_id == ETH_CMD_GET_FWD_BASE) ||
-		(request_id == ETH_CMD_GET_FW_VER)) {
+		(request_id == ETH_CMD_GET_FW_VER) ||
+		(request_id == ETH_CMD_MODE_CHANGE)) {
 		switch (request_id) {
 		case ETH_CMD_INTF_SHUTDOWN:
 			rpm_fw_intf_shutdown();
@@ -996,6 +1222,14 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 		case ETH_CMD_SET_MAC_ADDR:
 			sh_fwdata_update_mac_addr(scratchx1.s.mac_args.addr,
 						  scratchx1.s.mac_args.pf_id);
+			break;
+
+		case ETH_CMD_MODE_CHANGE:
+			/* Read the command arguments from SCRATCH(1) */
+			scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
+						rpm_id, lmac_id, 1));
+			ret = rpm_handle_mode_change(rpm_id, lmac_id,
+					&scratchx1.s.mode_change_args);
 			break;
 		}
 	} else {
@@ -1088,20 +1322,6 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 					if (rpm_update_flash_fec_param(rpm_id, lmac_id,
 							req_fec))
 						debug_rpm_intf("%s: %d:%d Flash update fec failed\n", __func__,
-								rpm_id, lmac_id);
-				}
-			break;
-			case ETH_CMD_MODE_CHANGE:
-				/* Read the command arguments from SCRATCH(1) */
-				scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
-							rpm_id, lmac_id, 1));
-				ret = rpm_handle_mode_change(rpm_id, lmac_id,
-						&scratchx1.s.mode_change_args);
-				if (!rpm_get_error_type(rpm_id, lmac_id)) {
-					/* Update the PORTM mode in flash */
-					if (rpm_update_flash_mode_param(rpm_id, lmac_id,
-							portm->portm_mode))
-						debug_rpm_intf("%s: %d:%d Flash update mode failed\n", __func__,
 								rpm_id, lmac_id);
 				}
 			break;

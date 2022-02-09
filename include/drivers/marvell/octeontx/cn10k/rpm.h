@@ -152,9 +152,9 @@ typedef union rpm_lmac_context {
 } rpm_lmac_context_t;
 
 /* Mapping of mode to PORTM mode */
-typedef struct rpm_speed_mode_map {
+typedef struct speed_mode_map {
 	uint64_t mode_bitmask;
-} rpm_speed_mode_map_s;
+} speed_mode_map_s;
 
 /* RPM driver APIs */
 void rpm_set_error_type(int rpm_id, int lmac_id, uint64_t type);
@@ -174,6 +174,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 
 int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec);
 int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode);
+int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode);
 /* Returns 1 if debug enabled, 0 if disabled */
 int rpm_debug_log_state(void);
 
