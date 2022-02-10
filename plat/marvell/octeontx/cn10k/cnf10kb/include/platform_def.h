@@ -15,6 +15,8 @@
 #define PLATFORM_CORE_COUNT		(PLATFORM_CLUSTER_COUNT * \
 						PLATFORM_CORE_PER_CLUSTER)
 
+#define MAX_IO_BLOCK_DEVICES		2
+
 /* Number of TWSI interfaces */
 #define TWSI_NUM			12
 #define MAX_USB_BUS			 0

@@ -15,6 +15,7 @@
 #define PLATFORM_CORE_COUNT		(PLATFORM_CLUSTER_COUNT * \
 						PLATFORM_CORE_PER_CLUSTER)
 
+#define MAX_IO_BLOCK_DEVICES		2
 #define MAX_XLAT_TABLES			130
 
 /* Number of TWSI interfaces */
