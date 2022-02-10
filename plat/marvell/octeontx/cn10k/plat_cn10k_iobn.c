@@ -25,6 +25,10 @@
 #define RVU0_54_8ID 0x40
 #define RVU31_57_8ID 0x5f
 
+/* NCB DID range for PEM */
+#define PEM_START_8ID 0x80
+#define PEM_END_8ID 0x8f
+
 /* NCB DID of RNG */
 #define RNG_DID 0xf
 
@@ -290,6 +294,13 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 
 	/* Permit all access types for rvu0-31 NCB requests */
 	for( did = RVU0_54_8ID; did <= RVU31_57_8ID; did++ ) {
+		acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, did));
+		acc.s.all_cmds = 1;
+		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, did), acc.u);
+	}
+
+	/* Permit all access types for PEM NCB requests */
+	for( did = PEM_START_8ID; did <= PEM_END_8ID; did++ ) {
 		acc.u = CSR_READ(CAVM_IOBNX_NCBX_ACC(iobn_nr, did));
 		acc.s.all_cmds = 1;
 		CSR_WRITE(CAVM_IOBNX_NCBX_ACC(iobn_nr, did), acc.u);
