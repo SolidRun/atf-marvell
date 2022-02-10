@@ -34,7 +34,7 @@
 #define MRR_CYCLES				30 /*30 days*/
 
 #define FLASH_ERASE_MARK	0xFFFFFFFF
-#define SIGNATURE			0xCAFEBABB
+#define SIGNATURE			0xCAFEBABA
 
 /*
  * struct mrr - Descriptor for MRR registers layout
@@ -84,12 +84,12 @@ typedef int64_t ppr_t;
  * Buffer for PPR statistics
  *
  * signature - flash initialization identifier
- * head_mrr - index of the first free record
- * head_ppr - index of the first free record
+ * head_mrr - index of the first free record RMM region
+ * head_ppr - index of the first free record PPR region
  * mrr_cycle - cycle counter for timer MRR_POLL_INTERVAL
  * ppr_cycle - keep number of hPPR procedures
  * mrr_max_EpRC - max error per row counter after each day cycle for PPR on demand
- * last_ppr_cycle_done - number of last ppr index EBF checked
+ * head_ppr_start - index of first ppr record index EBF to check
  */
 struct ppr_mrr_header {
 	uint32_t signature;
