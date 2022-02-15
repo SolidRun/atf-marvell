@@ -457,11 +457,13 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	rpm_lmac_config_t *lmac;
 	rpm_lmac_context_t *lmac_ctx;
 	portm_config_t *portm;
+	portm_ap_802_3_adv_t *ap_adv;
 	cn10k_portm_fec_t fec = 0, ret = 0;
 
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
+	ap_adv = &portm->ap_802_3_adv;
 
 	debug_rpm_intf("%s: %d:%d fec %d request_fec %d\n", __func__, rpm_id,
 				lmac_id, lmac->fec, req_fec);
@@ -493,7 +495,11 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	debug_rpm_intf("%s: %d:%d fec %d\n", __func__, rpm_id, lmac_id, fec);
 
 	/* FIXME: Validate FEC based on transceiver and add support for line side FEC */
-	portm->fec = lmac->fec = fec;
+	if (portm->an_lt_ena) {
+		cn10k_portm_update_802_3ap_fec(fec, ap_adv);
+		portm->fec = lmac->fec = fec;
+	} else
+		portm->fec = lmac->fec = fec;
 
 	/* Send request to ECP for FEC change */
 	if (rpm_fec_change(rpm_id, lmac_id, lmac->fec, lmac_ctx, &link_sts))

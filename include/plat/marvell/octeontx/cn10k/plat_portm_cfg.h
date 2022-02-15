@@ -518,4 +518,16 @@ void cn10k_portm_update_802_3ap_adv(cn10k_portm_modes_t mode_idx,
 				    cn10k_portm_fec_t fec_types, int fec_abil,
 				    portm_ap_802_3_adv_t *ap_adv);
 
+/**
+ * Updates the 802.3AP advertisement struct based on FEC(s) requested
+ * Clears any exiting FEC requests prior to programming new FEC requests
+ * FEC settings are programmed based on current mode advertisements.
+ * Note: does not update FEC abilities
+ * @param  fec_types  FEC(s) Requested
+ * @param  *ap_adv    802.3AP advertisement struct
+ *
+ */
+void cn10k_portm_update_802_3ap_fec(cn10k_portm_fec_t fec_types,
+				    portm_ap_802_3_adv_t *ap_adv);
+
 #endif /* __PORTM_H__ */

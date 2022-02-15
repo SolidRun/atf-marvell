@@ -1702,3 +1702,58 @@ void cn10k_portm_update_802_3ap_adv(cn10k_portm_modes_t mode_idx,
 	/* Advertise Pause ASM_DIR Ability in Base Page C1 */
 	ap_adv->fc_asm_dir = 1;
 }
+
+/**
+ * Updates the 802.3AP advertisement struct based on FEC(s) requested
+ * Clears any exiting FEC requests prior to programming new FEC requests
+ * FEC settings are programmed based on current mode advertisements.
+ * Note: does not update FEC abilities
+ * @param  fec_types  FEC(s) Requested
+ * @param  *ap_adv    802.3AP advertisement struct
+ *
+ */
+void cn10k_portm_update_802_3ap_fec(cn10k_portm_fec_t fec_types,
+				    portm_ap_802_3_adv_t *ap_adv)
+{
+	/* Clear existing FEC requests */
+	ap_adv->fec_10g_req = 0;
+	ap_adv->fec_25g_baser = 0;
+	ap_adv->fec_25g_baser_cons = 0;
+	ap_adv->fec_25g_rs = 0;
+	ap_adv->fec_25g_rs_cons = 0;
+
+	if (fec_types & PORTM_FEC_BASER) {
+		/* Check if 10Gb/s BASER mode */
+		if (ap_adv->an_10gbase_kr
+		    || ap_adv->an_40gbase_cr4
+		    || ap_adv->an_40gbase_kr4) {
+			ap_adv->fec_10g_req = 1;
+			ap_adv->fec_10g_abil = 1;
+		}
+		/* Check if 25Gb/s Base-spec mode */
+		if (ap_adv->an_25gbase_kcr
+		    || ap_adv->an_25gbase_kcrs)
+			ap_adv->fec_25g_baser = 1;
+		/* Check if 25Gb/s Cons mode */
+		if (ap_adv->an_25gbase_cr_cons
+		    || ap_adv->an_25gbase_kr_cons) {
+			ap_adv->fec_25g_baser_abil = 1;
+			ap_adv->fec_25g_baser_cons = 1;
+		}
+	}
+
+	if (fec_types & PORTM_FEC_RS) {
+		/* Check if 25Gb/s Base-spec mode */
+		if (ap_adv->an_25gbase_kcr
+		    || ap_adv->an_25gbase_kcrs)
+			ap_adv->fec_25g_rs = 1;
+		/* Check if 25Gb/s Cons mode */
+		if (ap_adv->an_25gbase_cr_cons
+		    || ap_adv->an_25gbase_kr_cons
+		    || ap_adv->an_50gbase_cr2_cons
+		    || ap_adv->an_50gbase_kr2_cons) {
+			ap_adv->fec_25g_rs_abil = 1;
+			ap_adv->fec_25g_rs_cons = 1;
+		}
+	}
+}

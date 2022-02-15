@@ -236,7 +236,8 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
 	/* Update the new PORTM mode to SM for certain requests */
-	if (req_id == ECP_LINK_REQ_MODE_CHANGE) {
+	if ((req_id == ECP_LINK_REQ_MODE_CHANGE)
+	    || (req_id == ECP_LINK_REQ_FEC_CHANGE)) {
 		sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
 
 		if (sh_portm == NULL) {
