@@ -262,12 +262,12 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 	return 0;
 }
 
-#define ECCOPCTRL1	(0x87e1c0210b84ll + 0x1000000ll)
-#define ECCSWCTL	(0x87e1c0210c80ll + 0x1000000ll)
-#define ECCCFG2		(0x87e1c0210668ll + 0x1000000ll)
-#define ECCCFG1		(0x87e1c0210604ll + 0x1000000ll)
-#define ECCADDR0	(0x87e1c0210648ll + 0x1000000ll)
-#define ECCADDR1	(0x87e1c021064cll + 0x1000000ll)
+#define ECCOPCTRL1	0x87e1c0210b84ll + 0x1000000ll
+#define ECCSWCTL	0x87e1c0210c80ll + 0x1000000ll
+#define ECCCFG2	0x87e1c0210668ll + 0x1000000ll
+#define ECCCFG1	0x87e1c0210604ll + 0x1000000ll
+#define ECCADDR0	0x87e1c0210648ll + 0x1000000ll
+#define ECCADDR1	0x87e1c021064cll + 0x1000000ll
 #define DATA_LANE_BITS 2 // for 32-bit channels
 #define MAX_DATA_LANES (1 << DATA_LANE_BITS)
 #define BLM (MAX_DATA_LANES - 1) // BLM == Byte-Lane Mask
@@ -397,16 +397,16 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 	dmbsy();
 
 	//setup poison start
-	octeontx_write32(ECCOPCTRL1 * ch, reg_OPCTRL1.u);
-	octeontx_write32(ECCSWCTL * ch, reg_SWCTL.u);
+	octeontx_write32((ECCOPCTRL1 * ch), reg_OPCTRL1.u);
+	octeontx_write32((ECCSWCTL * ch), reg_SWCTL.u);
 
-	octeontx_write32(ECCADDR0 * ch, reg_ECCPOISONADDR0.u);
-	octeontx_write32(ECCADDR1 * ch, reg_ECCPOISONADDR1.u);
-	octeontx_write32(ECCCFG2 * ch, reg_ECCCFG2.u);
-	octeontx_write32(ECCCFG1 * ch, reg_ECCCFG1.u);
+	octeontx_write32((ECCADDR0 * ch), reg_ECCPOISONADDR0.u);
+	octeontx_write32((ECCADDR1 * ch), reg_ECCPOISONADDR1.u);
+	octeontx_write32((ECCCFG2 * ch), reg_ECCCFG2.u);
+	octeontx_write32((ECCCFG1 * ch), reg_ECCCFG1.u);
 
-	octeontx_write32(ECCSWCTL * ch, reg_SWCTL_2.u);
-	octeontx_write32(ECCOPCTRL1 * ch, reg_OPCTRL1_2.u);
+	octeontx_write32((ECCSWCTL * ch), reg_SWCTL_2.u);
+	octeontx_write32((ECCOPCTRL1 * ch), reg_OPCTRL1_2.u);
 	//setup poison end
 
 	dmbsy();
@@ -476,13 +476,13 @@ static int dss_disable_einj(int ch)
 	dmbsy();
 
 	//setup poison start
-	octeontx_write32(ECCOPCTRL1 * ch, reg_OPCTRL1.u);
-	octeontx_write32(ECCSWCTL * ch, reg_SWCTL.u);
+	octeontx_write32((ECCOPCTRL1 * ch), reg_OPCTRL1.u);
+	octeontx_write32((ECCSWCTL * ch), reg_SWCTL.u);
 
-	octeontx_write32(ECCCFG1 * ch, reg_ECCCFG1.u);
+	octeontx_write32((ECCCFG1 * ch), reg_ECCCFG1.u);
 
-	octeontx_write32(ECCSWCTL * ch, reg_SWCTL_2.u);
-	octeontx_write32(ECCOPCTRL1 * ch, reg_OPCTRL1_2.u);
+	octeontx_write32((ECCSWCTL * ch), reg_SWCTL_2.u);
+	octeontx_write32((ECCOPCTRL1 * ch), reg_OPCTRL1_2.u);
 	//setup poison end
 
 	dmbsy();
