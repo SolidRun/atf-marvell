@@ -1511,7 +1511,7 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 {
 	int ret;
 	enum update_ret uret = UPDATE_OK;
-	const io_dev_connector_t *conn;
+	const io_dev_connector_t *conn = NULL;
 	bool is_mmc = !!(desc->update_flags & UPDATE_FLAG_EMMC);
 
 	/* Set the starting offset and length of the block storage */
@@ -1543,8 +1543,9 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 		}
 		conn = emmc_dev_con;
 	} else {
+		debug_fw_update("%s: Setting up SPI media\n", __func__);
 		if (spi_dev_con == NULL) {
-			debug_fw_update("%s: Setting up SPI media\n", __func__);
+			debug_fw_update("%s: Registering SPI IO device connector\n", __func__);
 			ret = register_io_dev_spi(&spi_dev_con);
 			if (ret != 0) {
 				WARN("Error registering SPI IO device connector\n");
@@ -2713,10 +2714,10 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 		dst_desc.bus, dst_desc.cs);
 
 	zeromem(&src_io, sizeof(src_io));
-	uret = setup_media(&src_io, &src_desc);
 	src_io.dev_handle = &media_dev_handle;
 	src_io.io_handle = &media_handle;
 	src_io.spec = &media_spec;
+	uret = setup_media(&src_io, &src_desc);
 	if (uret != UPDATE_OK) {
 		vinfo->retcode = BACKUP_IO_SRC_ERROR;
 		err = uret;
