@@ -60,3 +60,24 @@ corresponding table layout and initialization values like polling
 interval, Error Status Block address (8byte), actual Error Status Block, and
 Ring buffer memory block.
 
+CN10K RAS GHES Error injection
+==================================
+
+Enable module config:
+OCTEONTX2_SDEI_GHES=y
+OCTEONTX2_SDEI_GHES_DEBUG=y
+MARVELL_CN10K_EINJ=y
+
+SMC based interface for error injection from sysfs /sys/module/cn10k_einj/parameters/smc:
+0xd     - SMC first parameter identify inject error interface to DSS
+address - Physical Address to corrupt
+flags   - Flags mark type of error SEC/DED and position of bit to corrupt
+          0..7 - bit position to corrupt
+          8    - error type 0 = DED (double), 1 = SEC (single)
+
+Flip one bit at address 0x2fffff000
+echo "0xd,0x2fffff000,0x101" > /sys/module/cn10k_einj/parameters/smc
+
+Flip two bits at address 0x2fffff000
+echo "0xd,0x2fffff000,0x1" > /sys/module/cn10k_einj/parameters/smc
+
