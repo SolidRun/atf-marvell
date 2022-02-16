@@ -274,6 +274,8 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 
 #define ERASSBRST	1002
 
+static int dss_disable_einj(int ch);
+
 /*
  * @param address For DED/SEC: Physical address to corrupt, and
  *                 any byte alignment is supported
@@ -525,8 +527,7 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 			xlate.bank, xlate.row, xlate.col, xlate.phys_addr, xlate.offset);
 
 	if (xlate.col & 0x0F) {
-		debug_ras(
-				"Address has unaligned COL bits - ignoring; try another address\n");
+		debug_ras("Address has unaligned COL bits - ignoring; try another address\n");
 	}
 
 	dmbsy();
@@ -538,7 +539,7 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	dmbsy();
 	udelay(1000);
 
-	debug_ras("Original value 0x%llx: %x\n", aligned_address, before);
+	debug_ras("Poison original value 0x%llx: %x\n", aligned_address, before);
 
 	dmbsy();
 #if DATA_LANE_BITS == 2
@@ -550,6 +551,9 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	flush_dcache_range(aligned_address, 64);
 	dmbsy();
 	udelay(1000);
+
+	dss_disable_einj(xlate.ch);
+	debug_ras("Trigger ECC for 0x%llx\n", aligned_address);
 
 	dmbsy();
 #if DATA_LANE_BITS == 2
@@ -576,10 +580,12 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 
 	octeontx_mmap_remove_dynamic_region_with_sync(address, PAGE_SIZE);
 
+	return 0;
+
 err:
 	dss_disable_einj(xlate.ch);
 
-	return 0;
+	return -1;
 }
 
 int cn10k_inject_dss_error(uint64_t address, uint64_t etype, uint64_t in_bits)
