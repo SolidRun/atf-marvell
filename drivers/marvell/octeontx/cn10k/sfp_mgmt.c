@@ -561,7 +561,8 @@ void qsfp_get_info(int eth_id, int lmac_id)
 		 * table is maintained in SFF 8024 extended specification
 		 * compliance codes : table 4 - 4
 		 */
-		debug_sfp_mgmt("%s: Use extended technology field\n", __func__);
+		debug_sfp_mgmt("%s: Use extended technology field mod_info->ext_compliance 0x%x\n", __func__,
+				mod_info->ext_compliance);
 		switch (mod_info->ext_compliance) {
 		case 0x0:
 			debug_sfp_mgmt("%s: unspecified transceiver type detected\n", __func__);
@@ -618,14 +619,36 @@ void qsfp_get_info(int eth_id, int lmac_id)
 			debug_sfp_mgmt("%s: 100G active copper cable detected\n", __func__);
 			cap_info->trans_type = SFP_TRANS_TYPE_100G_ACC;
 			break;
+		case 0x21:
+			debug_sfp_mgmt("%s: 100G PAM4 detected\n", __func__);
+			cap_info->trans_type = SFP_TRANS_TYPE_100G_AOC;
+			break;
+		case 0x30:
+		case 0x32:
+			debug_sfp_mgmt("%s:  200GBASE-4 AOC detected\n", __func__);
+			cap_info->trans_type = SFP_TRANS_TYPE_200G_AOC;
+			break;
+		case 0x31:
+		case 0x33:
+			debug_sfp_mgmt("%s:  200GBASE-4 ACC detected\n", __func__);
+			cap_info->trans_type = SFP_TRANS_TYPE_200G_ACC;
+			break;
+		case 0x40:
+			debug_sfp_mgmt("%s:  200GBASE-CR4 detected\n", __func__);
+			cap_info->trans_type = SFP_TRANS_TYPE_200G_CR4;
+			break;
+		case 0x41:
+			debug_sfp_mgmt("%s:  200GBASE-SR4 detected\n", __func__);
+			cap_info->trans_type = SFP_TRANS_TYPE_200G_SR4;
+			break;
 		default:
-			debug_sfp_mgmt("%s: unknown medium\n", __func__);
+			debug_sfp_mgmt("%s: Unknown medium\n", __func__);
 			cap_info->trans_type = SFP_TRANS_TYPE_UNKNOWN;
 			break;
 		}
 	break;
 	default:
-		debug_sfp_mgmt("%s: unknown medium\n", __func__);
+		debug_sfp_mgmt("%s: Unknown medium\n", __func__);
 		cap_info->trans_type = SFP_TRANS_TYPE_UNKNOWN;
 		break;
 	}
@@ -667,10 +690,10 @@ void qsfp_get_info(int eth_id, int lmac_id)
 	}
 
 	/* FIXME : Log the other vendor details if required */
-	debug_sfp_mgmt("%s: Vendor name: %16.16s Vendor OUI: 02%x:02%x:02%x\t",
+	debug_sfp_mgmt("%s: Vendor name: %s Vendor OUI: %x:%x:%x\t",
 			__func__, mod_info->vendor_name, mod_info->vendor_oui[0],
 			mod_info->vendor_oui[1], mod_info->vendor_oui[2]);
-	debug_sfp_mgmt("Vendor Part num: %16.16s Revision %2.2s\n",
+	debug_sfp_mgmt("Vendor Part num: %s Revision %s\n",
 			mod_info->vendor_pn, mod_info->vendor_rev);
 }
 
@@ -692,6 +715,7 @@ int sfp_get_an_capability(int eth_id, int lmac_id)
 	case SFP_TRANS_TYPE_40G_CR4:
 	case SFP_TRANS_TYPE_100G_CR4:
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_CR:
+	case SFP_TRANS_TYPE_200G_CR4:
 		an = 1;	/* AN supported */
 		break;
 	default:
@@ -757,6 +781,12 @@ int sfp_get_fec_capability(int eth_id, int lmac_id)
 	case SFP_TRANS_TYPE_100G_ACC:
 	case SFP_TRANS_TYPE_100G_CR4:
 		fec = SFP_FEC_MODE_RS_FIRECODE;
+		break;
+	case SFP_TRANS_TYPE_200G_AOC:
+	case SFP_TRANS_TYPE_200G_SR4:
+	case SFP_TRANS_TYPE_200G_CR4:
+	case SFP_TRANS_TYPE_200G_ACC:
+		fec = SFP_FEC_MODE_RS;
 		break;
 	default:
 		fec = SFP_FEC_MODE_NONE;
@@ -826,6 +856,12 @@ int sfp_get_speed_capability(int eth_id, int lmac_id)
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_AOC:
 		max_speed = 100000;
 		break;
+	case SFP_TRANS_TYPE_200G_AOC:
+	case SFP_TRANS_TYPE_200G_SR4:
+	case SFP_TRANS_TYPE_200G_CR4:
+	case SFP_TRANS_TYPE_200G_ACC:
+		max_speed = 200000;
+		break;
 	/* FIXME for 50G/Multirate */
 	default:
 		max_speed = 0;
@@ -864,6 +900,8 @@ int sfp_is_transceiver_optical(int eth_id, int lmac_id)
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_SR:
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_LR:
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_AOC:
+	case SFP_TRANS_TYPE_200G_AOC:
+	case SFP_TRANS_TYPE_200G_SR4:
 		optical = 1;
 		break;
 	default:
@@ -913,6 +951,8 @@ int sfp_is_transceiver_active(int eth_id, int lmac_id)
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_SR:
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_LR:
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_AOC:
+	case SFP_TRANS_TYPE_200G_AOC:
+	case SFP_TRANS_TYPE_200G_ACC:
 		active = 1;
 		break;
 	default:
@@ -1042,12 +1082,12 @@ retry_read_eeprom:
 int sfp_validate_user_options(int eth_id, int lmac_id)
 {
 	int speed_conf = 0;
-	int an_enabled = 0;
+	int an_enabled = 0, fec_type = 0;
 	rpm_lmac_config_t *lmac_cfg;
 	phy_config_t *phy;
 	portm_config_t *portm;
 	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
-	char *fec_str[3] = {"none", "baser", "rs"};
+	char *fec_str[5] = {"none", "baser", "rs", "rs",/* RS 528 */ "rs"/* RS 544 */};
 
 	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
@@ -1085,21 +1125,25 @@ int sfp_validate_user_options(int eth_id, int lmac_id)
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 	an_enabled = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
 	if (!an_enabled) {
+		fec_type = portm->fec;
+		if ((portm->fec == PORTM_FEC_RS_528_ONLY) || (portm->fec == PORTM_FEC_RS_544_ONLY))
+			fec_type = PORTM_FEC_RS;
+
 		/* Validate user options against QSFP/SFP module capabilities
 		 * in case of FIXED modes to check if it matches. If it doesn't
 		 * match, throw error to the user
 		 */
-		if ((lmac_cfg->fec != -1) && (lmac_cfg->fec != 0)) {
+		if ((fec_type != -1) && (fec_type != 0)) {
 			/* In this case, user has configured FEC and it needs
 			 * to be validated against CAP. If user has not
 			 * configured FEC or FEC is disabled, no need to
 			 * validate it
 			 */
-			if ((cap_info->fec_type & lmac_cfg->fec) == 0) {
+			if ((cap_info->fec_type & fec_type) == 0) {
 				ERROR("%s: %d:%d User has configured\t"
 				"FEC to be %s,\t"
 				"but module's FEC cap is %s\n", __func__,
-					eth_id, lmac_id, fec_str[lmac_cfg->fec],
+					eth_id, lmac_id, fec_str[fec_type],
 					fec_str[cap_info->fec_type]);
 				return 0;
 			}
