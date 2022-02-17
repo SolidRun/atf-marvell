@@ -181,12 +181,12 @@ typedef enum portm_gserm_prbs_mode {
 typedef struct {
 	cn10k_portm_modes_t     mode  : 8;      /* Mode of the PORTM */
 	cn10k_portm_fec_t       fec : 10;       /* Which FEC's are supported */
-	int                     serdes_num : 4; /* Number of SERDES lanes used by PORTM mode */
-	int                     mac_num : 4;    /* Number of MACs used by PORTM mode */
-	int                     ap_sup : 1;     /* Set if 802_3AP supported mode */
-	int                     fec_abil : 1;   /* Set if PORTM mode supports FEC_ABIL */
+	uint8_t                 serdes_num : 4; /* Number of SERDES lanes used by PORTM mode */
+	uint8_t                 mac_num : 4;    /* Number of MACs used by PORTM mode */
+	uint8_t                 ap_sup : 1;     /* Set if 802_3AP supported mode */
+	uint8_t                 fec_abil : 1;   /* Set if PORTM mode supports FEC_ABIL */
 	cn10k_portm_mac_type_t  mac_type: 4;    /* MAC type used by portm_mode */
-	int                     speed_mhz;      /* Datarate speed in MHz */
+	uint32_t                speed_mhz;      /* Datarate speed in MHz */
 	cn10k_portm_pcs_type_t  pcs_type;       /* PCS type used by portm_mode (Eth only) */
 } cn10k_portm_mode_desc_t;
 
