@@ -706,11 +706,12 @@ static int get_pa_10_7(uint64_t pa_dmchashed)
 
 static int from_ch_offset_to_pa(addr_xlate_t *xlate)
 {
+	xlate->ch_mask = cn10k_get_ch_mask();
 	int P = __builtin_popcount(xlate->ch_mask);
-	int f2, f3;
+	int f2 = 0, f3 = 0;
 
 	if (find_factors(P, &f2, &f3)) {
-		printf("find_factors() error\n");
+		printf("find_factors() error ch_mask%d P=%d f2=%d f3=%d\n", xlate->ch_mask, P, f2, f3);
 		return -1;
 	}
 
