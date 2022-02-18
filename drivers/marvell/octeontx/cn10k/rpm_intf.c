@@ -1077,6 +1077,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		rpm->enable = 1;
 	}
 	rpm_update_lmac_mode_config(rpm_id, lmac_id);
+	sfp_update_sfp_info(rpm_id, lmac_id);
 
 	rpm_set_link_state(rpm_id, lmac_id, &link,
 			rpm_get_error_type(rpm_id, lmac_id));

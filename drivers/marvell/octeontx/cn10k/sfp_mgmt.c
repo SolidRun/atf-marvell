@@ -78,6 +78,7 @@ void sfp_init_shmem(void)
 			if (lmac->sfp_slot && lmac->sfp_info) { /* if SFP slot is present */
 				memcpy(&sh_data->sfp_slot, lmac->sfp_info,
 						sizeof(sfp_slot_info_t));
+				sh_data->sfp_ctx.valid = 1;
 			}
 			/* Assign RPM/LMAC IDs */
 			sh_data->eth_id = eth_idx;
@@ -92,6 +93,52 @@ void sfp_init_shmem(void)
 				sizeof(sh_data->board_model));
 		}
 	}
+}
+
+int sfp_update_sfp_info(int eth_id, int lmac_id)
+{
+	int retry_lock = 5;
+	sfp_context_t *ctx;
+	rpm_lmac_config_t *lmac;
+	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return -1;
+	}
+	ctx = &sh_data->sfp_ctx;
+
+retry_acquire_lock:
+	if (ctx->lock == SFP_OWN_NONE) {
+		ctx->lock = SFP_OWN_AP;
+	} else {
+		if (retry_lock-- <= 0) {
+			mdelay(1);
+			goto retry_acquire_lock;
+		}
+
+		debug_sfp_mgmt("%s %d:%d lock %d not available for AP\n",
+					__func__,
+					eth_id, lmac_id, ctx->lock);
+		return -1;
+	}
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	/* Check and update if SFP slot is present */
+	if (lmac->sfp_slot && lmac->sfp_info) {
+		memcpy(&sh_data->sfp_slot, lmac->sfp_info,
+			sizeof(sfp_slot_info_t));
+		ctx->valid = 1;
+		ctx->updated = 1;
+	} else {
+		if (ctx->valid) {
+			ctx->valid = 0;
+			ctx->updated = 1;
+		}
+	}
+	ctx->lock = SFP_OWN_NONE;
+
+	return 0;
 }
 
 int sfp_get_mod_status(int eth_id, int lmac_id)

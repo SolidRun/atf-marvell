@@ -333,6 +333,7 @@ typedef struct sfp_capabilities {
 /* Declare APIs */
 void sfp_init_shmem(void);
 void sfp_send_msg_mcp(int cgx_id, int lmac_id);
+int sfp_update_sfp_info(int eth_id, int lmac_id);
 int sfp_parse_eeprom_data(int cgx_id, int lmac_id);
 int sfp_get_mod_status(int cgx_id, int lmac_id);
 int sfp_get_an_capability(int cgx_id, int lmac_id);
