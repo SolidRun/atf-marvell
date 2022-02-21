@@ -973,6 +973,7 @@ int sfp_parse_eeprom_data(int eth_id, int lmac_id)
 	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
 	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
 	uint16_t sff_id = 0;
+	rpm_lmac_config_t *lmac;
 
 	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
@@ -982,6 +983,7 @@ int sfp_parse_eeprom_data(int eth_id, int lmac_id)
 	}
 	ctx = &sh_data->sfp_ctx;
 	mod_info = (sfp_mod_info_t *)sh_data->buf;
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
 
 	/* Check if lock is free and if available, check the current state
 	 * to parse the buffer
@@ -1038,7 +1040,8 @@ retry_read_eeprom:
 				debug_sfp_mgmt("%s: CXP-28 inserted\n", __func__);
 				break;
 			default:
-				ERROR("%s: %d:%d unknown transceiver type inserted\n", __func__,
+				if (lmac->lmac_enable)
+					ERROR("%s: %d:%d unknown transceiver type inserted\n", __func__,
 									eth_id, lmac_id);
 				ret = SFP_TRANS_TYPE_NONE;
 			}
