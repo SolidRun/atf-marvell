@@ -245,7 +245,7 @@ static int setup_interrupt_entries(int gpio_num, int cpu, int enable)
 					el3_gpio_irqs[i].cpu = cpu;
 					el3_gpio_irqs[i].counter = 1;
 					select_irq = GPIO_SPI_IRQ(i);
-					gicv3_set_spi_routing(select_irq, GICV3_IRM_PE, read_mpidr());
+					gicv3_set_spi_routing(select_irq, GICV3_IRM_PE, CPU_TO_MPIDR(cpu));
 				}
 			}
 		}

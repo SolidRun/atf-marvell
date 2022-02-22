@@ -201,9 +201,6 @@ uint64_t bphy_psm_irq_handler(uint32_t id, uint32_t flags, void *cookie)
 	return 0;
 }
 
-#define MPIDR_MASK24	0xFFFFFF
-#define CPU_TO_MPIDR(cpu) ((read_mpidr() & ~(MPIDR_MASK24)) | (cpu << MPIDR_AFF2_SHIFT))
-
 static int setup_interrupt_entries(int irq_num, int cpu, int enable)
 {
 	int select_irq = -1;

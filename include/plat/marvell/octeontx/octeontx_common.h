@@ -19,6 +19,9 @@
 #include "cavm-arch.h"
 #pragma GCC diagnostic pop
 
+#define MPIDR_MASK24	0xFFFFFF
+#define CPU_TO_MPIDR(cpu) ((read_mpidr() & ~(MPIDR_MASK24)) | (cpu << MPIDR_AFF2_SHIFT))
+
 #define MIDR_REVISION(midr)     ((midr) & MIDR_REV_MASK)
 #define MIDR_VARIANT(midr)     \
 	(((midr) >> MIDR_VAR_SHIFT) & MIDR_VAR_MASK)
