@@ -1279,7 +1279,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 /* Timer callback to periodically poll for link */
 static int rpm_poll_for_link_cb(int timer)
 {
-	int err_type = 0, valid = 0;
+	int err_type = 0;
 	rpm_lmac_context_t *lmac_ctx;
 	rpm_lmac_config_t *lmac_cfg;
 	rpm_link_state_t link;
@@ -1295,7 +1295,7 @@ static int rpm_poll_for_link_cb(int timer)
 			if (lmac_ctx->s.link_enable) {
 				/* For RPM internal loopback, skip checking the SFP module status */
 				if ((lmac_cfg->sfp_slot) && (!lmac_ctx->s.lbk1_enable)) {
-					valid = rpm_check_sfp_mod_stat(rpm_id, lmac_id);
+					rpm_check_sfp_mod_stat(rpm_id, lmac_id);
 					/* Update SFP mod status in ECP SM */
 					ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
 				}
@@ -1303,12 +1303,12 @@ static int rpm_poll_for_link_cb(int timer)
 				/* Get the link status */
 				rpm_get_link_status(rpm_id, lmac_id, &link);
 
-				if ((valid == 1) || ((lmac_ctx->s.link_up !=
+				if ((lmac_ctx->s.link_up !=
 					link.s.link_up) ||
 					(lmac_ctx->s.full_duplex !=
 					link.s.full_duplex) ||
 					(lmac_ctx->s.speed !=
-					link.s.speed))) {
+					link.s.speed)) {
 					debug_rpm_intf("%d:%d Link changed %d\n",
 							rpm_id, lmac_id,
 							link.s.link_up);
