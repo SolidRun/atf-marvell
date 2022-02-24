@@ -43,6 +43,7 @@
 #include <drivers/io/io_block.h>
 
 #undef DEBUG_ATF_FW_UPDATE
+#define DEBUG_ATF_FW_UPDATE 1
 
 #if defined(MRVL_TF_LOG_MODULE)
 #  undef MRVL_TF_LOG_MODULE
@@ -71,6 +72,11 @@ static const int tim_ext_len = (sizeof(tim_ext) - 1);
 #define CPIO_MAX_OBJECTS		64	/* Should be more than enough */
 static const uint32_t MAX_NAME_LEN = 1024;
 static const char *TRAILER = "TRAILER!!!";
+
+/* Offsets hard coded for EBF and manufacturing configuration */
+static const uint32_t EBF_CONFIG_OFFSET_CNF10KB = 0x00FD0000;
+static const uint32_t EBF_CONFIG_OFFSET = 0x01FD0000;
+static const uint32_t EBF_CONFIG_SIZE = 0x20000;
 
 /*
  * NOTE: There are TWO handles for SPI and eMMC.  The first handle is a
@@ -404,7 +410,7 @@ static struct object_entry *last_object_entry;
 __aligned(32) static uint8_t wr_buffer[BUF_SIZE] = {0};
 __aligned(32) static uint8_t rd_buffer[BUF_SIZE] = {0};
 
-static int fnode;
+static int fnode;	/* Firmware node in device tree */
 
 static enum update_ret
 octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
@@ -467,10 +473,12 @@ static int get_object_info_from_fdt(const char *name,
 			      name, len);
 			return -EINVAL;
 		}
+
 		*is_root_tim = strncmp(type, "root-tim", len) == 0;
 		if (root_obj_name != NULL) {
 			*root_obj_name = fdt_getprop(fdt_ptr, node,
-						     "root-tim-object", &len);
+						     "root-tim-object",
+						     &len);
 			*is_root_tim = true;
 		}
 	}
@@ -1285,12 +1293,9 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	struct tim_opaque_data_version_info fl_vinfo;
 	bool is_root_tim = false;
 	const char *root_obj_name = NULL;
-
-	int ret;
-
 	uint64_t offset = 0;
 	size_t max_size;
-
+	int ret;
 
 	ret = get_object_info_from_fdt(object->data_file->filename,
 				       &offset, &max_size,
@@ -1664,40 +1669,6 @@ octeontx_io_data_read(struct io_handle *io_handle, uint64_t offset,
 	return UPDATE_OK;
 }
 
-
-#define EBF_CONFIG_OFFSET_CNF10KB 0x00FD0000
-#define EBF_CONFIG_OFFSET 0x01FD0000
-#define EBF_CONFIG_SIZE 0x20000
-static int erase_ebf_config_data(void)
-{
-
-	int ret;
-	int erase_count = EBF_CONFIG_SIZE / SPI_NOR_ERASE_SIZE;
-	int erase_start_addr;
-
-	if (cavm_is_model(OCTEONTX_CNF10KB))
-		erase_start_addr = EBF_CONFIG_OFFSET_CNF10KB;
-	else
-		erase_start_addr = EBF_CONFIG_OFFSET;
-
-	if (plat_octeontx_bcfg->bcfg.boot_dev.boot_type == OCTEONTX_BOOT_SPI) {
-		VERBOSE("Erasing ebf config data at: 0x%x, size: 0x%x\n", erase_start_addr, EBF_CONFIG_SIZE);
-		while (erase_count) {
-			ret = spi_nor_erase(erase_start_addr, 0,
-					    plat_octeontx_bcfg->bcfg.boot_dev.controller,
-					    plat_octeontx_bcfg->bcfg.boot_dev.cs);
-			if (ret) {
-				WARN("Cannot erase SPI at offset 0x%x\n", erase_start_addr);
-				return UPDATE_IO_ERROR;
-			}
-			erase_start_addr += SPI_NOR_ERASE_SIZE;
-			erase_count--;
-		}
-	}
-
-	return 0;
-}
-
 /**
  * Read data from flash storage
  *
@@ -1755,7 +1726,7 @@ octeontx_io_data_write(struct io_handle *io_handle, uint64_t offset,
 	ret = io_write(*io_handle->io_handle, (uintptr_t)buffer, size,
 		       &bytes_written);
 	if (ret != 0) {
-		WARN("Media IO writeting 0x%lx bytes to offset 0x%llx (%d)\n",
+		WARN("Media IO writing 0x%lx bytes to offset 0x%llx (%d)\n",
 		     size, offset, ret);
 		return UPDATE_IO_ERROR;
 	}
@@ -1914,6 +1885,41 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 	}
 
 	return UPDATE_OK;
+}
+
+/**
+ * Erases EBF configuration data
+ *
+ * @param	desc	Pointer to update descriptor
+ *
+ * @return	UPDATE_OK or I/O error
+ */
+static enum update_ret erase_ebf_config_data(struct smc_update_descriptor *desc)
+{
+	uint64_t offset;
+	size_t max_size;
+	bool backup;
+	enum update_ret uret;
+
+	/*
+	 * There are two possible configuration offsets, one for CNF10KB and
+	 * one for everything else.
+	 */
+	if (cavm_is_model(OCTEONTX_CNF10KB))
+		offset = EBF_CONFIG_OFFSET_CNF10KB;
+	else
+		offset = EBF_CONFIG_OFFSET;
+	max_size = EBF_CONFIG_SIZE;
+
+	/* The offset is the same whether or not the backup offset is used */
+	backup = !!(desc->update_flags & UPDATE_FLAG_BACKUP);
+	if (backup)
+		desc->update_flags &= ~UPDATE_FLAG_BACKUP;
+	uret = octeontx_erase_data(desc, offset, max_size);
+	if (backup)
+		desc->update_flags |= UPDATE_FLAG_BACKUP;
+
+	return uret;
 }
 
 /**
@@ -2165,7 +2171,8 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	debug_fw_update("%s(%llx, %llx, 0x%x, 0x%x)\n",
 			__func__, desc->image_addr,
 			desc->image_size, desc->bus, desc->cs);
-
+	debug_fw_update("%s: Updating %s flash\n", __func__,
+			desc->update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI");
 	pet_dog();
 	err = marvell_cust_verify_fw_update_image(desc);
 	if (err) {
@@ -2238,8 +2245,6 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
 	struct io_handle io_handle;
-
-	erase_ebf_config_data();
 
 	assert(uret);
 	debug_fw_update("desc: 0x%lx, desc size: 0x%llx, dram size: 0x%llx\n",
@@ -2387,8 +2392,17 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		goto error;
 	}
 
+	if (update_desc.update_flags & UPDATE_FLAG_ERASE_CONFIG) {
+		*uret = erase_ebf_config_data(&update_desc);
+		if (*uret != UPDATE_OK) {
+			ERROR("Erasing EBF configuration failed\n");
+			goto error;
+		}
+	}
+
+
 	*uret = octeontx_cn10k_update_fw(&update_desc, &uParams, async_operation);
-	if (*uret) {
+	if (*uret != UPDATE_OK) {
 		ERROR("Firmware update failed\n");
 		goto error;
 	}
@@ -2890,8 +2904,6 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 				VLOG(ventry,
 				     "Could not find %s in the firmware-layout device tree",
 				     ventry->name);
-				continue;
-			} else if (err != 0) {
 				vinfo->retcode = INVALID_DEVICE_TREE;
 				return -1;
 			}

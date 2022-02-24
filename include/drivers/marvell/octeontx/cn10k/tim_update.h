@@ -107,20 +107,26 @@ struct smc_update_obj_info {
  * Note: the following needs to be updated in U-Boot and other update tools
  * whenever this is changed.
  */
-#define UPDATE_MAGIC		0x55504454	/* UPDT */
+#define UPDATE_MAGIC			0x55504454	/* UPDT */
 /** Current smc_update_descriptor version */
-#define UPDATE_VERSION		0x0001
-
-#define UPDATE_FLAG_BACKUP	0x0001	/** Set to update secondary location */
-#define UPDATE_FLAG_EMMC	0x0002	/** Set to update eMMC instead of SPI */
-#define UPDATE_FLAG_ERASE_PART	0x0004	/** Erase eMMC partition data */
-#define UPDATE_FLAG_IGNORE_VERSION 0x0008 /** Don't perform version check */
-#define UPDATE_FLAG_FORCE_WRITE	0x0010	/** Always overwrite even if data matches */
+#define UPDATE_VERSION			0x0001
+/** Set to update secondary location */
+#define UPDATE_FLAG_BACKUP		BIT(0)
+/** Set to update eMMC instead of SPI */
+#define UPDATE_FLAG_EMMC		BIT(1)
+/** Erase eMMC partition data */
+#define UPDATE_FLAG_ERASE_PART		BIT(2)
+/** Don't perform version check */
+#define UPDATE_FLAG_IGNORE_VERSION 	BIT(3)
+/** Always overwrite even if data matches */
+#define UPDATE_FLAG_FORCE_WRITE		BIT(4)
+/** Erase configuration data after update */
+#define UPDATE_FLAG_ERASE_CONFIG	BIT(5)
 /** Set when user parameters are passed */
-#define UPDATE_FLAG_USER_PARMS	0x8000
+#define UPDATE_FLAG_USER_PARMS		BIT(15)
 
 /** Offset from the beginning of the flash where the backup image is located */
-#define BACKUP_IMAGE_OFFSET	0x2000000
+#define BACKUP_IMAGE_OFFSET		0x2000000
 
 /**
  * This descriptor is passed by U-Boot or other software performing an update
