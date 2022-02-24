@@ -595,10 +595,13 @@ void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)
 	} else {
 		/* Restore the vector address */
 		octeontx_write64(vector_ptr, msix_addr_save);
-
+		vector_ptr += 0x8;
+		octeontx_write64(vector_ptr, (1ULL << 32));
+		vector_ptr += 0x8;
 		/* INTR_PINX_CLEAR vector */
-		vector_ptr += 0x10;
 		octeontx_write64(vector_ptr, msix_addr_save);
+		vector_ptr += 0x8;
+		octeontx_write64(vector_ptr, (1ULL << 32));
 	}
 }
 

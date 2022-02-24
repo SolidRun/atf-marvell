@@ -89,6 +89,20 @@ struct ecam_probe_callback probe_callbacks[] = {
 	{ECAM_INVALID_DEV_ID, 0, 0, 0}
 };
 
+static void init_gpio(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
+	debug_plat_ecam("GPIO init called config_base:%llx size:%llx\n",
+			config_base, config_size);
+
+	/* Block can have mix of secure and non-secure MSI-X interrupts */
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	vsec_sctl.cn9.msix_sec_en = 1;
+	vsec_sctl.cn9.msix_sec_phys = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+}
+
 static void init_sdp_rid(uint64_t config_base, uint64_t config_size)
 {
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
@@ -156,6 +170,7 @@ static void init_msixen(uint64_t config_base, uint64_t config_size)
 }
 
 struct ecam_init_callback plat_init_callbacks[] = {
+	{0xa00a, 0x177d, init_gpio},
 	{0xa022, 0x177d, init_msixen}, /* 0x20 - PCC_DEV_IDL_E::LMC */
 	{0xa070, 0x177d, init_msixen}, /* 0x70 - PCC_DEV_IDL_E::MCC */
 	{0xa073, 0x177d, init_msixen}, /* 0x73 - PCC_DEV_IDL_E::MDC */
