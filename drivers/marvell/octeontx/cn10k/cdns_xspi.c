@@ -542,7 +542,7 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
 	 * Before DD use safe settings(12.5MHz)
 	 */
 	cdns_xspi_wait_for_controller_idle(spi_con);
-	cdns_xspi_setup_clock(SPI_SAFEMODE_CLOCK_HZ, spi_con);
+	cdns_xspi_setup_clock(SPI_CLOCK_HZ, spi_con);
 	cdns_xspi_verify_phy(spi_con);
 	cdns_xspi_wait_for_controller_idle(spi_con);
 
