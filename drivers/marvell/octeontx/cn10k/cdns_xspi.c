@@ -83,6 +83,9 @@
 #define AUTOCMD_WRITE_INTO_FLASH 1
 #define SPI_FLASH_PROGRAM_PAGE_SIZE 256
 
+static file_state_t current_file = { 0 };
+extern int handle_gpio_as_spi(int spi_conn);
+
 uint32_t spi_mode;
 static file_state_t spi_state_data[SPI_MAX_STATES];
 
@@ -132,6 +135,13 @@ static inline enum xspi_addressing xspi_get_addr_mode(uint32_t addr, uint32_t si
 	else
 		return XSPI_ADDRESSING_3B;
 }
+
+#if defined(IMAGE_BL2)
+int handle_gpio_as_spi(int spi_con)
+{
+	return 0;
+}
+#endif
 
 #define REGCHECK(reg, val, result) if(CSR_READ(reg) != val) result=true;
 static int cdns_xspi_verify_phy(int spi_con)
@@ -938,6 +948,8 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	bool phy_training = false;
 	bool safemode = false;
 
+	handle_gpio_as_spi(spi_con);
+
 	spi_lock[0] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(0);
 	spi_lock[1] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(1);
 
@@ -957,6 +969,7 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs)
 {
+	handle_gpio_as_spi(spi_con);
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
 			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_4B);
@@ -975,6 +988,8 @@ int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
 {
 	int op_size;
 	int bs = buf_size;
+
+	handle_gpio_as_spi(spi_con);
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
 			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_3B);
@@ -999,6 +1014,7 @@ int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
 
 int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 {
+	handle_gpio_as_spi(spi_con);
 	if (!cdns_xspi_verify_cs(spi_con, cs)) {
 		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0) != CONFIG_OK)
 			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_3B);
