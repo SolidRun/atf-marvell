@@ -1020,6 +1020,7 @@ void gserm_reset_init(void)
 	 * = 0x1.
 	 * For a quad-lane GSERM, write GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[SPD_CFG] =
 	 * 0x2.
+	 * (4a) Disable CSR ADDR Filtering
 	 * (5) Optionally perform the lane swizzling programming as described in Section 70.5.
 	 * (6a) Select JESD mode:
 	 *    For JESD mode, set GSERM(0..6,15)_LANE(0..3)_CONTROL_BCFG[JESD_MODE] = 1.
@@ -1050,6 +1051,7 @@ void gserm_reset_init(void)
 		cfg.gserm_idx = gserm_idx;
 		spd_cfg_val = get_pll_config(gserm_idx);
 		CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
+			   c.s.dis_apb_csr_addr_filter = 1;
 			   c.s.spd_cfg = spd_cfg_val);
 
 		/* Put all lanes into reset and disable Tx */
