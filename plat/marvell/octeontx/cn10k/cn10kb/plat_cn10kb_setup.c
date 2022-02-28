@@ -85,12 +85,12 @@ int plat_octeontx_get_pem_count(void)
 
 int plat_octeontx_get_gserm_count(void)
 {
-	return 0;
+	return 3;
 }
 
 int plat_octeontx_get_portm_count(void)
 {
-	return 0;
+	return 6;
 }
 
 int plat_octeontx_get_gserp_count(void)
@@ -110,7 +110,7 @@ int plat_octeontx_get_rvu_count(void)
 
 int plat_octeontx_get_nix_count(void)
 {
-	return 0;
+	return 1;
 }
 
 int plat_octeontx_get_mcc_count(void)
