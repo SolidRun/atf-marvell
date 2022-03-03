@@ -149,6 +149,23 @@ struct smc_update_descriptor {
 	struct smc_update_obj_info object_retinfo[SMC_MAX_OBJECTS];
 };
 
+
+/* Read Flash */
+/**
+ * This descriptor is used to read data from flash
+ */
+struct smc_read_flash_descriptor {
+        uint64_t        addr;           /** Physical buffer address */
+        uint64_t        offset;         /** Offset in flash */
+        uint64_t        length;         /** Length to read */
+        uint32_t        bus;            /** SPI BUS number */
+        uint32_t        cs;             /** SPI chip select number */
+        uint32_t        async_spi;      /** Async SPI operations */
+        uint32_t        reserved;       /** Space to add stuff */
+};
+
+int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size);
+
 /** This is used for each object (version entry) */
 enum smc_version_entry_retcode {
 	RET_OK = 0,

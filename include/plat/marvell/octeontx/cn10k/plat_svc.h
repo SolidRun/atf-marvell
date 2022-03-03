@@ -552,8 +552,21 @@
 
 #define PLAT_OCTEONTX_EINJ_DSS		(0xd)
 
+/*
+ * x1 - user_buffer
+ * x2 - size
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *		-2 -- SPI_CONFIG_ERR
+ *		-3 -- SPI_MMAP_ERR
+ */
+#define PLAT_OCTEONTX_SPI_READ_FLASH	0xc2000b11
+
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			18
+#define OTX3_NUM_SMC_CALLS			19
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,

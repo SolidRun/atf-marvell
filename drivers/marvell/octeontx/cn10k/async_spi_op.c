@@ -308,6 +308,8 @@ static void spi_read_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int 
 		if (size > SPI_ERASE_SIZE*op_size) {
 			spi_ops[i].op_config.size = SPI_ERASE_SIZE*op_size;
 			size -= SPI_ERASE_SIZE*op_size;
+			addr += SPI_ERASE_SIZE*op_size;
+			buffer += SPI_ERASE_SIZE*op_size;
 		} else {
 			spi_ops[i].op_config.size = size;
 			size = 0;

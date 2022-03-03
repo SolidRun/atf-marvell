@@ -758,6 +758,34 @@ err4:
 	}
 	break;
 
+	case PLAT_OCTEONTX_SPI_READ_FLASH:
+	{
+		user_buf = x1;
+		size = x2;
+
+		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+			ret = -1;
+		} else {
+			/* Check if NS user_buf is a valid DRAM address */
+			if (NULL == (void *)user_buf) {
+				ret = -1;
+				goto err;
+			}
+
+			if ((user_buf < NS_IMAGE_BASE) ||
+			    (size != sizeof(struct smc_read_flash_descriptor))) {
+				ERROR("Invalid descriptor address or size\n");
+				ret = -1;
+				goto err5;
+			}
+			ret = spi_smc_read_flash(user_buf, size);
+		}
+err5:
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		SMC_RET1(handle, ret);
+	}
+	break;
+
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

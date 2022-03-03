@@ -2425,6 +2425,140 @@ error:
 }
 
 /**
+ * Read data from flash for CN10K.
+ */
+static int cn10k_read_flash(struct smc_read_flash_descriptor *desc,
+			    struct unmap_params *p,
+			    bool async_operation)
+{
+	int err = 0;
+	void *buffer;
+	size_t size;
+
+	debug_fw_update("%s(%llx, %llx, %llx, 0x%x, 0x%x)\n",
+			__func__, desc->addr,
+			desc->length, desc->offset, desc->bus, desc->cs);
+	buffer = (void *)desc->addr;
+	size = desc->length;
+
+	pet_dog();
+	INFO("Reading Data\n");
+	err = spi_async_init_delayed();
+
+	pet_dog();
+	spi_async_add_block_read(desc->bus, desc->cs, desc->offset, buffer, size, NULL, NULL);
+	pet_dog();
+	if (async_operation)
+		spi_async_start(done_callback, p);
+
+	INFO("Done.\n");
+	return err;
+}
+
+int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
+{
+	int err = 0, ns_map_size;
+	struct smc_read_flash_descriptor read_desc;
+	uintptr_t addr = 0, size = 0;
+	uint32_t bus, cs;
+	uint64_t base_addr = 0;
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+	bool async_operation = false;
+
+	debug_fw_update("desc: 0x%lx, desc size: 0x%llx\n",
+			desc_buf, desc_size);
+	/* Round up to page size */
+	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
+
+	/* Map non-secure memory buffer */
+	/* Note that this needs to be page aligned */
+	base_addr = desc_buf & mask;
+	/* If descriptor crosses a page boundary, allocate another page */
+	if ((desc_buf + desc_size) > (base_addr + ns_map_size)) {
+		debug_fw_update("0x%llx > 0x%llx, increasing map size by 0x%lx\n",
+				desc_buf + desc_size, base_addr + ns_map_size,
+				PAGE_SIZE);
+		ns_map_size += PAGE_SIZE;
+	}
+	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
+			desc_buf, base_addr, ns_map_size);
+	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+							 ns_map_size,
+							 MT_RO | MT_NS);
+	if (err) {
+		ERROR("Read Flash: descriptor mmap failed (%d)\n", err);
+		err = -SPI_MMAP_ERR;
+		goto error;
+	}
+
+	debug_fw_update("Copying descriptor from 0x%lx to 0x%p\n",
+			desc_buf, &read_desc);
+	memcpy(&read_desc, (const void *)desc_buf, sizeof(read_desc));
+
+	octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
+	base_addr = 0;
+	ns_map_size = 0;
+
+	addr = read_desc.addr;
+	size = read_desc.length;
+	bus = read_desc.bus;
+	cs = read_desc.cs;
+	if (read_desc.async_spi != 0)
+		async_operation = true;
+
+	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
+		ERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
+		goto error;
+	}
+
+	if (plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1) {
+		ERROR("SPI BUS 0x%x chip select 0x%x is unavailable\n",
+		     bus, cs);
+		goto error;
+	}
+
+	/* Round up to page size */
+	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+	/* Make sure address is page aligned */
+	base_addr = addr & mask;
+	/* Add an extra page if this now exceeds the map size */
+	if ((addr + size) > (base_addr + ns_map_size))
+		ns_map_size += PAGE_SIZE;
+	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
+			addr, base_addr, ns_map_size);
+	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+							 ns_map_size,
+							 MT_RW | MT_NS);
+	if (err) {
+		WARN("Read Flash: Image mmap failed (%d)\n", err);
+		return -SPI_MMAP_ERR;
+	}
+
+	uParams.ns_map_size = ns_map_size;
+	uParams.base_addr = base_addr;
+
+	err = cn10k_read_flash(&read_desc, &uParams, async_operation);
+	if (err != 0) {
+		ERROR("Read Flash Data failed\n");
+		goto error;
+	}
+
+error:
+
+	/* unmap non-secure memory buffer */
+	if (err) {
+		if (base_addr && ns_map_size)
+			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
+								ns_map_size);
+	} else if (!async_operation) {
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
+								ns_map_size);
+	}
+
+	return err;
+}
+
+/**
  * Reads a TIM and obtains version information and optionally verify the hash
  *
  * @param	vinfo		version info descriptor pointer

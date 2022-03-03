@@ -545,6 +545,18 @@ PLAT_OCTEONTX_RESET_RNG_EBG_HEALTH_STATE
   * Return value:
   *	x0: 0 on success, -1 on failure
 
+PLAT_OCTEONTX_SPI_READ_FLASH
+  * SMC FID: 0xc2000b11
+  * Input registers values:
+    x0: SMC FID
+    x1: User buffer
+    x2: Size
+  * Return value:
+    x0: SMC_OK on success or negative value on failure.
+  * Description:
+    This call can be used to copy from SPI to user specified DRAM region.
+  * Supported platforms: CN10K
+
 - - - - - - - - - - - - - - - - - - - - -
 
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf
