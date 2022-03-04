@@ -138,7 +138,7 @@ MCESD_STATUS API_C112GX4_PollPin
 (
     IN MCESD_DEV_PTR devPtr,
     IN E_C112GX4_PIN pin,
-    IN MCESD_U16 value,
+    IN MCESD_U32 value,
     IN MCESD_U32 timeout_ms
 );
 

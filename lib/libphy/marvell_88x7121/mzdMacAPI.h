@@ -36,6 +36,7 @@ and diagnostic operations for the Marvell X7121 Device.
 #define MZD_MACSEC_BUFF_LOCAL_RESET                    0x00048
 #define MZD_MACSEC_SHARED_BUFF_MAIN_CNTL               0x00060
 #define MZD_MACSEC_EIP_218_DATA_RATE(channelID)        (0x00090+channelID*0x4)
+#define MZD_MACSEC_SHARED_BUFF_RATE_CNTL(channelID)    (0x3F000+(0x100*(channelID+8)))
 
 /* MACSec registers categories */
 #define MZD_MACSEC_EGR(regAddr)                 (0x60000 | (regAddr&0xFFF))
@@ -595,8 +596,8 @@ MZD_FUNC MZD_STATUS mzdMacMIBStatDump
     None
  
  Notes/Warnings:
-    The MAC must be enabled to read the MAC MIB statistics. Refer to the mzdMacEnable() 
-    API to turn on the MAC.
+    The MACSec block must be enabled to read the MAC MIB statistics. Refer to the 
+    mzdMacSecEnable() API to turn on the MACSec.
 
     The MZD_DBG_INFO should be implemented and enabled for this mzdMacMIBStatDump API.
     Some of these data in the state dump are used only for internal debugging and
@@ -1100,6 +1101,62 @@ MZD_FUNC MZD_STATUS mzdHmuxArbiterReset
     IN MZD_U16 arbiterSelect
 );
 
+/*******************************************************************
+MZD_FUNC MZD_STATUS mzdHmuxArbiterPortReset
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 mdioPort
+);
+
+ Inputs:
+    pDev - pointer to MZD_DEV initialized by mzdInitDriver() call
+    mdioPort - MDIO port address, 0-31
+
+ Returns:
+    MZD_OK or MZD_FAIL, if action was successful or not.
+
+ Description:
+    The HMUX arbiter port reset performs a arbiter reset on all 4 lanes on the pass-in mdioPort.
+    This is used to clear all previously configured arbiter settings on all 4 lanes on a MDIO port. 
+    The HMUX arbiter port reset should be applied before setting to the new speed. This applies 
+    when the HMUX is configured on these modes.
+
+    Below table listed the speed changes from high speed to low speed that requires calling
+    the mzdHmuxArbiterPortReset.
+
+    From Speed    To Speed
+                    100GR4    100GR2    40GR4    50GR1    25GR1    10GR1    1GR1
+     400GR8           X         X         X        X        X        X       X            
+     200GR8           X         X         X        X        X        X       X              
+     200GR4                     X                  X        X        X       X            
+
+    Examples:
+    Switching from HMUX8 400GR8 to 40GR4 mode; the following should be called
+    to reset all 16 lanes on all 4 ports from the old 400GR8 mode to the new 40GR4:
+    MZD_ATTEMPT(mzdHmuxArbiterPortReset(pDev, pDev->mdioPort));
+    MZD_ATTEMPT(mzdHmuxArbiterPortReset(pDev, pDev->mdioPort+1));
+    MZD_ATTEMPT(mzdHmuxArbiterPortReset(pDev, pDev->mdioPort+2));
+    MZD_ATTEMPT(mzdHmuxArbiterPortReset(pDev, pDev->mdioPort+3));     
+
+    Switching from HMUX4(Port0/1) 200GR4 to 100GR2 mode; the following should be called
+    to reset all 8 lanes on all 2 ports from the old 200GR4 mode to the new 100GR2:
+    MZD_ATTEMPT(mzdHmuxArbiterPortReset(pDev, pDev->mdioPort));
+    MZD_ATTEMPT(mzdHmuxArbiterPortReset(pDev, pDev->mdioPort+1));
+
+ Side effects:
+
+ Notes/Warnings:
+    It is safe to call mzdHmuxArbiterPortReset at the beginning to configure a HMUX4 or
+    HMUX8 settings for any speeds. Make sure mzdHmuxArbiterPortReset is not called in the 
+    middle of configuring HMUX4/8 since the mzdHmuxArbiterPortReset will reset the HMUX Arbiter.
+*******************************************************************/
+MZD_FUNC MZD_STATUS mzdHmuxArbiterPortReset
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 mdioPort
+);
+
+
 /*******************************************************************************
 MZD_FUNC MZD_STATUS mzdMacSecSelectHmuxType
 (
@@ -1192,16 +1249,18 @@ MZD_FUNC MZD_STATUS mzdMacSecHmuxArbiterState
     given port.
 
     Bit status and controls:
-    12   -  Channel switch read back 0:Primary, 1:Backup (read only)
-    11:8 -  arbiter state read back arbiter state status (read only)
-    7    -  HMUX interrupt enable
-    6    -  output GPIO enable
-    5    -  GPIO_polarity output GPIO control
-    4    -  GPIO_edge 0: rising edge trigger, 1: falling edge trigger
-    3    -  GPIO enable GPIO mode to trigger HMUX
-    2    -  HMUX manual start of traffic (read only)
-    1    -  HMUX manual stop of traffic
-    0    -  HMUX auto switch 0:active slot off, 1:active slot on
+    15    -  Swap GPIO HMUX4 used for MACSEC1 HMUX4 applications; enable: GPIO1 control all switching
+    14:13 -  GPIO trigger selector: 2'b0x: level trigger 2'b10: edge type A; 2'b11: edge type B
+    12    -  Channel switch read back 0:Primary, 1:Backup (read only)
+    11:8  -  arbiter state read back arbiter state status (read only)
+    7     -  HMUX interrupt enable
+    6     -  output GPIO enable
+    5     -  GPIO_polarity output GPIO control
+    4     -  GPIO_edge 0: rising edge trigger, 1: falling edge trigger
+    3     -  GPIO enable GPIO mode to trigger HMUX
+    2     -  HMUX manual start of traffic (read only)
+    1     -  HMUX manual stop of traffic
+    0     -  HMUX auto switch 0:active slot off, 1:active slot on
 
     Refer to the register datasheet for more details
 
@@ -1210,6 +1269,8 @@ MZD_FUNC MZD_STATUS mzdMacSecHmuxArbiterState
 
  Notes/Warnings:
     The MACsec block on the macsecMapPort MUST be enabled otherwise this API would fail.
+
+    This API mzdMacSecHmuxArbiterState() is not applicable on chip revision MZD_REV_A0
 
     See the port mapping at the top of this file.
 *******************************************************************************/
@@ -1342,6 +1403,13 @@ MZD_FUNC MZD_STATUS mzdMacSecManualHmuxStopTraffic
  Notes/Warnings:
     The MACsec block on the macsecMapPort MUST be enabled otherwise this API would fail.
 
+    Note that mzdMacSecHmuxAutoSwitch() should be used in most cases for HMUX switching. The
+    mzdMacSecHmuxAutoSwitch() has all the build-in logic in the device to handle the stop/start
+    and switching.
+
+    The mzdMacSecManualHmuxStopTraffic() and mzdMacSecManualHmuxStartTraffic() are mainly 
+    for HMUX diagnostic used.
+
     This API applies on all ports of the mapped MAC/MACSec block.
     See the port mapping at the top of this file.
 *******************************************************************************/
@@ -1384,6 +1452,13 @@ MZD_FUNC MZD_STATUS mzdMacSecManualHmuxStartTraffic
 
  Notes/Warnings:
     The MACsec block on the macsecMapPort MUST be enabled otherwise this API would fail.
+
+    Note that mzdMacSecHmuxAutoSwitch() should be used in most cases for HMUX switching. The
+    mzdMacSecHmuxAutoSwitch() has all the build-in logic in the device to handle the stop/start
+    and switching.
+
+    The mzdMacSecManualHmuxStopTraffic() and mzdMacSecManualHmuxStartTraffic() are mainly 
+    for HMUX diagnostic used.
 
     This API applies on all ports of the mapped MAC/MACSec block.
     See the port mapping at the top of this file.
@@ -1431,6 +1506,47 @@ MZD_FUNC MZD_STATUS mzdMacSecHmuxAutoSwitch
     See the port mapping at the top of this file.
 *******************************************************************************/
 MZD_FUNC MZD_STATUS mzdMacSecHmuxAutoSwitch
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 macsecMapPort
+);
+
+/*******************************************************************************
+MZD_FUNC MZD_STATUS mzdMacSecHmuxAutoSwitchDisable
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 macsecMapPort
+);
+
+ Inputs:
+    pDev - pointer to MZD_DEV initialized by mzdInitDriver() call
+    macsecMapPort - the mapped MDIO port for MACSec operation
+
+ Outputs:
+    None
+
+ Returns:
+    MZD_OK or MZD_FAIL, if action was successful or not
+
+ Description:
+    This API sets the HMUX auto switching to disable. This API will reverse the
+    mzdMacSecHmuxAutoSwitch() operation to set the HMUX auto switching to disable.
+
+    HMUX auto switching is disabled by default
+
+    This applies to the backup port vice versa if the traffic is running on backup port
+    when calling this API.
+ 
+ Side effects:
+    None
+
+ Notes/Warnings:
+    The MACsec block on the macsecMapPort MUST be enabled otherwise this API would fail.
+
+    This API applies on all ports of the mapped MAC/MACSec block.
+    See the port mapping at the top of this file.
+*******************************************************************************/
+MZD_FUNC MZD_STATUS mzdMacSecHmuxAutoSwitchDisable
 (
     IN MZD_DEV_PTR pDev,
     IN MZD_U16 macsecMapPort
@@ -1706,9 +1822,14 @@ MZD_FUNC MZD_STATUS mzdMacSecHmuxProtectionCntl
 
  Description:
     This API enables/disables the protection mode local fault sending to line side when 
-    HMUX switching between the primary and backup ports.
+    HMUX switching between the primary and backup ports. This GPIO_1 pin will be triggered.
+    The GPIO0_CNTL control, MZD_GPIO0_CNTL(31.F437), for GPIO_1 pin is configured in this API.
 
-    This API uses the count down wait timer from mzdMacSecHmuxProtectionCntl() to 
+    Once GPIO_1 pin triggers with interrupt on High Level, the timer will start. The protection 
+    enabled HMUX switch is based on GPIO_1 pin level (0=Primary; 1=Secondary). When the time out 
+    expires, it disables the protection. The 3.3.0xF094.8=1 when completed.
+
+    This API uses the countdown wait timer from mzdMacSecHmuxProtectionTimer() to 
     avoid sending the local fault to line side link partner during the HMUX switch over. 
 
  Side effects:
@@ -1716,7 +1837,10 @@ MZD_FUNC MZD_STATUS mzdMacSecHmuxProtectionCntl
 
  Notes/Warnings:
     This is a firmware assist protection mode for HMUX switch feature. It requires the  
-    supported chip firmware version 0.2.11.0 and newer.
+    supported chip firmware version 0.2.19.0 and newer.    
+    
+    The APIs mzdMacSecHmuxLevelGPIOSwitchCntl() and mzdMacSecHmuxProtectionCntl() are mutually 
+    exclusive. Both these calls cannot be enabled at the same time.
 
     This API uses the APB access semaphore which is enabled when this API is called.
 *******************************************************************************/
@@ -2050,8 +2174,96 @@ MZD_FUNC MZD_STATUS mzdMacLowSpeedSmallPacketMod
     IN MZD_U16 laneOffset
 );
 
+/*******************************************************************************
+MZD_FUNC MZD_STATUS mzdMacBypassEIP218
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 mdioPort,
+    IN MZD_BOOL bypass
+);
 
+ Inputs:
+    pDev - pointer to MZD_DEV initialized by mzdInitDriver() call
+    mdioPort - MDIO port address, 0-31
+    bypass - MZD_TRUE will bypass EIP218 block
+             MZD_FALSE will not bypass EIP218 block
 
+ Outputs:
+    None
+
+ Returns:
+    MZD_OK or MZD_FAIL, if action was successful or not
+
+ Description:
+    This API provides an option to bypass the MACSec rate controller EIP218 block.
+    This block is necessary for MACSec encryption operations. If MACSec encryption  
+    is not used, the EIP218 block can be bypassed.
+
+ Side effects:
+    None
+
+ Notes/Warnings:
+    The MACSec block needs to be enabled to successfully call this API. Otherwise,
+    the EIP218 register is not accessible.
+*******************************************************************************/
+MZD_FUNC MZD_STATUS mzdMacBypassEIP218
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 mdioPort,
+    IN MZD_BOOL bypass
+);
+
+#if 0
+typedef enum {
+    MZD_RATE_MODE_CNTL_OFF,
+    MZD_RATE_MODE_FIXED_IPG,
+    MZD_RATE_MODE_ALIGNED_IFG,
+    MZD_RATE_MODE_DIC
+} MZD_RATE_CNTL_MODE;
+
+/*******************************************************************************
+MZD_FUNC MZD_STATUS mzdMacSecMacRateCntlSel
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 mdioPort,
+    IN MZD_U16 laneOffset,
+    IN MZD_OP_MODE opMode,
+    IN MZD_RATE_CNTL_MODE rateCntlMode
+);
+
+ Inputs:
+    pDev - pointer to MZD_DEV initialized by mzdInitDriver() call
+    mdioPort - MDIO port address, 0-31
+    laneOffset - lane number 0-3 or MZD_ALL_LANES
+                 MZD_ALL_LANES - all lanes on the given port
+    opMode - operational mode needed to set the MAC rate control mode registers accordingly
+             as well as setting the multiple lanes for PCS modes that operated on multiple lanes.
+    rateCntlMode - list of options in MZD_RATE_CNTL_MODE
+
+ Outputs:
+    None
+
+ Returns:
+    MZD_OK or MZD_FAIL, if action was successful or not
+
+ Description:
+    This API sets the MAC rate control mode option from the MZD_RATE_CNTL_MODE list of selections
+
+ Side effects:
+    None
+
+ Notes/Warnings:
+    None.
+*******************************************************************************/
+MZD_FUNC MZD_STATUS mzdMacSecMacRateCntlSel
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 mdioPort,
+    IN MZD_U16 laneOffset,
+    IN MZD_OP_MODE opMode,
+    IN MZD_RATE_CNTL_MODE rateCntlMode
+);
+#endif
 #if C_LINKAGE
 #if defined __cplusplus
 }

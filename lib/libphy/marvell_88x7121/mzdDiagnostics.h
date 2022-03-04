@@ -1075,13 +1075,14 @@ typedef enum
     MZD_JP03AB,   /* 1110b */
     MZD_GEN_TX,   /* 1111b */
 
-    /* PAM-4 supported PRBS patterns starts here */ 
-    MZD_PAM4_PRBS31Q = 100,  
+    /* PAM-4 50G/100G supported PRBS patterns start here */ 
+    MZD_PAM4_PRBS31Q = 100,
     MZD_PAM4_PRBS13Q,
     MZD_PAM4_PRBS15Q,  
     MZD_PAM4_JP03A,
     MZD_PAM4_JP03B,
-    MZD_PAM4_SSPRQ  /* Short Stress Pattern Random - Quaternary */
+    MZD_PAM4_SSPRQ  /* Short Stress Pattern Random - Quaternary; 
+                       PAM-4 50G PCS only */
 } MZD_PRBS_SELECTOR_TYPE;
 
 typedef enum
@@ -1849,6 +1850,8 @@ MZD_STATUS mzdSerdesGetEye
     IN E_C112GX4_EYE_TMB eyeTMB,
     IN MZD_U16 voltageSteps,
     IN MZD_U16 phaseLevels,
+    IN MZD_U32 minSamples,
+    IN MZD_U32 berThreshold,
     OUT MZD_U16 *eyeWidth,
     OUT MZD_U16 *eyeHeight,
     OUT PMZD_SERDES_EYE_RAW pEyeRawData
@@ -1866,6 +1869,10 @@ MZD_STATUS mzdSerdesGetEye
              Top and bottom eye only apply to PAM4 mode 
     voltageSteps - 0: use MZD_EYE_DEFAULT_VOLT_STEPS; otherwise use input value
     phaseLevels -  0: use MZD_EYE_DEFAULT_PHASE_LEVEL; otherwise use input value
+    minSamples - number of bits for eye to sample. If targeting for 1e-4 error rate, 
+                 it needs at least 1e+4 bits sampled.
+    berThreshold - Setting Bit Error Rate Threshold in nano (factor of 1E-9)
+                   For PAM-4 100G single lane mode, the berThreshold ranges 100000 or higher 
 
     Guidelines for voltageSteps and phaseLevels based on lane speed:
     Lane speed  voltageSteps  phaseLevels
@@ -1904,6 +1911,17 @@ MZD_STATUS mzdSerdesGetEye
     None
 
  Notes/Warnings:
+    This mzdSerdesGetEye API will not work for PAM-4 100G single lane mode. To measure 
+    the eye for the PAM-4 100G single lane, refer to mzdSampleGetEyeWidthHeight() in the 
+    mzdSample.c file to measure the eye width and height.
+
+    Starting in MZD API version 2.6.0 and newer, the mzdSampleGetEyeWidthHeight() and 
+    mzdSerdesEyePlotStats() samples are the preferred way for calling eye measurement.
+
+    This mzdSampleGetEye sample that calls mzdSerdesEyePlotStats() is the older eye plotting 
+    API that is not removed for backward compatibility. The preferred way is to use the 
+    mzdSampleSerDesEyePlot() sample to plot the eye diagram.
+
     To speed up measuring the eye width and height without plotting the eye diagram, 
     call API_C112GX4_EOMGetWidthHeight() and API_C112GX4_EOMConvertWidthHeight() to
     convert to mUI and mV.
@@ -1927,6 +1945,8 @@ MZD_STATUS mzdSerdesGetEye
     IN E_C112GX4_EYE_TMB eyeTMB,
     IN MZD_U16 voltageSteps,
     IN MZD_U16 phaseLevels,
+    IN MZD_U32 minSamples,
+    IN MZD_U32 berThreshold,
     OUT MZD_U16 *eyeWidth,
     OUT MZD_U16 *eyeHeight,
     OUT PMZD_SERDES_EYE_RAW pEyeRawData
@@ -1972,6 +1992,11 @@ MZD_STATUS mzdSerdesEyePlotStats
     None
 
   Notes/Warnings:
+    This API will not work for PAM-4 100G single lane mode. To measure the eye for the  
+    PAM-4 100G single lane, refer to mzdSampleGetEyeWidthHeight() in the sample file
+    reading the measure the eye width and height. The eye plotting API will not work for
+    the PAM-4 100G single lane.
+
     Need to provide valid raw eye 2 dimensional array as defined in the 
     MZD_SERDES_EYE_RAW structure 
 *******************************************************************************/

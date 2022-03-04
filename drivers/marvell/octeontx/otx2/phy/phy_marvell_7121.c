@@ -782,6 +782,8 @@ static int phy_marvell_7121_get_eye_plot(int cgx_id, int lmac_id, int host_side)
 	MZD_U16 eyeWidth;
 	MZD_U16 eyeHeight;
 	MZD_U16 voltageSteps, phaseLevels;
+	MZD_U32 minSamples = 1;
+	MZD_U32 berThreshold = 1;
 
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 
@@ -812,6 +814,8 @@ static int phy_marvell_7121_get_eye_plot(int cgx_id, int lmac_id, int host_side)
 					C112GX4_EYE_MID,
 					voltageSteps,
 					phaseLevels,
+					minSamples,
+					berThreshold,
 					&eyeWidth,
 					&eyeHeight,
 					&eyeRawData));

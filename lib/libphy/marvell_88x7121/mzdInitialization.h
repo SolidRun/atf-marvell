@@ -230,6 +230,9 @@ MZD_FUNC MZD_STATUS mzdReloadDriver
 
    The devFlash will not be updated on the mzdReloadDriver. If flash is used, set
    the ->devFlash to MZD_TRUE after calling this API.
+
+   The mzdReloadDriver will not work for an existing configuration with MACSec. The
+   macsecCtrl field in the device structure will not be reloaded.
 *******************************************************************************/
 MZD_FUNC MZD_STATUS mzdReloadDriver
 (

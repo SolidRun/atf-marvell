@@ -1900,8 +1900,9 @@ typedef struct _MZD_RCLK_SRC_OPTION MZD_RCLK_SRC_OPTION;
 
     dividerConfig - whether the clock output divider should be enabled or not
         0 = Disable
-        1 = Enable the recovered clock output divider after the clock is ready
-        2 = Enable the recovered clock output divider in any case
+        1 = RCLK output squelched if there is no link
+        2 = RCLK output is always active regardless of link status. Chip 
+            reference clock will be used to generate RCLK if there is no link
 
     divideRatio - Divide ratio for the recovered clock, 8 bits value
         Divide ratio = 2 * (divideRatio[7:0] + 1)

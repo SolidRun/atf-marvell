@@ -183,18 +183,21 @@ typedef enum
 {                     /* 31.F412[13:10] */
     MZD_DEV_X7121M,    /* b0000 */
     MZD_DEV_X6142M,    /* b0001 */
+    MZD_DEV_ID_2,      /* b0010 */
     MZD_DEV_X7121,     /* b0011 */
     MZD_DEV_X7121P,    /* b0100 */
     MZD_DEV_X6142P,    /* b0101 */
+    MZD_DEV_ID_6,      /* b0110 */
     MZD_DEV_X5243P,    /* b0111 */
     MZD_DEV_X9121M,    /* b1000 */
     MZD_DEV_X8181M,    /* b1001 */
+    MZD_DEV_ID_10,     /* b1010 */
+    MZD_DEV_ID_11,     /* b1011 */
     MZD_DEV_X9121P,    /* b1100 */
     MZD_DEV_X8181P,    /* b1101 */
+    MZD_DEV_COUNT,     /* device count in MZD_DEVICE_ID */   
     MZD_DEV_UNKNOWN = 0xFF
 } MZD_DEVICE_ID;
-
-#define MZD_DEV_COUNT  10 /* device count in MZD_DEVICE_ID */
 
 /* Features used in deviceFeatures */
 typedef enum  
@@ -501,7 +504,9 @@ typedef struct _MZD_MODE_CONFIG
 
 typedef struct _MZD_MODE_OPTION_STRUCT
 {
-    MZD_U8 buffer[128];    /* work-in-progress: Reserved for future advance settings */
+    MZD_U8 squelchTxDelay; /* overwrite MZD_MODE_SQUELCH_SERDES_TX_DELAY if squelchTxDelay > 0; 
+                              each squelchTxDelay unit is x 100ms; squelchTxDelay = 10 is 1000ms */
+    MZD_U8 buffer[127];    /* work-in-progress: Reserved for future advance settings */
 }MZD_MODE_OPTION_STRUCT;
 
 typedef struct _MZD_SERDES_CTRL

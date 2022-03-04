@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2019, Marvell International Ltd. and its affiliates
+Copyright (C) 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -154,6 +154,21 @@ MCESD_STATUS calculateChecksum
     IN MCESD_U32 code[],
     IN MCESD_U32 codeSize,
     OUT MCESD_U32 *checksum
+);
+
+MCESD_STATUS plotEyeData
+(
+    IN MCESD_32 *eyeRawData,
+    IN MCESD_U32 leftEdgeIdx,
+    IN MCESD_U32 rightEdgeIdx,
+    IN MCESD_U32 phaseCenterIdx,
+    IN MCESD_U32 upperEdgeIdx,
+    IN MCESD_U32 lowerEdgeIdx,
+    IN MCESD_U32 voltageCenterIdx,
+    IN MCESD_U32 sampleCount,
+    IN MCESD_U32 arrayShift,
+    IN MCESD_U32 berThreshold,
+    IN MCESD_U32 berThresholdMax
 );
 
 #endif /* defined MCESD_UTILS_H */

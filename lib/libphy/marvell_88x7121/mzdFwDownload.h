@@ -21,8 +21,7 @@ X7121 PHYs.
 #endif
 
 /* max time in ms that intermediate executables may take in multi-stage boot process */
-//#define MZD_EXECUTABLE_TIMEOUT              500
-#define MZD_EXECUTABLE_TIMEOUT              750
+#define MZD_EXECUTABLE_TIMEOUT              500
 /* Time out for App code to start */
 #define MZD_APP_CODE_START_TIMEOUT          600
 /* Worst case time for loading from flash in ms */

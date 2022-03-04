@@ -19,7 +19,7 @@ Marvell X7121 PHY.
 #endif
 
 #define MZD_API_MAJOR_VERSION 2
-#define MZD_API_MINOR_VERSION 3
+#define MZD_API_MINOR_VERSION 6
 #define MZD_API_BUILD_ID      0
 
 /* These macros are handy for calling a function when you want to test the
@@ -145,7 +145,8 @@ MZD_VOID mzdGetAPIVersion
      
      usage:
      status = mzdSetModeSelection(pDev, mdioPort, laneOffset, hostMode, lineMode, 
-                                  (MZD_MODE_FORCE_RECONFIG), modeOptionSt, &result); 
+                                  (MZD_MODE_FORCE_RECONFIG | MZD_MODE_SQUELCH_SERDES_TX), 
+                                  modeOptionSt, &result); 
 */
 
 /*  Mode Option List */
@@ -161,8 +162,15 @@ MZD_VOID mzdGetAPIVersion
 #define MZD_MODE_HOST_SEND_LF     (1<<2) /* option for host side to send local fault until line side linkup;
                                             check if remote PCS link or DSP lock is dropped, force disengage 
                                             if needed. Apply only to PCS modes */
+#define MZD_MODE_SQUELCH_SERDES_TX (1<<3) /* option to call API_C112GX4_SetTxOutputEnable to squelch/un-squelch 
+                                             the SerDes Tx before and after the mode setting to allow a clean 
+                                             transition from squelch to full amplitude */
 
- 
+/* Delay for MZD_MODE_SQUELCH_SERDES_TX option */
+#define MZD_MODE_SQUELCH_SERDES_TX_DELAY  200 /* Default 200ms delay is added before re-enabling the API_C112GX4_SetTxOutputEnable; 
+                                                 the squelchTxDelay option is available to change this delay, refer to squelchTxDelay 
+                                                 in MZD_MODE_OPTION_STRUCT structure */
+
 /******************************************************************************
 MZD_FUNC MZD_STATUS mzdSetModeSelection
 (
@@ -225,6 +233,10 @@ MZD_FUNC MZD_STATUS mzdSetModeSelection
     Refer to the datasheet for the number of lane used in the mode. For 200G, only 
     lane offset 0 and 2 should be used when calling this API. For 400G, only 
     lane offset 0 should be used.
+
+    Note that if MZD_MODE_SQUELCH_SERDES_TX option is used and this mzdSetModeSelection() fails, 
+    API_C112GX4_SetTxOutputEnable() will either need to be called to re-enable the Tx or the
+    following mzdSetModeSelection() must have the MZD_MODE_SQUELCH_SERDES_TX option.
 
 ******************************************************************************/
 MZD_FUNC MZD_STATUS mzdSetModeSelection
@@ -309,7 +321,11 @@ MZD_FUNC MZD_STATUS mzdSetInterfaceUserMode
     must be set. This only applies is the new mode starts on laneOffset 0. Otherwise, 
     a hardware reset will be needed.
     
-******************************************************************************/
+    Note that if MZD_MODE_SQUELCH_SERDES_TX option is used and this mzdSetInterfaceUserMode() fails, 
+    API_C112GX4_SetTxOutputEnable() will either need to be called to re-enable the Tx or the
+    following mzdSetInterfaceUserMode() must have the MZD_MODE_SQUELCH_SERDES_TX option.
+
+    ******************************************************************************/
 MZD_FUNC MZD_STATUS mzdSetInterfaceUserMode
 (
     IN MZD_DEV_PTR pDev,
@@ -1472,6 +1488,60 @@ MZD_FUNC MZD_STATUS mzdGetSerdesMux
     IN MZD_DEV_PTR pDev,
     IN MZD_U16 host_or_line,
     OUT MZD_U8 *serdesMux
+);
+
+
+/*******************************************************************
+MZD_FUNC MZD_STATUS mzdSetTxTraining
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 mdioPort,
+    IN MZD_U16 host_or_line,
+    IN MZD_U16 laneOffset,
+    IN MZD_U16 txTrainingVal,
+    IN MZD_BOOL txTrainingOverWrite
+);
+
+ Inputs:
+    pDev - pointer to MZD_DEV initialized by mzdInitDriver() call
+    mdioPort - MDIO port address, 0-31
+    laneOffset - 0-3; lane offset to be checked for link status;
+                 For PCS mode that uses multiple lanes, i.e. R2 and R4, the 
+                 first lane offset should be provided.
+    host_or_line - MZD_HOST_SIDE or MZD_LINE_SIDE
+    txTrainingVal - duration; range 0 to 0xF
+    txTrainingOverWrite - MZD_TRUE: enable TX training using txTrainingVal value
+                          MZD_FALSE: disable TX training; txTrainingVal is ignored
+
+ Outputs:
+     None
+
+ Returns:
+    MZD_OK if command was executed successful, MZD_FAIL if not.
+
+ Description:
+    This API enables the TX Training on a non-ANEG mode. The txTrainingVal
+    option set the duration of the TX training from 0 - 0xF. 
+
+    For a 8-lane mode or 4-lane mode, the laneOffset must be 0.
+
+    Example to set the line side TX training on a 8-lane MZD_P400UP8 port0/1:
+        mzdSetTxTraining(pDev, 0, MZD_LINE_SIDE, 0, 0xF, MZD_TRUE);
+    
+ Side effects:
+    None.
+
+ Notes/Warnings:
+    None.
+*******************************************************************/
+MZD_FUNC MZD_STATUS mzdSetTxTraining
+(
+    IN MZD_DEV_PTR pDev,
+    IN MZD_U16 mdioPort,
+    IN MZD_U16 host_or_line,
+    IN MZD_U16 laneOffset,
+    IN MZD_U16 txTrainingVal,
+    IN MZD_BOOL txTrainingOverWrite
 );
 
 #if C_LINKAGE

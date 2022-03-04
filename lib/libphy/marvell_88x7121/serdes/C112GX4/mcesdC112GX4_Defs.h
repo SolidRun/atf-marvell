@@ -35,12 +35,8 @@ This file contains functions global definitions specific to Marvell
 #define C112GX4_TSENE_OFFSET           128900
 
 /* EOM constants */
-#define C112GX4_EYE_DEFAULT_VOLT_STEPS  40
-#define C112GX4_EYE_DEFAULT_PHASE_LEVEL 90
 #define C112GX4_EYE_MAX_VOLT_STEPS      64
-#define C112GX4_EYE_MAX_PHASE_LEVEL     128
-#define C112GX4_EYE_VOLT_OFFSET         4
-#define C112GX4_EYE_LOW_ERROR_THRESH    10
+#define C112GX4_EYE_MAX_PHASE_LEVEL     2048
 
 /* Miscellaneous */
 #define C112GX4_TOTAL_LANES             4
@@ -73,21 +69,30 @@ typedef enum
 /* SERDES Speeds */
 typedef enum
 {
-    C112GX4_SERDES_1P25G = 0,      /* 1.25 Gbps*/
-    C112GX4_SERDES_2P5G = 12,      /* 2.5 Gbps */
-    C112GX4_SERDES_3P125G = 1,     /* 3.125 Gbps */
-    C112GX4_SERDES_5G = 21,        /* 5 Gbps */
-    C112GX4_SERDES_5P15625G = 2,   /* 5.15625 Gbps */
-    C112GX4_SERDES_6P25G = 3,      /* 6.25 Gbps */
-    C112GX4_SERDES_10G = 22,       /* 10 Gbps */
-    C112GX4_SERDES_10P3125G = 4,   /* 10.3125 Gbps */
-    C112GX4_SERDES_20P625G = 13,   /* 20.625 Gbps */
-    C112GX4_SERDES_25P78125G = 7,  /* 25.78125 Gbps */
-    C112GX4_SERDES_28P125G = 9,    /* 28.125 Gbps */
-    C112GX4_SERDES_53P125G = 10,   /* 53.125 Gbps */
-    C112GX4_SERDES_56P25G = 11,    /* 56.25 Gbps */
-    C112GX4_SERDES_106GP25G = 14,  /* 106.25 Gbps */
-    C112GX4_SERDES_112G = 15,      /* 112 Gbps */
+    C112GX4_SERDES_1P25G            = 0,    /* 1.25 Gbps */
+    C112GX4_SERDES_2P5G             = 12,   /* 2.5 Gbps */
+    C112GX4_SERDES_2P578125G        = 20,   /* 2.578125 Gbps */
+    C112GX4_SERDES_3P125G           = 1,    /* 3.125 Gbps */
+    C112GX4_SERDES_5G               = 21,   /* 5 Gbps */
+    C112GX4_SERDES_5P15625G         = 2,    /* 5.15625 Gbps */
+    C112GX4_SERDES_6P25G            = 3,    /* 6.25 Gbps */
+    C112GX4_SERDES_10G              = 22,   /* 10 Gbps */
+    C112GX4_SERDES_10P3125G         = 4,    /* 10.3125 Gbps */
+    C112GX4_SERDES_12P1875G         = 5,    /* 12.1875 Gbps */
+    C112GX4_SERDES_12P5G            = 6,    /* 12.5 Gbps */
+    C112GX4_SERDES_12P890625G       = 17,   /* 12.890625 Gbps */
+    C112GX4_SERDES_20P625G          = 13,   /* 20.625 Gbps */
+    C112GX4_SERDES_25P78125G        = 7,    /* 25.78125 Gbps */
+    C112GX4_SERDES_26P5625G         = 16,   /* 26.5625 Gbps */
+    C112GX4_SERDES_27P5G            = 8,    /* 27.5 Gbps */
+    C112GX4_SERDES_28P125G          = 9,    /* 28.125 Gbps */
+    C112GX4_SERDES_51P5625G         = 18,   /* 51.5625 Gbps */
+    C112GX4_SERDES_53P125G          = 10,   /* 53.125 Gbps */
+    C112GX4_SERDES_56G              = 11,   /* 56 Gbps */
+    C112GX4_SERDES_56P25G           = 23,   /* 56.25 Gbps */
+    C112GX4_SERDES_103P125G         = 19,   /* 103.125 Gbps */
+    C112GX4_SERDES_106P25G          = 14,   /* 106.25 Gbps */
+    C112GX4_SERDES_112G             = 15,   /* 112 Gbps */
 } E_C112GX4_SERDES_SPEED;
 
 /* Reference Frequency Clock */
@@ -378,16 +383,30 @@ typedef struct
 /* Eye: Middle, Top or Bottom */
 typedef enum
 {
-    C112GX4_EYE_MID,
-    C112GX4_EYE_TOP,
-    C112GX4_EYE_BOT
+    C112GX4_EYE_TOP = 0,
+    C112GX4_EYE_MID = 1,
+    C112GX4_EYE_BOT = 2
 } E_C112GX4_EYE_TMB;
 
 /* Eye Raw Data */
 typedef struct
 {
-    MCESD_32 eyeRawData[(C112GX4_EYE_MAX_PHASE_LEVEL * 2) + 1][(C112GX4_EYE_MAX_VOLT_STEPS * 2) + 1];
+    MCESD_32 eyeRawData[C112GX4_EYE_MAX_PHASE_LEVEL][(C112GX4_EYE_MAX_VOLT_STEPS * 2) - 1];
+    MCESD_U32 oneUIwidth;
+    MCESD_U32 upperEdge;
+    MCESD_U32 lowerEdge;
+    MCESD_U32 leftEdge;
+    MCESD_U32 rightEdge;
+    MCESD_U32 sampleCount;
 } S_C112GX4_EYE_RAW, *S_C112GX4_EYE_RAW_PTR;
+
+#ifdef MCESD_EOM_STATS
+/* Buffer Structure for Eye-Releated Functions */
+typedef struct
+{
+    double bufferData[2][(C112GX4_EYE_MAX_PHASE_LEVEL * 2) + 1];
+} S_C112GX4_EYE_BUFFER, *S_C112GX4_EYE_BUFFER_PTR;
+#endif
 
 /* Data Acquisition Rate */
 typedef enum
@@ -727,13 +746,13 @@ typedef struct
     {
         struct
         {
-            MCESD_U16 powerLane0 : 1;
-            MCESD_U16 powerLane1 : 1;
-            MCESD_U16 powerLane2 : 1;
-            MCESD_U16 powerLane3 : 1;
-            MCESD_U16 powerReserved : 12;
-        };
-        MCESD_U16 powerLaneMask;
+            MCESD_U32 powerLane0 : 1;
+            MCESD_U32 powerLane1 : 1;
+            MCESD_U32 powerLane2 : 1;
+            MCESD_U32 powerLane3 : 1;
+            MCESD_U32 powerReserved : 28;
+        }powerLane;
+        MCESD_U32 powerLaneMask;
     }u;
     MCESD_BOOL initTx;
     MCESD_BOOL initRx;
@@ -775,7 +794,6 @@ typedef struct
 #define F_C112GX4R1P0_SQ_CAL_INDV_EXT   FIELD_DEFINE(0x07B8, 0, 0)
 #define F_C112GX4R1P1_SQ_CAL_INDV_EXT   FIELD_DEFINE(0x07AC, 0, 0)
 #define F_C112GX4R1P0_PATH_DISABLE_P1   FIELD_DEFINE(0x0104, 1, 1)
-#define F_C112GX4R1P0_RXSPEED_DIV       FIELD_DEFINE(0x00E8, 2, 0)
 #define F_C112GX4R1P0_PIN_PHY_GEN_TX_RD FIELD_DEFINE(0x2030, 31, 27)
 #define F_C112GX4R1P0_PIN_PHY_GEN_RX_RD FIELD_DEFINE(0x2114, 31, 27)
 #define F_C112GX4R1P2_PIN_PHY_GEN_TX_RD FIELD_DEFINE(0x2E00, 22, 18)
@@ -824,6 +842,9 @@ typedef struct
 #define F_C112GX4R1P0_TO_ANA_TX_FIR_C5  FIELD_DEFINE(0x2098, 21, 16)
 #define F_C112GX4R1P0_TO_ANA_TX_UPDATE  FIELD_DEFINE(0x2098, 0, 0)
 #define F_C112GX4R1P0_TX_FIR_UPDATE     FIELD_DEFINE(0x2054, 8, 8)
+#define F_C112GX4R1P0_TX_FIR_TAP_POL    FIELD_DEFINE(0x2054, 6, 1)
+#define F_C112GX4R1P0_TX_FIR_TAP_POL_F  FIELD_DEFINE(0x2054, 0, 0)      /* TX_FIR_TAP_POL_FORCE_LANE */
+#define F_C112GX4R1P0_TO_ANA_TX_FIR_POL FIELD_DEFINE(0x2098, 13, 8)     /* TO_ANA_TX_FIR_TAP_POL_LANE */
 
 /* R1P2 TX Equalization Parameters */
 #define F_C112GX4R1P2_TX_FIR_C0         FIELD_DEFINE(0x2050, 22, 17)
@@ -993,7 +1014,6 @@ typedef struct
 #define F_C112GX4R1P0_DFE_F30_P1        FIELD_DEFINE(0x263C, 20, 16)
 #define F_C112GX4R1P0_DFE_F30_P2        FIELD_DEFINE(0x268C, 20, 16)
 #define F_C112GX4R1P0_OFST_RES          FIELD_DEFINE(0x0070, 0, 0)
-#define F_C112GX4R1P0_RXSPEED_DIV       FIELD_DEFINE(0x00E8, 2, 0)
 #define F_C112GX4R1P0_RX_HALFRATE_EN    FIELD_DEFINE(0x2104, 30, 30)
 #define F_C112GX4R1P0_DFE_RES_VREF      FIELD_DEFINE(0x0074, 5, 4)
 #define F_C112GX4R1P0_VREF_SHIFT        FIELD_DEFINE(0x0158, 5, 4)
@@ -1069,6 +1089,7 @@ typedef struct
 #define F_C112GX4R1P0_ESM_PHASE         FIELD_DEFINE(0x6078, 26, 16)
 #define F_C112GX4R1P0_ADAPT_EVEN		FIELD_DEFINE(0x6314, 8, 8)
 #define F_C112GX4R1P0_ADAPT_ODD		    FIELD_DEFINE(0x6314, 9, 9)
+#define F_C112GX4R1P0_EOM_DEBUG0        FIELD_DEFINE(0x60C8, 7, 0)
 
 /* Trained Eye Height */
 #define F_C112GX4R1P0_TRAIN_F0D         FIELD_DEFINE(0x6048, 7, 0)
@@ -1086,6 +1107,9 @@ typedef struct
 
 /* Align 90 */
 #define F_C112GX4R1P0_PH_OS_DAT         FIELD_DEFINE(0x630C, 15, 0)
+#define F_C112GX4R1P0_DE_CAL_SET_12_11  FIELD_DEFINE(0x060C, 1, 0)      /* RX_ALIGN90_DE_CAL_SETTING_LANE[12:11] */
+#define F_C112GX4R1P0_DE_CAL_SET_10_03  FIELD_DEFINE(0x0610, 7, 0)      /* RX_ALIGN90_DE_CAL_SETTING_LANE[10:03] */
+#define F_C112GX4R1P0_DE_CAL_SET_02_00  FIELD_DEFINE(0x0614, 7, 5)      /* RX_ALIGN90_DE_CAL_SETTING_LANE[02:00] */
 
 /* Tx Inject */
 #define F_C112GX4R1P0_ADD_ERR_NUM       FIELD_DEFINE(0x2024, 28, 26)

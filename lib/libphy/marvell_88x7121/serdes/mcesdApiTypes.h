@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2019, Marvell International Ltd. and its affiliates
+Copyright (C) 2021, Marvell International Ltd. and its affiliates
 If you received this File from Marvell and you have entered into a commercial
 license agreement (a "Commercial License") with Marvell, the File is licensed
 to you under the terms of the applicable Commercial License.
@@ -160,16 +160,23 @@ typedef MCESD_STATUS (*FMCESD_WRITE_REG)(
 typedef MCESD_STATUS (*FMCESD_SET_PIN_CFG)(
                         MCESD_DEV_PTR dev,
                         MCESD_U16 pin,
-                        MCESD_U16 pinValue);
+                        MCESD_U32 pinValue);
 typedef MCESD_STATUS (*FMCESD_GET_PIN_CFG)(
                         MCESD_DEV_PTR dev,
                         MCESD_U16 pin,
-                        MCESD_U16 *pinValue);
+                        MCESD_U32 *pinValue);
 typedef MCESD_STATUS (*FMCESD_WAIT_FUNC)(
                         MCESD_DEV_PTR dev,
                         MCESD_U32 ms);
 
 typedef MCESD_STATUS (*FMCESD_FW_DOWNLOAD)(MCESD_DEV_PTR dev);
+
+typedef MCESD_STATUS (*FMCESD_FW_DOWNLOAD_NEW)(
+                        MCESD_DEV_PTR devPtr,
+                        MCESD_U32 *fwCodePtr,
+                        MCESD_U32 fwCodeSizeDW,
+                        MCESD_U32 address,
+                        MCESD_U16 *errCode);
 
 struct _MCESD_DEV
 {

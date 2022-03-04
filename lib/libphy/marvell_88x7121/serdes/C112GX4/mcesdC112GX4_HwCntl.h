@@ -79,7 +79,7 @@ MCESD_STATUS API_C112GX4_HwSetPinCfg
 (
     IN MCESD_DEV_PTR devPtr,
     IN E_C112GX4_PIN pin,
-    IN MCESD_U16 pinValue
+    IN MCESD_U32 pinValue
 );
 
 /**
@@ -97,7 +97,7 @@ MCESD_STATUS API_C112GX4_HwGetPinCfg
 (
     IN MCESD_DEV_PTR devPtr,
     IN E_C112GX4_PIN pin,
-    OUT MCESD_U16 *pinValue
+    OUT MCESD_U32 *pinValue
 );
 
 /**
