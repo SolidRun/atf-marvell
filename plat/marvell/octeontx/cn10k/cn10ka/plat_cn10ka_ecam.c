@@ -712,6 +712,9 @@ static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 		sdev++;
 	}
 
+	if ((pccpf_id.s.devid & 0xff) == CAVM_PCC_DEV_IDL_E_PEM5)
+		dev->config.s.is_secure = !is_pem_hotplug(vsec_ctl.s.inst_num);
+
 	return 1;
 }
 

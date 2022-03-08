@@ -372,10 +372,17 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 			if (i >= PEM_INT_VEC_E_INTA && i < PEM_INT_VEC_E_INT_SUM)
 				msg = PEM_SPI_IRQ(vsec_ctl.s.inst_num,
 						(i - PEM_INT_VEC_E_INTA) / 2);
-			else if (PEM_SPI_MISC_IRQS_PER_DEV != 0)
+			else if (PEM_SPI_MISC_IRQS_PER_DEV != 0) {
 				msg = PEM_SPI_MISC_IRQ(vsec_ctl.s.inst_num,
 						(i - PEM_INT_VEC_E_INTA) % 8);
-			else
+#if defined(PLAT_CN10K_FAMILY)
+				/* Mask RST_INT if hot-plug disabled */
+				if ((((i - PEM_INT_VEC_E_INTA) % 8) == 1) &&
+					!is_pem_hotplug(vsec_ctl.s.inst_num) &&
+					is_pem_in_rc_mode(vsec_ctl.s.inst_num))
+					msg |= 0x100000000ull;
+#endif
+			} else
 				msg = 0x100000000ull;	/* Masked */
 			octeontx_write64(vector_base, msg);
 			vector_base += 8;

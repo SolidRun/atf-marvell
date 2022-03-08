@@ -270,6 +270,35 @@ void plat_octeontx_setup(void)
 #endif
 }
 
+unsigned int is_pem_hotplug(int pem)
+{
+	const void *fdt = fdt_ptr;
+	const char *str;
+	char hp_str[32];
+	int offset, rc;
+	int len;
+
+	rc = fdt_check_header(fdt);
+	if (rc) {
+		WARN("Invalid device tree\n");
+		return 0;
+	}
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("FDT node not found\n");
+		return 0;
+	}
+
+	snprintf(hp_str, sizeof(hp_str), "PCIE-RC-HOTPLUG.PORT%d",
+		 pem);
+	str = fdt_getprop(fdt, offset, (const char *)hp_str, &len);
+	if (str)
+		rc = strtol(str, NULL, 16);
+
+	return rc;
+}
+
 unsigned int is_pem_in_rc_mode(int pem)
 {
 	cavm_pemx_cfg_t pemx_cfg;
