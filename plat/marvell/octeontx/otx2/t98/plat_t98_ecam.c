@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <octeontx_ecam.h>
+#include <platform_irqs_def.h>
 #include <plat_board_cfg.h>
 #include <plat_scfg.h>
 #include <cgx.h>
@@ -55,7 +56,7 @@ static int is_qlm_configured_as_cgx(int qlm)
 		qlm_state = cgx->qlm_ops->qlm_get_state(gserx, lane);
 		if (qlm_state.s.cgx) {
 			debug_plat_ecam("%s: CGX detected on qlm %d lane %d\n",
-					__func__, qlm_idx, lane);
+					__func__, qlm, lane);
 			return 1;
 		}
 	};
@@ -156,6 +157,60 @@ static void init_cgx(uint64_t config_base, uint64_t config_size)
 	cgx_hw_init(cgx_id);
 }
 
+static void init_scp(uint64_t config_base, uint64_t config_size)
+{
+	struct pcie_config *pconfig = (struct pcie_config *)config_base;
+	uint32_t *sctl = (uint32_t *)(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+	uint16_t table_size;
+	uint8_t cap_pointer, bir;
+	uint64_t vector_base, msg;
+	uint8_t i;
+
+	/* Alter interrupts just for XCP0 */
+	if (config_base & 0xffff)
+		return;
+
+	debug_plat_ecam("SCP init called config_base:%llx size:%llx\n",
+		 config_base, config_size);
+
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	/* Bypass SMMU */
+	*sctl |= 0x1;
+
+	/* Enable MSIX */
+	bir = 0;
+	table_size = 0;
+	cap_pointer = pconfig->cap_pointer;
+	enable_msix(config_base, cap_pointer, &table_size, &bir);
+
+	vsec_sctl.s.msix_sec = 0;
+	vsec_sctl.s.msix_sec_phys = 0;
+	vsec_sctl.s.msix_phys = 1;
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+
+	/* Initialize MSI-X Vector table */
+	if (table_size && (table_size > 2)) {
+		vector_base = get_bar_val(pconfig, bir);
+		debug_plat_ecam("table_size: %x bir:%1x\n", table_size, bir);
+		debug_plat_ecam("MSI-X vector base: %llx\n", vector_base);
+
+		for (i = 0; i < table_size; i++) {
+			/* Ensure the interrupt is not pending ! */
+			CSR_WRITE(CAVM_XCPX_XCP_DEVX_MBOX_RINT(0, i), 1ULL);
+			octeontx_write64(vector_base, CAVM_GICD_SETSPI_NSR);
+			vector_base += 8;
+			msg = SCP_SPI_IRQ(i);
+			debug_plat_ecam("SCP: vect: %d addr: %llx irq: %llu\n",
+					i, CAVM_GICD_SETSPI_NSR, msg);
+			octeontx_write64(vector_base, msg);
+			vector_base += 8;
+			CSR_WRITE(CAVM_XCPX_XCP_DEVX_MBOX_RINT_ENA_W1S(0, i),
+				  1ULL);
+		}
+	}
+}
+
 /* used for any device which just needs MSIX enabled */
 static void init_msixen(uint64_t config_base, uint64_t config_size)
 {
@@ -176,6 +231,7 @@ struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa073, 0x177d, init_msixen}, /* 0x73 - PCC_DEV_IDL_E::MDC */
 	{0xa059, 0x177d, init_cgx}, /* 0x59 - PCC_DEV_IDL_E::CGX */
 	{0xa065, 0x177d, init_rvu}, /* 0x65 - PCC_DEV_IDL_E::RVU_AF */
+	{0xa067, 0x177d, init_scp}, /* 0x67 - PCC_DEV_IDL_E::XCP */
 	{0xa063, 0x177d, init_rvu_rid}, /* 0x63 - PCC_DEV_IDL_E::RVU */
 	{0xa0f6, 0x177d, init_sdp_rid}, /* 0xf6 - SW defined for SDP RVU PF */
 	{0xa0f8, 0x177d, init_rvu_rid}, /* 0xf8 - PCC_DEV_IDL_E::RVU_AF_VF */
@@ -213,6 +269,7 @@ struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PEM5, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BCH, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PSBM, ECAM_ALL_INSTANCES},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_XCP, ECAM_ALL_INSTANCES},
 	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES}
 };
 
