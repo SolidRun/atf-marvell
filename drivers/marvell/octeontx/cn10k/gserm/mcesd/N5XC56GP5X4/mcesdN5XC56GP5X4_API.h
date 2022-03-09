@@ -716,6 +716,7 @@ MCESD_STATUS API_N5XC56GP5X4_SetAlign90
 @param[in]  lane - lane number 0, 1, 2, 3, etc.
 
 @param[out] align90 - align90 value
+@param[out] analogSetting - analog setting value
 
 @retval MCESD_OK - on success
 @retval MCESD_FAIL - on error
@@ -724,7 +725,8 @@ MCESD_STATUS API_N5XC56GP5X4_GetAlign90
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT MCESD_U16 *align90
+    OUT MCESD_U16 *align90,
+    OUT MCESD_U16 *analogSetting
 );
 
 /**
@@ -1315,89 +1317,8 @@ MCESD_STATUS API_N5XC56GP5X4_EOMFinalize
     IN MCESD_U8 lane
 );
 
-/**
-@brief  Get measurement data at phase, voltage
 
-@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  eyeTMB - N5XC56GP5X4_EYE_TOP, N5XC56GP5X4_EYE_MID or N5XC56GP5X4_EYE_BOT
-@param[in]  phase - phase to measure
-@param[in]  voltage - voltage to measure (offset from center; both upper and lower voltage are measured)
-@param[in]  minSamples - minimum number of bits to sample
 
-@param[out] measurement - pointer to S_N5XC56GP5X4_EOM_DATA which will hold the results
-
-@note Called by API_N5XC56GP5X4_EOMGetWidthHeight to measure a specific point
-@note At least minSamples will be measured
-
-@retval MCESD_OK - on success
-@retval MCESD_FAIL - on error
-*/
-MCESD_STATUS API_N5XC56GP5X4_EOMMeasPoint
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
-    IN MCESD_32 phase,
-    IN MCESD_U8 voltage,
-    IN MCESD_U32 minSamples,
-    OUT S_N5XC56GP5X4_EOM_DATA *measurement
-);
-
-/**
-@brief  Returns the number of phase steps for 1 UI at the current speed
-
-@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  lane - lane number 0, 1, etc.
-
-@param[out] phaseStepCount - step count of phase
-@param[out] voltageStepCount - step count of voltage
-
-@retval MCESD_OK - on success
-@retval MCESD_FAIL - on error
-*/
-MCESD_STATUS API_N5XC56GP5X4_EOM1UIStepCount
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    OUT MCESD_U16 *phaseStepCount,
-    OUT MCESD_U16 *voltageStepCount
-);
-
-/**
-@brief  Returns EYE width and height
-
-@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
-@param[in]  lane - lane number 0, 1, 2, 3, etc.
-@param[in]  eyeTMB - N5XC56GP5X4_EYE_TOP, N5XC56GP5X4_EYE_MID or N5XC56GP5X4_EYE_BOT
-@param[in]  minSamples - minimum number of bits to sample
-@param[in]  berThreshold - Bit Error Rate Threshold in nano (factor of 1E-9)
-
-@param[out] width - EYE width
-@param[out] heightUpper - upper EYE height
-@param[out] heightLower - lower EYE height
-@param[out] sampleCount - sample count
-
-@note Requires a valid signal at the receiver
-@note At least minSamples will be measured
-@note Example: (berThreshold = 1E+5) => Threshold = 1E+5 * 1E-9 = 1E-4
-@note Points where BER is less than 1E-4 are good
-
-@retval MCESD_OK - on success
-@retval MCESD_FAIL - on error
-*/
-MCESD_STATUS API_N5XC56GP5X4_EOMGetWidthHeight
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
-    IN MCESD_U32 minSamples,
-    IN MCESD_U32 berThreshold,
-    OUT MCESD_U16 *width,
-    OUT MCESD_U16 *heightUpper,
-    OUT MCESD_U16 *heightLower,
-    OUT MCESD_U32 *sampleCount
-);
 
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
 /**
@@ -1613,6 +1534,28 @@ MCESD_STATUS API_N5XC56GP5X4_GetMcuLocalStatus
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     OUT MCESD_U32 *localStatus
+);
+
+/**
+@brief  Display Tx Training Log
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  logArrayDataPtr - pointer to array of S_N5XC56GP5X4_TLOG_ENTRY
+@param[in]  logArraySizeEntries - size of array
+
+@param[out] validEntries - number of valid entries in provided array
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_DisplayTrainingLog
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN S_N5XC56GP5X4_TLOG_ENTRY logArrayDataPtr[],
+    IN MCESD_U32 logArraySizeEntries,
+    OUT MCESD_U32 *validEntries
 );
 
 #if C_LINKAGE

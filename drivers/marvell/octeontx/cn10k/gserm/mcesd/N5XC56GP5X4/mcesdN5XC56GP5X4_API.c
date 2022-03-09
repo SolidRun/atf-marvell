@@ -17,6 +17,7 @@ higher-level functions to configure Marvell CE SERDES IP:
 #include "mcesdN5XC56GP5X4_API.h"
 #include "mcesdN5XC56GP5X4_RegRW.h"
 #include "mcesdN5XC56GP5X4_HwCntl.h"
+#include <stdio.h>
 #include <string.h>
 
 #ifdef N5XC56GP5X4
@@ -26,8 +27,8 @@ static MCESD_U32 INT_N5XC56GP5X4_ComputeTxEqEmMain(IN MCESD_U32 pre3Cursor, IN M
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32 *tapValue);
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldTopPtr, IN MCESD_FIELD_PTR fieldMidPtr, IN MCESD_FIELD_PTR fieldBotPtr, OUT MCESD_32 *tapValue);
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32 *tapValue);
-static MCESD_STATUS INT_N5XC56GP5X4_SpeedGbpsToMbps(IN E_N5XC56GP5X4_SERDES_SPEED speed, OUT MCESD_U32 *mbps);
-static MCESD_STATUS INT_N5XC56GP5X4_CalculateBER(IN MCESD_U32 bitErrorCount, IN MCESD_U64 bitCount, OUT MCESD_U32 *nanoBER);
+static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2(IN MCESD_U32 data, OUT S_N5XC56GP5X4_TLOG_ENTRY* entry);
+static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4(IN MCESD_U32 data, OUT S_N5XC56GP5X4_TLOG_ENTRY* entry);
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeF0(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, INOUT MCESD_U32 *table);
 #endif
@@ -1453,13 +1454,17 @@ MCESD_STATUS API_N5XC56GP5X4_GetAlign90
 (
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
-    OUT MCESD_U16 *align90
+    OUT MCESD_U16 *align90,
+    OUT MCESD_U16 *analogSetting
 )
 {
     MCESD_U32 data;
 
     N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_PH_OS_DAT, lane, data);
     *align90 = (MCESD_U16)data;
+
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_ALIGN90_CAL_7_0, lane, data);
+    *analogSetting = (MCESD_U16)data;
 
     return MCESD_OK;
 }
@@ -2666,467 +2671,10 @@ MCESD_STATUS API_N5XC56GP5X4_EOMFinalize
     return MCESD_OK;
 }
 
-MCESD_STATUS API_N5XC56GP5X4_EOMMeasPoint
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
-    IN MCESD_32 phase,
-    IN MCESD_U8 voltage,
-    IN MCESD_U32 minSamples,
-    OUT S_N5XC56GP5X4_EOM_DATA *measurement
-)
-{
-    MCESD_U32 vldCntPData_39_32, vldCntPData_31_00, vldCntNData_39_32, vldCntNData_31_00, errCntPData_31_00, errCntNData_31_00, totalErrCntPData, totalErrCntNData;
-    MCESD_U64 totalVldCntPData, totalVldCntNData;
 
-    if (NULL == measurement)
-        return MCESD_FAIL;
 
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_ESM_PHASE, lane, phase);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_ESM_VOLTAGE, lane, voltage);
 
-    totalVldCntPData = 0;
-    totalVldCntNData = 0;
-    totalErrCntPData = 0;
-    totalErrCntNData = 0;
 
-    while ((totalVldCntPData < minSamples) || (totalVldCntNData < minSamples))
-    {
-        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_EOM_DFE_CALL, lane, 1);
-        N5XC56GP5X4_POLL_FIELD(devPtr, F_N5XC56GP5X4_EOM_DFE_CALL, lane, 0, 1000);
-
-        switch (eyeTMB)
-        {
-        case N5XC56GP5X4_EYE_TOP:
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_T_P_3932, lane, vldCntPData_39_32);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_T_P_3100, lane, vldCntPData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_T_N_3932, lane, vldCntNData_39_32);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_T_N_3100, lane, vldCntNData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_EOM_EC_T_P, lane, errCntPData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_EOM_EC_T_N, lane, errCntNData_31_00);
-            break;
-        case N5XC56GP5X4_EYE_MID:
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_M_P_3932, lane, vldCntPData_39_32);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_M_P_3100, lane, vldCntPData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_M_N_3932, lane, vldCntNData_39_32);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_M_N_3100, lane, vldCntNData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_EOM_EC_M_P, lane, errCntPData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_EOM_EC_M_N, lane, errCntNData_31_00);
-            break;
-        case N5XC56GP5X4_EYE_BOT:
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_B_P_3932, lane, vldCntPData_39_32);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_B_P_3100, lane, vldCntPData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_B_N_3932, lane, vldCntNData_39_32);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_VC_B_N_3100, lane, vldCntNData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_EOM_EC_B_P, lane, errCntPData_31_00);
-            N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_EOM_EC_B_N, lane, errCntNData_31_00);
-            break;
-        default:
-            return MCESD_FAIL;  /* Invalid eye */
-        }
-
-        totalVldCntPData += MAKEU64FROMU32((MCESD_U64)vldCntPData_39_32, vldCntPData_31_00);
-        totalVldCntNData += MAKEU64FROMU32((MCESD_U64)vldCntNData_39_32, vldCntNData_31_00);
-        totalErrCntPData += errCntPData_31_00;
-        totalErrCntNData += errCntNData_31_00;
-    }
-
-    measurement->phase = phase;
-    measurement->voltage = voltage;
-    measurement->upperBitCount = totalVldCntPData;
-    measurement->upperBitErrorCount = totalErrCntPData;
-    measurement->lowerBitCount = totalVldCntNData;
-    measurement->lowerBitErrorCount = totalErrCntNData;
-
-    return MCESD_OK;
-}
-
-MCESD_STATUS API_N5XC56GP5X4_EOM1UIStepCount
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    OUT MCESD_U16 *phaseStepCount,
-    OUT MCESD_U16 *voltageStepCount
-)
-{
-    E_N5XC56GP5X4_SERDES_SPEED txSpeed, rxSpeed;
-    MCESD_U32 mbps;
-
-    MCESD_ATTEMPT(API_N5XC56GP5X4_GetTxRxBitRate(devPtr, lane, &txSpeed, &rxSpeed));
-    INT_N5XC56GP5X4_SpeedGbpsToMbps(rxSpeed, &mbps);
-
-    if (mbps >= 16000)          /* speed >= 16.0 Gbps */
-    {
-        *phaseStepCount = 128;
-    }
-    else if (mbps >= 8000)      /* speed >= 8.0 Gbps */
-    {
-        *phaseStepCount = 256;
-    }
-    else if (mbps >= 4000)      /* speed >= 4.0 Gbps */
-    {
-        *phaseStepCount = 512;
-    }
-    else if (mbps >= 2000)      /* speed >= 2.0 Gbps */
-    {
-        *phaseStepCount = 1024;
-    }
-    else
-    {
-        *phaseStepCount = 2048;
-    }
-
-    *voltageStepCount = 64;
-
-    return MCESD_OK;
-}
-
-MCESD_STATUS INT_N5XC56GP5X4_SpeedGbpsToMbps
-(
-    IN E_N5XC56GP5X4_SERDES_SPEED speed,
-    OUT MCESD_U32 *mbps
-)
-{
-    *mbps = 0;
-
-    switch (speed)
-    {
-    case N5XC56GP5X4_SERDES_1P0625G:        /* 1.0625 Gbps */
-        *mbps = 1062;
-        break;
-    case N5XC56GP5X4_SERDES_1P2288G:        /* 1.2288 Gbps */
-        *mbps = 1228;
-        break;
-    case N5XC56GP5X4_SERDES_1P25G:          /* 1.25 Gbps */
-        *mbps = 1250;
-        break;
-    case N5XC56GP5X4_SERDES_2P02752G:       /* 2.02752 Gbps */
-        *mbps = 2027;
-        break;
-    case N5XC56GP5X4_SERDES_2P125G:         /* 2.125 Gbps */
-        *mbps = 2125;
-        break;
-    case N5XC56GP5X4_SERDES_2P4576G:        /* 2.4576 Gbps */
-        *mbps = 2457;
-        break;
-    case N5XC56GP5X4_SERDES_2P5G:           /* 2.5 Gbps */
-        *mbps = 2500;
-        break;
-    case N5XC56GP5X4_SERDES_2P57812G:       /* 2.578125 Gbps */
-        *mbps = 2578;
-        break;
-    case N5XC56GP5X4_SERDES_3P072G:         /* 3.072 Gbps */
-        *mbps = 3072;
-        break;
-    case N5XC56GP5X4_SERDES_3P125G:         /* 3.125 Gbps */
-        *mbps = 3125;
-        break;
-    case N5XC56GP5X4_SERDES_4P08804G:       /* 4.08804 Gbps */
-        *mbps = 4088;
-        break;
-    case N5XC56GP5X4_SERDES_4P25G:          /* 4.25 Gbps */
-        *mbps = 4250;
-        break;
-    case N5XC56GP5X4_SERDES_4P9152G:        /* 4.9152 Gbps */
-        *mbps = 4915;
-        break;
-    case N5XC56GP5X4_SERDES_5G:            /* 5.0 Gbps */
-        *mbps = 5000;
-        break;
-    case N5XC56GP5X4_SERDES_5P15625G:       /* 5.15625 Gbps */
-        *mbps = 5156;
-        break;
-    case N5XC56GP5X4_SERDES_6P144G:         /* 6.144 Gbps */
-        *mbps = 6144;
-        break;
-    case N5XC56GP5X4_SERDES_6P25G:          /* 6.25 Gbps */
-        *mbps = 6250;
-        break;
-    case N5XC56GP5X4_SERDES_7P3728G:        /* 7.3728 Gbps */
-        *mbps = 7372;
-        break;
-    case N5XC56GP5X4_SERDES_7P5G:           /* 7.5 Gbps */
-        *mbps = 7500;
-        break;
-    case N5XC56GP5X4_SERDES_8P11008G:       /* 8.11008 Gbps */
-        *mbps = 8110;
-        break;
-    case N5XC56GP5X4_SERDES_8P5G:           /* 8.5 Gbps */
-        *mbps = 8500;
-        break;
-    case N5XC56GP5X4_SERDES_9P8304G:        /* 9.8304 Gbps */
-        *mbps = 9830;
-        break;
-    case N5XC56GP5X4_SERDES_10G:            /* 10.0 Gbps */
-        *mbps = 10000;
-        break;
-    case N5XC56GP5X4_SERDES_10P137G:        /* 10.137 Gbps */
-        *mbps = 10137;
-        break;
-    case N5XC56GP5X4_SERDES_10P3125G:       /* 10.3125 Gbps */
-        *mbps = 10312;
-        break;
-    case N5XC56GP5X4_SERDES_10P5187G:       /* 10.51875 Gbps */
-        *mbps = 10518;
-        break;
-    case N5XC56GP5X4_SERDES_12P1651G:       /* 12.16512 Gbps */
-        *mbps = 12165;
-        break;
-    case N5XC56GP5X4_SERDES_12P1875G:       /* 12.1875 Gbps */
-        *mbps = 12187;
-        break;
-    case N5XC56GP5X4_SERDES_12P288G:        /* 12.288 Gbps */
-        *mbps = 12288;
-        break;
-    case N5XC56GP5X4_SERDES_12P5G:          /* 12.5 Gbps */
-        *mbps = 12500;
-        break;
-    case N5XC56GP5X4_SERDES_12P8906G:       /* 12.8906 Gbps */
-        *mbps = 12890;
-        break;
-    case N5XC56GP5X4_SERDES_14P025G:        /* 14.025 Gbps */
-        *mbps = 14025;
-        break;
-    case N5XC56GP5X4_SERDES_14P7456G:       /* 14.7456 Gbps */
-        *mbps = 14745;
-        break;
-    case N5XC56GP5X4_SERDES_15G:            /* 15.0 Gbps */
-        *mbps = 15000;
-        break;
-    case N5XC56GP5X4_SERDES_16P2201G:       /* 16.22016 Gbps */
-        *mbps = 16220;
-        break;
-    case N5XC56GP5X4_SERDES_19P6608G:       /* 19.6608 Gbps */
-        *mbps = 19660;
-        break;
-    case N5XC56GP5X4_SERDES_20P625G:        /* 20.625 Gbps */
-        *mbps = 20625;
-        break;
-    case N5XC56GP5X4_SERDES_24P3302G:       /* 24.33024 Gbps */
-        *mbps = 24330;
-        break;
-    case N5XC56GP5X4_SERDES_25P7812G:       /* 25.78125 Gbps */
-        *mbps = 25781;
-        break;
-    case N5XC56GP5X4_SERDES_26P5625G:       /* 26.5625 Gbps */
-        *mbps = 26562;
-        break;
-    case N5XC56GP5X4_SERDES_275G:           /* 27.5 Gbps */
-        *mbps = 27500;
-        break;
-    case N5XC56GP5X4_SERDES_28P05G:         /* 28.05 Gbps */
-        *mbps = 28050;
-        break;
-    case N5XC56GP5X4_SERDES_28P125G:        /* 28.125 Gbps */
-        *mbps = 28125;
-        break;
-    case N5XC56GP5X4_SERDES_32G:            /* 32.0 Gbps */
-        *mbps = 32000;
-        break;
-    case N5XC56GP5X4_SERDES_46P25G:         /* 46.25 Gbps */
-        *mbps = 46250;
-        break;
-    case N5XC56GP5X4_SERDES_51P5625G:       /* 51.5625 Gbps */
-        *mbps = 51562;
-        break;
-    case N5XC56GP5X4_SERDES_53P125G:        /* 53.125 Gbps */
-        *mbps = 53125;
-        break;
-    case N5XC56GP5X4_SERDES_56G:            /* 56.0 Gbps */
-        *mbps = 56000;
-        break;
-    case N5XC56GP5X4_SERDES_56P1G:          /* 56.1 Gbps */
-        *mbps = 56100;
-        break;
-    case N5XC56GP5X4_SERDES_56P25G:         /* 56.25 Gbps */
-        *mbps = 56250;
-        break;
-    case N5XC56GP5X4_SERDES_64G:            /* 64.0 Gbps */
-        *mbps = 64000;
-        break;
-    default:
-        return MCESD_FAIL;
-    }
-
-    return MCESD_OK;
-}
-
-MCESD_STATUS API_N5XC56GP5X4_EOMGetWidthHeight
-(
-    IN MCESD_DEV_PTR devPtr,
-    IN MCESD_U8 lane,
-    IN E_N5XC56GP5X4_EYE_TMB eyeTMB,
-    IN MCESD_U32 minSamples,
-    IN MCESD_U32 berThreshold,
-    OUT MCESD_U16 *width,
-    OUT MCESD_U16 *heightUpper,
-    OUT MCESD_U16 *heightLower,
-    OUT MCESD_U32 *sampleCount
-)
-{
-    MCESD_32 leftEdge, rightEdge, upperEdge, lowerEdge, maxPhase, minPhase, maxVoltage, phase, voltage, phaseMidpoint;
-    MCESD_U32 upperBER, lowerBER;
-    MCESD_U16 phaseStepCount, voltageStepCount;
-    S_N5XC56GP5X4_EOM_DATA measurement;
-
-    MCESD_ATTEMPT(API_N5XC56GP5X4_EOM1UIStepCount(devPtr, lane, &phaseStepCount, &voltageStepCount));
-
-    maxPhase = phaseStepCount / 2;
-    minPhase = -phaseStepCount / 2;
-    maxVoltage = voltageStepCount;
-
-    /* Set default edge values */
-    leftEdge = minPhase;
-    rightEdge = maxPhase;
-    upperEdge = -maxVoltage;
-    lowerEdge = maxVoltage - 1;
-
-    MCESD_ATTEMPT(API_N5XC56GP5X4_EOMInit(devPtr, lane));
-    
-    /* Scan Left */
-    for (phase = 0; phase < maxPhase; phase++)
-    {
-        MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, phase, 0, minSamples, &measurement));
-        
-        if (0 == phase)
-        {
-            *sampleCount = (MCESD_U32)measurement.upperBitCount;
-        }
-
-        /* Stop because no bits were read */
-        if ((0 == measurement.upperBitCount) || (0 == measurement.lowerBitCount))
-        {
-            leftEdge = phase;
-            break;
-        }
-
-        /* Stop because BER was too high */
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.upperBitErrorCount, measurement.upperBitCount, &upperBER));
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.lowerBitErrorCount, measurement.lowerBitCount, &lowerBER));
-        if ((berThreshold < upperBER) || (berThreshold < lowerBER))
-        {
-            leftEdge = phase;
-            break;
-        }
-    }
-
-    /* Scan Right */
-    for (phase = -1; phase > minPhase; phase--)
-    {
-        MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, phase, 0, minSamples, &measurement));
-
-        /* Stop because no bits were read */
-        if ((0 == measurement.upperBitCount) || (0 == measurement.lowerBitCount))
-        {
-            rightEdge = phase;
-            break;
-        }
-
-        /* Stop because BER was too high */
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.upperBitErrorCount, measurement.upperBitCount, &upperBER));
-        MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.lowerBitErrorCount, measurement.lowerBitCount, &lowerBER));
-        if ((berThreshold < upperBER) || (berThreshold < lowerBER))
-        {
-            rightEdge = phase;
-            break;
-        }
-    }
-
-    /* Default if either edge did not update */
-    if ((leftEdge == minPhase) || (rightEdge == maxPhase))
-    {
-        leftEdge = maxPhase;
-        rightEdge = minPhase;
-    }
-
-    phaseMidpoint = (leftEdge - rightEdge) / 2 + rightEdge;
-
-    /* Scan up and down */
-    for (voltage = 0; voltage < maxVoltage; voltage++)
-    {
-        MCESD_ATTEMPT(API_N5XC56GP5X4_EOMMeasPoint(devPtr, lane, eyeTMB, phaseMidpoint, (MCESD_U8)voltage, minSamples, &measurement));
-
-        /* Update once */
-        while (upperEdge == -maxVoltage)
-        {
-            /* Update because no bits read */
-            if (0 == measurement.upperBitCount)
-            {
-                upperEdge = voltage;
-                break;
-            }
-
-            /* Update because BER was too high */
-            MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.upperBitErrorCount, measurement.upperBitCount, &upperBER));
-            if (berThreshold < upperBER)
-            {
-                upperEdge = voltage;
-            }
-            break;
-        }
-
-        /* Update once */
-        while (lowerEdge == (maxVoltage - 1))
-        {
-            /* Update because no bits read */
-            if (0 == measurement.lowerBitCount)
-            {
-                lowerEdge = -voltage;
-                break;
-            }
-
-            /* Update because BER was too high */
-            MCESD_ATTEMPT(INT_N5XC56GP5X4_CalculateBER(measurement.lowerBitErrorCount, measurement.lowerBitCount, &lowerBER));
-            if (berThreshold < lowerBER)
-            {
-                lowerEdge = -voltage;
-            }
-            break;
-        }
-
-        /* Stop when both edges are found */
-        if ((upperEdge != -maxVoltage) && (lowerEdge != (maxVoltage - 1)))
-        {
-            break;
-        }
-    }
-
-    /* Default if either edge did not update */
-    if ((upperEdge == -maxVoltage) || (lowerEdge == (maxVoltage - 1)))
-    {
-        upperEdge = maxVoltage - 1;
-        lowerEdge = 1 - maxVoltage;
-    }
-
-    *width = (MCESD_16)((leftEdge == rightEdge) ? 0 : leftEdge - rightEdge);
-    if (upperEdge == lowerEdge)
-    {
-        *heightUpper = 0;
-        *heightLower = 0;
-    }
-    else
-    {
-        *heightUpper = (MCESD_U16)upperEdge;
-        *heightLower = (MCESD_U16)((lowerEdge < 0) ? -lowerEdge : lowerEdge);
-    }
-    
-    MCESD_ATTEMPT(API_N5XC56GP5X4_EOMFinalize(devPtr, lane));
-
-    return MCESD_OK;
-}
-
-MCESD_STATUS INT_N5XC56GP5X4_CalculateBER
-(
-    IN MCESD_U32 bitErrorCount,
-    IN MCESD_U64 bitCount,
-    OUT MCESD_U32 *nanoBER
-)
-{
-    MCESD_U64 adjustedBitErrorCount = (MCESD_U64)bitErrorCount * 0x3B9ACA00;   /* 0x3B9ACA00 == 1E+9 */
-    *nanoBER = (MCESD_U32)(adjustedBitErrorCount / ((MCESD_U64)bitCount));
-    return MCESD_OK;
-}
 
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
 MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
@@ -3563,6 +3111,390 @@ MCESD_STATUS API_N5XC56GP5X4_GetMcuLocalStatus
     }
 
     *localStatus = data;
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_DisplayTrainingLog
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN S_N5XC56GP5X4_TLOG_ENTRY logArrayDataPtr[],
+    IN MCESD_U32 logArraySizeEntries,
+    OUT MCESD_U32 *validEntries
+)
+{
+    S_N5XC56GP5X4_TLOG_ENTRY entry;
+    MCESD_U32 data, baseAddr, addrOffset;
+    MCESD_U16 logCount, iterLog;
+    MCESD_U8 index = 0;
+    MCESD_BOOL isPAM4, bufferFull;
+
+    MCESD_DBG_INFO("--------------------------------------------------------------------------------\n");
+    MCESD_DBG_INFO("API_N5XC56GP5X4_DisplayTrainingLog(lane=%d)\n", lane);
+
+    baseAddr = 0x6A00;
+    N5XC56GP5X4_READ_FIELD(devPtr, FIELD_DEFINE(baseAddr, 7, 0) /* counter */, lane, data);
+    logCount = (MCESD_U16)data;
+    if (0 == logCount)
+    {
+        MCESD_DBG_INFO("No entries in log\n");
+        return MCESD_OK;
+    }
+
+    N5XC56GP5X4_READ_FIELD(devPtr, FIELD_DEFINE(baseAddr, 8, 8) /* log type */, lane, data);
+    isPAM4 = (MCESD_BOOL)data;
+    N5XC56GP5X4_READ_FIELD(devPtr, FIELD_DEFINE(baseAddr, 9, 9) /* full indicator */, lane, data);
+    bufferFull = (MCESD_BOOL)data;
+
+    for (iterLog = logCount + 63 * bufferFull; iterLog > (bufferFull ? logCount : 0); iterLog--)
+    {
+        /* Calculates entry's address offset from base address */
+        addrOffset = ((iterLog - 1) % 63) + 1;
+
+        N5XC56GP5X4_READ_FIELD(devPtr, FIELD_DEFINE(baseAddr + 0x4 * addrOffset, 31, 0), lane, data);
+
+        if (isPAM4)
+        {
+           MCESD_DBG_INFO("Log Entry: %d (PAM4)\n", iterLog);
+           MCESD_ATTEMPT(INT_N5XC56GP5X4_DisplayEntryPAM4(data, &entry));
+        }
+        else
+        {
+           MCESD_DBG_INFO("Log Entry: %d (PAM2)\n", iterLog);
+           MCESD_ATTEMPT(INT_N5XC56GP5X4_DisplayEntryPAM2(data, &entry));
+        }
+
+        if ((logArrayDataPtr != NULL) && (index < logArraySizeEntries))
+            logArrayDataPtr[index++] = entry;
+    }
+
+    *validEntries = index;
+
+    MCESD_DBG_INFO("--------------------------------------------------------------------------------\n");
+
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
+(
+    IN MCESD_U32 data,
+    OUT S_N5XC56GP5X4_TLOG_ENTRY* entry
+)
+{
+    MCESD_U32 rawValue;
+    char msg[80];
+    char* leftString;
+    char* rightString;
+
+    entry->isPAM4 = MCESD_FALSE;
+
+    /* REMOTE REQUEST PRESET */
+    rawValue = data >> 31;
+    entry->pam2.remoteReqPreset = (MCESD_BOOL)rawValue;
+    leftString = (1 == rawValue) ? N5XC56GP5X4_STRING_PRESET_COE : N5XC56GP5X4_STRING_NORMAL_OP;
+    
+    sprintf(msg, "    REMOTE_REQ_PRESET       %s\n", leftString);
+    MCESD_DBG_INFO(msg);
+
+    /* REMOTE REQUEST CTRL_G1 */
+    rawValue = (data >> 28) & 0x3;
+    entry->pam2.remoteReqCtrlG1 = (E_N5XC56GP5X4_TLOG2_CTRL)rawValue;
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_HOLD : N5XC56GP5X4_STRING_INC) : (2 == rawValue ? N5XC56GP5X4_STRING_DEC : N5XC56GP5X4_STRING_DASH);
+
+    /* REMOTE REQUEST STS_G1 */
+    rawValue = (data >> 20) & 0x3;
+    entry->pam2.remoteReqStsG1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
+    rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
+
+    sprintf(msg, "    REMOTE_REQ_CTRL_G1      %-16sREMOTE_REQ_STS_G1       %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* REMOTE REQUEST CTRL_G0 */
+    rawValue = (data >> 26) & 0x3;
+    entry->pam2.remoteReqCtrlG0 = (E_N5XC56GP5X4_TLOG2_CTRL)rawValue;
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_HOLD : N5XC56GP5X4_STRING_INC) : (2 == rawValue ? N5XC56GP5X4_STRING_DEC : N5XC56GP5X4_STRING_DASH);
+
+    /* REMOTE REQUEST STS_G0 */
+    rawValue = (data >> 18) & 0x3;
+    entry->pam2.remoteReqStsG0 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
+    rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
+
+    sprintf(msg, "    REMOTE_REQ_CTRL_G0      %-16sREMOTE_REQ_STS_G0       %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* REMOTE REQUEST CTRL_GN1 */
+    rawValue = (data >> 24) & 0x3;
+    entry->pam2.remoteReqCtrlGN1 = (E_N5XC56GP5X4_TLOG2_CTRL)rawValue;
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_HOLD : N5XC56GP5X4_STRING_INC) : (2 == rawValue ? N5XC56GP5X4_STRING_DEC : N5XC56GP5X4_STRING_DASH);
+
+    /* REMOTE REQUEST STS_GN1 */
+    rawValue = (data >> 16) & 0x3;
+    entry->pam2.remoteReqStsGN1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
+    rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
+
+    sprintf(msg, "    REMOTE_REQ_CTRL_GN1     %-16sREMOTE_REQ_STS_GN1      %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* INITIALIZE */
+    rawValue = (data >> 30) & 0x1;
+    entry->pam2.initialize = (MCESD_BOOL)rawValue;
+    leftString = (1 == rawValue) ? N5XC56GP5X4_STRING_INIT_COE : N5XC56GP5X4_STRING_NORMAL_OP;
+
+    /* READY */
+    rawValue = (data >> 23) & 0x1;
+    entry->pam2.ready = (MCESD_BOOL)rawValue;
+    rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
+
+    sprintf(msg, "    INITIALIZE              %-16sREADY                   %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* LOCAL REQUEST PRESET */
+    rawValue = (data >> 13) & 0x3;
+    entry->pam2.localReqPreset = (rawValue > N5XC56GP5X4_TLOG2_PRESET1) ? N5XC56GP5X4_TLOG2_PRESET_NA : (E_N5XC56GP5X4_TLOG2_PRESET)rawValue;
+    leftString = (rawValue > N5XC56GP5X4_TLOG2_PRESET1) ? N5XC56GP5X4_STRING_DASH : (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1);
+
+    sprintf(msg, "    LOCAL_REQ_PRESET        %s\n", leftString);
+    MCESD_DBG_INFO(msg);
+
+    /* LOCAL REQUEST CTRL_G1 */
+    rawValue = (data >> 11) & 0x3;
+    entry->pam2.localReqCtrlG1 = (E_N5XC56GP5X4_TLOG2_CTRL)rawValue;
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_HOLD : N5XC56GP5X4_STRING_INC) : (2 == rawValue ? N5XC56GP5X4_STRING_DEC : N5XC56GP5X4_STRING_DASH);
+
+    /* LOCAL REQUEST STS_G1 */
+    rawValue = (data >> 4) & 0x3;
+    entry->pam2.localReqStsG1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
+    rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
+
+    sprintf(msg, "    LOCAL_REQ_CTRL_G1       %-16sLOCAL_REQ_STS_G1        %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* LOCAL REQUEST CTRL_G0 */
+    rawValue = (data >> 9) & 0x3;
+    entry->pam2.localReqCtrlG0 = (E_N5XC56GP5X4_TLOG2_CTRL)rawValue;
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_HOLD : N5XC56GP5X4_STRING_INC) : (2 == rawValue ? N5XC56GP5X4_STRING_DEC : N5XC56GP5X4_STRING_DASH);
+
+    /* LOCAL REQUEST STS_G0 */
+    rawValue = (data >> 2) & 0x3;
+    entry->pam2.localReqStsG0 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
+    rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
+
+    sprintf(msg, "    LOCAL_REQ_CTRL_G0       %-16sLOCAL_REQ_STS_G0        %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* LOCAL REQUEST CTRL_GN1 */
+    rawValue = (data >> 6) & 0x3;
+    entry->pam2.localReqCtrlGN1 = (E_N5XC56GP5X4_TLOG2_CTRL)rawValue;
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_HOLD : N5XC56GP5X4_STRING_INC) : (2 == rawValue ? N5XC56GP5X4_STRING_DEC : N5XC56GP5X4_STRING_DASH);
+
+    /* LOCAL REQUEST STS_GN1 */
+    rawValue = data & 0x3;
+    entry->pam2.localReqStsGN1 = (E_N5XC56GP5X4_TLOG2_STS)rawValue;
+    rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_NO_UPDATE : N5XC56GP5X4_STRING_UPDATED) : (2 == rawValue ? N5XC56GP5X4_STRING_MIN : N5XC56GP5X4_STRING_MAX);
+
+    sprintf(msg, "    LOCAL_REQ_CTRL_GN1      %-16sLOCAL_REQ_STS_GN1       %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
+(
+    IN MCESD_U32 data,
+    OUT S_N5XC56GP5X4_TLOG_ENTRY* entry
+)
+{
+    MCESD_U32 rawValue;
+    char msg[81];
+    char* leftString;
+    char* rightString;
+
+    entry->isPAM4 = MCESD_TRUE;
+
+    /* REMOTE REQ CTRL_PAT */
+    rawValue = (data >> 27) & 0x3;
+    entry->pam4.remoteReqCtrlPat = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_TLOG4_PAT_PAM2 : N5XC56GP5X4_TLOG4_PAT_NA) : (2 == rawValue ? N5XC56GP5X4_TLOG4_PAT_PAM4 : N5XC56GP5X4_TLOG4_PAT_PAM4_PRE);
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_PAM2 : N5XC56GP5X4_STRING_DASH) : (2 == rawValue ? N5XC56GP5X4_STRING_PAM4 : N5XC56GP5X4_STRING_PAM4_PRE);
+
+    /* REMOTE REQ PRESET */
+    rawValue = (data >> 29) & 0x3;
+    entry->pam4.remoteReqPreset = (E_N5XC56GP5X4_TLOG4_PRESET)rawValue;
+    rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1) : (2 == rawValue ? N5XC56GP5X4_STRING_PRESET2 : N5XC56GP5X4_STRING_PRESET3);
+
+    sprintf(msg, "    REMOTE_REQ_CTRL_PATTERN %-16sREMOTE_REQ_PRESET       %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* REMOTE REQ CTRL_G */
+    rawValue = (data >> 22) & 0x3;
+    entry->pam4.remoteReqCtrlG = (E_N5XC56GP5X4_TLOG4_CTRL)rawValue;
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_HOLD : N5XC56GP5X4_STRING_INC) : (2 == rawValue ? N5XC56GP5X4_STRING_DEC : N5XC56GP5X4_STRING_NO_EQ);
+
+    /* REMOTE REQ STS_G */
+    rawValue = (data >> 16) & 0x7;
+    entry->pam4.remoteReqStsG = (E_N5XC56GP5X4_TLOG4_CTRL)rawValue;
+    switch (rawValue)
+    {
+    case (0):
+        entry->pam4.remoteReqStsG = N5XC56GP5X4_TLOG4_STS_NO_UPDATE;
+        rightString = N5XC56GP5X4_STRING_NO_UPDATE;
+        break;
+    case (1):
+        entry->pam4.remoteReqStsG = N5XC56GP5X4_TLOG4_STS_UPDATE;
+        rightString = N5XC56GP5X4_STRING_UPDATED;
+        break;
+    case (2):
+        entry->pam4.remoteReqStsG = N5XC56GP5X4_TLOG4_STS_COE_L;
+        rightString = N5XC56GP5X4_STRING_COE_LIMIT;
+        break;
+    case (3):
+        entry->pam4.remoteReqStsG = N5XC56GP5X4_TLOG4_STS_COE_NA;
+        rightString = N5XC56GP5X4_STRING_COE_NA;
+        break;
+    case (4):
+        entry->pam4.remoteReqStsG = N5XC56GP5X4_TLOG4_STS_EQ_L;
+        rightString = N5XC56GP5X4_STRING_EQ_LIMIT;
+        break;
+    case (6):
+        entry->pam4.remoteReqStsG = N5XC56GP5X4_TLOG4_STS_EQ_COE_L;
+        rightString = N5XC56GP5X4_STRING_EQ_COE_LIMIT;
+        break;
+    default:
+        entry->pam4.remoteReqStsG = N5XC56GP5X4_TLOG4_STS_NA;
+        rightString = N5XC56GP5X4_STRING_DASH;
+    }
+
+    sprintf(msg, "    REMOTE_REQ_CTRL_G       %-16sREMOTE_REQ_STS_G        %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* REMOTE REQ CTRL_SEL */
+    rawValue = (data >> 24) & 0x7;
+    switch (rawValue)
+    {
+    case (0):
+        entry->pam4.remoteReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_P0;
+        leftString = N5XC56GP5X4_STRING_COE0;
+        break;
+    case (1):
+        entry->pam4.remoteReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_P1;
+        leftString = N5XC56GP5X4_STRING_COE1;
+        break;
+    case (5):
+        entry->pam4.remoteReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_N3;
+        leftString = N5XC56GP5X4_STRING_COEN3;
+        break;
+    case (6):
+        entry->pam4.remoteReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_N2;
+        leftString = N5XC56GP5X4_STRING_COEN2;
+        break;
+    case (7):
+        entry->pam4.remoteReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_N1;
+        leftString = N5XC56GP5X4_STRING_COEN1;
+        break;
+    default:
+        entry->pam4.remoteReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_NA;
+        leftString = N5XC56GP5X4_STRING_DASH;
+    }
+
+    /* REMOTE REQ READY */
+    rawValue = (data >> 19) & 0x1;
+    entry->pam4.ready = (MCESD_BOOL)rawValue;
+    rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
+
+    sprintf(msg, "    REMOTE_REQ_CTRL_SEL     %-16sREADY                   %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* LOCAL REQ CTRL_PAT */
+    rawValue = (data >> 11) & 0x3;
+    entry->pam4.localReqCtrlPat = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_TLOG4_PAT_PAM2 : N5XC56GP5X4_TLOG4_PAT_NA) : (2 == rawValue ? N5XC56GP5X4_TLOG4_PAT_PAM4 : N5XC56GP5X4_TLOG4_PAT_PAM4_PRE);
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_PAM2 : N5XC56GP5X4_STRING_DASH) : (2 == rawValue ? N5XC56GP5X4_STRING_PAM4 : N5XC56GP5X4_STRING_PAM4_PRE);
+
+    /* LOCAL REQ PRESET */
+    rawValue = (data >> 13) & 0x3;
+    entry->pam4.localReqPreset = (E_N5XC56GP5X4_TLOG4_PRESET)rawValue;
+    rightString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_PRESET0 : N5XC56GP5X4_STRING_PRESET1) : (2 == rawValue ? N5XC56GP5X4_STRING_PRESET2 : N5XC56GP5X4_STRING_PRESET3);
+
+    sprintf(msg, "    LOCAL_REQ_CTRL_PATTERN  %-16sLOCAL_REQ_PRESET        %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* LOCAL REQ CTRL_G */
+    rawValue = (data >> 6) & 0x3;
+    entry->pam4.localReqCtrlG = (E_N5XC56GP5X4_TLOG4_CTRL)rawValue;
+    leftString = (rawValue < 2) ? (0 == rawValue ? N5XC56GP5X4_STRING_HOLD : N5XC56GP5X4_STRING_INC) : (2 == rawValue ? N5XC56GP5X4_STRING_DEC : N5XC56GP5X4_STRING_NO_EQ);
+
+    /* LOCAL REQ STS_G */
+    rawValue = data & 0x7;
+    entry->pam4.localReqStsG = (E_N5XC56GP5X4_TLOG4_CTRL)rawValue;
+    switch (rawValue)
+    {
+    case (0):
+        entry->pam4.localReqStsG = N5XC56GP5X4_TLOG4_STS_NO_UPDATE;
+        rightString = N5XC56GP5X4_STRING_NO_UPDATE;
+        break;
+    case (1):
+        entry->pam4.localReqStsG = N5XC56GP5X4_TLOG4_STS_UPDATE;
+        rightString = N5XC56GP5X4_STRING_UPDATED;
+        break;
+    case (2):
+        entry->pam4.localReqStsG = N5XC56GP5X4_TLOG4_STS_COE_L;
+        rightString = N5XC56GP5X4_STRING_COE_LIMIT;
+        break;
+    case (3):
+        entry->pam4.localReqStsG = N5XC56GP5X4_TLOG4_STS_COE_NA;
+        rightString = N5XC56GP5X4_STRING_COE_NA;
+        break;
+    case (4):
+        entry->pam4.localReqStsG = N5XC56GP5X4_TLOG4_STS_EQ_L;
+        rightString = N5XC56GP5X4_STRING_EQ_LIMIT;
+        break;
+    case (6):
+        entry->pam4.localReqStsG = N5XC56GP5X4_TLOG4_STS_EQ_COE_L;
+        rightString = N5XC56GP5X4_STRING_EQ_COE_LIMIT;
+        break;
+    default:
+        entry->pam4.localReqStsG = N5XC56GP5X4_TLOG4_STS_NA;
+        rightString = N5XC56GP5X4_STRING_DASH;
+    }
+
+    sprintf(msg, "    LOCAL_REQ_CTRL_G        %-16sLOCAL_REQ_STS_G         %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
+
+    /* LOCAL REQ CTRL_SEL */
+    rawValue = (data >> 8) & 0x7;
+    switch (rawValue)
+    {
+    case (0):
+        entry->pam4.localReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_P0;
+        leftString = N5XC56GP5X4_STRING_COE0;
+        break;
+    case (1):
+        entry->pam4.localReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_P1;
+        leftString = N5XC56GP5X4_STRING_COE1;
+        break;
+    case (5):
+        entry->pam4.localReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_N3;
+        leftString = N5XC56GP5X4_STRING_COEN3;
+        break;
+    case (6):
+        entry->pam4.localReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_N2;
+        leftString = N5XC56GP5X4_STRING_COEN2;
+        break;
+    case (7):
+        entry->pam4.localReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_COE_N1;
+        leftString = N5XC56GP5X4_STRING_COEN1;
+        break;
+    default:
+        entry->pam4.localReqCtrlSel = N5XC56GP5X4_TLOG4_SEL_NA;
+        leftString = N5XC56GP5X4_STRING_DASH;
+    }
+
+    /* LOCAL REQ STS_ACK */
+    rawValue = (data >> 3) & 0x1;
+    entry->pam4.stsAck = (MCESD_BOOL)rawValue;
+    rightString = (1 == rawValue) ? N5XC56GP5X4_STRING_TRUE : N5XC56GP5X4_STRING_FALSE;
+
+    sprintf(msg, "    LOCAL_REQ_CTRL_SEL      %-16sSTS_ACK                 %s\n", leftString, rightString);
+    MCESD_DBG_INFO(msg);
 
     return MCESD_OK;
 }
