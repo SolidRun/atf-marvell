@@ -579,6 +579,10 @@ retry_link:
 				phy_fail_count = 0; /* reset the counter */
 				goto cgx_err; /* To poll for the link */
 			}
+
+			/* Append the line side FEC to link status in PHY case */
+			link.s.fec = lmac_cfg->line_fec;
+
 			cgx_set_link_state(cgx_id, lmac_id, &link, 0);
 		}
 
@@ -1539,7 +1543,10 @@ phy_config:
 					 * timer CB can handle the link change event
 					 */
 					phy_get_link_status(cgx_id, lmac_id, &link);
-					lmac_ctx->s.fec = link.s.fec;
+
+					/* Append the line side FEC to link status in PHY case */
+					link.s.fec = lmac_ctx->s.fec = lmac->line_fec;
+
 					lmac_ctx->s.link_up = link.s.link_up;
 					lmac_ctx->s.full_duplex = link.s.full_duplex;
 					lmac_ctx->s.speed = link.s.speed;
