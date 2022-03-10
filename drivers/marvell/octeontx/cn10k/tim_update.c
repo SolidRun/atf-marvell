@@ -2396,6 +2396,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		*uret = erase_ebf_config_data(&update_desc);
 		if (*uret != UPDATE_OK) {
 			ERROR("Erasing EBF configuration failed\n");
+			err = -EINVAL;
 			goto error;
 		}
 	}
@@ -2404,6 +2405,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	*uret = octeontx_cn10k_update_fw(&update_desc, &uParams, async_operation);
 	if (*uret != UPDATE_OK) {
 		ERROR("Firmware update failed\n");
+		err = -EINVAL;
 		goto error;
 	}
 
