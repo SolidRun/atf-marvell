@@ -1671,7 +1671,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	 * later, with RAS-compliant kernel, these can be
 	 * delivered via linux/cper.h::cper_arm_err_info
 	 */
-	ERROR("LMC%d: DRAM ECC %s (DIMM%d,Rank%d/%d,Bank%02d,"
+	printf("LMC%d: DRAM ECC %s (DIMM%d,Rank%d/%d,Bank%02d,"
 	      "Row 0x%05x,Col 0x%04x,FIDX=%d,%s)%s0x%llx%s %s%s%s\n",
 	      lmc, err_type, dimm, prank, lrank, bank,
 	      row, col, fidx, synstr,
@@ -1679,7 +1679,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	      (erraddr.s.si ? "?" : "("), (secure ? "Secure" : "NS"),
 	      (erraddr.s.si ? "?" : ")"));
 	if (av && !(secure ? s_reg : ns_reg))
-		ERROR("ASC_R%d(ns:%d s:%d) but sec:%d\n",
+		printf("ASC_R%d(ns:%d s:%d) but sec:%d\n",
 			reg, ns_reg, s_reg, secure);
 
 	fatal_rec = NULL;
@@ -2167,7 +2167,7 @@ int64_t plat_ras_lmc_inject(u_register_t x2, u_register_t x3,
 	if ((address & ~4) == 3 && ((bit >= 0 || DEBUG_RAS))) {
 
 		if (address & 4)
-			reread = 1;
+			reread = 0;
 		else
 			read_own_code = 1;
 
