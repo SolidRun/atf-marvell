@@ -1340,7 +1340,7 @@ struct elx_map {
 	void *mapped;
 };
 
-static void *map_elx_addr(uint64_t address, struct elx_map *m, int is_phys)
+static void *map_elx_addr(uint64_t address, struct elx_map *m, int is_phys, int el3m)
 {
 	int attr = MT_EXECUTE_NEVER | MT_MEMORY | MT_RW | MT_SECURE;
 
@@ -1369,11 +1369,17 @@ static void *map_elx_addr(uint64_t address, struct elx_map *m, int is_phys)
 	 * already in place, and correct, as ATF's mappings
 	 * are always 1:1
 	 */
-	m->nomap = octeontx_mmap_add_dynamic_region_with_sync(
-			m->page, m->page,
-			PAGE_SIZE, attr);
+	if (el3m) {
+		m->nomap = 1;
+		m->remap = 1;
+	} else {
+		m->nomap = octeontx_mmap_add_dynamic_region_with_sync(
+				m->page, m->page,
+				PAGE_SIZE, attr);
+	}
 	/* an existing mapping could be non-RW, so save and replace */
 	if (m->nomap) {
+		printf("%s change attr\n", __func__);
 		m->old_attr = 0;
 		if (!octeontx_xlat_change_mem_attributes(
 				m->page, PAGE_SIZE,
@@ -1432,7 +1438,7 @@ void ras_rewrite_cacheline(uint64_t physaddr, int secure)
 {
 	char line[CACHE_WRITEBACK_GRANULE];
 	struct elx_map m;
-	void *mapped = map_elx_addr(physaddr, &m, 1);
+	void *mapped = map_elx_addr(physaddr, &m, 1, 0);
 	void *base = (void *)((uint64_t)mapped & ~CACHE_WRITEBACK_GRANULE);
 
 	/*
@@ -2175,7 +2181,7 @@ int64_t plat_ras_lmc_inject(u_register_t x2, u_register_t x3,
 
 	aligned_address = address & ~7ull;
 
-	map_elx_addr(aligned_address, &m, nomap);
+	map_elx_addr(aligned_address, &m, nomap, (x2 == 3) || (x2 == 7));
 
 	if (m.lmcx < 0 || !plat_lmc_map[m.lmcx].valid) {
 		ERROR("%s(0x%llx, %d): ERROR: Could not map to LMC\n",
@@ -2207,7 +2213,6 @@ int64_t plat_ras_lmc_inject(u_register_t x2, u_register_t x3,
 		debug_ras("re-reading poisoned EL3 data...\n");
 		data = *(volatile uint64_t *)aligned_address;
 	}
-
 
 	unmap_elx_addr(&m);
 
