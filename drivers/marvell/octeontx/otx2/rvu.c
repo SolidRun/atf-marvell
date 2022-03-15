@@ -169,7 +169,7 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		{ SW_RVU_SDP_PF(0), SW_RVU_SDP_NUM_PF,
 		  { .pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_SDP_PF,
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_SDP_VF,
-		    .class_code = GSP_CLASS_CODE
+		    .class_code = RVU_CLASS_CODE
 		  } },
 		{ SW_RVU_CPT_PF(0), SW_RVU_CPT_NUM_PF,
 #if defined(PLAT_CN10K_FAMILY)
