@@ -65,6 +65,8 @@
 #define debug_rpm(...) ((void) (0))
 #endif
 
+extern rpm_lmac_bringup_context_t bringup_context[MAX_RPM][MAX_LMAC_PER_RPM];
+
 int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts)
 {
 	rpm_lmac_config_t *lmac;
@@ -85,7 +87,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 	} else {
 		debug_rpm("%s: %d:%d Request sent to ECP\n", __func__, rpm_id, lmac_id);
 		init_time = clock_get_count(GSER_CLOCK_TIME);
-		/* Wait for 2s for ECP to respond for FEC change */
+		/* Wait for 1s for ECP to respond for FEC change */
 		cmd_timeout = init_time + RPM_POLL_LINK_FECCHANGE_STATUS *
 					clock_get_rate(GSER_CLOCK_TIME)/1000000;
 
@@ -118,16 +120,18 @@ fec_err:
 	return -1;
 }
 
-int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts)
+int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts, uint64_t bringup_timeout)
 {
-	uint64_t init_time, link_timeout;
+	uint64_t init_time = 0, link_timeout = 0, ltimeout = 0;
 	rpm_lmac_config_t *lmac;
 	int status = 0, ret = 0;
 	ecp_link_state_t link_state;
+	rpm_lmac_bringup_context_t *bringup_ctx;
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 
 	/* With NO_STATE, send request to ECP to bring the link UP.
 	 */
@@ -150,9 +154,30 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 			 * and return without wait.
 			 */
 			if (!lmac_ctx->s.link_enable) {
+				/* Initialization of link bring up time */
 				init_time = clock_get_count(GSER_CLOCK_TIME);
-				link_timeout = init_time + RPM_POLL_LINK_BRINGUP_STATUS *
-						clock_get_rate(GSER_CLOCK_TIME)/1000000;
+				/* Save the bring up time in us */
+				bringup_ctx->link_bringup_init_time = (init_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME));
+				/* Timeout from ETH_CMD_LINK_TIMEOUT command */
+				if (bringup_ctx->link_timeout && (bringup_ctx->link_timeout != -1)
+						&& (bringup_ctx->link_timeout <= RPM_LINK_BRINGUP_WAIT_STATUS)) {
+					ltimeout = bringup_ctx->link_timeout;
+				/* Timeout passed to ETH_CMD_BRINGUP_LINK command */
+				} else if (bringup_timeout && (bringup_timeout != -1) &&
+						(bringup_timeout <= RPM_LINK_BRINGUP_WAIT_STATUS)) {
+					/* Max time to wait for the link bring up */
+					bringup_ctx->link_timeout = ltimeout = bringup_timeout;
+				/* Timeout not passed */
+				} else {
+					ltimeout = RPM_LINK_BRINGUP_WAIT_STATUS;
+					/* Max time to wait for the link bring up 4s */
+					bringup_ctx->link_timeout = RPM_POLL_LINK_BRINGUP_STATUS;
+				}
+
+				debug_rpm("%s: %d:%d ltimeout %lld lmac_ctx->s.link_timeout %lld\n", __func__,
+						rpm_id, lmac_id, ltimeout, bringup_ctx->link_timeout);
+
+				link_timeout = init_time + ltimeout * clock_get_rate(GSER_CLOCK_TIME)/1000000;
 
 				while (clock_get_count(GSER_CLOCK_TIME)
 						< link_timeout) {
@@ -166,14 +191,22 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 					}
 					mdelay(5);
 				}
+
+				bringup_ctx->link_bringup_time = ltimeout;
+				/* If the link timeout specified is less than 500ms of initial wait
+				 * time, update the link bring up status as done so poll timer can
+				 * check the link status
+				 */
+				if (bringup_ctx->link_timeout >= RPM_LINK_BRINGUP_WAIT_STATUS)
+					bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
+				else {
+					bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+				}
 				ecp_dump_state_history(lmac->portm_idx, "Link bringup failed");
 				goto link_failure;
-			} else
-				goto link_check_state;
+			}
 		}
 	}
-link_check_state:
-	/* TODO : For subsequent link bring up requests */
 link_up:
 	debug_rpm("%s: %d:%d Link UP completed\n", __func__, rpm_id, lmac_id);
 	/* Update link status */
@@ -181,6 +214,8 @@ link_up:
 	lnk_sts->s.full_duplex = link_state.s.duplex;
 	lnk_sts->s.speed = link_state.s.speed;
 	lnk_sts->s.fec = link_state.s.fec;
+	bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+	bringup_ctx->link_bringup_time = ltimeout;
 	return 0;
 link_failure:
 	/* TODO :Get detailed link status */

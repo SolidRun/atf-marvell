@@ -42,8 +42,9 @@
 #define RPM_MAX_FRAME_LENGTH		16384
 
 /* Timeouts for RPM poll status */
-#define RPM_POLL_LINK_BRINGUP_STATUS	1000000		/* 1 second */
-#define RPM_POLL_LINK_BRINGDOWN_STATUS	100000		/* 100 ms */
+#define RPM_POLL_LINK_BRINGUP_STATUS	4500000		/* 4.5 seconds */
+#define RPM_LINK_BRINGUP_WAIT_STATUS	500000		/* 500 ms */
+#define RPM_POLL_LINK_BRINGDOWN_STATUS	500000		/* 500 ms */
 #define RPM_POLL_LINK_FECCHANGE_STATUS	1000000		/* 1 second */
 
 typedef struct rpm_tsu_config {
@@ -112,6 +113,12 @@ typedef union rpm_lmac_flash_ctx {
 	} s;
 } rpm_lmac_flash_ctx_t;
 
+typedef enum link_bringup_state {
+	LINK_BRINGUP_INIT = 0,
+	LINK_BRINGUP_IN_PROGRESS,
+	LINK_BRINGUP_DONE,
+} link_bringup_state_t;
+
 /* This structure will be used to maintain the current
  * link status and also lock mechanism to prevent simultaneous
  * access of CSRs by timer #1 and timer #2 CBs. as, SCRATCHX CSRs
@@ -151,6 +158,20 @@ typedef union rpm_lmac_context {
 	} s;
 } rpm_lmac_context_t;
 
+typedef struct rpm_lmac_bringup_context_s {
+	/* to track link bring up timeout in milli seconds */
+	uint64_t link_timeout;
+	uint64_t link_bringup_time;
+	uint64_t link_bringup_init_time;
+		/* to track link bring up status
+		 * STATE:
+		 * 	LINK_BRINGUP_INIT = 0
+		 *	LINK_BRINGUP_IN_PROGRESS
+		 *	LINK_BRINGUP_DONE
+		 */
+	int link_bringup_status;
+} rpm_lmac_bringup_context_t;
+
 /* Mapping of mode to PORTM mode */
 typedef struct speed_mode_map {
 	uint64_t mode_bitmask;
@@ -169,7 +190,7 @@ void rpm_init(int rpm_id);
 int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx);
 int rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable);
 void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable);
-int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
+int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts, uint64_t bringup_timeout);
 int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
 
 int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec);
