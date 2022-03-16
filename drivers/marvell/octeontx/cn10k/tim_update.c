@@ -101,6 +101,8 @@ static uintptr_t target_dev_handle;
 static io_block_spec_t target_spec;
 static uintptr_t target_handle;
 
+static struct tim_handle _tim_handle;
+static struct tim_load_info _tim_load_info;
 __aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
 
 struct unmap_params {
@@ -876,7 +878,7 @@ static enum update_ret firm_update_init(const void *data, size_t size)
 
 static enum update_ret update_process_tims(void)
 {
-	struct tim_handle thandle;
+	struct tim_handle *thandle = &_tim_handle;
 	struct object_entry *oentry;
 	struct file_entry *fentry;
 	struct file_entry *dfile = NULL;
@@ -908,14 +910,14 @@ static enum update_ret update_process_tims(void)
 			}
 			oentry->tim_file = fentry;
 			fentry->object = oentry;
-			zeromem(&thandle, sizeof(thandle));
+			zeromem(thandle, sizeof(*thandle));
 			hdr = (union tim_headers *)fentry->data;
 			debug_fw_update("Parsing TIM header at %p\n", hdr);
 			/*
 			 * We don't know the source address from which the
 			 * TIM is loaded so we use the DATO location field
 			 */
-			tret = tim_load(hdr, TIM_SRC_ADDRESS_UNKNOWN, &thandle);
+			tret = tim_load(hdr, TIM_SRC_ADDRESS_UNKNOWN, thandle);
 			if (tret != TIM_NO_ERROR) {
 				WARN("Error %d processing TIM %s\n",
 				     tret, fentry->filename);
@@ -929,7 +931,7 @@ static enum update_ret update_process_tims(void)
 				return UPDATE_TIM_ERROR;
 			}
 			debug_fw_update("Verifying signature\n");
-			err = ehsm_verify_tim_digital_signature(&thandle,
+			err = ehsm_verify_tim_digital_signature(thandle,
 								&hinfo,
 								(uint8_t *)hdr);
 			if (err) {
@@ -939,7 +941,7 @@ static enum update_ret update_process_tims(void)
 			}
 
 			debug_fw_update("Getting TIM load info\n");
-			err = tim_get_load_info(&thandle, &oentry->li);
+			err = tim_get_load_info(thandle, &oentry->li);
 			no_load_info = (err == TIM_NO_LOAD_INFO);
 			debug_fw_update("tim_get_load_info returned %d\n", err);
 			if (err && err != TIM_NO_LOAD_INFO) {
@@ -948,7 +950,7 @@ static enum update_ret update_process_tims(void)
 			}
 			li = &oentry->li;
 			debug_fw_update("Getting version info\n");
-			err = tim_get_version_info(&thandle, &oentry->version);
+			err = tim_get_version_info(thandle, &oentry->version);
 			if (err)
 				oentry->no_version = 1;
 
@@ -1007,7 +1009,7 @@ static enum update_ret update_process_tims(void)
 				uint64_t src_addr;
 
 				debug_fw_update("No data file present\n");
-				tret = tim_get_version_info(&thandle,
+				tret = tim_get_version_info(thandle,
 							    &oentry->version);
 				oentry->data_file = NULL;
 				oentry->no_data_file = 1;
@@ -1019,7 +1021,7 @@ static enum update_ret update_process_tims(void)
 					debug_fw_update("%s: Obtained version for non-data file %s\n",
 							__func__, fentry->filename);
 				}
-				tret = tim_get_tim_location_addr(&thandle,
+				tret = tim_get_tim_location_addr(thandle,
 								 &src_addr);
 				fentry->file_loc = src_addr;
 				if (tret == TIM_NO_ERROR)
@@ -1253,13 +1255,16 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
 	}
 	ret = ehsm_verify_final(&ehdl, tim_buffer, size, linfo, digest,
 				hash_size);
-	if (ret == -EAUTH)
+	if (ret == -EAUTH) {
 		WARN("Detected corrupt flash image for %s\n",
 		     linfo->data_filename);
-	else if (ret != 0)
+		return UPDATE_AUTH_ERROR;
+	} else if (ret != 0) {
 		ERROR("Error %d finalizing verification for %s\n",
 		      ret, linfo->data_filename);
-	return ret;
+		return UPDATE_EHSM_ERROR;
+	}
+	return UPDATE_OK;
 }
 
 /**
@@ -1288,14 +1293,16 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
 enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 				   struct object_entry *object)
 {
-	struct tim_handle fl_hdl;	/* Flash image handle */
-	struct tim_load_info fl_li;
+	struct tim_handle *fl_hdl = &_tim_handle;	/* Flash image handle */
+	struct tim_load_info *fl_li = &_tim_load_info;
 	struct tim_opaque_data_version_info fl_vinfo;
 	bool is_root_tim = false;
 	const char *root_obj_name = NULL;
 	uint64_t offset = 0;
 	size_t max_size;
 	int ret;
+	enum update_ret uret;
+	enum tim_return tret;
 
 	ret = get_object_info_from_fdt(object->data_file->filename,
 				       &offset, &max_size,
@@ -1305,74 +1312,85 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		INFO("%s not found in device tree, assuming new object\n",
 		     object->data_file->filename);
 		object->update_all = true;
-		return UPDATE_OK;
+		uret = UPDATE_OK;
+		goto done;
 	}
 
 	object->is_root_tim_obj = is_root_tim;
 	/* Read existing TIM from flash */
-	ret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, &fl_hdl);
-	if (ret == UPDATE_MISSING_TIM) {
+	uret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, fl_hdl);
+	if (uret == UPDATE_MISSING_TIM) {
 		INFO("%sTIM for %s missing in flash at offset 0x%llx\n",
 		     is_root_tim ? "Root " : "",
 		     object->data_file->filename, offset);
 		object->update_all = true;
-		return UPDATE_OK;
+		goto done;
 	}
-	if (ret == UPDATE_TIM_ERROR) {
+	if (uret == UPDATE_TIM_ERROR) {
 		/* If not found then we definitely want to overwrite it */
 		WARN("Could not load TIM for %s from flash\n",
 		     object->data_file->filename);
 		object->update_all = true;
-		return UPDATE_OK;
-	} else if (ret != UPDATE_OK) {
+		uret = UPDATE_OK;
+		goto done;
+	} else if (uret != UPDATE_OK) {
 		WARN("Error %d reading existing TIM\n", ret);
-		return ret;
+		goto done;
 	}
 
-	ret = tim_get_load_info(&fl_hdl, &fl_li);
-	if (ret != TIM_NO_ERROR) {
+	tret = tim_get_load_info(fl_hdl, fl_li);
+	if (tret != TIM_NO_ERROR) {
 		/* Bad TIM, we want to overwrite it */
 		object->update_all = true;
 		WARN("Could not get load info from TIM %s, ret: %d\n",
 		     object->tim_file->filename, ret);
-		return UPDATE_OK;
+		uret = UPDATE_OK;
+		goto done;
 	}
-	if (strcmp(fl_li.data_filename, object->data_file->filename)) {
+	if (strcmp(fl_li->data_filename, object->data_file->filename)) {
 		WARN("Update TIM filename %s does not match flash TIM filename %s\n",
-		     object->data_file->filename, fl_li.data_filename);
+		     object->data_file->filename, fl_li->data_filename);
 		object->update_all = 1;
-		return UPDATE_OK;
+		uret = UPDATE_OK;
+		goto done;
 	}
 
-	ret = verify_hash(desc, &fl_li, NULL, NULL);
-	if (ret == -EAUTH) {
+	uret = verify_hash(desc, fl_li, NULL, NULL);
+	if (uret == UPDATE_AUTH_ERROR) {
 		ERROR("Hash mismatch for %s\n", object->data_file->filename);
-		return UPDATE_EHSM_ERROR;
+		goto done;
 
-	} else if (ret != 0) {
+	} else if (uret != UPDATE_OK) {
 		/* Something else went wrong */
 		ERROR("Error %d finalizing verification for %s\n",
 		      ret, object->data_file->filename);
-		return UPDATE_EHSM_ERROR;
+		goto done;
 	}
 
 	if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)) {
-		ret = tim_get_version_info(&fl_hdl, &fl_vinfo);
+		tret = tim_get_version_info(fl_hdl, &fl_vinfo);
 		if (ret) {
 			WARN("TIM %s is missing version info in flash\n",
 			     object->tim_file->filename);
-			return UPDATE_VERSION_CHECK_FAIL;
+			uret = UPDATE_VERSION_CHECK_FAIL;
+			goto done;
 		}
 		/* If we're here we have the version information */
 		ret = marvell_cust_check_version(desc, object, &fl_vinfo);
 		if (ret > 0) {
 			object->skip_install = 1;
-			return UPDATE_OK;
+			uret = UPDATE_OK;
+			goto done;
 		} else if (ret < 0) {
-			return UPDATE_VERSION_CHECK_FAIL;
+			uret = UPDATE_VERSION_CHECK_FAIL;
+			goto done;
 		}
 	}
-	return UPDATE_OK;
+
+done:
+	zeromem(fl_hdl, sizeof(*fl_hdl));
+	zeromem(fl_li, sizeof(*fl_li));
+	return uret;
 }
 
 /**
@@ -2586,8 +2604,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 			     uint64_t flash_addr, size_t size,
 			     uint32_t *tim_size)
 {
-	struct tim_handle thdl;
-	struct tim_load_info tli;
+	struct tim_handle *thdl = &_tim_handle;
+	struct tim_load_info *tli = &_tim_load_info;
 	enum tim_return tret;
 	enum update_ret uret;
 	int ret;
@@ -2598,7 +2616,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 	assert(sizeof(tim_buffer) >= TIM_MAX_SIZE);
 	ventry->retcode = RET_OK;
 	uret = octeontx_read_tim(udesc, flash_addr, max_read_size,
-				 tim_buffer, &thdl);
+				 tim_buffer, thdl);
 	if (uret == UPDATE_MISSING_TIM) {
 		ventry->retcode = RET_NOT_FOUND;
 		VLOG(ventry, "TIM not found.");
@@ -2610,8 +2628,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 		return RET_TIM_INVALID;
 	}
 	if (tim_size)
-		*tim_size = tim_get_tim_size(&thdl, 0);
-	tret = tim_get_load_info(&thdl, &tli);
+		*tim_size = tim_get_tim_size(thdl, 0);
+	tret = tim_get_load_info(thdl, tli);
 	if (tret == TIM_NO_LOAD_INFO) {
 		/*
 		 * The default PCIe default endpoint TIM does not have a
@@ -2619,7 +2637,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 		 */
 		ventry->object_size = 0;
 		ventry->object_address = 0;
-		tret = tim_get_version_info(&thdl, &ventry->version);
+		tret = tim_get_version_info(thdl, &ventry->version);
 		if (tret != TIM_NO_ERROR) {
 			VLOG(ventry, "%s is missing version information in the TIM",
 			     ventry->name);
@@ -2633,18 +2651,18 @@ static int check_get_version(struct smc_version_info *vinfo,
 		     ventry->name);
 		return RET_TIM_INVALID;
 	} else {
-		if (size && tli.image_length > size) {
+		if (size && tli->image_length > size) {
 			ventry->retcode = RET_IMAGE_TOO_BIG;
-			ventry->object_size = tli.image_length;
+			ventry->object_size = tli->image_length;
 			VLOG(ventry,
 			     "Reported TIM size 0x%x for %s is larger than maximum size 0x%lx",
-			     tli.image_length, ventry->name, size);
+			     tli->image_length, ventry->name, size);
 			return RET_IMAGE_TOO_BIG;
 		}
-		ventry->object_size = tli.image_length;
-		ventry->object_address = tli.src_address;
+		ventry->object_size = tli->image_length;
+		ventry->object_address = tli->src_address;
 	}
-	tret = tim_get_version_info(&thdl, &ventry->version);
+	tret = tim_get_version_info(thdl, &ventry->version);
 	if (tret != TIM_NO_ERROR) {
 		VLOG(ventry, "%s is missing version information in the TIM",
 		     ventry->name);
@@ -2654,36 +2672,36 @@ static int check_get_version(struct smc_version_info *vinfo,
 
 	ventry->name[VER_MAX_NAME_LENGTH - 1] = '\0';
 	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
-		if (strcmp(ventry->name, tli.data_filename)) {
+		if (strcmp(ventry->name, tli->data_filename)) {
 			VLOG(ventry,
 			     "TIM name %s does not match passed name %s",
-			     ventry->name, tli.data_filename);
+			     ventry->name, tli->data_filename);
 			ventry->retcode = RET_NAME_MISMATCH;
-			strlcpy(ventry->name, tli.data_filename,
+			strlcpy(ventry->name, tli->data_filename,
 				sizeof(ventry->name));
 			return RET_NAME_MISMATCH;
 		}
 	} else {
-		strlcpy(ventry->name, tli.data_filename, sizeof(ventry->name));
+		strlcpy(ventry->name, tli->data_filename, sizeof(ventry->name));
 	}
-	if (tli.hshi_parsed) {
-		ventry->hash_size = tli.hash_size;
-		memcpy(ventry->tim_hash, tli.hash_data, tli.hash_size);
+	if (tli->hshi_parsed) {
+		ventry->hash_size = tli->hash_size;
+		memcpy(ventry->tim_hash, tli->hash_data, tli->hash_size);
 	} else {
 		VLOG(ventry, "No hash found in TIM");
 		ventry->retcode = RET_TIM_NO_HASH;
-		WARN("No hash found in TIM for %s\n", tli.data_filename);
+		WARN("No hash found in TIM for %s\n", tli->data_filename);
 	}
 	if (vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH) {
 		INFO("Validating hash for %s at  offset 0x%llx\n",
 		     ventry->name, ventry->object_address);
-		if (!tli.hshi_parsed) {
+		if (!tli->hshi_parsed) {
 			ventry->retcode = RET_TIM_NO_HASH;
 			VLOG(ventry, "Hash not present in TIM");
 			return RET_TIM_NO_HASH;
 		}
 		zeromem(digest, sizeof(digest));
-		ret = verify_hash(udesc, &tli, digest, &hash_size);
+		ret = verify_hash(udesc, tli, digest, &hash_size);
 		memcpy(ventry->obj_hash, digest, hash_size);
 		if (ret == -EAUTH) {
 			VLOG(ventry, "%s hash in TIM does not match object",
