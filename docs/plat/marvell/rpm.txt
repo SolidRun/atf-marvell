@@ -818,6 +818,21 @@ status also in the response structure
 
 **NOTE:** Based on current PORTM configuration, ATF decides whether to allow the change.
 
+3.2.4.11 PTP
+"""""""""""""
+
+Enables or disables 1-step PTP
+
+Parameters to be sent:
+
+* REQUEST ID - ``ETH_CMD_SET_PTP_MODE``
+* cmd_args.enable = 1 to enable PTP
+
+or
+
+* cmd_args.enable = 0 to disable PTP
+
+
 3.2.5 Interface from ATF to U-Boot/Kernel
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

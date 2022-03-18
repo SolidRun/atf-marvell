@@ -377,6 +377,35 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 	return 0;
 }
 
+int rpm_set_ptp_mode(int rpm_id, int lmac_id, int enable)
+{
+	debug_rpm("%s: %d %d enable %d\n", __func__, rpm_id, lmac_id, enable);
+
+	if (enable) {
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+				CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+				tx_ptp_1s_support, 1);
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+				CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+				rx_ts_prepend, 1);
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_xif_mode_t,
+				CAVM_RPMX_MTI_MAC100X_XIF_MODE(rpm_id, lmac_id),
+				onestepena, 1);
+	} else {
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+				CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+				tx_ptp_1s_support, 0);
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+				CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+				rx_ts_prepend, 0);
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_mti_mac100x_xif_mode_t,
+				CAVM_RPMX_MTI_MAC100X_XIF_MODE(rpm_id, lmac_id),
+				onestepena, 0);
+	}
+
+	return 0;
+}
+
 /* This function to be called for every RPM either from
  * PCI scanning (RPM device enumeration) or
  * during INTF initialization

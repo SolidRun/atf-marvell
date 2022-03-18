@@ -1476,6 +1476,9 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 								rpm_id, lmac_id);
 				}
 			break;
+			case ETH_CMD_SET_PTP_MODE:
+				ret = rpm_set_ptp_mode(rpm_id, lmac_id, enable);
+			break;
 #ifdef NT_FW_CONFIG
 			case ETH_CMD_GET_MKEX_PROFILE:
 				scratchx0.u = 0;

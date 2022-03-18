@@ -198,5 +198,6 @@ int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode);
 int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode);
 /* Returns 1 if debug enabled, 0 if disabled */
 int rpm_debug_log_state(void);
+int rpm_set_ptp_mode(int rpm_id, int lmac_id, int enable);
 
 #endif
