@@ -138,7 +138,18 @@ int plat_get_refclk_term_gserm_num(int refclk_idx)
 int plat_get_max_lane_num(int qlm)
 {
 	int lanes = 0;
-
+	switch (qlm) {
+	case 0:
+	case 1:
+		lanes = 1;
+		break;
+	case 2:
+		lanes = 4;
+		break;
+	default:
+		lanes = 0;
+		break;
+	}
 	return lanes;
 }
 
@@ -148,6 +159,19 @@ int plat_portm_get_max_lane_cnt(int portm_idx)
 {
 	int lanes = 0;
 
+	switch (portm_idx) {
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+		lanes = 1;
+		break;
+	default:
+		lanes = 0;
+		break;
+	}
 	return lanes;
 }
 

@@ -13,63 +13,74 @@
 #define PORTM_MAX_AN_CFGS 10
 
 typedef enum {
-	PORTM_MODE_DISABLED = 0,  /* Port is disabled (all chips) */
-	PORTM_MODE_INVALID,       /* Invalid port specified */
-	PORTM_MODE_INACTIVE,      /* Associated SERDES lane used by another Port */
+	PORTM_MODE_DISABLED       = 0,   /* Port is disabled (all chips) */
+	PORTM_MODE_INVALID        = 1,   /* Invalid port specified */
+	PORTM_MODE_INACTIVE       = 2,   /* Associated SERDES lane used by another Port */
 
 	/* Ethernet modes */
-	PORTM_MODE_SGMII,         /* SGMII, Serdes Speed: 1.25G, Data Speed: 1 lane x 1 MAC (10M..1G) */
-	PORTM_MODE_1000BASE_X,    /* 1000BASE-X, Serdes Speed: 1.25G, Data Speed: 1*1G */
-	PORTM_MODE_SFI_1G,        /* 5 - SFI_1G, Serdes Speed: 1.25G, Data Speed: 1*1G */
-	PORTM_MODE_QSGMII,        /* QSGMII, Serdes Speed: 5G, Data Speed: 1 lane x 4 MACs (10M..1G) */
-	PORTM_MODE_XFI,           /* XFI, Serdes Speed: 10.3125G, Data Speed: 1*10G */
-	PORTM_MODE_SFI,           /* SFI, Serdes Speed: 10.3125G, Data Speed: 1*10G */
-	PORTM_MODE_10GBASE_KR,    /* 10GBASE-KR, Serdes Speed: 10.3125G, Data Speed: 1*10G */
-	PORTM_MODE_25GAUI_C2C,    /* 10 - 25GAUI_C2C, Serdes Speed: 25.78125G, Data Speed: 1*25G */
-	PORTM_MODE_25GAUI_C2M,    /* 25GAUI_C2M, Serdes Speed: 25.78125G, Data Speed: 1*25G */
-	PORTM_MODE_25GBASE_CR,    /* 25GBASE-CR, Serdes Speed: 25.78125G, Data Speed: 1*25G */
-	PORTM_MODE_25GBASE_KR,    /* 25GBASE-KR, Serdes Speed: 25.78125G, Data Speed: 1*25G */
-	PORTM_MODE_25GBASE_CR_C,  /* 25GBASE-CR Consortium, Serdes Speed: 25.78125G, Data Speed: 1*25G */
-	PORTM_MODE_25GBASE_KR_C,  /* 15 - 25GBASE-KR Consortium, Serdes Speed: 25.78125G, Data Speed: 1*25G */
-	PORTM_MODE_XLAUI,         /* XLAUI(C2C), Serdes Speed: 10.3125G, Data Speed: 4*10G */
-	PORTM_MODE_XLAUI_C2M,     /* XLAUI_C2M, Serdes Speed: 10.3125G, Data Speed: 4*10G */
-	PORTM_MODE_40GBASE_CR4,   /* 40GBASE-CR4, Serdes Speed: 10.3125G, Data Speed: 4*10G */
-	PORTM_MODE_40GBASE_KR4,   /* 40GBASE-KR4, Serdes Speed: 10.3125G, Data Speed: 4*10G */
-	PORTM_MODE_LAUI_2_C2C,    /* 20 - LAUI-2_C2C, Serdes Speed: 25.78125G, Data Speed: 2*25G */
-	PORTM_MODE_LAUI_2_C2M,    /* LAUI-2_C2M, Serdes Speed: 25.78125G, Data Speed: 2*25G */
-	PORTM_MODE_50GBASE_CR2_C, /* 50GBASE-CR2 Consortium, Serdes Speed: 25.78125G, Data Speed: 2*25G */
-	PORTM_MODE_50GBASE_KR2_C, /* 50GBASE-KR2 Consortium, Serdes Speed: 25.78125G, Data Speed: 2*25G */
-	PORTM_MODE_50GAUI_1_C2C,  /* 50GAUI-1_C2C, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
-	PORTM_MODE_50GAUI_1_C2M,  /* 25 - 50GAUI-1_C2M, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
-	PORTM_MODE_50GBASE_USR,   /* 50GBASE-USR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
-	PORTM_MODE_50GBASE_CR,    /* 50GBASE-CR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
-	PORTM_MODE_50GBASE_KR,    /* 50GBASE-KR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
-	PORTM_MODE_CAUI_4_C2C,    /* CAUI-4_C2C, Serdes Speed: 25.78125G, Data Speed: 4*25G */
-	PORTM_MODE_CAUI_4_C2M,    /* 30 - CAUI-4_C2M, Serdes Speed: 25.78125G, Data Speed: 4*25G */
-	PORTM_MODE_100GBASE_CR4,  /* 100GBASE-CR4, Serdes Speed: 25.78125G, Data Speed: 4*25G */
-	PORTM_MODE_100GBASE_KR4,  /* 100GBASE-KR4, Serdes Speed: 25.78125G, Data Speed: 4*25G */
-	PORTM_MODE_100GAUI_2_C2C, /* 100GAUI-2_C2C, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
-	PORTM_MODE_100GAUI_2_C2M, /* 100GAUI-2_C2M, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
-	PORTM_MODE_100GBASE_USR2, /* 35 - 100GBASE-USR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
-	PORTM_MODE_100GBASE_CR2,  /* 100GBASE-CR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
-	PORTM_MODE_100GBASE_KR2,  /* 100GBASE-KR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
-	PORTM_MODE_802_3AP,       /* Configure specific autoneg parameters using 802_3AP settings */
-	/* 1 MAC USXGMII modes */
-	PORTM_MODE_SXGMII_10G,    /* USXGMII, Serdes speed: 10.3125G; Data Speed: 1 MAC  (10M..10G), 1 lane */
+	PORTM_MODE_SGMII          = 3,   /* SGMII, Serdes Speed: 1.25G, Data Speed: 1 lane x 1 MAC (10M..1G) */
+	PORTM_MODE_1000BASE_X     = 4,   /* 1000BASE-X, Serdes Speed: 1.25G, Data Speed: 1*1G */
+	PORTM_MODE_SFI_1G         = 5,   /* SFI_1G, Serdes Speed: 1.25G, Data Speed: 1*1G */
+	PORTM_MODE_2500BASE_X     = 48,  /* 2500BASE-X, Serdes Speed: 3.125G, Data Speed: 1*2.5G */
+	PORTM_MODE_5000BASE_X     = 49,  /* 5000BASE-X, Serdes Speed: 6.25G, Data Speed: 1*5G */
+	PORTM_MODE_QSGMII         = 6,   /* QSGMII, Serdes Speed: 5G, Data Speed: 1 lane x 4 MACs (10M..1G) */
+	PORTM_MODE_XFI            = 7,   /* XFI, Serdes Speed: 10.3125G, Data Speed: 1*10G */
+	PORTM_MODE_SFI            = 8,   /* SFI, Serdes Speed: 10.3125G, Data Speed: 1*10G */
+	PORTM_MODE_10GBASE_KR     = 9,   /* 10GBASE-KR, Serdes Speed: 10.3125G, Data Speed: 1*10G */
+	PORTM_MODE_25GAUI_C2C     = 10,  /* 25GAUI_C2C, Serdes Speed: 25.78125G, Data Speed: 1*25G */
+	PORTM_MODE_25GAUI_C2M     = 11,  /* 25GAUI_C2M, Serdes Speed: 25.78125G, Data Speed: 1*25G */
+	PORTM_MODE_25GBASE_CR     = 12,  /* 25GBASE-CR, Serdes Speed: 25.78125G, Data Speed: 1*25G */
+	PORTM_MODE_25GBASE_KR     = 13,  /* 25GBASE-KR, Serdes Speed: 25.78125G, Data Speed: 1*25G */
+	PORTM_MODE_25GBASE_CR_C   = 14,  /* 25GBASE-CR Consortium, Serdes Speed: 25.78125G, Data Speed: 1*25G */
+	PORTM_MODE_25GBASE_KR_C   = 15,  /* 25GBASE-KR Consortium, Serdes Speed: 25.78125G, Data Speed: 1*25G */
+	PORTM_MODE_XLAUI          = 16,  /* XLAUI(C2C), Serdes Speed: 10.3125G, Data Speed: 4*10G */
+	PORTM_MODE_XLAUI_C2M      = 17,  /* XLAUI_C2M, Serdes Speed: 10.3125G, Data Speed: 4*10G */
+	PORTM_MODE_40GBASE_CR4    = 18,  /* 40GBASE-CR4, Serdes Speed: 10.3125G, Data Speed: 4*10G */
+	PORTM_MODE_40GBASE_KR4    = 19,  /* 40GBASE-KR4, Serdes Speed: 10.3125G, Data Speed: 4*10G */
+	PORTM_MODE_LAUI_2_C2C     = 20,  /* LAUI-2_C2C, Serdes Speed: 25.78125G, Data Speed: 2*25G */
+	PORTM_MODE_LAUI_2_C2M     = 21,  /* LAUI-2_C2M, Serdes Speed: 25.78125G, Data Speed: 2*25G */
+	PORTM_MODE_50GBASE_CR2_C  = 22,  /* 50GBASE-CR2 Consortium, Serdes Speed: 25.78125G, Data Speed: 2*25G */
+	PORTM_MODE_50GBASE_KR2_C  = 23,  /* 50GBASE-KR2 Consortium, Serdes Speed: 25.78125G, Data Speed: 2*25G */
+	PORTM_MODE_50GAUI_1_C2C   = 24,  /* 50GAUI-1_C2C, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
+	PORTM_MODE_50GAUI_1_C2M   = 25,  /* 50GAUI-1_C2M, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
+	PORTM_MODE_50GBASE_USR    = 26,  /* 50GBASE-USR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
+	PORTM_MODE_50GBASE_CR     = 27,  /* 50GBASE-CR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
+	PORTM_MODE_50GBASE_KR     = 28,  /* 50GBASE-KR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G */
+	PORTM_MODE_CAUI_4_C2C     = 29,  /* CAUI-4_C2C, Serdes Speed: 25.78125G, Data Speed: 4*25G */
+	PORTM_MODE_CAUI_4_C2M     = 30,  /* CAUI-4_C2M, Serdes Speed: 25.78125G, Data Speed: 4*25G */
+	PORTM_MODE_100GBASE_CR4   = 31,  /* 100GBASE-CR4, Serdes Speed: 25.78125G, Data Speed: 4*25G */
+	PORTM_MODE_100GBASE_KR4   = 32,  /* 100GBASE-KR4, Serdes Speed: 25.78125G, Data Speed: 4*25G */
+	PORTM_MODE_100GAUI_2_C2C  = 33,  /* 100GAUI-2_C2C, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
+	PORTM_MODE_100GAUI_2_C2M  = 34,  /* 100GAUI-2_C2M, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
+	PORTM_MODE_100GBASE_USR2  = 35,  /* 100GBASE-USR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
+	PORTM_MODE_100GBASE_CR2   = 36,  /* 100GBASE-CR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
+	PORTM_MODE_100GBASE_KR2   = 37,  /* 100GBASE-KR2, Serdes Speed: 26_5625G, Data Speed: 2*51.51G */
+	PORTM_MODE_802_3AP        = 38,  /* Configure specific autoneg parameters using 802_3AP settings */
+
+	/* USXGMII modes */
+	PORTM_MODE_2_5G_SXGMII    = 50,  /* 2.5G-SXGMII, Serdes speed: 2.578125G; Data Speed: 1 MAC  (10M..2.5G), 1 lane */
+	PORTM_MODE_5G_SXGMII      = 51,  /* 5G-SXGMII, Serdes speed: 5.15625G; Data Speed: 1 MAC  (10M..5G), 1 lane */
+	PORTM_MODE_10G_SXGMII     = 39,  /* 10G-SXGMII, Serdes speed: 10.3125G; Data Speed: 1 MAC  (10M..10G), 1 lane */
+	PORTM_MODE_10G_DXGMII     = 52,  /* 10G-DXGMII, Serdes speed: 10.3125G; Data Speed: 2 MACs (10M..5G), 1 lane */
+	PORTM_MODE_10G_QXGMII     = 53,  /* 10G-QXGMII, Serdes speed: 10.3125G; Data Speed: 4 MACs (10M..2.5G), 1 lane */
+
+	/* USGMII modes */
+	PORTM_MODE_Q_USGMII       = 54,  /* Q-USGMII, Serdes Speed: 5G, Data Speed: 4 MACs (10M..1G), 1 lane */
+	PORTM_MODE_O_USGMII       = 55,  /* O-USGMII, Serdes Speed: 10G, Data Speed: 8 MACs (10M..1G), 1 lane */
 
 	/* CPRI modes */
-	PORTM_MODE_CPRI_2_4G,     /* 40 - CPRI, Serdes speed: 2.4576G */
-	PORTM_MODE_CPRI_3_1G,     /* CPRI, Serdes speed: 3.072G */
-	PORTM_MODE_CPRI_4_9G,     /* CPRI, Serdes speed: 4.9152G */
-	PORTM_MODE_CPRI_6_1G,     /* CPRI, Serdes speed: 6.144G */
-	PORTM_MODE_CPRI_9_8G,     /* CPRI, Serdes speed: 9.8304G */
+	PORTM_MODE_CPRI_2_4G      = 40,  /* CPRI, Serdes speed: 2.4576G */
+	PORTM_MODE_CPRI_3_1G      = 41,  /* CPRI, Serdes speed: 3.072G */
+	PORTM_MODE_CPRI_4_9G      = 42,  /* CPRI, Serdes speed: 4.9152G */
+	PORTM_MODE_CPRI_6_1G      = 43,  /* CPRI, Serdes speed: 6.144G */
+	PORTM_MODE_CPRI_9_8G      = 44,  /* CPRI, Serdes speed: 9.8304G */
 
 	/* JESD204C modes */
-	PORTM_MODE_JESD204C_12_2G, /* 45 - JESD204C, Serdes speed: 12.16512G */
-	PORTM_MODE_JESD204C_16_2G, /* JESD204C, Serdes speed: 16.22016G */
-	PORTM_MODE_JESD204C_24_3G, /* JESD204C, Serdes speed: 24.33024G */
+	PORTM_MODE_JESD204C_12_2G = 45,  /* JESD204C, Serdes speed: 12.16512G */
+	PORTM_MODE_JESD204C_16_2G = 46,  /* JESD204C, Serdes speed: 16.22016G */
+	PORTM_MODE_JESD204C_24_3G = 47,  /* JESD204C, Serdes speed: 24.33024G */
 
-	PORTM_MODE_LAST,
+	PORTM_MODE_LAST           = 56,  /* Always has to be the largest number */
 } cn10k_portm_modes_t;
 
 typedef struct portm_tx_tuning {
@@ -127,7 +138,7 @@ typedef enum {
 
 typedef struct portm_ap_802_3_config {
 	cn10k_portm_modes_t     portm_mode[PORTM_MAX_AN_CFGS]; /* 802.3AP Tech to advertise */
-	cn10k_portm_fec_t       fec_req[PORTM_MAX_AN_CFGS];    /* Requestd FEC */
+	cn10k_portm_fec_t       fec_req[PORTM_MAX_AN_CFGS];    /* Requested FEC */
 	int                     fec_abil[PORTM_MAX_AN_CFGS];   /* Sets fec_abil bit for feq requested */
 } portm_ap_802_3_config_t;
 
@@ -146,17 +157,18 @@ typedef enum {
 } cn10k_portm_mac_type_t;
 
 typedef enum {
-    PORTM_PCS_NONE = 0,    /* No Eth PCS or 802.3ap mode */
-    PORTM_PCS_1000BASE_X,  /* SGMII/1000BASE-X */
-    PORTM_PCS_QSGMII,      /* QSGMII */
-    PORTM_PCS_10GBASE_R,   /* XFI, SFI, 10GBASE-KR */
-    PORTM_PCS_USXGMII,     /* USXGMII */
-    PORTM_PCS_25GBASE_R,   /* 25GAUI, 25GBASE-KR/CR */
-    PORTM_PCS_40GBASE_R4,  /* XLAUI-4, 40GBASE-KR4/CR4 */
-    PORTM_PCS_50GBASE_R2,  /* LAUI-2, 50GBASE-KR2/CR2 */
-    PORTM_PCS_50GBASE_R1,  /* 50GAUI-1, 50GBASE-KR/CR */
-    PORTM_PCS_100GBASE_R4, /* CAUI-4, 100GBASE-KR4/CR4 */
-    PORTM_PCS_100GBASE_R2, /* 100GAUI-2, 100GBASE-KR2/CR2 */
+	PORTM_PCS_NONE        = 0,   /* No Eth PCS or 802.3ap mode */
+	PORTM_PCS_1000BASE_X  = 1,   /* SGMII/1000BASE-X */
+	PORTM_PCS_QSGMII      = 2,   /* QSGMII */
+	PORTM_PCS_USGMII      = 11,  /* Q-USGMII, O-USGMII */
+	PORTM_PCS_10GBASE_R   = 3,   /* XFI, SFI, 10GBASE-KR */
+	PORTM_PCS_USXGMII     = 4,   /* 2.5G-SXGMII, 5G-SXGMII, 10G-SXGMII, 10G-DXGMII, 10G-QXGMII */
+	PORTM_PCS_25GBASE_R   = 5,   /* 25GAUI, 25GBASE-KR/CR */
+	PORTM_PCS_40GBASE_R4  = 6,   /* XLAUI-4, 40GBASE-KR4/CR4 */
+	PORTM_PCS_50GBASE_R2  = 7,   /* LAUI-2, 50GBASE-KR2/CR2 */
+	PORTM_PCS_50GBASE_R1  = 8,   /* 50GAUI-1, 50GBASE-KR/CR */
+	PORTM_PCS_100GBASE_R4 = 9,   /* CAUI-4, 100GBASE-KR4/CR4 */
+	PORTM_PCS_100GBASE_R2 = 10,  /* 100GAUI-2, 100GBASE-KR2/CR2 */
 } cn10k_portm_pcs_type_t;
 
 typedef enum portm_gserm_lpbk_mode {
