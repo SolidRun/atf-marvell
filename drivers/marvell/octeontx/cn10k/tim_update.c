@@ -273,11 +273,6 @@ static const struct object_group_entry gserm_fw_grp[] = {
 
 static const struct object_group_entry gserp_fw_grp[] = {
 	{
-		.tim_filename = "ep_script-cn10xx.timb",
-		.data_filename = "gserp-cn10xx.fw",
-		.optional = false,
-	},
-	{
 		.tim_filename = "gserp-cn10xx.timb",
 		.data_filename = "gserp-cn10xx.fw",
 		.optional = false,
