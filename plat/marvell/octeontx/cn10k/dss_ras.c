@@ -604,3 +604,15 @@ int cn10k_inject_dss_error(uint64_t address, uint64_t etype, uint64_t in_bits)
 
 	return 0;
 }
+
+void plat_check_ras_error(void)
+{
+	cavm_dssx_int_w1c_t int_stat;
+	uint8_t ch;
+
+	for (ch = 0; ch < get_num_channels(); ch++) {
+		int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
+		if (int_stat.s.ecc_uncorrected_err_intr)
+			cn10k_ras_dss_isr(0, 0, 0);
+	}
+}
