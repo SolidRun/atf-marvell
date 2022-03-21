@@ -2246,6 +2246,7 @@ static inline int _wait_ecp_request_compl(int portm_idx,
 {
 	uint64_t init_time, gserm_timeout;
 	unsigned int state;
+	int sig_detect = 0;
 	ecp_link_state_t link_state;
 
 	/* Wait for ECP to complete State Change */
@@ -2254,9 +2255,9 @@ static inline int _wait_ecp_request_compl(int portm_idx,
 		clock_get_rate(GSER_CLOCK_TIME)/1000;
 
 	while (clock_get_count(GSER_CLOCK_TIME) < gserm_timeout) {
-		state = ecp_get_link_state(portm_idx, &link_state);
+		state = ecp_get_link_state(portm_idx, &link_state, &sig_detect);
 		/* Check if past the requested state */
-		if ((state != -1) && (state != req))
+		if ((state != ETH_LINK_NO_STATE) && (state != req))
 			return 0;
 
 		udelay(100);

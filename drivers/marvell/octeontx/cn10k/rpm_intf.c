@@ -259,7 +259,7 @@ static int rpm_check_sfp_mod_stat(int rpm_id, int lmac_id)
 
 static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 {
-	int status = 0;
+	int status = 0, sig_detect = 0;
 	ecp_link_state_t link_state;
 	rpm_lmac_config_t *lmac = NULL;
 	rpm_link_state_t link_sts;
@@ -283,8 +283,8 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 	}
 
 	/* Obtain the link status from ECP via SM */
-	status = ecp_get_link_state(lmac->portm_idx, &link_state);
-	if (status != -1) {
+	status = ecp_get_link_state(lmac->portm_idx, &link_state, &sig_detect);
+	if (status != ETH_LINK_NO_STATE) {
 		link->s.link_up = link_state.s.link_up;
 		link->s.full_duplex = link_state.s.duplex;
 		link->s.speed = link_state.s.speed;
@@ -871,7 +871,7 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 			rpm_lmac_context_t *lmac_ctx, ecp_link_state_t *link_state)
 {
 	uint64_t init_time, link_timeout;
-	int ret, status = 0;
+	int ret, status = 0, sig_detect = 0;
 	rpm_lmac_bringup_context_t *bringup_ctx;
 
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
@@ -890,12 +890,15 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 		__func__, portm_idx, rpm_id, lmac_id);
 
 	init_time = clock_get_count(GSER_CLOCK_TIME);
-	/* Wait for 500 ms */
+	/* Wait for 100 ms */
 	link_timeout = init_time + RPM_LINK_BRINGUP_WAIT_STATUS *
 			clock_get_rate(GSER_CLOCK_TIME)/1000000;
+	/* Save the mode change time in us */
+	bringup_ctx->link_bringup_init_time = (init_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME));
+
 	while (clock_get_count(GSER_CLOCK_TIME)
 		< link_timeout) {
-		status = ecp_get_link_state(portm_idx, link_state);
+		status = ecp_get_link_state(portm_idx, link_state, &sig_detect);
 		if (status == ETH_LINK_STATE_LINK_UP)
 			return 0;
 		else if (status == ETH_LINK_STATE_LINK_STOPPED) {
@@ -906,7 +909,10 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 	}
 
 	/* If the link is not UP, then update the link state as below */
-	bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
+	if ((status != ETH_LINK_NO_STATE) && (!sig_detect))
+		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+	else
+		bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
 	bringup_ctx->link_bringup_time = RPM_LINK_BRINGUP_WAIT_STATUS; /* elapsed time */
 	debug_rpm_intf("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %lld\n", __func__,
 						rpm_id, lmac_id, bringup_ctx->link_bringup_status,

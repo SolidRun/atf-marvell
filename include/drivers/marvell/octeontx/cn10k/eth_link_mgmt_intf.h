@@ -277,7 +277,7 @@ typedef struct link_shared_data {
 
 void ecp_link_init_shmem(void);
 int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id, rpm_lmac_context_t *lmac_ctx);
-unsigned int ecp_get_link_state(int portm, ecp_link_state_t *link_state);
+unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state, int *sig_detect);
 unsigned int ecp_update_phy_link_state(int portm, rpm_link_state_t *phy_link_state);
 unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);
 int ecp_dump_state_history(int portm_idx, const char *msg);

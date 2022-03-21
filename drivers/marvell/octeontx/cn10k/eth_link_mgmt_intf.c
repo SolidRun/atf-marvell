@@ -423,7 +423,7 @@ int ecp_dump_state_history(int portm_idx, const char *msg)
 	return 0;
 }
 
-unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state)
+unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state, int *sig_detect)
 {
 	int state = 0;
 
@@ -431,7 +431,7 @@ unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state)
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
-		return -1;
+		return ETH_LINK_NO_STATE;
 	}
 	debug_eth_link_intf("%s:PORTM%d\n", __func__, portm_idx);
 
@@ -439,7 +439,7 @@ unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state)
 		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
 				    __func__, portm_idx,
 				    sh_data->lock);
-		return -1;
+		return ETH_LINK_NO_STATE;
 	}
 
 	sh_data->lock = LINK_OWN_AP;
@@ -451,6 +451,7 @@ unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state)
 		link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
 		link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
 		link_state->s.error_type = sh_data->link_rsp.ecp_link_state.s.error_type;
+		*sig_detect = sh_data->link_rsp.sig_detect;
 		sh_data->lock = LINK_OWN_NONE;
 		/* FIXME : update other parameters */
 	} else {
@@ -458,10 +459,12 @@ unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state)
 		return ETH_LINK_NO_STATE;
 	}
 
-	debug_eth_link_intf("%s: portm_idx %d state %d link_up %d speed %d fec %d error type %d\n", __func__, portm_idx, state,
-			link_state->s.link_up, link_state->s.speed,
+	debug_eth_link_intf("%s: portm_idx %d state %d link_up %d speed %d fec %d error type %d sig_detect %d\n",
+				__func__, portm_idx, state,
+				link_state->s.link_up, link_state->s.speed,
 				link_state->s.fec,
-				link_state->s.error_type);
+				link_state->s.error_type,
+				*sig_detect);
 
 	return state;
 }
