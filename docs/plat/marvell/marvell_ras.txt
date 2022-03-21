@@ -104,7 +104,7 @@ address - SMC second parameter identify 'physical address' inject error at speci
 flags   - SMC third parameter describe control flags
 			bit 2..0	:  bit position to flip on poisoning write
 			bit 3		:  0 = SBE, 1 = DBE
-			bit 6..4	:  0 = DRAM, 1 = L1C, 3 = LLC, cache level to corrupt (L0 == DRAM)
+			bit 6..4	:  0 = DRAM, 1 = L1C, cache level to corrupt (L0 == DRAM)
 			bit 7		:  0 = D-cache,  1 = I-cache
 			bit 8		:  1 = read-back poisoned address in EL3
 			bit 9		:  1 = target address EL3-physical, not virtual
@@ -113,11 +113,11 @@ flags   - SMC third parameter describe control flags
 	Injecting DRAM/LMC Single Bit Error (SBE) ECC at physical address 0x800000
 	and read-back poisoned content immediately:
 	echo 0x3,0x800000,0x300 > /sys/module/otx2_einj/parameters/smc_params
-	
+
 	Injecting DRAM/LMC Double Bit Error (DBE) ECC at physical address 0x800000
 	and read-back poisoned address immediately:
 	echo 0x3,0x800000,0x308 > /sys/module/otx2_einj/parameters/smc_params
-	
+
 	Injecting DRAM/LMC Single Bit Error (SBE) ECC at physical address 0x800000
 	do not read-back immediately, ECC irq will be triggered after outside 
 	read happened:
@@ -126,25 +126,21 @@ flags   - SMC third parameter describe control flags
 
 	Inject D1 Cache Single Bit Error (SBE) error at address 0x800000:
 	echo 0x3,0x800000,0x310 > /sys/module/otx2_einj/parameters/smc_params
-	
+
 	Inject D1 Cache Double Bit Error (DBE) error at address 0x800000:
 	echo 0x3,0x800000,0x318 > /sys/module/otx2_einj/parameters/smc_params
 
 	Inject I1 Cache Single Bit Error (SBE) error at address 0x800000:
 	echo 0x3,0x800000,0x390 > /sys/module/otx2_einj/parameters/smc_params
-	
-	Inject LLC Double Bit Error (DBE) error at address 0x800000:
-	echo 0x3,0x800000,0x338 > /sys/module/otx2_einj/parameters/smc_params
-
 
 	Inject DRAM data SBE error at linux kernel predefined virtual address
 	echo 0x3,1,2 > /sys/module/otx2_einj/parameters/smc_params
-	
+
 	Inject DRAM code SBE error at linux kernel predefined virtual address
 	echo 0x3,5,2 > /sys/module/otx2_einj/parameters/smc_params
-	
+
 	Inject DRAM code SBE error at EL3 predefined address
 	echo 0x3,3,2 > /sys/module/otx2_einj/parameters/smc_params
-	
+
 	Inject DRAM data SBE error at EL3 predefined address
 	echo 0x3,7,2 > /sys/module/otx2_einj/parameters/smc_params
