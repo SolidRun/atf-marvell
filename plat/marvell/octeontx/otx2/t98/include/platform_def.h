@@ -116,7 +116,13 @@
 #define MAILBOX_BASE			(MAILBOX_LIMIT - MAILBOX_MAX_SIZE)
 
 #define HEAP_LIMIT			MAILBOX_BASE
-#define HEAP_MAX_SIZE			0x10000 /* 64K */
+
+#ifdef ATF_ENABLE_PHY7121_MACSEC_FUNC
+#define HEAP_MAX_SIZE           0x100000 /* 1MB */
+#else
+#define HEAP_MAX_SIZE           0x10000 /* 64K */
+#endif
+
 #define HEAP_BASE			(HEAP_LIMIT - HEAP_MAX_SIZE)
 
 #define ARM_TRACE_SECURE_BUFFER
