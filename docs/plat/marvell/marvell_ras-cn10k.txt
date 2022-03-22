@@ -80,4 +80,4 @@ echo "0xd,0x2fffff000,0x101" > /sys/module/cn10k_einj/parameters/smc
 
 Flip two bits at address 0x2fffff000
 echo "0xd,0x2fffff000,0x1" > /sys/module/cn10k_einj/parameters/smc
-
+Require cold reboot after injection.
