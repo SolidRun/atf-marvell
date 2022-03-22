@@ -252,7 +252,7 @@ static int rpm_check_sfp_mod_stat(int rpm_id, int lmac_id)
 	if (mod_status == SFP_MOD_STATE_EEPROM_UPDATED) {
 		lmac_ctx->s.mod_stats = mod_status;
 		sfp_parse_eeprom_data(rpm_id, lmac_id);
-		return 0;
+		return 1; /* Valid */
 	}
 	return 0;
 }
