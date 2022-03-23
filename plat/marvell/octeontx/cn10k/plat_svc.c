@@ -22,6 +22,7 @@
 #include <phy_mgmt.h>
 #include <mac_data_mgmt.h>
 #include <gserm.h>
+#include <sh_fwdata.h>
 #include <spinlock.h>
 #include <octeontx_semaphore.h>
 #include <rnm.h>
@@ -785,6 +786,21 @@ err5:
 		SMC_RET1(handle, ret);
 	}
 	break;
+
+	case PLAT_OCTEONTX_GET_FWDATA_BASE:
+		SMC_RET3(handle, 0, SH_FWDATA_BASE, SH_FWDATA_SIZE);
+		break;
+
+	case PLAT_OCTEONTX_GET_SFP_INFO_OFFSET: {
+		int offset;
+
+		offset = sh_fwdata_get_sfp_info_offset(x1);
+		if (offset < 0)
+			SMC_RET1(handle, -1);
+
+		SMC_RET2(handle, 0, offset);
+	}
+		break;
 
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,

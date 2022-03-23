@@ -96,6 +96,7 @@ void sh_fwdata_update_phy_fec_stats(int cgx_id, int lmac_id);
 void sh_fwdata_set_supported_link_modes(int cgx_id, int lmac_id);
 void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id, int mac_type);
 void sh_fwdata_set_supported_an(int rpm_id, int lmac_id);
+int sh_fwdata_get_sfp_info_offset(int portm_idx);
 
 static inline uint64_t get_sh_fwdata_base(void)
 {

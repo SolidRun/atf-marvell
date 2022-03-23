@@ -565,6 +565,25 @@
  */
 #define PLAT_OCTEONTX_SPI_READ_FLASH	0xc2000b11
 
+/*
+ * Return:
+ *	x0: 0 -- Success
+ *	x1: fwdata base physical address
+ *	x2: fwdata size
+ */
+#define PLAT_OCTEONTX_GET_FWDATA_BASE 0xc2000b12
+
+/*
+ * x1 - portm index
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- failure
+ *	x1: sfp info offset in fwdata
+ */
+#define PLAT_OCTEONTX_GET_SFP_INFO_OFFSET 0xc2000b13
+
 /* Customer specific SMC Calls */
 
 /*
@@ -582,7 +601,7 @@
 #define PLAT_OCTEONTX_MEM_TEST_CONFIG   0xc2000f00
 
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			20
+#define OTX3_NUM_SMC_CALLS			22
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
