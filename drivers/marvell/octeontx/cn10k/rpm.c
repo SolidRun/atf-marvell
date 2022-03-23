@@ -124,7 +124,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 {
 	uint64_t init_time = 0, link_timeout = 0, ltimeout = 0;
 	rpm_lmac_config_t *lmac;
-	int status = 0, ret = 0, sig_detect = 0;
+	int status = 0, ret = 0, sig_detect = 0, sig_detect_temp = 0;
 	ecp_link_state_t link_state;
 	rpm_lmac_bringup_context_t *bringup_ctx;
 
@@ -181,8 +181,12 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 
 				while (clock_get_count(GSER_CLOCK_TIME)
 						< link_timeout) {
-					status = ecp_get_link_state(lmac->portm_idx, &link_state, &sig_detect);
-
+					status = ecp_get_link_state(lmac->portm_idx, &link_state, &sig_detect_temp);
+					/* Check for signal detect and set the variable sig_detect to check after
+					 * link initial timeout
+					 */
+					if ((!sig_detect) && (sig_detect_temp))
+						sig_detect = 1;
 					if (status == ETH_LINK_STATE_LINK_UP)
 						goto link_up;
 					else if (status == ETH_LINK_STATE_LINK_STOPPED) {
@@ -201,7 +205,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 				 * check the link status
 				 */
 				if (bringup_ctx->link_timeout >= RPM_LINK_BRINGUP_WAIT_STATUS) {
-					if ((status != ETH_LINK_NO_STATE) && (!sig_detect))
+					if (!sig_detect)
 						bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
 					else
 						bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;

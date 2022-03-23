@@ -871,7 +871,7 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 			rpm_lmac_context_t *lmac_ctx, ecp_link_state_t *link_state)
 {
 	uint64_t init_time, link_timeout;
-	int ret, status = 0, sig_detect = 0;
+	int ret, status = 0, sig_detect = 0, sig_detect_temp = 0;
 	rpm_lmac_bringup_context_t *bringup_ctx;
 
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
@@ -898,7 +898,9 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 
 	while (clock_get_count(GSER_CLOCK_TIME)
 		< link_timeout) {
-		status = ecp_get_link_state(portm_idx, link_state, &sig_detect);
+		status = ecp_get_link_state(portm_idx, link_state, &sig_detect_temp);
+		if ((!sig_detect) && (sig_detect_temp))
+			sig_detect = 1;
 		if (status == ETH_LINK_STATE_LINK_UP)
 			return 0;
 		else if (status == ETH_LINK_STATE_LINK_STOPPED) {
@@ -909,7 +911,7 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 	}
 
 	/* If the link is not UP, then update the link state as below */
-	if ((status != ETH_LINK_NO_STATE) && (!sig_detect))
+	if (!sig_detect)
 		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
 	else
 		bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
