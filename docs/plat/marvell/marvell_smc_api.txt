@@ -558,6 +558,23 @@ PLAT_OCTEONTX_SPI_READ_FLASH
   * Supported platforms: CN10K
 
 - - - - - - - - - - - - - - - - - - - - -
+Customer specific calls
+
+PLAT_OCTEONTX_MEM_TEST_CONFIG
+  * SMC FID: 0xc2000f00
+  * Input registers values:
+    x0: SMC FID
+    x1: operation
+    x2: 32 bit value for mem_test_settings, next
+    x3: 32 bit value for mem_test_settings, power_on
+  * Return value:
+    x0: Return 0 on success or error code on failure
+    x1: 32bit value for mem_test_settings, next
+    x2: 32 bit value for mem_test_settings, power_on
+  * Description:
+    This SMC call is reserved for customer specific operation.
+  * Supported platforms: CN10KA
+- - - - - - - - - - - - - - - - - - - - -
 
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf
 [SMCCC]:   http://infocenter.arm.com/help/topic/com.arm.doc.den0028b/ARM_DEN0028B_SMC_Calling_Convention.pdf

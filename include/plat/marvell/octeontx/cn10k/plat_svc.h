@@ -565,8 +565,24 @@
  */
 #define PLAT_OCTEONTX_SPI_READ_FLASH	0xc2000b11
 
+/* Customer specific SMC Calls */
+
+/*
+ * x1 - operation
+ * x2 - 32 bit value for mem_test_settings, next
+ * x3 - 32 bit value for mem_test_settings, power_on
+ *
+ * Return:
+ *       x0 - Status field:
+ *           0 - Success
+ *           other values are error codes
+ *       x1 - 32bit value for mem_test_settings, next
+ *       x2 - 32 bit value for mem_test_settings, power_on
+ */
+#define PLAT_OCTEONTX_MEM_TEST_CONFIG   0xc2000f00
+
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			19
+#define OTX3_NUM_SMC_CALLS			20
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
