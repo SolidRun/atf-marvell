@@ -115,7 +115,7 @@ static const cn10k_portm_mode_desc_t portm_mode_desc_list[] = {
 
 static const portm_tx_tuning_t portm_default_tx_tuning_list[] = {
 	/* portm_mode              Main Post Pr1 Pr2 */
-	{PORTM_MODE_SGMII,           63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_SGMII,           35,  0,  0,  0 },
 	{PORTM_MODE_1000BASE_X,      63,  0,  0,  0 },
 	{PORTM_MODE_SFI_1G,          63,  0,  0,  0 },
 	{PORTM_MODE_QSGMII,          63,  0,  0,  0 }, /* TBD */
