@@ -42,9 +42,16 @@ static inline uint32_t popcnt(uint64_t val)
 
 uint64_t octeontx_dram_size()
 {
-	uint64_t addr = 0, size;
+#ifndef PLAT_CN10K_FAMILY
+	uint64_t addr = 0;
+#endif
+	uint64_t size;
 
+#ifdef PLAT_CN10K_FAMILY
+	size = plat_get_memory_size();
+#else
 	size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
+#endif
 
 	size -= plat_octeontx_bcfg->reserved_os_memory_size;
 
@@ -54,8 +61,7 @@ uint64_t octeontx_dram_size()
 #ifdef PLAT_CN10K_FAMILY
 uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new_index)
 {
-	uint64_t addr = 0;
-	uint64_t mem_size;
+	uint64_t new_base = 0;
 
 	/* Support memory reservation from NSECURE_NONPRESERVE only */
 	if (index != NSECURE_NONPRESERVE) {
@@ -76,13 +82,12 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new
 		size += 0x1000000;
 	}
 
-	if (adjust_asc_region(NSECURE_NONPRESERVE, size, new_index)) {
+	if (adjust_asc_region_next_avail(size, new_index, &new_base)) {
 		ERROR("%s: Failed to adjust asc region %d for size %llx\n",
 		      __func__, index, size);
 		return 0;
 	}
-	mem_size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
-	return (addr + mem_size);
+	return new_base;
 }
 
 /*
@@ -109,7 +114,7 @@ uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index)
 		return 0;
 	}
 
-	mem_size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
+	mem_size = memory_region_get_last_nsec(&addr);
 	if (mem_size > size) {
 		plat_octeontx_bcfg->reserved_os_memory_size += size;
 		mem_size -= size;

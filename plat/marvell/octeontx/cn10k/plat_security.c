@@ -102,12 +102,9 @@ struct ccs_region ccs_map[MAX_ASC_REGIONS] = {
 		.free = 1,
 		.attr = 0,
 		},
-	/* Secure preserve memory, not used. Reserving the id for now */
-	[SEC_PRESERVE_REGION_0] = {
-		.free = 1,
-		.attr = CCS_ATTR_SEC_BIT_MASK,
-		},
 };
+
+static int asym_mem_config;
 
 void dump_ccs_region_config(void)
 {
@@ -155,6 +152,11 @@ void dump_ccs_region_config(void)
 				"0x%llx to 0x%llx (%lldMB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
+			case NSECURE_NONPRESERVE_1:
+				NOTICE("Non-Secure Non Preserve Memory Region 1: "
+				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				((end - start + 1) >> 20));
+				break;
 			}
 		}
 	}
@@ -178,12 +180,14 @@ void init_ccs_region_map(void)
 			continue;
 		}
 
+		if (NSECURE_NONPRESERVE_1 == index)
+			asym_mem_config = 1;
+
 		if (asc_attr.s.s_en)
 			region->attr |= CCS_ATTR_SEC_BIT_MASK;
 
 		if ((index == NSEC_PRESERVE_REGION_0) ||
-			(index == USER_PRESERVE_REGION_0) ||
-			(index == SEC_PRESERVE_REGION_0))
+			(index == USER_PRESERVE_REGION_0))
 			region->attr |= CCS_ATTR_PRESERVE_BIT_MASK;
 
 		region->start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
@@ -363,6 +367,24 @@ uint64_t memory_region_get_info(int index, uint64_t *start)
 	return sam_region_get_info(index, start);
 }
 
+uint64_t memory_region_get_last_nsec(uint64_t *start)
+{
+	if (asym_mem_config)
+		return sam_region_get_info(NSECURE_NONPRESERVE_1, start);
+	else
+		return sam_region_get_info(NSECURE_NONPRESERVE, start);
+}
+
+uint64_t plat_get_memory_size(void)
+{
+	uint64_t addr, size = 0;
+
+	size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
+	if (asym_mem_config)
+		size += memory_region_get_info(NSECURE_NONPRESERVE_1, &addr);
+	return size;
+}
+
 /* Flush the LLC Cache */
 void llc_flush(void)
 {
@@ -408,6 +430,7 @@ void octeontx_security_setup(void)
 	 * Now mark it as non-secure.
 	 */
 	adjust_asc_region_security(NSECURE_NONPRESERVE);
+	adjust_asc_region_security(NSECURE_NONPRESERVE_1);
 	adjust_asc_region_security(NSEC_PRESERVE_REGION_0);
 	adjust_asc_region_security(USER_PRESERVE_REGION_0);
 
@@ -499,4 +522,25 @@ void octeontx_configure_mmc_security(int secure)
 void octeontx_configure_pem_ep_security(int pem, int secure)
 {
 	/* FIXME for 106xx */
+}
+
+/* Allocate a new region by reducing the memory from the last available
+ * non-secure non-preserve memory */
+int adjust_asc_region_next_avail(uint64_t size,  int *new_index, uint64_t *new_base)
+{
+	int idx, ret;
+	uint64_t region_base = 0, region_size = 0;
+
+	if (asym_mem_config)
+		idx = NSECURE_NONPRESERVE_1;
+	else
+		idx = NSECURE_NONPRESERVE;
+
+	ret = adjust_asc_region(idx, size, new_index);
+	if (!ret) {
+		region_size = memory_region_get_info(idx, &region_base);
+		*new_base = region_size + region_base;
+	}
+
+	return ret;
 }

@@ -15,7 +15,10 @@ uint64_t memory_region_get_info(int index, uint64_t *start);
 #ifdef PLAT_CN10K_FAMILY
 uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new_index);
 int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index);
+int adjust_asc_region_next_avail(uint64_t size, int *new_index, uint64_t *new_base);
 uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index);
+uint64_t plat_get_memory_size(void);
+uint64_t memory_region_get_last_nsec(uint64_t *start);
 #else
 uint64_t octeontx_dram_reserve(uint64_t size, int index);
 #endif
