@@ -1329,7 +1329,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		uret = UPDATE_OK;
 		goto done;
 	} else if (uret != UPDATE_OK) {
-		WARN("Error %d reading existing TIM\n", ret);
+		WARN("Error %d reading existing TIM\n", uret);
 		goto done;
 	}
 
@@ -1338,7 +1338,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		/* Bad TIM, we want to overwrite it */
 		object->update_all = true;
 		WARN("Could not get load info from TIM %s, ret: %d\n",
-		     object->tim_file->filename, ret);
+		     object->tim_file->filename, tret);
 		uret = UPDATE_OK;
 		goto done;
 	}
@@ -1358,13 +1358,13 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	} else if (uret != UPDATE_OK) {
 		/* Something else went wrong */
 		ERROR("Error %d finalizing verification for %s\n",
-		      ret, object->data_file->filename);
+		      uret, object->data_file->filename);
 		goto done;
 	}
 
 	if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)) {
 		tret = tim_get_version_info(fl_hdl, &fl_vinfo);
-		if (ret) {
+		if (tret != TIM_NO_ERROR) {
 			WARN("TIM %s is missing version info in flash\n",
 			     object->tim_file->filename);
 			uret = UPDATE_VERSION_CHECK_FAIL;
