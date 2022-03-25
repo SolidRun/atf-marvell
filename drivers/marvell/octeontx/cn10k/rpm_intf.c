@@ -315,7 +315,11 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	link_sts.u64 = 0;
 
-	debug_rpm_intf("%s %d:%d Bring up time %lld lmac_ctx->s.link_timeout %lld bringup_ctx->link_bringup_init_time %lld\n",
+	current_time = clock_get_count(GSER_CLOCK_TIME);
+	link_check_status_time = (current_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME)) - (bringup_ctx->link_bringup_init_time);
+	bringup_ctx->link_bringup_time = link_check_status_time;
+
+	debug_rpm_intf("%s %d:%d Bring up time %lld bringup_ctx->link_timeout %lld bringup_ctx->link_bringup_init_time %lld\n",
 			__func__, rpm_id, lmac_id, bringup_ctx->link_bringup_time, bringup_ctx->link_timeout,
 			bringup_ctx->link_bringup_init_time);
 
@@ -324,7 +328,7 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 		rpm_get_link_status(rpm_id, lmac_id, &link_sts);
 		if (link_sts.s.link_up) {
 			/* Update link status */
-			debug_rpm_intf("%s %d:%d Link is up\n", __func__, rpm_id, lmac_id);
+			debug_rpm_intf("%s %d:%d Link is UP\n", __func__, rpm_id, lmac_id);
 			lmac_ctx->s.link_up = link_sts.s.link_up;
 			lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
 			lmac_ctx->s.speed = link_sts.s.speed;
@@ -333,18 +337,15 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 			bringup_ctx->link_bringup_time = 0;
 			bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
 			bringup_ctx->link_bringup_init_time = 0;
-			bringup_ctx->link_timeout = 0;
 			return 0;
-		} else {
-			current_time = clock_get_count(GSER_CLOCK_TIME);
-			link_check_status_time = (current_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME)) - (bringup_ctx->link_bringup_init_time);
-			bringup_ctx->link_bringup_time = link_check_status_time;
+		} else
 			return -1;
-		}
 	} else {
 		/* Update the link status as failed so poll timer can check the link status */
-		debug_rpm_intf("%s %d:%d link not UP for 4s\n", __func__, rpm_id, lmac_id);
+		debug_rpm_intf("%s %d:%d Link not UP\n", __func__, rpm_id, lmac_id);
 		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+		bringup_ctx->link_bringup_time = 0;
+		bringup_ctx->link_bringup_init_time = 0;
 		lmac_ctx->s.link_up = 0;
 		lmac_ctx->s.full_duplex = 0;
 		lmac_ctx->s.speed = 0;
@@ -569,7 +570,9 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	portm_config_t *portm;
 	portm_ap_802_3_adv_t *ap_adv;
 	cn10k_portm_fec_t fec = 0, ret = 0;
+	rpm_lmac_bringup_context_t *bringup_ctx;
 
+	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
@@ -577,6 +580,11 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 
 	debug_rpm_intf("%s: %d:%d fec %d request_fec %d\n", __func__, rpm_id,
 				lmac_id, lmac->fec, req_fec);
+
+	if (bringup_ctx->link_bringup_status == LINK_BRINGUP_IN_PROGRESS) {
+		ret = rpm_handle_link_in_progress(rpm_id, lmac_id);
+		return ret;
+	}
 
 	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
@@ -617,12 +625,18 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 
 	/* Update the new FEC type with current link status */
 	lmac_ctx->s.fec = link_sts.s.fec = req_fec;
-	lmac_ctx->s.link_up = link_sts.s.link_up;
-	lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
-	lmac_ctx->s.speed = link_sts.s.speed;
+	if (bringup_ctx->link_bringup_status == LINK_BRINGUP_IN_PROGRESS)  {
+		lmac_ctx->s.link_up = link_sts.s.link_up = 0;
+		lmac_ctx->s.full_duplex = link_sts.s.full_duplex = 0;
+		lmac_ctx->s.speed = link_sts.s.speed = 0;
+	} else {
+		lmac_ctx->s.link_up = link_sts.s.link_up;
+		lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
+		lmac_ctx->s.speed = link_sts.s.speed;
 
-	rpm_set_link_state(rpm_id, lmac_id, &link_sts,
-			rpm_get_error_type(rpm_id, lmac_id));
+		rpm_set_link_state(rpm_id, lmac_id, &link_sts,
+				rpm_get_error_type(rpm_id, lmac_id));
+	}
 
 	return 0;
 
@@ -1388,6 +1402,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 			switch (request_id) {
 			case ETH_CMD_LINK_BRING_UP:
 				lmac_timeout = scratchx1.s.lnk_bringup.timeout * 1000; /* Save in us */
+				debug_rpm_intf("%d:%d: lmac_timeout = %lld\n", rpm_id, lmac_id, lmac_timeout);
 				ret = rpm_link_bringup(rpm_id, lmac_id, lmac_timeout);
 				break;
 			case ETH_CMD_LINK_BRING_DOWN:

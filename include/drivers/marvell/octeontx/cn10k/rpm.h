@@ -46,7 +46,7 @@
 #define RPM_POLL_LINK_BRINGUP_STATUS	4000000		/* 4 seconds */
 #define RPM_LINK_BRINGUP_WAIT_STATUS	100000		/* 100 ms */
 #define RPM_POLL_LINK_BRINGDOWN_STATUS	500000		/* 500 ms */
-#define RPM_POLL_LINK_FECCHANGE_STATUS	1000000		/* 1 second */
+#define RPM_POLL_LINK_FECCHANGE_STATUS	4000000		/* 4 second */
 
 typedef struct rpm_tsu_config {
 	int tsu_rx_mode;

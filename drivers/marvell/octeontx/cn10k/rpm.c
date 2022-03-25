@@ -71,8 +71,13 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 {
 	rpm_lmac_config_t *lmac;
 	uint64_t init_time, cmd_timeout;
-	int status = 0, ret = 0, sig_detect = 0;
+	int status = 0, ret = 0, sig_detect = 0, sig_detect_temp = 0;
 	ecp_link_state_t link_state = {0};
+	rpm_lmac_bringup_context_t *bringup_ctx;
+
+	bringup_ctx = &bringup_context[rpm_id][lmac_id];
+	bringup_ctx->link_bringup_status = LINK_BRINGUP_INIT;
+	bringup_ctx->link_timeout = RPM_POLL_LINK_FECCHANGE_STATUS;
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
@@ -87,20 +92,35 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 	} else {
 		debug_rpm("%s: %d:%d Request sent to ECP\n", __func__, rpm_id, lmac_id);
 		init_time = clock_get_count(GSER_CLOCK_TIME);
-		/* Wait for 1s for ECP to respond for FEC change */
+
+		/* Save the bring up time in us */
+		bringup_ctx->link_bringup_init_time = (init_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME));
+
+		/* Allow 4s for ECP to respond for FEC change */
 		cmd_timeout = init_time + RPM_POLL_LINK_FECCHANGE_STATUS *
 					clock_get_rate(GSER_CLOCK_TIME)/1000000;
 
 		while (clock_get_count(GSER_CLOCK_TIME)
 						< cmd_timeout) {
 			status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
+			if ((!sig_detect) && (sig_detect_temp))
+				sig_detect = 1;
 			if ((status == ETH_LINK_STATE_LINK_UP) ||
 						(status == ETH_LINK_STATE_LINK_STOPPED))
 				goto link_state;
-			debug_rpm("%s: %d:%d status %d\n", __func__, rpm_id, lmac_id, status);
 			mdelay(5);
 		}
-		goto link_state;
+		/* If the link is not UP, then update the link state as below */
+		if (!sig_detect)
+			bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+		else
+			bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
+		bringup_ctx->link_bringup_time = RPM_LINK_BRINGUP_WAIT_STATUS; /* elapsed time */
+
+		debug_rpm("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %lld\n", __func__,
+						rpm_id, lmac_id, bringup_ctx->link_bringup_status,
+						bringup_ctx->link_bringup_time);
+		return 0;
 	}
 link_state:
 	debug_rpm("%s: %d:%d FEC change request completed\n", __func__, rpm_id, lmac_id);
@@ -133,8 +153,10 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 
-	/* With NO_STATE, send request to ECP to bring the link UP.
-	 */
+	status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
+	debug_rpm("%s: %d:%d ECP link status %d\n", __func__, rpm_id, lmac_id, status);
+
+	/* With NO_STATE, send request to ECP to bring the link UP */
 	if (status == ETH_LINK_NO_STATE) {
 		ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP, lmac_ctx);
 		if (ret == -1) {
@@ -159,14 +181,23 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 				/* Save the bring up time in us */
 				bringup_ctx->link_bringup_init_time = (init_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME));
 				/* Timeout from ETH_CMD_LINK_TIMEOUT command */
-				if (bringup_ctx->link_timeout && (bringup_ctx->link_timeout != -1)
-						&& (bringup_ctx->link_timeout <= RPM_LINK_BRINGUP_WAIT_STATUS)) {
-					ltimeout = bringup_ctx->link_timeout;
+				if ((bringup_ctx->link_timeout) && (bringup_ctx->link_timeout != -1)) {
+					if (bringup_ctx->link_timeout <= RPM_LINK_BRINGUP_WAIT_STATUS)
+						ltimeout = bringup_ctx->link_timeout;
+					else
+						ltimeout = RPM_LINK_BRINGUP_WAIT_STATUS;
 				/* Timeout passed to ETH_CMD_BRINGUP_LINK command */
-				} else if (bringup_timeout && (bringup_timeout != -1) &&
-						(bringup_timeout <= RPM_LINK_BRINGUP_WAIT_STATUS)) {
-					/* Max time to wait for the link bring up */
-					bringup_ctx->link_timeout = ltimeout = bringup_timeout;
+				} else if ((bringup_timeout) && (bringup_timeout != -1)) {
+					if (bringup_timeout <= RPM_LINK_BRINGUP_WAIT_STATUS)
+						/* Max time to wait for the link bring up */
+						bringup_ctx->link_timeout = ltimeout = bringup_timeout;
+					else {
+						/* If timeout passed is greater than 100 ms, assign the
+						 * link timeout value to the user passed timeout
+						 */
+						bringup_ctx->link_timeout = bringup_timeout;
+						ltimeout = RPM_LINK_BRINGUP_WAIT_STATUS;
+					}
 				/* Timeout not passed */
 				} else {
 					ltimeout = RPM_LINK_BRINGUP_WAIT_STATUS;
@@ -174,7 +205,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 					bringup_ctx->link_timeout = RPM_POLL_LINK_BRINGUP_STATUS;
 				}
 
-				debug_rpm("%s: %d:%d ltimeout %lld lmac_ctx->s.link_timeout %lld\n", __func__,
+				debug_rpm("%s: %d:%d ltimeout %lld bringup_ctx->link_timeout %lld\n", __func__,
 						rpm_id, lmac_id, ltimeout, bringup_ctx->link_timeout);
 
 				link_timeout = init_time + ltimeout * clock_get_rate(GSER_CLOCK_TIME)/1000000;
@@ -216,7 +247,11 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 				goto link_failure;
 			}
 		}
-	}
+	} else if (status == ETH_LINK_STATE_LINK_UP)
+		goto link_up;
+	else /* For all other link states */
+		goto link_failure;
+
 link_up:
 	debug_rpm("%s: %d:%d Link UP completed\n", __func__, rpm_id, lmac_id);
 	/* Update link status */
