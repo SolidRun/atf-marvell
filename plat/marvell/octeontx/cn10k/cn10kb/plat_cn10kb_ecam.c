@@ -47,9 +47,26 @@ extern uint64_t get_dev_config(struct ecam_device *dev);
 
 static int ecam_probe_rpm(unsigned long long arg)
 {
+	int rpm_idx;
+	rpm_config_t *rpm;
+
+	/* Enable RPM2 which is same as previous RPM MAC */
+	if (arg != 2)
+		return 0;
+
 	debug_plat_ecam("%s arg %lld\n", __func__, arg);
 
-	return 0;
+	rpm_idx = arg;
+
+	if ((rpm_idx < 0) && (rpm_idx > plat_octeontx_get_rpm_count()))
+		return 0;
+
+	rpm = &plat_octeontx_bcfg->rpm_cfg[rpm_idx];
+
+	if (rpm->enable)
+		return 1;
+	else
+		return 0;
 }
 
 static int ecam_probe_usb(unsigned long long arg)
