@@ -53,6 +53,10 @@ struct spi_image_info {
 /* Buffer to read TIMs */
 static __aligned(32) uint8_t tim_block_buf[TIM_BLOCK_MAX_SIZE];
 
+static struct tim_handle tim_handle;
+static struct tim_header_info tim_header_info;
+static struct tim_load_info tim_load_info;
+
 extern int cn10k_spi_dev_read_aligned(uintptr_t user_buffer, size_t size,
 			  size_t loc, int bus, int cs);
 extern unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
@@ -221,9 +225,9 @@ static int spi_get_image_info(struct spi_image_info *spi_dev)
 static int spi_load_fw_image(struct spi_image_info *spi_dev, uintptr_t img_addr, uint32_t *size, uint32_t map_attr)
 {
 	union tim_headers *hdr = (union tim_headers *)tim_block_buf;
-	struct tim_header_info hinfo;
-	struct tim_handle handle;
-	struct tim_load_info tim_info;
+	struct tim_header_info *hinfo = &tim_header_info;
+	struct tim_handle *handle = &tim_handle;
+	struct tim_load_info *tim_info = &tim_load_info;
 	int err = 0;
 	uint32_t map_required = MMAP_IMAGE_BUF_EN & map_attr;
 
@@ -248,7 +252,7 @@ static int spi_load_fw_image(struct spi_image_info *spi_dev, uintptr_t img_addr,
 	}
 
 	/* Get TIM header info to read rest of the TIM */
-	err = tim_get_timh_info(hdr, &hinfo);
+	err = tim_get_timh_info(hdr, hinfo);
 	if (err != TIM_NO_ERROR) {
 		ERROR("Could not parse TIM header\n");
 		err = -ENOENT;
@@ -258,32 +262,32 @@ static int spi_load_fw_image(struct spi_image_info *spi_dev, uintptr_t img_addr,
 		      (uint32_t) hinfo.signed_tim_size);
 	/* Read the rest of the TIM */
 	if (cn10k_spi_dev_read_aligned((uintptr_t)tim_block_buf + TIM_TIMH_SIZE,
-			   (uint64_t) (hinfo.signed_tim_size - TIM_TIMH_SIZE),
+			   (uint64_t) (hinfo->signed_tim_size - TIM_TIMH_SIZE),
 			   spi_dev->offset + TIM_TIMH_SIZE, spi_dev->bus, spi_dev->cs)) {
 		err = -EIO;
 		goto err;
 	}
 
 	/* Validate TIM */
-	err = tim_load(hdr, 0, &handle);
+	err = tim_load(hdr, 0, handle);
 	if (err != TIM_NO_ERROR) {
 		ERROR("Error %d parsing TIM\n", err);
 		err = -ENOENT;
 		goto err;
 	}
 
-	err = tim_get_load_info(&handle, &tim_info);
+	err = tim_get_load_info(handle, tim_info);
 	if (err != TIM_NO_ERROR) {
 		ERROR("Error %d getting TIM file information\n", err);
 		err = -ENOENT;
 		goto err;
 	}
-	if (!tim_info.lodi_parsed && !tim_info.litc_parsed) {
+	if (!tim_info->lodi_parsed && !tim_info->litc_parsed) {
 		ERROR("Could not find LODI or LITC block in TIM\n");
 		err = -ENOENT;
 		goto err;
 	}
-	if (!tim_info.hshi_parsed) {
+	if (!tim_info->hshi_parsed) {
 		ERROR("Could not find HSHI block in TIM\n");
 		err = -ENOENT;
 		goto err;
@@ -291,25 +295,32 @@ static int spi_load_fw_image(struct spi_image_info *spi_dev, uintptr_t img_addr,
 	DBG("%s %s %llx %x\n", __func__, spi_dev->file, tim_info.src_address,
 		      tim_info.image_length);
 
-	spi_dev->offset += tim_info.src_address;
+	spi_dev->offset += tim_info->src_address;
 	/* Read the image */
-	if (cn10k_spi_dev_read_aligned(img_addr, tim_info.image_length, spi_dev->offset, spi_dev->bus, spi_dev->cs)) {
+	if (cn10k_spi_dev_read_aligned(img_addr, tim_info->image_length,
+				       spi_dev->offset, spi_dev->bus,
+				       spi_dev->cs)) {
 		err = -EIO;
 		goto err;
 	}
 
-	err = ehsm_verify_image((const void *)img_addr, &tim_info, NULL, NULL);
+	err = ehsm_verify_image((const void *)img_addr, tim_info, NULL, NULL);
 	if (err) {
 		ERROR("Hash for %s mismatch\n", spi_dev->file);
 		err = -EIO;
 		goto err;
 	}
 
-	*size = tim_info.image_length;
+	*size = tim_info->image_length;
 err:
+	memset(handle, 0, sizeof(*handle));
+	memset(hinfo, 0, sizeof(*hinfo));
+	memset(tim_info, 0, sizeof(*tim_info));
+
 	if (map_required) {
 		/* unmap non-secure memory buffer */
-		octeontx_mmap_remove_dynamic_region_with_sync(img_addr,spi_dev->size);
+		octeontx_mmap_remove_dynamic_region_with_sync(img_addr,
+							      spi_dev->size);
 	}
 
 	return err;

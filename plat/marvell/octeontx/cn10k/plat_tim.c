@@ -20,6 +20,9 @@ static tim_spec_info_t tim_specs[TIM_NUM_SPECS];
 /* Buffer to read TIMs */
 __aligned(8) static uint8_t tim_buffer[TIM_BLOCK_MAX_SIZE] = {0};
 
+static struct tim_header_info tim_hdr_info;
+static struct tim_handle tim_handle;
+
 int tim_is_emulator(void)
 {
 	return cavm_is_platform(PLATFORM_EMULATOR);
@@ -91,8 +94,8 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	int ret = -ENOENT;
 	tim_spec_info_t *tspec;
 	union tim_headers *hdr = (union tim_headers *)tim_buffer;
-	struct tim_header_info hinfo;
-	struct tim_handle handle;
+	struct tim_header_info *hinfo = &tim_hdr_info;
+	struct tim_handle *handle = &tim_handle;
 	uintptr_t image_handle;
 	size_t bytes_read;
 	size_t addr;
@@ -157,7 +160,7 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		goto done;
 	}
 	/* Get TIM header info to read rest of the TIM */
-	ret = tim_get_timh_info(hdr, &hinfo);
+	ret = tim_get_timh_info(hdr, hinfo);
 	if (ret != TIM_NO_ERROR) {
 		ERROR("Could not parse TIM header\n");
 		ret = -ENOENT;
@@ -165,22 +168,22 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 	}
 	/* Read the rest of the TIM */
 	ret = io_read(image_handle, (uint64_t)tim_buffer + TIM_TIMH_SIZE,
-		      hinfo.signed_tim_size - TIM_TIMH_SIZE, &bytes_read);
-	if (bytes_read != hinfo.signed_tim_size - TIM_TIMH_SIZE) {
+		      hinfo->signed_tim_size - TIM_TIMH_SIZE, &bytes_read);
+	if (bytes_read != hinfo->signed_tim_size - TIM_TIMH_SIZE) {
 		ERROR("Could not read TIM\n");
 		ret = -ENOENT;
 		goto done;
 	}
 
 	/* Validate TIM */
-	ret = tim_load(hdr, 0, &handle);
+	ret = tim_load(hdr, 0, handle);
 	if (ret != TIM_NO_ERROR) {
 		ERROR("Error %d parsing TIM\n", ret);
 		ret = -ENOENT;
 		goto done;
 	}
 
-	ret = tim_get_load_info(&handle, &tspec->tim_info);
+	ret = tim_get_load_info(handle, &tspec->tim_info);
 	if (ret != TIM_NO_ERROR) {
 		ERROR("Error %d getting TIM file information\n", ret);
 		ret = -ENOENT;
@@ -204,6 +207,8 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 done:
 	/* Close the SPI device before return */
 	io_close(image_handle);
+	memset(hinfo, 0, sizeof(*hinfo));
+	memset(handle, 0, sizeof(*handle));
 
 	return ret;
 }

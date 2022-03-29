@@ -69,6 +69,10 @@
 #define TIM_BLOCK_MAX_SIZE	0x1000
 #define MAX_EFI_VAR_SIZE	0x4000
 
+static struct tim_handle tim_handle;
+static struct tim_header_info tim_header_info;
+static struct tim_load_info tim_load_info;
+
 /* Buffer to read TIMs */
 static inline int get_spi_mode(uint64_t offset)
 {
@@ -138,9 +142,9 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 	uint8_t *tim_block_buf = octeontx_memalign(EHSM_ALIGNMENT,
 						   TIM_BLOCK_MAX_SIZE);
 	union tim_headers *hdr = (union tim_headers *)tim_block_buf;
-	struct tim_header_info hinfo;
-	struct tim_handle handle;
-	struct tim_load_info tim_info;
+	struct tim_header_info *hinfo = &tim_header_info;
+	struct tim_handle *handle = &tim_handle;
+	struct tim_load_info *tim_info = &tim_load_info;
 	int err = 0;
 	uint32_t addr;
 	uint32_t map_size;
@@ -186,7 +190,7 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 	}
 
 	/* Get TIM header info to read rest of the TIM */
-	err = tim_get_timh_info(hdr, &hinfo);
+	err = tim_get_timh_info(hdr, hinfo);
 	if (err != TIM_NO_ERROR) {
 		ERROR("Could not parse TIM header\n");
 		err = -ENOENT;
@@ -196,7 +200,7 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 		      hinfo.signed_tim_size);
 	/* Read the rest of the TIM */
 	if (spi_nor_read(&tim_block_buf[TIM_TIMH_SIZE],
-			   hinfo.signed_tim_size - TIM_TIMH_SIZE,
+			   hinfo->signed_tim_size - TIM_TIMH_SIZE,
 			   addr + TIM_TIMH_SIZE,
 			   get_spi_mode(addr + TIM_TIMH_SIZE), bus, cs)) {
 		err = -EIO;
@@ -204,25 +208,25 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 	}
 
 	/* Validate TIM */
-	err = tim_load(hdr, 0, &handle);
+	err = tim_load(hdr, 0, handle);
 	if (err != TIM_NO_ERROR) {
 		ERROR("Error %d parsing TIM\n", err);
 		err = -ENOENT;
 		goto err;
 	}
 
-	err = tim_get_load_info(&handle, &tim_info);
+	err = tim_get_load_info(handle, tim_info);
 	if (err != TIM_NO_ERROR) {
 		ERROR("Error %d getting TIM file information\n", err);
 		err = -ENOENT;
 		goto err;
 	}
-	if (!tim_info.lodi_parsed && !tim_info.litc_parsed) {
+	if (!tim_info->lodi_parsed && !tim_info->litc_parsed) {
 		ERROR("Could not find LODI or LITC block in TIM\n");
 		err = -ENOENT;
 		goto err;
 	}
-	if (!tim_info.hshi_parsed) {
+	if (!tim_info->hshi_parsed) {
 		ERROR("Could not find HSHI block in TIM\n");
 		err = -ENOENT;
 		goto err;
@@ -232,19 +236,22 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 		      tim_info.image_length);
 
 	debug_spi_nor("Verifying digital signature\n");
-	err = ehsm_verify_tim_digital_signature(&handle, &hinfo, tim_block_buf);
+	err = ehsm_verify_tim_digital_signature(handle, hinfo, tim_block_buf);
 	if (err) {
 		ERROR("Digital signature failed for %s: %d\n", name, err);
 		err = -EAUTH;
 		goto err;
 	}
 
-	addr += tim_info.src_address;
-	err = load_and_verify_image(addr, bus, cs, img_addr, &tim_info, name);
+	addr += tim_info->src_address;
+	err = load_and_verify_image(addr, bus, cs, img_addr, tim_info, name);
 
-	*size = tim_info.image_length;
+	*size = tim_info->image_length;
 err:
 	octeontx_free(tim_block_buf);
+	memset(handle, 0, sizeof(*handle));
+	memset(hinfo, 0, sizeof(*hinfo));
+	memset(tim_info, 0, sizeof(*tim_info));
 
 	/* unmap non-secure memory buffer */
 	octeontx_mmap_remove_dynamic_region_with_sync(img_addr, map_size);
