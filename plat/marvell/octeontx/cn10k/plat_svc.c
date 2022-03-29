@@ -793,10 +793,30 @@ err5:
 
 	case PLAT_OCTEONTX_GET_SFP_INFO_OFFSET: {
 		int offset;
+		int eth, lmac;
 
-		offset = sh_fwdata_get_sfp_info_offset(x1);
+		if (x2) {
+			eth = (x1 >> 16) & 0xffff;
+			lmac = x1 & 0xffff;
+		} else {
+			int portm_idx;
+			portm_config_t *portm;
+
+			portm_idx = x1;
+			if (portm_idx >= MAX_PORTM)
+				SMC_RET1(handle, -1);
+
+			portm = &plat_octeontx_bcfg->portm_cfg[portm_idx];
+			if (portm->mac_type != PORTM_ETH)
+				SMC_RET1(handle, -2);
+
+			eth = portm->mac_num;
+			lmac = portm->mac_lane;
+		}
+
+		offset = sh_fwdata_get_sfp_info_offset(eth, lmac);
 		if (offset < 0)
-			SMC_RET1(handle, -1);
+			SMC_RET1(handle, offset);
 
 		SMC_RET2(handle, 0, offset);
 	}

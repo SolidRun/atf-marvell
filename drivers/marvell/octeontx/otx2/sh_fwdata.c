@@ -54,6 +54,28 @@ static struct eth_lmac_fwdata_s *get_sh_cgx_fwdata_ptr(int cgx_id, int lmac_id)
 	return sh_cgx_fwdata;
 }
 
+int sh_fwdata_get_sfp_info_offset(int eth_id, int lmac_id)
+{
+	struct sh_fwdata *fw_data;
+	struct eth_lmac_fwdata_s *sh_eth_fwdata;
+	void *sfp_info;
+	uint32_t offset;
+
+	if (eth_id >= ETH_MAX || lmac_id >= ETH_LMACS_MAX)
+		return -1;
+
+	fw_data = (struct sh_fwdata *)get_sh_fwdata_base();
+	sh_eth_fwdata = &fw_data->eth_fw_data[eth_id][lmac_id];
+	sfp_info = &sh_eth_fwdata->sfp_eeprom;
+	offset = (int)((char *)sfp_info - (char *)fw_data);
+
+	debug_shmem_mgmt("%s: %d:%d fw_data: %p sfp info offset: %x\n",
+				__func__, eth_id,
+				lmac_id, fw_data, offset);
+
+	return offset;
+}
+
 static void sh_fwdata_update_ptp(struct sh_fwdata *fwdata)
 {
 	void *fdt = fdt_ptr;

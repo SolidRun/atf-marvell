@@ -322,8 +322,31 @@
  */
 #define PLAT_OCTEONTX_SET_AVS_STATUS		0xc2000b08
 
+/*
+ * Return:
+ *	x0: 0 -- Success
+ *	x1: fwdata base physical address
+ *	x2: fwdata size
+ */
+#define PLAT_OCTEONTX_GET_FWDATA_BASE 0xc2000b12
+
+/*
+ * x1[31:16] - eth id
+ * x1[15:0]  - lmac id
+ *
+ * x2 - should be 1
+ *
+ * Return:
+ *	x0:
+ *		 0 -- Success
+ *		-1 -- failure (invalid input)
+ *		-2 -- failure (non-Ethernet port selected)
+ *	x1: sfp info offset in fwdata
+ */
+#define PLAT_OCTEONTX_GET_SFP_INFO_OFFSET 0xc2000b13
+
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			16
+#define OTX2_NUM_SMC_CALLS			18
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,

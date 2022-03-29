@@ -18,6 +18,7 @@
 #include <cgx.h>
 #include <spi_smc_load.h>
 #include <phy_mgmt.h>
+#include <sh_fwdata.h>
 
 extern void *scmi_handle;
 
@@ -281,6 +282,29 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	case PLAT_OCTEONTX_SET_AVS_STATUS:
 		ret = scmi_octeontx_set_avs_status(scmi_handle, x1);
 		SMC_RET1(handle, ret);
+		break;
+
+	case PLAT_OCTEONTX_GET_FWDATA_BASE:
+		SMC_RET3(handle, 0, SH_FWDATA_BASE, SH_FWDATA_SIZE);
+		break;
+
+	case PLAT_OCTEONTX_GET_SFP_INFO_OFFSET: {
+		int offset;
+		int eth, lmac;
+
+		/* Only the eth/lmac addressing supported in t9x */
+		if (!x2)
+			SMC_RET1(handle, -1);
+
+		eth = (x1 >> 16) & 0xffff;
+		lmac = x1 & 0xffff;
+
+		offset = sh_fwdata_get_sfp_info_offset(eth, lmac);
+		if (offset < 0)
+			SMC_RET1(handle, -1);
+
+		SMC_RET2(handle, 0, offset);
+	}
 		break;
 
 	default:

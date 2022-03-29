@@ -55,40 +55,23 @@ static struct eth_lmac_fwdata_s *get_sh_rpm_fwdata_ptr(int rpm_id, int lmac_id)
 	return sh_rpm_fwdata;
 }
 
-int sh_fwdata_get_sfp_info_offset(int portm_idx)
+int sh_fwdata_get_sfp_info_offset(int eth_id, int lmac_id)
 {
 	struct sh_fwdata *fw_data;
-	struct eth_lmac_fwdata_s *sh_rpm_fwdata;
-	portm_config_t *portm;
-	int rpm_id, lmac_id;
+	struct eth_lmac_fwdata_s *sh_eth_fwdata;
 	void *sfp_info;
 	uint32_t offset;
 
-	if (portm_idx >= MAX_PORTM) {
-		ERROR("%s: PORTM%d is not valid\n",
-			__func__, portm_idx);
+	if (eth_id >= ETH_MAX || lmac_id >= ETH_LMACS_MAX)
 		return -1;
-	}
-
-	portm = &plat_octeontx_bcfg->portm_cfg[portm_idx];
-
-	/* SFP is not managed for non-Ethernet modes */
-	if (portm->mac_type != PORTM_ETH) {
-		ERROR("%s: PORTM%d: non-Ethernet mac type requested\n",
-			__func__, portm_idx);
-		return -1;
-	}
-
-	rpm_id = portm->mac_num;
-	lmac_id = portm->mac_lane;
 
 	fw_data = (struct sh_fwdata *)get_sh_fwdata_base();
-	sh_rpm_fwdata = &fw_data->eth_fw_data[rpm_id][lmac_id];
-	sfp_info = &sh_rpm_fwdata->sfp_eeprom;
+	sh_eth_fwdata = &fw_data->eth_fw_data[eth_id][lmac_id];
+	sfp_info = &sh_eth_fwdata->sfp_eeprom;
 	offset = (int)((char *)sfp_info - (char *)fw_data);
 
 	debug_shmem_mgmt("%s: %d:%d fw_data: %p sfp info offset: %x\n",
-				__func__, rpm_id,
+				__func__, eth_id,
 				lmac_id, fw_data, offset);
 
 	return offset;
