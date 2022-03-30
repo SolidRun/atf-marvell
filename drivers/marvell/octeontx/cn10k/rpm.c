@@ -93,7 +93,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 
 		while (clock_get_count(GSER_CLOCK_TIME)
 						< cmd_timeout) {
-			status = ecp_get_link_state(lmac->portm_idx, &link_state, &sig_detect);
+			status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
 			if ((status == ETH_LINK_STATE_LINK_UP) ||
 						(status == ETH_LINK_STATE_LINK_STOPPED))
 				goto link_state;
@@ -181,7 +181,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 
 				while (clock_get_count(GSER_CLOCK_TIME)
 						< link_timeout) {
-					status = ecp_get_link_state(lmac->portm_idx, &link_state, &sig_detect_temp);
+					status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect_temp);
 					/* Check for signal detect and set the variable sig_detect to check after
 					 * link initial timeout
 					 */
@@ -191,7 +191,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 						goto link_up;
 					else if (status == ETH_LINK_STATE_LINK_STOPPED) {
 						rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
-						ecp_dump_state_history(lmac->portm_idx, "Link bringup failed");
+						ecp_dump_state_history(lmac->portm_idx, lmac_id, "Link bringup failed");
 						goto link_failure;
 					}
 					mdelay(5);
@@ -212,7 +212,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 				} else {
 					bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
 				}
-				ecp_dump_state_history(lmac->portm_idx, "Link bringup failed");
+				ecp_dump_state_history(lmac->portm_idx, lmac_id, "Link bringup failed");
 				goto link_failure;
 			}
 		}
@@ -371,7 +371,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 					clock_get_rate(GSER_CLOCK_TIME)/1000000;
 			while (clock_get_count(GSER_CLOCK_TIME)
 					< link_timeout) {
-				status = ecp_get_link_state(lmac->portm_idx, &link_state, &sig_detect);
+				status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
 				if (status == ETH_LINK_NO_STATE)
 					break;
 				else {

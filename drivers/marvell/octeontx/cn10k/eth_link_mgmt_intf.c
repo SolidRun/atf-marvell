@@ -275,6 +275,8 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 	if (!sh_data->ack) {
 		debug_eth_link_intf("%s: PORTM%d: sending req_id %d\n",
 				    __func__, portm_idx, req_id);
+		/* Update lmac_id in shared data */
+		sh_data->lmac_id = lmac_id;
 		sh_data->link_req.req_id = req_id;
 		sh_data->portm_cfg.fec = portm->fec;
 		sh_data->ack = 1;
@@ -298,15 +300,19 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 	return 0;
 }
 
-static void _dump_state_history(ecp_state_log_t *ecp_logs, int count,
+static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int count,
 				int portm_idx, const char *msg)
 {
 	int idx;
 
-	debug_ecp_sm_hist("[PORTM%d]: Last ECP state transitions:\n\t(Reason: %s)\n", portm_idx, msg);
+	debug_ecp_sm_hist("[PORTM%d LMAC%d]: Last ECP state transitions:\n\t(Reason: %s)\n", portm_idx, lmac_id, msg);
 
 	for (idx = 0; idx < count; idx++) {
 		ecp_state_log_t *log_entry = &ecp_logs[idx];
+
+		/* Only print entries with the same lmac_id */
+		if (lmac_id != log_entry->lmac_id)
+			continue;
 
 		debug_ecp_sm_hist("\n[%llu] ECP State = %d\n",
 			log_entry->timestamp, log_entry->link_rsp.link_state);
@@ -319,10 +325,8 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int count,
 			log_entry->link_req.phy_present);
 
 		debug_ecp_sm_hist("\tlink_rsp=\n");
-		debug_ecp_sm_hist("\t\treq_stat=%d, link_state=%d, sig_detect=%d, ecp_link_state=0x%llx\n",
-			log_entry->link_rsp.req_stat,
+		debug_ecp_sm_hist("\t\tlink_state=%d, ecp_link_state=0x%llx\n",
 			log_entry->link_rsp.link_state,
-			log_entry->link_rsp.sig_detect,
 			log_entry->link_rsp.ecp_link_state.link_stat);
 		debug_ecp_sm_hist("\t\tecp_link_dbg=\n");
 		debug_ecp_sm_hist("\t\t\tfail_mode=%u, train_fail_cnt=%u, lnk_fail_count=%u\n",
@@ -338,7 +342,7 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int count,
 	}
 }
 
-int ecp_dump_state_history(int portm_idx, const char *msg)
+int ecp_dump_state_history(int portm_idx, int lmac_id, const char *msg)
 {
 	uint64_t timeout;
 	uint32_t *tail;
@@ -414,7 +418,7 @@ int ecp_dump_state_history(int portm_idx, const char *msg)
 	}
 
 	sh_data->history.sl_owner = LINK_OWN_NONE;
-	_dump_state_history(ecp_print_buf, count, portm_idx, msg);
+	_dump_state_history(ecp_print_buf, lmac_id, count, portm_idx, msg);
 
 	spin_lock(&ecp_print_buf_lock);
 	octeontx_free(ecp_print_buf);
@@ -423,7 +427,7 @@ int ecp_dump_state_history(int portm_idx, const char *msg)
 	return 0;
 }
 
-unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state, int *sig_detect)
+unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *link_state, int *sig_detect)
 {
 	int state = 0;
 
@@ -445,13 +449,13 @@ unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state, int
 	sh_data->lock = LINK_OWN_AP;
 
 	if (!sh_data->ack) {
-		state = sh_data->link_rsp.link_state;
-		link_state->s.link_up = sh_data->link_rsp.ecp_link_state.s.link_up;
-		link_state->s.duplex = sh_data->link_rsp.ecp_link_state.s.duplex;
-		link_state->s.speed = sh_data->link_rsp.ecp_link_state.s.speed;
-		link_state->s.fec = sh_data->link_rsp.ecp_link_state.s.fec;
-		link_state->s.error_type = sh_data->link_rsp.ecp_link_state.s.error_type;
-		*sig_detect = sh_data->link_rsp.sig_detect;
+		state = sh_data->link_rsp[lmac_id].link_state;
+		link_state->s.link_up = sh_data->link_rsp[lmac_id].ecp_link_state.s.link_up;
+		link_state->s.duplex = sh_data->link_rsp[lmac_id].ecp_link_state.s.duplex;
+		link_state->s.speed = sh_data->link_rsp[lmac_id].ecp_link_state.s.speed;
+		link_state->s.fec = sh_data->link_rsp[lmac_id].ecp_link_state.s.fec;
+		link_state->s.error_type = sh_data->link_rsp[lmac_id].ecp_link_state.s.error_type;
+		*sig_detect = sh_data->sig_detect;
 		sh_data->lock = LINK_OWN_NONE;
 		/* FIXME : update other parameters */
 	} else {
@@ -494,7 +498,7 @@ unsigned int ecp_get_intf_rev(int portm_idx)
 	return ecp_rev;
 }
 
-unsigned int ecp_update_phy_link_state(int portm_idx, rpm_link_state_t *phy_link_state)
+unsigned int ecp_update_phy_link_state(int portm_idx, int lmac_id, rpm_link_state_t *phy_link_state)
 {
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 
@@ -514,9 +518,9 @@ unsigned int ecp_update_phy_link_state(int portm_idx, rpm_link_state_t *phy_link
 		sh_data->lock = LINK_OWN_AP;
 
 	sh_data->link_req.phy_present = 1;
-	sh_data->link_req.phy_link_state.s.link_up = phy_link_state->s.link_up;
-	sh_data->link_req.phy_link_state.s.duplex = phy_link_state->s.full_duplex;
-	sh_data->link_req.phy_link_state.s.speed = phy_link_state->s.speed;
+	sh_data->link_req.phy_link_state[lmac_id].s.link_up = phy_link_state->s.link_up;
+	sh_data->link_req.phy_link_state[lmac_id].s.duplex = phy_link_state->s.full_duplex;
+	sh_data->link_req.phy_link_state[lmac_id].s.speed = phy_link_state->s.speed;
 
 	sh_data->lock = LINK_OWN_NONE;
 

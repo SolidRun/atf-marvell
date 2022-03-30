@@ -279,11 +279,11 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 			return -1;
 		}
 		/* Update PHY's link status in SM for ECP to read */
-		ecp_update_phy_link_state(lmac->portm_idx, &link_sts);
+		ecp_update_phy_link_state(lmac->portm_idx, lmac_id, &link_sts);
 	}
 
 	/* Obtain the link status from ECP via SM */
-	status = ecp_get_link_state(lmac->portm_idx, &link_state, &sig_detect);
+	status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
 	if (status != ETH_LINK_NO_STATE) {
 		link->s.link_up = link_state.s.link_up;
 		link->s.full_duplex = link_state.s.duplex;
@@ -416,7 +416,7 @@ retry_link:
 			/* Get the PHY link status */
 			phy_get_link_status(rpm_id, lmac_id, &link_sts);
 			/* Update PHY's link status in SM for ECP to read */
-			ecp_update_phy_link_state(lmac_cfg->portm_idx, &link_sts);
+			ecp_update_phy_link_state(lmac_cfg->portm_idx, lmac_id, &link_sts);
 		}
 		if (rpm_lmac_port_enable(rpm_id, lmac_id, lmac_ctx, &link_sts, link_timeout) != 0) {
 			if (rpm_get_error_type(rpm_id, lmac_id) != 0) {
@@ -898,7 +898,7 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 
 	while (clock_get_count(GSER_CLOCK_TIME)
 		< link_timeout) {
-		status = ecp_get_link_state(portm_idx, link_state, &sig_detect_temp);
+		status = ecp_get_link_state(portm_idx, lmac_id, link_state, &sig_detect_temp);
 		if ((!sig_detect) && (sig_detect_temp))
 			sig_detect = 1;
 		if (status == ETH_LINK_STATE_LINK_UP)

@@ -9,6 +9,10 @@
 #define __LNK_INTF_H__
 
 #include <plat_portm_cfg.h>
+/* Worst case platform MAX_PORTM */
+#define PORTM_MAX 28
+/* Worst case platform MAX_LMAC_PER_RPM */
+#define LMAC_PER_RPM_MAX 8
 
 #define ECP_LINK_LOCK_WAIT_MS 5
 #define ECP_LINK_CMD_ACK_WAIT_MS 10
@@ -78,7 +82,6 @@ typedef enum ecp_link_req_id {
 	ECP_LINK_REQ_BRINGDOWN,
 	ECP_LINK_REQ_MODE_CHANGE,
 	ECP_LINK_REQ_FEC_CHANGE,
-	ECP_LINK_REQ_LMAC_CHANGE,
 	ECP_LINK_REQ_AN_RESTART,
 	ECP_LINK_REQ_LOOPBACK_STATE_CHANGE,
 	ECP_LINK_REQ_PRBS_STATE_CHANGE,
@@ -136,6 +139,7 @@ typedef enum link_state {
 	ETH_LINK_STATE_AN_GOOD_CK = 47,
 	ETH_LINK_STATE_AN_GOOD = 48,
 	ETH_LINK_STATE_AN_SERDES_WAIT = 49,
+	ETH_LINK_STATE_SFP_MODULE_UNPLUGGED = 50,
 } ecp_link_state_enum_t;
 
 typedef enum lnk_fail_type {
@@ -224,19 +228,18 @@ typedef struct ecp_link_req {
 	 * from PHY and update SM. Relevant fields of ecp_link_state_t
 	 * can be used for PHY and others can be ignored
 	 */
-	ecp_link_state_t phy_link_state;
+	ecp_link_state_t phy_link_state[LMAC_PER_RPM_MAX];
 } ecp_link_req_t;
 
 typedef struct ecp_link_resp {
-	uint32_t req_stat:2;	/* link_req_status_t */
-	uint32_t link_state:7;  /* ecp_link_state_enum_t enum */
-	uint32_t sig_detect:1;
+	ecp_link_state_enum_t link_state;
 	ecp_link_state_t ecp_link_state;
 	ecp_link_dbg_status_t ecp_link_dbg;
 } ecp_link_resp_t;
 
 typedef struct ecp_state_log {
 	uint64_t timestamp;
+	uint32_t lmac_id;
 	ecp_link_req_t link_req;
 	ecp_link_resp_t link_rsp;
 } ecp_state_log_t;
@@ -260,10 +263,11 @@ typedef struct ecp_link_mgmt_sh_data {
 	uint32_t ack;
 	uint32_t portm_idx;
 	portm_config_t portm_cfg;
+	uint32_t sig_detect:1;
 	uint32_t lmac_id;
 	/* Link management async req/rsp between AP and ECP */
 	ecp_link_req_t link_req;
-	ecp_link_resp_t link_rsp;
+	ecp_link_resp_t link_rsp[LMAC_PER_RPM_MAX];
 
 	ecp_state_hist_buf_t history;
 } ecp_link_mgmt_sh_data_t;
@@ -272,14 +276,14 @@ typedef struct link_shared_data {
 	uint32_t size;
 	uint32_t intf_rev;
 	uint32_t debug_ena;  /* Set to 1 if debug enabled in rpm.c */
-	ecp_link_mgmt_sh_data_t link_mgmt_portm[MAX_PORTM];
+	ecp_link_mgmt_sh_data_t link_mgmt_portm[PORTM_MAX];
 } ecp_link_shared_data_t;
 
 void ecp_link_init_shmem(void);
 int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id, rpm_lmac_context_t *lmac_ctx);
-unsigned int ecp_get_link_state(int portm_idx, ecp_link_state_t *link_state, int *sig_detect);
-unsigned int ecp_update_phy_link_state(int portm, rpm_link_state_t *phy_link_state);
+unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *link_state, int *sig_detect);
+unsigned int ecp_update_phy_link_state(int portm, int lmac_id, rpm_link_state_t *phy_link_state);
 unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);
-int ecp_dump_state_history(int portm_idx, const char *msg);
+int ecp_dump_state_history(int portm_idx, int lmac_id, const char *msg);
 
 #endif /* __LNK_INTF_H__ */
