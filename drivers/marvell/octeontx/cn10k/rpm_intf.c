@@ -890,7 +890,8 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	bringup_ctx->link_bringup_status = LINK_BRINGUP_INIT;
-	bringup_ctx->link_timeout = RPM_POLL_LINK_BRINGUP_STATUS;
+	if (!bringup_ctx->link_timeout)
+		bringup_ctx->link_timeout = RPM_POLL_LINK_BRINGUP_STATUS;
 
 	ret = ecp_send_link_req(portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE, lmac_ctx);
 	if (ret == -1) {

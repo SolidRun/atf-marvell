@@ -77,7 +77,8 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	bringup_ctx->link_bringup_status = LINK_BRINGUP_INIT;
-	bringup_ctx->link_timeout = RPM_POLL_LINK_FECCHANGE_STATUS;
+	if (!bringup_ctx->link_timeout)
+		bringup_ctx->link_timeout = RPM_POLL_LINK_FECCHANGE_STATUS;
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
