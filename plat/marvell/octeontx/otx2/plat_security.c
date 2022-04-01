@@ -15,6 +15,7 @@
 #include <octeontx_security.h>
 #include <octeontx_dram.h>
 #include <octeontx_utils.h>
+#include <octeontx_ecam.h>
 #include <plat_otx2_configuration.h>
 
 #include "cavm-csrs-ap.h"
@@ -411,6 +412,30 @@ static void set_iobn_stream_security(int domain_idx, int bus_idx, int dev_idx,
 	}
 }
 
+void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
+{
+	int dev_idx, bus_idx, domain_idx;
+	int strm_ns, phys_ns;
+
+	if (!is_pem_in_ep_mode(pem))
+		return;
+
+	strm_ns = !secure; /* set according to caller's request */
+	phys_ns = 1; /* host can only access non-secure memory */
+
+	domain_idx = STREAM_DMN_IDX(streamid);
+	bus_idx = STREAM_BUS_IDX(streamid);
+	dev_idx = STREAM_DEV_IDX(streamid);
+
+	VERBOSE("pem %d stream 0x%x dom %d bus %d sec %d\n",
+		pem, streamid, domain_idx, bus_idx, secure);
+
+	set_iobn_stream_security(domain_idx, bus_idx, dev_idx, strm_ns,
+				phys_ns);
+
+	return;
+}
+
 /*
  * This function configures PCI EP streams' security in IOBN.
  *
@@ -420,13 +445,11 @@ static void set_iobn_stream_security(int domain_idx, int bus_idx, int dev_idx,
  */
 void octeontx_configure_pem_ep_security(int pem, int secure)
 {
-	int dev_idx;
-	int bus_idx;
-	int domain_idx;
-	int strm_ns, phys_ns;
 	uint32_t streamid;
 	cavm_smmux_s_gbpa_t s_gbpa;
 	uint64_t midr = read_midr();
+	void *prop_start = NULL, *prop_end = NULL;
+	int id;
 
 	switch (MIDR_PARTNUM(midr)) {
 	case F95PARTNUM:
@@ -437,28 +460,40 @@ void octeontx_configure_pem_ep_security(int pem, int secure)
 		/* fall through for f95 pass 1.x */
 	case T96PARTNUM:
 	case T98PARTNUM:
-		if (pem == 0)
-			streamid = CAVM_PCC_DEV_CON_E_PCIERC0_CN9;
-		else if (pem == 2)
-			streamid = CAVM_PCC_DEV_CON_E_PCIERC2_CN9;
-		else
+		if ((pem != 0) && (pem != 2))
 			break;
 
 		if (!is_pem_in_ep_mode(pem))
 			break;
 
-		strm_ns = !secure; /* set according to caller's request */
-		phys_ns = 1; /* host can only access non-secure memory */
+		secure = octeontx_fdt_get_pem_secure();
+		octeontx_fdt_get_strmid_ptrs(pem, &prop_start, &prop_end);
+		if (prop_start == NULL) {
+			if (pem == 0)
+				streamid = CAVM_PCC_DEV_CON_E_PCIERC0_CN9;
+			else if (pem == 2)
+				streamid = CAVM_PCC_DEV_CON_E_PCIERC2_CN9;
+			else
+				return;
+			octeontx_configure_pem_iobn(pem, streamid, secure);
+		}
+		else {
+			do {
+				streamid = octeontx_fdt_get_next_strmid(&prop_start, &prop_end);
+				/* If no stream id is found */
+				if (streamid == 0)
+					break;
 
-		domain_idx = (streamid >> 16) & 0xFF;
-		bus_idx = (streamid >> 8) & 0xFF;
-		dev_idx = 0; /* device 0 is used for host remote WRITE ops */
-		set_iobn_stream_security(domain_idx, bus_idx, dev_idx, strm_ns,
-					 phys_ns);
-
-		dev_idx = 3; /* device 3 is used for host remote READ ops */
-		set_iobn_stream_security(domain_idx, bus_idx, dev_idx, strm_ns,
-					 phys_ns);
+				/* If stream id is xFFFF, Configure all the stream IDs */
+				if ((streamid & PEM_ALL_STREAM_IDS) == PEM_ALL_STREAM_IDS) {
+					for (id = 0; id <= PEM_ALL_STREAM_IDS; id++)
+						octeontx_configure_pem_iobn(pem, id, secure);
+					break;
+				}
+				else
+					octeontx_configure_pem_iobn(pem, streamid, secure);
+			} while (1);
+		}
 
 		/* Ensure that SMMU uses NS bit from secure stream config.
 		 * The BDK sets NSCFG override to force secure memory accesses

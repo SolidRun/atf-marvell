@@ -375,3 +375,72 @@ void initialize_tf_logging(void)
 	}
 }
 #endif // MRVL_TF_LOG_MODULE
+
+int octeontx_fdt_get_strmid_ptrs(int pem, void **prop, void **prop_end)
+{
+	int offset;
+	const char *pem0_name = "PCIE-HOST-STREAM-IDS-PEM0";
+	const char *pem1_name = "PCIE-HOST-STREAM-IDS-PEM1";
+	int ret = -1, prop_len;
+	const void *fdt = fdt_ptr;
+
+	*prop_end = NULL;
+	*prop = NULL;
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset > 0) {
+		if (pem == 0)
+			*prop = (void *)fdt_getprop(fdt, offset, pem0_name, &prop_len);
+		else
+			*prop = (void *)fdt_getprop(fdt, offset, pem1_name, &prop_len);
+
+		if (*prop == NULL)
+			return ret;
+
+		*prop_end = *prop + prop_len;
+	}
+
+	return 0;
+}
+
+uint32_t octeontx_fdt_get_next_strmid(void **prop, void **prop_end)
+{
+	char *ptr;
+	uint32_t stream_id = 0;
+	int next_id_off;
+
+	ptr = *prop;
+	if (ptr < (char *)*prop_end) {
+		next_id_off = strlen(ptr);
+		stream_id = (uint32_t) strtol(ptr, NULL, 16);
+		ptr = ptr + next_id_off + 1;
+		*prop = ptr;
+	}
+
+	return stream_id;
+}
+
+/*
+ * Function to read PCIE-ALLOW-HOST-TO-ACCESS-OCTEON-MEM
+ * from fdt.
+ */
+int octeontx_fdt_get_pem_secure(void)
+{
+	int offset;
+	const char *str;
+	const void *fdt = fdt_ptr;
+	int prop_len;
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset > 0) {
+
+		str = fdt_getprop(fdt, offset, "PCIE-ALLOW-HOST-TO-ACCESS-OCTEON-MEM", &prop_len);
+		if (str)
+			return strtol(str, NULL, 10);
+	}
+
+	/*
+	 * If dts parameter is not present, default value is 0.
+	 */
+	return 0;
+}

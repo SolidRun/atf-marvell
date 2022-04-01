@@ -119,6 +119,8 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndpeid_el3, AP_CVM_CPURNDPEID_EL3)
 #define ROUND_DOWN(val, align)	((val) / (align) * (align))
 #define ROUND_UP(val, align)	(((val) + (align) - 1) / (align) * (align))
 
+#define PEM_ALL_STREAM_IDS	0xFFFF
+
 /* LLC cache locking */
 static inline int octeontx_llc_lock(uint64_t phys_addr, uint64_t size)
 {
@@ -173,5 +175,9 @@ void plat_cn10x_early_initialization(void);
 void initialize_tf_logging(void);
 #endif // MRVL_TF_LOG_MODULE
 #endif
+
+int octeontx_fdt_get_pem_secure(void);
+uint32_t octeontx_fdt_get_next_strmid(void **prop, void **prop_end);
+int octeontx_fdt_get_strmid_ptrs(int pem, void **prop, void **prop_end);
 
 #endif /* __OCTEONTX_COMMON_H__ */

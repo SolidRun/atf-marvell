@@ -39,9 +39,11 @@
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <plat_scfg.h>
+#include <plat_cn10k_configuration.h>
 #include <octeontx_security.h>
 #include <octeontx_dram.h>
 #include <octeontx_utils.h>
+#include <octeontx_ecam.h>
 
 #include "cavm-csrs-ap.h"
 #include "cavm-csrs-iobn.h"
@@ -513,6 +515,62 @@ void octeontx_configure_mmc_security(int secure)
 }
 
 /*
+ * Helper function for setting-up stream security in IOBN.
+ */
+static void set_iobn_stream_security(int domain_idx, int bus_idx, int dev_idx,
+				     int strm_ns, int phys_ns)
+{
+	int iobn_idx;
+
+	for (iobn_idx = 0; iobn_idx < plat_octeontx_scfg->iobn_count;
+	     iobn_idx++) {
+		cavm_iobnx_domx_devx_streams_t iobn_comx_devx_stream;
+		cavm_iobnx_domx_busx_streams_t iobn_domx_busx_stream;
+
+		iobn_domx_busx_stream.u = CSR_READ(
+			CAVM_IOBNX_DOMX_BUSX_STREAMS(iobn_idx, domain_idx,
+						     bus_idx));
+		iobn_domx_busx_stream.s.strm_nsec = strm_ns;
+		iobn_domx_busx_stream.s.phys_nsec = phys_ns;
+		CSR_WRITE(CAVM_IOBNX_DOMX_BUSX_STREAMS(
+			  iobn_idx, domain_idx, bus_idx),
+			  iobn_domx_busx_stream.u);
+
+		iobn_comx_devx_stream.u = CSR_READ(
+			CAVM_IOBNX_DOMX_DEVX_STREAMS(iobn_idx, domain_idx,
+						     dev_idx));
+		iobn_comx_devx_stream.s.strm_nsec = strm_ns;
+		iobn_comx_devx_stream.s.phys_nsec = phys_ns;
+		CSR_WRITE(CAVM_IOBNX_DOMX_DEVX_STREAMS(
+			  iobn_idx, domain_idx, dev_idx),
+			  iobn_comx_devx_stream.u);
+	}
+}
+
+void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
+{
+	int dev_idx, bus_idx, domain_idx;
+	int strm_ns, phys_ns;
+
+	if (!is_pem_in_ep_mode(pem))
+		return;
+
+	strm_ns = !secure; /* set according to caller's request */
+	phys_ns = 1; /* host can only access non-secure memory */
+
+	domain_idx = STREAM_DMN_IDX(streamid);
+	bus_idx = STREAM_BUS_IDX(streamid);
+	dev_idx = STREAM_DEV_IDX(streamid);
+
+	VERBOSE("pem %d stream 0x%x dom %d bus %d sec %d\n",
+		pem, streamid, domain_idx, bus_idx, secure);
+
+	set_iobn_stream_security(domain_idx, bus_idx, dev_idx, strm_ns,
+				phys_ns);
+	return;
+}
+
+/*
  * This function configures PCI EP streams' security in IOBN.
  *
  * On entry,
@@ -521,7 +579,54 @@ void octeontx_configure_mmc_security(int secure)
  */
 void octeontx_configure_pem_ep_security(int pem, int secure)
 {
-	/* FIXME for 106xx */
+	void *prop_start = NULL, *prop_end = NULL;
+	uint32_t streamid;
+	cavm_smmux_s_gbpa_t s_gbpa;
+	int id;
+
+	if ((pem != 0) && (pem != 2))
+		return;
+
+	if (!is_pem_in_ep_mode(pem))
+		return;
+
+	secure = octeontx_fdt_get_pem_secure();
+	octeontx_fdt_get_strmid_ptrs(pem, &prop_start, &prop_end);
+	if (prop_start == NULL) {
+		if ((pem == 0) || (pem == 2))
+			streamid = CAVM_PCC_DEV_CON_E_PCIERCX(pem);
+		else
+			return;
+
+		octeontx_configure_pem_iobn(pem, streamid, secure);
+	}
+	else {
+		do {
+			streamid = octeontx_fdt_get_next_strmid(&prop_start, &prop_end);
+			/* If no stream id is found */
+			if (streamid == 0)
+				break;
+
+			/* If stream id is xFFFF, Configure all the stream IDs */
+			if ((streamid & PEM_ALL_STREAM_IDS) == PEM_ALL_STREAM_IDS) {
+				for (id = 0; id <= PEM_ALL_STREAM_IDS; id++)
+					octeontx_configure_pem_iobn(pem, id, secure);
+				break;
+			}
+			else
+				octeontx_configure_pem_iobn(pem, streamid, secure);
+		} while (1);
+	}
+
+	/* Ensure that SMMU uses NS bit from secure stream config.
+	 * The BDK sets NSCFG override to force secure memory accesses
+	 * while loading images.
+	 * It is safe to reset this here because all images have been
+	 * loaded.
+	 */
+	s_gbpa.u = CSR_READ(CAVM_SMMUX_S_GBPA(0));
+	s_gbpa.s.nscfg = 0;
+	CSR_WRITE(CAVM_SMMUX_S_GBPA(0), s_gbpa.u);
 }
 
 /* Allocate a new region by reducing the memory from the last available
