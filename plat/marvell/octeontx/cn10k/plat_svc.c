@@ -27,6 +27,8 @@
 #include <octeontx_semaphore.h>
 #include <rnm.h>
 
+#include "cavm-csrs-gpio.h"
+
 extern void *scmi_handle;
 extern int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize);
 
@@ -42,6 +44,18 @@ octeontx_ctr_sem_t octeontx_smc_spi_lock;
 static spinlock_t octeontx_smc_rvu_lock;
 static spinlock_t mdio_lock;
 static spinlock_t serdes_lock;
+
+/* Octeon have 2 SPI buses*/
+enum GPIO_STATE {
+	GPIO_SPI = 0,
+	GPIO_SW  = 1
+};
+static enum GPIO_STATE gpio_spi_state[MAX_SPI_BUS] = {GPIO_SPI, GPIO_SPI};
+
+enum spi_gpio_dir {
+	GPIO_AS_SW = 0,
+	GPIO_AS_SPI
+};
 
 WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
@@ -80,6 +94,127 @@ static int memory_preserve_smc_handler(u_register_t x1,
 	cfg.not_modified = 0;
 	cfg.not_valid = 0;
 	return spi_update_preserve_memconfig((uintptr_t)&cfg, (uint64_t)sizeof(mempres_config_t));
+}
+
+int handle_gpio_as_sw(int spi_bus)
+{
+	if (gpio_spi_state[spi_bus] == GPIO_SW)
+		return 0;
+
+	VERBOSE("GPIO CHANGE: SPI: %d, DIR: %s\n", spi_bus, "GPIO");
+
+	if (spi_bus == 0) {
+		CSR_INIT(bitcfg, CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CLK));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CLK), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO0));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO0), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO1));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO1), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS0));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS0), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS1));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS1), bitcfg.u);
+	} else {
+		CSR_INIT(bitcfg, CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CLK));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CLK), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO0));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO0), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO1));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO1), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS0));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS0), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS1));
+		bitcfg.s.pin_sel = 0;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS1), bitcfg.u);
+	}
+	gpio_spi_state[spi_bus] = GPIO_SW;
+
+	return 1;
+}
+
+int handle_gpio_as_spi(int spi_bus)
+{
+	if (gpio_spi_state[spi_bus] == GPIO_SPI)
+		return 0;
+
+	VERBOSE("GPIO CHANGE: SPI: %d, DIR: %s\n", spi_bus, "SPI");
+
+	if (spi_bus == 0) {
+		CSR_INIT(bitcfg, CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CLK));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI0_CLK;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CLK), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO0));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI0_IOX(0);
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO0), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO1));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI0_IOX(1);
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_IO1), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS0));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI0_CSX(0);
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS0), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS1));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI0_CSX(1);
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI0_CS1), bitcfg.u);
+	} else {
+		CSR_INIT(bitcfg, CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CLK));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI1_CLK;
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CLK), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO0));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI1_IOX(0);
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO0), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO1));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI1_IOX(1);
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_IO1), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS0));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI1_CSX(0);
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS0), bitcfg.u);
+
+		bitcfg.u = CSR_READ(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS1));
+		bitcfg.s.pin_sel = CAVM_GPIO_PIN_SEL_E_SPI1_CSX(1);
+		CSR_WRITE(CAVM_GPIO_BIT_CFGX(CAVM_GPIO_ASSIGNED_PIN_E_SPI1_CS1), bitcfg.u);
+	}
+	gpio_spi_state[spi_bus] = GPIO_SPI;
+
+	return 1;
+}
+
+int handle_gpio_switch(int spi_bus, enum spi_gpio_dir dir)
+{
+	int ret = 0;
+
+	if (spi_bus >= MAX_SPI_BUS)
+		return -1;
+
+	if (dir == GPIO_AS_SW)
+		ret = handle_gpio_as_sw(spi_bus);
+	else
+		ret = handle_gpio_as_spi(spi_bus);
+
+	return ret;
 }
 
 uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
@@ -821,6 +956,12 @@ err5:
 		SMC_RET2(handle, 0, offset);
 	}
 		break;
+
+	case PLAT_OCTEONTX_SPI_CHANGE:
+	{
+		SMC_RET1(handle, handle_gpio_switch(x1, x2));
+	}
+	break;
 
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,

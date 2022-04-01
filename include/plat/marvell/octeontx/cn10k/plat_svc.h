@@ -594,6 +594,17 @@
 
 /* Customer specific SMC Calls */
 
+/* SMC Call ID
+ * x0 - PLAT_OCTEONTX_SPI_CHANGE - change GPIO mode
+ * x1 - SPI controller ID
+ * x2 - Change ownership to SPI
+ * Return:
+ *      0 on Success
+ *      -1 on Failure
+ */
+
+#define PLAT_OCTEONTX_SPI_CHANGE  	0xc2000b14
+
 /*
  * x1 - operation
  * x2 - 32 bit value for mem_test_settings, next
@@ -609,7 +620,8 @@
 #define PLAT_OCTEONTX_MEM_TEST_CONFIG   0xc2000f00
 
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			22
+#define OTX3_NUM_SMC_CALLS			23
+
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
