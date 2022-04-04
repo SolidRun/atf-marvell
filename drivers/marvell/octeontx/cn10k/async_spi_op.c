@@ -370,6 +370,11 @@ static void spi_async_block_completed(bool start)
 		break;
 	}
 
+	/* Make sure ATF will use correct opcommand */
+	prepare_opcomands(block_ops[block_op_cnt].param.bus,
+			  block_ops[block_op_cnt].param.cs,
+			  block_ops[block_op_cnt].param.spi_addr + block_ops[block_op_cnt].param.size);
+
 	if (cb_ret) {
 		INFO("%s: Stopping due to callback error\n", __func__);
 		if (delayed_callback != NULL) {

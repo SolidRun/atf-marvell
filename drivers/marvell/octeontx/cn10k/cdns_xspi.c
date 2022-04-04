@@ -743,7 +743,7 @@ static int cdns_xspi_memwrite(void *destination, uint64_t offset,
 	return 0;
 }
 
-static void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
+void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
 {
 	enum xspi_addressing addr_current, addr_new;
 	char *currstr, *newstr;

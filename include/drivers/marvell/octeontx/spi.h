@@ -140,7 +140,7 @@ struct delayed_block_op {
 
 
 
-
+void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr);
 int cdns_xspi_direct_op(uint64_t spi_addr, void *buf, uint64_t read_len,
 			       int spi_con, enum direct_mode_operation op);
 int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
