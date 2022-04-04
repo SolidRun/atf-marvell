@@ -594,13 +594,10 @@ retry_link:
 				CGX_NO_RX_SIG_FAIL_TIMEOUT_MS *
 				gser_clock_get_rate(GSER_CLOCK_TIME)/1000;
 			/* Worst case timeout */
-			/* Timeout from CGX_CMD_LINK_TIMEOUT command */
+			/* Timeout from CGX_CMD_LINK_TIMEOUT/CGX_CMD_BRINGUP_LINK command */
 			if (lmac_ctx->s.link_timeout && (lmac_ctx->s.link_timeout != -1)
 			    && (lmac_ctx->s.link_timeout <= 10000))
 				ltimeout = lmac_ctx->s.link_timeout;
-			/* Timeout passed to CGX_CMD_BRINGUP_LINK command */
-			else if (link_timeout && (link_timeout != -1) && (link_timeout <= 10000))
-				ltimeout = link_timeout;
 			/* Timeout not passed */
 			else
 				ltimeout = CGX_TOTAL_LINK_TIMEOUT_MS;
@@ -2039,6 +2036,7 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 			case ETH_CMD_LINK_BRING_UP:
 				{
 					int lmac_timeout = scratchx1.s.lnk_bringup.timeout;
+					lmac_ctx->s.link_timeout = lmac_timeout;
 					ret = cgx_link_bringup(cgx_id, lmac_id,
 						lmac_timeout);
 				}
