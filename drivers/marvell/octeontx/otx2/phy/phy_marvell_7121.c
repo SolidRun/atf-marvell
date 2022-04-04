@@ -188,7 +188,7 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 	debug_phy_driver("%s: %d:%d phy->addr %d\n ", __func__, cgx_id, lmac_id, phy->addr);
 
 	/* Loading firmware */
-	NOTICE("Loading firmware to 7121 PHY at address %d \n", phy->addr);
+	NOTICE("Loading firmware to 7121 PHY at address %d \n", phy->addr & 0x4);
 	x7121_serdes_image_size = x7121_serdes_image_end -
 					x7121_serdes_image_start;
 	debug_phy_driver("x7121_serdes_image_start %p x7121_serdes_image_end %p x7121_serdes_image_size %d\n",
@@ -198,7 +198,7 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 
        	status = mzdInitDriver(mzd_read_mdio,
 				mzd_write_mdio,
-				mzd_wait, phy->addr,
+				mzd_wait, phy->addr & 0x4,
 				(MZD_U8 *)x7121_serdes_image_start,
 				x7121_serdes_image_size,
 				phy,
@@ -211,7 +211,6 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 		return;
 	}
 
-	if (phy->addr == 0)
 	{
 		MZD_U16 fw_major, fw_minor, fw_patch, fw_build;
 
@@ -349,7 +348,7 @@ void phy_marvell_7121_config(int cgx_id, int lmac_id)
 		break;
 
 	case QLM_MODE_50GAUI_2_C2C:
-	case QLM_MODE_50GAUI_4_C2C:
+	case QLM_MODE_50GAUI_2_C2M:
 		if (phy->mod_type == PHY_MOD_TYPE_PAM4) {
 			line_mode = MZD_P50UP; /* 50GBASE-R, RS-FEC, no AN */
 		} else {
@@ -367,21 +366,53 @@ void phy_marvell_7121_config(int cgx_id, int lmac_id)
 			}
 		}
 
-		if (lmac_cfg->mode_idx == QLM_MODE_50GAUI_2_C2C) {
-			switch (lmac_cfg->fec) {
-			case CGX_FEC_BASE_R:
-				host_mode = MZD_P50MF;
-				break;
+		switch (lmac_cfg->fec) {
+		case CGX_FEC_BASE_R:
+			host_mode = MZD_P50MF;
+			break;
+		case CGX_FEC_RS:
+			host_mode = MZD_P50MR;
+			break;
+		case CGX_FEC_NONE:
+		default:
+			host_mode = MZD_P50MN;
+			break;
+		}
+		break;
+	case QLM_MODE_CAUI_4_C2C:
+	case QLM_MODE_CAUI_4_C2M:
+		if (phy->mod_type == PHY_MOD_TYPE_PAM4) {
+			line_mode = MZD_P100UP1; /* 100GBASE-R2, RS-FEC, no AN */
+		} else {
+			switch (lmac_cfg->line_fec) {
 			case CGX_FEC_RS:
-				host_mode = MZD_P50MR;
+				line_mode = MZD_P100LR;
 				break;
+			case CGX_FEC_BASE_R:
+				ERROR("%s: %d:%d line side FEC_BASE_R %d is not supported\n", __func__,
+					cgx_id, lmac_id, lmac_cfg->mode_idx);
+				return;
 			case CGX_FEC_NONE:
 			default:
-				host_mode = MZD_P50MN;
+				line_mode = MZD_P100LN;
 				break;
 			}
-		} else
-			host_mode = MZD_P50LN; /* 50GBASE-R4, no-FEC, no AN */
+		}
+
+		switch (lmac_cfg->fec) {
+		case CGX_FEC_BASE_R:
+			ERROR("%s: %d:%d host side FEC_BASE_R %d is not supported\n", __func__,
+				cgx_id, lmac_id, lmac_cfg->mode_idx);
+			return;
+			break;
+		case CGX_FEC_RS:
+			host_mode = MZD_P100LR;
+			break;
+		case CGX_FEC_NONE:
+		default:
+			host_mode = MZD_P100LN;
+			break;
+		}
 		break;
 
 	default:
@@ -417,7 +448,6 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 				      link_state_t *link)
 {
 	MZD_U16 latchedStatus, currentStatus;
-	MZD_PCS_LINK_STATUS statusDetail;
 	MZD_STATUS status;
 	MZD_U16 lane;
 	phy_config_t *phy;
@@ -436,18 +466,17 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 	debug_phy_driver("%s: %d:%d phy->addr %d lane %d \n",
 			 __func__, cgx_id, lmac_id, phy->addr, lane);
 
-	mzdMemSet(&statusDetail, 0, sizeof(MZD_PCS_LINK_STATUS));
 	link->u64 = 0;
 
-	status = mzdCheckPCSLinkStatus(phy->priv,
+	status = mzdGetDetailedLinkStatus(phy->priv,
 					phy->addr,
 					lane,
+					MZD_LINE_SIDE,
 					&currentStatus,
-					&latchedStatus,
-					&statusDetail);
+					&latchedStatus);
 
 	if (status != MZD_OK) {
-		ERROR("%s: %d:%d mzdCheckPCSLinkStatus failed for lane %d.\n",
+		ERROR("%s: %d:%d mzdGetDetailedLinkStatus failed for lane %d.\n",
 		      __func__, cgx_id, lmac_id, lane);
 		return;
 	}
@@ -465,7 +494,7 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 	link->s.full_duplex = 1;
 
 	mzd_dev_p = phy->priv;
-	mzd_mode_config = &mzd_dev_p->lineConfig[0][lane];
+	mzd_mode_config = &mzd_dev_p->lineConfig[MZD_GET_PORT_IDX(mzd_dev_p, phy->addr)][lane];
 	switch (mzd_mode_config->opMode) {
 	case MZD_P1X:
 		link->s.speed = ETH_LINK_1G;
@@ -504,6 +533,15 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 		link->s.speed = ETH_LINK_50G;
 		link->s.fec = CGX_FEC_RS;
 		break;
+	case MZD_P100LN:
+		link->s.speed = ETH_LINK_100G;
+		link->s.fec = CGX_FEC_NONE;
+		break;
+	case MZD_P100LR:
+	case MZD_P100UP1:
+		link->s.speed = ETH_LINK_100G;
+		link->s.fec = CGX_FEC_RS;
+		break;
 	default:
 		ERROR("%s: %d:%d Unexpected line mode %d\n",
 		      __func__, cgx_id, lmac_id,
@@ -527,9 +565,11 @@ void phy_marvell_7121_supported_modes(int cgx_id, int lmac_id)
 			(1 << ETH_MODE_10G_C2C_BIT) |
 			(1 << ETH_MODE_10G_C2M_BIT) |
 			(1 << ETH_MODE_25G_C2C_BIT) |
-			(1 << ETH_MODE_25G_2_C2C_BIT) |
+			(1 << ETH_MODE_25G_C2M_BIT) |
 			(1 << ETH_MODE_50G_C2C_BIT) |
-			(1 << ETH_MODE_50G_4_C2C_BIT));
+			(1 << ETH_MODE_50G_C2M_BIT) |
+			(1 << ETH_MODE_100G_C2C_BIT) |
+			(1 << ETH_MODE_100G_C2M_BIT));
 }
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
