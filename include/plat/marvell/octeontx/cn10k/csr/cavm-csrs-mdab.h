@@ -59,6 +59,22 @@ union cavm_mdabx_cfg_addr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
                                                                  configuration to local DSP memory. See MDAB Memory MAP table.
+                                                                 SW must program a valid DMEM or PMEM address into this register. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
+                                                                 configuration to local DSP memory. See MDAB Memory MAP table.
+                                                                 SW must program a valid DMEM or PMEM address into this register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mdabx_cfg_addr_s cn10; */
+    /* struct cavm_mdabx_cfg_addr_s cnf10ka; */
+    struct cavm_mdabx_cfg_addr_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
+                                                                 configuration to local DSP memory. See MDAB Memory MAP table.
                                                                  Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
@@ -67,8 +83,7 @@ union cavm_mdabx_cfg_addr
                                                                  configuration to local DSP memory. See MDAB Memory MAP table.
                                                                  Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_cfg_addr_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mdabx_cfg_addr cavm_mdabx_cfg_addr_t;
 
@@ -384,7 +399,8 @@ union cavm_mdabx_dac_ctrl
                                                                  0x3 = 3/4 of max requests. */
         uint32_t reserved_5_15         : 11;
         uint32_t en_dspclk_gate        : 1;  /**< [  4:  4](R/W/H) Reserved. */
-        uint32_t excl_en               : 1;  /**< [  3:  3](R/W/H) Reserved. */
+        uint32_t excl_en               : 1;  /**< [  3:  3](R/W/H) Enables exclusive accesses on the DSP master ports. When disabled the AXI interface
+                                                                 will respond to exclusive requests with AXI_OK. */
         uint32_t stall_dac             : 1;  /**< [  2:  2](R/W) Stalls DSP complex master ports by not accepting new Transactions. */
         uint32_t wburst                : 1;  /**< [  1:  1](R/W) Enable DSP complex master write bursts to system memory. */
         uint32_t rburst                : 1;  /**< [  0:  0](R/W) Enable DSP complex master read bursts to system memory. */
@@ -392,7 +408,8 @@ union cavm_mdabx_dac_ctrl
         uint32_t rburst                : 1;  /**< [  0:  0](R/W) Enable DSP complex master read bursts to system memory. */
         uint32_t wburst                : 1;  /**< [  1:  1](R/W) Enable DSP complex master write bursts to system memory. */
         uint32_t stall_dac             : 1;  /**< [  2:  2](R/W) Stalls DSP complex master ports by not accepting new Transactions. */
-        uint32_t excl_en               : 1;  /**< [  3:  3](R/W/H) Reserved. */
+        uint32_t excl_en               : 1;  /**< [  3:  3](R/W/H) Enables exclusive accesses on the DSP master ports. When disabled the AXI interface
+                                                                 will respond to exclusive requests with AXI_OK. */
         uint32_t en_dspclk_gate        : 1;  /**< [  4:  4](R/W/H) Reserved. */
         uint32_t reserved_5_15         : 11;
         uint32_t edp_wr_req_limit      : 2;  /**< [ 17: 16](R/W) Limit the number of outstanding EDP write requests.
@@ -424,7 +441,76 @@ union cavm_mdabx_dac_ctrl
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_dac_ctrl_s cn10; */
-    /* struct cavm_mdabx_dac_ctrl_s cnf10ka; */
+    struct cavm_mdabx_dac_ctrl_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t ipb_rd_req_limit      : 2;  /**< [ 25: 24](R/W) Limit the number of outstanding IPB read requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t epdp_rd_req_limit     : 2;  /**< [ 23: 22](R/W) Limit the number of outstanding EPDP read requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t edp_rd_req_limit      : 2;  /**< [ 21: 20](R/W) Limit the number of outstanding EDP read requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t epdp_wr_req_limit     : 2;  /**< [ 19: 18](R/W) Limit the number of outstanding EPDP write requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t edp_wr_req_limit      : 2;  /**< [ 17: 16](R/W) Limit the number of outstanding EDP write requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t reserved_5_15         : 11;
+        uint32_t en_dspclk_gate        : 1;  /**< [  4:  4](R/W/H) Reserved. */
+        uint32_t reserved_3            : 1;
+        uint32_t stall_dac             : 1;  /**< [  2:  2](R/W) Stalls DSP complex master ports by not accepting new Transactions. */
+        uint32_t wburst                : 1;  /**< [  1:  1](R/W) Enable DSP complex master write bursts to system memory. */
+        uint32_t rburst                : 1;  /**< [  0:  0](R/W) Enable DSP complex master read bursts to system memory. */
+#else /* Word 0 - Little Endian */
+        uint32_t rburst                : 1;  /**< [  0:  0](R/W) Enable DSP complex master read bursts to system memory. */
+        uint32_t wburst                : 1;  /**< [  1:  1](R/W) Enable DSP complex master write bursts to system memory. */
+        uint32_t stall_dac             : 1;  /**< [  2:  2](R/W) Stalls DSP complex master ports by not accepting new Transactions. */
+        uint32_t reserved_3            : 1;
+        uint32_t en_dspclk_gate        : 1;  /**< [  4:  4](R/W/H) Reserved. */
+        uint32_t reserved_5_15         : 11;
+        uint32_t edp_wr_req_limit      : 2;  /**< [ 17: 16](R/W) Limit the number of outstanding EDP write requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t epdp_wr_req_limit     : 2;  /**< [ 19: 18](R/W) Limit the number of outstanding EPDP write requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t edp_rd_req_limit      : 2;  /**< [ 21: 20](R/W) Limit the number of outstanding EDP read requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t epdp_rd_req_limit     : 2;  /**< [ 23: 22](R/W) Limit the number of outstanding EPDP read requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t ipb_rd_req_limit      : 2;  /**< [ 25: 24](R/W) Limit the number of outstanding IPB read requests.
+                                                                 0x0 = no limit.
+                                                                 0x1 = 1/4 of max requests.
+                                                                 0x2 = 1/2 of max requests.
+                                                                 0x3 = 3/4 of max requests. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cnf10ka;
     struct cavm_mdabx_dac_ctrl_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -588,7 +674,7 @@ union cavm_mdabx_dac_err_log_src
         uint32_t error_type_2          : 4;  /**< [ 15: 12](RO/H) Encoded value providing the type of the DAC error corresponding to ERROR_SOURCE_2.
 
                                                                  Error Source == DSP Code Error:
-                                                                     0x0: DSP Fatale Error.
+                                                                     0x0: DSP Fatal Error.
                                                                      0x1: DSP Double ECC Error.
 
                                                                  Error Source == LD/ST/iFetch Master Port Error:
@@ -619,7 +705,7 @@ union cavm_mdabx_dac_err_log_src
                                                                      0x0: WR Respond Slave Error.
                                                                      0x1: RD Respond Slave Error.
                                                                      0x2: WR Respond Decode Error.
-                                                                     0x3: Reserved.
+                                                                     0x3: RD Respond Decode Error.
 
                                                                  Error Source == IPB Error:
                                                                      0x0: Decode Error - address does not hit SMEM.
@@ -669,7 +755,7 @@ union cavm_mdabx_dac_err_log_src
         uint32_t error_type_2          : 4;  /**< [ 15: 12](RO/H) Encoded value providing the type of the DAC error corresponding to ERROR_SOURCE_2.
 
                                                                  Error Source == DSP Code Error:
-                                                                     0x0: DSP Fatale Error.
+                                                                     0x0: DSP Fatal Error.
                                                                      0x1: DSP Double ECC Error.
 
                                                                  Error Source == LD/ST/iFetch Master Port Error:
@@ -700,7 +786,7 @@ union cavm_mdabx_dac_err_log_src
                                                                      0x0: WR Respond Slave Error.
                                                                      0x1: RD Respond Slave Error.
                                                                      0x2: WR Respond Decode Error.
-                                                                     0x3: Reserved.
+                                                                     0x3: RD Respond Decode Error.
 
                                                                  Error Source == IPB Error:
                                                                      0x0: Decode Error - address does not hit SMEM.
@@ -1007,12 +1093,12 @@ union cavm_mdabx_dspintr_bar
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rsl_acc_bar           : 20; /**< [ 31: 12](R/W) Base address for RSL access to internal memory space of a DSP. The window size is 256KB (fixed).
-                                                                 Lower boundry is {RSL_ACC_BAR,12'h0}, upper boundry  RSL_ACC_BAR+18'h3FFFF. */
+                                                                 Lower boundary is {RSL_ACC_BAR,12'h0}, upper boundary  RSL_ACC_BAR+18'h3FFFF. */
         uint32_t reserved_0_11         : 12;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_11         : 12;
         uint32_t rsl_acc_bar           : 20; /**< [ 31: 12](R/W) Base address for RSL access to internal memory space of a DSP. The window size is 256KB (fixed).
-                                                                 Lower boundry is {RSL_ACC_BAR,12'h0}, upper boundry  RSL_ACC_BAR+18'h3FFFF. */
+                                                                 Lower boundary is {RSL_ACC_BAR,12'h0}, upper boundary  RSL_ACC_BAR+18'h3FFFF. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_dspintr_bar_s cn; */
@@ -1102,7 +1188,7 @@ union cavm_mdabx_err_int_ena_w1c
         uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1C/H) FDEQ filter error. */
         uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1C/H) LFSR co-processor error. */
         uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1C/H) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1C/H) General violation error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W1C/H) DAC errors. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1C/H) Instruction Prefetch Buffer Error. */
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1C/H) DSP complex slave port error. */
@@ -1120,7 +1206,7 @@ union cavm_mdabx_err_int_ena_w1c
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1C/H) DSP complex slave port error. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1C/H) Instruction Prefetch Buffer Error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W1C/H) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1C/H) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1C/H) General violation error. */
         uint32_t reserved_9_15         : 7;
         uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1C/H) LFSR co-processor error. */
         uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1C/H) FDEQ filter error. */
@@ -1128,7 +1214,36 @@ union cavm_mdabx_err_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_err_int_ena_w1c_s cn10; */
-    /* struct cavm_mdabx_err_int_ena_w1c_s cnf10ka; */
+    struct cavm_mdabx_err_int_ena_w1c_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1C/H) FDEQ filter error. */
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1C/H) LFSR co-processor error. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t dac_err               : 1;  /**< [  7:  7](R/W1C/H) DAC errors. */
+        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1C/H) Instruction Prefetch Buffer Error. */
+        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1C/H) DSP complex slave port error. */
+        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W1C/H) DSP complex iFetch master port errors. */
+        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W1C/H) DAC EDP AXI master port errors. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W1C/H) DSP code violation/fatal error. */
+        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W1C/H) DSP iCache ECC error on data RAM. */
+#else /* Word 0 - Little Endian */
+        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W1C/H) DSP iCache ECC error on data RAM. */
+        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W1C/H) DSP code violation/fatal error. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W1C/H) DAC EDP AXI master port errors. */
+        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W1C/H) DSP complex iFetch master port errors. */
+        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1C/H) DSP complex slave port error. */
+        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1C/H) Instruction Prefetch Buffer Error. */
+        uint32_t dac_err               : 1;  /**< [  7:  7](R/W1C/H) DAC errors. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1C/H) LFSR co-processor error. */
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1C/H) FDEQ filter error. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } cnf10ka;
     struct cavm_mdabx_err_int_ena_w1c_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1197,7 +1312,7 @@ union cavm_mdabx_err_int_ena_w1s
         uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1S/H) FDEQ filter error. */
         uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1S/H) LFSR co-processor error. */
         uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1S/H) General violation error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W1S/H) DAC errors. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1S/H) Instruction prefetch buffer error. */
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1S/H) DSP complex slave port error. */
@@ -1215,7 +1330,7 @@ union cavm_mdabx_err_int_ena_w1s
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1S/H) DSP complex slave port error. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1S/H) Instruction prefetch buffer error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W1S/H) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1S/H) General violation error. */
         uint32_t reserved_9_15         : 7;
         uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1S/H) LFSR co-processor error. */
         uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1S/H) FDEQ filter error. */
@@ -1223,7 +1338,36 @@ union cavm_mdabx_err_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_err_int_ena_w1s_s cn10; */
-    /* struct cavm_mdabx_err_int_ena_w1s_s cnf10ka; */
+    struct cavm_mdabx_err_int_ena_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1S/H) FDEQ filter error. */
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1S/H) LFSR co-processor error. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t dac_err               : 1;  /**< [  7:  7](R/W1S/H) DAC errors. */
+        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1S/H) Instruction prefetch buffer error. */
+        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1S/H) DSP complex slave port error. */
+        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W1S/H) DSP complex iFetch master port errors. */
+        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W1S/H) DSP complex LD/ST master port errors. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
+        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W1S/H) DSP code violation/fatal error. */
+        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W1S/H) DSP iCache ECC error on data RAM. */
+#else /* Word 0 - Little Endian */
+        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W1S/H) DSP iCache ECC error on data RAM. */
+        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W1S/H) DSP code violation/fatal error. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
+        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W1S/H) DSP complex LD/ST master port errors. */
+        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W1S/H) DSP complex iFetch master port errors. */
+        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1S/H) DSP complex slave port error. */
+        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1S/H) Instruction prefetch buffer error. */
+        uint32_t dac_err               : 1;  /**< [  7:  7](R/W1S/H) DAC errors. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1S/H) LFSR co-processor error. */
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1S/H) FDEQ filter error. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } cnf10ka;
     struct cavm_mdabx_err_int_ena_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1353,7 +1497,7 @@ union cavm_mdabx_err_int_sum
         uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1C/H) FDEQ filter error. */
         uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1C/H) LFSR co-processor error. */
         uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1C/H) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1C/H) General violation error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W1C/H) DAC errors. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1C/H) Instruction Prefetch Buffer Error. */
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1C/H) DSP complex slave port error. */
@@ -1371,7 +1515,7 @@ union cavm_mdabx_err_int_sum
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1C/H) DSP complex slave port error. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1C/H) Instruction Prefetch Buffer Error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W1C/H) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1C/H) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1C/H) General violation error. */
         uint32_t reserved_9_15         : 7;
         uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1C/H) LFSR co-processor error. */
         uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1C/H) FDEQ filter error. */
@@ -1379,7 +1523,36 @@ union cavm_mdabx_err_int_sum
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_err_int_sum_s cn10; */
-    /* struct cavm_mdabx_err_int_sum_s cnf10ka; */
+    struct cavm_mdabx_err_int_sum_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1C/H) FDEQ filter error. */
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1C/H) LFSR co-processor error. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t dac_err               : 1;  /**< [  7:  7](R/W1C/H) DAC errors. */
+        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1C/H) Instruction Prefetch Buffer Error. */
+        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1C/H) DSP complex slave port error. */
+        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W1C/H) DSP complex iFetch master port errors. */
+        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W1C/H) DSP complex LD/ST master port errors. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W1C/H) DSP code violation/fatal error. */
+        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W1C/H) DSP iCache ECC error on data RAM. */
+#else /* Word 0 - Little Endian */
+        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W1C/H) DSP iCache ECC error on data RAM. */
+        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W1C/H) DSP code violation/fatal error. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W1C/H) DSP complex LD/ST master port errors. */
+        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W1C/H) DSP complex iFetch master port errors. */
+        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1C/H) DSP complex slave port error. */
+        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1C/H) Instruction Prefetch Buffer Error. */
+        uint32_t dac_err               : 1;  /**< [  7:  7](R/W1C/H) DAC errors. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1C/H) LFSR co-processor error. */
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1C/H) FDEQ filter error. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } cnf10ka;
     struct cavm_mdabx_err_int_sum_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1449,7 +1622,7 @@ union cavm_mdabx_err_int_sum_w1s
         uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1S/H) FDEQ filter error. */
         uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1S/H) LFSR co-processor error. */
         uint32_t reserved_9_15         : 7;
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1S/H) General violation error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W1S/H) DAC errors. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1S/H) Instruction Prefetch Buffer Error. */
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1S/H) DSP complex slave port error. */
@@ -1467,7 +1640,7 @@ union cavm_mdabx_err_int_sum_w1s
         uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1S/H) DSP complex slave port error. */
         uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1S/H) Instruction Prefetch Buffer Error. */
         uint32_t dac_err               : 1;  /**< [  7:  7](R/W1S/H) DAC errors. */
-        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
+        uint32_t dsp_gvi               : 1;  /**< [  8:  8](R/W1S/H) General violation error. */
         uint32_t reserved_9_15         : 7;
         uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1S/H) LFSR co-processor error. */
         uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1S/H) FDEQ filter error. */
@@ -1475,7 +1648,36 @@ union cavm_mdabx_err_int_sum_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_err_int_sum_w1s_s cn10; */
-    /* struct cavm_mdabx_err_int_sum_w1s_s cnf10ka; */
+    struct cavm_mdabx_err_int_sum_w1s_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_18_31        : 14;
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1S/H) FDEQ filter error. */
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1S/H) LFSR co-processor error. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t dac_err               : 1;  /**< [  7:  7](R/W1S/H) DAC errors. */
+        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1S/H) Instruction Prefetch Buffer Error. */
+        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1S/H) DSP complex slave port error. */
+        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W1S/H) DSP complex iFetch master port errors. */
+        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W1S/H) DSP complex LD/ST master port errors. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
+        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W1S/H) DSP code violation/fatal error. */
+        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W1S/H) DSP iCache ECC error on data RAM. */
+#else /* Word 0 - Little Endian */
+        uint32_t dsp_ecc_err           : 1;  /**< [  0:  0](R/W1S/H) DSP iCache ECC error on data RAM. */
+        uint32_t dsp_codeviol_err      : 1;  /**< [  1:  1](R/W1S/H) DSP code violation/fatal error. */
+        uint32_t dsp_dma_err           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
+        uint32_t dac_edp_err           : 1;  /**< [  3:  3](R/W1S/H) DSP complex LD/ST master port errors. */
+        uint32_t dac_epdp_err          : 1;  /**< [  4:  4](R/W1S/H) DSP complex iFetch master port errors. */
+        uint32_t dac_edap_err          : 1;  /**< [  5:  5](R/W1S/H) DSP complex slave port error. */
+        uint32_t dac_ipb_err           : 1;  /**< [  6:  6](R/W1S/H) Instruction Prefetch Buffer Error. */
+        uint32_t dac_err               : 1;  /**< [  7:  7](R/W1S/H) DAC errors. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t coprocessor_err       : 1;  /**< [ 16: 16](R/W1S/H) LFSR co-processor error. */
+        uint32_t filter_err            : 1;  /**< [ 17: 17](R/W1S/H) FDEQ filter error. */
+        uint32_t reserved_18_31        : 14;
+#endif /* Word 0 - End */
+    } cnf10ka;
     struct cavm_mdabx_err_int_sum_w1s_cnf10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1953,13 +2155,9 @@ union cavm_mdabx_id
     struct cavm_mdabx_id_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MBP IDs are 0x0-1x36
-                                                                 LBP IDs are 0x0-0x0A
-                                                                 SSP IDs are 0x0-0x01 */
+        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MDAB ID. */
 #else /* Word 0 - Little Endian */
-        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MBP IDs are 0x0-1x36
-                                                                 LBP IDs are 0x0-0x0A
-                                                                 SSP IDs are 0x0-0x01 */
+        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MDAB ID. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_id_s cn10; */
@@ -1998,7 +2196,7 @@ static inline uint64_t CAVM_MDABX_ID(uint64_t a)
  * Register (MULTIRSL32b) mdab#_int_ena_w1c
  *
  * MDAB Interrupt Enable CLEAR Register
- * This register is used to clear MDAB progammable interrupt enables for the MDAB()_INT_SUM bits.
+ * This register is used to clear MDAB programmable interrupt enables for the MDAB()_INT_SUM bits.
  */
 union cavm_mdabx_int_ena_w1c
 {
@@ -2070,7 +2268,7 @@ static inline uint64_t CAVM_MDABX_INT_ENA_W1C(uint64_t a)
  * Register (MULTIRSL32b) mdab#_int_ena_w1s
  *
  * MDAB Interrupt Enable SET Register
- * This register is used to set MDAB progammable interrupt enables for the MDAB()_INT_SUM bits.
+ * This register is used to set MDAB programmable interrupt enables for the MDAB()_INT_SUM bits.
  */
 union cavm_mdabx_int_ena_w1s
 {
@@ -3280,9 +3478,9 @@ union cavm_mdabx_lfsr_c_init
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
-        uint32_t c_init                : 31; /**< [ 30:  0](R/W) Initial value for LFSR registe. */
+        uint32_t c_init                : 31; /**< [ 30:  0](R/W) Initial value for LFSR register. */
 #else /* Word 0 - Little Endian */
-        uint32_t c_init                : 31; /**< [ 30:  0](R/W) Initial value for LFSR registe. */
+        uint32_t c_init                : 31; /**< [ 30:  0](R/W) Initial value for LFSR register. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
@@ -3318,11 +3516,11 @@ union cavm_mdabx_lfsr_cnt
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
         uint32_t task_cnt              : 8;  /**< [  7:  0](R/W) This Register sets the number of tasks finished before issuing co-processor done interrupt.
-                                                                 Software must not change this value while Co-processor is active else behaviour is
+                                                                 Software must not change this value while Co-processor is active else behavior is
                                                                  unpredictable. */
 #else /* Word 0 - Little Endian */
         uint32_t task_cnt              : 8;  /**< [  7:  0](R/W) This Register sets the number of tasks finished before issuing co-processor done interrupt.
-                                                                 Software must not change this value while Co-processor is active else behaviour is
+                                                                 Software must not change this value while Co-processor is active else behavior is
                                                                  unpredictable. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
@@ -3626,10 +3824,10 @@ union cavm_mdabx_lfsr_q_stt
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_5_31         : 27;
-        uint32_t queue_cnt             : 5;  /**< [  4:  0](RO/H) Number of Tasks currently in the co-proccessor queue. Software must read this register and only
+        uint32_t queue_cnt             : 5;  /**< [  4:  0](RO/H) Number of Tasks currently in the co-processor queue. Software must read this register and only
                                                                  queue up new tasks if the QUEUE_CNT is less than 16. */
 #else /* Word 0 - Little Endian */
-        uint32_t queue_cnt             : 5;  /**< [  4:  0](RO/H) Number of Tasks currently in the co-proccessor queue. Software must read this register and only
+        uint32_t queue_cnt             : 5;  /**< [  4:  0](RO/H) Number of Tasks currently in the co-processor queue. Software must read this register and only
                                                                  queue up new tasks if the QUEUE_CNT is less than 16. */
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
@@ -3704,19 +3902,13 @@ union cavm_mdabx_lfsr_taddr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
                                                                  to store its output data. Bits 3..0 of this register are zeroed to force the
-                                                                 addess to be 128bit aligned.
-                                                                 Writing this CSR will cause the LSFR coprocessor task to be added
-                                                                 to the task queue. This will cause execution to start. This
-                                                                 CSR should be written after the other LFSR configuration CSRs. */
+                                                                 addess to be 128bit aligned. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
                                                                  to store its output data. Bits 3..0 of this register are zeroed to force the
-                                                                 addess to be 128bit aligned.
-                                                                 Writing this CSR will cause the LSFR coprocessor task to be added
-                                                                 to the task queue. This will cause execution to start. This
-                                                                 CSR should be written after the other LFSR configuration CSRs. */
+                                                                 addess to be 128bit aligned. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_lfsr_taddr_s cn; */
@@ -3832,7 +4024,7 @@ union cavm_mdabx_pflt_block_num
         uint32_t reserved_17_31        : 15;
         uint32_t odd_numrbs_lastblock  : 1;  /**< [ 16: 16](R/W) Indicates an odd number of RBs in the last Hrs block
                                                                  with the last 128 bits of each stream (each antenna
-                                                                 and each layer)in the block will be discarded. */
+                                                                 and each layer) in the block will be discarded. */
         uint32_t reserved_7_15         : 9;
         uint32_t num_mid_blocks        : 7;  /**< [  6:  0](R/W) Number of pairs of Hrs_Mid_Blocks and YrsXrs_Mid_Blocks. */
 #else /* Word 0 - Little Endian */
@@ -3840,7 +4032,7 @@ union cavm_mdabx_pflt_block_num
         uint32_t reserved_7_15         : 9;
         uint32_t odd_numrbs_lastblock  : 1;  /**< [ 16: 16](R/W) Indicates an odd number of RBs in the last Hrs block
                                                                  with the last 128 bits of each stream (each antenna
-                                                                 and each layer)in the block will be discarded. */
+                                                                 and each layer) in the block will be discarded. */
         uint32_t reserved_17_31        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -4099,11 +4291,11 @@ union cavm_mdabx_pflt_output_xfr_sts
         uint32_t reserved_25_31        : 7;
         uint32_t output_xfr_cnt        : 25; /**< [ 24:  0](RO/H) Output interface 128 bit transfer count for filter mode while
                                                                  MDAB()_PFLT_RUN[RUN]s enabled.  Counter is cleared at the start of each job
-                                                                 when MDAB()_PFLT_RUN[RUN]ransitions from 0 to 1. */
+                                                                 when MDAB()_PFLT_RUN[RUN] transitions from 0 to 1. */
 #else /* Word 0 - Little Endian */
         uint32_t output_xfr_cnt        : 25; /**< [ 24:  0](RO/H) Output interface 128 bit transfer count for filter mode while
                                                                  MDAB()_PFLT_RUN[RUN]s enabled.  Counter is cleared at the start of each job
-                                                                 when MDAB()_PFLT_RUN[RUN]ransitions from 0 to 1. */
+                                                                 when MDAB()_PFLT_RUN[RUN] transitions from 0 to 1. */
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } s;
@@ -4798,7 +4990,7 @@ union cavm_mdabx_proc_debug
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
         uint32_t dblexccnt             : 8;  /**< [ 15:  8](R/W/H) DSP double exception fault counter. Counts the number double exceptions which
-                                                                 have occurred. write zeroes to clear. */
+                                                                 have occurred. write zeros to clear. */
         uint32_t pfatalerr             : 1;  /**< [  7:  7](RO/H) Sticky fatal error notification signal that is asserted when a fatal error condition occurs. */
         uint32_t debugmode             : 1;  /**< [  6:  6](RO/H) Non-maskable version of XOCDMode (DSP status output). */
         uint32_t iram1loadstore        : 1;  /**< [  5:  5](RO/H) Data load/store to iram 1. */
@@ -4811,7 +5003,7 @@ union cavm_mdabx_proc_debug
         uint32_t debugmode             : 1;  /**< [  6:  6](RO/H) Non-maskable version of XOCDMode (DSP status output). */
         uint32_t pfatalerr             : 1;  /**< [  7:  7](RO/H) Sticky fatal error notification signal that is asserted when a fatal error condition occurs. */
         uint32_t dblexccnt             : 8;  /**< [ 15:  8](R/W/H) DSP double exception fault counter. Counts the number double exceptions which
-                                                                 have occurred. write zeroes to clear. */
+                                                                 have occurred. write zeros to clear. */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -5249,6 +5441,22 @@ union cavm_mdabx_rd_addr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
                                                                  local DSP memory. For details see MDAB Memory Map table.
+                                                                 SW must program a valid DMEM or PMEM address into this register. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
+                                                                 local DSP memory. For details see MDAB Memory Map table.
+                                                                 SW must program a valid DMEM or PMEM address into this register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mdabx_rd_addr_s cn10; */
+    /* struct cavm_mdabx_rd_addr_s cnf10ka; */
+    struct cavm_mdabx_rd_addr_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
+                                                                 local DSP memory. For details see MDAB Memory Map table.
                                                                  Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
@@ -5257,8 +5465,7 @@ union cavm_mdabx_rd_addr
                                                                  local DSP memory. For details see MDAB Memory Map table.
                                                                  Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_rd_addr_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mdabx_rd_addr cavm_mdabx_rd_addr_t;
 
@@ -6475,6 +6682,22 @@ union cavm_mdabx_wr_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
+                                                                 local DSP memory. For details see MDAB Memory Map table
+                                                                 SW must program a valid DMEM or PMEM address into this register. */
+        uint32_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_3          : 4;
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
+                                                                 local DSP memory. For details see MDAB Memory Map table
+                                                                 SW must program a valid DMEM or PMEM address into this register. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mdabx_wr_addr_s cn10; */
+    /* struct cavm_mdabx_wr_addr_s cnf10ka; */
+    struct cavm_mdabx_wr_addr_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
                                                                  local DSP memory. For details see MDAB Memory Map table.
                                                                  Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
@@ -6484,8 +6707,7 @@ union cavm_mdabx_wr_addr
                                                                  local DSP memory. For details see MDAB Memory Map table.
                                                                  Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mdabx_wr_addr_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mdabx_wr_addr cavm_mdabx_wr_addr_t;
 

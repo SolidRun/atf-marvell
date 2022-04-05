@@ -294,7 +294,13 @@ typedef union cavm_tim_af_adjust_gti cavm_tim_af_adjust_gti_t;
 static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void)
 {
-    return 0x840090000180ll;
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X))
+        return 0x840090000180ll;
+    if (cavm_is_model(OCTEONTX_CNF10KA))
+        return 0x840090000180ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB))
+        return 0x840090000180ll;
+    __cavm_csr_fatal("TIM_AF_ADJUST_GTI", 0, 0, 0, 0, 0, 0, 0);
 }
 
 #define typedef_CAVM_TIM_AF_ADJUST_GTI cavm_tim_af_adjust_gti_t
@@ -830,7 +836,55 @@ union cavm_tim_af_capture_gti
                                                                  contains the TIM_AF_FR_RN_GTI timer captured value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tim_af_capture_gti_s cn; */
+    /* struct cavm_tim_af_capture_gti_s cn10; */
+    /* struct cavm_tim_af_capture_gti_s cn10ka_p1; */
+    struct cavm_tim_af_capture_gti_cn10ka_p2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the external GTI timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_GTI timer captured value.
+                                                                 Note that TIM_AF_FR_RN_GTI uses a one cycle delayed value of
+                                                                 the external GTI counter and adds TIM_AF_OFFSET_GTI.
+                                                                 For example, when SCLK is 1 GHz, the captured value will typically
+                                                                 be TIM_AF_CATPURE_EXT_GTI + TIM_AF_OFFSET_GTI[OFFSET_TIME] - 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the external GTI timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_GTI timer captured value.
+                                                                 Note that TIM_AF_FR_RN_GTI uses a one cycle delayed value of
+                                                                 the external GTI counter and adds TIM_AF_OFFSET_GTI.
+                                                                 For example, when SCLK is 1 GHz, the captured value will typically
+                                                                 be TIM_AF_CATPURE_EXT_GTI + TIM_AF_OFFSET_GTI[OFFSET_TIME] - 1. */
+#endif /* Word 0 - End */
+    } cn10ka_p2;
+    /* struct cavm_tim_af_capture_gti_cn10ka_p2 cn10kb; */
+    /* struct cavm_tim_af_capture_gti_s cnf10ka_p1_0; */
+    struct cavm_tim_af_capture_gti_cnf10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the external GTI timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_GTI timer captured value.
+                                                                 Note that TIM_AF_FR_RN_GTI uses a one cycle delayed value of
+                                                                 the external GTI counter.
+                                                                 For example, when SCLK is 1 GHz, the captured value will typically
+                                                                 be TIM_AF_CATPURE_EXT_GTI - 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t capture_time          : 64; /**< [ 63:  0](RO/H) When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is cleared this register
+                                                                 contains the external GTI timer free running value.
+                                                                 When TIM_AF_CAPTURE_TIMERS[CAPTURE_TIMERS] is set this register
+                                                                 contains the TIM_AF_FR_RN_GTI timer captured value.
+                                                                 Note that TIM_AF_FR_RN_GTI uses a one cycle delayed value of
+                                                                 the external GTI counter.
+                                                                 For example, when SCLK is 1 GHz, the captured value will typically
+                                                                 be TIM_AF_CATPURE_EXT_GTI - 1. */
+#endif /* Word 0 - End */
+    } cnf10ka_p1_1;
+    /* struct cavm_tim_af_capture_gti_s cnf10kb; */
 };
 typedef union cavm_tim_af_capture_gti cavm_tim_af_capture_gti_t;
 
@@ -1379,6 +1433,48 @@ static inline uint64_t CAVM_TIM_AF_LF_RST_FUNC(void)
 #define device_bar_CAVM_TIM_AF_LF_RST 0x0 /* RVU_BAR0 */
 #define busnum_CAVM_TIM_AF_LF_RST 0
 #define arguments_CAVM_TIM_AF_LF_RST -1,-1,-1,-1
+
+/**
+ * Register (RVU_PF_BAR0) tim_af_offset_gti
+ *
+ * TIM AF OFFSET GTI Timer offset Register
+ */
+union cavm_tim_af_offset_gti
+{
+    uint64_t u;
+    struct cavm_tim_af_offset_gti_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t offset_time           : 64; /**< [ 63:  0](R/W) Offset which will be added to GTI timer coming from GTI block.
+                                                                 Typically a negative twos complement number to subtract
+                                                                 out internal delays between the GTI and TIM hardware. */
+#else /* Word 0 - Little Endian */
+        uint64_t offset_time           : 64; /**< [ 63:  0](R/W) Offset which will be added to GTI timer coming from GTI block.
+                                                                 Typically a negative twos complement number to subtract
+                                                                 out internal delays between the GTI and TIM hardware. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_tim_af_offset_gti_s cn; */
+};
+typedef union cavm_tim_af_offset_gti cavm_tim_af_offset_gti_t;
+
+#define CAVM_TIM_AF_OFFSET_GTI CAVM_TIM_AF_OFFSET_GTI_FUNC()
+static inline uint64_t CAVM_TIM_AF_OFFSET_GTI_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_TIM_AF_OFFSET_GTI_FUNC(void)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+        return 0x840090000260ll;
+    if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840090000260ll;
+    __cavm_csr_fatal("TIM_AF_OFFSET_GTI", 0, 0, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_TIM_AF_OFFSET_GTI cavm_tim_af_offset_gti_t
+#define bustype_CAVM_TIM_AF_OFFSET_GTI CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_TIM_AF_OFFSET_GTI "TIM_AF_OFFSET_GTI"
+#define device_bar_CAVM_TIM_AF_OFFSET_GTI 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_TIM_AF_OFFSET_GTI 0
+#define arguments_CAVM_TIM_AF_OFFSET_GTI -1,-1,-1,-1
 
 /**
  * Register (RVU_PF_BAR0) tim_af_offset_ptp

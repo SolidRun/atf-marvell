@@ -6059,11 +6059,7 @@ union cavm_pcieepx_phy_gen3_ctl
                                                                  _ PCIEEP_GEN3_EQ_CTL[P23TD].
                                                                  _ PCIEEP_GEN3_EQ_CTL[PRV].
                                                                  _ PCIEEP_GEN3_EQ_CTL[IIF].
-                                                                 _ PCIEEP_GEN3_EQ_CTL[EQ_PSET_REQ].
-                                                                 _ PCIEEP_GEN3_FB_MODE_DIR_CHG[MIN_PHASE23].
-                                                                 _ PCIEEP_GEN3_FB_MODE_DIR_CHG[N_EVALS].
-                                                                 _ PCIEEP_GEN3_FB_MODE_DIR_CHG[MAX_PRE_CUR_DELTA].
-                                                                 _ PCIEEP_GEN3_FB_MODE_DIR_CHG[MAX_POST_CUR_DELTA]. */
+                                                                 _ PCIEEP_GEN3_EQ_CTL[EQ_PSET_REQ]. */
         uint32_t eiedd                 : 1;  /**< [ 23: 23](R/W) Eq InvalidRequest and RxEqEval different time assertion disable.  Disable the assertion of
                                                                  Eq InvalidRequest and RxEqEval at different time. */
         uint32_t us8etd                : 1;  /**< [ 22: 22](R/W/H) Upstream port send 8GT/s EQ TS2 disable. The base spec defines that USP can
@@ -6163,11 +6159,7 @@ union cavm_pcieepx_phy_gen3_ctl
                                                                  _ PCIEEP_GEN3_EQ_CTL[P23TD].
                                                                  _ PCIEEP_GEN3_EQ_CTL[PRV].
                                                                  _ PCIEEP_GEN3_EQ_CTL[IIF].
-                                                                 _ PCIEEP_GEN3_EQ_CTL[EQ_PSET_REQ].
-                                                                 _ PCIEEP_GEN3_FB_MODE_DIR_CHG[MIN_PHASE23].
-                                                                 _ PCIEEP_GEN3_FB_MODE_DIR_CHG[N_EVALS].
-                                                                 _ PCIEEP_GEN3_FB_MODE_DIR_CHG[MAX_PRE_CUR_DELTA].
-                                                                 _ PCIEEP_GEN3_FB_MODE_DIR_CHG[MAX_POST_CUR_DELTA]. */
+                                                                 _ PCIEEP_GEN3_EQ_CTL[EQ_PSET_REQ]. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;

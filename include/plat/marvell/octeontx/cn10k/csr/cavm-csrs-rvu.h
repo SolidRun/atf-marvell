@@ -244,8 +244,8 @@ union cavm_rvu_pf_func_s
 /**
  * Structure rvu_tln_s
  *
- * RVU Address Transaltion Structure
- * Address transaltion format recieved from SMMU in two FLITs.
+ * RVU Address Translation Structure
+ * Address translation format received from SMMU in two FLITs.
  */
 union cavm_rvu_tln_s
 {

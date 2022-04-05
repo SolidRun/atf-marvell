@@ -53,8 +53,8 @@ int plat_octeontx_is_enabled_eth_lmac(unsigned int eth_id,
 int plat_octeontx_is_eth_lmac_rfoe(unsigned int eth_id,
 				   unsigned int lmac_id);
 
-#define CAVM_GIC_ANB_NCBI_P_OVR 0x10
-#define CAVM_GIC_ANB_NCBI_NP_OVR 0x20
+#define CAVM_GIC_ANB_NCBI_P_OVR_OFFSET 0x10
+#define CAVM_GIC_ANB_NCBI_NP_OVR_OFFSET 0x20
 #define CAVM_GIC_ANB_REG_START 0x10011000
 #define CAVM_GIC_ANB_REG(offset) \
 	CAVM_GIC_BAR_E_GIC_PF_BAR0 + \

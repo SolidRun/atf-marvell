@@ -374,7 +374,7 @@ union cavm_ehsm_biu_core1_cmd
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t host_core_id          : 12; /**< [ 31: 20](RO) This is the cmd_wid value when host write CORE1_CMD or CORE2_CMD register. Both
                                                                  host and SP cannot write this field. Only SP can read this field.
-                                                                 It will retrun the the cmd_wid for CORE1 when CM3 is executing command from
+                                                                 It will return the cmd_wid for CORE1 when CM3 is executing command from
                                                                  CORE1. It will return the cmd_wid for CORE2 when CM3 is executing command from
                                                                  CORE2 */
         uint32_t reserved_16_19        : 4;
@@ -384,7 +384,7 @@ union cavm_ehsm_biu_core1_cmd
         uint32_t reserved_16_19        : 4;
         uint32_t host_core_id          : 12; /**< [ 31: 20](RO) This is the cmd_wid value when host write CORE1_CMD or CORE2_CMD register. Both
                                                                  host and SP cannot write this field. Only SP can read this field.
-                                                                 It will retrun the the cmd_wid for CORE1 when CM3 is executing command from
+                                                                 It will return the cmd_wid for CORE1 when CM3 is executing command from
                                                                  CORE1. It will return the cmd_wid for CORE2 when CM3 is executing command from
                                                                  CORE2 */
 #endif /* Word 0 - End */

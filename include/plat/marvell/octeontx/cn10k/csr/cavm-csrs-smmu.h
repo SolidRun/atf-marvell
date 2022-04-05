@@ -6587,23 +6587,13 @@ union cavm_smmux_s_imp_chicken_bits
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_4_31         : 28;
-        uint32_t dwb_all               : 1;  /**< [  3:  3](SR/W) Walkers prevent writing to TLB and CFC cache while invalidation commands are being executed.
-                                                                 Active high. */
+        uint32_t dwb_all               : 1;  /**< [  3:  3](SR/W) Reserved. */
         uint32_t wlk_dup_dis           : 1;  /**< [  2:  2](SR/W) Walker duplicate feature disable. */
-        uint32_t httu_chicken_bits     : 2;  /**< [  1:  0](SR/W) Hardware translation table dirty/accessed flag updates supported.
-                                                                 0x0 = Use the value of SMMU_ IDR0[HTTU] - chicken bit is disabled.
-                                                                 0x1 = Only access flag update is supported.
-                                                                 0x2 = No flag updates supported.
-                                                                 0x3 = Reserved. */
+        uint32_t httu_chicken_bits     : 2;  /**< [  1:  0](SR/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t httu_chicken_bits     : 2;  /**< [  1:  0](SR/W) Hardware translation table dirty/accessed flag updates supported.
-                                                                 0x0 = Use the value of SMMU_ IDR0[HTTU] - chicken bit is disabled.
-                                                                 0x1 = Only access flag update is supported.
-                                                                 0x2 = No flag updates supported.
-                                                                 0x3 = Reserved. */
+        uint32_t httu_chicken_bits     : 2;  /**< [  1:  0](SR/W) Reserved. */
         uint32_t wlk_dup_dis           : 1;  /**< [  2:  2](SR/W) Walker duplicate feature disable. */
-        uint32_t dwb_all               : 1;  /**< [  3:  3](SR/W) Walkers prevent writing to TLB and CFC cache while invalidation commands are being executed.
-                                                                 Active high. */
+        uint32_t dwb_all               : 1;  /**< [  3:  3](SR/W) Reserved. */
         uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
@@ -7328,6 +7318,18 @@ union cavm_smmux_s_imp_wlk_dis
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
+        uint32_t wlk_dis               : 31; /**< [ 30:  0](SR/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t wlk_dis               : 31; /**< [ 30:  0](SR/W) Reserved. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_smmux_s_imp_wlk_dis_s cn10; */
+    /* struct cavm_smmux_s_imp_wlk_dis_s cn10ka; */
+    struct cavm_smmux_s_imp_wlk_dis_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
         uint32_t wlk_dis               : 31; /**< [ 30:  0](SR/W) Disable a walker and cause translations not to enter it. One bit per walker.
                                                                  For diagnostic use only. */
 #else /* Word 0 - Little Endian */
@@ -7335,8 +7337,9 @@ union cavm_smmux_s_imp_wlk_dis
                                                                  For diagnostic use only. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_smmux_s_imp_wlk_dis_s cn; */
+    } cn10kb;
+    /* struct cavm_smmux_s_imp_wlk_dis_s cnf10ka; */
+    /* struct cavm_smmux_s_imp_wlk_dis_s cnf10kb; */
 };
 typedef union cavm_smmux_s_imp_wlk_dis cavm_smmux_s_imp_wlk_dis_t;
 

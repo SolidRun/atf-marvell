@@ -372,7 +372,7 @@ union cavm_mrml_int_sum
         uint64_t reserved_3_63         : 61;
         uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1C/H) GIBM received a fault response when attempting to write a GIB interrupt message towards
                                                                  the GIC.  The interrupt message was dropped.  This most likely indicates a bad MSIX
-                                                                 vecator address, or SMMU misprogramming. */
+                                                                 vector address, or SMMU misprogramming. */
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
         uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) Reserved. */
 #else /* Word 0 - Little Endian */
@@ -380,7 +380,7 @@ union cavm_mrml_int_sum
         uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
         uint64_t gibm                  : 1;  /**< [  2:  2](SR/W1C/H) GIBM received a fault response when attempting to write a GIB interrupt message towards
                                                                  the GIC.  The interrupt message was dropped.  This most likely indicates a bad MSIX
-                                                                 vecator address, or SMMU misprogramming. */
+                                                                 vector address, or SMMU misprogramming. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;

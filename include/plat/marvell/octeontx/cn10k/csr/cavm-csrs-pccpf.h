@@ -36,6 +36,7 @@
 #define CAVM_PCC_DEV_CON_E_CST (0x50)
 #define CAVM_PCC_DEV_CON_E_DPI0 (0x600)
 #define CAVM_PCC_DEV_CON_E_DSSX(a) (0x2c0 + (a))
+#define CAVM_PCC_DEV_CON_E_DSS103VX(a) (0x280 + (a))
 #define CAVM_PCC_DEV_CON_E_EHSM (0xd8)
 #define CAVM_PCC_DEV_CON_E_EMMCX(a) (0x58 + (a))
 #define CAVM_PCC_DEV_CON_E_FUS (0x103)
@@ -117,6 +118,7 @@
 #define CAVM_PCC_DEV_IDL_E_DPI5_VF (0x81)
 #define CAVM_PCC_DEV_IDL_E_DPI_VF (0x58)
 #define CAVM_PCC_DEV_IDL_E_DSS (0x90)
+#define CAVM_PCC_DEV_IDL_E_DSS103V (0x3d)
 #define CAVM_PCC_DEV_IDL_E_EHSM (0x72)
 #define CAVM_PCC_DEV_IDL_E_EMMC2 (0x95)
 #define CAVM_PCC_DEV_IDL_E_FPA (0x52)
@@ -199,6 +201,8 @@
 #define CAVM_PCC_DEV_IDL_E_RVU_VF (0x64)
 #define CAVM_PCC_DEV_IDL_E_SATA (0x1c)
 #define CAVM_PCC_DEV_IDL_E_SATA5 (0x84)
+#define CAVM_PCC_DEV_IDL_E_SDP (0x7a)
+#define CAVM_PCC_DEV_IDL_E_SDP_VF (0x7b)
 #define CAVM_PCC_DEV_IDL_E_SGP (0x2a)
 #define CAVM_PCC_DEV_IDL_E_SLI (0x15)
 #define CAVM_PCC_DEV_IDL_E_SLIRE (0x38)
@@ -428,7 +432,7 @@ union cavm_pcc_ea_entry_s
         uint64_t pri_prop              : 8;  /**< [ 15:  8] Primary properties.
                                                                  0x0 = Memory space, non-prefetchable.
                                                                  0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
-        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivelent indicator.
+        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivalent indicator.
                                                                  0x0 = Entry is equivalent to BAR 0.
                                                                  0x2 = Entry is equivalent to BAR 2.
                                                                  0x4 = Entry is equivalent to BAR 4.
@@ -447,7 +451,7 @@ union cavm_pcc_ea_entry_s
                                                                  0x4 = Four 32-bit words; header followed by base low, offset low, base high,
                                                                  offset high. */
         uint64_t reserved_3            : 1;
-        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivelent indicator.
+        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivalent indicator.
                                                                  0x0 = Entry is equivalent to BAR 0.
                                                                  0x2 = Entry is equivalent to BAR 2.
                                                                  0x4 = Entry is equivalent to BAR 4.

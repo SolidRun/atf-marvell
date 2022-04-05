@@ -855,8 +855,8 @@ union cavm_gti_cc_cntcr
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gti_cc_cntcr_s cn10; */
-    /* struct cavm_gti_cc_cntcr_s cn10ka; */
-    struct cavm_gti_cc_cntcr_cn10kb
+    /* struct cavm_gti_cc_cntcr_s cn10ka_p1; */
+    struct cavm_gti_cc_cntcr_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_9_31         : 23;
@@ -889,7 +889,8 @@ union cavm_gti_cc_cntcr
                                                                  For CNXXXX, which implements a single frequency table entry, must be 0x0. */
         uint32_t reserved_9_31         : 23;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_gti_cc_cntcr_cn10ka_p2 cn10kb; */
     /* struct cavm_gti_cc_cntcr_s cnf10ka; */
     /* struct cavm_gti_cc_cntcr_s cnf10kb; */
 };

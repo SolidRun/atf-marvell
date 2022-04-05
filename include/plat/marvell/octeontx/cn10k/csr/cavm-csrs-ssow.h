@@ -139,6 +139,8 @@ typedef union cavm_ssow_af_flr_ggrp_digestx cavm_ssow_af_flr_ggrp_digestx_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=3))
+        return 0x840080000200ll + 8ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840080000200ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSOW_AF_FLR_GGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
@@ -176,6 +178,8 @@ typedef union cavm_ssow_af_flr_gws_digest cavm_ssow_af_flr_gws_digest_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+        return 0x840080000400ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x840080000400ll;
     __cavm_csr_fatal("SSOW_AF_FLR_GWS_DIGEST", 0, 0, 0, 0, 0, 0, 0);
@@ -212,6 +216,8 @@ typedef union cavm_ssow_af_flr_hwgrp_digestx cavm_ssow_af_flr_hwgrp_digestx_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=3))
+        return 0x840080000100ll + 8ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840080000100ll + 8ll * ((a) & 0x1);
     __cavm_csr_fatal("SSOW_AF_FLR_HWGRP_DIGESTX", 1, a, 0, 0, 0, 0, 0);
@@ -249,6 +255,8 @@ typedef union cavm_ssow_af_flr_hws_digest cavm_ssow_af_flr_hws_digest_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+        return 0x840080000300ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x840080000300ll;
     __cavm_csr_fatal("SSOW_AF_FLR_HWS_DIGEST", 0, 0, 0, 0, 0, 0, 0);
@@ -270,6 +278,52 @@ union cavm_ssow_af_lf_flr
 {
     uint64_t u;
     struct cavm_ssow_af_lf_flr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
+        uint64_t flr_error             : 1;  /**< [ 31: 31](RO) The last set step bit received an error. Hardware FLR was aborted. */
+        uint64_t reserved_21_30        : 10;
+        uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
+                                                                 GET_WORK operations. Steps 3-6 are performed first if set.
+                                                                 Hardware clears this bit when done. */
+        uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
+                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..3). Steps 3-5 are
+                                                                 performed first if set. Hardware clears this bit when done. */
+        uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
+                                                                 SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
+                                                                 Steps 3-4 are performed first if set. Hardware clears this bit when done. */
+        uint64_t step4                 : 1;  /**< [ 17: 17](R/W1S/H) Step 4 Hardware FLR. When set, hardware will write SSO_AF_GWS_INV,
+                                                                 SSOW_LF_GWS_NW_TIM, and SSO_AF_HWS(0..51)_LSW_CFG. Step 3 is performed
+                                                                 first if set. Hardware clears this bit when done. */
+        uint64_t step3                 : 1;  /**< [ 16: 16](R/W1S/H) Step 3 Hardware FLR. When set, hardware will create 4 map files
+                                                                 Hardware clears this bit when done. */
+        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) Local function that is FLR'd when any STEP bits are set. */
+#else /* Word 0 - Little Endian */
+        uint64_t pf_func               : 16; /**< [ 15:  0](R/W) Local function that is FLR'd when any STEP bits are set. */
+        uint64_t step3                 : 1;  /**< [ 16: 16](R/W1S/H) Step 3 Hardware FLR. When set, hardware will create 4 map files
+                                                                 Hardware clears this bit when done. */
+        uint64_t step4                 : 1;  /**< [ 17: 17](R/W1S/H) Step 4 Hardware FLR. When set, hardware will write SSO_AF_GWS_INV,
+                                                                 SSOW_LF_GWS_NW_TIM, and SSO_AF_HWS(0..51)_LSW_CFG. Step 3 is performed
+                                                                 first if set. Hardware clears this bit when done. */
+        uint64_t step5                 : 1;  /**< [ 18: 18](R/W1S/H) Step 5 Hardware FLR. When set, hardware will write
+                                                                 SSOW_LF_GWS_OP_DESCHED, SSOW_LF_GWS_OP_SWTAG_FLUSH.
+                                                                 Steps 3-4 are performed first if set. Hardware clears this bit when done. */
+        uint64_t step6                 : 1;  /**< [ 19: 19](R/W1S/H) Step 6 Hardware FLR. When set, hardware will write
+                                                                 SSO_AF_HWS(0..51)_S(0..1)_GRPMSK(0..3). Steps 3-5 are
+                                                                 performed first if set. Hardware clears this bit when done. */
+        uint64_t step7                 : 1;  /**< [ 20: 20](R/W1S/H) Step 7 Hardware FLR. When set, hardware will perform
+                                                                 GET_WORK operations. Steps 3-6 are performed first if set.
+                                                                 Hardware clears this bit when done. */
+        uint64_t reserved_21_30        : 10;
+        uint64_t flr_error             : 1;  /**< [ 31: 31](RO) The last set step bit received an error. Hardware FLR was aborted. */
+        uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_ssow_af_lf_flr_s cn10; */
+    /* struct cavm_ssow_af_lf_flr_s cn10ka; */
+    struct cavm_ssow_af_lf_flr_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -312,8 +366,7 @@ union cavm_ssow_af_lf_flr
         uint64_t flr_abort             : 1;  /**< [ 32: 32](R/W1S) Terminate hardware FLR in progress. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_ssow_af_lf_flr_s cn; */
+    } cn10kb;
 };
 typedef union cavm_ssow_af_lf_flr cavm_ssow_af_lf_flr_t;
 
@@ -321,6 +374,8 @@ typedef union cavm_ssow_af_lf_flr cavm_ssow_af_lf_flr_t;
 static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+        return 0x840080000040ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x840080000040ll;
     __cavm_csr_fatal("SSOW_AF_LF_FLR", 0, 0, 0, 0, 0, 0, 0);

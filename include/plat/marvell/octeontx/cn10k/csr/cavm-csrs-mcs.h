@@ -932,11 +932,46 @@ union cavm_mcsx_const
     struct cavm_mcsx_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t macsec_disable        : 1;  /**< [  0:  0](RO) Disable L2 MAC security. */
+#else /* Word 0 - Little Endian */
+        uint64_t macsec_disable        : 1;  /**< [  0:  0](RO) Disable L2 MAC security. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_const_s cn10; */
+    struct cavm_mcsx_const_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t macsec_fuse_mode      : 2;  /**< [  2:  1](RO) Fuse the operational mode of MCS.The mode select is based on
+                                                                 MCS_IP_MODE[MACSEC_IP_MODE_SET] and is reflected on
+                                                                 MCS_IP_MODE[MACSEC_IP_MODE]. If MACSEC_DISABLE = 1'b1, the MACSEC is disabled,
+                                                                 else this field defines the operational mode.
+                                                                   0x0 - Cisco Clear Tag mode / IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
+                                                                   0x1 - IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
+                                                                   0x2/0x3 - IEEE802.1AE 2006 mode enabled. */
+        uint64_t macsec_disable        : 1;  /**< [  0:  0](RO) Disable L2 MAC security. */
+#else /* Word 0 - Little Endian */
+        uint64_t macsec_disable        : 1;  /**< [  0:  0](RO) Disable L2 MAC security. */
+        uint64_t macsec_fuse_mode      : 2;  /**< [  2:  1](RO) Fuse the operational mode of MCS.The mode select is based on
+                                                                 MCS_IP_MODE[MACSEC_IP_MODE_SET] and is reflected on
+                                                                 MCS_IP_MODE[MACSEC_IP_MODE]. If MACSEC_DISABLE = 1'b1, the MACSEC is disabled,
+                                                                 else this field defines the operational mode.
+                                                                   0x0 - Cisco Clear Tag mode / IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
+                                                                   0x1 - IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
+                                                                   0x2/0x3 - IEEE802.1AE 2006 mode enabled. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cn10kb;
+    struct cavm_mcsx_const_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
         uint64_t macsec_mode           : 2;  /**< [  2:  1](RO) Fuse the operational mode of MCS. Disabled on MACSEC_DISABLE.
                                                                    0x0 - EXTENDED IEEE802.1AE 2018 (Marvell mode), support up to 4 MPLS tags with
                                                                          or without up to 6 preceding custom tags in the clear.
-                                                                   0x1 - IEEE802.1AE 2018 - up to Two VLANS in the clear.
+                                                                   0x1 - IEEE802.1AE 2018 - up to Two VLANS in the clear or IEEE802.1AE 2006.
                                                                    0x2 - IEEE802.1AE 2006 - No tags in the clear.
                                                                    0x3 - RESERVED. */
         uint64_t macsec_disable        : 1;  /**< [  0:  0](RO) Disable L2 MAC security. */
@@ -945,13 +980,12 @@ union cavm_mcsx_const
         uint64_t macsec_mode           : 2;  /**< [  2:  1](RO) Fuse the operational mode of MCS. Disabled on MACSEC_DISABLE.
                                                                    0x0 - EXTENDED IEEE802.1AE 2018 (Marvell mode), support up to 4 MPLS tags with
                                                                          or without up to 6 preceding custom tags in the clear.
-                                                                   0x1 - IEEE802.1AE 2018 - up to Two VLANS in the clear.
+                                                                   0x1 - IEEE802.1AE 2018 - up to Two VLANS in the clear or IEEE802.1AE 2006.
                                                                    0x2 - IEEE802.1AE 2006 - No tags in the clear.
                                                                    0x3 - RESERVED. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_const_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mcsx_const cavm_mcsx_const_t;
 
@@ -12477,6 +12511,22 @@ union cavm_mcsx_hil_global
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
+        uint64_t one_step_ptp_offset   : 7;  /**< [  8:  2](R/W) One step PTP bit offset in first data beat. */
+        uint64_t en_one_step_ptp_parse : 1;  /**< [  1:  1](R/W) Connect one step ptp logic to TCAM, valid only if EN_TX_TS_HEADER_SKIP is enabled. */
+        uint64_t en_tx_ts_header_skip  : 1;  /**< [  0:  0](R/W) Enable 8 bytes skip of prepended timestamp. */
+#else /* Word 0 - Little Endian */
+        uint64_t en_tx_ts_header_skip  : 1;  /**< [  0:  0](R/W) Enable 8 bytes skip of prepended timestamp. */
+        uint64_t en_one_step_ptp_parse : 1;  /**< [  1:  1](R/W) Connect one step ptp logic to TCAM, valid only if EN_TX_TS_HEADER_SKIP is enabled. */
+        uint64_t one_step_ptp_offset   : 7;  /**< [  8:  2](R/W) One step PTP bit offset in first data beat. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_hil_global_s cn10; */
+    /* struct cavm_mcsx_hil_global_s cn10kb; */
+    struct cavm_mcsx_hil_global_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
         uint64_t one_step_ptp_offset   : 7;  /**< [  8:  2](R/W) One step PTP bit offset in first data beat */
         uint64_t en_one_step_ptp_parse : 1;  /**< [  1:  1](R/W) Connect one step ptp logic to TCAM, valid only if EN_TX_TS_HEADER_SKIP is enabled */
         uint64_t en_tx_ts_header_skip  : 1;  /**< [  0:  0](R/W) Enable 8 bytes skip of prepended timestamp. */
@@ -12486,8 +12536,7 @@ union cavm_mcsx_hil_global
         uint64_t one_step_ptp_offset   : 7;  /**< [  8:  2](R/W) One step PTP bit offset in first data beat */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_global_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mcsx_hil_global cavm_mcsx_hil_global_t;
 
@@ -12935,14 +12984,18 @@ union cavm_mcsx_hil_rx_x2p_err
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t mcs_exception_to_x2p_err : 20;/**< [ 23:  4](R/W) Bit enable per RX out exception_code value. See MCS_RX_EXCEPTION_CODE_E.
-                                                                 In case of X2P.err value greater than 0, this error takes precedence over
-                                                                 MCS_MIL_RX_ERR_CFG.RX_X2P_ERR_INPUT. */
+                                                                 Error on MIL X2P interface, will take precedence over any masking in MIL
+                                                                 MCS_MIL_RX_ERR_CFG[RX_X2P_ERR_INPUT] or HIL MCS_HIL_RX_X2P_ERR[MCS_EXCEPTION_TO_X2P_ERR]
+                                                                 and will go out on HIL X2P interface.
+                                                                 The enable per packet is applied only according to the highest priority error value of the packet. */
         uint64_t x2p_err_enum          : 4;  /**< [  3:  0](R/W) X2P ERR enum in x2p2_err field. */
 #else /* Word 0 - Little Endian */
         uint64_t x2p_err_enum          : 4;  /**< [  3:  0](R/W) X2P ERR enum in x2p2_err field. */
         uint64_t mcs_exception_to_x2p_err : 20;/**< [ 23:  4](R/W) Bit enable per RX out exception_code value. See MCS_RX_EXCEPTION_CODE_E.
-                                                                 In case of X2P.err value greater than 0, this error takes precedence over
-                                                                 MCS_MIL_RX_ERR_CFG.RX_X2P_ERR_INPUT. */
+                                                                 Error on MIL X2P interface, will take precedence over any masking in MIL
+                                                                 MCS_MIL_RX_ERR_CFG[RX_X2P_ERR_INPUT] or HIL MCS_HIL_RX_X2P_ERR[MCS_EXCEPTION_TO_X2P_ERR]
+                                                                 and will go out on HIL X2P interface.
+                                                                 The enable per packet is applied only according to the highest priority error value of the packet. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
@@ -13320,6 +13373,30 @@ union cavm_mcsx_hil_tx_lmacx_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
+        uint64_t hil_tx_bypass_skid_crdt_unf : 1;/**< [  6:  6](R/W1C/H) HIL TX BYPASS SKID credits underflow, appcliable only in external bypass mode. */
+        uint64_t hil_tx_bypass_skid_crdt_ovf : 1;/**< [  5:  5](R/W1C/H) HIL TX BYPASS SKID credits overflow, applicable only in external bypass mode. */
+        uint64_t hil_tx_cc_message_invalid : 1;/**< [  4:  4](R/W1C/H) CC received from MIL is invalid. The gap between CC messages is less than 4 cycles. */
+        uint64_t hil_tx_ack_fifo_ovf   : 1;  /**< [  3:  3](R/W1C/H) HIL TX ack FIFO overflow. */
+        uint64_t hil_tx_cc_fifo_unf    : 1;  /**< [  2:  2](R/W1C/H) HIL TX channel credit FIFO underflow. */
+        uint64_t hil_tx_cc_fifo_ovf    : 1;  /**< [  1:  1](R/W1C/H) HIL TX channel credit FIFO overflow. */
+        uint64_t hil_tx_skid_crdt_fifo_ovf : 1;/**< [  0:  0](R/W1C/H) HIL TX SKID credit FIFO overflow. */
+#else /* Word 0 - Little Endian */
+        uint64_t hil_tx_skid_crdt_fifo_ovf : 1;/**< [  0:  0](R/W1C/H) HIL TX SKID credit FIFO overflow. */
+        uint64_t hil_tx_cc_fifo_ovf    : 1;  /**< [  1:  1](R/W1C/H) HIL TX channel credit FIFO overflow. */
+        uint64_t hil_tx_cc_fifo_unf    : 1;  /**< [  2:  2](R/W1C/H) HIL TX channel credit FIFO underflow. */
+        uint64_t hil_tx_ack_fifo_ovf   : 1;  /**< [  3:  3](R/W1C/H) HIL TX ack FIFO overflow. */
+        uint64_t hil_tx_cc_message_invalid : 1;/**< [  4:  4](R/W1C/H) CC received from MIL is invalid. The gap between CC messages is less than 4 cycles. */
+        uint64_t hil_tx_bypass_skid_crdt_ovf : 1;/**< [  5:  5](R/W1C/H) HIL TX BYPASS SKID credits overflow, applicable only in external bypass mode. */
+        uint64_t hil_tx_bypass_skid_crdt_unf : 1;/**< [  6:  6](R/W1C/H) HIL TX BYPASS SKID credits underflow, appcliable only in external bypass mode. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_hil_tx_lmacx_int_s cn10; */
+    /* struct cavm_mcsx_hil_tx_lmacx_int_s cn10kb; */
+    struct cavm_mcsx_hil_tx_lmacx_int_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
         uint64_t hil_tx_bypass_skid_crdt_unf : 1;/**< [  6:  6](R/W1C/H) HIL TX BYPASS SKID credits underflow, only in external bypass mode. */
         uint64_t hil_tx_bypass_skid_crdt_ovf : 1;/**< [  5:  5](R/W1C/H) HIL TX BYPASS SKID credits overflow, only in external bypass mode. */
         uint64_t hil_tx_cc_message_invalid : 1;/**< [  4:  4](R/W1C/H) CC received from MIL is invalid. The first word received is less than 4 cycles. */
@@ -13337,8 +13414,7 @@ union cavm_mcsx_hil_tx_lmacx_int
         uint64_t hil_tx_bypass_skid_crdt_unf : 1;/**< [  6:  6](R/W1C/H) HIL TX BYPASS SKID credits underflow, only in external bypass mode. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_hil_tx_lmacx_int_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mcsx_hil_tx_lmacx_int cavm_mcsx_hil_tx_lmacx_int_t;
 
@@ -13816,6 +13892,67 @@ static inline uint64_t CAVM_MCSX_IP_INT_W1S(uint64_t a)
 #define arguments_CAVM_MCSX_IP_INT_W1S(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) mcs#_ip_mode
+ *
+ * MCS IP MODE Register
+ */
+union cavm_mcsx_ip_mode
+{
+    uint64_t u;
+    struct cavm_mcsx_ip_mode_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t macsec_ip_mode_set    : 2;  /**< [  4:  3](R/W) Configuration for IP mode.
+                                                                   2'b00 - Cisco Clear Tag mode.
+                                                                   2'b01 - IEEE802.1AE 2018 enabled.
+                                                                   2'b1x - IEEE802.1AE 2006 enabled.
+                                                                   Getting to the intended mode is possible only if it's enabled by the MCS_CONST[MACSEC_FUSE_MODE]. */
+        uint64_t macsec_ip_mode        : 3;  /**< [  2:  0](RO/H) Operational mode of MCS IP.
+                                                                 Operational mode of the MCS is based on  MCS_CONST[MACSEC_FUSE_MODE] and
+                                                                 MCS_CONST[MACSEC_FUSE_DISABLE] after setting the appropriate bit according to
+                                                                 MACSEC_IP_MODE_SET.
+                                                                   3'b000 - Cisco Clear Tag mode.
+                                                                   3'b001 - IEEE802.1AE 2018 enabled.
+                                                                   3'b01x - IEEE802.1AE 2006 enabled.
+                                                                   3'b1xx - MCS is disabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t macsec_ip_mode        : 3;  /**< [  2:  0](RO/H) Operational mode of MCS IP.
+                                                                 Operational mode of the MCS is based on  MCS_CONST[MACSEC_FUSE_MODE] and
+                                                                 MCS_CONST[MACSEC_FUSE_DISABLE] after setting the appropriate bit according to
+                                                                 MACSEC_IP_MODE_SET.
+                                                                   3'b000 - Cisco Clear Tag mode.
+                                                                   3'b001 - IEEE802.1AE 2018 enabled.
+                                                                   3'b01x - IEEE802.1AE 2006 enabled.
+                                                                   3'b1xx - MCS is disabled. */
+        uint64_t macsec_ip_mode_set    : 2;  /**< [  4:  3](R/W) Configuration for IP mode.
+                                                                   2'b00 - Cisco Clear Tag mode.
+                                                                   2'b01 - IEEE802.1AE 2018 enabled.
+                                                                   2'b1x - IEEE802.1AE 2006 enabled.
+                                                                   Getting to the intended mode is possible only if it's enabled by the MCS_CONST[MACSEC_FUSE_MODE]. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_ip_mode_s cn; */
+};
+typedef union cavm_mcsx_ip_mode cavm_mcsx_ip_mode_t;
+
+static inline uint64_t CAVM_MCSX_IP_MODE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MCSX_IP_MODE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x87e0800900c8ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MCSX_IP_MODE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MCSX_IP_MODE(a) cavm_mcsx_ip_mode_t
+#define bustype_CAVM_MCSX_IP_MODE(a) CSR_TYPE_RSL
+#define basename_CAVM_MCSX_IP_MODE(a) "MCSX_IP_MODE"
+#define device_bar_CAVM_MCSX_IP_MODE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MCSX_IP_MODE(a) (a)
+#define arguments_CAVM_MCSX_IP_MODE(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) mcs#_link_lmac#_cfg
  *
  * MCS Programmable Link Channel Number Array Registers
@@ -13828,13 +13965,13 @@ union cavm_mcsx_link_lmacx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Range is 2^LOG2_RANGE , 0 means that link isn't valid. */
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Range is 2^LOG2_RANGE, 0 means that link isn't valid. */
         uint64_t reserved_12_15        : 4;
         uint64_t base_chan             : 12; /**< [ 11:  0](R/W) Base channel number, Must be a multiple of the range, i.e. log2_range default
                                                                  value is 4, then BASE_CHAN 4 lsbs must be 0.
                                                                  MSBs (12-LOG2_RANGE) of BASE_CHAN are compared to P2X.chan/X2P.pnum, if there's
                                                                  a match then MCS LMAC_ID is set according to matching register number.
-                                                                 In case of no match or match to more than a single lmac, packet is dropped and
+                                                                 In case of more than a single lmac match, packet is dropped and
                                                                  interrupt is triggered.
                                                                  Reset value is {3'h0,5'h{LMAC_ID},4'h0}. */
 #else /* Word 0 - Little Endian */
@@ -13842,11 +13979,11 @@ union cavm_mcsx_link_lmacx_cfg
                                                                  value is 4, then BASE_CHAN 4 lsbs must be 0.
                                                                  MSBs (12-LOG2_RANGE) of BASE_CHAN are compared to P2X.chan/X2P.pnum, if there's
                                                                  a match then MCS LMAC_ID is set according to matching register number.
-                                                                 In case of no match or match to more than a single lmac, packet is dropped and
+                                                                 In case of more than a single lmac match, packet is dropped and
                                                                  interrupt is triggered.
                                                                  Reset value is {3'h0,5'h{LMAC_ID},4'h0}. */
         uint64_t reserved_12_15        : 4;
-        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Range is 2^LOG2_RANGE , 0 means that link isn't valid. */
+        uint64_t log2_range            : 4;  /**< [ 19: 16](R/W) Range is 2^LOG2_RANGE, 0 means that link isn't valid. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -14450,21 +14587,21 @@ union cavm_mcsx_mil_ip_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
         uint64_t stats_cfg             : 1;  /**< [ 16: 16](R/W) AE statistics configuration. Selects between AE06 statistics and AE18
-                                                                 statistics. To be configured after reset.
-                                                                 0x0 - AE18. Default.
+                                                                 statistics. Should be configured when there is no traffic.
+                                                                 0x0 - AE18.
                                                                  0x1 - AE06. */
         uint64_t ip_hw_init_done_en    : 1;  /**< [ 15: 15](R/W) Reserved. */
         uint64_t ip_idle_en            : 1;  /**< [ 14: 14](R/W) Reserved. */
-        uint64_t ip_cnt_cfg            : 14; /**< [ 13:  0](R/W) Statistics countdown counter for MCS MIL IP GLOBAL STATUS.MCS_IP_STATS_READY mechanism.
+        uint64_t ip_cnt_cfg            : 14; /**< [ 13:  0](R/W) Statistics countdown counter for MCS MIL IP GLOBAL STATUS[MCS_IP_STATS_READY] mechanism.
                                                                  In case of IP_IDLE_EN is set, this usage is redundant. */
 #else /* Word 0 - Little Endian */
-        uint64_t ip_cnt_cfg            : 14; /**< [ 13:  0](R/W) Statistics countdown counter for MCS MIL IP GLOBAL STATUS.MCS_IP_STATS_READY mechanism.
+        uint64_t ip_cnt_cfg            : 14; /**< [ 13:  0](R/W) Statistics countdown counter for MCS MIL IP GLOBAL STATUS[MCS_IP_STATS_READY] mechanism.
                                                                  In case of IP_IDLE_EN is set, this usage is redundant. */
         uint64_t ip_idle_en            : 1;  /**< [ 14: 14](R/W) Reserved. */
         uint64_t ip_hw_init_done_en    : 1;  /**< [ 15: 15](R/W) Reserved. */
         uint64_t stats_cfg             : 1;  /**< [ 16: 16](R/W) AE statistics configuration. Selects between AE06 statistics and AE18
-                                                                 statistics. To be configured after reset.
-                                                                 0x0 - AE18. Default.
+                                                                 statistics. Should be configured when there is no traffic.
+                                                                 0x0 - AE18.
                                                                  0x1 - AE06. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
@@ -14516,16 +14653,16 @@ union cavm_mcsx_mil_ip_gbl_status
         uint64_t hw_init_done          : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
         uint64_t mcs_ip_stats_ready    : 1;  /**< [  0:  0](RO/H) Before SW reads statistics from IP:
-                                                                 1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_CLK is set, the IP statistics counter counts
-                                                                 MCS_MIL_IP_CFG.IP_CNT_CFG.
+                                                                 1.When MCS_MIL_GLOBAL[FORCE_CLK_EN_CLK] is set, the IP statistics counter counts
+                                                                 MCS_MIL_IP_CFG[IP_CNT_CFG].
                                                                  2.When done, this field is set to 1'b1 indicating IP statistics are valid and ready to be read.
-                                                                 In case MCS_MIL_IP_CFG.IP_IDLE_EN is set, this usage is redundant. */
+                                                                 In case MCS_MIL_IP_CFG[IP_IDLE_EN]is set, this usage is redundant. */
 #else /* Word 0 - Little Endian */
         uint64_t mcs_ip_stats_ready    : 1;  /**< [  0:  0](RO/H) Before SW reads statistics from IP:
-                                                                 1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_CLK is set, the IP statistics counter counts
-                                                                 MCS_MIL_IP_CFG.IP_CNT_CFG.
+                                                                 1.When MCS_MIL_GLOBAL[FORCE_CLK_EN_CLK] is set, the IP statistics counter counts
+                                                                 MCS_MIL_IP_CFG[IP_CNT_CFG].
                                                                  2.When done, this field is set to 1'b1 indicating IP statistics are valid and ready to be read.
-                                                                 In case MCS_MIL_IP_CFG.IP_IDLE_EN is set, this usage is redundant. */
+                                                                 In case MCS_MIL_IP_CFG[IP_IDLE_EN]is set, this usage is redundant. */
         uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
         uint64_t hw_init_done          : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t reserved_4_63         : 60;
@@ -14583,6 +14720,32 @@ union cavm_mcsx_mil_rx_err_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
+        uint64_t x2p_protocol_protect_en : 1;/**< [ 33: 33](R/W) Enable X2P Protocol protection, drop invalid data cycles and trigger MIL_RX_X2P_PRT_VLT interrupt. */
+        uint64_t small_packet_drop_en  : 1;  /**< [ 32: 32](R/W) Drop smaller packets than SMALL_PACKET_DROP_THRESH */
+        uint64_t small_packet_size     : 15; /**< [ 31: 17](R/W) Inject error to MCS_IP for packet smaller than SMALL_PACKET_SIZE, valid only if
+                                                                 SMALL_PACKET_ERR_EN is set. */
+        uint64_t small_packet_err_en   : 1;  /**< [ 16: 16](R/W) Enable error injection to MCS_IP based on SMALL_PACKET_SIZE. */
+        uint64_t rx_x2p_err_input      : 16; /**< [ 15:  0](R/W) Inject error to MCS_IP per x2p2_p2x2_defs::x2p2_pkt_err_t X2P enum.
+                                                                 Each bit represents a corresponding enum value, i.e - bit 2,5 are set, X2P
+                                                                 packets with X2P.pkt_bus.err equal 2 or 5 are sent to MCS_IP with input error indication. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_x2p_err_input      : 16; /**< [ 15:  0](R/W) Inject error to MCS_IP per x2p2_p2x2_defs::x2p2_pkt_err_t X2P enum.
+                                                                 Each bit represents a corresponding enum value, i.e - bit 2,5 are set, X2P
+                                                                 packets with X2P.pkt_bus.err equal 2 or 5 are sent to MCS_IP with input error indication. */
+        uint64_t small_packet_err_en   : 1;  /**< [ 16: 16](R/W) Enable error injection to MCS_IP based on SMALL_PACKET_SIZE. */
+        uint64_t small_packet_size     : 15; /**< [ 31: 17](R/W) Inject error to MCS_IP for packet smaller than SMALL_PACKET_SIZE, valid only if
+                                                                 SMALL_PACKET_ERR_EN is set. */
+        uint64_t small_packet_drop_en  : 1;  /**< [ 32: 32](R/W) Drop smaller packets than SMALL_PACKET_DROP_THRESH */
+        uint64_t x2p_protocol_protect_en : 1;/**< [ 33: 33](R/W) Enable X2P Protocol protection, drop invalid data cycles and trigger MIL_RX_X2P_PRT_VLT interrupt. */
+        uint64_t reserved_34_63        : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_mil_rx_err_cfg_s cn10; */
+    /* struct cavm_mcsx_mil_rx_err_cfg_s cn10kb; */
+    struct cavm_mcsx_mil_rx_err_cfg_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_34_63        : 30;
         uint64_t x2p_protocol_protect_en : 1;/**< [ 33: 33](R/W) Enable X2P Protocol protection, drop invalid data cycles and trigger MIL_RX_X2P_PRT_VLT Interrupt. */
         uint64_t small_packet_drop_en  : 1;  /**< [ 32: 32](R/W) Drop smaller packets than SMALL_PACKET_DROP_THRESH */
         uint64_t small_packet_size     : 15; /**< [ 31: 17](R/W) Inject error to MCS_IP for packet smaller than SMALL_PACKET_SIZE, Valid only if
@@ -14602,8 +14765,7 @@ union cavm_mcsx_mil_rx_err_cfg
         uint64_t x2p_protocol_protect_en : 1;/**< [ 33: 33](R/W) Enable X2P Protocol protection, drop invalid data cycles and trigger MIL_RX_X2P_PRT_VLT Interrupt. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_rx_err_cfg_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mcsx_mil_rx_err_cfg cavm_mcsx_mil_rx_err_cfg_t;
 
@@ -14935,7 +15097,7 @@ union cavm_mcsx_mil_rx_lmacx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved. */
+        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Port priority for X2P request arbitration. Highest priority value is 0x0 which equal to 16 credits. */
         uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats.
                                                                  Min value is 0x1. (0x0 is illegal). */
@@ -14943,7 +15105,7 @@ union cavm_mcsx_mil_rx_lmacx_cfg
         uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats.
                                                                  Min value is 0x1. (0x0 is illegal). */
-        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved. */
+        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Port priority for X2P request arbitration. Highest priority value is 0x0 which equal to 16 credits. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
@@ -14953,13 +15115,13 @@ union cavm_mcsx_mil_rx_lmacx_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved. */
+        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Port priority for X2P request arbitration. SW should configure a value of 0x1. */
         uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats. */
 #else /* Word 0 - Little Endian */
         uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats. */
-        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Reserved. */
+        uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Port priority for X2P request arbitration. SW should configure a value of 0x1. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -14999,6 +15161,42 @@ union cavm_mcsx_mil_rx_lmacx_int
         uint64_t mil_rx_x2p_small_packet_drop : 1;/**< [ 10: 10](R/W1C/H) MIL RX X2P Small packet drop, based on SMALL_PACKET_DROP_EN/THRESH */
         uint64_t mil_rx_x2p_prt_vlt    : 1;  /**< [  9:  9](R/W1C/H) MIL RX X2P protocol violation, i.e consecutive SOP's w/o EOP, valid data w/o preliminary SOP, etc..
                                                                  In this case the X2P cycle is silently dropped.
+                                                                 For additional diagnostic see X2P in OCLA. */
+        uint64_t mil_rx_bbe_plcy_cnt_unf : 1;/**< [  8:  8](R/W1C/H) MIL BBE POLICY credit counter underflow, not applicable in external bypass mode. */
+        uint64_t mil_rx_bbe_plcy_cnt_ovf : 1;/**< [  7:  7](R/W1C/H) MIL BBE POLICY credit counter overflow, not applicable in external bypass mode. */
+        uint64_t mil_rx_bbe_data_cnt_unf : 1;/**< [  6:  6](R/W1C/H) MIL BBE data credit counter underflow, not applicable in external bypass mode. */
+        uint64_t mil_rx_bbe_data_cnt_ovf : 1;/**< [  5:  5](R/W1C/H) MIL BBE data credit counter overflow, not applicable in external bypass mode. */
+        uint64_t mil_rx_singular_grant : 1;  /**< [  4:  4](R/W1C/H) MIL X2P grant while REQ heap empty or SKID credit empty. */
+        uint64_t mil_rx_req_heap_ovf   : 1;  /**< [  3:  3](R/W1C/H) MIL X2P request heap overflow. */
+        uint64_t mil_rx_skid_crdt_cnt_ovf : 1;/**< [  2:  2](R/W1C/H) MIL X2P SKID credit counter overflow. */
+        uint64_t mil_rx_skid_fifo_unf  : 1;  /**< [  1:  1](R/W1C/H) MIL X2P SKID FIFO underflow. */
+        uint64_t mil_rx_skid_fifo_ovf  : 1;  /**< [  0:  0](R/W1C/H) MIL X2P SKID FIFO overflow. */
+#else /* Word 0 - Little Endian */
+        uint64_t mil_rx_skid_fifo_ovf  : 1;  /**< [  0:  0](R/W1C/H) MIL X2P SKID FIFO overflow. */
+        uint64_t mil_rx_skid_fifo_unf  : 1;  /**< [  1:  1](R/W1C/H) MIL X2P SKID FIFO underflow. */
+        uint64_t mil_rx_skid_crdt_cnt_ovf : 1;/**< [  2:  2](R/W1C/H) MIL X2P SKID credit counter overflow. */
+        uint64_t mil_rx_req_heap_ovf   : 1;  /**< [  3:  3](R/W1C/H) MIL X2P request heap overflow. */
+        uint64_t mil_rx_singular_grant : 1;  /**< [  4:  4](R/W1C/H) MIL X2P grant while REQ heap empty or SKID credit empty. */
+        uint64_t mil_rx_bbe_data_cnt_ovf : 1;/**< [  5:  5](R/W1C/H) MIL BBE data credit counter overflow, not applicable in external bypass mode. */
+        uint64_t mil_rx_bbe_data_cnt_unf : 1;/**< [  6:  6](R/W1C/H) MIL BBE data credit counter underflow, not applicable in external bypass mode. */
+        uint64_t mil_rx_bbe_plcy_cnt_ovf : 1;/**< [  7:  7](R/W1C/H) MIL BBE POLICY credit counter overflow, not applicable in external bypass mode. */
+        uint64_t mil_rx_bbe_plcy_cnt_unf : 1;/**< [  8:  8](R/W1C/H) MIL BBE POLICY credit counter underflow, not applicable in external bypass mode. */
+        uint64_t mil_rx_x2p_prt_vlt    : 1;  /**< [  9:  9](R/W1C/H) MIL RX X2P protocol violation, i.e consecutive SOP's w/o EOP, valid data w/o preliminary SOP, etc..
+                                                                 In this case the X2P cycle is silently dropped.
+                                                                 For additional diagnostic see X2P in OCLA. */
+        uint64_t mil_rx_x2p_small_packet_drop : 1;/**< [ 10: 10](R/W1C/H) MIL RX X2P Small packet drop, based on SMALL_PACKET_DROP_EN/THRESH */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_mil_rx_lmacx_int_s cn10; */
+    /* struct cavm_mcsx_mil_rx_lmacx_int_s cn10kb; */
+    struct cavm_mcsx_mil_rx_lmacx_int_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t mil_rx_x2p_small_packet_drop : 1;/**< [ 10: 10](R/W1C/H) MIL RX X2P Small packet drop, based on SMALL_PACKET_DROP_EN/THRESH */
+        uint64_t mil_rx_x2p_prt_vlt    : 1;  /**< [  9:  9](R/W1C/H) MIL RX X2P protocol violation, i.e consecutive SOP's w/o EOP, valid data w/o preliminary SOP, etc..
+                                                                 In this case the X2P cycle is silently dropped.
                                                                  for additional diagnostic see X2P in OCLA. */
         uint64_t mil_rx_bbe_plcy_cnt_unf : 1;/**< [  8:  8](R/W1C/H) MIL BBE POLICY credit counter underflow, unused in external bypass mode. */
         uint64_t mil_rx_bbe_plcy_cnt_ovf : 1;/**< [  7:  7](R/W1C/H) MIL BBE POLICY credit counter overflow, unused in external bypass mode. */
@@ -15025,8 +15223,7 @@ union cavm_mcsx_mil_rx_lmacx_int
         uint64_t mil_rx_x2p_small_packet_drop : 1;/**< [ 10: 10](R/W1C/H) MIL RX X2P Small packet drop, based on SMALL_PACKET_DROP_EN/THRESH */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_rx_lmacx_int_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mcsx_mil_rx_lmacx_int cavm_mcsx_mil_rx_lmacx_int_t;
 
@@ -15337,6 +15534,28 @@ union cavm_mcsx_mil_tx_lmacx_int
         uint64_t mil_tx_cc_ack_cnt_ovf : 1;  /**< [  4:  4](R/W1C/H) MIL TX MAC CC ACK counter overflow. */
         uint64_t mil_tx_cc_eop_cnt_ovf : 1;  /**< [  3:  3](R/W1C/H) MIL TX MAC CC EOP counter overflow. */
         uint64_t mil_tx_cc_cnt_ovf     : 1;  /**< [  2:  2](R/W1C/H) MIL TX MAC CC counter overflow. */
+        uint64_t mil_tx_skid_cnt_unf   : 1;  /**< [  1:  1](R/W1C/H) MIL TX SKID counter underflow. Not applicable on bypass mode. */
+        uint64_t mil_tx_skid_cnt_ovf   : 1;  /**< [  0:  0](R/W1C/H) MIL TX SKID counter overflow. Not applicable on bypass mode. */
+#else /* Word 0 - Little Endian */
+        uint64_t mil_tx_skid_cnt_ovf   : 1;  /**< [  0:  0](R/W1C/H) MIL TX SKID counter overflow. Not applicable on bypass mode. */
+        uint64_t mil_tx_skid_cnt_unf   : 1;  /**< [  1:  1](R/W1C/H) MIL TX SKID counter underflow. Not applicable on bypass mode. */
+        uint64_t mil_tx_cc_cnt_ovf     : 1;  /**< [  2:  2](R/W1C/H) MIL TX MAC CC counter overflow. */
+        uint64_t mil_tx_cc_eop_cnt_ovf : 1;  /**< [  3:  3](R/W1C/H) MIL TX MAC CC EOP counter overflow. */
+        uint64_t mil_tx_cc_ack_cnt_ovf : 1;  /**< [  4:  4](R/W1C/H) MIL TX MAC CC ACK counter overflow. */
+        uint64_t mil_tx_illegal_cc_from_pab : 1;/**< [  5:  5](R/W1C/H) MIL TX illegal number of CCs from PAB, range is 0-4. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_mil_tx_lmacx_int_s cn10; */
+    /* struct cavm_mcsx_mil_tx_lmacx_int_s cn10kb; */
+    struct cavm_mcsx_mil_tx_lmacx_int_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t mil_tx_illegal_cc_from_pab : 1;/**< [  5:  5](R/W1C/H) MIL TX illegal number of CCs from PAB, range is 0-4. */
+        uint64_t mil_tx_cc_ack_cnt_ovf : 1;  /**< [  4:  4](R/W1C/H) MIL TX MAC CC ACK counter overflow. */
+        uint64_t mil_tx_cc_eop_cnt_ovf : 1;  /**< [  3:  3](R/W1C/H) MIL TX MAC CC EOP counter overflow. */
+        uint64_t mil_tx_cc_cnt_ovf     : 1;  /**< [  2:  2](R/W1C/H) MIL TX MAC CC counter overflow. */
         uint64_t mil_tx_skid_cnt_unf   : 1;  /**< [  1:  1](R/W1C/H) MIL TX SKID counter underflow. */
         uint64_t mil_tx_skid_cnt_ovf   : 1;  /**< [  0:  0](R/W1C/H) MIL TX SKID counter overflow. */
 #else /* Word 0 - Little Endian */
@@ -15348,8 +15567,7 @@ union cavm_mcsx_mil_tx_lmacx_int
         uint64_t mil_tx_illegal_cc_from_pab : 1;/**< [  5:  5](R/W1C/H) MIL TX illegal number of CCs from PAB, range is 0-4. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_mil_tx_lmacx_int_s cn; */
+    } cnf10kb;
 };
 typedef union cavm_mcsx_mil_tx_lmacx_int cavm_mcsx_mil_tx_lmacx_int_t;
 
@@ -19323,6 +19541,48 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(u
 #define arguments_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_cpex_configuration
+ *
+ * MCS Rs Cmcs Cpex Rx Slave Cpex Configuration Register
+ * General CPEX Configuration
+ */
+union cavm_mcsx_rs_cmcs_cpex_rx_slave_cpex_configuration
+{
+    uint64_t u;
+    struct cavm_mcsx_rs_cmcs_cpex_rx_slave_cpex_configuration_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t itag_after_multi_btag_en : 1;/**< [  0:  0](R/W) When set to 1, enable multiple B-tag EtherTypes prior to I-tag EtherType for PBB
+                                                                 detection. When set to 0, single B-tag must be present before I-tag for PBB
+                                                                 detection */
+#else /* Word 0 - Little Endian */
+        uint64_t itag_after_multi_btag_en : 1;/**< [  0:  0](R/W) When set to 1, enable multiple B-tag EtherTypes prior to I-tag EtherType for PBB
+                                                                 detection. When set to 0, single B-tag must be present before I-tag for PBB
+                                                                 detection */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_rs_cmcs_cpex_rx_slave_cpex_configuration_s cn; */
+};
+typedef union cavm_mcsx_rs_cmcs_cpex_rx_slave_cpex_configuration cavm_mcsx_rs_cmcs_cpex_rx_slave_cpex_configuration_t;
+
+static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x87e08005ce80ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(a) cavm_mcsx_rs_cmcs_cpex_rx_slave_cpex_configuration_t
+#define bustype_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(a) CSR_TYPE_RSL
+#define basename_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(a) "MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION"
+#define device_bar_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(a) (a)
+#define arguments_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_ctl_pkt_rule_cdp
  *
  * MCS Rs Cmcs Cpex Rx Slave Ctl Pkt Rule Cdp Register
@@ -20137,6 +20397,48 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(u
 #define device_bar_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) (a)
 #define arguments_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_cpex_configuration
+ *
+ * MCS Rs Cmcs Cpex Tx Slave Cpex Configuration Register
+ * General CPEX Configuration
+ */
+union cavm_mcsx_rs_cmcs_cpex_tx_slave_cpex_configuration
+{
+    uint64_t u;
+    struct cavm_mcsx_rs_cmcs_cpex_tx_slave_cpex_configuration_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t itag_after_multi_btag_en : 1;/**< [  0:  0](R/W) When set to 1, enable multiple B-tag EtherTypes prior to I-tag EtherType for PBB
+                                                                 detection. When set to 0, single B-tag must be present before I-tag for PBB
+                                                                 detection */
+#else /* Word 0 - Little Endian */
+        uint64_t itag_after_multi_btag_en : 1;/**< [  0:  0](R/W) When set to 1, enable multiple B-tag EtherTypes prior to I-tag EtherType for PBB
+                                                                 detection. When set to 0, single B-tag must be present before I-tag for PBB
+                                                                 detection */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_rs_cmcs_cpex_tx_slave_cpex_configuration_s cn; */
+};
+typedef union cavm_mcsx_rs_cmcs_cpex_tx_slave_cpex_configuration cavm_mcsx_rs_cmcs_cpex_tx_slave_cpex_configuration_t;
+
+static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x87e08005f670ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(a) cavm_mcsx_rs_cmcs_cpex_tx_slave_cpex_configuration_t
+#define bustype_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(a) CSR_TYPE_RSL
+#define basename_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(a) "MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION"
+#define device_bar_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(a) (a)
+#define arguments_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_ctl_pkt_rule_cdp

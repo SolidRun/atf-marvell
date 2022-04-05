@@ -612,7 +612,7 @@ static inline uint64_t CAVM_MIO_PTP_CLOCK_LO_FUNC(void)
  * Register (NCB) mio_ptp_clock_sec
  *
  * PTP Clock Sec Register
- * This register provides the instantanoues value of bits \<63:32\> of the PTP timestamp.
+ * This register provides the instantaneous value of bits \<63:32\> of the PTP timestamp.
  */
 union cavm_mio_ptp_clock_sec
 {

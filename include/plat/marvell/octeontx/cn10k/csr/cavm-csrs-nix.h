@@ -13406,6 +13406,49 @@ static inline uint64_t CAVM_NIXX_AF_RQ_CONST(uint64_t a)
 #define arguments_CAVM_NIXX_AF_RQ_CONST(a) (a),-1,-1,-1
 
 /**
+ * Register (RVU_PF_BAR0) nix#_af_rqm_eco
+ *
+ * AF RQM Enhanced Control Options Register
+ */
+union cavm_nixx_af_rqm_eco
+{
+    uint64_t u;
+    struct cavm_nixx_af_rqm_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) [62:0] - Reserved. Do not modify. [63] - Set
+                                                                 NIX_RQ_CTX_S[LPB_AURA]=0 and NIX_RQ_CTX_S[SPB_AURA]=0,
+                                                                 for IPsec replayed packets. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 64; /**< [ 63:  0](R/W) [62:0] - Reserved. Do not modify. [63] - Set
+                                                                 NIX_RQ_CTX_S[LPB_AURA]=0 and NIX_RQ_CTX_S[SPB_AURA]=0,
+                                                                 for IPsec replayed packets. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_nixx_af_rqm_eco_s cn; */
+};
+typedef union cavm_nixx_af_rqm_eco cavm_nixx_af_rqm_eco_t;
+
+static inline uint64_t CAVM_NIXX_AF_RQM_ECO(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_NIXX_AF_RQM_ECO(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_1) && (a<=1))
+        return 0x8400400005a0ll + 0x10000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x8400400005a0ll + 0x10000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x8400400005a0ll + 0x10000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("NIXX_AF_RQM_ECO", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_NIXX_AF_RQM_ECO(a) cavm_nixx_af_rqm_eco_t
+#define bustype_CAVM_NIXX_AF_RQM_ECO(a) CSR_TYPE_RVU_PF_BAR0
+#define basename_CAVM_NIXX_AF_RQM_ECO(a) "NIXX_AF_RQM_ECO"
+#define device_bar_CAVM_NIXX_AF_RQM_ECO(a) 0x0 /* RVU_BAR0 */
+#define busnum_CAVM_NIXX_AF_RQM_ECO(a) (a)
+#define arguments_CAVM_NIXX_AF_RQM_ECO(a) (a),-1,-1,-1
+
+/**
  * Register (RVU_PF_BAR0) nix#_af_rvu_int
  *
  * NIX AF RVU Interrupt Register

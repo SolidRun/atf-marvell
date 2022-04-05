@@ -1312,6 +1312,55 @@ static inline uint64_t CAVM_APAX_DERR_INFO(uint64_t a)
 #define arguments_CAVM_APAX_DERR_INFO(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) apa#_dispblk
+ *
+ * APA Dispatch Block Register
+ * This register throttles the core instruction dispatch.  This is meant to be used by
+ * the SCP to mitigate overheat cases.
+ */
+union cavm_apax_dispblk
+{
+    uint64_t u;
+    struct cavm_apax_dispblk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t en                    : 1;  /**< [ 15: 15](SR/W) Block core instruction dispatch. */
+        uint64_t reserved_8_14         : 7;
+        uint64_t count                 : 8;  /**< [  7:  0](SR/W) The number of cycles (-1) out of 256 that core instruction dispatch should blocked. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 8;  /**< [  7:  0](SR/W) The number of cycles (-1) out of 256 that core instruction dispatch should blocked. */
+        uint64_t reserved_8_14         : 7;
+        uint64_t en                    : 1;  /**< [ 15: 15](SR/W) Block core instruction dispatch. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_dispblk_s cn; */
+};
+typedef union cavm_apax_dispblk cavm_apax_dispblk_t;
+
+static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=23))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=17))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=11))
+        return 0x87e340001700ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("APAX_DISPBLK", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_APAX_DISPBLK(a) cavm_apax_dispblk_t
+#define bustype_CAVM_APAX_DISPBLK(a) CSR_TYPE_RSL
+#define basename_CAVM_APAX_DISPBLK(a) "APAX_DISPBLK"
+#define device_bar_CAVM_APAX_DISPBLK(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_APAX_DISPBLK(a) (a)
+#define arguments_CAVM_APAX_DISPBLK(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) apa#_ecc_ctl
  *
  * APA ECC Generation/Checking Control Register
@@ -2894,6 +2943,76 @@ union cavm_apax_test_pll
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.
 
+                                                                 This field is reinitialized on a cold domain reset. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](SR/W/H) PLL output Stopped.  This bit is set by hardware when the STOP_CNT reaches zero.
+                                                                 Clearing this bit will restart the clock. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](SR/W/H) Counter Delay to stop PLL output.  When a positive value is written to this field the
+                                                                 PLL output will stop when the counter reaches 0.  The counter decrements every PLL output clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](SR/W/H) Counter Delay to stop PLL output.  When a positive value is written to this field the
+                                                                 PLL output will stop when the counter reaches 0.  The counter decrements every PLL output clock. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](SR/W/H) PLL output Stopped.  This bit is set by hardware when the STOP_CNT reaches zero.
+                                                                 Clearing this bit will restart the clock. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitialized on a cold domain reset. */
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Test bits sent to the PLL.
+                                                                 The following test_rsvd registeers can be accessed and data is supplied
+                                                                 by the STOP_CNT field.
+
+                                                                 0 = test_rsvd0, STOP_CNT with TILE_MSC_DISABLE cleared
+                                                                 1 = test_rsvd1, STOP_CNT with TILE_MSC_DISABLE set
+                                                                 2,3  = reserved
+                                                                 4 = test_rsvd4, PLL Debug
+                                                                 5 = test_rsvd5, ARO User Mode Control
+                                                                 6 = test_rsvd6, ARO Calibration Min/Save Values
+                                                                 7 = test_rsvd7, ARO User P1/P2 Settings
+
+                                                                 TILE_MSC_DISABLE, when set, disables diagnostic output for the pcl row,
+                                                                 causing the msc_clkout and  msc_lockout to not propagate across
+                                                                 the pcl row.  This bit should be identically programmed across the same PCL row. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_apax_test_pll_s cn10; */
+    /* struct cavm_apax_test_pll_s cn10ka_p1; */
+    struct cavm_apax_test_pll_cn10ka_p2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](SR/W) Test bits sent to the PLL.
+                                                                 The following test_rsvd registeers can be accessed and data is supplied
+                                                                 by the STOP_CNT field.
+
+                                                                 0 = test_rsvd0, STOP_CNT with TILE_MSC_DISABLE cleared
+                                                                 1 = test_rsvd1, STOP_CNT with TILE_MSC_DISABLE set
+                                                                 2,3  = reserved
+                                                                 4 = test_rsvd4, PLL Debug
+                                                                 5 = test_rsvd5, ARO User Mode Control
+                                                                 6 = test_rsvd6, ARO Calibration Min/Save Values
+                                                                 7 = test_rsvd7, ARO User P1/P2 Settings
+
+                                                                 TILE_MSC_DISABLE, when set, disables diagnostic output for the pcl row,
+                                                                 causing the msc_clkout and  msc_lockout to not propagate across
+                                                                 the pcl row.  This bit should be identically programmed across the same PCL row. */
+        uint64_t test_ana              : 5;  /**< [ 44: 40](SR/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](SR/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
                                                                  This field is reinitilized on a cold domain reset. */
         uint64_t stop_clk              : 1;  /**< [ 32: 32](SR/W/H) PLL output Stopped.  This bit is set by hardware when the STOP_CNT reaches zero.
                                                                  Clearing this bit will restart the clock. */
@@ -2932,9 +3051,7 @@ union cavm_apax_test_pll
                                                                  the pcl row.  This bit should be identically programmed across the same PCL row. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_apax_test_pll_s cn10; */
-    /* struct cavm_apax_test_pll_s cn10ka; */
+    } cn10ka_p2;
     struct cavm_apax_test_pll_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2964,7 +3081,7 @@ union cavm_apax_test_pll
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.
 
-                                                                 This field is reinitilized on a cold domain reset. */
+                                                                 This field is reinitialized on a cold domain reset. */
         uint64_t stop_clk              : 1;  /**< [ 32: 32](SR/W/H) PLL output stop control.  When this field is set along with a postive
                                                                  this will start the counter at STOP_CNT and stop the output clock when the
                                                                  counter reaches zero.  Writing this bit to a 0 will re-start the clock.
@@ -2986,7 +3103,7 @@ union cavm_apax_test_pll
                                                                  to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
                                                                  [MSC_ENABLE] may be set at a time.
 
-                                                                 This field is reinitilized on a cold domain reset. */
+                                                                 This field is reinitialized on a cold domain reset. */
         uint64_t testclk_pll1          : 1;  /**< [ 34: 34](SR/W) Test Clock source selection.
                                                                    0 = TEST_CLKOUT Based on PLL0.
                                                                    1 = TEST_CLKOUT Based on PLL1. */

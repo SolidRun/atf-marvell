@@ -51,13 +51,13 @@ union cavm_emmcx_clk_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC IO clk enable. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
         uint64_t wrap_sclk_force       : 1;  /**< [  1:  1](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
 #else /* Word 0 - Little Endian */
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
         uint64_t wrap_sclk_force       : 1;  /**< [  1:  1](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
-        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC IO clk enable. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
@@ -78,13 +78,13 @@ union cavm_emmcx_clk_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC IO clk enable. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
         uint64_t reserved_1            : 1;
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
 #else /* Word 0 - Little Endian */
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
         uint64_t reserved_1            : 1;
-        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC IO clk enable. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } cnf10kb;

@@ -1262,7 +1262,7 @@ union cavm_pemx_ctl_status
                                                                  config writes from the Config Table. */
         uint64_t l1_exit               : 1;  /**< [  3:  3](R/W) L1 exit control.
                                                                  0 = Hardware is allowed to enter L1 power state and will only exit when woken
-                                                                 up by the remote link partner or traffic arrives on NCBO or EBO busses.
+                                                                 up by the remote link partner or traffic arrives on NCBO or EBO buses.
                                                                  1 = Entry into L1 state is disabled and if already in L1 state, will force an
                                                                  exit. */
         uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
@@ -1274,7 +1274,7 @@ union cavm_pemx_ctl_status
         uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
         uint64_t l1_exit               : 1;  /**< [  3:  3](R/W) L1 exit control.
                                                                  0 = Hardware is allowed to enter L1 power state and will only exit when woken
-                                                                 up by the remote link partner or traffic arrives on NCBO or EBO busses.
+                                                                 up by the remote link partner or traffic arrives on NCBO or EBO buses.
                                                                  1 = Entry into L1 state is disabled and if already in L1 state, will force an
                                                                  exit. */
         uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W/H) Link Enable.
@@ -3379,23 +3379,23 @@ union cavm_pemx_int_sum
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) PTM Requester Unexpected Response Timeout.  Indicates 100us timeout
-                                                                 occured while waiting for a PTM Response/ResponseD message while a
+                                                                 occurred while waiting for a PTM Response/ResponseD message while a
                                                                  PTM update is in progress. */
         uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) PTM Requester Duplicate Received.  Indicates PTM Requester
                                                                  received a duplicate TLP while either:
                                                                  - PTM Requester is in the process or updating local clock.
-                                                                 - Following calculation of the update, when the PTM context is valud. */
+                                                                 - Following calculation of the update, when the PTM context is valid. */
         uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) PTM Requester Replay Sent.  PTM Requester detected a TLP replay
                                                                  being sent when ResponseD messages are in use while either:
                                                                  - PTM Requester is in the process or updating local clock.
-                                                                 - Following calculation of the update, when the PTM context is valud. */
+                                                                 - Following calculation of the update, when the PTM context is valid. */
         uint64_t un_vf_b0              : 1;  /**< [ 21: 21](R/W1C/H) Received N-TLP for VF BAR0 when VF BAR0 is disabled. */
         uint64_t reserved_19_20        : 2;
         uint64_t up_vf_b0              : 1;  /**< [ 18: 18](R/W1C/H) Received P-TLP for  VF BAR0 when VF BAR0 is disabled. */
         uint64_t reserved_16_17        : 2;
         uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) PTM Root is ready to have to context validated.
                                                                  When PEM()_PTM_CTL[PTM_AUTO_LOAD] is not set, the Mac PTM logic does
-                                                                 not have a permenantly valid context.  Currently the core invalidates
+                                                                 not have a permanently valid context.  Currently the core invalidates
                                                                  the responder context on two conditions
                                                                  * aux_clk is active
                                                                  * Link speed changes
@@ -3405,7 +3405,7 @@ union cavm_pemx_int_sum
                                                                  (PCIERC_PTM_RES_CTL[PRES_CTX_VLD]). */
         uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Received N-TLP for BAR0 when BAR0 is disabled. */
         uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Received P-TLP for BAR0 when BAR0 is disabled. */
-        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Indicates that a surprise down event is occuring in the controller. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Indicates that a surprise down event is occurring in the controller. */
         uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) AP cores sent a second config read while a current config read was within the timeout window. */
         uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Received CRS when retries were disabled. */
         uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Had a CRS timeout event. */
@@ -3431,12 +3431,12 @@ union cavm_pemx_int_sum
         uint64_t crs_er                : 1;  /**< [  9:  9](R/W1C/H) Had a CRS timeout event. */
         uint64_t crs_dr                : 1;  /**< [ 10: 10](R/W1C/H) Received CRS when retries were disabled. */
         uint64_t cfg_inf               : 1;  /**< [ 11: 11](R/W1C/H) AP cores sent a second config read while a current config read was within the timeout window. */
-        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Indicates that a surprise down event is occuring in the controller. */
+        uint64_t surp_down             : 1;  /**< [ 12: 12](R/W1C/H) Indicates that a surprise down event is occurring in the controller. */
         uint64_t up_b0                 : 1;  /**< [ 13: 13](R/W1C/H) Received P-TLP for BAR0 when BAR0 is disabled. */
         uint64_t un_b0                 : 1;  /**< [ 14: 14](R/W1C/H) Received N-TLP for BAR0 when BAR0 is disabled. */
         uint64_t ptm_rdy_val           : 1;  /**< [ 15: 15](R/W1C/H) PTM Root is ready to have to context validated.
                                                                  When PEM()_PTM_CTL[PTM_AUTO_LOAD] is not set, the Mac PTM logic does
-                                                                 not have a permenantly valid context.  Currently the core invalidates
+                                                                 not have a permanently valid context.  Currently the core invalidates
                                                                  the responder context on two conditions
                                                                  * aux_clk is active
                                                                  * Link speed changes
@@ -3451,13 +3451,13 @@ union cavm_pemx_int_sum
         uint64_t ptm_rq_replaytx       : 1;  /**< [ 22: 22](R/W1C/H) PTM Requester Replay Sent.  PTM Requester detected a TLP replay
                                                                  being sent when ResponseD messages are in use while either:
                                                                  - PTM Requester is in the process or updating local clock.
-                                                                 - Following calculation of the update, when the PTM context is valud. */
+                                                                 - Following calculation of the update, when the PTM context is valid. */
         uint64_t ptm_rq_duprx          : 1;  /**< [ 23: 23](R/W1C/H) PTM Requester Duplicate Received.  Indicates PTM Requester
                                                                  received a duplicate TLP while either:
                                                                  - PTM Requester is in the process or updating local clock.
-                                                                 - Following calculation of the update, when the PTM context is valud. */
+                                                                 - Following calculation of the update, when the PTM context is valid. */
         uint64_t ptm_rq_unexp_rto      : 1;  /**< [ 24: 24](R/W1C/H) PTM Requester Unexpected Response Timeout.  Indicates 100us timeout
-                                                                 occured while waiting for a PTM Response/ResponseD message while a
+                                                                 occurred while waiting for a PTM Response/ResponseD message while a
                                                                  PTM update is in progress. */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */

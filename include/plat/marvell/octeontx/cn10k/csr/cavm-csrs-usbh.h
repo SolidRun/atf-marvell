@@ -11348,6 +11348,58 @@ static inline uint64_t CAVM_USBHX_UCTL_CTL(uint64_t a)
 #define arguments_CAVM_USBHX_UCTL_CTL(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) usbh#_uctl_eusb2phy_cfg2
+ *
+ * USB UCTL EUSB2PHY Configuration Register 2
+ * This register allows configuration of eusb2 phy module
+ */
+union cavm_usbhx_uctl_eusb2phy_cfg2
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_eusb2phy_cfg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t phy_cfg_rcal_code     : 4;  /**< [  7:  4](R/W) Controls HS termination in bypass mode */
+        uint64_t reserved_3            : 1;
+        uint64_t phy_cfg_rx_hs_term_en : 1;  /**< [  2:  2](R/W) eUSB HS RX termination enable
+                                                                 1 = RX differential termination enabled in HS mode
+                                                                 0 = RX differential termination disabled in HS mode */
+        uint64_t phy_cfg_rptr_mode     : 1;  /**< [  1:  1](R/W) Selects the eUSB mode. 1 = Repeater mode 0 = Native mode */
+        uint64_t vbus_valid_ext        : 1;  /**< [  0:  0](R/W) Indicates the VBUS valid status. */
+#else /* Word 0 - Little Endian */
+        uint64_t vbus_valid_ext        : 1;  /**< [  0:  0](R/W) Indicates the VBUS valid status. */
+        uint64_t phy_cfg_rptr_mode     : 1;  /**< [  1:  1](R/W) Selects the eUSB mode. 1 = Repeater mode 0 = Native mode */
+        uint64_t phy_cfg_rx_hs_term_en : 1;  /**< [  2:  2](R/W) eUSB HS RX termination enable
+                                                                 1 = RX differential termination enabled in HS mode
+                                                                 0 = RX differential termination disabled in HS mode */
+        uint64_t reserved_3            : 1;
+        uint64_t phy_cfg_rcal_code     : 4;  /**< [  7:  4](R/W) Controls HS termination in bypass mode */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_eusb2phy_cfg2_s cn; */
+};
+typedef union cavm_usbhx_uctl_eusb2phy_cfg2 cavm_usbhx_uctl_eusb2phy_cfg2_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100140ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100140ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_EUSB2PHY_CFG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_EUSB2PHY_CFG2(a) cavm_usbhx_uctl_eusb2phy_cfg2_t
+#define bustype_CAVM_USBHX_UCTL_EUSB2PHY_CFG2(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_EUSB2PHY_CFG2(a) "USBHX_UCTL_EUSB2PHY_CFG2"
+#define device_bar_CAVM_USBHX_UCTL_EUSB2PHY_CFG2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_EUSB2PHY_CFG2(a) (a)
+#define arguments_CAVM_USBHX_UCTL_EUSB2PHY_CFG2(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) usbh#_uctl_host_cfg
  *
  * USB UCTL Host Controller Configuration Register
@@ -12319,7 +12371,7 @@ union cavm_usbhx_uctl_portx_cr_dbg_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_usbhx_uctl_portx_cr_dbg_cfg_s cn10; */
-    struct cavm_usbhx_uctl_portx_cr_dbg_cfg_cn10ka
+    struct cavm_usbhx_uctl_portx_cr_dbg_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
@@ -12338,7 +12390,8 @@ union cavm_usbhx_uctl_portx_cr_dbg_cfg
         uint64_t data_in               : 16; /**< [ 47: 32](R/W) Address or data to be written to the CR interface. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_usbhx_uctl_portx_cr_dbg_cfg_s cn10ka_p2; */
     /* struct cavm_usbhx_uctl_portx_cr_dbg_cfg_s cn10kb; */
 };
 typedef union cavm_usbhx_uctl_portx_cr_dbg_cfg cavm_usbhx_uctl_portx_cr_dbg_cfg_t;
@@ -12391,7 +12444,7 @@ union cavm_usbhx_uctl_portx_cr_dbg_status
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_usbhx_uctl_portx_cr_dbg_status_s cn10; */
-    struct cavm_usbhx_uctl_portx_cr_dbg_status_cn10ka
+    struct cavm_usbhx_uctl_portx_cr_dbg_status_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
@@ -12404,7 +12457,8 @@ union cavm_usbhx_uctl_portx_cr_dbg_status
         uint64_t data_out              : 16; /**< [ 47: 32](RO/H) Last data read from the CR interface. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_usbhx_uctl_portx_cr_dbg_status_s cn10ka_p2; */
     /* struct cavm_usbhx_uctl_portx_cr_dbg_status_s cn10kb; */
 };
 typedef union cavm_usbhx_uctl_portx_cr_dbg_status cavm_usbhx_uctl_portx_cr_dbg_status_t;
@@ -12671,6 +12725,762 @@ static inline uint64_t CAVM_USBHX_UCTL_SHIM_CFG(uint64_t a)
 #define device_bar_CAVM_USBHX_UCTL_SHIM_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_USBHX_UCTL_SHIM_CFG(a) (a)
 #define arguments_CAVM_USBHX_UCTL_SHIM_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31cntrlr_cfg1
+ *
+ * USBH UCTL USB3.1 Controller Configuration Register 1
+ * Configuration register for USB 3.1 Controller module
+ */
+union cavm_usbhx_uctl_usb31cntrlr_cfg1
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31cntrlr_cfg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t host_force_gen1_speed : 1;  /**< [ 55: 55](R/W) USB 3.1 ESS force link Gen1 link speed control
+                                                                 0 = Max link speed is Gen2
+                                                                 1 = Max link speed is Gen1
+                                                                 This signal, when '1', forces the link to connect at Gen1. */
+        uint64_t start_rx_det_u3_rx_det : 1; /**< [ 54: 54](R/W) Starts receiver detection in U3/Rx.Detect (StartRxdetU3RxDet). */
+        uint64_t dis_rx_det_u3_rx_det  : 1;  /**< [ 53: 53](R/W) Request controller to stop issuing more PHY commands and
+                                                                 release PIPE ownership. */
+        uint64_t reserved_52           : 1;
+        uint64_t soc_common_rd_wr_bus  : 1;  /**< [ 51: 51](R/W) Indicates read and write are issued on common bus
+                                                                 0 = Separate read and write bus(ex: AXI/Native)
+                                                                 1 = Common read and write bus(Ex: AHB) */
+        uint64_t soc_rd_uf_kb_bandwidth : 15;/**< [ 50: 36](R/W) Indicates maximum read bandwidth on SoC available in terms of kilo bytes per micro-frame. */
+        uint64_t reserved_35           : 1;
+        uint64_t host_legacy_smi_bar_wr : 1; /**< [ 34: 34](R/W) Controls PCI2 Base Address Register (BAR). */
+        uint64_t host_legacy_smi_pci_cmd_reg_wr : 1;/**< [ 33: 33](R/W) Controls PCIe command register write. */
+        uint64_t host_msi_enable       : 1;  /**< [ 32: 32](R/W) Enables pulse type interrupt signal.
+                                                                 MSI can only be enabled in host mode. */
+        uint64_t host_num_u3_port      : 4;  /**< [ 31: 28](R/W) Indicate or to set number of USB231 ESS ports. */
+        uint64_t host_num_u2_port      : 4;  /**< [ 27: 24](R/W) Indicate or to set number of USB2 ports. */
+        uint64_t reserved_21_23        : 3;
+        uint64_t pme_en                : 1;  /**< [ 20: 20](R/W) Controls enabling of pme_generation by the controller. */
+        uint64_t gp_in                 : 16; /**< [ 19:  4](R/W) General Purpose Input port. */
+        uint64_t reserved_3            : 1;
+        uint64_t big_endian_gs         : 1;  /**< [  2:  2](R/W) Controls selection of Big Endian mode for SoC bus slave.
+                                                                 0 = Little Endian
+                                                                 1 = Big Endian */
+        uint64_t bus_clken_gm          : 1;  /**< [  1:  1](R/W) Controls enabling of master interface clock(AHB/AXI/Native). */
+        uint64_t bus_clk_en_gs         : 1;  /**< [  0:  0](R/W) Controls enabling of slave interface clock(AHB/AXI/Native). */
+#else /* Word 0 - Little Endian */
+        uint64_t bus_clk_en_gs         : 1;  /**< [  0:  0](R/W) Controls enabling of slave interface clock(AHB/AXI/Native). */
+        uint64_t bus_clken_gm          : 1;  /**< [  1:  1](R/W) Controls enabling of master interface clock(AHB/AXI/Native). */
+        uint64_t big_endian_gs         : 1;  /**< [  2:  2](R/W) Controls selection of Big Endian mode for SoC bus slave.
+                                                                 0 = Little Endian
+                                                                 1 = Big Endian */
+        uint64_t reserved_3            : 1;
+        uint64_t gp_in                 : 16; /**< [ 19:  4](R/W) General Purpose Input port. */
+        uint64_t pme_en                : 1;  /**< [ 20: 20](R/W) Controls enabling of pme_generation by the controller. */
+        uint64_t reserved_21_23        : 3;
+        uint64_t host_num_u2_port      : 4;  /**< [ 27: 24](R/W) Indicate or to set number of USB2 ports. */
+        uint64_t host_num_u3_port      : 4;  /**< [ 31: 28](R/W) Indicate or to set number of USB231 ESS ports. */
+        uint64_t host_msi_enable       : 1;  /**< [ 32: 32](R/W) Enables pulse type interrupt signal.
+                                                                 MSI can only be enabled in host mode. */
+        uint64_t host_legacy_smi_pci_cmd_reg_wr : 1;/**< [ 33: 33](R/W) Controls PCIe command register write. */
+        uint64_t host_legacy_smi_bar_wr : 1; /**< [ 34: 34](R/W) Controls PCI2 Base Address Register (BAR). */
+        uint64_t reserved_35           : 1;
+        uint64_t soc_rd_uf_kb_bandwidth : 15;/**< [ 50: 36](R/W) Indicates maximum read bandwidth on SoC available in terms of kilo bytes per micro-frame. */
+        uint64_t soc_common_rd_wr_bus  : 1;  /**< [ 51: 51](R/W) Indicates read and write are issued on common bus
+                                                                 0 = Separate read and write bus(ex: AXI/Native)
+                                                                 1 = Common read and write bus(Ex: AHB) */
+        uint64_t reserved_52           : 1;
+        uint64_t dis_rx_det_u3_rx_det  : 1;  /**< [ 53: 53](R/W) Request controller to stop issuing more PHY commands and
+                                                                 release PIPE ownership. */
+        uint64_t start_rx_det_u3_rx_det : 1; /**< [ 54: 54](R/W) Starts receiver detection in U3/Rx.Detect (StartRxdetU3RxDet). */
+        uint64_t host_force_gen1_speed : 1;  /**< [ 55: 55](R/W) USB 3.1 ESS force link Gen1 link speed control
+                                                                 0 = Max link speed is Gen2
+                                                                 1 = Max link speed is Gen1
+                                                                 This signal, when '1', forces the link to connect at Gen1. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31cntrlr_cfg1_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31cntrlr_cfg1 cavm_usbhx_uctl_usb31cntrlr_cfg1_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100188ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100188ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31CNTRLR_CFG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(a) cavm_usbhx_uctl_usb31cntrlr_cfg1_t
+#define bustype_CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(a) "USBHX_UCTL_USB31CNTRLR_CFG1"
+#define device_bar_CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31cntrlr_cfg2
+ *
+ * USBH UCTL USB3.1 Controller Configuration Register 2
+ * Configuration register for USB 3.1 Controller module
+ */
+union cavm_usbhx_uctl_usb31cntrlr_cfg2
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31cntrlr_cfg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t utmio_vbusvalid       : 1;  /**< [ 52: 52](R/W) Indicates if vbus is valid for Host and A-device operation.
+                                                                 1 = Vbus \< 4.4 V
+                                                                 0 = Vbus \> 4.75 V */
+        uint64_t bus_filter_bypass     : 4;  /**< [ 51: 48](R/W) This signal disables the internal bus filters that are enabled by
+                                                                 DWC_USB31_EN_BUS_FILTERS coreConsultant parameter. */
+        uint64_t ptm_time              : 32; /**< [ 47: 16](R/W) PTM time adjustment value. This register indicates ptm value is terms of
+                                                                 milliseconds and nanoseconds
+                                                                 ptm_time 31..20 indicates wall clock in milliseconds
+                                                                 ptm_time 19..0 indicates wall clock in nanoseconds */
+        uint64_t ptm_time_valid        : 1;  /**< [ 15: 15](R/W) Indicates ptm time specified is valid for capture. */
+        uint64_t soc_wr_uf_kb_bandwidth : 15;/**< [ 14:  0](R/W) Indicates maximum write bandwidth on SoC available in terms of kilo bytes per micro-frame. */
+#else /* Word 0 - Little Endian */
+        uint64_t soc_wr_uf_kb_bandwidth : 15;/**< [ 14:  0](R/W) Indicates maximum write bandwidth on SoC available in terms of kilo bytes per micro-frame. */
+        uint64_t ptm_time_valid        : 1;  /**< [ 15: 15](R/W) Indicates ptm time specified is valid for capture. */
+        uint64_t ptm_time              : 32; /**< [ 47: 16](R/W) PTM time adjustment value. This register indicates ptm value is terms of
+                                                                 milliseconds and nanoseconds
+                                                                 ptm_time 31..20 indicates wall clock in milliseconds
+                                                                 ptm_time 19..0 indicates wall clock in nanoseconds */
+        uint64_t bus_filter_bypass     : 4;  /**< [ 51: 48](R/W) This signal disables the internal bus filters that are enabled by
+                                                                 DWC_USB31_EN_BUS_FILTERS coreConsultant parameter. */
+        uint64_t utmio_vbusvalid       : 1;  /**< [ 52: 52](R/W) Indicates if vbus is valid for Host and A-device operation.
+                                                                 1 = Vbus \< 4.4 V
+                                                                 0 = Vbus \> 4.75 V */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31cntrlr_cfg2_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31cntrlr_cfg2 cavm_usbhx_uctl_usb31cntrlr_cfg2_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100190ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100190ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31CNTRLR_CFG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(a) cavm_usbhx_uctl_usb31cntrlr_cfg2_t
+#define bustype_CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(a) "USBHX_UCTL_USB31CNTRLR_CFG2"
+#define device_bar_CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31phy_cfg1
+ *
+ * USBH UCTL USB3.1 PHY Configuration Register 1
+ * Configuration register for USB 3.1 PHY module
+ */
+union cavm_usbhx_uctl_usb31phy_cfg1
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31phy_cfg1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t pipe_lane0_link_num   : 4;  /**< [ 55: 52](R/W) NA */
+        uint64_t reserved_50_51        : 2;
+        uint64_t ext_dco_range         : 2;  /**< [ 49: 48](R/W) Select DCO range. dco_range needs to set for
+                                                                 proper boundary scan operation. */
+        uint64_t reserved_47           : 1;
+        uint64_t phy0_rext_en          : 1;  /**< [ 46: 46](R/W) Enables REXT block (CDM protected)
+                                                                 0 = Impedance is above 20kOhm
+                                                                 1 = Impedance can be controlled through Sup_ana_rext_ctrl
+                                                                 5..0 bus. */
+        uint64_t phy0_rext_ctrl        : 6;  /**< [ 45: 40](R/W) Control REXT block (CDM protected)
+                                                                 0 = Higher impedance
+                                                                 63 = Lower impedance */
+        uint64_t reserved_38_39        : 2;
+        uint64_t ext_dco_finetune      : 6;  /**< [ 37: 32](R/W) DCO calibration setting. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t pipe_tx0_eq_preset_coeff_req : 1;/**< [ 28: 28](R/W) NA */
+        uint64_t pipe_tx0_eq_preset    : 4;  /**< [ 27: 24](R/W) NA */
+        uint64_t reserved_22_23        : 2;
+        uint64_t pipe_tx0_disable      : 1;  /**< [ 21: 21](R/W) NA */
+        uint64_t pipe_tx0_compliance   : 1;  /**< [ 20: 20](R/W) NA */
+        uint64_t pipe_rx0_eq_invld_req : 1;  /**< [ 19: 19](R/W) NA */
+        uint64_t pipe_rx0_eq_in_prog   : 1;  /**< [ 18: 18](R/W) NA */
+        uint64_t pipe_rx0_eq_eval      : 1;  /**< [ 17: 17](R/W) NA */
+        uint64_t pipe_rx0_disable      : 1;  /**< [ 16: 16](R/W) NA */
+        uint64_t pipe_lane0_phy_src_sel : 2; /**< [ 15: 14](R/W) NA */
+        uint64_t reserved_13           : 1;
+        uint64_t pipe_lane0_clkreq_n   : 1;  /**< [ 12: 12](R/W) NA */
+        uint64_t pipe_tx0_pattern      : 2;  /**< [ 11: 10](R/W) NA */
+        uint64_t pipe_tx0_flyover_data_p : 1;/**< [  9:  9](R/W) NA */
+        uint64_t pipe_tx0_flyover_data_m : 1;/**< [  8:  8](R/W) NA */
+        uint64_t pipe_tx0_bypass_eq_calc : 1;/**< [  7:  7](R/W) NA */
+        uint64_t phy_lane0_power_present : 1;/**< [  6:  6](R/W) NA */
+        uint64_t phy0_ref_alt_clk_lp_sel : 1;/**< [  5:  5](R/W) This bit when asserted selects the external
+                                                                 ref_alt_clk_lp input as the reference clock source. */
+        uint64_t phy0_ref_alt_clk_lp   : 1;  /**< [  4:  4](R/W) Low precision reference clock. */
+        uint64_t reserved_0_3          : 4;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_3          : 4;
+        uint64_t phy0_ref_alt_clk_lp   : 1;  /**< [  4:  4](R/W) Low precision reference clock. */
+        uint64_t phy0_ref_alt_clk_lp_sel : 1;/**< [  5:  5](R/W) This bit when asserted selects the external
+                                                                 ref_alt_clk_lp input as the reference clock source. */
+        uint64_t phy_lane0_power_present : 1;/**< [  6:  6](R/W) NA */
+        uint64_t pipe_tx0_bypass_eq_calc : 1;/**< [  7:  7](R/W) NA */
+        uint64_t pipe_tx0_flyover_data_m : 1;/**< [  8:  8](R/W) NA */
+        uint64_t pipe_tx0_flyover_data_p : 1;/**< [  9:  9](R/W) NA */
+        uint64_t pipe_tx0_pattern      : 2;  /**< [ 11: 10](R/W) NA */
+        uint64_t pipe_lane0_clkreq_n   : 1;  /**< [ 12: 12](R/W) NA */
+        uint64_t reserved_13           : 1;
+        uint64_t pipe_lane0_phy_src_sel : 2; /**< [ 15: 14](R/W) NA */
+        uint64_t pipe_rx0_disable      : 1;  /**< [ 16: 16](R/W) NA */
+        uint64_t pipe_rx0_eq_eval      : 1;  /**< [ 17: 17](R/W) NA */
+        uint64_t pipe_rx0_eq_in_prog   : 1;  /**< [ 18: 18](R/W) NA */
+        uint64_t pipe_rx0_eq_invld_req : 1;  /**< [ 19: 19](R/W) NA */
+        uint64_t pipe_tx0_compliance   : 1;  /**< [ 20: 20](R/W) NA */
+        uint64_t pipe_tx0_disable      : 1;  /**< [ 21: 21](R/W) NA */
+        uint64_t reserved_22_23        : 2;
+        uint64_t pipe_tx0_eq_preset    : 4;  /**< [ 27: 24](R/W) NA */
+        uint64_t pipe_tx0_eq_preset_coeff_req : 1;/**< [ 28: 28](R/W) NA */
+        uint64_t reserved_29_31        : 3;
+        uint64_t ext_dco_finetune      : 6;  /**< [ 37: 32](R/W) DCO calibration setting. */
+        uint64_t reserved_38_39        : 2;
+        uint64_t phy0_rext_ctrl        : 6;  /**< [ 45: 40](R/W) Control REXT block (CDM protected)
+                                                                 0 = Higher impedance
+                                                                 63 = Lower impedance */
+        uint64_t phy0_rext_en          : 1;  /**< [ 46: 46](R/W) Enables REXT block (CDM protected)
+                                                                 0 = Impedance is above 20kOhm
+                                                                 1 = Impedance can be controlled through Sup_ana_rext_ctrl
+                                                                 5..0 bus. */
+        uint64_t reserved_47           : 1;
+        uint64_t ext_dco_range         : 2;  /**< [ 49: 48](R/W) Select DCO range. dco_range needs to set for
+                                                                 proper boundary scan operation. */
+        uint64_t reserved_50_51        : 2;
+        uint64_t pipe_lane0_link_num   : 4;  /**< [ 55: 52](R/W) NA */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31phy_cfg1_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31phy_cfg1 cavm_usbhx_uctl_usb31phy_cfg1_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100148ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100148ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31PHY_CFG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31PHY_CFG1(a) cavm_usbhx_uctl_usb31phy_cfg1_t
+#define bustype_CAVM_USBHX_UCTL_USB31PHY_CFG1(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31PHY_CFG1(a) "USBHX_UCTL_USB31PHY_CFG1"
+#define device_bar_CAVM_USBHX_UCTL_USB31PHY_CFG1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31PHY_CFG1(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31PHY_CFG1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31phy_cfg2
+ *
+ * USBH UCTL USB3.1 PHY Configuration Register 2
+ * Configuration register for USB 3.1 PHY module
+ */
+union cavm_usbhx_uctl_usb31phy_cfg2
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31phy_cfg2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ext_mplla_ssc_up_spread : 1;/**< [ 63: 63](R/W) Controls SSC profile for MPLLA.
+                                                                 1 = up spread
+                                                                 0 = down spread */
+        uint64_t ext_mplla_freq_vco    : 2;  /**< [ 62: 61](R/W) Controls MPLLA VCO range. */
+        uint64_t ext_mplla_fracn_en    : 1;  /**< [ 60: 60](R/W) Controls MPLLA fractional mode enable. */
+        uint64_t ext_mplla_fracn_den   : 16; /**< [ 59: 44](R/W) Controls the PLL modulated frequency fractional ratio. */
+        uint64_t ext_mplla_div_mul     : 8;  /**< [ 43: 36](R/W) Controls MPLLA outputr frequency multiplier. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t ext_mplla_div_clk_en  : 1;  /**< [ 32: 32](R/W) MPLLA divide clock enable. */
+        uint64_t ext_mplla_div5_clk_en : 1;  /**< [ 31: 31](R/W) MPLLA divide by 5 enable. */
+        uint64_t ext_mplla_cp_prop_gs  : 7;  /**< [ 30: 24](R/W) Controls proportional part of charge pump current
+                                                                 in gear-shift mode. */
+        uint64_t reserved_23           : 1;
+        uint64_t ext_mplla_cp_prop     : 7;  /**< [ 22: 16](R/W) Proportional CP control. Controls charge pump current. */
+        uint64_t reserved_15           : 1;
+        uint64_t ext_mplla_cp_int_gs   : 7;  /**< [ 14:  8](R/W) Controls integral part of charge pump current
+                                                                 in gear-shift mode. */
+        uint64_t reserved_7            : 1;
+        uint64_t ext_mplla_cp_int      : 7;  /**< [  6:  0](R/W) Integral CP control. Controls charge pump current. */
+#else /* Word 0 - Little Endian */
+        uint64_t ext_mplla_cp_int      : 7;  /**< [  6:  0](R/W) Integral CP control. Controls charge pump current. */
+        uint64_t reserved_7            : 1;
+        uint64_t ext_mplla_cp_int_gs   : 7;  /**< [ 14:  8](R/W) Controls integral part of charge pump current
+                                                                 in gear-shift mode. */
+        uint64_t reserved_15           : 1;
+        uint64_t ext_mplla_cp_prop     : 7;  /**< [ 22: 16](R/W) Proportional CP control. Controls charge pump current. */
+        uint64_t reserved_23           : 1;
+        uint64_t ext_mplla_cp_prop_gs  : 7;  /**< [ 30: 24](R/W) Controls proportional part of charge pump current
+                                                                 in gear-shift mode. */
+        uint64_t ext_mplla_div5_clk_en : 1;  /**< [ 31: 31](R/W) MPLLA divide by 5 enable. */
+        uint64_t ext_mplla_div_clk_en  : 1;  /**< [ 32: 32](R/W) MPLLA divide clock enable. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t ext_mplla_div_mul     : 8;  /**< [ 43: 36](R/W) Controls MPLLA outputr frequency multiplier. */
+        uint64_t ext_mplla_fracn_den   : 16; /**< [ 59: 44](R/W) Controls the PLL modulated frequency fractional ratio. */
+        uint64_t ext_mplla_fracn_en    : 1;  /**< [ 60: 60](R/W) Controls MPLLA fractional mode enable. */
+        uint64_t ext_mplla_freq_vco    : 2;  /**< [ 62: 61](R/W) Controls MPLLA VCO range. */
+        uint64_t ext_mplla_ssc_up_spread : 1;/**< [ 63: 63](R/W) Controls SSC profile for MPLLA.
+                                                                 1 = up spread
+                                                                 0 = down spread */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31phy_cfg2_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31phy_cfg2 cavm_usbhx_uctl_usb31phy_cfg2_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG2(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100150ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100150ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31PHY_CFG2", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31PHY_CFG2(a) cavm_usbhx_uctl_usb31phy_cfg2_t
+#define bustype_CAVM_USBHX_UCTL_USB31PHY_CFG2(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31PHY_CFG2(a) "USBHX_UCTL_USB31PHY_CFG2"
+#define device_bar_CAVM_USBHX_UCTL_USB31PHY_CFG2(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31PHY_CFG2(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31PHY_CFG2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31phy_cfg3
+ *
+ * USBH UCTL USB3.1 PHY Configuration Register 3
+ * Configuration register for USB 3.1 PHY module
+ */
+union cavm_usbhx_uctl_usb31phy_cfg3
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31phy_cfg3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_61_63        : 3;
+        uint64_t cmn_in_generic_bus    : 5;  /**< [ 60: 56](R/W) Controls generic input bus for common block. */
+        uint64_t ext_mplla_franc_mul   : 12; /**< [ 55: 44](R/W) Controls MPLLA multiplier. */
+        uint64_t ext_mplla_fracn_rem   : 16; /**< [ 43: 28](R/W) Controls MPLLA fractional remainder */
+        uint64_t ext_mplla_fracn_quot  : 16; /**< [ 27: 12](R/W) Controls MPLLA fractional quotient. */
+        uint64_t ext_mplla_word_div2_en : 1; /**< [ 11: 11](R/W) Controls MPPLA word clock divide by 2 enable. */
+        uint64_t ext_ref_clk_mplla_div : 3;  /**< [ 10:  8](R/W) Controls MPLLA reference clock divider. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t ext_mplla_v2i         : 2;  /**< [  5:  4](R/W) Controls configuration of V2I operating range. */
+        uint64_t reserved_3            : 1;
+        uint64_t ext_mplla_tx_clk_div  : 3;  /**< [  2:  0](R/W) Controls MPLLA output clock divider value. */
+#else /* Word 0 - Little Endian */
+        uint64_t ext_mplla_tx_clk_div  : 3;  /**< [  2:  0](R/W) Controls MPLLA output clock divider value. */
+        uint64_t reserved_3            : 1;
+        uint64_t ext_mplla_v2i         : 2;  /**< [  5:  4](R/W) Controls configuration of V2I operating range. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t ext_ref_clk_mplla_div : 3;  /**< [ 10:  8](R/W) Controls MPLLA reference clock divider. */
+        uint64_t ext_mplla_word_div2_en : 1; /**< [ 11: 11](R/W) Controls MPPLA word clock divide by 2 enable. */
+        uint64_t ext_mplla_fracn_quot  : 16; /**< [ 27: 12](R/W) Controls MPLLA fractional quotient. */
+        uint64_t ext_mplla_fracn_rem   : 16; /**< [ 43: 28](R/W) Controls MPLLA fractional remainder */
+        uint64_t ext_mplla_franc_mul   : 12; /**< [ 55: 44](R/W) Controls MPLLA multiplier. */
+        uint64_t cmn_in_generic_bus    : 5;  /**< [ 60: 56](R/W) Controls generic input bus for common block. */
+        uint64_t reserved_61_63        : 3;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31phy_cfg3_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31phy_cfg3 cavm_usbhx_uctl_usb31phy_cfg3_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG3(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG3(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100158ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100158ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31PHY_CFG3", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31PHY_CFG3(a) cavm_usbhx_uctl_usb31phy_cfg3_t
+#define bustype_CAVM_USBHX_UCTL_USB31PHY_CFG3(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31PHY_CFG3(a) "USBHX_UCTL_USB31PHY_CFG3"
+#define device_bar_CAVM_USBHX_UCTL_USB31PHY_CFG3(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31PHY_CFG3(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31PHY_CFG3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31phy_cfg4
+ *
+ * USBH UCTL USB3.1 PHY Configuration Register 4
+ * Configuration register for USB 3.1 PHY module
+ */
+union cavm_usbhx_uctl_usb31phy_cfg4
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31phy_cfg4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_41_63        : 23;
+        uint64_t ext_mplla_ssc_stepsize : 21;/**< [ 40: 20](R/W) Controls MPLLA ssc mode step size. */
+        uint64_t ext_mplla_ssc_peak    : 20; /**< [ 19:  0](R/W) Controls MPLLA ssc mode peak. */
+#else /* Word 0 - Little Endian */
+        uint64_t ext_mplla_ssc_peak    : 20; /**< [ 19:  0](R/W) Controls MPLLA ssc mode peak. */
+        uint64_t ext_mplla_ssc_stepsize : 21;/**< [ 40: 20](R/W) Controls MPLLA ssc mode step size. */
+        uint64_t reserved_41_63        : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31phy_cfg4_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31phy_cfg4 cavm_usbhx_uctl_usb31phy_cfg4_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG4(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG4(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100160ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100160ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31PHY_CFG4", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31PHY_CFG4(a) cavm_usbhx_uctl_usb31phy_cfg4_t
+#define bustype_CAVM_USBHX_UCTL_USB31PHY_CFG4(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31PHY_CFG4(a) "USBHX_UCTL_USB31PHY_CFG4"
+#define device_bar_CAVM_USBHX_UCTL_USB31PHY_CFG4(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31PHY_CFG4(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31PHY_CFG4(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31phy_cfg5
+ *
+ * USBH UCTL USB3.1 PHY Configuration Register 5
+ * Configuration register for USB 3.1 PHY module
+ */
+union cavm_usbhx_uctl_usb31phy_cfg5
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31phy_cfg5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t ext_rx_eq_dfe_tap1_g1 : 8;  /**< [ 59: 52](R/W) Controls the value of DFE data tap 1.
+                                                                 This is signed input, twos complement encoded. */
+        uint64_t ext_rx_eq_delta_iq_g2 : 4;  /**< [ 51: 48](R/W) Controls the value of the offset applied to the IQ calibration result. */
+        uint64_t ext_rx_eq_delta_iq_g1 : 4;  /**< [ 47: 44](R/W) Controls the value of the offset applied to the IQ calibration result. */
+        uint64_t reserved_41_43        : 3;
+        uint64_t ext_rx_eq_ctle_boost_g2 : 5;/**< [ 40: 36](R/W) Controls CTLE boost level, binary encoded. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t ext_rx_eq_ctle_boost_g1 : 5;/**< [ 32: 28](R/W) Controls CTLE boost level, binary encoded. */
+        uint64_t reserved_27           : 1;
+        uint64_t ext_rx_eq_att_lvl_g2  : 3;  /**< [ 26: 24](R/W) Controls rx equalization attenuation level. */
+        uint64_t reserved_23           : 1;
+        uint64_t ext_rx_eq_att_lvl_g1  : 3;  /**< [ 22: 20](R/W) Controls rx equalization attenuation level. */
+        uint64_t ext_rx_eq_afe_gain_g2 : 4;  /**< [ 19: 16](R/W) Controls gain of the AFE. */
+        uint64_t ext_rx_eq_afe_gain_g1 : 4;  /**< [ 15: 12](R/W) Controls gain of the AFE. */
+        uint64_t reserved_9_11         : 3;
+        uint64_t ext_rx_cdr_vco_lowfreq_g2 : 1;/**< [  8:  8](R/W) Controls the frequency of RX VCO to a lower frequency opearating band. */
+        uint64_t ext_rx_cdr_vco_lowfreq_g1 : 1;/**< [  7:  7](R/W) Controls the frequency of RX VCO to a lower frequency opearating band. */
+        uint64_t ext_rx_adapt_dfe_en_g2 : 1; /**< [  6:  6](R/W) Controls enabling of RX adaptation and decision feedback equalization. */
+        uint64_t ext_rx_adapt_dfe_en_g1 : 1; /**< [  5:  5](R/W) Controls enabling of RX adaptation and decision feedback equalization. */
+        uint64_t ext_rx_adapt_afe_en_g2 : 1; /**< [  4:  4](R/W) Controls enabling of RX adaptation circuitry */
+        uint64_t ext_rx_adapt_afe_en_g1 : 1; /**< [  3:  3](R/W) Controls enabling of RX adaptation circuitry */
+        uint64_t ext_ref_range         : 3;  /**< [  2:  0](R/W) Input reference clock frequency range
+                                                                 Specifies the frequency range of the input reference clock (post
+                                                                 ref_clk_div2_en division if any). Please refer databook
+                                                                 dwc_usb31sspphy_tsmc5ffx1ns_databook for code mapping. */
+#else /* Word 0 - Little Endian */
+        uint64_t ext_ref_range         : 3;  /**< [  2:  0](R/W) Input reference clock frequency range
+                                                                 Specifies the frequency range of the input reference clock (post
+                                                                 ref_clk_div2_en division if any). Please refer databook
+                                                                 dwc_usb31sspphy_tsmc5ffx1ns_databook for code mapping. */
+        uint64_t ext_rx_adapt_afe_en_g1 : 1; /**< [  3:  3](R/W) Controls enabling of RX adaptation circuitry */
+        uint64_t ext_rx_adapt_afe_en_g2 : 1; /**< [  4:  4](R/W) Controls enabling of RX adaptation circuitry */
+        uint64_t ext_rx_adapt_dfe_en_g1 : 1; /**< [  5:  5](R/W) Controls enabling of RX adaptation and decision feedback equalization. */
+        uint64_t ext_rx_adapt_dfe_en_g2 : 1; /**< [  6:  6](R/W) Controls enabling of RX adaptation and decision feedback equalization. */
+        uint64_t ext_rx_cdr_vco_lowfreq_g1 : 1;/**< [  7:  7](R/W) Controls the frequency of RX VCO to a lower frequency opearating band. */
+        uint64_t ext_rx_cdr_vco_lowfreq_g2 : 1;/**< [  8:  8](R/W) Controls the frequency of RX VCO to a lower frequency opearating band. */
+        uint64_t reserved_9_11         : 3;
+        uint64_t ext_rx_eq_afe_gain_g1 : 4;  /**< [ 15: 12](R/W) Controls gain of the AFE. */
+        uint64_t ext_rx_eq_afe_gain_g2 : 4;  /**< [ 19: 16](R/W) Controls gain of the AFE. */
+        uint64_t ext_rx_eq_att_lvl_g1  : 3;  /**< [ 22: 20](R/W) Controls rx equalization attenuation level. */
+        uint64_t reserved_23           : 1;
+        uint64_t ext_rx_eq_att_lvl_g2  : 3;  /**< [ 26: 24](R/W) Controls rx equalization attenuation level. */
+        uint64_t reserved_27           : 1;
+        uint64_t ext_rx_eq_ctle_boost_g1 : 5;/**< [ 32: 28](R/W) Controls CTLE boost level, binary encoded. */
+        uint64_t reserved_33_35        : 3;
+        uint64_t ext_rx_eq_ctle_boost_g2 : 5;/**< [ 40: 36](R/W) Controls CTLE boost level, binary encoded. */
+        uint64_t reserved_41_43        : 3;
+        uint64_t ext_rx_eq_delta_iq_g1 : 4;  /**< [ 47: 44](R/W) Controls the value of the offset applied to the IQ calibration result. */
+        uint64_t ext_rx_eq_delta_iq_g2 : 4;  /**< [ 51: 48](R/W) Controls the value of the offset applied to the IQ calibration result. */
+        uint64_t ext_rx_eq_dfe_tap1_g1 : 8;  /**< [ 59: 52](R/W) Controls the value of DFE data tap 1.
+                                                                 This is signed input, twos complement encoded. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31phy_cfg5_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31phy_cfg5 cavm_usbhx_uctl_usb31phy_cfg5_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG5(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG5(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100168ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100168ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31PHY_CFG5", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31PHY_CFG5(a) cavm_usbhx_uctl_usb31phy_cfg5_t
+#define bustype_CAVM_USBHX_UCTL_USB31PHY_CFG5(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31PHY_CFG5(a) "USBHX_UCTL_USB31PHY_CFG5"
+#define device_bar_CAVM_USBHX_UCTL_USB31PHY_CFG5(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31PHY_CFG5(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31PHY_CFG5(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31phy_cfg6
+ *
+ * USBH UCTL USB3.1 PHY Configuration Register 6
+ * Configuration register for USB 3.1 PHY module
+ */
+union cavm_usbhx_uctl_usb31phy_cfg6
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31phy_cfg6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_57_63        : 7;
+        uint64_t ext_rx_vco_ld_val_g1  : 13; /**< [ 56: 44](R/W) Controls loading of RX VCO Calibration load value. */
+        uint64_t reserved_43           : 1;
+        uint64_t ext_rx_term_ctrl      : 3;  /**< [ 42: 40](R/W) NA */
+        uint64_t reserved_37_39        : 3;
+        uint64_t ext_rx_sigdet_lf_filter_en : 1;/**< [ 36: 36](R/W) Controls enabling of low frequency filter. */
+        uint64_t ext_rx_sigdet_lf_en   : 1;  /**< [ 35: 35](R/W) Detects low frequency signal */
+        uint64_t ext_rx_sigdet_hf_thresh_g2 : 3;/**< [ 34: 32](R/W) Detects signal is high speed path. */
+        uint64_t reserved_31           : 1;
+        uint64_t ext_rx_sigdet_hf_thresh_g1 : 3;/**< [ 30: 28](R/W) Detects signal is high speed path. */
+        uint64_t reserved_25_27        : 3;
+        uint64_t ext_rx_sigdet_hf_filt_dis : 1;/**< [ 24: 24](R/W) Controls disabling of PCS_RAW sigdef_hf_out filter */
+        uint64_t ext_rx_sigdet_hf_en   : 1;  /**< [ 23: 23](R/W) Detects high frequency signal. */
+        uint64_t ext_rx_ref_ld_val_g2  : 7;  /**< [ 22: 16](R/W) Controls loading of internal calibration registers
+                                                                 used to perform RX VCO calibration. */
+        uint64_t reserved_15           : 1;
+        uint64_t ext_rx_ref_ld_val_g1  : 7;  /**< [ 14:  8](R/W) Controls loading of internal calibration registers
+                                                                 used to perform RX VCO calibration. */
+        uint64_t ext_rx_eq_dfe_tap1_g2 : 8;  /**< [  7:  0](R/W) Controls the value of DFE data tap 1.
+                                                                 This is signed input, twos complement encoded. */
+#else /* Word 0 - Little Endian */
+        uint64_t ext_rx_eq_dfe_tap1_g2 : 8;  /**< [  7:  0](R/W) Controls the value of DFE data tap 1.
+                                                                 This is signed input, twos complement encoded. */
+        uint64_t ext_rx_ref_ld_val_g1  : 7;  /**< [ 14:  8](R/W) Controls loading of internal calibration registers
+                                                                 used to perform RX VCO calibration. */
+        uint64_t reserved_15           : 1;
+        uint64_t ext_rx_ref_ld_val_g2  : 7;  /**< [ 22: 16](R/W) Controls loading of internal calibration registers
+                                                                 used to perform RX VCO calibration. */
+        uint64_t ext_rx_sigdet_hf_en   : 1;  /**< [ 23: 23](R/W) Detects high frequency signal. */
+        uint64_t ext_rx_sigdet_hf_filt_dis : 1;/**< [ 24: 24](R/W) Controls disabling of PCS_RAW sigdef_hf_out filter */
+        uint64_t reserved_25_27        : 3;
+        uint64_t ext_rx_sigdet_hf_thresh_g1 : 3;/**< [ 30: 28](R/W) Detects signal is high speed path. */
+        uint64_t reserved_31           : 1;
+        uint64_t ext_rx_sigdet_hf_thresh_g2 : 3;/**< [ 34: 32](R/W) Detects signal is high speed path. */
+        uint64_t ext_rx_sigdet_lf_en   : 1;  /**< [ 35: 35](R/W) Detects low frequency signal */
+        uint64_t ext_rx_sigdet_lf_filter_en : 1;/**< [ 36: 36](R/W) Controls enabling of low frequency filter. */
+        uint64_t reserved_37_39        : 3;
+        uint64_t ext_rx_term_ctrl      : 3;  /**< [ 42: 40](R/W) NA */
+        uint64_t reserved_43           : 1;
+        uint64_t ext_rx_vco_ld_val_g1  : 13; /**< [ 56: 44](R/W) Controls loading of RX VCO Calibration load value. */
+        uint64_t reserved_57_63        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31phy_cfg6_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31phy_cfg6 cavm_usbhx_uctl_usb31phy_cfg6_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG6(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG6(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100170ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100170ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31PHY_CFG6", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31PHY_CFG6(a) cavm_usbhx_uctl_usb31phy_cfg6_t
+#define bustype_CAVM_USBHX_UCTL_USB31PHY_CFG6(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31PHY_CFG6(a) "USBHX_UCTL_USB31PHY_CFG6"
+#define device_bar_CAVM_USBHX_UCTL_USB31PHY_CFG6(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31PHY_CFG6(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31PHY_CFG6(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31phy_cfg7
+ *
+ * USBH UCTL USB3.1 PHY Configuration Register 7
+ * Configuration register for USB 3.1 PHY module
+ */
+union cavm_usbhx_uctl_usb31phy_cfg7
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31phy_cfg7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t ext_rx_sigdet_lf_thresh_g2 : 3;/**< [ 62: 60](R/W) NA */
+        uint64_t reserved_59           : 1;
+        uint64_t ext_rx_sigdet_lf_thresh_g1 : 3;/**< [ 58: 56](R/W) NA */
+        uint64_t reserved_54_55        : 2;
+        uint64_t ext_tx_eq_post_g2     : 6;  /**< [ 53: 48](R/W) NA */
+        uint64_t reserved_46_47        : 2;
+        uint64_t ext_tx_eq_post_g1     : 6;  /**< [ 45: 40](R/W) NA */
+        uint64_t reserved_38_39        : 2;
+        uint64_t ext_tx_eq_main_g2     : 6;  /**< [ 37: 32](R/W) NA */
+        uint64_t reserved_30_31        : 2;
+        uint64_t ext_tx_eq_main_g1     : 6;  /**< [ 29: 24](R/W) NA */
+        uint64_t reserved_23           : 1;
+        uint64_t ext_sup_rx_vco_vref_sel : 3;/**< [ 22: 20](R/W) Controls VCO regulator reference.
+                                                                 This pin is static and shall be set
+                                                                 before de-assert PHY_RESET. */
+        uint64_t reserved_19           : 1;
+        uint64_t ext_rx_vref_ctrl      : 3;  /**< [ 18: 16](R/W) Controls RX bias current. */
+        uint64_t reserved_15           : 1;
+        uint64_t ext_tx_eq_ovrd_g2     : 1;  /**< [ 14: 14](R/W) Controls overriding of values for TX EQ signals */
+        uint64_t ext_tx_eq_ovrd_g1     : 1;  /**< [ 13: 13](R/W) Controls overriding of values for TX EQ signals */
+        uint64_t ext_rx_vco_ld_val_g2  : 13; /**< [ 12:  0](R/W) Controls loading of RX VCO calibration load value. */
+#else /* Word 0 - Little Endian */
+        uint64_t ext_rx_vco_ld_val_g2  : 13; /**< [ 12:  0](R/W) Controls loading of RX VCO calibration load value. */
+        uint64_t ext_tx_eq_ovrd_g1     : 1;  /**< [ 13: 13](R/W) Controls overriding of values for TX EQ signals */
+        uint64_t ext_tx_eq_ovrd_g2     : 1;  /**< [ 14: 14](R/W) Controls overriding of values for TX EQ signals */
+        uint64_t reserved_15           : 1;
+        uint64_t ext_rx_vref_ctrl      : 3;  /**< [ 18: 16](R/W) Controls RX bias current. */
+        uint64_t reserved_19           : 1;
+        uint64_t ext_sup_rx_vco_vref_sel : 3;/**< [ 22: 20](R/W) Controls VCO regulator reference.
+                                                                 This pin is static and shall be set
+                                                                 before de-assert PHY_RESET. */
+        uint64_t reserved_23           : 1;
+        uint64_t ext_tx_eq_main_g1     : 6;  /**< [ 29: 24](R/W) NA */
+        uint64_t reserved_30_31        : 2;
+        uint64_t ext_tx_eq_main_g2     : 6;  /**< [ 37: 32](R/W) NA */
+        uint64_t reserved_38_39        : 2;
+        uint64_t ext_tx_eq_post_g1     : 6;  /**< [ 45: 40](R/W) NA */
+        uint64_t reserved_46_47        : 2;
+        uint64_t ext_tx_eq_post_g2     : 6;  /**< [ 53: 48](R/W) NA */
+        uint64_t reserved_54_55        : 2;
+        uint64_t ext_rx_sigdet_lf_thresh_g1 : 3;/**< [ 58: 56](R/W) NA */
+        uint64_t reserved_59           : 1;
+        uint64_t ext_rx_sigdet_lf_thresh_g2 : 3;/**< [ 62: 60](R/W) NA */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31phy_cfg7_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31phy_cfg7 cavm_usbhx_uctl_usb31phy_cfg7_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG7(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG7(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100178ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100178ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31PHY_CFG7", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31PHY_CFG7(a) cavm_usbhx_uctl_usb31phy_cfg7_t
+#define bustype_CAVM_USBHX_UCTL_USB31PHY_CFG7(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31PHY_CFG7(a) "USBHX_UCTL_USB31PHY_CFG7"
+#define device_bar_CAVM_USBHX_UCTL_USB31PHY_CFG7(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31PHY_CFG7(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31PHY_CFG7(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uctl_usb31phy_cfg8
+ *
+ * USBH UCTL USB3.1 PHY Configuration Register 8
+ * Configuration register for USB 3.1 PHY module
+ */
+union cavm_usbhx_uctl_usb31phy_cfg8
+{
+    uint64_t u;
+    struct cavm_usbhx_uctl_usb31phy_cfg8_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_30_63        : 34;
+        uint64_t phy0_test_stop_clk_en : 1;  /**< [ 29: 29](R/W) Enables stop clock test mode. */
+        uint64_t phy_test_burnin       : 1;  /**< [ 28: 28](R/W) It is all circuits activator. */
+        uint64_t ext_tx_dcc_byp_ac_cap : 1;  /**< [ 27: 27](R/W) Controls bypassing of duty cycle corrector AC coupling capacitor
+                                                                 0 = should be set for data rates \>= 2.5Gbps
+                                                                 1 = should be set for data rates \< 2.5Gbps */
+        uint64_t ext_tx_ana_rboost_en  : 2;  /**< [ 26: 25](R/W) Controls increase in swing of high-speed transition bits for tx. */
+        uint64_t ext_tx_ana_iboost_en  : 1;  /**< [ 24: 24](R/W) Controls enabling of the the tx output swing to 2*tx_vswing_vref, if
+                                                                 (2*tx_vswing_vref) \> vptx. */
+        uint64_t ext_rx_dcc_byp_ac_cap : 1;  /**< [ 23: 23](R/W) Controls bypassing of duty cycle corrector AC coupling capacitor
+                                                                 0 = should be set for data rates \>= 2.5Gbps
+                                                                 1 = should be set for data rates \< 2.5Gbps */
+        uint64_t ext_tx_vswing_lvl     : 3;  /**< [ 22: 20](R/W) Controls TX volatge boost level. */
+        uint64_t reserved_19           : 1;
+        uint64_t ext_tx_term_ctrl      : 3;  /**< [ 18: 16](R/W) NA */
+        uint64_t reserved_14_15        : 2;
+        uint64_t ext_tx_eq_pre_g2      : 6;  /**< [ 13:  8](R/W) Controls loading of RX VCO calibration load value. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t ext_tx_eq_pre_g1      : 6;  /**< [  5:  0](R/W) Controls loading of RX VCO calibration load value. */
+#else /* Word 0 - Little Endian */
+        uint64_t ext_tx_eq_pre_g1      : 6;  /**< [  5:  0](R/W) Controls loading of RX VCO calibration load value. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t ext_tx_eq_pre_g2      : 6;  /**< [ 13:  8](R/W) Controls loading of RX VCO calibration load value. */
+        uint64_t reserved_14_15        : 2;
+        uint64_t ext_tx_term_ctrl      : 3;  /**< [ 18: 16](R/W) NA */
+        uint64_t reserved_19           : 1;
+        uint64_t ext_tx_vswing_lvl     : 3;  /**< [ 22: 20](R/W) Controls TX volatge boost level. */
+        uint64_t ext_rx_dcc_byp_ac_cap : 1;  /**< [ 23: 23](R/W) Controls bypassing of duty cycle corrector AC coupling capacitor
+                                                                 0 = should be set for data rates \>= 2.5Gbps
+                                                                 1 = should be set for data rates \< 2.5Gbps */
+        uint64_t ext_tx_ana_iboost_en  : 1;  /**< [ 24: 24](R/W) Controls enabling of the the tx output swing to 2*tx_vswing_vref, if
+                                                                 (2*tx_vswing_vref) \> vptx. */
+        uint64_t ext_tx_ana_rboost_en  : 2;  /**< [ 26: 25](R/W) Controls increase in swing of high-speed transition bits for tx. */
+        uint64_t ext_tx_dcc_byp_ac_cap : 1;  /**< [ 27: 27](R/W) Controls bypassing of duty cycle corrector AC coupling capacitor
+                                                                 0 = should be set for data rates \>= 2.5Gbps
+                                                                 1 = should be set for data rates \< 2.5Gbps */
+        uint64_t phy_test_burnin       : 1;  /**< [ 28: 28](R/W) It is all circuits activator. */
+        uint64_t phy0_test_stop_clk_en : 1;  /**< [ 29: 29](R/W) Enables stop clock test mode. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_usbhx_uctl_usb31phy_cfg8_s cn; */
+};
+typedef union cavm_usbhx_uctl_usb31phy_cfg8 cavm_usbhx_uctl_usb31phy_cfg8_t;
+
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG8(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG8(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x868000100180ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x868000100180ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("USBHX_UCTL_USB31PHY_CFG8", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_USBHX_UCTL_USB31PHY_CFG8(a) cavm_usbhx_uctl_usb31phy_cfg8_t
+#define bustype_CAVM_USBHX_UCTL_USB31PHY_CFG8(a) CSR_TYPE_NCB
+#define basename_CAVM_USBHX_UCTL_USB31PHY_CFG8(a) "USBHX_UCTL_USB31PHY_CFG8"
+#define device_bar_CAVM_USBHX_UCTL_USB31PHY_CFG8(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_USBHX_UCTL_USB31PHY_CFG8(a) (a)
+#define arguments_CAVM_USBHX_UCTL_USB31PHY_CFG8(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) usbh#_uctl_utmiclk_counter

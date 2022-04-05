@@ -240,7 +240,7 @@ static inline uint64_t CAVM_SAM_ASC_REGIONX_START(uint64_t a)
  * Register (RSL) sam_dmc_hash#
  *
  * SAM DMC hash matrix coefficients Registers
- * This hash matrix is used to spread addresses among among DMC's.
+ * This hash matrix is used to spread addresses among DMC's.
  * HASH(0..3)[CO]\<10:7\> must form an invertible matrix.
  */
 union cavm_sam_dmc_hashx

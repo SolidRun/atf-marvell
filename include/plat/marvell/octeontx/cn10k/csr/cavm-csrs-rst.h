@@ -1070,7 +1070,8 @@ union cavm_rst_debug
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_rst_debug_s cnf10ka; */
+    /* struct cavm_rst_debug_s cnf10ka_p1_0; */
+    /* struct cavm_rst_debug_cn10kb cnf10ka_p1_1; */
     /* struct cavm_rst_debug_cn10kb cnf10kb; */
 };
 typedef union cavm_rst_debug cavm_rst_debug_t;
@@ -1253,6 +1254,34 @@ union cavm_rst_ecp_domain_w1s
         uint64_t reserved_1_63         : 63;
         uint64_t soft_rst              : 1;  /**< [  0:  0](R/W1S/H) Set software-initiated reset of ECP core and associated logic.
                                                                  When set to one, all logic associated with the ECP domain is placed in reset.
+                                                                 If RST_BOOT[RBOOT_ECP] is set, the ECP soft reset will stay asserted until
+                                                                 RST_ECP_DOMAIN_W1C is written.  Otherwise it will automatically deassert.
+                                                                 Reads of this register show the soft reset state.  Not the actual ECP domain reset.
+                                                                 Other factors may keep the reset active, reading RST_RESET_ACTIVE[ECP] shows
+                                                                 the actual reset state.
+                                                                 It is typically cleared by writing to RST_ECP_DOMAIN_W1C.
+                                                                 This field is always reinitialized on a chip domain reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t soft_rst              : 1;  /**< [  0:  0](R/W1S/H) Set software-initiated reset of ECP core and associated logic.
+                                                                 When set to one, all logic associated with the ECP domain is placed in reset.
+                                                                 If RST_BOOT[RBOOT_ECP] is set, the ECP soft reset will stay asserted until
+                                                                 RST_ECP_DOMAIN_W1C is written.  Otherwise it will automatically deassert.
+                                                                 Reads of this register show the soft reset state.  Not the actual ECP domain reset.
+                                                                 Other factors may keep the reset active, reading RST_RESET_ACTIVE[ECP] shows
+                                                                 the actual reset state.
+                                                                 It is typically cleared by writing to RST_ECP_DOMAIN_W1C.
+                                                                 This field is always reinitialized on a chip domain reset. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_ecp_domain_w1s_s cn10; */
+    /* struct cavm_rst_ecp_domain_w1s_s cn10ka_p1_0; */
+    struct cavm_rst_ecp_domain_w1s_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t soft_rst              : 1;  /**< [  0:  0](R/W1S/H) Set software-initiated reset of ECP core and associated logic.
+                                                                 When set to one, all logic associated with the ECP domain is placed in reset.
                                                                  Reads of this register show the soft reset state.  Not the actual ECP domain reset.
                                                                  Other factors may keep the reset active, reading RST_RESET_ACTIVE[ECP] shows
                                                                  the actual reset state.
@@ -1268,8 +1297,11 @@ union cavm_rst_ecp_domain_w1s
                                                                  This field is always reinitialized on a chip domain reset. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rst_ecp_domain_w1s_s cn; */
+    } cn10ka_p1_1;
+    /* struct cavm_rst_ecp_domain_w1s_cn10ka_p1_1 cn10ka_p2; */
+    /* struct cavm_rst_ecp_domain_w1s_s cn10kb; */
+    /* struct cavm_rst_ecp_domain_w1s_s cnf10ka; */
+    /* struct cavm_rst_ecp_domain_w1s_s cnf10kb; */
 };
 typedef union cavm_rst_ecp_domain_w1s cavm_rst_ecp_domain_w1s_t;
 
@@ -1597,7 +1629,7 @@ union cavm_rst_man_pllx
                                                                  clocks occur during this update period.
 
                                                                  VCO range for PLLs is 2 GHz to 5 GHz.
-                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
+                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
         uint64_t vco_fract             : 10; /**< [ 33: 24](R/W) VCO multiplier fraction.
 
                                                                  PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
@@ -1624,7 +1656,7 @@ union cavm_rst_man_pllx
                                                                  \</pre\>
 
                                                                  Not used by DFICLK PLL and ARO. */
-        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
                                                                  Typical values are:
@@ -1649,7 +1681,7 @@ union cavm_rst_man_pllx
                                                                    (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
                                                                    (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
 
-                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
+                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
 #else /* Word 0 - Little Endian */
@@ -1667,10 +1699,10 @@ union cavm_rst_man_pllx
                                                                    (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
                                                                    (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
 
-                                                                 Note that the estimately lock time is approximately 2x with an update rate of 100.
+                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
 
                                                                  MSB unused by LP PLL. */
-        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Intergral Path Gain Setting.
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
                                                                  MSB is 1 bit integer stored in BW[0] and 5 bit fraction stored here.
 
                                                                  Typical values are:
@@ -1717,7 +1749,7 @@ union cavm_rst_man_pllx
                                                                  clocks occur during this update period.
 
                                                                  VCO range for PLLs is 2 GHz to 5 GHz.
-                                                                 VCO range for ARO is idential is 300 MHz - maximum ARO clock rate. */
+                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
         uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
                                                                  For DFICLK PLL the following setting are supported:
                                                                    0x0 = 20-30 MHz reference clock/ref_div.
@@ -1761,7 +1793,230 @@ union cavm_rst_man_pllx
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rst_man_pllx_s cn; */
+    /* struct cavm_rst_man_pllx_s cn10; */
+    /* struct cavm_rst_man_pllx_s cn10ka_p1_0; */
+    struct cavm_rst_man_pllx_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
+                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
+                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates either a PLL or ARO.  The device is powered up and
+                                                                 released from reset by the hardware.  The hardware automatically clears the bit when the
+                                                                 sequence is complete and the device is present.  This sequence adds
+                                                                 approximately 15uS to the programming.  During this
+                                                                 time the NEXT_SWITCH timer is frozen.
+
+                                                                 The following are the bit mapping:
+                                                                   \<0\> = PLL0.
+                                                                   \<1\> = PLL1.
+                                                                   \<2\> = ARO.
+
+                                                                 This operation does not require RST_PLL()[NEXT_MAN] to be set. */
+        uint64_t ref_div               : 4;  /**< [ 59: 56](R/W) Reference clock divider for PLLs.
+                                                                   0 = Reserved.
+                                                                   1 = Divide reference clock by 1.
+                                                                   2 = Divide reference clock by 2 (typical for 100 MHz).
+                                                                   3 = Divide reference clock by 3.
+                                                                   4 = Divide reference clock by 4 (typical for 122.88 MHz, see ALF_REF).
+                                                                   5-31 = Divide reference clock by N.
+
+                                                                 ARO ignores this field and uses reference clock. */
+        uint64_t reserved_55           : 1;
+        uint64_t post_div              : 9;  /**< [ 54: 46](R/W) Post scalar divider.
+                                                                   0 = Reserved.
+                                                                   1 = Typically only used by ARO.
+                                                                   2-511 = Divide VCO output by [POST_DIV]. */
+        uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
+                                                                 For DFICLK PLL the following setting are supported:
+                                                                   0x0 = 20-30 MHz reference clock/ref_div.
+                                                                   0x1 = 30-45 MHz reference clock/ref_div.
+                                                                   0x2 = 45-65 MHz reference clock/ref_div.
+                                                                   0x3 = 65-90 MHz reference clock/ref_div.
+
+                                                                 Bits used as MSBs for DLF_KP and DLF_KI for LP PLLs.
+                                                                   0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/ref_div.
+
+                                                                 Not used by ARO. */
+        uint64_t vco_mul               : 10; /**< [ 43: 34](R/W) VCO multiplier integer.
+
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_MUL is used with the ARO the number specified in bits 7..0 is multiplied
+                                                                 by fifty, VCO_FRACT is added in and that number is used to determine how many
+                                                                 ARO Clocks are required per update.  The UPDATE_RATE specifies how many reference
+                                                                 clocks occur during this update period.
+
+                                                                 VCO range for PLLs is 2 GHz to 5 GHz.
+                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
+        uint64_t vco_fract             : 10; /**< [ 33: 24](R/W) VCO multiplier fraction.
+
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_FRACT is specified with the ARO, this 10-bit number is added to the
+                                                                 ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
+
+                                                                 See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
+        uint64_t icp                   : 4;  /**< [ 23: 20](R/W) DFICLK PLL ICP setting.
+
+                                                                 Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
+
+                                                                 Not used by other PLLs or ARO. */
+        uint64_t dlf_kp                : 5;  /**< [ 19: 15](R/W) DLF Proportional Path Gain Setting.
+                                                                 MSB is 1-bit integer stored in BW[1], 3-bit integer and 2-bit fraction stored here.
+
+                                                                 Typical values are:
+                                                                 Rate   Value BW[1], DLF_KP  PLL reference/ref_div
+                                                                 \<pre\>
+                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz
+                                                                 25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
+                                                                 30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
+                                                                 50 MHz  0x3d   1     0x1d   50 MHz
+                                                                 \</pre\>
+
+                                                                 Not used by DFICLK PLL and ARO. */
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
+                                                                 MSB is 1-bit integer stored in BW[0] and 5-bit fraction stored here.
+
+                                                                 Typical values are:
+                                                                 Rate   Value BW[0], DLF_KI  PLL reference/ref_div
+                                                                 \<pre\>
+                                                                 30 MHz  0x3d   1     0x1d   30.00 - 48.70 MHz
+                                                                 50 MHz  0x3f   1     0x1f   50 MHz
+                                                                 \</pre\>
+
+                                                                 Not used by DFICLK PLL and ARO. */
+        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/ref_div in 100 KHz increments.
+                                                                 Default values
+                                                                   307 for 30.72 MHz reference.
+                                                                   333 for 33.33 MHz reference.
+                                                                   500 for 50.00 MHz reference.
+
+                                                                 ARO updates are typically specified as either 50 or 100 reference clocks.
+                                                                 Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
+                                                                 This number can be used to predict lock times when the ARO is used.
+
+                                                                 Frequency for ARO is
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
+
+                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
+
+                                                                 MSB unused by LP PLL. */
+#else /* Word 0 - Little Endian */
+        uint64_t update_rate           : 10; /**< [  9:  0](R/W) PLL update rate.  PLL reference/ref_div in 100 KHz increments.
+                                                                 Default values
+                                                                   307 for 30.72 MHz reference.
+                                                                   333 for 33.33 MHz reference.
+                                                                   500 for 50.00 MHz reference.
+
+                                                                 ARO updates are typically specified as either 50 or 100 reference clocks.
+                                                                 Hardware automatically adds an additional 30nS so a setting of 50 takes 530nS.
+                                                                 This number can be used to predict lock times when the ARO is used.
+
+                                                                 Frequency for ARO is
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 2.0 MHz if UPDATE_RATE is 50 or
+                                                                   (VCO_MUL*50 + VCO_FRACT) * 1.0 MHz if UPDATE_RATE is 100
+
+                                                                 Note that the estimated lock time is approximately 2x with an update rate of 100.
+
+                                                                 MSB unused by LP PLL. */
+        uint64_t dlf_ki                : 5;  /**< [ 14: 10](R/W) DLF Integral Path Gain Setting.
+                                                                 MSB is 1-bit integer stored in BW[0] and 5-bit fraction stored here.
+
+                                                                 Typical values are:
+                                                                 Rate   Value BW[0], DLF_KI  PLL reference/ref_div
+                                                                 \<pre\>
+                                                                 30 MHz  0x3d   1     0x1d   30.00 - 48.70 MHz
+                                                                 50 MHz  0x3f   1     0x1f   50 MHz
+                                                                 \</pre\>
+
+                                                                 Not used by DFICLK PLL and ARO. */
+        uint64_t dlf_kp                : 5;  /**< [ 19: 15](R/W) DLF Proportional Path Gain Setting.
+                                                                 MSB is 1-bit integer stored in BW[1], 3-bit integer and 2-bit fraction stored here.
+
+                                                                 Typical values are:
+                                                                 Rate   Value BW[1], DLF_KP  PLL reference/ref_div
+                                                                 \<pre\>
+                                                                 20 MHz  0x18   0     0x18   20.00 - 40.00 MHz
+                                                                 25 MHz  0x1e   0     0x1e   25.00 - 50.00 MHz
+                                                                 30 MHz  0x24   1     0x04   30.00 - 48.70 MHz
+                                                                 50 MHz  0x3d   1     0x1d   50 MHz
+                                                                 \</pre\>
+
+                                                                 Not used by DFICLK PLL and ARO. */
+        uint64_t icp                   : 4;  /**< [ 23: 20](R/W) DFICLK PLL ICP setting.
+
+                                                                 Typical setting 0x6 (0110) for 30.72, 33.33 and 50.00 MHz reference
+
+                                                                 Not used by other PLLs or ARO. */
+        uint64_t vco_fract             : 10; /**< [ 33: 24](R/W) VCO multiplier fraction.
+
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_FRACT is specified with the ARO, this 10-bit number is added to the
+                                                                 ARO clock count specified by VCO_MUL * 50 to determine clocks per update period.
+
+                                                                 See VCO_MUL for min/max VCO frequencies.  Not used by ARO. */
+        uint64_t vco_mul               : 10; /**< [ 43: 34](R/W) VCO multiplier integer.
+
+                                                                 PLL VCO frequency is [VCO_MUL].[VCO_FRACT] * reference_clock / [REF_DIV].
+
+                                                                 When VCO_MUL is used with the ARO the number specified in bits 7..0 is multiplied
+                                                                 by fifty, VCO_FRACT is added in and that number is used to determine how many
+                                                                 ARO Clocks are required per update.  The UPDATE_RATE specifies how many reference
+                                                                 clocks occur during this update period.
+
+                                                                 VCO range for PLLs is 2 GHz to 5 GHz.
+                                                                 VCO range for ARO is 300 MHz - maximum ARO clock rate. */
+        uint64_t bw                    : 2;  /**< [ 45: 44](R/W) PLL VCO bandwidth.
+                                                                 For DFICLK PLL the following setting are supported:
+                                                                   0x0 = 20-30 MHz reference clock/ref_div.
+                                                                   0x1 = 30-45 MHz reference clock/ref_div.
+                                                                   0x2 = 45-65 MHz reference clock/ref_div.
+                                                                   0x3 = 65-90 MHz reference clock/ref_div.
+
+                                                                 Bits used as MSBs for DLF_KP and DLF_KI for LP PLLs.
+                                                                   0x3 = 30.72 MHz PLL reference/ref_div (see ALT_REF).
+                                                                   0x3 = 50.00 MHz PLL reference/ref_div.
+
+                                                                 Not used by ARO. */
+        uint64_t post_div              : 9;  /**< [ 54: 46](R/W) Post scalar divider.
+                                                                   0 = Reserved.
+                                                                   1 = Typically only used by ARO.
+                                                                   2-511 = Divide VCO output by [POST_DIV]. */
+        uint64_t reserved_55           : 1;
+        uint64_t ref_div               : 4;  /**< [ 59: 56](R/W) Reference clock divider for PLLs.
+                                                                   0 = Reserved.
+                                                                   1 = Divide reference clock by 1.
+                                                                   2 = Divide reference clock by 2 (typical for 100 MHz).
+                                                                   3 = Divide reference clock by 3.
+                                                                   4 = Divide reference clock by 4 (typical for 122.88 MHz, see ALF_REF).
+                                                                   5-31 = Divide reference clock by N.
+
+                                                                 ARO ignores this field and uses reference clock. */
+        uint64_t power_down            : 3;  /**< [ 62: 60](R/W/H) Power Down.
+                                                                 When set, The selected PLL/ARO is powered down and is in reset.  When RST_PLL()[NEXT_PGM]
+                                                                 is set and RST_PLL()[NEXT_PLL_SEL] indicates either a PLL or ARO.  The device is powered up and
+                                                                 released from reset by the hardware.  The hardware automatically clears the bit when the
+                                                                 sequence is complete and the device is present.  This sequence adds
+                                                                 approximately 15uS to the programming.  During this
+                                                                 time the NEXT_SWITCH timer is frozen.
+
+                                                                 The following are the bit mapping:
+                                                                   \<0\> = PLL0.
+                                                                   \<1\> = PLL1.
+                                                                   \<2\> = ARO.
+
+                                                                 This operation does not require RST_PLL()[NEXT_MAN] to be set. */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cn10ka_p1_1;
+    /* struct cavm_rst_man_pllx_cn10ka_p1_1 cn10ka_p2; */
+    /* struct cavm_rst_man_pllx_s cn10kb; */
+    /* struct cavm_rst_man_pllx_s cnf10ka; */
+    /* struct cavm_rst_man_pllx_s cnf10kb; */
 };
 typedef union cavm_rst_man_pllx cavm_rst_man_pllx_t;
 
@@ -2753,7 +3008,56 @@ union cavm_rst_test_pllx
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_rst_test_pllx_s cn10; */
-    /* struct cavm_rst_test_pllx_s cn10ka; */
+    /* struct cavm_rst_test_pllx_s cn10ka_p1_0; */
+    struct cavm_rst_test_pllx_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](R/W) Reserve test bits sent to the PLL. */
+        uint64_t test_ana              : 5;  /**< [ 44: 40](R/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitialized on a cold domain reset. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with a postive
+                                                                 STOP_CNT value will start the counter at STOP_CNT and stop the output clock
+                                                                 when the counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
+#else /* Word 0 - Little Endian */
+        uint64_t stop_cnt              : 32; /**< [ 31:  0](R/W/H) Counter Delay to stop PLL output.
+                                                                 The counter decrements every PLL output clock.  Value should be 0 if not used.
+                                                                 When enabled minimum setting should be greater than 2. */
+        uint64_t stop_clk              : 1;  /**< [ 32: 32](R/W/H) PLL output stop control.  When this is written to a 1 along with a postive
+                                                                 STOP_CNT value will start the counter at STOP_CNT and stop the output clock
+                                                                 when the counter reaches zero.  Writing this bit to a 0 will re-start the clock.
+                                                                 Reading this value as a 1 along with STOP_CNT=0 indicates the clock has
+                                                                 been stopped. */
+        uint64_t msc_enable            : 1;  /**< [ 33: 33](R/W/H) Enable diagnostic output.  Setting this bit causes the PLL to output
+                                                                 to the common MSC_CLKOUT and MSC_LOCK ports.  No more than one
+                                                                 [MSC_ENABLE] may be set at a time.
+
+                                                                 This field is reinitialized on a cold domain reset. */
+        uint64_t testclk_pll1          : 1;  /**< [ 34: 34](R/W) Test Clock source selection.
+                                                                   0 = TEST_CLKOUT Based on PLL0.
+                                                                   1 = TEST_CLKOUT Based on PLL1. */
+        uint64_t reserved_35_39        : 5;
+        uint64_t test_ana              : 5;  /**< [ 44: 40](R/W) Analog test port mux selection used for selected PLL.
+                                                                 Function only available on some PLLs and not available on ARO. */
+        uint64_t test_rsvd             : 3;  /**< [ 47: 45](R/W) Reserve test bits sent to the PLL. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn10ka_p1_1;
+    /* struct cavm_rst_test_pllx_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_rst_test_pllx_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

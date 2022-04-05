@@ -5027,6 +5027,217 @@ union cavm_cptx_af_lfx_ctl
                                                                  the NIX function.
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t rxc_en                : 1;  /**< [ 11: 11](R/W) Enable CPT to use RXC. [RXC_ENA]=1 indicates this queue is permitted to use RXC.
+                                                                 [RXC_ENA]=1 also indicates the queue is using CPT_INST_HW_S.  Both are
+                                                                 automatically true when [PF_FUNC_INST]=1.  See CPT_CTX_HW_S[PKT_FMT] and
+                                                                 CPT_CTX_HW_S[PKT_OUT]. */
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
+
+                                                                 0 = When hardware or a CPT_LF_MISC_INT_W1S write sets any CPT_LF_MISC_INT
+                                                                 bit, CPT clears CPT_LF_CTL[ENA].  Due to pipelining,
+                                                                 additional instructions may have been processed between the instruction
+                                                                 causing the error and the next instruction in the disabled queue (the
+                                                                 instruction at CPT_LF_Q_INST_PTR). Note that clearing CPT_LF_CTL[ENA]
+                                                                 will indirectly cause CPT_LF_MISC_INT[NQERR] to be set if instructions
+                                                                 are still being enqueued.
+
+                                                                 1 = Ignore errors and continue processing instructions. The exception to
+                                                                 this rule is that CPT always clears CPT_LF_CTL[ENA] on a queue overflow
+                                                                 error. CPT_LF_MISC_INT[NQERR] and CPT_LF_Q_SIZE[SIZE_DIV40] describe a
+                                                                 queue overflow error. For diagnostic use only. */
+        uint64_t pf_func_inst          : 1;  /**< [  9:  9](R/W) PFVF change allowed on instructions.
+
+                                                                 0 = CPT executes all CPT_INST_S's in the queue within the function
+                                                                 that owns the queue/LF (i.e. CPT_PRIV_LF()_CFG[PF_FUNC]). (But see SSO
+                                                                 and NIX exceptions below).
+
+                                                                 1 = CPT executes each CPT_INST_S in the queue within the function
+                                                                 CPT_INST_S[RVU_PF_FUNC] selected by the instruction. This is
+                                                                 used by the CPT queue that is performing NIX receive IPsec offload.
+
+                                                                 See also CPT_AF_LF()_CTL2[SSO_PF_FUNC]. When [PF_FUNC_INST]=0 or
+                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, CPT uses CPT_AF_LF()_CTL2[SSO_PF_FUNC]
+                                                                 to add work to SSO. When [PF_FUNC_INST]=1 and CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0,
+                                                                 CPT instead adds SSO work to the function CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
+                                                                 selected by the instruction.
+
+                                                                 See also CPT_AF_LF()_CTL2[NIX_PF_FUNC]. [PF_FUNC_INST] has no effect on NIX
+                                                                 TX descriptor transfer, as instructions can't transfer to NIX TX when
+                                                                 [PF_FUNC_INST]=1.
+
+                                                                 [PF_FUNC_INST] has no effect on the memory reads and writes needed to
+                                                                 enqueue/dequeue the CPT_INST_S's themselves. CPT always uses the
+                                                                 queue-owning function, i.e. CPT_PRIV_LF()_CFG[PF_FUNC], to enqueue/dequeue
+                                                                 instructions.
+
+                                                                 [PF_FUNC_INST] has no effect on microcode fetches. CPT always uses
+                                                                 CPT_AF_PF_FUNC[PF_FUNC] to fetch microcode.
+
+                                                                 [PF_FUNC_INST] must not be set simultaneously with [NIXTX_EN].
+
+                                                                 [PF_FUNC_INST] must only be set for a CPT queue that receives CPT_INST_S's
+                                                                 from a NIX RX - NIX RX fills CPT_INST_S[RVU_PF_FUNC,SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
+                                                                 appropriately in the instructions it submits.  AP's must not add CPT_INST_S's to
+                                                                 a queue with [PF_FUNC_INST]=1. See also [NIX_SEL] - when [PF_FUNC_INST]=1,
+                                                                 [NIX_SEL] selects the NIX queue that CPT receives instructions from.
+                                                                 No two queues can have [PF_FUNC_INST]=1 and the same [NIX_SEL] value. */
+        uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX for
+                                                                 all outgoing NIX TX descriptor transfers from the queue/LF. See also [NIXTX_EN],
+                                                                 which must be set for successful NIX descriptor transfers, and
+                                                                 CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
+
+                                                                 When [PF_FUNC_INST]=1, [NIX_SEL] does not select a source NIX.  Instead,
+                                                                 NIX_AF_RX_CPT(0..1)_INST_QSEL both select a queue/LF for this CPT to
+                                                                 receive all instructions from a single NIX.
+
+                                                                 For successful instruction reception from NIX to this queue/LF, [PF_FUNC_INST]
+                                                                 must be set, and NIX_AF_RX_CPT()_INST_QSEL[SLOT] and [NIX_SEL] configuration
+                                                                 must be consistent. The configuration is consisent when the following is true:
+
+                                                                   (NIX_AF_RX_CPT(A)_INST_QSEL[SLOT] === B) && (CPT_AF_LF(B)_CTL[NIX_SEL] == A) */
+        uint64_t reserved_1_7          : 7;
+        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
+                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
+                                                                 0 = This queue has lower priority. Round-robin between lower priority queues.
+
+                                                                 See also CPT_AF_EXE_REQ_TIMER[CNT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pri                   : 1;  /**< [  0:  0](R/W) Queue priority.
+                                                                 1 = This queue has higher priority. Round-robin between higher priority queues.
+                                                                 0 = This queue has lower priority. Round-robin between lower priority queues.
+
+                                                                 See also CPT_AF_EXE_REQ_TIMER[CNT]. */
+        uint64_t reserved_1_7          : 7;
+        uint64_t nix_sel               : 1;  /**< [  8:  8](R/W) When [PF_FUNC_INST]=0, as is normal, [NIX_SEL] selects the destination NIX for
+                                                                 all outgoing NIX TX descriptor transfers from the queue/LF. See also [NIXTX_EN],
+                                                                 which must be set for successful NIX descriptor transfers, and
+                                                                 CPT_AF_LF()_CTL2[NIX_PF_FUNC], which selects the NIX function.
+
+                                                                 When [PF_FUNC_INST]=1, [NIX_SEL] does not select a source NIX.  Instead,
+                                                                 NIX_AF_RX_CPT(0..1)_INST_QSEL both select a queue/LF for this CPT to
+                                                                 receive all instructions from a single NIX.
+
+                                                                 For successful instruction reception from NIX to this queue/LF, [PF_FUNC_INST]
+                                                                 must be set, and NIX_AF_RX_CPT()_INST_QSEL[SLOT] and [NIX_SEL] configuration
+                                                                 must be consistent. The configuration is consisent when the following is true:
+
+                                                                   (NIX_AF_RX_CPT(A)_INST_QSEL[SLOT] === B) && (CPT_AF_LF(B)_CTL[NIX_SEL] == A) */
+        uint64_t pf_func_inst          : 1;  /**< [  9:  9](R/W) PFVF change allowed on instructions.
+
+                                                                 0 = CPT executes all CPT_INST_S's in the queue within the function
+                                                                 that owns the queue/LF (i.e. CPT_PRIV_LF()_CFG[PF_FUNC]). (But see SSO
+                                                                 and NIX exceptions below).
+
+                                                                 1 = CPT executes each CPT_INST_S in the queue within the function
+                                                                 CPT_INST_S[RVU_PF_FUNC] selected by the instruction. This is
+                                                                 used by the CPT queue that is performing NIX receive IPsec offload.
+
+                                                                 See also CPT_AF_LF()_CTL2[SSO_PF_FUNC]. When [PF_FUNC_INST]=0 or
+                                                                 CPT_AF_ECO[SSO_PF_FUNC_OVRD]=1, CPT uses CPT_AF_LF()_CTL2[SSO_PF_FUNC]
+                                                                 to add work to SSO. When [PF_FUNC_INST]=1 and CPT_AF_ECO[SSO_PF_FUNC_OVRD]=0,
+                                                                 CPT instead adds SSO work to the function CPT_INST_S[SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
+                                                                 selected by the instruction.
+
+                                                                 See also CPT_AF_LF()_CTL2[NIX_PF_FUNC]. [PF_FUNC_INST] has no effect on NIX
+                                                                 TX descriptor transfer, as instructions can't transfer to NIX TX when
+                                                                 [PF_FUNC_INST]=1.
+
+                                                                 [PF_FUNC_INST] has no effect on the memory reads and writes needed to
+                                                                 enqueue/dequeue the CPT_INST_S's themselves. CPT always uses the
+                                                                 queue-owning function, i.e. CPT_PRIV_LF()_CFG[PF_FUNC], to enqueue/dequeue
+                                                                 instructions.
+
+                                                                 [PF_FUNC_INST] has no effect on microcode fetches. CPT always uses
+                                                                 CPT_AF_PF_FUNC[PF_FUNC] to fetch microcode.
+
+                                                                 [PF_FUNC_INST] must not be set simultaneously with [NIXTX_EN].
+
+                                                                 [PF_FUNC_INST] must only be set for a CPT queue that receives CPT_INST_S's
+                                                                 from a NIX RX - NIX RX fills CPT_INST_S[RVU_PF_FUNC,SSO_PF_FUNC/NIXTX_ADDR\<59:44\>]
+                                                                 appropriately in the instructions it submits.  AP's must not add CPT_INST_S's to
+                                                                 a queue with [PF_FUNC_INST]=1. See also [NIX_SEL] - when [PF_FUNC_INST]=1,
+                                                                 [NIX_SEL] selects the NIX queue that CPT receives instructions from.
+                                                                 No two queues can have [PF_FUNC_INST]=1 and the same [NIX_SEL] value. */
+        uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
+
+                                                                 0 = When hardware or a CPT_LF_MISC_INT_W1S write sets any CPT_LF_MISC_INT
+                                                                 bit, CPT clears CPT_LF_CTL[ENA].  Due to pipelining,
+                                                                 additional instructions may have been processed between the instruction
+                                                                 causing the error and the next instruction in the disabled queue (the
+                                                                 instruction at CPT_LF_Q_INST_PTR). Note that clearing CPT_LF_CTL[ENA]
+                                                                 will indirectly cause CPT_LF_MISC_INT[NQERR] to be set if instructions
+                                                                 are still being enqueued.
+
+                                                                 1 = Ignore errors and continue processing instructions. The exception to
+                                                                 this rule is that CPT always clears CPT_LF_CTL[ENA] on a queue overflow
+                                                                 error. CPT_LF_MISC_INT[NQERR] and CPT_LF_Q_SIZE[SIZE_DIV40] describe a
+                                                                 queue overflow error. For diagnostic use only. */
+        uint64_t rxc_en                : 1;  /**< [ 11: 11](R/W) Enable CPT to use RXC. [RXC_ENA]=1 indicates this queue is permitted to use RXC.
+                                                                 [RXC_ENA]=1 also indicates the queue is using CPT_INST_HW_S.  Both are
+                                                                 automatically true when [PF_FUNC_INST]=1.  See CPT_CTX_HW_S[PKT_FMT] and
+                                                                 CPT_CTX_HW_S[PKT_OUT]. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
+                                                                 the function is allowed to enqueue descriptors via LMTSTs.
+
+                                                                 0 = When CPT receives an instruction for the LF/queue with CPT_INST_S[NIXTXL]!=0x0, it
+                                                                 sets CPT_LF_MISC_INT[NQERR], signals CPT_COMP_E::INSTERR, and will not pass a descriptor
+                                                                 to NIX TX for the instruction.
+
+                                                                 1 = When CPT receives an instruction for the LF/queue with CPT_INST_S[NIXTXL]!=0x0, it
+                                                                 can execute the instruction, which may involve passing its descriptor to NIX TX.
+                                                                 [NIX_SEL] selects the destination NIX, and CPT_AF_LF()_CTL2[NIX_PF_FUNC] selects
+                                                                 the NIX function.
+
+                                                                 [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
+        uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Sets the size of the initial context fetch to [CTX_ILEN]+1 128B blocks.
+                                                                 [CTX_ILEN]+1 must be \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. [CTX_ILEN] must be \<=
+                                                                 CPT_CTX_HW_S[CTX_SIZE]. */
+        uint64_t reserved_20_47        : 28;
+        uint64_t grp                   : 8;  /**< [ 55: 48](R/W) Engine group mask. Each bit represents an engine group.
+
+                                                                 If [GRP\<x\>]=0, CPT will discard all instructions with x=CPT_INST_S[EGRP].
+                                                                 CPT sets CPT_LF_MISC_INT[NQERR] when this happens, and if CPT_AF_LF()_CTL[CONT_ERR]=0,
+                                                                 also clears CPT_LF_CTL[ENA], necessitating an LF/queue reset.
+
+                                                                 If [GRP\<x\>]=1, CPT can execute instructions with x=CPT_INST_S[EGRP].
+
+                                                                 See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_cptx_af_lfx_ctl_s cn10; */
+    struct cavm_cptx_af_lfx_ctl_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t grp                   : 8;  /**< [ 55: 48](R/W) Engine group mask. Each bit represents an engine group.
+
+                                                                 If [GRP\<x\>]=0, CPT will discard all instructions with x=CPT_INST_S[EGRP].
+                                                                 CPT sets CPT_LF_MISC_INT[NQERR] when this happens, and if CPT_AF_LF()_CTL[CONT_ERR]=0,
+                                                                 also clears CPT_LF_CTL[ENA], necessitating an LF/queue reset.
+
+                                                                 If [GRP\<x\>]=1, CPT can execute instructions with x=CPT_INST_S[EGRP].
+
+                                                                 See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
+        uint64_t reserved_20_47        : 28;
+        uint64_t ctx_ilen              : 3;  /**< [ 19: 17](R/W) Sets the size of the initial context fetch to [CTX_ILEN]+1 128B blocks.
+                                                                 [CTX_ILEN]+1 must be \<= CPT_AF_CONSTANTS0[CTX_ENTRY_SIZE]. [CTX_ILEN] must be \<=
+                                                                 CPT_CTX_HW_S[CTX_SIZE]. */
+        uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
+                                                                 the function is allowed to enqueue descriptors via LMTSTs.
+
+                                                                 0 = When CPT receives an instruction for the LF/queue with CPT_INST_S[NIXTXL]!=0x0, it
+                                                                 sets CPT_LF_MISC_INT[NQERR], signals CPT_COMP_E::INSTERR, and will not pass a descriptor
+                                                                 to NIX TX for the instruction.
+
+                                                                 1 = When CPT receives an instruction for the LF/queue with CPT_INST_S[NIXTXL]!=0x0, it
+                                                                 can execute the instruction, which may involve passing its descriptor to NIX TX.
+                                                                 [NIX_SEL] selects the destination NIX, and CPT_AF_LF()_CTL2[NIX_PF_FUNC] selects
+                                                                 the NIX function.
+
+                                                                 [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
         uint64_t reserved_11_15        : 5;
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
@@ -5198,9 +5409,7 @@ union cavm_cptx_af_lfx_ctl
                                                                  See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_cptx_af_lfx_ctl_s cn10; */
-    /* struct cavm_cptx_af_lfx_ctl_s cn10ka; */
+    } cn10ka;
     struct cavm_cptx_af_lfx_ctl_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5231,7 +5440,11 @@ union cavm_cptx_af_lfx_ctl
                                                                  the NIX function.
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
-        uint64_t reserved_11_15        : 5;
+        uint64_t reserved_12_15        : 4;
+        uint64_t rxc_en                : 1;  /**< [ 11: 11](R/W) Enable CPT to use RXC. [RXC_ENA]=1 indicates this queue is permitted to use RXC.
+                                                                 [RXC_ENA]=1 also indicates the queue is using CPT_INST_HW_S.  Both are
+                                                                 automatically true when [PF_FUNC_INST]=1.  See CPT_CTX_HW_S[PKT_FMT] and
+                                                                 CPT_CTX_HW_S[PKT_OUT]. */
         uint64_t cont_err              : 1;  /**< [ 10: 10](R/W) Continue on error.
 
                                                                  0 = When hardware or a CPT_LF_MISC_INT_W1S write sets any CPT_LF_MISC_INT
@@ -5373,7 +5586,11 @@ union cavm_cptx_af_lfx_ctl
                                                                  this rule is that CPT always clears CPT_LF_CTL[ENA] on a queue overflow
                                                                  error. CPT_LF_MISC_INT[NQERR] and CPT_LF_Q_SIZE[SIZE_DIV40] describe a
                                                                  queue overflow error. For diagnostic use only. */
-        uint64_t reserved_11_15        : 5;
+        uint64_t rxc_en                : 1;  /**< [ 11: 11](R/W) Enable CPT to use RXC. [RXC_ENA]=1 indicates this queue is permitted to use RXC.
+                                                                 [RXC_ENA]=1 also indicates the queue is using CPT_INST_HW_S.  Both are
+                                                                 automatically true when [PF_FUNC_INST]=1.  See CPT_CTX_HW_S[PKT_FMT] and
+                                                                 CPT_CTX_HW_S[PKT_OUT]. */
+        uint64_t reserved_12_15        : 4;
         uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
                                                                  the function is allowed to enqueue descriptors via LMTSTs.
 

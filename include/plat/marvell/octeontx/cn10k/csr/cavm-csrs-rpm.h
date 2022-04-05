@@ -3659,12 +3659,12 @@ union cavm_rpmx_anx_reg_802_3ap_auto_negotiation_control
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t my_reset              : 1;  /**< [ 15: 15](R/W/H) 1 = Reset;0 = Normal;This register will soft reset all PCS/PMA and associated
+        uint64_t my_reset              : 1;  /**< [ 15: 15](R/W/H) 1 = Reset;0 = Normal; This register will soft reset all PCS/PMA and associated
                                                                  registers of this interface.
                                                                  Self-clearing bit, reading 0 always. */
         uint64_t reserved_14           : 1;
         uint64_t extended_next_page_control : 1;/**< [ 13: 13](R/W) This bit is ignored */
-        uint64_t field_802_3ap_auto_negotiation_enable : 1;/**< [ 12: 12](R/W) 1 = Enable;0 = Disable;A change in this bit will cause Auto-Negotiation to restart. */
+        uint64_t field_802_3ap_auto_negotiation_enable : 1;/**< [ 12: 12](R/W) 1 = Enable;0 = Disable; A change in this bit will cause Auto-Negotiation to restart. */
         uint64_t reserved_10_11        : 2;
         uint64_t restart_802_3ap_auto_negotiation : 1;/**< [  9:  9](R/W/H) Setting this bit will cause Auto-Negotiation to restart.;1 = Restart Auto-
                                                                  Negotiation Process;0 = Normal operation */
@@ -3674,10 +3674,10 @@ union cavm_rpmx_anx_reg_802_3ap_auto_negotiation_control
         uint64_t restart_802_3ap_auto_negotiation : 1;/**< [  9:  9](R/W/H) Setting this bit will cause Auto-Negotiation to restart.;1 = Restart Auto-
                                                                  Negotiation Process;0 = Normal operation */
         uint64_t reserved_10_11        : 2;
-        uint64_t field_802_3ap_auto_negotiation_enable : 1;/**< [ 12: 12](R/W) 1 = Enable;0 = Disable;A change in this bit will cause Auto-Negotiation to restart. */
+        uint64_t field_802_3ap_auto_negotiation_enable : 1;/**< [ 12: 12](R/W) 1 = Enable;0 = Disable; A change in this bit will cause Auto-Negotiation to restart. */
         uint64_t extended_next_page_control : 1;/**< [ 13: 13](R/W) This bit is ignored */
         uint64_t reserved_14           : 1;
-        uint64_t my_reset              : 1;  /**< [ 15: 15](R/W/H) 1 = Reset;0 = Normal;This register will soft reset all PCS/PMA and associated
+        uint64_t my_reset              : 1;  /**< [ 15: 15](R/W/H) 1 = Reset;0 = Normal; This register will soft reset all PCS/PMA and associated
                                                                  registers of this interface.
                                                                  Self-clearing bit, reading 0 always. */
         uint64_t reserved_16_63        : 48;
@@ -12926,7 +12926,7 @@ static inline uint64_t CAVM_RPMX_CMRX_LINK_CFG(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_prt_cbfc_ctl
  *
  * RPM CMR LMAC PFC Control Registers
- * Controls for masking the effect of specific classes and channels on FC logic
+ * Controls for masking the effect of specific classes and channels on FC logic.
  */
 union cavm_rpmx_cmrx_prt_cbfc_ctl
 {
@@ -13713,7 +13713,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_OVR_BP(uint64_t a, uint64_t b)
  * RPM Receive Statistics Register 0
  * Good packet counter.
  * These registers provide a count of received packets that meet the following conditions:
- * * are not recognized as ERROR packets(any OPCODE).
+ * * are not recognized as ERROR packets (any OPCODE).
  * * are not dropped due to FIFO full or undersize
  * * are not dropped due to DMAC0 or STEERING0 filtering.
  */
@@ -13761,7 +13761,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT0(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_rx_stat1
  *
  * RPM Receive Statistics Register 1
- * Good packet Octet counter
+ * Good packet Octet counter.
  */
 union cavm_rpmx_cmrx_rx_stat1
 {
@@ -13895,7 +13895,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT11(uint64_t a, uint64_t b)
  * RPM Receive Statistics Register 2
  * Filtered packet counter.
  * These registers provide a count of received packets that meet the following conditions:
- * * are not recognized as ERROR packets(any OPCODE).
+ * * are not recognized as ERROR packets (any OPCODE).
  * * are not dropped due to FIFO full or undersize
  * * are dropped due to DMAC0 or STEERING0 filtering.
  */
@@ -13996,7 +13996,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT3(uint64_t a, uint64_t b)
  * RPM Receive Statistics Register 4
  * FIFO Full dropped packets counter.
  * These registers provide a count of received packets that meet the following conditions:
- * * are not recognized as ERROR packets(any OPCODE).
+ * * are not recognized as ERROR packets (any OPCODE).
  * * are dropped due to FIFO full status (except truncated packets)
  *
  * They do not count any packet that is truncated at the point of overflow and sent
@@ -14097,7 +14097,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT5(uint64_t a, uint64_t b)
  * RPM Receive Statistics Register 6
  * Error packet counter.
  * These registers provide a count of received packets that meet the following conditions:
- *  * are recognized as ERROR packets(any OPCODE), including truncated packets.
+ *  * are recognized as ERROR packets (any OPCODE), including truncated packets.
  */
 union cavm_rpmx_cmrx_rx_stat6
 {
@@ -14289,13 +14289,13 @@ union cavm_rpmx_cmrx_rx_stat_defer_xoff
                                                                  equals number of posedges of stop_tx bits to MAC.
                                                                  Note that stop_tx can occur also because of SW override - see TX_OVR_BP.
                                                                  Note that PRT_CBFC_CTL.PHYS_BP, PRT_CBFC_CTL.LOGL_EN_TX, COMMAND_CONFIG.PFC_MODE
-                                                                 values affect occurances of stop_tx due to pause_on. */
+                                                                 values affect occurrences of stop_tx due to pause_on. */
 #else /* Word 0 - Little Endian */
         uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of Tx defer XON to XOFF transitions due to received PFC or pause packets,
                                                                  equals number of posedges of stop_tx bits to MAC.
                                                                  Note that stop_tx can occur also because of SW override - see TX_OVR_BP.
                                                                  Note that PRT_CBFC_CTL.PHYS_BP, PRT_CBFC_CTL.LOGL_EN_TX, COMMAND_CONFIG.PFC_MODE
-                                                                 values affect occurances of stop_tx due to pause_on. */
+                                                                 values affect occurrences of stop_tx due to pause_on. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -16569,7 +16569,7 @@ static inline uint64_t CAVM_RPMX_CMR_RX_DMACX_CAM0(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr_rx_lmacs
  *
  * RPM CMR Receive Logical MACs Registers
- * Configure LMAC existance for Rx Bulk memory allocation.
+ * Configure LMAC existence for Rx Bulk memory allocation.
  * Rx Bulk FIFO memory is statically allocated among existing LMACs, as indicated by this CSR.
  * This configuration may be written only once, before setting the RPM_CMR()_CONFIG[ENABLE] bits.
  */
@@ -16916,7 +16916,7 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING0X(uint64_t a, uint64_t b)
  * For determining destination of traffic that does not meet matching algorithm
  * described in registers RPM()_CMR_RX_STEERING0() and RPM()_CMR_RX_STEERING_VETYPE0().
  * All 16B packets or smaller (20B in case of FCS strip) as the result of truncation will steer
- * to default destination
+ * to default destination.
  */
 union cavm_rpmx_cmr_rx_steering_default0
 {
@@ -17027,7 +17027,7 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_VETYPE0X(uint64_t a, uint64_t b
  * Register (RSL) rpm#_cmr_tx_lmacs
  *
  * RPM CMR Transmit Logical MACs Registers
- * Configure LMAC existance for Tx Bulk memory allocation.
+ * Configure LMAC existence for Tx Bulk memory allocation.
  * Tx Bulk FIFO memory is statically allocated among existing LMACs, as indicated by this CSR.
  * This configuration may be written only once, before setting the RPM_CMR()_CONFIG[ENABLE] bits.
  */
@@ -18401,7 +18401,7 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_CONTROL(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_ext_mti_port#_frc_delta
  *
  * RPM Ext MTI Port FRC Delta Register
- * FRC Delta
+ * FRC Delta.
  */
 union cavm_rpmx_ext_mti_portx_frc_delta
 {
@@ -19159,7 +19159,7 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_MARKER_STATUS(uint64_t a, uint64_
  *
  * RPM Ext Port 0 Pause And Err Stat Register
  * Port Status of RX flow control per priority (in case of 802.3x, only bit[0] is meaningful);
- * Port status of the last received packet
+ * Port status of the last received packet.
  */
 union cavm_rpmx_ext_mti_portx_pause_and_err_stat
 {
@@ -20006,7 +20006,7 @@ static inline uint64_t CAVM_RPMX_EXT_MTI_PORTX_TSU_MODULO_TX(uint64_t a, uint64_
  * Register (RSL) rpm#_ext_mti_port#_tsu_status
  *
  * RPM Ext MTI Port Tsu Status Register
- * TSU Status
+ * TSU Status.
  */
 union cavm_rpmx_ext_mti_portx_tsu_status
 {
@@ -20735,7 +20735,7 @@ static inline uint64_t CAVM_RPMX_MTI_FCFECX_VL1_NCCW_LO(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_an_expansion
  *
  * RPM MTI LPCS Autonegotiation Expansion Register
- * Autonegotiation Expansion Register
+ * Autonegotiation Expansion Register.
  */
 union cavm_rpmx_mti_lpcsx_an_expansion
 {
@@ -20783,7 +20783,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_AN_EXPANSION(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_control
  *
  * RPM MTI LPCS Control Register
- * Control register
+ * Control register.
  */
 union cavm_rpmx_mti_lpcsx_control
 {
@@ -20959,7 +20959,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_DEV_ABILITY(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_if_mode
  *
  * RPM MTI LPCS Interface Mode Register
- * SGMII Mode Control
+ * SGMII Mode Control.
  */
 union cavm_rpmx_mti_lpcsx_if_mode
 {
@@ -21027,7 +21027,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_IF_MODE(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_link_timer_hi
  *
  * RPM MTI LPCS Link Timer High Register
- * Autonegotiation link timer upper 5 bits
+ * Autonegotiation link timer upper 5 bits.
  */
 union cavm_rpmx_mti_lpcsx_link_timer_hi
 {
@@ -21071,7 +21071,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_LINK_TIMER_HI(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_link_timer_lo
  *
  * RPM MTI LPCS Link Timer Low Register
- * Autonegotiation link timer lower 16 bits
+ * Autonegotiation link timer lower 16 bits.
  */
 union cavm_rpmx_mti_lpcsx_link_timer_lo
 {
@@ -21117,7 +21117,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_LINK_TIMER_LO(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_lp_np_rx
  *
  * RPM MTI LPCS Link Partner Next Page RX Register
- * Received Next Page data from link partner
+ * Received Next Page data from link partner.
  */
 union cavm_rpmx_mti_lpcsx_lp_np_rx
 {
@@ -21171,7 +21171,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_LP_NP_RX(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_np_tx
  *
  * RPM MTI LPCS Next Page TX Register
- * Next Page data to transmit
+ * Next Page data to transmit.
  */
 union cavm_rpmx_mti_lpcsx_np_tx
 {
@@ -21289,7 +21289,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_PARTNER_ABILITY(uint64_t a, uint64_t 
  * Register (RSL) rpm#_mti_lpcs#_phy_id_hi
  *
  * RPM MTI LPCS PHY Identifier High Register
- * PHY Identifier upper 16 bits
+ * PHY Identifier upper 16 bits.
  */
 union cavm_rpmx_mti_lpcsx_phy_id_hi
 {
@@ -21333,7 +21333,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_PHY_ID_HI(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_phy_id_lo
  *
  * RPM MTI LPCS PHY Identifier Low Register
- * PHY Identifier lower 16 bits
+ * PHY Identifier lower 16 bits.
  */
 union cavm_rpmx_mti_lpcsx_phy_id_lo
 {
@@ -21377,7 +21377,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_PHY_ID_LO(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_rev
  *
  * RPM MTI LPCS Rev Register
- * Core Revision
+ * Core Revision.
  */
 union cavm_rpmx_mti_lpcsx_rev
 {
@@ -21421,7 +21421,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_REV(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_scratch
  *
  * RPM MTI LPCS Scratch Register
- * General Purpose Test register
+ * General Purpose Test register.
  */
 union cavm_rpmx_mti_lpcsx_scratch
 {
@@ -21465,7 +21465,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_SCRATCH(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_status
  *
  * RPM MTI LPCS Status Register
- * Status indications
+ * Status indications.
  */
 union cavm_rpmx_mti_lpcsx_status
 {
@@ -21519,7 +21519,7 @@ static inline uint64_t CAVM_RPMX_MTI_LPCSX_STATUS(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_lpcs#_usxgmii_rep
  *
  * RPM MTI LPCS USXGMII Replication Register
- * 10G USXGMII replicator setting
+ * 10G USXGMII replicator setting.
  */
 union cavm_rpmx_mti_lpcsx_usxgmii_rep
 {
@@ -21789,9 +21789,9 @@ union cavm_rpmx_mti_mac100x_cf_gen_status
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t cf_gen_ack_seen       : 1;  /**< [  0:  0](RO) When set indicates that a special control framewas sent. Self clears on read */
+        uint64_t cf_gen_ack_seen       : 1;  /**< [  0:  0](RO) When set indicates that a special control frame was sent. Self clears on read */
 #else /* Word 0 - Little Endian */
-        uint64_t cf_gen_ack_seen       : 1;  /**< [  0:  0](RO) When set indicates that a special control framewas sent. Self clears on read */
+        uint64_t cf_gen_ack_seen       : 1;  /**< [  0:  0](RO) When set indicates that a special control frame was sent. Self clears on read */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -22469,7 +22469,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL67_QUANTA_THRESH(uint64_t a, uint
  * Register (RSL) rpm#_mti_mac100#_cl89_pause_quanta
  *
  * RPM Mti Mac100  Cl89 Pause Quanta Register
- * Class 8 and 9 pause quanta
+ * Class 8 and 9 pause quanta.
  */
 union cavm_rpmx_mti_mac100x_cl89_pause_quanta
 {
@@ -22515,7 +22515,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL89_PAUSE_QUANTA(uint64_t a, uint6
  * Register (RSL) rpm#_mti_mac100#_cl89_quanta_thresh
  *
  * RPM Mti Mac100  Cl89 Quanta Thresh Register
- * Class 8 and 9 refresh threshold
+ * Class 8 and 9 refresh threshold.
  */
 union cavm_rpmx_mti_mac100x_cl89_quanta_thresh
 {
@@ -22561,7 +22561,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CL89_QUANTA_THRESH(uint64_t a, uint
  * Register (RSL) rpm#_mti_mac100#_command_config
  *
  * RPM Mti Mac100  Command Config Register
- * Control and Configuration
+ * Control and Configuration.
  */
 union cavm_rpmx_mti_mac100x_command_config
 {
@@ -23215,7 +23215,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_CRC_MODE(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_frm_length
  *
  * RPM Mti Mac100  Frm Length Register
- * Maximum Frame Size
+ * Maximum Frame Size.
  */
 union cavm_rpmx_mti_mac100x_frm_length
 {
@@ -23284,7 +23284,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_FRM_LENGTH(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_mac_addr_0
  *
  * RPM Mti Mac100  Mac Addr 0 Register
- * First 4 bytes of MAC address
+ * First 4 bytes of MAC address.
  */
 union cavm_rpmx_mti_mac100x_mac_addr_0
 {
@@ -23328,7 +23328,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_MAC_ADDR_0(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_mac_addr_1
  *
  * RPM Mti Mac100  Mac Addr 1 Register
- * Last 2 bytes of MAC address
+ * Last 2 bytes of MAC address.
  */
 union cavm_rpmx_mti_mac100x_mac_addr_1
 {
@@ -23372,7 +23372,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_MAC_ADDR_1(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_revision
  *
  * RPM Mti Mac100  Revision Register
- * Package defined constants
+ * Package defined constants.
  */
 union cavm_rpmx_mti_mac100x_revision
 {
@@ -23420,7 +23420,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_REVISION(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_rx_fifo_sections
  *
  * RPM Mti Mac100  Rx Fifo Sections Register
- * RX FIFO thresholds
+ * RX FIFO thresholds.
  */
 union cavm_rpmx_mti_mac100x_rx_fifo_sections
 {
@@ -23522,7 +23522,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_RX_PAUSE_STATUS(uint64_t a, uint64_
  * Register (RSL) rpm#_mti_mac100#_scf_config0
  *
  * RPM MTI MAC100 Specific Control Frame Configuration 0 Register
- * Configures Specific Control Frame MAC DA
+ * Configures Specific Control Frame MAC DA.
  */
 union cavm_rpmx_mti_mac100x_scf_config0
 {
@@ -23566,7 +23566,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCF_CONFIG0(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_scf_config1
  *
  * RPM MTI MAC100 Specific Control Frame Configuration 1 Register
- * Configures Specific Control Frame EtherType and Opcode
+ * Configures Specific Control Frame EtherType and Opcode.
  */
 union cavm_rpmx_mti_mac100x_scf_config1
 {
@@ -23612,7 +23612,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCF_CONFIG1(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_scf_config2
  *
  * RPM MTI MAC100 Specific Control Frame Configuration 2 Register
- * Configures Specific Control Frame payload
+ * Configures Specific Control Frame payload.
  */
 union cavm_rpmx_mti_mac100x_scf_config2
 {
@@ -23654,7 +23654,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCF_CONFIG2(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_scf_control
  *
  * RPM MTI MAC100 Specific Control Frame Control Register
- * Trigger to send pre-configured Specific Control Frame
+ * Trigger to send pre-configured Specific Control Frame.
  */
 union cavm_rpmx_mti_mac100x_scf_control
 {
@@ -23700,7 +23700,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_SCF_CONTROL(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_scratch
  *
  * RPM Mti Mac100  Scratch Register
- * General Purpose
+ * General Purpose.
  */
 union cavm_rpmx_mti_mac100x_scratch
 {
@@ -23849,7 +23849,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_STATUS(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_mac100#_ts_timestamp
  *
  * RPM Mti Mac100  Ts Timestamp Register
- * Transmit Timestamp
+ * Transmit Timestamp.
  */
 union cavm_rpmx_mti_mac100x_ts_timestamp
 {
@@ -23895,7 +23895,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_TS_TIMESTAMP(uint64_t a, uint64_t b
  * Register (RSL) rpm#_mti_mac100#_tx_fifo_sections
  *
  * RPM Mti Mac100  Tx Fifo Sections Register
- * TX FIFO thresholds
+ * TX FIFO thresholds.
  */
 union cavm_rpmx_mti_mac100x_tx_fifo_sections
 {
@@ -24011,7 +24011,7 @@ static inline uint64_t CAVM_RPMX_MTI_MAC100X_TX_IPG_LENGTH(uint64_t a, uint64_t 
  * Register (RSL) rpm#_mti_mac100#_xif_mode
  *
  * RPM Mti Mac100  Xif Mode Register
- * Interface Mode Configuration
+ * Interface Mode Configuration.
  */
 union cavm_rpmx_mti_mac100x_xif_mode
 {
@@ -24074,9 +24074,19 @@ union cavm_rpmx_mti_mac100x_xif_mode
         uint64_t onestepena            : 1;  /**< [  5:  5](R/W) Enable 1-step capable datapath (if available) */
         uint64_t pausetimerx8          : 1;  /**< [  4:  4](R/W) Enable Pause Timer Compensation when using external XLGMII/GMII Converter */
         uint64_t reserved_1_3          : 3;
-        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment) */
+        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment).
+                                                                 When '1', the MAC operates in 10Geth/25Geth mode of
+                                                                 operation, sending 2x32-bit XGMII data on the 64-bit interface (i.e. allowing frame start
+                                                                 at byte 0 or byte 4).
+                                                                 When '0' (default), the MAC operates in 40Geth mode of operation, sending XLGMII data on
+                                                                 the 64-bit interface (i.e. frame start is 8-byte aligned with start always on lane 0). */
 #else /* Word 0 - Little Endian */
-        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment) */
+        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment).
+                                                                 When '1', the MAC operates in 10Geth/25Geth mode of
+                                                                 operation, sending 2x32-bit XGMII data on the 64-bit interface (i.e. allowing frame start
+                                                                 at byte 0 or byte 4).
+                                                                 When '0' (default), the MAC operates in 40Geth mode of operation, sending XLGMII data on
+                                                                 the 64-bit interface (i.e. frame start is 8-byte aligned with start always on lane 0). */
         uint64_t reserved_1_3          : 3;
         uint64_t pausetimerx8          : 1;  /**< [  4:  4](R/W) Enable Pause Timer Compensation when using external XLGMII/GMII Converter */
         uint64_t onestepena            : 1;  /**< [  5:  5](R/W) Enable 1-step capable datapath (if available) */
@@ -24188,9 +24198,19 @@ union cavm_rpmx_mti_mac100x_xif_mode
         uint64_t onestepena            : 1;  /**< [  5:  5](R/W) Enable 1-step capable datapath (if available) */
         uint64_t pausetimerx8          : 1;  /**< [  4:  4](R/W) Enable Pause Timer Compensation when using external XLGMII/GMII Converter */
         uint64_t reserved_1_3          : 3;
-        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment) */
+        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment).
+                                                                 When '1', the MAC operates in 10Geth/25Geth mode of
+                                                                 operation, sending 2x32-bit XGMII data on the 64-bit interface (i.e. allowing frame start
+                                                                 at byte 0 or byte 4).
+                                                                 When '0' (default), the MAC operates in 40Geth mode of operation, sending XLGMII data on
+                                                                 the 64-bit interface (i.e. frame start is 8-byte aligned with start always on lane 0). */
 #else /* Word 0 - Little Endian */
-        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment) */
+        uint64_t xgmii                 : 1;  /**< [  0:  0](R/W) Enable XGMII-64 (4byte alignment).
+                                                                 When '1', the MAC operates in 10Geth/25Geth mode of
+                                                                 operation, sending 2x32-bit XGMII data on the 64-bit interface (i.e. allowing frame start
+                                                                 at byte 0 or byte 4).
+                                                                 When '0' (default), the MAC operates in 40Geth mode of operation, sending XLGMII data on
+                                                                 the 64-bit interface (i.e. frame start is 8-byte aligned with start always on lane 0). */
         uint64_t reserved_1_3          : 3;
         uint64_t pausetimerx8          : 1;  /**< [  4:  4](R/W) Enable Pause Timer Compensation when using external XLGMII/GMII Converter */
         uint64_t onestepena            : 1;  /**< [  5:  5](R/W) Enable 1-step capable datapath (if available) */
@@ -25889,7 +25909,7 @@ static inline uint64_t CAVM_RPMX_MTI_PCS100X_STATUS1(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_mti_pcs100#_status2
  *
  * RPM MTI PCS Status2 Register
- * Fault status; Device capabilities
+ * Fault status; Device capabilities.
  */
 union cavm_rpmx_mti_pcs100x_status2
 {
@@ -30595,7 +30615,7 @@ static inline uint64_t CAVM_RPMX_MTI_STAT_STATN_CONFIG(uint64_t a)
  * Register (RSL) rpm#_mti_stat_statn_control
  *
  * RPM MTI Statistics Control Register
- * Control commands to the module for clearing, latching statistics
+ * Control commands to the module for clearing, latching statistics.
  */
 union cavm_rpmx_mti_stat_statn_control
 {

@@ -41,7 +41,10 @@ union cavm_ncbw_cfg
     struct cavm_ncbw_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_13_63        : 51;
+        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
+                                                                 Set to 0 to use NCB segment 3; Default is to use segment 4. */
+        uint64_t reserved_9_11         : 3;
         uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
         uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
                                                                  system clock to sample the timestamp value and pass the timestamp value
@@ -65,7 +68,10 @@ union cavm_ncbw_cfg
                                                                  an internal 8-entry FIFO is full.
                                                                  Setting this field to 0 will sample the timestamp every 16th system clock. */
         uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
-        uint64_t reserved_9_63         : 55;
+        uint64_t reserved_9_11         : 3;
+        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
+                                                                 Set to 0 to use NCB segment 3; Default is to use segment 4. */
+        uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_ncbw_cfg_s cn10; */
@@ -73,9 +79,9 @@ union cavm_ncbw_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_13_63        : 51;
-        uint64_t rsvd0                 : 1;  /**< [ 12: 12](R/W/H) Reserved. */
-        uint64_t reserved_9_11         : 3;
-        uint64_t reserved_8            : 1;
+        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
+                                                                 Set to 0 to use NCB segment 3; Default is to use segment 4. */
+        uint64_t reserved_8_11         : 4;
         uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
                                                                  system clock to sample the timestamp value and pass the timestamp value
                                                                  into the BPHY clock domain. The default is to sample once every four system clocks.
@@ -97,48 +103,13 @@ union cavm_ncbw_cfg
                                                                  Setting this field to 1 will sample the timestamp every system clock until
                                                                  an internal 8-entry FIFO is full.
                                                                  Setting this field to 0 will sample the timestamp every 16th system clock. */
-        uint64_t reserved_8            : 1;
-        uint64_t reserved_9_11         : 3;
-        uint64_t rsvd0                 : 1;  /**< [ 12: 12](R/W/H) Reserved. */
+        uint64_t reserved_8_11         : 4;
+        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
+                                                                 Set to 0 to use NCB segment 3; Default is to use segment 4. */
         uint64_t reserved_13_63        : 51;
 #endif /* Word 0 - End */
     } cnf10ka;
-    struct cavm_ncbw_cfg_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
-                                                                 Set to 0 to use NCB segment 3; Default is to use segment 4. */
-        uint64_t reserved_9_11         : 3;
-        uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
-        uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
-                                                                 system clock to sample the timestamp value and pass the timestamp value
-                                                                 into the BPHY clock domain. The default is to sample once every four system clocks.
-                                                                 Setting this field to 1 will sample the timestamp every system clock until
-                                                                 an internal 8-entry FIFO is full.
-                                                                 Setting this field to 0 will sample the timestamp every 16th system clock. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t rst_flush             : 1;  /**< [  1:  1](R/W/H) Set one to flush incoming requests from all BPHY devices and to put NCBO requests
-                                                                 in bypass mode. For BPHY reset only. */
-        uint64_t wgt_clken             : 1;  /**< [  0:  0](R/W) Force the conditional clocking for NCBW itself. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t wgt_clken             : 1;  /**< [  0:  0](R/W) Force the conditional clocking for NCBW itself. For diagnostic use only. */
-        uint64_t rst_flush             : 1;  /**< [  1:  1](R/W/H) Set one to flush incoming requests from all BPHY devices and to put NCBO requests
-                                                                 in bypass mode. For BPHY reset only. */
-        uint64_t reserved_2_3          : 2;
-        uint64_t mio_timestp_tick      : 4;  /**< [  7:  4](R/W/H) MIO timestamp tick clock. This field specifies the number of ticks in
-                                                                 system clock to sample the timestamp value and pass the timestamp value
-                                                                 into the BPHY clock domain. The default is to sample once every four system clocks.
-                                                                 Setting this field to 1 will sample the timestamp every system clock until
-                                                                 an internal 8-entry FIFO is full.
-                                                                 Setting this field to 0 will sample the timestamp every 16th system clock. */
-        uint64_t mio_timestp_bu_sync_sel : 1;/**< [  8:  8](R/W/H) Use backup timestamp async fifo mode */
-        uint64_t reserved_9_11         : 3;
-        uint64_t rtt_seg4_sel          : 1;  /**< [ 12: 12](R/W/H) RTT NCB segment4 select.
-                                                                 Set to 0 to use NCB segment 3; Default is to use segment 4. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_ncbw_cfg_s cnf10kb; */
 };
 typedef union cavm_ncbw_cfg cavm_ncbw_cfg_t;
 

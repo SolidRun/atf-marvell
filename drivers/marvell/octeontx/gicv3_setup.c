@@ -248,8 +248,8 @@ void octeontx_gic_anb_override(void)
 	 * Configure the AXI-NCB bridge for GIC bypass.
 	 */
 	val |= 3ull<<14;
-	GIC_CSR_WRITE(CAVM_GIC_ANB_REG(CAVM_GIC_ANB_NCBI_P_OVR), val);
-	GIC_CSR_WRITE(CAVM_GIC_ANB_REG(CAVM_GIC_ANB_NCBI_NP_OVR), val);
+	GIC_CSR_WRITE(CAVM_GIC_ANB_REG(CAVM_GIC_ANB_NCBI_P_OVR_OFFSET), val);
+	GIC_CSR_WRITE(CAVM_GIC_ANB_REG(CAVM_GIC_ANB_NCBI_NP_OVR_OFFSET), val);
 }
 #endif
 

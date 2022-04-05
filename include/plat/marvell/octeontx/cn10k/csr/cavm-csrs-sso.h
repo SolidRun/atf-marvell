@@ -659,6 +659,8 @@ typedef union cavm_sso_af_bad_stash_digestx cavm_sso_af_bad_stash_digestx_t;
 static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=3))
+        return 0x8400702000e0ll + 0x1000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x8400702000e0ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_BAD_STASH_DIGESTX", 1, a, 0, 0, 0, 0, 0);
@@ -683,18 +685,29 @@ union cavm_sso_af_bad_stash_digestx_w1s
     struct cavm_sso_af_bad_stash_digestx_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..3)[HWGRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..3)[HWGRP]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_sso_af_bad_stash_digestx_w1s_s cn10; */
+    /* struct cavm_sso_af_bad_stash_digestx_w1s_s cn10ka; */
+    struct cavm_sso_af_bad_stash_digestx_w1s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..1)[HWGRP]. */
 #else /* Word 0 - Little Endian */
         uint64_t hwgrp                 : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_BAD_STASH_DIGEST(0..1)[HWGRP]. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_sso_af_bad_stash_digestx_w1s_s cn; */
+    } cn10kb;
 };
 typedef union cavm_sso_af_bad_stash_digestx_w1s cavm_sso_af_bad_stash_digestx_w1s_t;
 
 static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_BAD_STASH_DIGESTX_W1S(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=3))
+        return 0x8400702000f0ll + 0x1000ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x8400702000f0ll + 0x1000ll * ((a) & 0x1);
     __cavm_csr_fatal("SSO_AF_BAD_STASH_DIGESTX_W1S", 1, a, 0, 0, 0, 0, 0);
@@ -1109,7 +1122,7 @@ union cavm_sso_af_const1
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_const1_s cn10; */
-    struct cavm_sso_af_const1_cn10ka
+    struct cavm_sso_af_const1_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
@@ -1136,10 +1149,11 @@ union cavm_sso_af_const1
         uint64_t exp_inv_rsp           : 8;  /**< [ 47: 40](RO/H) Number of expected INVAL ACK responses on a SAI_FLUSH. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_sso_af_const1_s cn10ka_p2; */
     /* struct cavm_sso_af_const1_s cn10kb; */
-    /* struct cavm_sso_af_const1_cn10ka cnf10ka; */
-    /* struct cavm_sso_af_const1_cn10ka cnf10kb; */
+    /* struct cavm_sso_af_const1_cn10ka_p1 cnf10ka; */
+    /* struct cavm_sso_af_const1_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_sso_af_const1 cavm_sso_af_const1_t;
 
@@ -1273,7 +1287,7 @@ union cavm_sso_af_err0
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_err0_s cn10; */
-    struct cavm_sso_af_err0_cn10ka
+    struct cavm_sso_af_err0_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1376,10 +1390,11 @@ union cavm_sso_af_err0
                                                                  groups that experience this error are reported in SSO_AF_POISON(). */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_sso_af_err0_s cn10ka_p2; */
     /* struct cavm_sso_af_err0_s cn10kb; */
-    /* struct cavm_sso_af_err0_cn10ka cnf10ka; */
-    /* struct cavm_sso_af_err0_cn10ka cnf10kb; */
+    /* struct cavm_sso_af_err0_cn10ka_p1 cnf10ka; */
+    /* struct cavm_sso_af_err0_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_sso_af_err0 cavm_sso_af_err0_t;
 
@@ -1449,7 +1464,7 @@ union cavm_sso_af_err0_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_err0_ena_w1c_s cn10; */
-    struct cavm_sso_af_err0_ena_w1c_cn10ka
+    struct cavm_sso_af_err0_ena_w1c_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1488,10 +1503,11 @@ union cavm_sso_af_err0_ena_w1c
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for SSO_AF_ERR0[BFPP]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_sso_af_err0_ena_w1c_s cn10ka_p2; */
     /* struct cavm_sso_af_err0_ena_w1c_s cn10kb; */
-    /* struct cavm_sso_af_err0_ena_w1c_cn10ka cnf10ka; */
-    /* struct cavm_sso_af_err0_ena_w1c_cn10ka cnf10kb; */
+    /* struct cavm_sso_af_err0_ena_w1c_cn10ka_p1 cnf10ka; */
+    /* struct cavm_sso_af_err0_ena_w1c_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_sso_af_err0_ena_w1c cavm_sso_af_err0_ena_w1c_t;
 
@@ -1561,7 +1577,7 @@ union cavm_sso_af_err0_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_err0_ena_w1s_s cn10; */
-    struct cavm_sso_af_err0_ena_w1s_cn10ka
+    struct cavm_sso_af_err0_ena_w1s_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1600,10 +1616,11 @@ union cavm_sso_af_err0_ena_w1s
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for SSO_AF_ERR0[BFPP]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_sso_af_err0_ena_w1s_s cn10ka_p2; */
     /* struct cavm_sso_af_err0_ena_w1s_s cn10kb; */
-    /* struct cavm_sso_af_err0_ena_w1s_cn10ka cnf10ka; */
-    /* struct cavm_sso_af_err0_ena_w1s_cn10ka cnf10kb; */
+    /* struct cavm_sso_af_err0_ena_w1s_cn10ka_p1 cnf10ka; */
+    /* struct cavm_sso_af_err0_ena_w1s_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_sso_af_err0_ena_w1s cavm_sso_af_err0_ena_w1s_t;
 
@@ -1673,7 +1690,7 @@ union cavm_sso_af_err0_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_err0_w1s_s cn10; */
-    struct cavm_sso_af_err0_w1s_cn10ka
+    struct cavm_sso_af_err0_w1s_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1712,10 +1729,11 @@ union cavm_sso_af_err0_w1s
         uint64_t bfpp                  : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets SSO_AF_ERR0[BFPP]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_sso_af_err0_w1s_s cn10ka_p2; */
     /* struct cavm_sso_af_err0_w1s_s cn10kb; */
-    /* struct cavm_sso_af_err0_w1s_cn10ka cnf10ka; */
-    /* struct cavm_sso_af_err0_w1s_cn10ka cnf10kb; */
+    /* struct cavm_sso_af_err0_w1s_cn10ka_p1 cnf10ka; */
+    /* struct cavm_sso_af_err0_w1s_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_sso_af_err0_w1s cavm_sso_af_err0_w1s_t;
 
@@ -2541,7 +2559,7 @@ union cavm_sso_af_hwgrpx_aw_status
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_hwgrpx_aw_status_s cn10; */
-    struct cavm_sso_af_hwgrpx_aw_status_cn10ka
+    struct cavm_sso_af_hwgrpx_aw_status_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
@@ -2604,10 +2622,11 @@ union cavm_sso_af_hwgrpx_aw_status
                                                                  input FIFOs, which are not yet included in the TAQ count. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_sso_af_hwgrpx_aw_status_s cn10ka_p2; */
     /* struct cavm_sso_af_hwgrpx_aw_status_s cn10kb; */
-    /* struct cavm_sso_af_hwgrpx_aw_status_cn10ka cnf10ka; */
-    /* struct cavm_sso_af_hwgrpx_aw_status_cn10ka cnf10kb; */
+    /* struct cavm_sso_af_hwgrpx_aw_status_cn10ka_p1 cnf10ka; */
+    /* struct cavm_sso_af_hwgrpx_aw_status_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_sso_af_hwgrpx_aw_status cavm_sso_af_hwgrpx_aw_status_t;
 
@@ -3213,6 +3232,8 @@ typedef union cavm_sso_af_hwgrpx_stash cavm_sso_af_hwgrpx_stash_t;
 static inline uint64_t CAVM_SSO_AF_HWGRPX_STASH(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_HWGRPX_STASH(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=255))
+        return 0x8400702000d0ll + 0x1000ll * ((a) & 0xff);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
         return 0x8400702000d0ll + 0x1000ll * ((a) & 0x7f);
     __cavm_csr_fatal("SSO_AF_HWGRPX_STASH", 1, a, 0, 0, 0, 0, 0);
@@ -5723,7 +5744,7 @@ union cavm_sso_af_tilemapx
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_tilemapx_s cn10; */
-    struct cavm_sso_af_tilemapx_cn10ka
+    struct cavm_sso_af_tilemapx_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
@@ -5744,10 +5765,11 @@ union cavm_sso_af_tilemapx
         uint64_t mv                    : 1;  /**< [ 34: 34](RO/H) Move bit.  Indicates PF, Func and GWS is being moved to another AP tile, NTID. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_sso_af_tilemapx_s cn10ka_p2; */
     /* struct cavm_sso_af_tilemapx_s cn10kb; */
-    /* struct cavm_sso_af_tilemapx_cn10ka cnf10ka; */
-    /* struct cavm_sso_af_tilemapx_cn10ka cnf10kb; */
+    /* struct cavm_sso_af_tilemapx_cn10ka_p1 cnf10ka; */
+    /* struct cavm_sso_af_tilemapx_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_sso_af_tilemapx cavm_sso_af_tilemapx_t;
 
@@ -5975,7 +5997,7 @@ union cavm_sso_af_unmap_info
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_unmap_info_s cn10; */
-    struct cavm_sso_af_unmap_info_cn10ka
+    struct cavm_sso_af_unmap_info_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_44_63        : 20;
@@ -6058,8 +6080,8 @@ union cavm_sso_af_unmap_info
                                                                  \<0\> = unused */
         uint64_t reserved_44_63        : 20;
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_sso_af_unmap_info_cn10kb
+    } cn10ka_p1;
+    struct cavm_sso_af_unmap_info_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_45_63        : 19;
@@ -6144,9 +6166,10 @@ union cavm_sso_af_unmap_info
                                                                  \<0\> = unused */
         uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_sso_af_unmap_info_cn10ka cnf10ka; */
-    /* struct cavm_sso_af_unmap_info_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_sso_af_unmap_info_cn10ka_p2 cn10kb; */
+    /* struct cavm_sso_af_unmap_info_cn10ka_p1 cnf10ka; */
+    /* struct cavm_sso_af_unmap_info_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_sso_af_unmap_info cavm_sso_af_unmap_info_t;
 
@@ -6612,8 +6635,10 @@ typedef union cavm_sso_af_ws_gmulti_digestx cavm_sso_af_ws_gmulti_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_GMULTI_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_GMULTI_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070902000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070902000ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070902000ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -6648,15 +6673,16 @@ union cavm_sso_af_ws_gmulti_digestx_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cn10; */
-    /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cn10ka; */
-    struct cavm_sso_af_ws_gmulti_digestx_w1s_cn10kb
+    /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cn10ka_p1; */
+    struct cavm_sso_af_ws_gmulti_digestx_w1s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GMULTI_DIGEST(0..0)[HWS]. */
 #else /* Word 0 - Little Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GMULTI_DIGEST(0..0)[HWS]. */
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_sso_af_ws_gmulti_digestx_w1s_cn10ka_p2 cn10kb; */
     /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cnf10ka; */
     /* struct cavm_sso_af_ws_gmulti_digestx_w1s_s cnf10kb; */
 };
@@ -6665,8 +6691,10 @@ typedef union cavm_sso_af_ws_gmulti_digestx_w1s cavm_sso_af_ws_gmulti_digestx_w1
 static inline uint64_t CAVM_SSO_AF_WS_GMULTI_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_GMULTI_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070902100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070902100ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070902100ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -6707,8 +6735,10 @@ typedef union cavm_sso_af_ws_gunmap_digestx cavm_sso_af_ws_gunmap_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_GUNMAP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_GUNMAP_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070902200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070902200ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070902200ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -6743,15 +6773,16 @@ union cavm_sso_af_ws_gunmap_digestx_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cn10; */
-    /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cn10ka; */
-    struct cavm_sso_af_ws_gunmap_digestx_w1s_cn10kb
+    /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cn10ka_p1; */
+    struct cavm_sso_af_ws_gunmap_digestx_w1s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GUNMAP_DIGEST(0..0)[HWS]. */
 #else /* Word 0 - Little Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_GUNMAP_DIGEST(0..0)[HWS]. */
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_sso_af_ws_gunmap_digestx_w1s_cn10ka_p2 cn10kb; */
     /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cnf10ka; */
     /* struct cavm_sso_af_ws_gunmap_digestx_w1s_s cnf10kb; */
 };
@@ -6760,8 +6791,10 @@ typedef union cavm_sso_af_ws_gunmap_digestx_w1s cavm_sso_af_ws_gunmap_digestx_w1
 static inline uint64_t CAVM_SSO_AF_WS_GUNMAP_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_GUNMAP_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070902300ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070902300ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070902300ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -6802,8 +6835,10 @@ typedef union cavm_sso_af_ws_ne_digestx cavm_sso_af_ws_ne_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_NE_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NE_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070902800ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070902800ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070902800ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -6838,15 +6873,16 @@ union cavm_sso_af_ws_ne_digestx_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_ws_ne_digestx_w1s_s cn10; */
-    /* struct cavm_sso_af_ws_ne_digestx_w1s_s cn10ka; */
-    struct cavm_sso_af_ws_ne_digestx_w1s_cn10kb
+    /* struct cavm_sso_af_ws_ne_digestx_w1s_s cn10ka_p1; */
+    struct cavm_sso_af_ws_ne_digestx_w1s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NE_DIGEST(0..0)[HWS]. */
 #else /* Word 0 - Little Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NE_DIGEST(0..0)[HWS]. */
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_sso_af_ws_ne_digestx_w1s_cn10ka_p2 cn10kb; */
     /* struct cavm_sso_af_ws_ne_digestx_w1s_s cnf10ka; */
     /* struct cavm_sso_af_ws_ne_digestx_w1s_s cnf10kb; */
 };
@@ -6855,8 +6891,10 @@ typedef union cavm_sso_af_ws_ne_digestx_w1s cavm_sso_af_ws_ne_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_WS_NE_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NE_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070902900ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070902900ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070902900ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -6897,8 +6935,10 @@ typedef union cavm_sso_af_ws_ni_digestx cavm_sso_af_ws_ni_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070903000ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070903000ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070903000ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -6933,15 +6973,16 @@ union cavm_sso_af_ws_ni_digestx_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_ws_ni_digestx_w1s_s cn10; */
-    /* struct cavm_sso_af_ws_ni_digestx_w1s_s cn10ka; */
-    struct cavm_sso_af_ws_ni_digestx_w1s_cn10kb
+    /* struct cavm_sso_af_ws_ni_digestx_w1s_s cn10ka_p1; */
+    struct cavm_sso_af_ws_ni_digestx_w1s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NI_DIGEST(0..0)[HWS]. */
 #else /* Word 0 - Little Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NI_DIGEST(0..0)[HWS]. */
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_sso_af_ws_ni_digestx_w1s_cn10ka_p2 cn10kb; */
     /* struct cavm_sso_af_ws_ni_digestx_w1s_s cnf10ka; */
     /* struct cavm_sso_af_ws_ni_digestx_w1s_s cnf10kb; */
 };
@@ -6950,8 +6991,10 @@ typedef union cavm_sso_af_ws_ni_digestx_w1s cavm_sso_af_ws_ni_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NI_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070903100ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070903100ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070903100ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -6992,8 +7035,10 @@ typedef union cavm_sso_af_ws_nt_digestx cavm_sso_af_ws_nt_digestx_t;
 static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070903200ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070903200ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070903200ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
@@ -7028,15 +7073,16 @@ union cavm_sso_af_ws_nt_digestx_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_sso_af_ws_nt_digestx_w1s_s cn10; */
-    /* struct cavm_sso_af_ws_nt_digestx_w1s_s cn10ka; */
-    struct cavm_sso_af_ws_nt_digestx_w1s_cn10kb
+    /* struct cavm_sso_af_ws_nt_digestx_w1s_s cn10ka_p1; */
+    struct cavm_sso_af_ws_nt_digestx_w1s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NT_DIGEST(0..0)[HWS]. */
 #else /* Word 0 - Little Endian */
         uint64_t hws                   : 64; /**< [ 63:  0](R/W1S/H) Reads or sets SSO_AF_WS_NT_DIGEST(0..0)[HWS]. */
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_sso_af_ws_nt_digestx_w1s_cn10ka_p2 cn10kb; */
     /* struct cavm_sso_af_ws_nt_digestx_w1s_s cnf10ka; */
     /* struct cavm_sso_af_ws_nt_digestx_w1s_s cnf10kb; */
 };
@@ -7045,8 +7091,10 @@ typedef union cavm_sso_af_ws_nt_digestx_w1s cavm_sso_af_ws_nt_digestx_w1s_t;
 static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSO_AF_WS_NT_DIGESTX_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840070903300ll + 8ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x840070903300ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x840070903300ll + 8ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))

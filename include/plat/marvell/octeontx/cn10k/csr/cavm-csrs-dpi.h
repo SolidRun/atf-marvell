@@ -1361,9 +1361,9 @@ union cavm_dpix_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
-        uint64_t force_ebo_clks_on     : 1;  /**< [ 10: 10](R/W) When set this will force conditional clocks in DPIs EBO bus unconditionally on.
+        uint64_t force_ebo_clks_on     : 1;  /**< [ 10: 10](R/W) When set this will force conditional clocks in DPI's EBO bus unconditionally on.
                                                                  For diagnostic use only. */
-        uint64_t force_ncb_clks_on     : 1;  /**< [  9:  9](R/W) When set this will force conditional clocks in DPIs NCB bus unconditionally on.
+        uint64_t force_ncb_clks_on     : 1;  /**< [  9:  9](R/W) When set this will force conditional clocks in DPI's NCB bus unconditionally on.
                                                                  For diagnostic use only. */
         uint64_t force_clks_on         : 1;  /**< [  8:  8](R/W) When set this will force conditional clocks in DPI unconditionally on. For diagnostic use only. */
         uint64_t reserved_2_7          : 6;
@@ -1404,9 +1404,9 @@ union cavm_dpix_ctl
                                                                  and poisons returned on EBI data response are ignored and set interrupt DPI()_PF_RAS[EBI_DAT_PSN]. */
         uint64_t reserved_2_7          : 6;
         uint64_t force_clks_on         : 1;  /**< [  8:  8](R/W) When set this will force conditional clocks in DPI unconditionally on. For diagnostic use only. */
-        uint64_t force_ncb_clks_on     : 1;  /**< [  9:  9](R/W) When set this will force conditional clocks in DPIs NCB bus unconditionally on.
+        uint64_t force_ncb_clks_on     : 1;  /**< [  9:  9](R/W) When set this will force conditional clocks in DPI's NCB bus unconditionally on.
                                                                  For diagnostic use only. */
-        uint64_t force_ebo_clks_on     : 1;  /**< [ 10: 10](R/W) When set this will force conditional clocks in DPIs EBO bus unconditionally on.
+        uint64_t force_ebo_clks_on     : 1;  /**< [ 10: 10](R/W) When set this will force conditional clocks in DPI's EBO bus unconditionally on.
                                                                  For diagnostic use only. */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
@@ -1629,7 +1629,7 @@ union cavm_dpix_dmax_pri
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t pri_th_en             : 1;  /**< [  1:  1](R/W) Controls wheter low priority queues use the
+        uint64_t pri_th_en             : 1;  /**< [  1:  1](R/W) Controls whether low priority queues use the
                                                                  DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] setting. If PRI_TH_EN is set, the request
                                                                  logic uses the
                                                                  DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] during arbitration. If PRI_TH_EN is
@@ -1642,7 +1642,7 @@ union cavm_dpix_dmax_pri
         uint64_t pri                   : 1;  /**< [  0:  0](R/W) Priority of the instruction queue. Choices are 0=High priority or 1=Low
                                                                  Priority. Refer to the DPI_DMA_ARB_CONTROL register for the effect of
                                                                  setting an instruction queue priority. */
-        uint64_t pri_th_en             : 1;  /**< [  1:  1](R/W) Controls wheter low priority queues use the
+        uint64_t pri_th_en             : 1;  /**< [  1:  1](R/W) Controls whether low priority queues use the
                                                                  DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] setting. If PRI_TH_EN is set, the request
                                                                  logic uses the
                                                                  DPI_REQQ_GENBUFF_TH_LIMIT[LOPRI_LIMIT] during arbitration. If PRI_TH_EN is
@@ -5216,36 +5216,36 @@ union cavm_dpix_stat_ctrl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
-        uint64_t stat_sel              : 10; /**< [ 17:  8](R/W) Definition changes based on MUX_SEL. Each set bit enables the counter to
+        uint64_t stat_sel              : 10; /**< [ 17:  8](R/W) Definition changes based on [MUX_SEL]. Each set bit enables the counter to
                                                                  increment when the signal is asserted.
-                                                                 MUX_SEL
-                                                                 0 - OPKT - [7:6] - PortEn
-                                                                 1 - RDENG - [5:0] - EngEn
-                                                                             [7:6] - PortEn
-                                                                             [9:8] - Dst - Ebus =1, 0=ncb
-                                                                 2 - WRENG - same as RDENG
-                                                                 3 - NCBI - [0] - dma_rd
-                                                                            [1] - inst_rd
-                                                                            [2] - dma_wr
-                                                                            [3] - cmpl_wr
-                                                                            [4] - csr_rsp
-                                                                            [5] - win_req
-                                                                 4 - NCBO - [0] - req_cpl
-                                                                            [1] - dma_cpl
-                                                                            [2] - win_cpl
-                                                                            [3] - csr_req
-                                                                 5 - EBI -  [0] - rsp
-                                                                            [1] - csr
-                                                                            [2] - win
-                                                                            [7:6] - PortEn
-                                                                 6 - EB0 -  [0] - rd_req
-                                                                            [1] - wr_req
-                                                                            [2] - csr_req
-                                                                            [7:6] - PortEn
-                                                                 7 - NPA_LWA_CCNT - [0] - rdb_npa_inc
-                                                                                    [1] - req_npa_inc
-                                                                                    [2] - cow_lwa_inc
-                                                                                    [3] - cow_ccnt_inc */
+                                                                 [MUX_SEL]:
+                                                                 0 - OPKT - [7:6] - PortEn.
+                                                                 1 - RDENG - [5:0] - EngEn.
+                                                                             [7:6] - PortEn.
+                                                                             [9:8] - Dst - Ebus =1, 0=ncb.
+                                                                 2 - WRENG - same as RDENG.
+                                                                 3 - NCBI - [0] - dma_rd.
+                                                                            [1] - inst_rd.
+                                                                            [2] - dma_wr.
+                                                                            [3] - cmpl_wr.
+                                                                            [4] - csr_rsp.
+                                                                            [5] - win_req.
+                                                                 4 - NCBO - [0] - req_cpl.
+                                                                            [1] - dma_cpl.
+                                                                            [2] - win_cpl.
+                                                                            [3] - csr_req.
+                                                                 5 - EBI -  [0] - rsp.
+                                                                            [1] - csr.
+                                                                            [2] - win.
+                                                                            [7:6] - PortEn.
+                                                                 6 - EB0 -  [0] - rd_req.
+                                                                            [1] - wr_req.
+                                                                            [2] - csr_req.
+                                                                            [7:6] - PortEn.
+                                                                 7 - NPA_LWA_CCNT - [0] - rdb_npa_inc.
+                                                                                    [1] - req_npa_inc.
+                                                                                    [2] - cow_lwa_inc.
+                                                                                    [3] - cow_ccnt_inc. */
         uint64_t en                    : 1;  /**< [  7:  7](R/W) 1 - Enable Statistics counting
                                                                  0 - Disable Statistics counting
                                                                  Software should set this bit after programming the MUX_SEL.
@@ -5253,25 +5253,25 @@ union cavm_dpix_stat_ctrl
                                                                  counts.
                                                                  Writing this bit from a 0 to a 1 clears the DPI_STAT0,DPI_STAT1 and DPI_STAT2 counters. */
         uint64_t reserved_3_6          : 4;
-        uint64_t mux_sel               : 3;  /**< [  2:  0](R/W) Select source to collect statistics counts
-                                                                 0 - OPKT
-                                                                 1 - RDENG
-                                                                 2 - WRENG
-                                                                 3 - NCBI
-                                                                 4 - NCBO
-                                                                 5 - EBI
-                                                                 6 - EBO
-                                                                 7 - NPA_LWA_CCNT */
+        uint64_t mux_sel               : 3;  /**< [  2:  0](R/W) Select source to collect statistics counts.
+                                                                 0 - OPKT.
+                                                                 1 - RDENG.
+                                                                 2 - WRENG.
+                                                                 3 - NCBI.
+                                                                 4 - NCBO.
+                                                                 5 - EBI.
+                                                                 6 - EBO.
+                                                                 7 - NPA_LWA_CCNT. */
 #else /* Word 0 - Little Endian */
-        uint64_t mux_sel               : 3;  /**< [  2:  0](R/W) Select source to collect statistics counts
-                                                                 0 - OPKT
-                                                                 1 - RDENG
-                                                                 2 - WRENG
-                                                                 3 - NCBI
-                                                                 4 - NCBO
-                                                                 5 - EBI
-                                                                 6 - EBO
-                                                                 7 - NPA_LWA_CCNT */
+        uint64_t mux_sel               : 3;  /**< [  2:  0](R/W) Select source to collect statistics counts.
+                                                                 0 - OPKT.
+                                                                 1 - RDENG.
+                                                                 2 - WRENG.
+                                                                 3 - NCBI.
+                                                                 4 - NCBO.
+                                                                 5 - EBI.
+                                                                 6 - EBO.
+                                                                 7 - NPA_LWA_CCNT. */
         uint64_t reserved_3_6          : 4;
         uint64_t en                    : 1;  /**< [  7:  7](R/W) 1 - Enable Statistics counting
                                                                  0 - Disable Statistics counting
@@ -5279,36 +5279,36 @@ union cavm_dpix_stat_ctrl
                                                                  Clear this bit to stop stats counters, then read DPI_STAT0,DPI_STAT1 and DPI_STAT2 to get
                                                                  counts.
                                                                  Writing this bit from a 0 to a 1 clears the DPI_STAT0,DPI_STAT1 and DPI_STAT2 counters. */
-        uint64_t stat_sel              : 10; /**< [ 17:  8](R/W) Definition changes based on MUX_SEL. Each set bit enables the counter to
+        uint64_t stat_sel              : 10; /**< [ 17:  8](R/W) Definition changes based on [MUX_SEL]. Each set bit enables the counter to
                                                                  increment when the signal is asserted.
-                                                                 MUX_SEL
-                                                                 0 - OPKT - [7:6] - PortEn
-                                                                 1 - RDENG - [5:0] - EngEn
-                                                                             [7:6] - PortEn
-                                                                             [9:8] - Dst - Ebus =1, 0=ncb
-                                                                 2 - WRENG - same as RDENG
-                                                                 3 - NCBI - [0] - dma_rd
-                                                                            [1] - inst_rd
-                                                                            [2] - dma_wr
-                                                                            [3] - cmpl_wr
-                                                                            [4] - csr_rsp
-                                                                            [5] - win_req
-                                                                 4 - NCBO - [0] - req_cpl
-                                                                            [1] - dma_cpl
-                                                                            [2] - win_cpl
-                                                                            [3] - csr_req
-                                                                 5 - EBI -  [0] - rsp
-                                                                            [1] - csr
-                                                                            [2] - win
-                                                                            [7:6] - PortEn
-                                                                 6 - EB0 -  [0] - rd_req
-                                                                            [1] - wr_req
-                                                                            [2] - csr_req
-                                                                            [7:6] - PortEn
-                                                                 7 - NPA_LWA_CCNT - [0] - rdb_npa_inc
-                                                                                    [1] - req_npa_inc
-                                                                                    [2] - cow_lwa_inc
-                                                                                    [3] - cow_ccnt_inc */
+                                                                 [MUX_SEL]:
+                                                                 0 - OPKT - [7:6] - PortEn.
+                                                                 1 - RDENG - [5:0] - EngEn.
+                                                                             [7:6] - PortEn.
+                                                                             [9:8] - Dst - Ebus =1, 0=ncb.
+                                                                 2 - WRENG - same as RDENG.
+                                                                 3 - NCBI - [0] - dma_rd.
+                                                                            [1] - inst_rd.
+                                                                            [2] - dma_wr.
+                                                                            [3] - cmpl_wr.
+                                                                            [4] - csr_rsp.
+                                                                            [5] - win_req.
+                                                                 4 - NCBO - [0] - req_cpl.
+                                                                            [1] - dma_cpl.
+                                                                            [2] - win_cpl.
+                                                                            [3] - csr_req.
+                                                                 5 - EBI -  [0] - rsp.
+                                                                            [1] - csr.
+                                                                            [2] - win.
+                                                                            [7:6] - PortEn.
+                                                                 6 - EB0 -  [0] - rd_req.
+                                                                            [1] - wr_req.
+                                                                            [2] - csr_req.
+                                                                            [7:6] - PortEn.
+                                                                 7 - NPA_LWA_CCNT - [0] - rdb_npa_inc.
+                                                                                    [1] - req_npa_inc.
+                                                                                    [2] - cow_lwa_inc.
+                                                                                    [3] - cow_ccnt_inc. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
     } s;

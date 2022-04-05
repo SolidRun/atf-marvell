@@ -23,7 +23,12 @@
  * Enumeration gpio_assigned_pin_e
  *
  * GPIO Assigned Pin Number Enumeration
- * Enumerates GPIO pin numbers which have certain dedicated hardware and boot usage.
+ * Enumerates GPIO pin numbers which have certain dedicated hardware and boot usage. In
+ * general a given GPIO may be used for the purpose listed here, or for any other
+ * purpose that is not listed here. For example SPI0_IO0 must use GPIO16 (0x10) if the
+ * SPI IO0 function is needed, but if SPI IO0 is not needed GPIO16 is free for use, but
+ * GPIO16 could not be used for BOOT_WAIT as BOOT_WAIT is listed here as requiring
+ * GPIO10 (0xA).
  */
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_COMPLETE (0xa)
 #define CAVM_GPIO_ASSIGNED_PIN_E_BOOT_REQ (9)
@@ -269,7 +274,9 @@
  * Register (NCB) gpio_bit_cfg#
  *
  * GPIO Bit Configuration Registers
- * Each register provides configuration information for the corresponding GPIO pin.
+ * Each register provides configuration information for the corresponding GPIO
+ * pin. There may be more indicies in this register than GPIO pins, any such
+ * unimplemented indexes should not be reprogrammed.
  *
  * Each index is only accessible to the requestor(s) permitted with GPIO_BIT_PERMIT().
  *
@@ -652,8 +659,7 @@ static inline uint64_t CAVM_GPIO_CLK_GENX(uint64_t a)
  * GPIO Clock SyncE Registers
  * Certain SerDes may be configured as a clock source. The GPIO block can support up to two
  * unique clocks to send out any GPIO pin as configured when GPIO_BIT_CFG()[PIN_SEL] =
- * GPIO_PIN_SEL_E::GPIO_CLK_SYNCE(0..1). The clock can be divided by 20, 40, 80 or 160
- * of the selected SerDes clock. Legal values are based on the number of SerDes.
+ * GPIO_PIN_SEL_E::GPIO_CLK_SYNCE(0..1). Legal values are based on the number of SerDes.
  *
  * This register is only accessible to the requestor(s) permitted with GPIO_PERMIT.
  *
@@ -671,10 +677,10 @@ union cavm_gpio_clk_syncex
         uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock division of the SerDes recovered clock selected by [QLM_SEL]
                                                                  to create the output clock. The maximum supported GPIO output frequency is 125
                                                                  MHz.
-                                                                 0x0 = Divide by 40.
-                                                                 0x1 = Divide by 80.
-                                                                 0x2 = Divide by 160.
-                                                                 0x3 = Divide by 320. */
+                                                                 0x0 = Divide by 1.
+                                                                 0x1 = Divide by 2.
+                                                                 0x2 = Divide by 4.
+                                                                 0x3 = Divide by 8. */
         uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the SerDes selected with [QLM_SEL] to use as the GPIO
                                                                  internal clock. */
 #else /* Word 0 - Little Endian */
@@ -683,10 +689,10 @@ union cavm_gpio_clk_syncex
         uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock division of the SerDes recovered clock selected by [QLM_SEL]
                                                                  to create the output clock. The maximum supported GPIO output frequency is 125
                                                                  MHz.
-                                                                 0x0 = Divide by 40.
-                                                                 0x1 = Divide by 80.
-                                                                 0x2 = Divide by 160.
-                                                                 0x3 = Divide by 320. */
+                                                                 0x0 = Divide by 1.
+                                                                 0x1 = Divide by 2.
+                                                                 0x2 = Divide by 4.
+                                                                 0x3 = Divide by 8. */
         uint64_t reserved_4_7          : 4;
         uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSERM to select from. */
         uint64_t reserved_12_63        : 52;
@@ -1510,16 +1516,16 @@ union cavm_gpio_permit
         uint64_t reserved_5_63         : 59;
         uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
-                                                                   \<0\> = Disable AP/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
-                                                                   \<1\> = Disable AP/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
+                                                                   \<0\> = Disable AP/NCSI/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
+                                                                   \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
                                                                    \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
                                                                    \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */
 #else /* Word 0 - Little Endian */
         uint64_t permitdis             : 5;  /**< [  4:  0](R/W) Each bit, if set, disables the given requestor from accessing GPIO global registers.
                                                                  If a disabled requestor makes a request, the access becomes read-zero/write ignored.
-                                                                   \<0\> = Disable AP/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
-                                                                   \<1\> = Disable AP/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
+                                                                   \<0\> = Disable AP/NCSI/JTAG (non MCP/SCP) secure world from accessing GPIO global registers.
+                                                                   \<1\> = Disable AP/NCSI/JTAG (non MCP/SCP) nonsecure world from accessing GPIO global registers.
                                                                    \<2\> = Disable XCP0 (SCP) from accessing GPIO global registers.
                                                                    \<3\> = Disable XCP1 (MCP) from accessing GPIO global registers.
                                                                    \<4\> = Disable XCP2 (ECP) from accessing GPIO global registers. */

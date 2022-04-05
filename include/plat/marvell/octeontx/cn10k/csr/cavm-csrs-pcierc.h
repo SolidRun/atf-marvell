@@ -1955,6 +1955,62 @@ union cavm_pciercx_dev_ctl2
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
         uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking (not supported). */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not supported). */
+        uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requester enabled (not supported). */
+        uint32_t reserved_11           : 1;
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s (not supported).
+                                                                 0xE = 17 s to 64 s (not supported).
+
+                                                                 Values not defined are reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctv                   : 4;  /**< [  3:  0](R/W) Completion timeout value.
+                                                                 0x0 = Default range: 16 ms to 55 ms.
+                                                                 0x1 = 50 us to 100 us.
+                                                                 0x2 = 1 ms to 10 ms.
+                                                                 0x3 = 16 ms to 55 ms.
+                                                                 0x6 = 65 ms to 210 ms.
+                                                                 0x9 = 260 ms to 900 ms.
+                                                                 0xA = 1 s to 3.5 s.
+                                                                 0xD = 4 s to 13 s (not supported).
+                                                                 0xE = 17 s to 64 s (not supported).
+
+                                                                 Values not defined are reserved. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](R/W) Completion timeout disable. */
+        uint32_t ari                   : 1;  /**< [  5:  5](R/W) Alternate routing ID forwarding supported. */
+        uint32_t atom_op               : 1;  /**< [  6:  6](R/W) AtomicOp requester enable. */
+        uint32_t atom_op_eb            : 1;  /**< [  7:  7](R/W) AtomicOp egress blocking. */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](R/W) ID based ordering request enable. */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](R/W) ID based ordering completion enable (not supported). */
+        uint32_t ltre                  : 1;  /**< [ 10: 10](RO) Latency tolerance reporting (LTR) mechanism enable. (not supported). */
+        uint32_t reserved_11           : 1;
+        uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requester enabled (not supported). */
+        uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not supported). */
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking (not supported). */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_dev_ctl2_s cn10; */
+    /* struct cavm_pciercx_dev_ctl2_s cn10ka; */
+    struct cavm_pciercx_dev_ctl2_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking (not supported). */
         uint32_t obffe                 : 2;  /**< [ 14: 13](RO) Optimized buffer flush fill (OBFF) enabled (not suppoted). */
         uint32_t tag10b_req_en         : 1;  /**< [ 12: 12](RO) 10-bit tag requester enabled (not supported). */
         uint32_t reserved_11           : 1;
@@ -2003,8 +2059,9 @@ union cavm_pciercx_dev_ctl2
         uint32_t eetpb                 : 1;  /**< [ 15: 15](RO) End-end TLP prefix blocking (not supported). */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_pciercx_dev_ctl2_s cn; */
+    } cn10kb;
+    /* struct cavm_pciercx_dev_ctl2_s cnf10ka; */
+    /* struct cavm_pciercx_dev_ctl2_s cnf10kb; */
 };
 typedef union cavm_pciercx_dev_ctl2 cavm_pciercx_dev_ctl2_t;
 
@@ -6827,11 +6884,7 @@ union cavm_pciercx_phy_gen3_ctl
                                                                  _ PCIERC_GEN3_EQ_CTL[P23TD].
                                                                  _ PCIERC_GEN3_EQ_CTL[PRV].
                                                                  _ PCIERC_GEN3_EQ_CTL[IIF].
-                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MIN_PHASE23].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[N_EVALS].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_PRE_CUR_DELTA].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_POST_CUR_DELTA]. */
+                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ]. */
         uint32_t eiedd                 : 1;  /**< [ 23: 23](R/W) Eq InvalidRequest and RxEqEval different time assertion disable.  Disable the assertion of
                                                                  Eq InvalidRequest and RxEqEval at different time. */
         uint32_t us8etd                : 1;  /**< [ 22: 22](R/W/H) Upstream port send 8GT/s EQ TS2 disable. The base spec defines that USP can
@@ -6931,11 +6984,7 @@ union cavm_pciercx_phy_gen3_ctl
                                                                  _ PCIERC_GEN3_EQ_CTL[P23TD].
                                                                  _ PCIERC_GEN3_EQ_CTL[PRV].
                                                                  _ PCIERC_GEN3_EQ_CTL[IIF].
-                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MIN_PHASE23].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[N_EVALS].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_PRE_CUR_DELTA].
-                                                                 _ PCIERC_GEN3_FB_MODE_DIR_CHG[MAX_POST_CUR_DELTA]. */
+                                                                 _ PCIERC_GEN3_EQ_CTL[EQ_PSET_REQ]. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;

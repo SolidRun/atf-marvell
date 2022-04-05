@@ -49,7 +49,8 @@ union cavm_spix_clk_ctrl
     struct cavm_spix_clk_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
+        uint64_t reserved_7_63         : 57;
+        uint64_t spi_imsc_shadow       : 1;  /**< [  6:  6](R/W) SPI interrupt enable. 1 = SPI INTR IS UNMASKED. 0 = SPI INTR IS MASKED. */
         uint64_t spi_sclk_force        : 1;  /**< [  5:  5](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
         uint64_t spi_io_clk_div        : 4;  /**< [  4:  1](R/W) SPI IO clock divide control.
                                                                  0x0 = Divide by 4.   SPI clock is 200 MHz.
@@ -89,7 +90,8 @@ union cavm_spix_clk_ctrl
                                                                  0xE = Reserved.
                                                                  0xF = Reserved. */
         uint64_t spi_sclk_force        : 1;  /**< [  5:  5](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
-        uint64_t reserved_6_63         : 58;
+        uint64_t spi_imsc_shadow       : 1;  /**< [  6:  6](R/W) SPI interrupt enable. 1 = SPI INTR IS UNMASKED. 0 = SPI INTR IS MASKED. */
+        uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_clk_ctrl_s cn10; */
@@ -2481,7 +2483,7 @@ union cavm_spix_dev_seq_regs_prog_seq_cfg_2
         uint32_t prog_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
                                                                  Command/Address. If this bit is set to 1 those bits will be set to 1. In DIRECT work mode if this
                                                                  bit is set to 0 those bits will be set to (sAWADDR[45:41] & dac_addr_mask[12:8]). In ACMD work
-                                                                 mode if this bit is set to 0 those bits will be set to to 0; */
+                                                                 mode if this bit is set to 0 those bits will be set to 0; */
         uint32_t prog_seq_p2_burst_type : 1; /**< [  1:  1](R/W) Burst type - corresponds to 45th Command/Address (CA) bit assignment.
                                                                  Allowed values are:
                                                                  0 = Wrapped burst.
@@ -2502,7 +2504,7 @@ union cavm_spix_dev_seq_regs_prog_seq_cfg_2
         uint32_t prog_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
                                                                  Command/Address. If this bit is set to 1 those bits will be set to 1. In DIRECT work mode if this
                                                                  bit is set to 0 those bits will be set to (sAWADDR[45:41] & dac_addr_mask[12:8]). In ACMD work
-                                                                 mode if this bit is set to 0 those bits will be set to to 0; */
+                                                                 mode if this bit is set to 0 those bits will be set to 0; */
         uint32_t reserved_3_7          : 5;
         uint32_t prog_seq_p2_latency_cnt : 6;/**< [ 13:  8](R/W) Number of latency cycles for PROFILE 2 - HR only. Setting this bit to 0 will disable latency
                                                                  cycles. This value should be set to 'N-1', where 'N' is the number of latency clock cycles
@@ -2675,7 +2677,7 @@ union cavm_spix_dev_seq_regs_read_seq_cfg_2
         uint32_t read_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
                                                                  Command/Address. If this bit is set to 1 those bits will be set to 1. In DIRECT work mode if this
                                                                  bit is set to 0 those bits will be set to (sARADDR[45:41] & dac_addr_mask[12:8]). In ACMD work
-                                                                 mode if this bit is set to 0 those bits will be set to to 0; */
+                                                                 mode if this bit is set to 0 those bits will be set to 0; */
         uint32_t read_seq_p2_burst_type : 1; /**< [  1:  1](R/W) Burst type - corresponds to 45th Command/Address (CA) bit assignment.
                                                                  Allowed values are:
                                                                  0 = Wrapped burst.
@@ -2696,7 +2698,7 @@ union cavm_spix_dev_seq_regs_read_seq_cfg_2
         uint32_t read_seq_p2_mask_cmd_mod : 1;/**< [  2:  2](R/W) Determines PROFILE 2 Command extension variant. Value of this bits influences the [44:40] bits of
                                                                  Command/Address. If this bit is set to 1 those bits will be set to 1. In DIRECT work mode if this
                                                                  bit is set to 0 those bits will be set to (sARADDR[45:41] & dac_addr_mask[12:8]). In ACMD work
-                                                                 mode if this bit is set to 0 those bits will be set to to 0; */
+                                                                 mode if this bit is set to 0 those bits will be set to 0; */
         uint32_t read_seq_p2_hf_bound_en : 1;/**< [  3:  3](R/W) It is used by the controller to calculate read transaction crossing page boundary. This field is
                                                                  valid only when PROFILE 2 - HF is selected.
                                                                  Allowed values are:
@@ -3430,9 +3432,9 @@ union cavm_spix_direct_accessx
     struct cavm_spix_direct_accessx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) This register is for memory maping the external flash address to the system memory. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) This register is for memory mapping the external flash address to the system memory. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) This register is for memory maping the external flash address to the system memory. */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) This register is for memory mapping the external flash address to the system memory. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_direct_accessx_s cn; */
@@ -3484,7 +3486,11 @@ typedef union cavm_spix_intr cavm_spix_intr_t;
 static inline uint64_t CAVM_SPIX_INTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_INTR(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3522,7 +3528,11 @@ typedef union cavm_spix_intr_ena_w1c cavm_spix_intr_ena_w1c_t;
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3560,7 +3570,11 @@ typedef union cavm_spix_intr_ena_w1s cavm_spix_intr_ena_w1s_t;
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3598,7 +3612,11 @@ typedef union cavm_spix_intr_w1s cavm_spix_intr_w1s_t;
 static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a)
 {
-    if (a<=1)
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+        return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
         return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6452,5 +6470,406 @@ static inline uint64_t CAVM_SPIX_SHIM_CFG(uint64_t a)
 #define device_bar_CAVM_SPIX_SHIM_CFG(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_SPIX_SHIM_CFG(a) (a)
 #define arguments_CAVM_SPIX_SHIM_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_spare_reg#
+ *
+ * SPI Transfer Function Read Data Register
+ * This register has the read data from SPI device
+ */
+union cavm_spix_spare_regx
+{
+    uint64_t u;
+    struct cavm_spix_spare_regx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare register for SPI. */
+#else /* Word 0 - Little Endian */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare register for SPI. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_spare_regx_s cn; */
+};
+typedef union cavm_spix_spare_regx cavm_spix_spare_regx_t;
+
+static inline uint64_t CAVM_SPIX_SPARE_REGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_SPARE_REGX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=1)))
+        return 0x804000008220ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1)))
+        return 0x804000008220ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __cavm_csr_fatal("SPIX_SPARE_REGX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_SPARE_REGX(a,b) cavm_spix_spare_regx_t
+#define bustype_CAVM_SPIX_SPARE_REGX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_SPARE_REGX(a,b) "SPIX_SPARE_REGX"
+#define device_bar_CAVM_SPIX_SPARE_REGX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_SPARE_REGX(a,b) (a)
+#define arguments_CAVM_SPIX_SPARE_REGX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) spi#_xfer_const
+ *
+ * SPI Constants Register
+ */
+union cavm_spix_xfer_const
+{
+    uint64_t u;
+    struct cavm_spix_xfer_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t read_buf_depth        : 5;  /**< [  5:  1](RO/H) Depth of Read buffer in hexadecimal. Width of the FIFO is 64 bits. So total size
+                                                                 would become 64*READ_BUF_DEPTH(Convert READ_BUF_DEPTH in decimal before multiply
+                                                                 since 64 is in decimal). */
+        uint64_t has_xfer_support      : 1;  /**< [  0:  0](RO/H) Indicates that xfer function is supported and that SPI_XFER_FUNC_CMD,
+                                                                 SPI_XFER_FUNC_WDATA, SPI_XFER_FUNC_CTRL_STS, SPI_XFER_FUNC_CTRL_READ_DATA() are
+                                                                 present. */
+#else /* Word 0 - Little Endian */
+        uint64_t has_xfer_support      : 1;  /**< [  0:  0](RO/H) Indicates that xfer function is supported and that SPI_XFER_FUNC_CMD,
+                                                                 SPI_XFER_FUNC_WDATA, SPI_XFER_FUNC_CTRL_STS, SPI_XFER_FUNC_CTRL_READ_DATA() are
+                                                                 present. */
+        uint64_t read_buf_depth        : 5;  /**< [  5:  1](RO/H) Depth of Read buffer in hexadecimal. Width of the FIFO is 64 bits. So total size
+                                                                 would become 64*READ_BUF_DEPTH(Convert READ_BUF_DEPTH in decimal before multiply
+                                                                 since 64 is in decimal). */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_xfer_const_s cn; */
+};
+typedef union cavm_spix_xfer_const cavm_spix_xfer_const_t;
+
+static inline uint64_t CAVM_SPIX_XFER_CONST(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_XFER_CONST(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x804000008230ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x804000008230ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_XFER_CONST", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_XFER_CONST(a) cavm_spix_xfer_const_t
+#define bustype_CAVM_SPIX_XFER_CONST(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_XFER_CONST(a) "SPIX_XFER_CONST"
+#define device_bar_CAVM_SPIX_XFER_CONST(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_XFER_CONST(a) (a)
+#define arguments_CAVM_SPIX_XFER_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_xfer_func_cmd
+ *
+ * SPI XFER Function Command Register
+ * This register is used to issue the command for TX_RX_MODE, where the Xfer State Machine
+ * is used to drive MOSI.
+ */
+union cavm_spix_xfer_func_cmd
+{
+    uint64_t u;
+    struct cavm_spix_xfer_func_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wdata                 : 32; /**< [ 63: 32](R/W) If the write data size is upto 4 bytes, then use this field for of write data for write command. */
+        uint64_t addr                  : 24; /**< [ 31:  8](R/W) Device address from where read write to be done in TX_RX_MODE . */
+        uint64_t size                  : 6;  /**< [  7:  2](R/W) SPI Transfer size. 0x0 = 1 bytes transfer. 0x1 = 2 bytes transfer. 0x2 = 3 bytes
+                                                                 transfer. 0x3 = 4 bytes transfer. ... 0x63 = 64 bytes transfer. */
+        uint64_t reserved_1            : 1;
+        uint64_t dir                   : 1;  /**< [  0:  0](R/W) SPI TPM transfer direction in . 0= Write. 1= Read; */
+#else /* Word 0 - Little Endian */
+        uint64_t dir                   : 1;  /**< [  0:  0](R/W) SPI TPM transfer direction in . 0= Write. 1= Read; */
+        uint64_t reserved_1            : 1;
+        uint64_t size                  : 6;  /**< [  7:  2](R/W) SPI Transfer size. 0x0 = 1 bytes transfer. 0x1 = 2 bytes transfer. 0x2 = 3 bytes
+                                                                 transfer. 0x3 = 4 bytes transfer. ... 0x63 = 64 bytes transfer. */
+        uint64_t addr                  : 24; /**< [ 31:  8](R/W) Device address from where read write to be done in TX_RX_MODE . */
+        uint64_t wdata                 : 32; /**< [ 63: 32](R/W) If the write data size is upto 4 bytes, then use this field for of write data for write command. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_xfer_func_cmd_s cn; */
+};
+typedef union cavm_spix_xfer_func_cmd cavm_spix_xfer_func_cmd_t;
+
+static inline uint64_t CAVM_SPIX_XFER_FUNC_CMD(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_XFER_FUNC_CMD(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x804000008200ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x804000008200ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_XFER_FUNC_CMD", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_XFER_FUNC_CMD(a) cavm_spix_xfer_func_cmd_t
+#define bustype_CAVM_SPIX_XFER_FUNC_CMD(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_XFER_FUNC_CMD(a) "SPIX_XFER_FUNC_CMD"
+#define device_bar_CAVM_SPIX_XFER_FUNC_CMD(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_XFER_FUNC_CMD(a) (a)
+#define arguments_CAVM_SPIX_XFER_FUNC_CMD(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_xfer_func_ctrl
+ *
+ * SPI XFER Function Control Register
+ * This register is used to control the Xfer State Machine for both the modes.
+ */
+union cavm_spix_xfer_func_ctrl
+{
+    uint64_t u;
+    struct cavm_spix_xfer_func_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t read_buf_watermark    : 6;  /**< [ 17: 12](R/W) This bit can be used to set water mark level of READ buffer. */
+        uint64_t soft_reset            : 1;  /**< [ 11: 11](R/W) This bit can be used to reset Xfer State Machine in addition to domain reset of spi.
+                                                                 0 = reset is asserted . 1 = Reset is not asserted. */
+        uint64_t flush_read_buf        : 1;  /**< [ 10: 10](R/W) This bit can be used to flush data from the READ buffer.
+                                                                 0 = Flush read buffer data. 1 = Do not flush read buffer data. */
+        uint64_t cs_n_hold             : 4;  /**< [  9:  6](R/W) Each bit is assigned to CS_N [3:0] line output to select the device. 0 = CS_N
+                                                                 controlled by IP. 1 = CS_N controlled by Xfer State Machine. */
+        uint64_t tpm_device            : 1;  /**< [  5:  5](R/W) Write this to 1 to indicate whether conneted device is TPM. 0 = Xfer State
+                                                                 Machine will wait to detect READY on MISO line 1 = FSM will not wait to detect
+                                                                 READY and directly start writing data on MOSI */
+        uint64_t receive_enable        : 1;  /**< [  4:  4](R/W) Xfer State Machine will wotk in FULL_DUPLEX mode. 0 = XFER_FUNC_CTRL will move
+                                                                 to IDLE state indicating read is finished. 1 = XFER_FUNC_CTRL to keep on reading
+                                                                 MISO and store it in receive buffer */
+        uint64_t xfer_func_enable      : 1;  /**< [  3:  3](R/W) 0 = MOSI/CS_N driven by IP. 1 = MOSI/CS_N driven by Xfer State Machine. */
+        uint64_t clk_capture_pol       : 1;  /**< [  2:  2](R/W) Make sure CLK_DRIVE_POL and CLK_CAPTURE_POL opposite to each other
+                                                                 0 = Capture data on falling edge of spi_clk. 1 = Capture data on
+                                                                 rising edge of spi_clk. */
+        uint64_t clk_drive_pol         : 1;  /**< [  1:  1](R/W) Make sure CLK_DRIVE_POL and CLK_CAPTURE_POL are opposite to each other
+                                                                 0 = Drive data on falling edge of spi_clk. 1 = Drive data on
+                                                                 rising edge of spi_clk. */
+        uint64_t xfer_func_start       : 1;  /**< [  0:  0](R/W1/H) This is used to start the Xfer State Machine. 0 = Xfer State Machine will stay
+                                                                 in Idel state. 1 = Xfer State Machine will start operation. */
+#else /* Word 0 - Little Endian */
+        uint64_t xfer_func_start       : 1;  /**< [  0:  0](R/W1/H) This is used to start the Xfer State Machine. 0 = Xfer State Machine will stay
+                                                                 in Idel state. 1 = Xfer State Machine will start operation. */
+        uint64_t clk_drive_pol         : 1;  /**< [  1:  1](R/W) Make sure CLK_DRIVE_POL and CLK_CAPTURE_POL are opposite to each other
+                                                                 0 = Drive data on falling edge of spi_clk. 1 = Drive data on
+                                                                 rising edge of spi_clk. */
+        uint64_t clk_capture_pol       : 1;  /**< [  2:  2](R/W) Make sure CLK_DRIVE_POL and CLK_CAPTURE_POL opposite to each other
+                                                                 0 = Capture data on falling edge of spi_clk. 1 = Capture data on
+                                                                 rising edge of spi_clk. */
+        uint64_t xfer_func_enable      : 1;  /**< [  3:  3](R/W) 0 = MOSI/CS_N driven by IP. 1 = MOSI/CS_N driven by Xfer State Machine. */
+        uint64_t receive_enable        : 1;  /**< [  4:  4](R/W) Xfer State Machine will wotk in FULL_DUPLEX mode. 0 = XFER_FUNC_CTRL will move
+                                                                 to IDLE state indicating read is finished. 1 = XFER_FUNC_CTRL to keep on reading
+                                                                 MISO and store it in receive buffer */
+        uint64_t tpm_device            : 1;  /**< [  5:  5](R/W) Write this to 1 to indicate whether conneted device is TPM. 0 = Xfer State
+                                                                 Machine will wait to detect READY on MISO line 1 = FSM will not wait to detect
+                                                                 READY and directly start writing data on MOSI */
+        uint64_t cs_n_hold             : 4;  /**< [  9:  6](R/W) Each bit is assigned to CS_N [3:0] line output to select the device. 0 = CS_N
+                                                                 controlled by IP. 1 = CS_N controlled by Xfer State Machine. */
+        uint64_t flush_read_buf        : 1;  /**< [ 10: 10](R/W) This bit can be used to flush data from the READ buffer.
+                                                                 0 = Flush read buffer data. 1 = Do not flush read buffer data. */
+        uint64_t soft_reset            : 1;  /**< [ 11: 11](R/W) This bit can be used to reset Xfer State Machine in addition to domain reset of spi.
+                                                                 0 = reset is asserted . 1 = Reset is not asserted. */
+        uint64_t read_buf_watermark    : 6;  /**< [ 17: 12](R/W) This bit can be used to set water mark level of READ buffer. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_xfer_func_ctrl_s cn; */
+};
+typedef union cavm_spix_xfer_func_ctrl cavm_spix_xfer_func_ctrl_t;
+
+static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x804000008210ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x804000008210ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_XFER_FUNC_CTRL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_XFER_FUNC_CTRL(a) cavm_spix_xfer_func_ctrl_t
+#define bustype_CAVM_SPIX_XFER_FUNC_CTRL(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_XFER_FUNC_CTRL(a) "SPIX_XFER_FUNC_CTRL"
+#define device_bar_CAVM_SPIX_XFER_FUNC_CTRL(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_XFER_FUNC_CTRL(a) (a)
+#define arguments_CAVM_SPIX_XFER_FUNC_CTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_xfer_func_ctrl_read_data#
+ *
+ * SPI Transfer Function Read Data Register
+ * This register has the read data from SPI device
+ */
+union cavm_spix_xfer_func_ctrl_read_datax
+{
+    uint64_t u;
+    struct cavm_spix_xfer_func_ctrl_read_datax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t rdata                 : 64; /**< [ 63:  0](RO/H) This register has the read data from SPI device. This register needs to read in
+                                                                 serial address after the data is availble when RECEIVE_BUF_EMPTY is not zero. */
+#else /* Word 0 - Little Endian */
+        uint64_t rdata                 : 64; /**< [ 63:  0](RO/H) This register has the read data from SPI device. This register needs to read in
+                                                                 serial address after the data is availble when RECEIVE_BUF_EMPTY is not zero. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_xfer_func_ctrl_read_datax_s cn; */
+};
+typedef union cavm_spix_xfer_func_ctrl_read_datax cavm_spix_xfer_func_ctrl_read_datax_t;
+
+static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(uint64_t a, uint64_t b)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=31)))
+        return 0x804000008000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=31)))
+        return 0x804000008000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
+    __cavm_csr_fatal("SPIX_XFER_FUNC_CTRL_READ_DATAX", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(a,b) cavm_spix_xfer_func_ctrl_read_datax_t
+#define bustype_CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(a,b) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(a,b) "SPIX_XFER_FUNC_CTRL_READ_DATAX"
+#define device_bar_CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(a,b) (a)
+#define arguments_CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) spi#_xfer_func_sts
+ *
+ * SPI XFER Function Control Read and write status Register
+ * This register holds the status of the Xfer State Machine. This register should be
+ * polled by software
+ * to know read write operation is complete etc.
+ */
+union cavm_spix_xfer_func_sts
+{
+    uint64_t u;
+    struct cavm_spix_xfer_func_sts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_23_63        : 41;
+        uint64_t num_entries_read_buf  : 6;  /**< [ 22: 17](RO/H) This will indicate current number of entries in READ buffer in terms 8 bytes per entry. */
+        uint64_t num_entries_write_buf : 5;  /**< [ 16: 12](RO/H) This will indicate current number of entries in Write buffer in terms of 8 bytes per entry. */
+        uint64_t write_buf_empty       : 1;  /**< [ 11: 11](RO/H) Write buffer used by Xfer state machine to store write data to be sent to device, when in
+                                                                 XFER function mode.  This bit indicates the status of this write buffer.  This
+                                                                 bit will become non zero when some data is written by software
+                                                                 SPI_XFER_FUNC_WDATA 0 = Write buffer is not empty. 1 = Write buffer is empty. */
+        uint64_t write_buf_full        : 1;  /**< [ 10: 10](RO/H) Write buffer used by Xfer state machine to store write data to be sent to device, when in
+                                                                 XFER function mode.  This bit indicates the status of this write buffer.  This
+                                                                 bit will become one then you can not write more data on SPI_XFER_FUNC_WDATA 0 =
+                                                                 Write buffer is not Full. 1 = Write buffer is Full. */
+        uint64_t water_mark_reached    : 1;  /**< [  9:  9](RO/H) When water mark set for read buffer reached this bit used to indicate that limt is reached. */
+        uint64_t ready_received        : 1;  /**< [  8:  8](RO/H) TPM device can insert wait state after Command issue and before the it can
+                                                                 accept write data or can issue read data. When the MISO lines goes from 0 to 1
+                                                                 this indicates the device is ready. This bit indicates READY status of the
+                                                                 device. 0 = READY is not recieved from memory device. 1 = READY reeived from
+                                                                 memory device. */
+        uint64_t xfer_cur_state        : 3;  /**< [  7:  5](RO/H) For diagnostic use only. To indicates current state of Xfer State Machine. */
+        uint64_t xfer_ctrl_busy        : 1;  /**< [  4:  4](RO/H) 0 = Xfer State Machine is not busy.
+                                                                 1 = Xfer State Machine is busy. */
+        uint64_t receive_buf_empty     : 1;  /**< [  3:  3](RO/H) Read buffer used by Xfer state machine to store read data from device, when in
+                                                                 XFER function mode.  This bit indicates the status of this read buffer.  When
+                                                                 this is zero, it indicates there is valid data on read buffer and can be
+                                                                 read. 0 = Receive buffer is not empty. 1 = Receive buffer is empty. */
+        uint64_t receive_buf_full      : 1;  /**< [  2:  2](RO/H) Read buffer used by Xfer state machine to store read data from device, when in
+                                                                 XFER function mode.  This bit indicates the status of this read buffer.  When
+                                                                 this is one, it indicates that read buffer is full and the data comming on miso line is not stored.
+                                                                 0 = Receive buffer is not full. 1 = Receive buffer is full. */
+        uint64_t write_done            : 1;  /**< [  1:  1](R/W1C/H) When in TX_RX_MODE this bit indicates that the status of write transfer. 0 =
+                                                                 Write not done. 1 = Write operation is complete. */
+        uint64_t read_done             : 1;  /**< [  0:  0](R/W1C/H) When in TX_RX_MODE this bit indicates that the status of read transfer. 0 = Read
+                                                                 not done. 1 = Read operation is complete. */
+#else /* Word 0 - Little Endian */
+        uint64_t read_done             : 1;  /**< [  0:  0](R/W1C/H) When in TX_RX_MODE this bit indicates that the status of read transfer. 0 = Read
+                                                                 not done. 1 = Read operation is complete. */
+        uint64_t write_done            : 1;  /**< [  1:  1](R/W1C/H) When in TX_RX_MODE this bit indicates that the status of write transfer. 0 =
+                                                                 Write not done. 1 = Write operation is complete. */
+        uint64_t receive_buf_full      : 1;  /**< [  2:  2](RO/H) Read buffer used by Xfer state machine to store read data from device, when in
+                                                                 XFER function mode.  This bit indicates the status of this read buffer.  When
+                                                                 this is one, it indicates that read buffer is full and the data comming on miso line is not stored.
+                                                                 0 = Receive buffer is not full. 1 = Receive buffer is full. */
+        uint64_t receive_buf_empty     : 1;  /**< [  3:  3](RO/H) Read buffer used by Xfer state machine to store read data from device, when in
+                                                                 XFER function mode.  This bit indicates the status of this read buffer.  When
+                                                                 this is zero, it indicates there is valid data on read buffer and can be
+                                                                 read. 0 = Receive buffer is not empty. 1 = Receive buffer is empty. */
+        uint64_t xfer_ctrl_busy        : 1;  /**< [  4:  4](RO/H) 0 = Xfer State Machine is not busy.
+                                                                 1 = Xfer State Machine is busy. */
+        uint64_t xfer_cur_state        : 3;  /**< [  7:  5](RO/H) For diagnostic use only. To indicates current state of Xfer State Machine. */
+        uint64_t ready_received        : 1;  /**< [  8:  8](RO/H) TPM device can insert wait state after Command issue and before the it can
+                                                                 accept write data or can issue read data. When the MISO lines goes from 0 to 1
+                                                                 this indicates the device is ready. This bit indicates READY status of the
+                                                                 device. 0 = READY is not recieved from memory device. 1 = READY reeived from
+                                                                 memory device. */
+        uint64_t water_mark_reached    : 1;  /**< [  9:  9](RO/H) When water mark set for read buffer reached this bit used to indicate that limt is reached. */
+        uint64_t write_buf_full        : 1;  /**< [ 10: 10](RO/H) Write buffer used by Xfer state machine to store write data to be sent to device, when in
+                                                                 XFER function mode.  This bit indicates the status of this write buffer.  This
+                                                                 bit will become one then you can not write more data on SPI_XFER_FUNC_WDATA 0 =
+                                                                 Write buffer is not Full. 1 = Write buffer is Full. */
+        uint64_t write_buf_empty       : 1;  /**< [ 11: 11](RO/H) Write buffer used by Xfer state machine to store write data to be sent to device, when in
+                                                                 XFER function mode.  This bit indicates the status of this write buffer.  This
+                                                                 bit will become non zero when some data is written by software
+                                                                 SPI_XFER_FUNC_WDATA 0 = Write buffer is not empty. 1 = Write buffer is empty. */
+        uint64_t num_entries_write_buf : 5;  /**< [ 16: 12](RO/H) This will indicate current number of entries in Write buffer in terms of 8 bytes per entry. */
+        uint64_t num_entries_read_buf  : 6;  /**< [ 22: 17](RO/H) This will indicate current number of entries in READ buffer in terms 8 bytes per entry. */
+        uint64_t reserved_23_63        : 41;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_xfer_func_sts_s cn; */
+};
+typedef union cavm_spix_xfer_func_sts cavm_spix_xfer_func_sts_t;
+
+static inline uint64_t CAVM_SPIX_XFER_FUNC_STS(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_XFER_FUNC_STS(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x804000008218ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x804000008218ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_XFER_FUNC_STS", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_XFER_FUNC_STS(a) cavm_spix_xfer_func_sts_t
+#define bustype_CAVM_SPIX_XFER_FUNC_STS(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_XFER_FUNC_STS(a) "SPIX_XFER_FUNC_STS"
+#define device_bar_CAVM_SPIX_XFER_FUNC_STS(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_XFER_FUNC_STS(a) (a)
+#define arguments_CAVM_SPIX_XFER_FUNC_STS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) spi#_xfer_func_wdata
+ *
+ * SPI XFER Function Write Data Register
+ * This register is used in TX_RX_MODE of Xfer State Machine when the SIZE is more than
+ * 4 bytes and upto 64 bytes.
+ */
+union cavm_spix_xfer_func_wdata
+{
+    uint64_t u;
+    struct cavm_spix_xfer_func_wdata_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wdata                 : 64; /**< [ 63:  0](WO) Write data for write command. Zeroth byte and zeroth bit of the data goes on the
+                                                                 MOSI line first and so on */
+#else /* Word 0 - Little Endian */
+        uint64_t wdata                 : 64; /**< [ 63:  0](WO) Write data for write command. Zeroth byte and zeroth bit of the data goes on the
+                                                                 MOSI line first and so on */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_spix_xfer_func_wdata_s cn; */
+};
+typedef union cavm_spix_xfer_func_wdata cavm_spix_xfer_func_wdata_t;
+
+static inline uint64_t CAVM_SPIX_XFER_FUNC_WDATA(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_SPIX_XFER_FUNC_WDATA(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x804000008208ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x804000008208ll + 0x1000000000ll * ((a) & 0x1);
+    __cavm_csr_fatal("SPIX_XFER_FUNC_WDATA", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_SPIX_XFER_FUNC_WDATA(a) cavm_spix_xfer_func_wdata_t
+#define bustype_CAVM_SPIX_XFER_FUNC_WDATA(a) CSR_TYPE_NCB
+#define basename_CAVM_SPIX_XFER_FUNC_WDATA(a) "SPIX_XFER_FUNC_WDATA"
+#define device_bar_CAVM_SPIX_XFER_FUNC_WDATA(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_SPIX_XFER_FUNC_WDATA(a) (a)
+#define arguments_CAVM_SPIX_XFER_FUNC_WDATA(a) (a),-1,-1,-1
 
 #endif /* __CAVM_CSRS_SPI_H__ */

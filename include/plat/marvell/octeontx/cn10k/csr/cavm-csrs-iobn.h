@@ -946,7 +946,7 @@ static inline uint64_t CAVM_IOBNX_DOMX_BUSX_STREAMS(uint64_t a, uint64_t b, uint
  *
  * IOBN Device Bus Permit Registers
  * This register sets the permissions for a NCBI transaction (which are DMA
- * transactions or MSI-X writes), for requests for NCB device physicical-functions,
+ * transactions or MSI-X writes), for requests for NCB device physical-functions,
  * i.e. those where:
  *
  *   _ stream_id\<15:8\> = 0x0.
@@ -2295,10 +2295,10 @@ union cavm_iobnx_psn_ctl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
         uint64_t dispsn                : 1;  /**< [  0:  0](R/W) Disable poison code creation and detection in the mesh / NCB ECC
-                                                                 checkers/generators. This should be set at intialization. */
+                                                                 checkers/generators. This should be set at initialization. */
 #else /* Word 0 - Little Endian */
         uint64_t dispsn                : 1;  /**< [  0:  0](R/W) Disable poison code creation and detection in the mesh / NCB ECC
-                                                                 checkers/generators. This should be set at intialization. */
+                                                                 checkers/generators. This should be set at initialization. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
