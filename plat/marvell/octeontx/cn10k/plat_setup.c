@@ -79,6 +79,7 @@
 #include "cavm-csrs-rnm.h"
 #include "cavm-csrs-iobn.h"
 #include "cavm-csrs-mrml.h"
+#include "cavm-csrs-dss.h"
 #include "cavm-csrs-cst_shrd_funnel.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
@@ -209,6 +210,23 @@ void bl31_el3_plat_prepare_exit(void)
 }
 #endif
 
+/* Default value for MPAMF_CUST_WINDW
+ * (Number of DFI cycle of MPAM measuring) is
+ * is 0xFF that might be too small windows for
+ * the processor to get feedback and react
+ * lets program it to BIGGER value 0x190, 1us.
+ */
+#ifdef ENABLE_MPAM_FOR_LOWER_ELS
+void set_mpamf_cust_window()
+{
+	uint8_t ch;
+
+	for (ch = 0; ch < MAX_CHANNELS; ch++)
+		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_CHB_MPAM_MPAMF_CUST_WINDW(ch),
+			  0x190);
+}
+#endif
+
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
  * in this API. If there are any platform
@@ -267,6 +285,10 @@ void plat_octeontx_setup(void)
 
 #ifdef ENABLE_RECORD_FWLOG
 	bl31_el3_plat_prepare_exit();
+#endif
+
+#ifdef ENABLE_MPAM_FOR_LOWER_ELS
+	set_mpamf_cust_window();
 #endif
 }
 
