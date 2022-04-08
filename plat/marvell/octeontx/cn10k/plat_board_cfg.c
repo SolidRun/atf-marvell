@@ -1466,7 +1466,7 @@ static void cn10k_parse_usb_config(const void *fdt_addr)
 {
 	int bus;
 	long usb_disabled_buses = cn10k_fdtebf_get_num(fdt_addr,
-						       "DISABLE-USB-PORTS", 16);
+						       "USB-DISABLE-PORTS", 16);
 	if (usb_disabled_buses >= 0) {
 		for (bus = 0; bus < MAX_USB_BUS; bus++)
 			if (usb_disabled_buses & (1 << bus))
