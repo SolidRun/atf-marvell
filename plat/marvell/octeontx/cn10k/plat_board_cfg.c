@@ -2182,7 +2182,7 @@ static void cn10k_fill_gserm_details(void *fdt)
 				/* Validate the SERDES# in the mac_to_serdes map is valid */
 				if (gser_lane > cn10k_portm_get_max_gser_lane_num(portm_first + mlane)) {
 					ERROR("GSERM%d: Lane number %d specified in PORTM_MAC_TO_SERDES_MAP nibble%d is invalid\n",
-					      gserm_idx, gser_lane, portm_first + mlane);
+					      gserm_idx, gser_lane, mlane);
 					valid = 0;
 				}
 

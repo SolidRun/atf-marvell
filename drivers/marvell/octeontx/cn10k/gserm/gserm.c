@@ -632,6 +632,11 @@ static void set_gserm_clk_en(int gserm, int gser_lane, int mac_type,
 static void set_gserm_to_mac_lane_mapping(int gserm, int gser_lane, int mac_type,
 					  int mac, int mac_lane)
 {
+	/* CNF10KB has 2 CPRI MAC's per GSERM */
+	if (cavm_is_model(OCTEONTX_CNF10KB)
+	    && (mac_type == PORTM_CPRI))
+		mac_lane %= 2;
+
 	debug_gserm("%s: GSERM%d:%d: %s%d:%d\n", __func__, gserm, gser_lane,
 	       cn10k_portm_mac_type_to_cfg_str(mac_type), mac, mac_lane);
 
@@ -665,6 +670,7 @@ static void set_gserm_to_mac_lane_mapping(int gserm, int gser_lane, int mac_type
 					   c.s.lane_sel = mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
 				break;
 			}
+			break;
 		case 2: /* GSERM2/3/4 support 2 RPM's and CPRI */
 		case 3:
 		case 4:
@@ -688,7 +694,8 @@ static void set_gserm_to_mac_lane_mapping(int gserm, int gser_lane, int mac_type
 						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_CPRI_UPMAC_OFFSET : mac_lane);
 					break;
 				}
-			case PORTM_ETH:
+				break;
+			default: /* Used for PORTM_ETH and PORTM_DIS */
 				switch (gser_lane) {
 				case 0:
 					CSR_MODIFY(c, CAVM_GSERMX_LANE0_CONTROL_SD_MUX(gserm),
@@ -707,7 +714,9 @@ static void set_gserm_to_mac_lane_mapping(int gserm, int gser_lane, int mac_type
 						   c.s.lane_sel = (mac % 2) ? mac_lane + CNF10KB_ETH_UPMAC_OFFSET : mac_lane + CNF10KB_ETH_LOWMAC_OFFSET);
 					break;
 				}
+				break;
 			}
+			break;
 		}
 	} else { /* MAC lane is the GSERM register index */
 		switch (mac_lane) {
@@ -883,10 +892,10 @@ static int set_gserm_rx_tx_config(int portm_idx, int portm_lidx, struct gserm_co
 				       portm_programming.phy_gen_tx,
 				       portm_programming.phy_gen_rx);
 
-	debug_gserm("%s: GSERM: phy_gen_tx:%d, phy_gen_rx:%d, tx_precode_en:%d, rx_precode_en:%d,\n", __func__,
-		    portm_programming.phy_gen_tx, portm_programming.phy_gen_rx, tx_precode, rx_precode);
-	debug_gserm("%s: GSERM: tx_graycode_en:%d, rx_graycode_en:%d\n", __func__,
-		    portm_programming.txdata_gray_code_en, portm_programming.rxdata_gray_code_en);
+	debug_gserm("%s: GSERM%d.%d: phy_gen_tx:%d, phy_gen_rx:%d, tx_precode_en:%d, rx_precode_en:%d,\n", __func__,
+		    gserm, gser_lane, portm_programming.phy_gen_tx, portm_programming.phy_gen_rx, tx_precode, rx_precode);
+	debug_gserm("%s: GSERM%d.%d: tx_graycode_en:%d, rx_graycode_en:%d\n", __func__,
+		    gserm, gser_lane, portm_programming.txdata_gray_code_en, portm_programming.rxdata_gray_code_en);
 	return 0;
 }
 
