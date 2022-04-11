@@ -679,7 +679,11 @@ static int get_secure_settings(struct ecam_device *dev, uint64_t pconfig)
 	while (sdev->devid != ECAM_INVALID_PCC_IDL_ID) {
 		if (matched_dev(sdev, pccpf_id.u, vsec_ctl.u)) {
 			dev->config.s.is_secure = 1;
-			dev->config.s.is_sec_devpa = sdev->secure_devpa;
+			if (((pccpf_id.s.devid & 0xff) == CAVM_PCC_DEV_IDL_E_SPI) &&
+			    plat_octeontx_bcfg->spi_cfg[vsec_ctl.s.inst_num].is_secure)
+				dev->config.s.is_sec_devpa = SEC_DEVPA;
+			else
+				dev->config.s.is_sec_devpa = sdev->secure_devpa;
 			break;
 		}
 		sdev++;
