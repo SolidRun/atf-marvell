@@ -862,15 +862,13 @@ static void rpm_update_lmac_mode_config(int rpm_id, int lmac_id)
 {
 	rpm_lmac_config_t *lmac;
 	lmac_mode_info_t *mode_info;
-	portm_config_t *portm;
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 	mode_info = &lmac->lmac_mode_info[lmac->mode];
 
 	lmac->sfp_slot = 0;
 	lmac->sfp_info = NULL;
-	portm->an_disable = 0;
+	lmac->an_disable = 0;
 
 	if (mode_info->sfp) {
 		lmac->sfp_info =
@@ -879,7 +877,7 @@ static void rpm_update_lmac_mode_config(int rpm_id, int lmac_id)
 	}
 
 	if (mode_info->an_disable)
-		portm->an_disable = 1;
+		lmac->an_disable = 1;
 
 	rpm_set_supported_link_modes(rpm_id, lmac_id);
 }

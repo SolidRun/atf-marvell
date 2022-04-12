@@ -48,6 +48,7 @@
 #include <rpm.h>
 #include <strtol.h>
 #include <portm_helper.h>
+#include <eth_intf.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gpio.h"
@@ -293,13 +294,15 @@ void plat_octeontx_print_board_variables(void)
 			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 			if (!lmac->port_enable)
 				continue;
-			debug_dts("RPM%d.LMAC%d: portm mode = %d, mode = %s:%d AN disable=%d\n",
+			debug_dts("RPM%d.LMAC%d: portm mode = %d, mode = %s:%d AN disable=%d sgmii_speed=%d sgmii_duplex=%d\n",
 					i,
 					j,
 					portm->portm_mode,
 					gserm_get_mode_strmap(portm->portm_mode).ebf_str,
 					lmac->mode,
-					portm->an_disable);
+					lmac->an_disable,
+					lmac->sgmii_speed,
+					lmac->sgmii_duplex);
 			debug_dts("\tnum_rvu_vfs=%d, num_msix_vec=%d\n",
 					lmac->num_rvu_vfs,
 					lmac->num_msix_vec);
@@ -1706,15 +1709,46 @@ static void cn10k_fill_lmac_mode_info(void *fdt, lmac_mode_info_t *info, int typ
 check_an:
 	/* Field only for the SGMII/QSGMII LMAC types */
 	if ((type == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
-			(type == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+			(type == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
+			(type == CAVM_RPM_LMAC_TYPES_E_USXGMII) ||
+			(type == CAVM_RPM_LMAC_TYPES_E_USGMII)) {
 		const int *val;
-		int len;
+		int len, speed;
 
 		val = fdt_getprop(fdt, offset,
 				"cn10k,sgmii-disable-autoneg",
 				&len);
 		if (val)
 			info->an_disable = 1;
+		else
+			info->an_disable = 0;
+
+		speed = cn10k_fdt_get_int32(fdt,
+			"cn10k,sgmii-set-speed", offset);
+
+		switch (speed) {
+		case 10:
+			info->sgmii_speed = ETH_LINK_10M;
+			break;
+		case 100:
+			info->sgmii_speed = ETH_LINK_100M;
+			break;
+		case 2500:
+			info->sgmii_speed = ETH_LINK_2HG;
+			break;
+		case 5000:
+			info->sgmii_speed = ETH_LINK_5G;
+			break;
+		case 10000:
+			info->sgmii_speed = ETH_LINK_10G;
+			break;
+		case 1000:
+		default:
+			info->sgmii_speed = ETH_LINK_1G;
+			break;
+		}
+
+		info->sgmii_duplex = 1;
 	}
 }
 
@@ -1845,9 +1879,9 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		}
 
 		if (mode_info->an_disable) {
-			portm_config_t *portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
-
-			portm->an_disable = 1;
+			lmac->an_disable = 1;
+			lmac->sgmii_speed = mode_info->sgmii_speed;
+			lmac->sgmii_duplex = mode_info->sgmii_duplex;
 		}
 
 		lmac->lmac_enable = 1;

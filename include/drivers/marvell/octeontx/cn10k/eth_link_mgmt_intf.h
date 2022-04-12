@@ -258,11 +258,19 @@ typedef struct ecp_state_hist_buf {
 	ecp_state_log_t shared_logs[ECP_STS_ENTRIES_MAX];
 } ecp_state_hist_buf_t;
 
+typedef struct {
+	uint32_t an_disable:1;  /* Set if AN is disabled */
+	uint32_t mac_speed:4;	/* MAC speed to set when AN is disabled (enum eth_link_speed) */
+	uint32_t mac_duplex:1;	/* MAC duplex to set when AN is disabled */
+	uint32_t _reserved:26;
+} lpcs_spd_dplx_t;
+
 typedef struct ecp_link_mgmt_sh_data {
 	uint32_t lock;
 	uint32_t ack;
 	uint32_t portm_idx;
 	portm_config_t portm_cfg;
+	lpcs_spd_dplx_t lpcs_speed_dplx[LMAC_PER_RPM_MAX]; /* Speed and Duplex settings for lpcs modes */
 	uint32_t sig_detect:1;
 	uint32_t lmac_id;
 	/* Link management async req/rsp between AP and ECP */

@@ -225,7 +225,6 @@ typedef struct portm_config {
 	int gserm;                         /* GSERM number */
 	cn10k_portm_mac_type_t mac_type;   /* MAC type used by portm */
 	cn10k_portm_pcs_type_t pcs_type;   /* PCS type used by portm_mode (Eth only) */
-	uint32_t an_disable;		   /* Indicates if AN to be disabled for SGMII/QSGMII */
 	int mac_num;                       /* MAC number */
 	int mac_lane;                      /* Lowest MAC lane */
 	int num_lmacs;                     /* Number of LMACs */

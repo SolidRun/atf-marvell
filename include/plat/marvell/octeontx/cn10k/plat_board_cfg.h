@@ -147,9 +147,11 @@ typedef struct rvu_config {
 typedef struct lmac_mode_info {
 	uint32_t available:1;
 	uint32_t an_disable:1;
+	uint32_t sgmii_speed:4;
+	uint32_t sgmii_duplex:1;
 	uint32_t sfp:1;
 	uint32_t sfp_info_idx:8;
-	uint32_t reserved1:21;
+	uint32_t reserved1:16;
 } lmac_mode_info_t;
 
 /* Define LMAC structure. */
@@ -174,6 +176,9 @@ typedef struct rpm_lmac_config {
 	sfp_slot_info_t *sfp_info;
 	lmac_mode_info_t lmac_mode_info[CAVM_RPM_LMAC_TYPES_E_MAX];
 	int sgmii_1000x_mode;	/* SGMII or 1000x mode for SGMII */
+	int sgmii_speed;	/* SGMII/USGMII speed if AN disabled */
+	int sgmii_duplex;	/* SGMII/USGMII duplex if AN disabled */
+	int an_disable;
 } rpm_lmac_config_t;
 
 typedef enum {
