@@ -132,7 +132,7 @@
 #define OCTEONTX_PRI_BITS		3
 
 #define is_devmem_rsl(bar0)		(((bar0 >> 36ULL) & 0xFFF) == 0x87EULL)
-#define is_devmem_ncb(bar2)		(((bar2 >> 36ULL) & 0xFFF) == 0x800ULL)
+#define is_devmem_ncb(bar2)		(((bar2 >> 36ULL) & 0xF00) == 0x800ULL)
 #define MRML_RSL_INDEX(bar0)		((bar0 >> 24) & 0x3FF)
 #define MRML_NCB_INDEX(bar2)		((bar2 >> 36) & 0xFF)
 
