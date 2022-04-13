@@ -92,6 +92,19 @@ This is optional. If not, default number of VFs and MSIX per VF are assigned.
 For AN to be disabled, the sub-node should have following property
 ``“cn10k,sgmii-disable-autoneg"``.
 
+In order to set speed when autonegotion is disabled, the sub-node should have
+following property: ``“cn10k,sgmii-set-speed=<val>"``
+
+Example of disabling autonegotiation and setting speed to 100M:
+
+.. code block:: none
+
+   ethernetB5: qsgmii@13 {
+       reg = <3>;
+       cn10k,sgmii-disable-autoneg;
+       cn10k,sgmii-set-speed=<100>;
+   };
+
 .. Note::
 This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, if PHY is
 not present, AN is by default disabled.
