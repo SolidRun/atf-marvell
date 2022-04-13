@@ -509,6 +509,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 	rpm_lmac_config_t *lmac_cfg;
 	rpm_lmac_context_t *lmac_ctx;
 	rpm_link_state_t link;
+	rpm_lmac_bringup_context_t *bringup_ctx;
 
 	/* get the lmac type and based on lmac
 	 * type, bring down SGMII/XAUI link
@@ -518,6 +519,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 				rpm_id, lmac_id, lmac_cfg->mode);
 
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
+	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
@@ -551,6 +553,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 
 	lmac_ctx->s.link_enable = 0;
 	lmac_ctx->s.init_link = 0;
+	bringup_ctx->link_timeout = 0; /* reset to 0 */
 	return 0;
 
 link_down_fail:
@@ -1402,8 +1405,11 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 		if (lmac->lmac_enable) {
 			switch (request_id) {
 			case ETH_CMD_LINK_BRING_UP:
-				lmac_timeout = scratchx1.s.lnk_bringup.timeout * 1000; /* Save in us */
-				debug_rpm_intf("%d:%d: lmac_timeout = %lld\n", rpm_id, lmac_id, lmac_timeout);
+				if (scratchx1.s.lnk_bringup.timeout > RPM_POLL_LINK_BRINGUP_STATUS/1000)
+					lmac_timeout = RPM_POLL_LINK_BRINGUP_STATUS; /* Save in us */
+				else
+					lmac_timeout = scratchx1.s.lnk_bringup.timeout * 1000; /* Save in us */
+				debug_rpm_intf("%s: %d:%d: lmac_timeout = %lld\n", __func__, rpm_id, lmac_id, lmac_timeout);
 				ret = rpm_link_bringup(rpm_id, lmac_id, lmac_timeout);
 				break;
 			case ETH_CMD_LINK_BRING_DOWN:
