@@ -74,13 +74,18 @@ typedef enum {
 	PORTM_MODE_CPRI_4_9G      = 42,  /* CPRI, Serdes speed: 4.9152G */
 	PORTM_MODE_CPRI_6_1G      = 43,  /* CPRI, Serdes speed: 6.144G */
 	PORTM_MODE_CPRI_9_8G      = 44,  /* CPRI, Serdes speed: 9.8304G */
+	PORTM_MODE_CPRI_2_4G_TEST = 56,  /* CPRI, Serdes speed: 2.4576G, Rx/Tx rates at 2.4G */
+	PORTM_MODE_CPRI_3_1G_TEST = 57,  /* CPRI, Serdes speed: 3.072G,  Rx/Tx rates at 3.1G */
+	PORTM_MODE_CPRI_4_9G_TEST = 58,  /* CPRI, Serdes speed: 4.9152G, Rx/Tx rates at 4.9G */
+	PORTM_MODE_CPRI_6_1G_TEST = 59,  /* CPRI, Serdes speed: 6.144G,  Rx/Tx rates at 6.1G */
+	PORTM_MODE_CPRI_9_8G_TEST = 60,  /* CPRI, Serdes speed: 9.8304G, Rx/Tx rates at 9.8G */
 
 	/* JESD204C modes */
 	PORTM_MODE_JESD204C_12_2G = 45,  /* JESD204C, Serdes speed: 12.16512G */
 	PORTM_MODE_JESD204C_16_2G = 46,  /* JESD204C, Serdes speed: 16.22016G */
 	PORTM_MODE_JESD204C_24_3G = 47,  /* JESD204C, Serdes speed: 24.33024G */
 
-	PORTM_MODE_LAST           = 56,  /* Always has to be the largest number */
+	PORTM_MODE_LAST           = 61,  /* Always has to be the largest number */
 } cn10k_portm_modes_t;
 
 typedef struct portm_tx_tuning {
