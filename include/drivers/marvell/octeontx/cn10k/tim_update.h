@@ -113,6 +113,8 @@ struct smc_update_obj_info {
 #define UPDATE_MAGIC			0x55504454	/* UPDT */
 /** Minimum allowed update version */
 #define UPDATE_MIN_VERSION		0x0001
+/** Minimum version that includes log support */
+#define UPDATE_LOG_VERSION		0x0100
 /** Current smc_update_descriptor version */
 #define UPDATE_VERSION			0x0100
 /** Set to update secondary location */
@@ -134,6 +136,9 @@ struct smc_update_obj_info {
 
 /** Offset from the beginning of the flash where the backup image is located */
 #define BACKUP_IMAGE_OFFSET		0x2000000
+
+#define SIZE_SMC_UPDATE_DESCRIPTOR_0	80
+#define SIZE_SMC_UPDATE_DESCRIPTOR_1	160
 
 /**
  * This descriptor is passed by U-Boot or other software performing an update

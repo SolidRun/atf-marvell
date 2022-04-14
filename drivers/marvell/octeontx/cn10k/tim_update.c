@@ -2627,7 +2627,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		*uret = UPDATE_BAD_DESC_VERSION;
 		goto error;
 	}
-	if (update_desc.version >= 0x0100 &&
+	if (update_desc.version >= UPDATE_LOG_VERSION &&
 	    update_desc.output_console != 0 &&
 	    update_desc.output_console_size > 0 &&
 	    update_desc.update_flags & UPDATE_FLAG_LOG_PROGRESS) {
@@ -3613,7 +3613,8 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		goto error;
 	}
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
-							 ns_map_size, MT_RW | MT_NS);
+							 ns_map_size,
+							 MT_RW | MT_NS);
 	if (err) {
 		WARN("Version check descriptor mmap failed (%d)\n", err);
 		*uret = -SPI_MMAP_ERR;

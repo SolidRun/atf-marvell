@@ -345,7 +345,7 @@ err1:
 			if ((user_buf < NS_IMAGE_BASE) ||
 			    (user_buf > (dram_end - 1)) ||
 			    ((user_buf + size) > (dram_end - 1)) ||
-			    (size != sizeof(struct smc_update_descriptor))) {
+			    (size < SIZE_SMC_UPDATE_DESCRIPTOR_0)) {
 				ERROR("Invalid descriptor address or size\n");
 				ret = -1;
 				goto err;
