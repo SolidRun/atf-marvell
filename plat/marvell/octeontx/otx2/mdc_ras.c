@@ -411,7 +411,7 @@ static void ccu_read_err(int ccu, int b, union cavm_mdc_ecc_status mes,
 	if (xbf.s.sbe || xbf.s.dbe) {
 		// xbf.s.addr is PA after tad-set aliasing, no scrub needed
 		if (!quiet)
-			printf("CCU%d_TAD%d_XBF_ERR %llx\n", ccu, b, xbf.u);
+			debug_ras("CCU%d_TAD%d_XBF_ERR %llx\n", ccu, b, xbf.u);
 		octeontx_write64(CAVM_CCUX_TADX_XBF_ERR(ccu, b), xbf.u);
 	}
 }
@@ -849,8 +849,7 @@ static int ras_init_mccs(void)
 			r = CAVM_CCUX_TADX_INT_ENA_W1C(ccu, b);
 			octeontx_write64(r, ~0ull);
 
-			debug_ras("Registering CCU%d_TAD%lld irq handlers\n",
-				ccu, b);
+			debug_ras("Registering CCU%d_TAD%lld irq handlers\n", ccu, b);
 			vaddr = CAVM_CCUX_MSIX_VECX_ADDR(ccu, b);
 			vctl = CAVM_CCUX_MSIX_VECX_CTL(ccu, b);
 			octeontx_write64(vaddr, ctl);

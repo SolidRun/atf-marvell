@@ -134,17 +134,42 @@ struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 
 	tail = err_ring->tail;
 	head = err_ring->head;
+
 	if (((head + 1) % err_ring->size) != tail) {
 		err_rec = &err_ring->records[head];
 		memset(err_rec, 0, sizeof(*err_rec));
 	} else {
-		err_rec = NULL;
 		ERROR("GHES error ring '%s' is full\n", name);
+		err_rec = NULL;
 	}
 
 	if (ringp)
 		*ringp = err_ring;
 	return err_rec;
+}
+
+int otx2_estatus_ghes(ras_config_t *rc, const char *name, struct octeontx_estatus_record **estatus)
+{
+	struct octeontx_estatus_record *rec;
+	struct fdt_ghes *gh;
+
+	gh = otx2_find_ghes(rc, name);
+	if (!gh) {
+		*estatus = NULL;
+		ERROR("cannot find estatus '%s'\n", name);
+		return -1;
+	}
+
+	rec = gh->base[GHES_PTR_STATUS];
+	if (!rec) {
+		*estatus = NULL;
+		ERROR("estatus NULL '%s'\n", name);
+		return -1;
+	}
+	memset(rec, 0, sizeof(*rec));
+	*estatus = rec;
+
+	return 0;
 }
 
 void otx2_send_ghes(struct otx2_ghes_err_record *rec,
@@ -165,7 +190,7 @@ void otx2_send_ghes(struct otx2_ghes_err_record *rec,
 	dsbsy();
 
 #if SDEI_SUPPORT
-	NOTICE("RAS SDEI dispatch: 0x%x\n", event);
+	debug_ras("RAS SDEI dispatch: 0x%x\n", event);
 	ret = sdei_dispatch_event(event);
 	if (ret != 0) {
 		/*

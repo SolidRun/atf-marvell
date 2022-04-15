@@ -95,7 +95,7 @@ void cn10k_ras_tad_notify(uint8_t tadx, cavm_tadx_int_w1c_t tad_int)
 {
 	struct otx2_ghes_err_record *err_rec;
 	struct otx2_ghes_err_ring *err_ring;
-	struct cper_sec_mem_err_old *tad;
+	struct cper_sec_mem_err *tad;
 
 	cavm_tadx_derr_addr_t daddr;
 	cavm_tadx_nderr_addr_t ndaddr;

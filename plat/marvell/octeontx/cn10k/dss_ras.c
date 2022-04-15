@@ -121,7 +121,7 @@ static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 {
 	struct otx2_ghes_err_record *err_rec;
 	struct otx2_ghes_err_ring *err_ring;
-	struct cper_sec_mem_err_old *dss;
+	struct cper_sec_mem_err *dss;
 
 	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr0_t ecccaddr0;
 	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr1_t ecccaddr1;

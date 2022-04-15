@@ -515,8 +515,10 @@ int cn10k_ras_init(void)
 	struct otx2_ghes_err_ring *err_ring;
 	uint32_t ring_len;
 	ras_config_t *cfg;
-	int i;
+	struct octeontx_estatus_record *rec;
+	int i = 0;
 	int idx = 0, irq, core;
+	int ret = 0;
 
 	for (irq = 0; irq < MDC_SPI_IRQS; irq++) {
 		cn10k_ras_interrupts[idx].intr_number = MDC_SPI_IRQ(irq);
@@ -564,6 +566,24 @@ int cn10k_ras_init(void)
 		err_ring = cfg->fdt_ghes[i].base[GHES_PTR_RING];
 		ring_len = cfg->fdt_ghes[i].size[GHES_PTR_RING];
 		err_ring_init(err_ring, ring_len, 0, 1);
+	}
+
+	for (i = 0; i < ARRAY_SIZE(cfg->fdt_ghes); i++) {
+		ret = otx2_estatus_ghes(cfg, cfg->fdt_ghes[i].name, &rec);
+		if (ret)
+			continue;
+
+		rec->estatus.raw_data_offset = sizeof(struct acpi_hest_generic_status) + sizeof(struct acpi_hest_generic_data);
+		rec->estatus.data_length = sizeof(*rec) - sizeof(struct acpi_hest_generic_status);
+		rec->gdata.revision = 0x201; // ACPI 4.x
+		rec->gdata.validation_bits |= ACPI_HEST_GEN_VALID_FRU_STRING;
+		rec->gdata.error_data_length = sizeof(*rec) - rec->estatus.raw_data_offset;
+
+		if (IS_NOT_MC_SDEI_EVENT(cfg->fdt_ghes[i].id))
+			memcpy((guid_t *)rec->gdata.section_type, &CPER_SEC_PROC_ARM, sizeof(guid_t));
+		else
+			memcpy((guid_t *)rec->gdata.section_type, &CPER_SEC_PLATFORM_MEM, sizeof(guid_t));
+		debug_ras("%s cper init %s\n", __func__, cfg->fdt_ghes[i].name);
 	}
 
 	return 0;

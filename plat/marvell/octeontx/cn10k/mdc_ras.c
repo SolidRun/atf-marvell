@@ -59,7 +59,7 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 {
 	struct otx2_ghes_err_record *err_rec;
 	struct otx2_ghes_err_ring *err_ring;
-	struct cper_sec_mem_err_old *mdc;
+	struct cper_sec_mem_err *mdc;
 	const char *type_tok = NULL;
 	const char *type = NULL;
 

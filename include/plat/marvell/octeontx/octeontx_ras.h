@@ -57,6 +57,36 @@ static inline int noprintf(const char *fmt, ...)
 
 #ifndef LINUX_CPER_H
 
+#define OCTEONTX_RAS_MDC_SDEI_EVENT	(0x40000000)
+#define OCTEONTX_RAS_MCC_SDEI_EVENT	(0x40000001)
+#define OCTEONTX_RAS_LMC_SDEI_EVENT	(0x40000002)
+#define OCTEONTX_RAS_DSS_SDEI_EVENT	(0x40000001)
+#define OCTEONTX_RAS_TAD_SDEI_EVENT	(0x40000002)
+
+#define IS_NOT_MC_SDEI_EVENT(id) ((id != OCTEONTX_RAS_MDC_SDEI_EVENT) && \
+	(id != OCTEONTX_RAS_MCC_SDEI_EVENT) && \
+	(id != OCTEONTX_RAS_LMC_SDEI_EVENT))
+
+typedef struct {
+	uint8_t b[16];
+} guid_t;
+
+#define GUID_INIT(a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)		\
+((guid_t)								\
+{{ (a) & 0xff, ((a) >> 8) & 0xff, ((a) >> 16) & 0xff, ((a) >> 24) & 0xff, \
+(b) & 0xff, ((b) >> 8) & 0xff,					\
+(c) & 0xff, ((c) >> 8) & 0xff,					\
+(d0), (d1), (d2), (d3), (d4), (d5), (d6), (d7) }} )
+
+/* Processor Specific: ARM */
+#define CPER_SEC_PROC_ARM						\
+	GUID_INIT(0xE19E3D16, 0xBC11, 0x11E4, 0x9C, 0xAA, 0xC2, 0x05,	\
+		  0x1D, 0x5D, 0x46, 0xB0)
+/* Platform Memory */
+#define CPER_SEC_PLATFORM_MEM						\
+	GUID_INIT(0xA5BC1114, 0x6F64, 0x4EDE, 0xB8, 0x63, 0x3E, 0x83,	\
+		  0xED, 0x7C, 0x83, 0xB1)
+
 /*
  * Severity definition for error_severity in struct cper_record_header
  * and section_severity in struct cper_section_descriptor
@@ -128,26 +158,6 @@ struct cper_arm_err_info {
 	uint64_t	physical_fault_addr;
 } __packed;
 
-/* Old Memory Error Section UEFI 2.1, 2.2 (copied from linux/cper.h) */
-struct cper_sec_mem_err_old {
-	uint64_t	validation_bits;
-	uint64_t	error_status;
-	uint64_t	physical_addr;
-	uint64_t	physical_addr_mask;
-	uint16_t	node;
-	uint16_t	card;
-	uint16_t	module;
-	uint16_t	bank;
-	uint16_t	device;
-	uint16_t	row;
-	uint16_t	column;
-	uint16_t	bit_pos;
-	uint64_t	requestor_id;
-	uint64_t	responder_id;
-	uint64_t	target_id;
-	uint8_t		error_type;
-} __packed;
-
 /* Memory Error Section UEFI >= 2.3 (copied from linux/cper.h )*/
 struct cper_sec_mem_err {
 	uint64_t	validation_bits;
@@ -171,6 +181,33 @@ struct cper_sec_mem_err {
 	uint16_t	mem_array_handle;	/* card handle in UEFI 2.4 */
 	uint16_t	mem_dev_handle;		/* module handle in UEFI 2.4 */
 } __packed;
+
+#define ACPI_HEST_GEN_VALID_FRU_ID          (1)
+#define ACPI_HEST_GEN_VALID_FRU_STRING      (1<<1)
+#define ACPI_HEST_GEN_VALID_TIMESTAMP       (1<<2)
+
+/* Generic Error Status block */
+
+struct acpi_hest_generic_status {
+	uint32_t block_status;
+	uint32_t raw_data_offset;
+	uint32_t raw_data_length;
+	uint32_t data_length;
+	uint32_t error_severity;
+};
+
+/* Generic Error Data entry */
+
+struct acpi_hest_generic_data {
+	uint8_t section_type[16];
+	uint32_t error_severity;
+	uint16_t revision;
+	uint8_t validation_bits;
+	uint8_t flags;
+	uint32_t error_data_length;
+	uint8_t fru_id[16];
+	uint8_t fru_text[20];
+};
 #endif // LINUX_CPER_H
 
 #define OTX2_GHES_ERR_RING_SIG ((int)'M' << 24 | 'R' << 16 | 'V' << 8 | 'L')
@@ -183,14 +220,23 @@ struct processor_error {
 	struct cper_arm_err_info info;
 };
 
+struct octeontx_estatus_record {
+	struct acpi_hest_generic_status estatus;
+	struct acpi_hest_generic_data   gdata;
+	union {
+		struct cper_sec_mem_err mc_cper;
+		struct processor_error core_cper;
+	} u;
+};
+
 struct otx2_ghes_err_record {
 	union {
-		struct processor_error       core;
-		struct cper_sec_mem_err_old  mcc;
-		struct cper_sec_mem_err_old  mdc;
-		struct cper_sec_mem_err_old  lmc;
-		struct cper_sec_mem_err_old  dss;
-		struct cper_sec_mem_err_old  tad;
+		struct processor_error  core;
+		struct cper_sec_mem_err mcc;
+		struct cper_sec_mem_err mdc;
+		struct cper_sec_mem_err lmc;
+		struct cper_sec_mem_err dss;
+		struct cper_sec_mem_err tad;
 	} u;
 	uint32_t severity; /* CPER_SEV_xxx */
 	char fru_text[OTX2_GHES_ERR_REC_FRU_TEXT_LEN];
@@ -217,6 +263,8 @@ void otx2_send_ghes(struct otx2_ghes_err_record *rec,
 void otx2_map_ghes(ras_config_t *rc);
 
 bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries, bool reinit);
+
+int otx2_estatus_ghes(ras_config_t *rc, const char *name, struct octeontx_estatus_record **estatus);
 
 #endif // RAS_EXTENSION
 
