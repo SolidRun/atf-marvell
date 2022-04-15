@@ -150,7 +150,7 @@ int ddrc_ddr5_sw_cmd_poling(int ch, char *printf_header)
 	}
 
 	if (time_out <= 0) {
-		printf("%s: mrr data invalid ch : %d\n", __func__, ch);
+		debug("%s: mrr data invalid ch : %d\n", printf_header, ch);
 		return -1;
 	}
 
@@ -218,6 +218,12 @@ static uint32_t ppr_ddrc_ddr5_read_failure_row(uint32_t ch)
 
 			reg_CMDCFG.s.mrr_grp_sel = dram_grp;
 			CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCFG(ch), reg_CMDCFG.u);
+
+			mr16_val = 0;
+			mr17_val = 0;
+			mr18_val = 0;
+			mr19_val = 0;
+			mr20_val = 0;
 
 			ddrc_ddr5_read_mr_ppr(ch, r, 16, 0, &mr16_val);
 
