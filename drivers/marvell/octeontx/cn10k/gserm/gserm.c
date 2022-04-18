@@ -2289,7 +2289,7 @@ static inline int _wait_ecp_request_compl(int portm_idx,
 	while (clock_get_count(GSER_CLOCK_TIME) < gserm_timeout) {
 		state = ecp_get_link_state(portm_idx, lmac_id, &link_state, &sig_detect);
 		/* Check if past the requested state */
-		if ((state != ETH_LINK_NO_STATE) && (state != req))
+		if (state != req)
 			return 0;
 
 		udelay(100);
