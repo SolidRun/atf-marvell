@@ -565,6 +565,14 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	 * TADs present on the platform.
 	 */
 	plat_cn10k_fdt_tad_pmu_node_refresh();
+
+	/* Fixup the mpam/msc DT node based on
+	 * the DMC_MASK set for the platform.
+	 */
+#ifdef ENABLE_MPAM_FOR_LOWER_ELS
+	plat_cn10k_fdt_ddr_mpam_update();
+#endif
+
 #endif
 }
 

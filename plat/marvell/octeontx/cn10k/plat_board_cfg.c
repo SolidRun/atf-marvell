@@ -278,6 +278,207 @@ void plat_cn10k_fdt_tad_pmu_node_refresh(void)
 	fdt_setprop(fdt, offs, "reg", reg, sizeof(reg));
 }
 
+#ifdef ENABLE_MPAM_FOR_LOWER_ELS
+void remove_mpam_nodes(void *blob, const char *const nodes_path[],
+			int size_array)
+{
+	int i=0, rc;
+	int nodeoff;
+
+	for (i = 0; i < size_array; i++) {
+		nodeoff = fdt_path_offset(blob, nodes_path[i]);
+		if (nodeoff < 0)
+			continue; /*Not found, skip it*/
+
+		rc = fdt_nop_node(blob, nodeoff);
+		if (rc < 0)
+			debug_dts("Unable to delete node %s\n",
+				   nodes_path[i]);
+	}
+}
+
+void plat_cn10k_fdt_ddr_mpam_update()
+{
+	uint32_t cavium_bdk;
+	uint32_t dmc_mask=0x3f;
+	void *fdt = fdt_ptr;
+	const char *str = NULL;
+
+	/* Retrieve DMC mask */
+	cavium_bdk = fdt_path_offset(fdt, "/cavium,bdk");
+	if (cavium_bdk < 0) {
+		debug_dts("%s: /cavium,bdk is missing from device tree: %s\n",
+			  __func__, fdt_strerror(cavium_bdk));
+	}
+
+	str = fdt_getprop(fdt, cavium_bdk, "DDR-DMC-MASK", NULL);
+	if (str) {
+		dmc_mask = strtol(str, NULL, 0);
+	}
+
+	switch (dmc_mask) {
+	case 0x1: {
+		static const char * const nodes_path[] = {
+                        "/memory/msc@0x87e1c1240000",
+                        "/memory/msc@0x87e1c2240000",
+                        "/memory/msc@0x87e1c3240000",
+                        "/memory/msc@0x87e1c4240000",
+                        "/memory/msc@0x87e1c5240000",
+                };
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x3: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c2240000",
+			"/memory/msc@0x87e1c3240000",
+			"/memory/msc@0x87e1c4240000",
+			"/memory/msc@0x87e1c5240000",
+                };
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x5: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c1240000",
+			"/memory/msc@0x87e1c3240000",
+			"/memory/msc@0x87e1c4240000",
+			"/memory/msc@0x87e1c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x11: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c1240000",
+			"/memory/msc@0x87e1c2240000",
+			"/memory/msc@0x87e1c3240000",
+			"/memory/msc@0x87e1c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x7: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c3240000",
+			"/memory/msc@0x87e1c4240000",
+			"/memory/msc@0x87e1c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0xd: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c1240000",
+			"/memory/msc@0x87e1c4240000",
+			"/memory/msc@0x87e1c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x13: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c2240000",
+			"/memory/msc@0x87e1c3240000",
+			"/memory/msc@0x87e5c3240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x15: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c1240000",
+			"/memory/msc@0x87e1c3240000",
+			"/memory/msc@0x87e5c3240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x31: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c1240000",
+			"/memory/msc@0x87e1c2240000",
+			"/memory/msc@0x87e1c3240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0xf: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c4240000",
+			"/memory/msc@0x87e1c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x17: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c3240000",
+			"/memory/msc@0x87e5c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x1d: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c1240000",
+			"/memory/msc@0x87e1c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x33: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c2240000",
+			"/memory/msc@0x87e1c3240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x35: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e1c1240000",
+			"/memory/msc@0x87e1c3240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x1f: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e5c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	case 0x37: {
+		static const char * const nodes_path[] = {
+			"/memory/msc@0x87e3c5240000",
+		};
+
+		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		break;
+	}
+	default:
+		break;
+	}
+}
+#endif
+
 /* Output information specific for CN10K, for now only RPM. */
 void plat_octeontx_print_board_variables(void)
 {
