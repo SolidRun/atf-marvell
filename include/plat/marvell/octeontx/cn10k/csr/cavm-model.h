@@ -22,9 +22,9 @@
 #define __OM_IGNORE_MINOR_REVISION  0x20000000
 #define __OM_IGNORE_MODEL           0x10000000
 
-/* Variant, or major pass numbers are stored in bits [10:8] */
-#define __OM_PASS_SHIFT		8
-#define __OM_PASS_MASK		(0x7 << __OM_PASS_SHIFT)
+/* Variant, or major pass numbers are stored in bits [13:11 */
+#define __OM_MAJOR_SHIFT	11
+#define __OM_MAJOR_MASK		(0x7 << __OM_MAJOR_SHIFT)
 
 /*
  * Partnum is divied into two fields for our chips. Bits [7:4] are the
@@ -33,13 +33,13 @@
 #define __OM_PARTNUM_MASK	0xff
 #define __OM_FAMILY_MASK	0xf0
 
-/* Minor pass numbers are stored in bits [13:11] */
-#define __OM_MINOR_SHIFT	11
+/* Minor pass numbers are stored in bits [10:8] */
+#define __OM_MINOR_SHIFT	8
 #define __OM_MINOR_MASK		(0x7 << __OM_MINOR_SHIFT)
 
 #define __OM_BUILD(partnum, major, minor)	\
 	((partnum) |				\
-	(((major) - 1) << __OM_PASS_SHIFT) |	\
+	(((major) - 1) << __OM_MAJOR_SHIFT) |	\
 	((minor) << __OM_MINOR_SHIFT))
 
 /* Per chip definitions */
@@ -85,9 +85,9 @@ static inline int cavm_is_model(uint32_t arg_model)
 	if (arg_model & __OM_IGNORE_REVISION)
 		mask = __OM_PARTNUM_MASK;
 	else if (arg_model & __OM_IGNORE_MINOR_REVISION)
-		mask = __OM_PARTNUM_MASK | __OM_PASS_MASK;
+		mask = __OM_PARTNUM_MASK | __OM_MAJOR_MASK;
 	else
-		mask = __OM_PARTNUM_MASK | __OM_PASS_MASK | __OM_MINOR_MASK;
+		mask = __OM_PARTNUM_MASK | __OM_MAJOR_MASK | __OM_MINOR_MASK;
 
 	return ((arg_model) & mask) == (my_model & mask);
 }
