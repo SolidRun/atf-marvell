@@ -593,6 +593,13 @@ Initiated when ethernet interfaces are to be brought up.
 Parameters to be sent:
 
 * REQUEST ID – ``ETH_CMD_LINK_BRING_UP``
+
+* Cmd arguments
+struct cgx_link_bringup_args {         /* start from bit 8 */
+        uint64_t reserved1:8;
+        uint64_t timeout:14;            /* in ms */
+        uint64_t reserved2:42;
+
 * As part of request processing, ATF sends ECP_LINK_REQ_BRINGUP request to ECP to bring up the link
 
 Return the link state info (by writing to ``RPM_CMRX_SCRATCHX[rpm][lmac][0]``).
@@ -604,14 +611,33 @@ Any errors will be set in the ``RPM_CMRX_SCRATCHX[rpm][lmac][0]``.
 * RPM link bring up is done based on LMAC type
 
 * If PHY is present:
- FIXME
+
+  * Check the link status
+  * Update SM with the link status for ECP to use this info to configure RPM
 
 * If SFP/QSFP slot is present:
- FIXME
+
+  * Read the module status in SM updated by MCP.
+  * If module is present and EEPROM data is available, check the module capabilities
+    against user options.
+  * If module capabilities doesn't match user options, error is thrown
+  * Also, update Module status info in SM for ECP
 
 * If RPM configuration succeeds, current link status will be set
 
 * If RPM configuration fails, both error type and current link status will be set
+
+"timeout" parameter enables user to pass the link timeout (in ms) to limit the link bring up timeout
+(Same timeout is used for mode change/FEC change commands execution)
+
+ATF by default waits (without blocking the core) upto 4s to bring the link up. If the link timeout
+parameter is passed, ATF uses this parameter if it is less than 4s.
+
+Note on preference:
+
+1st preference : Timeout parameter passed via LINK_TIMEOUT command
+2nd preference : Timeout parameter passed via LINK_BRINGUP command
+If both are not specified, default timeout is 4s
 
 
 3.2.4.4 LINK BRING DOWN
@@ -845,6 +871,28 @@ or
 
 * cmd_args.enable = 0 to disable PTP
 
+3.2.4.12 LINK_TIMEOUT
+"""""""""""""""""""""
+Enables user to pass the link timeout (in ms) to limit the link bring up timeout (Same timeout is
+used for LINK bring up/mode change/FEC change)
+
+ATF by default waits (without blocking the core) upto 4s to bring the link up. If the link timeout
+parameter is passed, ATF uses this parameter if it is less than 4s.
+
+Parameters to be sent:
+
+* REQUEST ID - ``ETH_CMD_LINK_TIMEOUT``
+* cmd arguments
+struct cgx_link_bringup_args {         /* start from bit 8 */
+        uint64_t reserved1:8;
+        uint64_t timeout:14;            /* in ms */
+        uint64_t reserved2:42;
+};
+
+This parameter gets reset when ETH_CMD_LINK_BRING_DOWN is sent by user.
+
+Note: The timeout parameter passed by user via LINK_TIMEOUT have a higher preference compared to link timeout
+parameter passed via LINK_BRINGUP command.
 
 3.2.5 Interface from ATF to U-Boot/Kernel
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
