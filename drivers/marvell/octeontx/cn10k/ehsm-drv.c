@@ -430,6 +430,11 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 	int key_num;
 	int key_found = 0;
 
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+
 	if (ehsm_initialize(&eh) != 0) {
 		ERROR("Error initializing EHSM\n");
 		ret = -EIO;
