@@ -47,7 +47,7 @@ firmware first mode error identification interrupt is delivered
 to ATF. ATF writes error record into ring buffer head and triggers SDEI
 event callback. SDEI callback Linux registered at boot time beforehand.
 sdei-ghes callback move error record from ring buffer tail into Error Status
-Block (estatus) memory area, ESB block allocated for one error entry for HEST.
+Block (estatus) memory area, ESB block allocated for one error entry.
 Generic GHES driver makes periodic polling on Error Status Block and if ESB
 contains error data handler provide error presence notification and error clear.
 
@@ -64,20 +64,26 @@ CN10K RAS GHES Error injection
 ==================================
 
 Enable module config:
-OCTEONTX2_SDEI_GHES=y
-OCTEONTX2_SDEI_GHES_DEBUG=y
-MARVELL_CN10K_EINJ=y
+EDAC_OCTEONTX=y
+RAS=y
+EDAC=y
+ARM_SDE_INTERFACE=y
+ACPI_APEI_GHES=y
 
-SMC based interface for error injection from sysfs /sys/module/cn10k_einj/parameters/smc:
-0xd     - SMC first parameter identify inject error interface to DSS
+EDAC based interface for error injection from sysfs /sys/devices/system/edac/mc/mc0:
+
 address - Physical Address to corrupt
-flags   - Flags mark type of error SEC/DED and position of bit to corrupt
+error_type   - type of error SEC/DED and position of bit to corrupt
           0..7 - bit position to corrupt
           8    - error type 0 = DED (double), 1 = SEC (single)
 
 Flip one bit at address 0x2fffff000
-echo "0xd,0x2fffff000,0x101" > /sys/module/cn10k_einj/parameters/smc
+echo 0x2fffff000 > address
+echo 0x101 > error_type
+echo 1 > inject
 
 Flip two bits at address 0x2fffff000
-echo "0xd,0x2fffff000,0x1" > /sys/module/cn10k_einj/parameters/smc
+echo 0x2fffff000 > address
+echo 0x1 > error_type
+echo 1 > inject
 Require cold reboot after injection.
