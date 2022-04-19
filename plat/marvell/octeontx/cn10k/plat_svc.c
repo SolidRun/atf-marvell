@@ -40,6 +40,11 @@ typedef struct {
 
 #define NSEC_BUF	1
 
+#if RAS_EXTENSION
+	extern int cn10k_inject_dss_error(uint64_t addr, uint64_t etype,
+		uint64_t bits);
+#endif
+
 octeontx_ctr_sem_t octeontx_smc_spi_lock;
 static spinlock_t octeontx_smc_rvu_lock;
 static spinlock_t mdio_lock;
@@ -884,10 +889,11 @@ err4:
 
 	case PLAT_OCTEONTX_INJECT_ERROR:
 	{
-		extern int cn10k_inject_dss_error(uint64_t addr, uint64_t etype, uint64_t bits);
 		switch (x1) {
 		case PLAT_OCTEONTX_EINJ_DSS:
+#if RAS_EXTENSION
 			ret = cn10k_inject_dss_error(x2, x3, x4);
+#endif
 			SMC_RET1(handle, ret);
 		break;
 		}
