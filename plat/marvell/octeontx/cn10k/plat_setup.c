@@ -129,7 +129,7 @@ static void plat_set_emmc_msix_vectors(void)
 		CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
 }
 
-#if defined(IMAGE_BL31)
+#if defined(IMAGE_BL2)
 
 #define IRQ_TYPE_EDGE_RISING	1
 #define IRQ_TYPE_EDGE_FALLING	2
@@ -237,10 +237,6 @@ void set_mpamf_cust_window()
 void plat_octeontx_setup(void)
 {
 #if defined(IMAGE_BL31)
-	void *fdt = fdt_ptr;
-
-	plat_initialize_interrupt_fdt(fdt);
-
 #if defined(SAVE_FATAL_ERRLOGS)
 	crashdump_init(fdt);
 #endif
@@ -610,11 +606,19 @@ const char *plat_log_get_prefix(unsigned int log_level)
 #if defined(PLAT_CN10K_FAMILY)
 void plat_cn10x_early_initialization(void)
 {
+#if defined(IMAGE_BL2)
+	void *fdt = fdt_ptr;
+#endif
+
 	cn10k_parse_timestamp();
 
 #ifdef MRVL_TF_LOG_MODULE
 	initialize_tf_logging();
 #endif // MRVL_TF_LOG_MODULE
+
+#if defined(IMAGE_BL2)
+	plat_initialize_interrupt_fdt(fdt);
+#endif
 }
 #endif
 
