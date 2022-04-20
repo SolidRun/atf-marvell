@@ -114,8 +114,9 @@ static void plat_set_emmc_msix_vectors(void)
 	uint64_t vecaddr = CAVM_EMMCX_MSIX_VECX_ADDR(0, 0);
 	uint64_t vecctl = CAVM_EMMCX_MSIX_VECX_CTL(0, 0);
 	uint32_t irq;
+	cavm_emmcx_clk_ctrl_t clk_ctrl;
 
-	if (!cavm_is_model(OCTEONTX_CNF10KB) && !cavm_is_model(OCTEONTX_CN10KB)) {
+	if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) || cavm_is_model(OCTEONTX_CNF10KA_PASS1_X)) {
 		CSR_WRITE(CAVM_EMMCX_INTR(0), ~0ULL);
 		CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1C(0), ~0ULL);
 	}
@@ -125,8 +126,15 @@ static void plat_set_emmc_msix_vectors(void)
 	octeontx_write64(vecctl, irq);
 	octeontx_write64(vecaddr, CAVM_GICD_SETSPI_NSR);
 
-	if (!cavm_is_model(OCTEONTX_CNF10KB) && !cavm_is_model(OCTEONTX_CN10KB))
+	if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) || cavm_is_model(OCTEONTX_CNF10KA_PASS1_X))
 		CSR_WRITE(CAVM_EMMCX_INTR_ENA_W1S(0), 1ULL);
+	else {
+		clk_ctrl.u = 0;
+		clk_ctrl.s.emmc_clk_en = 1;
+		clk_ctrl.s.emmc_imsc_shadow = 1;
+		CSR_WRITE(CAVM_EMMCX_CLK_CTRL(0), clk_ctrl.u);
+	}
+
 }
 
 #if defined(IMAGE_BL2)
