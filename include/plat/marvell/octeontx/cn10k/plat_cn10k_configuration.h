@@ -83,7 +83,8 @@ int plat_octeontx_is_eth_lmac_rfoe(unsigned int eth_id,
  * cnf10ka : 4 DSS controllers
  * cnf10kb : 4 DSS controllers
  */
-#define MAX_CHANNELS		(cavm_is_model(OCTEONTX_CN10KA) ? 6 : 4)
+#define MAX_CHANNELS		(cavm_is_model(OCTEONTX_CN10KA) ? 6 : \
+				 (cavm_is_model(OCTEONTX_CN10KB) ? 2 : 4))
 
 #define CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0 \
 		(cavm_is_model(OCTEONTX_CN10KB) ? CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CN10KB : CAVM_TAD_CMN_BAR_E_TAD_CMN_PF_BAR0_CN10KA)
