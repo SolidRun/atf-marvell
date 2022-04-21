@@ -218,11 +218,8 @@ static int cdns_xspi_wait_for_controller_idle(int spi_con)
 
 	do {
 		spi_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CTRL_STATUS(spi_con));
-		if (spi_status.s.ctrl_busy) {
-			udelay(10);
-			timeout--;
-		}
-	} while (spi_status.s.ctrl_busy);
+		udelay(10);
+	} while (spi_status.s.ctrl_busy && timeout--);
 
 	if (timeout == 0)
 		return -1;
@@ -235,7 +232,7 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 {
 	int i = 0;
 	int clk_val;
-	bool update_clk;
+	bool update_clk = false;
 
 	CSR_INIT(clk_ctrl, CAVM_SPIX_CLK_CTRL(spi_con));
 
