@@ -155,7 +155,7 @@ static void init_rpm(uint64_t config_base, uint64_t config_size)
 	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_id]);
 
 	/* RPM2 to RPM8 are routed to BPHY */
-	if ((rpm_id >= 2) && (rpm_id < 8))
+	if ((rpm_id >= 2) && (rpm_id <= 8))
 		rpm->is_rfoe = 1;
 
 	rpm_init(rpm_id);
