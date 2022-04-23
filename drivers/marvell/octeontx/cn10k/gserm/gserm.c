@@ -637,9 +637,17 @@ static void set_gserm_clk_en(int gserm, int gser_lane, int mac_type,
 static void set_gserm_to_mac_lane_mapping(int gserm, int gser_lane, int mac_type,
 					  int mac, int mac_lane)
 {
-	/* CNF10KB has 2 CPRI MAC's per GSERM */
+	/* CNF10KB BPHY has 2 CPRI MAC's per GSERM */
 	if (cavm_is_model(OCTEONTX_CNF10KB)
 	    && (mac_type == PORTM_CPRI))
+		mac_lane %= 2;
+
+	/* CNF10KB BPHY has 2 ETH MAC's per GSERM */
+	/* Odd ETH MAC's need MAC lane # adjusted */
+	if (cavm_is_model(OCTEONTX_CNF10KB)
+	    && (mac_type == PORTM_ETH)
+	    && (gserm > 1) && (gserm < 5)
+	    && (mac % 2))
 		mac_lane %= 2;
 
 	debug_gserm("%s: GSERM%d:%d: %s%d:%d\n", __func__, gserm, gser_lane,
