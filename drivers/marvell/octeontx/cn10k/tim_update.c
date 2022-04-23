@@ -152,6 +152,9 @@ static uintptr_t target_handle;
 static struct tim_handle _tim_handle;
 static struct tim_load_info _tim_load_info;
 __aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
+__aligned(8) static uint8_t tim0_buffer[TIM_MAX_SIZE];
+static size_t tim0_size;
+static uint64_t tim0_offset;
 
 /** Pointer to update log buffer */
 static char *update_log = NULL;
@@ -465,11 +468,14 @@ static int fnode;	/* Firmware node in device tree */
 
 static enum update_ret
 octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
-		  size_t max_size, uint8_t *buffer, struct tim_handle *handle);
+		  size_t max_size, uint8_t *buffer, struct tim_handle *handle,
+		  size_t *tim_size);
 
 static enum update_ret
 octeontx_read_data(const struct smc_update_descriptor *desc, uint64_t offset,
 		   size_t size, void *buffer);
+static enum update_ret update_tim0(const uint8_t *tim0, uint64_t offset,
+				   size_t size);
 
 /**
  * Customer defined function to perform image verification
@@ -1027,19 +1033,24 @@ static enum update_ret update_process_tims(void)
 						__func__, li->image_length,
 						li->src_address, li->load_address,
 						li->tim_src_address);
-				if (!strcmp(li->data_filename, TIM0_FILENAME)) {
-					err = get_object_info_from_fdt(li->data_filename,
+				if (!strcmp(li->data_filename, TIM0_FDT_NAME)) {
+					ULOG("Found tim0.timb, processing root TIM\n");
+					err = get_object_info_from_fdt(TIM0_FDT_NAME,
 								       NULL,
 								       NULL,
 								       &is_root_tim,
 								       &root_obj_name);
-					if (err) {
+					if (err)
 						UWARN("tim0 not detected as root TIM in firmware layout\n");
-						root_obj_name = "scp_bl1.bin";
-					}
 					dfile = find_file(root_obj_name);
+					ULOG("%s %s associated with %s in update file\n",
+					     dfile ? "Found" : "Did not find",
+					     root_obj_name, TIM0_FDT_NAME);
 				} else {
 					dfile = find_file(li->data_filename);
+					ULOG("%s %s in update file\n",
+					     dfile ? "Found" : "Did not find",
+					     li->data_filename);
 				}
 				if (dfile == NULL) {
 					UWARN("Error: could not find %s in update file\n",
@@ -1387,7 +1398,8 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 
 	object->is_root_tim_obj = is_root_tim;
 	/* Read existing TIM from flash */
-	uret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, fl_hdl);
+	uret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, fl_hdl,
+				 NULL);
 	if (uret == UPDATE_MISSING_TIM) {
 		UINFO("%sTIM for %s missing in flash at offset 0x%llx\n",
 		      is_root_tim ? "Root " : "",
@@ -2021,6 +2033,7 @@ static enum update_ret erase_ebf_config_data(struct smc_update_descriptor *desc)
  * @param	max_size	Maximum size to read
  * @param[out]	buffer		buffer to read TIM into
  * @param[out]	handle		TIM handle
+ * @param[out]	tim_size	Size of TIM, can be NULL
  *
  * @return	UPDATE_OK for success
  *		UPDATE_INVALID_MEDIA for invalid media
@@ -2030,7 +2043,8 @@ static enum update_ret erase_ebf_config_data(struct smc_update_descriptor *desc)
  */
 static enum update_ret
 octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
-		  size_t max_size, uint8_t *buffer, struct tim_handle *handle)
+		  size_t max_size, uint8_t *buffer, struct tim_handle *handle,
+		  size_t *tim_size)
 {
 	enum update_ret ret;
 	enum tim_return tret;
@@ -2103,9 +2117,148 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 		goto done;
 	}
 	ret = UPDATE_OK;
+	if (tim_size)
+		*tim_size = hinfo.signed_tim_size;
 done:
 
 	return ret;
+}
+
+/**
+ * Extract TIM0 from the update and update what was saved.
+ *
+ * @return status of operation
+ */
+static enum update_ret get_tim0_from_update(void)
+{
+	struct file_entry *fentry;
+	struct object_entry *oentry;
+	enum update_ret uret = UPDATE_TIM_MISSING;
+
+	ULOG("Looking for tim0 in update objects\n");
+	for_each_object(oentry) {
+		if (oentry->tim_file != NULL) {
+			fentry = oentry->tim_file;
+			if (!strcmp(fentry->filename, TIM0_FILENAME)) {
+				uret = update_tim0(fentry->data,
+						   fentry->file_loc,
+						   fentry->file_size);
+				if (uret == UPDATE_OK)
+
+				break;
+			}
+		}
+	}
+	return uret;
+}
+
+/**
+ * Saves TIM0 and erases it.  Use restore_tim0 to restore it.
+ *
+ * @param[in]	desc	Descriptor with I/O data
+ *
+ * @return status of operation
+ */
+static enum update_ret save_erase_tim0(const struct smc_update_descriptor *desc)
+{
+	struct tim_handle *thdl = &_tim_handle;
+	size_t size;
+	uint64_t offset;
+	const char *name;
+	const uint32_t *addr_size;
+	enum update_ret uret;
+	int node;
+	int len;
+	bool tim0_found = false;
+
+	/* Get offset of tim0 from firmware-layout */
+	fdt_for_each_subnode(node, fdt_ptr, fnode) {
+		name = fdt_getprop(fdt_ptr, node, "description", NULL);
+		if (name && !strcmp(name, TIM0_FDT_NAME)) {
+			addr_size = fdt_getprop(fdt_ptr, node, "reg", &len);
+			if (addr_size == NULL || len != 8) {
+				UERROR("Missing or corrupt reg parameter in firmware-layout for tim0\n");
+				return UPDATE_DT_ERROR;
+			}
+			offset = fdt32_to_cpu(addr_size[0]);
+			tim0_found = true;
+			ULOG("Found tim0 in firmware layout at 0x%llx\n",
+			     offset);
+			break;
+		}
+	}
+
+	if (!tim0_found) {
+		ULOG("Could not find root TIM (tim0) in firmware-layout\n");
+		return UPDATE_DT_ERROR;
+	}
+
+	ULOG("Saving TIM0 from offset 0x%llx\n", offset);
+	uret = octeontx_read_tim(desc, offset, sizeof(tim0_buffer),
+				 tim0_buffer, thdl, &size);
+	if (uret == UPDATE_OK) {
+		tim0_size = size;
+		tim0_offset = offset;
+		ULOG("Erasing tim0 from flash\n");
+		uret = octeontx_erase_data(desc, offset, tim0_size);
+		if (uret != UPDATE_OK)
+			UERROR("Erasing TIM0 failed with %d\n", uret);
+	} else {
+		UERROR("Reading TIM0 failed with %d at offset 0x%llx, not erasing\n",
+		       uret, offset);
+		tim0_size = 0;
+		zeromem(tim0_buffer, sizeof(tim0_buffer));
+	}
+	return uret;
+}
+
+/**
+ * Updates TIM0 with new data for use with restore_tim0
+ *
+ * @param[in]	tim0	Pointer to new tim0 buffer
+ * @param	offset	Offset where tim0 should be written
+ * @param	size	Size of new tim0 data
+ *
+ * @return UPDATE_TIM_ERROR if size is invalid or UPDATE_OK if all is well
+ */
+static enum update_ret update_tim0(const uint8_t *tim0, uint64_t offset,
+				   size_t size)
+{
+	if (size > sizeof(tim0_buffer) || size < TIM_TIMH_SIZE) {
+		UERROR("New TIM0 size invalid\n");
+		return UPDATE_TIM_ERROR;
+	}
+	memcpy(tim0_buffer, tim0, size);
+	/* Zero rest of buffer */
+	if (size < sizeof(tim0_buffer))
+		zeromem(tim0_buffer + size, sizeof(tim0_buffer) - size);
+	tim0_size = size;
+	tim0_offset = offset;
+	return UPDATE_OK;
+}
+
+/**
+ * Restores a previously saved or updated TIM0
+ *
+ * @param[in]	desc	Descriptor with I/O data
+ *
+ * @return	Status of I/O operation or UPDATE_TIM_MISSING if no valid TIM0
+ */
+static enum update_ret restore_tim0(const struct smc_update_descriptor *desc,
+				    bool async)
+{
+	if (tim0_size) {
+		if (async) {
+			spi_async_add_block_update(desc->bus, desc->cs,
+						   tim0_offset, tim0_buffer,
+						   tim0_size, NULL, NULL);
+			return UPDATE_OK;
+		} else {
+			return octeontx_write_data(desc, tim0_offset,
+						   tim0_size, tim0_buffer);
+		}
+	}
+	return UPDATE_TIM_MISSING;
 }
 
 /**
@@ -2135,7 +2288,8 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 	}
 
 	if (async_operation) {
-		spi_async_add_block_update(desc->bus, desc->cs, offset, user_buffer, size, NULL, NULL);
+		spi_async_add_block_update(desc->bus, desc->cs, offset,
+					   user_buffer, size, NULL, NULL);
 	} else {
 		while (size > 0) {
 			xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
@@ -2211,7 +2365,8 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
  * Write all of the files to the SPI flash
  */
 static enum update_ret
-octeontx_write_files(const struct smc_update_descriptor *desc, bool async_operation)
+octeontx_write_files(const struct smc_update_descriptor *desc,
+		     bool async_operation)
 {
 	struct file_entry *fentry;
 	enum update_ret ret;
@@ -2221,12 +2376,18 @@ octeontx_write_files(const struct smc_update_descriptor *desc, bool async_operat
 	for_each_file(fentry) {
 		if (fentry->object->update_all ||
 		    !fentry->object->skip_install) {
-			UINFO("Writing file %s: location: 0x%llx, size: 0x%lx\n",
-			      fentry->filename, fentry->file_loc,
-			      fentry->file_size);
-			ret = octeontx_update_fw_file(desc, fentry, async_operation);
-			if (ret != UPDATE_OK)
-				return ret;
+			if (strcmp(fentry->filename, TIM0_FILENAME) ||
+			    tim0_size == 0) {
+				UINFO("Writing file %s: location: 0x%llx, size: 0x%lx\n",
+				      fentry->filename, fentry->file_loc,
+				      fentry->file_size);
+				ret = octeontx_update_fw_file(desc, fentry,
+							      async_operation);
+				if (ret != UPDATE_OK)
+					return ret;
+			} else {
+				UINFO("Skipping %s\n", fentry->filename);
+			}
 		} else {
 			UINFO("Skipping file %s\n", fentry->filename);
 		}
@@ -2256,12 +2417,18 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	bool all_present = false;
 	const void *fw_image;
 	size_t size;
+	bool old_tim0_saved = false;
+	bool tim0_updated = false;
 
 	debug_fw_update("%s(%llx, %llx, 0x%x, 0x%x)\n",
 			__func__, desc->image_addr,
 			desc->image_size, desc->bus, desc->cs);
 	debug_fw_update("%s: Updating %s flash\n", __func__,
 			desc->update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI");
+
+	tim0_size = 0;
+	zeromem(tim0_buffer, sizeof(tim0_buffer));
+
 	pet_dog();
 	err = marvell_cust_verify_fw_update_image(desc);
 	if (err) {
@@ -2312,10 +2479,32 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 		goto error;
 
 	pet_dog();
+	UINFO("Reading and erasing existing TIM0\n");
+	ret = save_erase_tim0(desc);
+	old_tim0_saved = (ret == UPDATE_OK);
+
+	pet_dog();
+	ret = get_tim0_from_update();
+	tim0_updated = (ret == UPDATE_OK);
+
+	pet_dog();
 	UINFO("Writing files to flash...\n");
 	ret = octeontx_write_files(desc, async_operation);
 	if (ret != UPDATE_OK)
 		goto error;
+
+	if (old_tim0_saved || tim0_updated) {
+		UINFO("Writing TIM0\n");
+		ret = restore_tim0(desc, async_operation);
+		if (ret != UPDATE_OK) {
+			UERROR("Error writing TIM0\n");
+			goto error;
+		}
+	} else {
+		UERROR("Error: TIM0 was not saved or updated, cannot restore!\n");
+		ret = UPDATE_MISSING_TIM;
+		goto error;
+	}
 
 	if (async_operation)
 		spi_async_start(done_callback, p);
@@ -2728,7 +2917,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 	assert(sizeof(tim_buffer) >= TIM_MAX_SIZE);
 	ventry->retcode = RET_OK;
 	uret = octeontx_read_tim(udesc, flash_addr, max_read_size,
-				 tim_buffer, thdl);
+				 tim_buffer, thdl, NULL);
 	if (uret == UPDATE_MISSING_TIM) {
 		ventry->retcode = RET_NOT_FOUND;
 		VLOG(ventry, "TIM not found.");

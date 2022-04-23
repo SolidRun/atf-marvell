@@ -29,7 +29,10 @@
 /**
  * TIM0 is special and needs to be handled different than other TIMs.
  */
-#define TIM0_FILENAME		"tim0"
+#define TIM0_FILENAME		"tim0.timb"
+#define TIM0_FDT_NAME		"tim0"
+#define TIM0_OBJECT		"scp_bl1.bin"
+
 /**
  * The default endpoint script is also special since it does not load
  * the GSERP firmware
