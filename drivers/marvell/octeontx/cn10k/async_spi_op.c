@@ -53,7 +53,7 @@ static void spi_init_l2_desc(void)
 
 static enum spi_op_result op_read(struct delayed_spi_params p)
 {
-	cdns_xspi_direct_op(p.spi_addr, (void *)p.memory_addr, p.size, 0, CDNS_DIRECT_READ);
+	spi_nor_read((void *)p.memory_addr, p.size, p.spi_addr, 0, p.bus, p.cs);
 	return SPI_OP_OK;
 }
 
@@ -62,29 +62,33 @@ static enum spi_op_result op_update(struct delayed_spi_params p)
 	uint64_t start_page_addr = p.spi_addr & (~SPI_PAGE_ALIGN);
 	uint64_t data_offset = p.spi_addr - start_page_addr;
 
-	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, SPI_ERASE_SIZE, p.bus, CDNS_DIRECT_READ);
+	spi_nor_read((void *)spi_update_buffer, SPI_ERASE_SIZE, p.spi_addr, 0, p.bus, p.cs);
 	memcpy(spi_update_buffer+data_offset, (void *)p.memory_addr, p.size);
-	cdns_xspi_auto_erase(start_page_addr, 0, p.bus, p.cs);
-	cdns_xspi_direct_op(start_page_addr, (void *)spi_update_buffer, SPI_ERASE_SIZE, p.bus, CDNS_DIRECT_WRITE);
+	spi_nor_erase(start_page_addr, 0, p.bus, p.cs);
+	spi_nor_write(spi_update_buffer, SPI_ERASE_SIZE, start_page_addr, 0, p.bus, p.cs);
 
 	return SPI_OP_OK;
 }
 
 static enum spi_op_result op_program(struct delayed_spi_params p)
 {
-	cdns_xspi_direct_op(p.spi_addr, (void *)p.memory_addr, p.size, p.bus, CDNS_DIRECT_WRITE);
+	spi_nor_write((uint8_t *)p.memory_addr, p.size, p.spi_addr, 0, p.bus, p.cs);
 	return SPI_OP_OK;
 }
 
 static enum spi_op_result op_erase(struct delayed_spi_params p)
 {
-	cdns_xspi_auto_erase(p.spi_addr, p.erase_block_count-1, p.bus, p.cs);
+	int erase_count = p.erase_block_count;
+
+	while (erase_count--)
+		spi_nor_erase(p.spi_addr, 0, p.bus, p.cs);
+
 	return SPI_OP_OK;
 }
 
 static enum spi_op_result op_update_verify(struct delayed_spi_params p)
 {
-	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, p.bus, CDNS_DIRECT_READ);
+	spi_nor_read((void *)spi_update_buffer, p.size, p.spi_addr, 0, p.bus, p.cs);
 	if (!memcmp((void *)p.memory_addr, (void *)spi_update_buffer, p.size)) {
 		return SPI_OP_OK;
 	}
@@ -92,7 +96,7 @@ static enum spi_op_result op_update_verify(struct delayed_spi_params p)
 	op_erase(p);
 	op_program(p);
 
-	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, p.bus, CDNS_DIRECT_READ);
+	spi_nor_read((void *)spi_update_buffer, p.size, p.spi_addr, 0, p.bus, p.cs);
 	if (memcmp((void *)p.memory_addr, (void *)spi_update_buffer, p.size)) {
 		return SPI_OP_COMP_FAIL;
 	}
@@ -105,7 +109,7 @@ static enum spi_op_result op_update_verify_na(struct delayed_spi_params p)
 	op_update(p);
 
 	//Readout and compare and verify
-	cdns_xspi_direct_op(p.spi_addr, (void *)spi_update_buffer, p.size, p.bus, CDNS_DIRECT_READ);
+	spi_nor_read((void *)spi_update_buffer, p.size, p.spi_addr, 0, p.bus, p.cs);
 	if (memcmp((void *)p.memory_addr, (void *)spi_update_buffer, p.size)) {
 		return SPI_OP_COMP_FAIL;
 	}
