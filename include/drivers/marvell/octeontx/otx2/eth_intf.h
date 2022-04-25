@@ -104,14 +104,14 @@ enum eth_cmd_id {
 	ETH_CMD_SET_PERSIST_IGNORE,
 	ETH_CMD_SET_MAC_ADDR,
 	ETH_CMD_SET_PTP_MODE,
-	ETH_CMD_CPRI_MODE_CHANGE,	/* = 35 */
-	ETH_CMD_CPRI_TX_CONTROL,
+	ETH_CMD_CPRI_MODE_CHANGE, /* Only supported for T9x */	/* = 35 */
+	ETH_CMD_CPRI_TX_CONTROL, /* Only supported for T9x */
 	ETH_CMD_LOOP_SERDES,
 	ETH_CMD_TUNE_SERDES,
-	ETH_CMD_LEQ_ADAPT_SERDES,
-	ETH_CMD_DFE_ADAPT_SERDES,		/* = 40 */
-	ETH_CMD_DO_CMU_RESET,
-	ETH_CMD_CPRI_MISC,
+	ETH_CMD_LEQ_ADAPT_SERDES, /* Only supported for T9x */
+	ETH_CMD_DFE_ADAPT_SERDES, /* Only supported for T9x */	/* = 40 */
+	ETH_CMD_DO_CMU_RESET,	/* Only supported for T9x */
+	ETH_CMD_CPRI_MISC,      /* Only supported for T9x */
 	ETH_CMD_LINK_TIMEOUT,
 };
 
@@ -491,6 +491,14 @@ struct eth_set_mode_args {
 	uint64_t mode:56; /* Bitmask of eth_mode_t enum */
 };
 
+/* Resp to cmd ID - ETH_CMD_GET_ADV_FEC/ETH_CMD_GET_SUPPORTED_FEC
+ * fec : 2 bits
+ * typedef enum cgx_fec_type {
+ *     CGX_FEC_NONE,
+ *     CGX_FEC_BASE_R,
+ *     CGX_FEC_RS
+ * } fec_type_t;
+ */
 /* command argument to be passed for cmd ID - ETH_CMD_SET_FEC */
 struct eth_set_fec_args {
 	uint64_t reserved1:8;
@@ -498,7 +506,7 @@ struct eth_set_fec_args {
 	uint64_t reserved2:54;
 };
 
-/* command argument to be passed for cmd ID - CGX_CMD_SET_FEC */
+/* command argument to be passed for cmd ID - ETH_CMD_DO_CMU_RESET */
 struct eth_do_cmu_reset {
 	uint64_t reserved1:8;
 	uint64_t cgx:3;
