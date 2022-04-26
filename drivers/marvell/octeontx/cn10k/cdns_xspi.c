@@ -69,6 +69,17 @@
 
 #define SPI_MAX_STATES		(MAX_SPI_BUS * MAX_SPI_CS)
 
+#define RDID_OPCMD 0x9f
+#define RDID_DATA_LEN 6
+#define STIG_OPCMD_OFFSET 16
+#define STIG_CS_OFFSET 12
+#define STIG_CMD 1
+
+#define STIG_DSEQ_CMD 127
+#define STIG_DSEQ_DATA_LEN_OFFSET 16
+#define STIG_DSEQ_DIR_OFFSET 4
+#define STIG_DSEQ_DIR_FROM_FLASH 0
+
 uint32_t spi_mode;
 static file_state_t spi_state_data[SPI_MAX_STATES];
 
@@ -78,6 +89,9 @@ uint32_t *spi_lock[] = {NULL, NULL};
 
 /** Needed for block writes to temporarily store data */
 static uint8_t spi_buffer[SPI_NOR_ERASE_SIZE];
+
+/* JEDEC-ID mesasge printed */
+static bool jedec_displayed = false;
 
 enum cdns_xspi_mode {
 	XSPI_MODE_DIRECT = 0x00,
@@ -357,6 +371,81 @@ static int cdns_xspi_wait_for_auto_complete(int spi_con)
 	return ret;
 }
 
+static int wait_for_sdma(int spi) {
+	int timeout = SPI_OP_IDLE_TIMEOUT_MS * 100;
+	union cavm_spix_ctrl_cmd_stat_intr_status spi_status;
+
+	spi_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(spi));
+	while (!spi_status.s.sdma_trigg && timeout--) {
+		spi_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(spi));
+		udelay(10);
+	}
+
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_INTR_STATUS(spi), spi_status.u);
+
+	return -1 ? 0 : timeout <= 0;
+}
+
+static void spi_ioreadq(int spi, void *buf, int len)
+{
+	int i = 0;
+	int rcount = len / 8;
+	int rcount_nf = len % 8;
+	uint64_t tmp;
+	uint64_t *buf64 = (uint64_t *)buf;
+
+	if (((uint64_t)buf % 8) == 0) {
+		for (i = 0; i < rcount; i++)
+			*buf64++ = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi, 0));
+	} else {
+		for (i = 0; i < rcount; i++) {
+			tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi, 0));
+			memcpy(buf+(i*8), &tmp, 8);
+		}
+	}
+
+	if (rcount_nf != 0) {
+		tmp = CSR_READ(CAVM_SPIX_DIRECT_ACCESSX(spi, 0));
+		memcpy(buf+(i*8), &tmp, rcount_nf);
+	}
+}
+
+static void spi_iowriteq(int spi, void *buf, int len)
+{
+	int i = 0;
+	int rcount = len / 8;
+	int rcount_nf = len % 8;
+	uint64_t tmp;
+	uint64_t *buf64 = (uint64_t *)buf;
+
+	if (((uint64_t)buf % 8) == 0) {
+		for (i = 0; i < rcount; i++)
+			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi, 0), *buf64++);
+	} else {
+		for (i = 0; i < rcount; i++) {
+			memcpy(&tmp, buf+(i*8), 8);
+			CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi, 0), tmp);
+		}
+	}
+
+	if (rcount_nf != 0) {
+		memcpy(&tmp, buf+(i*8), rcount_nf);
+		CSR_WRITE(CAVM_SPIX_DIRECT_ACCESSX(spi, 0), tmp);
+	}
+}
+
+static int handle_sdma(int spi, void *addr) {
+	CSR_INIT(sdma_size, CAVM_SPIX_CTRL_CFG_COMMON_SDMA_SIZE(spi));
+	CSR_INIT(sdma_dir, CAVM_SPIX_CTRL_CFG_COMMON_SDMA_TRD_INFO(spi));
+
+	if (sdma_dir.s.sdma_dir == 0)
+		spi_ioreadq(spi, addr, sdma_size.s.sdma_size); //Read from SPI flash
+	else
+		spi_iowriteq(spi, addr, sdma_size.s.sdma_size); //Write to SPI flash
+
+	return 0;
+}
+
 static int cdns_xspi_wait_for_direct_engine_ready(int spi_con)
 {
 	uint32_t timeout = SPI_OP_DIRECT_TIMEOUT_MS * 100;
@@ -397,6 +486,48 @@ static int cdns_xspi_set_mode(int spi_con, enum cdns_xspi_mode m)
 	CSR_WRITE(CAVM_SPIX_CTRL_CFG_COMMON_CTRL_CONFIG(spi_con), work_mode.u);
 
 	return 0;
+}
+
+static void print_jedecid(int spi_id, int cs) {
+	union cavm_spix_ctrl_cmd_stat_cmd_reg0 reg_0;
+	union cavm_spix_ctrl_cmd_stat_cmd_reg1 reg_1;
+	union cavm_spix_ctrl_cmd_stat_cmd_reg2 reg_2;
+	union cavm_spix_ctrl_cmd_stat_cmd_reg3 reg_3;
+	union cavm_spix_ctrl_cmd_stat_cmd_reg4 reg_4;
+	char JEDEC_ID[RDID_DATA_LEN];
+
+	cdns_xspi_set_mode(spi_id, XSPI_MODE_STIG);
+
+	reg_0.s.cmd0 = 0;
+	reg_1.s.cmd1 = STIG_CMD;		//Generic STIG instruction
+	reg_2.s.cmd2 = 0;
+	reg_3.s.cmd3 = RDID_OPCMD << STIG_OPCMD_OFFSET;
+	reg_4.s.cmd4 = cs << STIG_CS_OFFSET;	//chip-select
+
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(spi_id), reg_1.u);
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(spi_id), reg_2.u);
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(spi_id), reg_3.u);
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(spi_id), reg_4.u);
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(spi_id), reg_0.u);
+
+	reg_1.s.cmd1 = STIG_DSEQ_CMD;
+	reg_2.s.cmd2 = RDID_DATA_LEN << STIG_DSEQ_DATA_LEN_OFFSET;
+	reg_3.s.cmd3 = 0;
+	reg_4.s.cmd4 = STIG_DSEQ_DIR_FROM_FLASH << STIG_DSEQ_DIR_OFFSET; //dir = 0 read, dir =1 write
+	reg_4.s.cmd4 |= cs << STIG_CS_OFFSET;
+
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(spi_id), reg_1.u);
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG2(spi_id), reg_2.u);
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG3(spi_id), reg_3.u);
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(spi_id), reg_4.u);
+	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(spi_id), reg_0.u);
+
+	wait_for_sdma(spi_id);
+	handle_sdma(spi_id, JEDEC_ID);
+
+	NOTICE("SPI_%d CS:%d ID: 0x%x%x%x - 0x%x%x%x\n", spi_id, cs,
+				JEDEC_ID[0],JEDEC_ID[1],JEDEC_ID[2],
+				JEDEC_ID[3],JEDEC_ID[4],JEDEC_ID[5]);
 }
 
 static void update_spi_op_read_params(int spi_con, int mode,
@@ -584,6 +715,12 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
 		INFO("%s: SPI_%d: CS: %d config: x4 25MHz\n", __func__, spi_con, cs);
 	}
 
+	/* Clock is enabled, read jedec-id once, only if xSPI is secure */
+	if (!jedec_displayed && plat_octeontx_bcfg->spi_cfg[spi_con].is_secure) {
+		print_jedecid(spi_con, cs);
+		jedec_displayed = true;
+	}
+
 	if (mode == XSPI_ADDRESSING_3B) {
 		update_spi_op_read_params(spi_con, safemode, XSPI_ADDRESSING_3B);
 		update_spi_op_prog_params(spi_con, safemode, XSPI_ADDRESSING_3B);
@@ -604,6 +741,7 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
 	/* Store config params in db */
 	if (cdns_xspi_store_cs_configuration(spi_con, cs, safemode))
 		ERROR("%s: SPI_%d: Failed to store config params", __func__, spi_con);
+
 
 	return 0;
 }
