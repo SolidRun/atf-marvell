@@ -271,20 +271,6 @@ static void octeontx_init_rvu_lmac(int *hwvf, int rvu, int eth_id,
 	*hwvf += rvu_dev[rvu].num_vfs;
 }
 
-/* Return true if any PEM is in EP mode */
-static int octeontx_is_in_ep_mode(void)
-{
-	int pem;
-
-	for (pem = 0; pem < plat_octeontx_get_pem_count(); pem++) {
-		if (is_pem_in_ep_mode(pem))
-			return 1;
-	}
-
-	/* Device is not in EP mode */
-	return 0;
-}
-
 /*
  * rvu_provision_pfs_for_sw_devs()
  *
@@ -385,6 +371,7 @@ static void rvu_provision_pfs_for_sw_devs(int top_eth_pf,
 
 	/* Provision RVU PFs for SDP. */
 	for (i = SW_RVU_SDP_NUM_PF - 1; (int)i >= 0; i--) {
+		int pem = 0;
 		if (IS_OCTEONTX_PASS(read_midr(), T98PARTNUM, 1, 0))
 			continue;
 		rvu_pf = rvu_first_available(avail_from_top);
@@ -395,9 +382,10 @@ static void rvu_provision_pfs_for_sw_devs(int top_eth_pf,
 			break;
 		}
 
-		if (!octeontx_is_in_ep_mode())
+		if (!is_pem_in_ep_mode(pem))
 			break;
 
+		pem = pem + 2;
 		sw_pf = find_sw_rvu_pf_info(SW_RVU_SDP_PF(i));
 		if (sw_pf == NULL) {
 			ERROR("Internal error locating SDP info\n");
@@ -531,7 +519,7 @@ static int octeontx_init_rvu_from_fdt(void)
 		panic();
 	}
 	if (sw_pf && (sw_pf->mapping == SW_RVU_MAP_LEGACY) &&
-	    octeontx_is_in_ep_mode() &&
+	    is_pem_in_ep_mode(0) &&
 	    !IS_OCTEONTX_PASS(read_midr(), T98PARTNUM, 1, 0)) {
 		debug_rvu("RVU: provision PF%d -> SW_RVU_SDP (override NPA)\n",
 			  FIXED_RVU_NPA);
@@ -779,28 +767,34 @@ static int octeontx_init_rvu_from_fdt(void)
 		if (pf <= 11) {
 			sdp_rvu = 13;
 
-			if (octeontx_is_in_ep_mode()) {
+			if (is_pem_in_ep_mode(0)) {
 				npa_rvu = 12;
 				octeontx_init_rvu_fixed(&current_hwvf, npa_rvu,
 					SW_RVU_NPA_PF(0), TRUE);
+				octeontx_init_rvu_fixed(&current_hwvf, sdp_rvu,
+					SW_RVU_SDP_PF(0), TRUE);
 			} else {
 				sso_rvu = 12;
 				octeontx_init_rvu_fixed(&current_hwvf, sso_rvu,
 					SW_RVU_SSO_TIM_PF(0), TRUE);
 			}
 
-			if (octeontx_is_in_ep_mode()) {
-				octeontx_init_rvu_fixed(&current_hwvf, sdp_rvu,
-					SW_RVU_SDP_PF(0), TRUE);
+			/* only create second SDP PF if PEM2 is in EP
+			 * mode
+			 */
+			if (is_pem_in_ep_mode(2))
 				octeontx_init_rvu_fixed(&current_hwvf, sdp_rvu + 1,
-					SW_RVU_SDP_PF(1), TRUE);
-			}
+							SW_RVU_SDP_PF(1), TRUE);
+			else
+				octeontx_init_rvu_fixed(&current_hwvf, sdp_rvu + 1,
+							SW_RVU_SSO_TIM_PF(0), FALSE);
 		} else if (pf == 12) {
 			sso_rvu = 14;
 			sdp_rvu = 13;
 			octeontx_init_rvu_fixed(&current_hwvf, sso_rvu,
 				SW_RVU_SSO_TIM_PF(0), TRUE);
-			if (octeontx_is_in_ep_mode())
+
+			if (is_pem_in_ep_mode(0))
 				octeontx_init_rvu_fixed(&current_hwvf, sdp_rvu,
 					SW_RVU_SDP_PF(0), TRUE);
 		} else if (pf > 12) {
