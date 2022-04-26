@@ -186,6 +186,7 @@ void sh_fwdata_init(void)
 			lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 			lmac_fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 			lmac_fwdata->lmac_type = lmac_cfg->mode;
+			lmac_fwdata->portm_idx = lmac_cfg->portm_idx;
 		}
 	}
 #ifdef NT_FW_CONFIG

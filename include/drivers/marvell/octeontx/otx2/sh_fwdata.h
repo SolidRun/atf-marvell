@@ -50,7 +50,8 @@ struct eth_lmac_fwdata_s {
 	struct sfp_eeprom_s sfp_eeprom;
 	struct phy_s phy;
 	/* LMAC type updated with CSR macro CAVM_RPM_LMAC_TYPES_E_* */
-	uint64_t lmac_type;
+	uint32_t lmac_type;
+	uint32_t portm_idx;
 #define LMAC_FWDATA_RESERVED_MEM 1020
 	uint64_t reserved[LMAC_FWDATA_RESERVED_MEM];
 
