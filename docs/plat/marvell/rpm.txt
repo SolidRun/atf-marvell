@@ -978,23 +978,32 @@ CPRI modes:
 
 .. Note::
 
-   Changing modes on RFOE interfaces can be done using any <ethX>. In that case
-   the target PORTM# is addressed by providing additional portm_idx parameter.
-   'portm_idx' can be obtained from the EBF menu or the dts.
-   When changing modes on other, NIX connected interfaces, the portm_idx parameter
-   is not necessary and can be skipped.
+   For NIX connected interfaces, the target interface for mode change is selected
+   by providing <ethX> parameter, 'portm_idx' is not required and ignored.
 
-Example of switching to CPRI_2_4G on PORTM#6:
+   For Ethernet Ports connected to BPHY, u-boot doesn't register ethX interface.
+   Thus to change mode use one of the registered ethX interface connected to NIX
+   for sending message to ATF, and pass PORTM# index of BPHY interface to change
+   the mode to.
+   'portm_idx' can be obtained from the EBF menu or the dts.
+
+Example: NIX ports: To change mode to 25GAUI_C2M:
+
+.. code-block:: bash
+
+ > set_mode eth1 8
+
+Example: BPHY ports: To change mode to CPRI_2_4G on PORTM#6:
 
 .. code-block:: bash
 
  > set_mode eth0 84 6
 
-Example of switching to 25G_C2M on PORTM#6:
+Example: BPHY ports: To change mode to 25G_C2M on PORTM#10:
 
 .. code-block:: bash
 
- > set_mode eth0 8 6
+ > set_mode eth0 8 10
 
 get_mode
 get_mode - Display Interface mode for selected ethernet interface
