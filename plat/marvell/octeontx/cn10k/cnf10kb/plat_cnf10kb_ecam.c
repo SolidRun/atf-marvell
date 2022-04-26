@@ -95,7 +95,7 @@ static void init_emmc(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 	if (table_size) {
 		vector_base = get_bar_val(pconfig, bir);
-		for (i = 0; i < table_size / 2; i++) {
+		for (i = 0; i < table_size; i++) {
 			octeontx_write64(vector_base, (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
 			VERBOSE("EMMC vector_base%d 0x%lx 0x%lx\n", i, (long) vector_base, (long)octeontx_read64(vector_base));
 			vector_base += 8;
