@@ -146,8 +146,8 @@ static int async_tim_handler(int tim)
 
 	//Skip current vlock in case of failure?
 	if (res != SPI_OP_OK) {
-		ERROR("Fail during SPI async operation\n");
-		ERROR("Operation: %d, block: %d\n", spi_op_cnt, block_op_cnt);
+		ERROR("Fail during SPI async operation SPI_%lld:%lld\n", spi_ops[spi_op_cnt].op_config.bus, spi_ops[spi_op_cnt].op_config.cs);
+		ERROR("Operation: %d, block: %d, type: %d\n", spi_op_cnt, block_op_cnt, spi_ops[spi_op_cnt].type);
 	}
 
 	if (spi_op_cnt < SPI_OP_COUNT) {
@@ -219,6 +219,8 @@ static void spi_update_delayed(uint64_t addr, uint64_t size, uint64_t buffer, in
 		if (addr & SPI_PAGE_ALIGN || size < SPI_ERASE_SIZE) {
 			spi_ops[i].type = SPI_OP_UPDATE_VERIFY_NA;
 			spi_calculate_update_params(&spi_ops[i].op_config, &addr, &buffer, &size);
+			spi_ops[i].op_config.bus = bus;
+			spi_ops[i].op_config.cs = cs;
 			i++;
 		} else {
 			//Write full block
@@ -259,6 +261,8 @@ static void spi_write_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int
 		if (addr & SPI_PAGE_ALIGN || size < SPI_ERASE_SIZE) {
 			spi_ops[i].type = SPI_OP_UPDATE;
 			spi_calculate_update_params(&spi_ops[i].op_config, &addr, &buffer, &size);
+			spi_ops[i].op_config.bus = bus;
+			spi_ops[i].op_config.cs = cs;
 			i++;
 		} else {
 			//Erase full block
