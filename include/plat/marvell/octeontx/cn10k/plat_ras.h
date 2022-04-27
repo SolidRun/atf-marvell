@@ -143,11 +143,7 @@ static inline int noprintf(const char *fmt, ...)
 #define noprintf noprintf
 #endif
 
-#if DEBUG_RAS
-# define debug_ras(...) printf(__VA_ARGS__)
-#else
-# define debug_ras(...) noprintf(__VA_ARGS__)
-#endif
+#undef debug_ras
 
 #if DEBUG_RAS >= 2
 # define debug2ras(...) printf(__VA_ARGS__)
@@ -159,6 +155,17 @@ static inline int noprintf(const char *fmt, ...)
 # define debug3ras(...) printf(__VA_ARGS__)
 #else
 # define debug3ras(...) noprintf(__VA_ARGS__)
+#endif
+
+#if defined(MRVL_TF_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_RAS
+#  define debug_ras(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+			  tf_log(LOG_MARKER_VERBOSE __VA_ARGS__) : (void)0
+#elif DEBUG_RAS
+#define debug_ras printf
+#else
+#define debug_ras(...) ((void) (0))
 #endif
 
 /* Core Error Records */
