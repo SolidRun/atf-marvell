@@ -2144,8 +2144,7 @@ static enum update_ret get_tim0_from_update(void)
 						   fentry->file_loc,
 						   fentry->file_size);
 				if (uret == UPDATE_OK)
-
-				break;
+					break;
 			}
 		}
 	}
@@ -2153,23 +2152,19 @@ static enum update_ret get_tim0_from_update(void)
 }
 
 /**
- * Saves TIM0 and erases it.  Use restore_tim0 to restore it.
+ * Obtain the offset and maximum size of TIM0
  *
- * @param[in]	desc	Descriptor with I/O data
+ * @param[out]	address	Address offset of TIM0, can be NULL
+ * @param[out]	size	Maximum size of tim0, can be NULL
  *
- * @return status of operation
+ * @return	UPDATE_OK, UPDATE_DT_ERROR, or UPDATE_MISSING_TIM
  */
-static enum update_ret save_erase_tim0(const struct smc_update_descriptor *desc)
+static enum update_ret get_tim0_address_size(uint64_t *address, size_t *size)
 {
-	struct tim_handle *thdl = &_tim_handle;
-	size_t size;
-	uint64_t offset;
 	const char *name;
-	const uint32_t *addr_size;
-	enum update_ret uret;
-	int node;
 	int len;
-	bool tim0_found = false;
+	int node;
+	const uint32_t *addr_size;
 
 	/* Get offset of tim0 from firmware-layout */
 	fdt_for_each_subnode(node, fdt_ptr, fnode) {
@@ -2180,32 +2175,69 @@ static enum update_ret save_erase_tim0(const struct smc_update_descriptor *desc)
 				UERROR("Missing or corrupt reg parameter in firmware-layout for tim0\n");
 				return UPDATE_DT_ERROR;
 			}
-			offset = fdt32_to_cpu(addr_size[0]);
-			tim0_found = true;
-			ULOG("Found tim0 in firmware layout at 0x%llx\n",
-			     offset);
-			break;
+			if (address)
+				*address = fdt32_to_cpu(addr_size[0]);
+			if (size)
+				*size = fdt32_to_cpu(addr_size[1]);
+			ULOG("Found tim0 in firmware layout at 0x%x\n",
+			     fdt32_to_cpu(addr_size[0]));
+			return UPDATE_OK;
 		}
 	}
+	UERROR("Could not find tim0 in firmware layout device tree\n");
+	return UPDATE_MISSING_TIM;
+}
 
-	if (!tim0_found) {
+/**
+ * Erases TIM0 on the specified device
+ *
+ * @param[in]	desc	Device descriptor
+ *
+ * @return	status of operation
+ */
+static enum update_ret erase_tim0(const struct smc_update_descriptor *desc)
+{
+	enum update_ret uret;
+	uint64_t offset;
+	size_t size;
+
+	uret = get_tim0_address_size(&offset, &size);
+	if (uret != UPDATE_OK)
+		return uret;
+
+	uret = octeontx_erase_data(desc, offset, size);
+	if (uret != UPDATE_OK)
+		UERROR("Could not erase TIM0n\n");
+	return uret;
+}
+
+/**
+ * Saves TIM0.  Use restore_tim0 to restore it.
+ *
+ * @param[in]	desc	Descriptor with I/O data
+ *
+ * @return status of operation
+ */
+static enum update_ret save_tim0(const struct smc_update_descriptor *desc)
+{
+	struct tim_handle *thdl = &_tim_handle;
+	size_t size;
+	uint64_t offset;
+	enum update_ret uret;
+
+	uret = get_tim0_address_size(&offset, &size);
+	if (uret != UPDATE_OK) {
 		ULOG("Could not find root TIM (tim0) in firmware-layout\n");
-		return UPDATE_DT_ERROR;
+		return uret;
 	}
 
 	ULOG("Saving TIM0 from offset 0x%llx\n", offset);
 	uret = octeontx_read_tim(desc, offset, sizeof(tim0_buffer),
 				 tim0_buffer, thdl, &size);
-	if (uret == UPDATE_OK) {
-		tim0_size = size;
-		tim0_offset = offset;
-		ULOG("Erasing tim0 from flash\n");
-		uret = octeontx_erase_data(desc, offset, tim0_size);
-		if (uret != UPDATE_OK)
-			UERROR("Erasing TIM0 failed with %d\n", uret);
-	} else {
+	if (uret != UPDATE_OK) {
 		UERROR("Reading TIM0 failed with %d at offset 0x%llx, not erasing\n",
 		       uret, offset);
+		tim0_offset = 0;
 		tim0_size = 0;
 		zeromem(tim0_buffer, sizeof(tim0_buffer));
 	}
@@ -2480,7 +2512,9 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 
 	pet_dog();
 	UINFO("Reading and erasing existing TIM0\n");
-	ret = save_erase_tim0(desc);
+	ret = save_tim0(desc);
+	if (ret == UPDATE_OK)
+		ret = erase_tim0(desc);
 	old_tim0_saved = (ret == UPDATE_OK);
 
 	pet_dog();
@@ -3113,8 +3147,10 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	int err = VERSION_OK;
 	int i;
 	struct smc_version_info_entry *ventry;
+	struct smc_version_info_entry *tim0_ventry = NULL;
 	struct smc_update_descriptor src_desc, dst_desc;
 	struct io_handle src_io, dest_io;
+	uint32_t src_offset, dst_offset;
 	enum update_ret uret;
 
 	/* See if we're backing things up. */
@@ -3212,31 +3248,68 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 		err = uret;
 		goto dest_io_error;
 	}
-	/* Copy entries */
-	for (i = 0; i < vinfo->num_objects; i++) {
-		uint32_t src_offset =
-			src_desc.update_flags & UPDATE_FLAG_BACKUP ?
+	src_offset = src_desc.update_flags & UPDATE_FLAG_BACKUP ?
 				BACKUP_IMAGE_OFFSET : 0;
-		uint32_t dst_offset =
-			dst_desc.update_flags & UPDATE_FLAG_BACKUP ?
+	dst_offset = dst_desc.update_flags & UPDATE_FLAG_BACKUP ?
 				BACKUP_IMAGE_OFFSET : 0;
 
+	/* Save source TIM0 */
+	uret = save_tim0(&src_desc);
+	if (uret != UPDATE_OK) {
+		ERROR("Could not save tim0 from source media\n");
+		err = uret;
+		vinfo->retcode = BACKUP_IO_SRC_ERROR;
+		goto src_io_error;
+	}
+	/* Always erase the destination tim0 first */
+	uret = erase_tim0(&dst_desc);
+	if (uret != UPDATE_OK) {
+		ERROR("Could not erase destination media tim0\n");
+		err = uret;
+		vinfo->retcode = BACKUP_IO_DST_ERROR;
+		goto dest_io_error;
+	}
+
+	/* Copy entries */
+	for (i = 0; i < vinfo->num_objects; i++) {
 		ventry = &vinfo->objects[i];
-		VERBOSE("Copying %s from %s %u:%u TIM offset 0x%llx, offset 0x%llx to %s %u:%u TIM offset 0x%llx, offset 0x%llx\n",
-			ventry->name,
-			src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
-			src_desc.bus, src_desc.cs,
-			ventry->tim_address + src_offset,
-			ventry->object_address + src_offset,
-			dst_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
-			dst_desc.bus, dst_desc.cs,
-			ventry->tim_address + dst_offset,
-			ventry->object_address + dst_offset);
-		err = flash_copy_object(&src_io, &dest_io,
-					ventry->object_address,
-					ventry->object_size,
-					ventry->tim_address,
-					ventry->tim_size);
+		/* Skip writing TIM0 (object OK) for now. */
+		if (strcmp(ventry->name, TIM0_FDT_NAME)) {
+			VERBOSE("Copying %s from %s %u:%u TIM offset 0x%llx, offset 0x%llx to %s %u:%u TIM offset 0x%llx, offset 0x%llx\n",
+				ventry->name,
+				src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
+				src_desc.bus, src_desc.cs,
+				ventry->tim_address + src_offset,
+				ventry->object_address + src_offset,
+				dst_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
+				dst_desc.bus, dst_desc.cs,
+				ventry->tim_address + dst_offset,
+				ventry->object_address + dst_offset);
+			err = flash_copy_object(&src_io, &dest_io,
+						ventry->object_address,
+						ventry->object_size,
+						ventry->tim_address,
+						ventry->tim_size);
+		} else {
+			/*
+			 * For tim0 we only copy the data object.  The TIM
+			 * will be copied last.
+			 */
+			VERBOSE("Copying %s from %s %u:%u, offset 0x%llx to %s %u:%u, offset 0x%llx\n",
+				ventry->name,
+				src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
+				src_desc.bus, src_desc.cs,
+				ventry->object_address + src_offset,
+				dst_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
+				dst_desc.bus, dst_desc.cs,
+				ventry->object_address + dst_offset);
+			tim0_ventry = ventry;
+			err = flash_copy_object(&src_io, &dest_io,
+						ventry->object_address,
+						ventry->object_size,
+						0,
+						0);
+		}
 		if (err) {
 			INFO("Error copying object %s to backup storage\n",
 			     ventry->name);
@@ -3245,6 +3318,32 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 			break;
 		}
 	}
+
+	if (tim0_ventry) {
+		VERBOSE("Copying %s from %s %u:%u TIM0 offset 0x%llx to %s %u:%u TIM0 offset 0x%llx\n",
+			tim0_ventry->name,
+			src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
+			src_desc.bus, src_desc.cs,
+			tim0_ventry->tim_address + src_offset,
+			dst_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
+			dst_desc.bus, dst_desc.cs,
+			tim0_ventry->tim_address + dst_offset);
+			err = flash_copy_object(&src_io, &dest_io,
+						0, 0,
+						tim0_ventry->tim_address,
+						tim0_ventry->tim_size);
+		if (err) {
+			INFO("Error copying %s to backup storage\n",
+			     ventry->name);
+			tim0_ventry->retcode = RET_BACKUP_IO_ERROR;
+			vinfo->retcode = err;
+		}
+	}
+	if (uret != UPDATE_OK) {
+		err = uret;
+		ERROR("Could not write tim0 to destination\n");
+	}
+	vinfo->retcode = BACKUP_IO_DST_ERROR;
 
 dest_io_error:
 	/*
@@ -3293,6 +3392,7 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 	uint32_t tim_size;
 	struct io_handle io_handle;
 
+	INFO("Obtaining object version information\n");
 	if (vinfo->magic_number != VERSION_MAGIC) {
 		ERROR("Invalid descriptor, bad magic number!\n");
 		return -1;
@@ -3337,6 +3437,7 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 	}
 
 	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
+		debug_fw_update("Checking  version info for specified objects\n");
 		for (i = 0; i < vinfo->num_objects; i++) {
 			size_t osize;
 
@@ -3375,6 +3476,7 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 	} else {
 		int obj_num = 0;
 
+		debug_fw_update("Checking version information for all objects\n");
 		/* Count the number of firmware objects */
 		fdt_for_each_subnode(node, fdt_ptr, fnode) {
 			type = fdt_getprop(fdt_ptr, node, "type", NULL);
@@ -3382,18 +3484,25 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 				name = fdt_get_name(fdt_ptr, node, NULL);
 				WARN("Missing type for FDT node %s\n",
 				     name ? name : "UNKNOWN");
+				debug_fw_update("Missing type for FDT node %s\n",
+						name ? name : "UNKNOWN");
 			}
 			if (strcmp(type, "firmware") &&
 			    strcmp(type, "root-tim")) {
 				INFO("Skipping non-firmware entry type \"%s\"\n",
 				     type);
+				debug_fw_update("Skipping non-firmware entry type \"%s\"\n",
+						type);
 				continue;
 			}
 			obj_num++;
 		}
+		debug_fw_update("Found %d objects\n", obj_num);
 		/* If we have too many, return the number found */
 		if (obj_num > vinfo->num_objects) {
 			vinfo->num_objects = obj_num;
+			debug_fw_update("Too many objects found (%d), expected %d\n",
+					obj_num, vinfo->num_objects);
 			vinfo->retcode = TOO_MANY_OBJECTS;
 			return -1;
 		}
@@ -3534,17 +3643,20 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		goto error;
 	}
 
+
 	if (vinfo->version_flags & (SMC_VERSION_COPY_TO_BACKUP_FLASH |
 				    SMC_VERSION_COPY_TO_BACKUP_EMMC |
 				    SMC_VERSION_COPY_TO_BACKUP_OFFSET)) {
 		enum smc_version_ret vret;
 
-		INFO("Performing backup operation\n");
+		debug_fw_update("Performing backup operation\n");
 		vret = flash_smc_copy_objects(vinfo);
 		if (vret != VERSION_OK)
 			err = -EIO;
 		else
 			err = 0;
+	} else {
+		debug_fw_update("Not backing up flash\n");
 	}
 error:
 	if (base_addr && ns_map_size)
