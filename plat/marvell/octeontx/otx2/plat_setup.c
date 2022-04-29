@@ -88,6 +88,8 @@ extern void plat_armtrace_init(void);
  */
 void plat_octeontx_setup(void)
 {
+	int pem;
+
 	sh_fwdata_init();
 
 	/* Initialize CGX framework */
@@ -107,13 +109,14 @@ void plat_octeontx_setup(void)
 #endif /* RAS_EXTENSION */
 
 
-	/* Configure PEM0 (EP) streams to use secure world access.
-	 * PEM0 streams must be secure to support host remote utils' memory
+	/* Configure PEM EP streams to use secure world access.
+	 * PEM streams must be secure to support host remote utils' memory
 	 * access while running OcteonTX Linux. Otherwise, any remote access
 	 * will be aborted (and an event logged) due to OcteonTX Linux SMMU
 	 * initialization.
 	 */
-	octeontx_configure_pem_ep_security(0 /* PEM0 */, 1 /* secure */);
+	for (pem = 0; pem < plat_octeontx_get_pem_count(); pem++)
+		octeontx_configure_pem_ep_security(pem);
 
 	/* otx2 trace init */
 	plat_armtrace_init();

@@ -244,6 +244,8 @@ void set_mpamf_cust_window()
  */
 void plat_octeontx_setup(void)
 {
+	int pem;
+
 #if defined(IMAGE_BL31)
 #if defined(SAVE_FATAL_ERRLOGS)
 	crashdump_init(fdt);
@@ -277,13 +279,14 @@ void plat_octeontx_setup(void)
 
 	plat_set_coresight_funnel();
 
-	/* Configure PEM0 (EP) streams to use secure world access.
-	 * PEM0 streams must be secure to support host remote utils' memory
+	/* Configure PEM EP streams to use secure world access.
+	 * PEM streams must be secure to support host remote utils' memory
 	 * access while running OcteonTX Linux. Otherwise, any remote access
 	 * will be aborted (and an event logged) due to OcteonTX Linux SMMU
 	 * initialization.
 	 */
-	octeontx_configure_pem_ep_security(0 /* PEM0 */, 1 /* secure */);
+	for (pem = 0; pem < plat_octeontx_get_pem_count(); pem++)
+		octeontx_configure_pem_ep_security(pem);
 
 	dump_ccs_region_config();
 

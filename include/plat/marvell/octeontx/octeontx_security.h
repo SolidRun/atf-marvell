@@ -15,6 +15,6 @@ typedef enum {
 
 void octeontx_security_setup(void);
 void octeontx_configure_mmc_security(int secure);
-void octeontx_configure_pem_ep_security(int pem, int secure);
+void octeontx_configure_pem_ep_security(int pem);
 
 #endif /* __OCTEONTX_SECURITY_H__ */
