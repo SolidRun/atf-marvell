@@ -404,7 +404,7 @@ static int rpm_link_bringup(int rpm_id, int lmac_id, uint64_t link_timeout)
 	rpm_link_state_t link_sts;
 	rpm_lmac_bringup_context_t *bringup_ctx;
 	/* Get the lmac type and based on lmac
-	 * type, initialize SGMII/XAUI link
+	 * type, initialize ethernet link
 	 */
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
@@ -423,7 +423,8 @@ static int rpm_link_bringup(int rpm_id, int lmac_id, uint64_t link_timeout)
 	}
 
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
-		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII))  {
 
 		if (lmac_cfg->sfp_slot) {
 retry_mod_stat:
@@ -555,7 +556,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 	rpm_lmac_bringup_context_t *bringup_ctx;
 
 	/* get the lmac type and based on lmac
-	 * type, bring down SGMII/XAUI link
+	 * type, bring down ethernet link
 	 */
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	debug_rpm_intf("%s %d:%d lmac_type %d\n", __func__,
@@ -567,6 +568,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FORTYG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FIFTYG_R) ||
@@ -633,7 +635,8 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	}
 
 	if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
-			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII)) {
+			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
+			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII)) {
 		WARN("%s: %d: %d FEC is not applicable for this mode %d\n",
 				__func__, rpm_id, lmac_id, lmac->mode);
 		return 0;
