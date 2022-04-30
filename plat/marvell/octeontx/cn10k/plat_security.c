@@ -547,7 +547,7 @@ static void set_iobn_stream_security(int domain_idx, int bus_idx, int dev_idx,
 	}
 }
 
-static void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
+void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
 {
 	int dev_idx, bus_idx, domain_idx;
 	int strm_ns, phys_ns;
@@ -567,6 +567,7 @@ static void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
 
 	set_iobn_stream_security(domain_idx, bus_idx, dev_idx, strm_ns,
 				phys_ns);
+	return;
 }
 
 /*
@@ -576,12 +577,15 @@ static void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
  *   secure: 0 to configure stream for NON-secure lookup
  *           1 to configure stream for SECURE lookup
  */
-void octeontx_configure_pem_ep_security(int pem)
+void octeontx_configure_pem_ep_security(int pem, int secure)
 {
 	void *prop_start = NULL, *prop_end = NULL;
-	uint32_t streamid, startid;
+	uint32_t streamid;
 	cavm_smmux_s_gbpa_t s_gbpa;
-	int id, secure;
+	int id;
+
+	if ((pem != 0) && (pem != 2))
+		return;
 
 	if (!is_pem_in_ep_mode(pem))
 		return;
@@ -589,9 +593,14 @@ void octeontx_configure_pem_ep_security(int pem)
 	secure = octeontx_fdt_get_pem_secure();
 	octeontx_fdt_get_strmid_ptrs(pem, &prop_start, &prop_end);
 	if (prop_start == NULL) {
-		streamid = CAVM_PCC_DEV_CON_E_PCIERC0_CN9 | (pem << STREAM_DMN_SHIFT);
+		if ((pem == 0) || (pem == 2))
+			streamid = CAVM_PCC_DEV_CON_E_PCIERCX(pem);
+		else
+			return;
+
 		octeontx_configure_pem_iobn(pem, streamid, secure);
-	} else {
+	}
+	else {
 		do {
 			streamid = octeontx_fdt_get_next_strmid(&prop_start, &prop_end);
 			/* If no stream id is found */
@@ -600,13 +609,12 @@ void octeontx_configure_pem_ep_security(int pem)
 
 			/* If stream id is xFFFF, Configure all the stream IDs */
 			if ((streamid & PEM_ALL_STREAM_IDS) == PEM_ALL_STREAM_IDS) {
-				startid = CAVM_PCC_DEV_CON_E_PCIERC0_CN9 | (pem << STREAM_DMN_SHIFT);
-				for (id = startid; id <= streamid id++)
+				for (id = 0; id <= PEM_ALL_STREAM_IDS; id++)
 					octeontx_configure_pem_iobn(pem, id, secure);
 				break;
-			} else {
-				octeontx_configure_pem_iobn(pem, streamid, secure);
 			}
+			else
+				octeontx_configure_pem_iobn(pem, streamid, secure);
 		} while (1);
 	}
 

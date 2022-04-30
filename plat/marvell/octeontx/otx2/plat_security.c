@@ -412,7 +412,7 @@ static void set_iobn_stream_security(int domain_idx, int bus_idx, int dev_idx,
 	}
 }
 
-static void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
+void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
 {
 	int dev_idx, bus_idx, domain_idx;
 	int strm_ns, phys_ns;
@@ -432,58 +432,82 @@ static void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
 
 	set_iobn_stream_security(domain_idx, bus_idx, dev_idx, strm_ns,
 				phys_ns);
+
+	return;
 }
 
 /*
  * This function configures PCI EP streams' security in IOBN.
+ *
+ * On entry,
+ *   secure: 0 to configure stream for NON-secure lookup
+ *           1 to configure stream for SECURE lookup
  */
-void octeontx_configure_pem_ep_security(int pem)
+void octeontx_configure_pem_ep_security(int pem, int secure)
 {
-	uint32_t streamid, startid;
+	uint32_t streamid;
 	cavm_smmux_s_gbpa_t s_gbpa;
 	uint64_t midr = read_midr();
 	void *prop_start = NULL, *prop_end = NULL;
-	int id, secure;
+	int id;
 
-	/* f95 pass2.0 & pass3.0 doesn't have PEM */
-	if (IS_OCTEONTX_VAR(midr, F95PARTNUM, 2)
-	    || IS_OCTEONTX_VAR(midr, F95PARTNUM, 3))
-		return;
+	switch (MIDR_PARTNUM(midr)) {
+	case F95PARTNUM:
+		/* f95 pass2.0 & pass3.0 doesn't have PEM */
+		if (IS_OCTEONTX_VAR(midr, F95PARTNUM, 2)
+		    || IS_OCTEONTX_VAR(midr, F95PARTNUM, 3))
+			break;
+		/* fall through for f95 pass 1.x */
+	case T96PARTNUM:
+	case T98PARTNUM:
+		if ((pem != 0) && (pem != 2))
+			break;
 
-	if (!is_pem_in_ep_mode(pem))
-		return;
+		if (!is_pem_in_ep_mode(pem))
+			break;
 
-	secure = octeontx_fdt_get_pem_secure();
-	octeontx_fdt_get_strmid_ptrs(pem, &prop_start, &prop_end);
-	if (prop_start == NULL) {
-		streamid = CAVM_PCC_DEV_CON_E_PCIERC0_CN9 | (pem << STREAM_DMN_SHIFT);
-		octeontx_configure_pem_iobn(pem, streamid, secure);
-	} else {
-		do {
-			streamid = octeontx_fdt_get_next_strmid(&prop_start, &prop_end);
-			/* If no stream id is found */
-			if (streamid == 0)
-				break;
+		secure = octeontx_fdt_get_pem_secure();
+		octeontx_fdt_get_strmid_ptrs(pem, &prop_start, &prop_end);
+		if (prop_start == NULL) {
+			if (pem == 0)
+				streamid = CAVM_PCC_DEV_CON_E_PCIERC0_CN9;
+			else if (pem == 2)
+				streamid = CAVM_PCC_DEV_CON_E_PCIERC2_CN9;
+			else
+				return;
+			octeontx_configure_pem_iobn(pem, streamid, secure);
+		}
+		else {
+			do {
+				streamid = octeontx_fdt_get_next_strmid(&prop_start, &prop_end);
+				/* If no stream id is found */
+				if (streamid == 0)
+					break;
 
-			/* If stream id is xFFFF, Configure all the stream IDs */
-			if ((streamid & PEM_ALL_STREAM_IDS) == PEM_ALL_STREAM_IDS) {
-				startid = CAVM_PCC_DEV_CON_E_PCIERC0_CN9 | (pem << STREAM_DMN_SHIFT);
-				for (id = startid; id <= streamid id++)
-					octeontx_configure_pem_iobn(pem, id, secure);
-				break;
-			} else {
-				octeontx_configure_pem_iobn(pem, streamid, secure);
-			}
-		} while (1);
+				/* If stream id is xFFFF, Configure all the stream IDs */
+				if ((streamid & PEM_ALL_STREAM_IDS) == PEM_ALL_STREAM_IDS) {
+					for (id = 0; id <= PEM_ALL_STREAM_IDS; id++)
+						octeontx_configure_pem_iobn(pem, id, secure);
+					break;
+				}
+				else
+					octeontx_configure_pem_iobn(pem, streamid, secure);
+			} while (1);
+		}
+
+		/* Ensure that SMMU uses NS bit from secure stream config.
+		 * The BDK sets NSCFG override to force secure memory accesses
+		 * while loading images.
+		 * It is safe to reset this here because all images have been
+		 * loaded.
+		 */
+		s_gbpa.u = CSR_READ(CAVM_SMMUX_S_GBPA(0));
+		s_gbpa.s.nscfg = 0;
+		CSR_WRITE(CAVM_SMMUX_S_GBPA(0), s_gbpa.u);
+
+		break;
+
+	default:
+		break; /* nothing to do ... */
 	}
-
-	/* Ensure that SMMU uses NS bit from secure stream config.
-	 * The BDK sets NSCFG override to force secure memory accesses
-	 * while loading images.
-	 * It is safe to reset this here because all images have been
-	 * loaded.
-	 */
-	s_gbpa.u = CSR_READ(CAVM_SMMUX_S_GBPA(0));
-	s_gbpa.s.nscfg = 0;
-	CSR_WRITE(CAVM_SMMUX_S_GBPA(0), s_gbpa.u);
 }
