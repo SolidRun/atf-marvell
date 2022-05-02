@@ -322,36 +322,33 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 	debug_rpm_intf("%s %d:%d Bring up time %lld bringup_ctx->link_timeout %lld bringup_ctx->link_bringup_init_time %lld\n",
 			__func__, rpm_id, lmac_id, bringup_ctx->link_bringup_time, bringup_ctx->link_timeout,
 			bringup_ctx->link_bringup_init_time);
-
-	if (bringup_ctx->link_bringup_time <= bringup_ctx->link_timeout) {
-		debug_rpm_intf("%s %d:%d Link bring up in progress\n", __func__, rpm_id, lmac_id);
-		rpm_get_link_status(rpm_id, lmac_id, &link_sts);
-		if (link_sts.s.link_up) {
-			/* Update link status */
-			debug_rpm_intf("%s %d:%d Link is UP\n", __func__, rpm_id, lmac_id);
-			lmac_ctx->s.link_up = link_sts.s.link_up;
-			lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
-			lmac_ctx->s.speed = link_sts.s.speed;
-			lmac_ctx->s.link_enable = 1;
-			rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
-			bringup_ctx->link_bringup_time = 0;
-			bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
-			bringup_ctx->link_bringup_init_time = 0;
-			return 0;
-		} else
-			return -1;
-	} else {
-		/* Update the link status as failed so poll timer can check the link status */
-		debug_rpm_intf("%s %d:%d Link not UP\n", __func__, rpm_id, lmac_id);
-		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
-		bringup_ctx->link_bringup_time = 0;
-		bringup_ctx->link_bringup_init_time = 0;
-		lmac_ctx->s.link_up = 0;
-		lmac_ctx->s.full_duplex = 0;
-		lmac_ctx->s.speed = 0;
-		lmac_ctx->s.fec = link_sts.s.fec;
-		rpm_set_link_state(rpm_id, lmac_id, &link_sts, rpm_get_error_type(rpm_id, lmac_id));
+	rpm_get_link_status(rpm_id, lmac_id, &link_sts);
+	if (link_sts.s.link_up) {
+		/* Update link status */
+		debug_rpm_intf("%s %d:%d Link is UP\n", __func__, rpm_id, lmac_id);
+		lmac_ctx->s.link_up = link_sts.s.link_up;
+		lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
+		lmac_ctx->s.speed = link_sts.s.speed;
 		lmac_ctx->s.link_enable = 1;
+		rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
+		bringup_ctx->link_bringup_time = 0;
+		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+		bringup_ctx->link_bringup_init_time = 0;
+	} else {
+		if (bringup_ctx->link_bringup_time <= bringup_ctx->link_timeout) {
+			debug_rpm_intf("%s %d:%d Link bring up in progress\n", __func__, rpm_id, lmac_id);
+		} else {
+			debug_rpm_intf("%s %d:%d Link not UP\n", __func__, rpm_id, lmac_id);
+			bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+			bringup_ctx->link_bringup_time = 0;
+			bringup_ctx->link_bringup_init_time = 0;
+			lmac_ctx->s.link_up = 0;
+			lmac_ctx->s.full_duplex = 0;
+			lmac_ctx->s.speed = 0;
+			lmac_ctx->s.fec = link_sts.s.fec;
+			rpm_set_link_state(rpm_id, lmac_id, &link_sts, rpm_get_error_type(rpm_id, lmac_id));
+			lmac_ctx->s.link_enable = 1;
+		}
 	}
 	return 0;
 }
