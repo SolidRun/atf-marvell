@@ -48,7 +48,8 @@ PLAT_INCLUDES		:=	-Iinclude/common/tbbr				\
 				-Iinclude/plat/marvell/octeontx/aarch64 			\
 				-Iinclude/drivers/marvell/octeontx				\
 				-Iinclude/lib				\
-				-I${PLAT_CSR_INCLUDE}
+				-I${PLAT_CSR_INCLUDE} \
+				-Ilib/cpus/aarch64	\
 
 include lib/xlat_tables_v2/xlat_tables.mk
 include drivers/arm/gic/v3/gicv3.mk
@@ -134,6 +135,8 @@ CTX_INCLUDE_AARCH32_REGS	:=	0
 PROGRAMMABLE_RESET_ADDRESS	:=	1
 
 WORKAROUND_CVE_2017_5715	:=	1
+
+WORKAROUND_CVE_2022_23960	:=	1
 
 EL3_EXCEPTION_HANDLING	:=       1
 
