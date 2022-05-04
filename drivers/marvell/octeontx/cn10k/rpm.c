@@ -237,14 +237,17 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 				 * check the link status
 				 */
 				if (bringup_ctx->link_timeout >= RPM_LINK_BRINGUP_WAIT_STATUS) {
-					if (!sig_detect)
+					if (!sig_detect) {
+						debug_rpm("%s: %d:%d FAILED to detect a signal\n", __func__,
+						rpm_id, lmac_id);
 						bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
-					else
+					} else
 						bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
 				} else {
 					bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
 				}
-				ecp_dump_state_history(lmac->portm_idx, lmac_id, "Link bringup failed");
+				if (bringup_ctx->link_bringup_status == LINK_BRINGUP_DONE)
+					ecp_dump_state_history(lmac->portm_idx, lmac_id, "Link bringup failed");
 				goto link_failure;
 			}
 		}

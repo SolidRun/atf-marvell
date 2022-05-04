@@ -307,11 +307,13 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 {
 	rpm_lmac_context_t *lmac_ctx;
+	rpm_lmac_config_t *lmac_cfg;
 	rpm_link_state_t link_sts;
 	rpm_lmac_bringup_context_t *bringup_ctx;
 	uint64_t current_time = 0, link_check_status_time = 0;
 
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
+	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	link_sts.u64 = 0;
 
@@ -348,6 +350,7 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 			lmac_ctx->s.fec = link_sts.s.fec;
 			rpm_set_link_state(rpm_id, lmac_id, &link_sts, rpm_get_error_type(rpm_id, lmac_id));
 			lmac_ctx->s.link_enable = 1;
+			ecp_dump_state_history(lmac_cfg->portm_idx, lmac_id, "Link bringup failed");
 		}
 	}
 	return 0;
