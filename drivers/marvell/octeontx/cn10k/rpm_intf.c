@@ -1403,7 +1403,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 		if (lmac->lmac_enable) {
 			switch (request_id) {
 			case ETH_CMD_LINK_BRING_UP:
-				if (scratchx1.s.lnk_bringup.timeout > RPM_POLL_LINK_BRINGUP_STATUS/1000)
+				if ((scratchx1.s.lnk_bringup.timeout <= 0) || (scratchx1.s.lnk_bringup.timeout > RPM_POLL_LINK_BRINGUP_STATUS/1000))
 					lmac_timeout = RPM_POLL_LINK_BRINGUP_STATUS; /* Save in us */
 				else
 					lmac_timeout = scratchx1.s.lnk_bringup.timeout * 1000; /* Save in us */
