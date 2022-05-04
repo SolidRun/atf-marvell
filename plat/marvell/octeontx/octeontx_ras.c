@@ -139,7 +139,7 @@ struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 		err_rec = &err_ring->records[head];
 		memset(err_rec, 0, sizeof(*err_rec));
 	} else {
-		ERROR("GHES error ring '%s' is full\n", name);
+		debug_ras("GHES error ring '%s' is full\n", name);
 		err_rec = NULL;
 	}
 
@@ -156,14 +156,14 @@ int otx2_estatus_ghes(ras_config_t *rc, const char *name, struct octeontx_estatu
 	gh = otx2_find_ghes(rc, name);
 	if (!gh) {
 		*estatus = NULL;
-		ERROR("cannot find estatus '%s'\n", name);
+		debug_ras("cannot find estatus '%s'\n", name);
 		return -1;
 	}
 
 	rec = gh->base[GHES_PTR_STATUS];
 	if (!rec) {
 		*estatus = NULL;
-		ERROR("estatus NULL '%s'\n", name);
+		debug_ras("estatus NULL '%s'\n", name);
 		return -1;
 	}
 	memset(rec, 0, sizeof(*rec));
