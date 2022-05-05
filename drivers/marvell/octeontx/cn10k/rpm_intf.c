@@ -695,8 +695,7 @@ static const speed_mode_map_s rpm_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_100GBASE_KR2_BIT)}, /* PORTM_MODE_100GBASE_KR2 */
 };
 
-static const speed_mode_map_s cpri_speed_mode_map[] =
-{
+static const speed_mode_map_s cpri_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_CPRI_2_4G_BIT)},
 	{(1ULL << ETH_MODE_CPRI_3_1G_BIT)},
 	{(1ULL << ETH_MODE_CPRI_4_9G_BIT)},
@@ -704,27 +703,135 @@ static const speed_mode_map_s cpri_speed_mode_map[] =
 	{(1ULL << ETH_MODE_CPRI_9_8G_BIT)},
 };
 
+static const speed_mode_map_s cpri_test_speed_mode_map[] = {
+	{(1ULL << ETH_MODE_CPRI_2_4G_TEST_BIT)},
+	{(1ULL << ETH_MODE_CPRI_3_1G_TEST_BIT)},
+	{(1ULL << ETH_MODE_CPRI_4_9G_TEST_BIT)},
+	{(1ULL << ETH_MODE_CPRI_6_1G_TEST_BIT)},
+	{(1ULL << ETH_MODE_CPRI_9_8G_TEST_BIT)},
+	{(1ULL << ETH_MODE_CPRI_12_3G_TEST_BIT)},
+	{(1ULL << ETH_MODE_CPRI_19_7G_TEST_BIT)},
+};
+
+static int rpm_obtain_mode_and_group(cn10k_portm_modes_t portm_mode, int *mode, int *group)
+{
+	int mac_type;
+
+	mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
+	switch (mac_type) {
+	case PORTM_ETH:
+		/* USR modes added specifically for CN10KAS platform is internally
+		 * same as C2C mode. Ethernet mode bitmask eth_mode_t enum is
+		 * not added to these modes as mode change is supported. Hence,
+		 * update USR mode as C2C mode.
+		 */
+		if (portm_mode == PORTM_MODE_100GBASE_USR2)
+			portm_mode = PORTM_MODE_100GAUI_2_C2C;
+		else if (portm_mode == PORTM_MODE_50GBASE_USR)
+			portm_mode = PORTM_MODE_50GAUI_1_C2C;
+
+		if (portm_mode >= ARRAY_SIZE(rpm_speed_mode_map)) {
+			ERROR("%s Ethernet group: unsupported portm_mode %d\n",
+				__func__, portm_mode);
+			return -1;
+		}
+
+		*mode = __builtin_ffsl(rpm_speed_mode_map[portm_mode].mode_bitmask) - 1; /* enum starts at 0 */
+		*group = MODE_GROUP_ETH;
+		break;
+
+	case PORTM_CPRI:
+		switch (portm_mode) {
+		case PORTM_MODE_CPRI_2_4G:
+			*mode = ETH_MODE_CPRI_2_4G_BIT;
+			break;
+		case PORTM_MODE_CPRI_3_1G:
+			*mode = ETH_MODE_CPRI_3_1G_BIT;
+			break;
+		case PORTM_MODE_CPRI_4_9G:
+			*mode = ETH_MODE_CPRI_4_9G_BIT;
+			break;
+		case PORTM_MODE_CPRI_6_1G:
+			*mode = ETH_MODE_CPRI_6_1G_BIT;
+			break;
+		case PORTM_MODE_CPRI_9_8G:
+			*mode = ETH_MODE_CPRI_9_8G_BIT;
+			break;
+		case PORTM_MODE_CPRI_2_4G_TEST:
+			*mode = ETH_MODE_CPRI_2_4G_TEST_BIT;
+			break;
+		case PORTM_MODE_CPRI_3_1G_TEST:
+			*mode = ETH_MODE_CPRI_3_1G_TEST_BIT;
+			break;
+		case PORTM_MODE_CPRI_4_9G_TEST:
+			*mode = ETH_MODE_CPRI_4_9G_TEST_BIT;
+			break;
+		case PORTM_MODE_CPRI_6_1G_TEST:
+			*mode = ETH_MODE_CPRI_6_1G_TEST_BIT;
+			break;
+		case PORTM_MODE_CPRI_9_8G_TEST:
+			*mode = ETH_MODE_CPRI_9_8G_TEST_BIT;
+			break;
+		case PORTM_MODE_CPRI_12_3G_TEST:
+			*mode = ETH_MODE_CPRI_12_3G_TEST_BIT;
+			break;
+		case PORTM_MODE_CPRI_19_7G_TEST:
+			*mode = ETH_MODE_CPRI_19_7G_TEST_BIT;
+			break;
+
+		default:
+			ERROR("%s CPRI group: unsupported portm_mode %d\n",
+				__func__, portm_mode);
+			return -1;
+		}
+
+		*group = MODE_GROUP_CPRI;
+		break;
+
+	default:
+		ERROR("%s unsupported mac_type %d\n",
+			__func__, mac_type);
+		return -1;
+	}
+
+	return 0;
+}
+
 static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask, int mode_group)
 {
 	const speed_mode_map_s *map = rpm_speed_mode_map;
 	size_t len = ARRAY_SIZE(rpm_speed_mode_map);
 	const char *group = "rpm";
+	bool try_cpri_test_modes = true;
+	int mode_offset = 0;
 
 	if (mode_group == MODE_GROUP_CPRI) {
 		map = cpri_speed_mode_map;
 		len = ARRAY_SIZE(cpri_speed_mode_map);
+		mode_offset = PORTM_MODE_CPRI_2_4G;
 		group = "cpri";
 	}
 
+retry:
 	for (int i = 0; i < len; i++) {
 		debug_rpm_intf("%s: i %d mode_bitmask 0x%llx %s_speed_mode_map[i].mode_bitmask 0x%llx\n", __func__,
 				i, mode_bitmask,
 				group,
 				map[i].mode_bitmask);
 		if (map[i].mode_bitmask == mode_bitmask)
-			return mode_group == MODE_GROUP_ETH ?
-				i : i + PORTM_MODE_CPRI_2_4G;
+			return i + mode_offset;
 	}
+
+	/* If mode is from CPRI group and not found so far, try CPRI test modes */
+	if (mode_group == MODE_GROUP_CPRI && try_cpri_test_modes) {
+		try_cpri_test_modes = false;
+		map = cpri_test_speed_mode_map;
+		len = ARRAY_SIZE(cpri_test_speed_mode_map);
+		mode_offset = PORTM_MODE_CPRI_2_4G_TEST;
+		group = "cpri_test";
+		goto retry;
+	}
+
 	return PORTM_MODE_INVALID;
 }
 
@@ -1255,6 +1362,55 @@ mode_err:
 	return -1;
 }
 
+static int rpm_get_port_mode(int rpm_id, int lmac_id,
+			struct eth_get_port_mode_args *args)
+{
+	portm_config_t *portm;
+	cn10k_portm_modes_t portm_mode;
+	int portm_idx, ret, mode, group;
+	union eth_scratchx0 scratchx0;
+
+	portm_idx = args->portm_idx;
+
+	if (portm_idx < 0 || portm_idx >= MAX_PORTM) {
+		ERROR("%s: '%d' is not valid PORTM index\n",
+			__func__, portm_idx);
+		return -1;
+	}
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	portm_mode = portm->portm_mode;
+
+	switch (portm_mode) {
+	case PORTM_MODE_DISABLED:
+	case PORTM_MODE_INVALID:
+	case PORTM_MODE_INACTIVE:
+		ERROR("%s: PORTM%d is disabled or inactive\n",
+			__func__, portm_idx);
+		return -1;
+	default:
+		break;
+	}
+
+	ret = rpm_obtain_mode_and_group(portm_mode, &mode, &group);
+	if (ret) {
+		ERROR("%s: PORTM%d obtaining mode failed\n",
+			__func__, portm_idx);
+		return -1;
+	}
+
+	debug_rpm_intf("%s: PORTM%d mode: %d, mode_group: %d\n",
+		__func__, portm_idx, mode, group);
+
+	scratchx0.u = 0;
+	scratchx0.s.port_mode.mode_group_idx = group;
+	scratchx0.s.port_mode.mode = mode;
+	CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
+			rpm_id, lmac_id, 0), scratchx0.u);
+
+	return 0;
+}
+
 static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 				struct eth_mode_change_args *args)
 {
@@ -1355,7 +1511,8 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 		(request_id == ETH_CMD_SET_MAC_ADDR) ||
 		(request_id == ETH_CMD_GET_FWD_BASE) ||
 		(request_id == ETH_CMD_GET_FW_VER) ||
-		(request_id == ETH_CMD_MODE_CHANGE)) {
+		(request_id == ETH_CMD_MODE_CHANGE) ||
+		(request_id == ETH_CMD_GET_PORT_MODE)) {
 		switch (request_id) {
 		case ETH_CMD_INTF_SHUTDOWN:
 			rpm_fw_intf_shutdown();
@@ -1394,6 +1551,13 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 						rpm_id, lmac_id, 1));
 			ret = rpm_handle_mode_change(rpm_id, lmac_id,
 					&scratchx1.s.mode_change_args);
+			break;
+		case ETH_CMD_GET_PORT_MODE:
+			/* Read the command arguments from SCRATCH(1) */
+			scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
+						rpm_id, lmac_id, 1));
+			ret = rpm_get_port_mode(rpm_id, lmac_id,
+					&scratchx1.s.port_mode_args);
 			break;
 		}
 	} else {
@@ -1557,7 +1721,10 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	 */
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	err_type = rpm_get_error_type(rpm_id, lmac_id);
-	if ((err_type & RPM_ERR_MASK) && (request_id != ETH_CMD_GET_LINK_STS))
+
+	if (request_id == ETH_CMD_GET_PORT_MODE)
+		scratchx0.s.evt_sts.stat = ret;
+	else if ((err_type & RPM_ERR_MASK) && (request_id != ETH_CMD_GET_LINK_STS))
 		scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
 	else
 		scratchx0.s.evt_sts.stat = ETH_STAT_SUCCESS;
