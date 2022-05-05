@@ -75,7 +75,7 @@ typedef struct ccs_region {
 	uint16_t attr;
 	uint64_t start;
 	uint64_t end;
-	uint64_t first_free;
+	uint64_t rsvd_memsz;
 } ccs_region_t;
 
 struct ccs_region ccs_map[MAX_ASC_REGIONS] = {
@@ -106,8 +106,6 @@ struct ccs_region ccs_map[MAX_ASC_REGIONS] = {
 		},
 };
 
-static int asym_mem_config;
-
 void dump_ccs_region_config(void)
 {
 	int index;
@@ -118,8 +116,8 @@ void dump_ccs_region_config(void)
 		region = &ccs_map[index];
 		if (!region->free) {
 			VERBOSE("ASC region %d Free %d\n", index, region->free);
-			VERBOSE("Start 0x%llx End 0x%llx First_Free 0x%llx\n",
-				region->start, region->end, region->first_free);
+			VERBOSE("Start 0x%llx End 0x%llx Reserved MemSz 0x%llx\n",
+				region->start, region->end, region->rsvd_memsz);
 			VERBOSE("Secure %d Fixed %d Mandatory %d\n",
 				region->attr & CCS_ATTR_SEC_BIT_MASK,
 				region->attr & CCS_ATTR_FIXD_BIT_MASK,
@@ -171,6 +169,8 @@ void init_ccs_region_map(void)
 	cavm_sam_asc_regionx_attr_t asc_attr;
 	ccs_region_t *region;
 
+	plat_octeontx_bcfg->asym_mem_config = 0;
+
 	memset(ccs_map, 0, sizeof(ccs_map));
 	for (index = 0; index < MAX_ASC_REGIONS; index++) {
 		region = &ccs_map[index];
@@ -183,7 +183,7 @@ void init_ccs_region_map(void)
 		}
 
 		if (NSECURE_NONPRESERVE_1 == index)
-			asym_mem_config = 1;
+			plat_octeontx_bcfg->asym_mem_config = 1;
 
 		if (asc_attr.s.s_en)
 			region->attr |= CCS_ATTR_SEC_BIT_MASK;
@@ -194,7 +194,7 @@ void init_ccs_region_map(void)
 
 		region->start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
 		region->end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index)) | ASC_DEF_SIZE_MASK;
-		region->first_free = region->start;
+		region->rsvd_memsz = 0;
 	}
 }
 
@@ -238,7 +238,7 @@ static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr,
 			region->attr |= CCS_ATTR_SEC_BIT_MASK;
 		region->start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(index));
 		region->end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(index)) | ASC_DEF_SIZE_MASK;
-		region->first_free = region->start;
+		region->rsvd_memsz = 0;
 		region->free = 0;
 
 		return 0;
@@ -254,6 +254,7 @@ static int create_new_asc_region(uint64_t start, uint64_t size, uint64_t attr,
  */
 int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 {
+	ccs_region_t *region;
 	cavm_sam_asc_regionx_attr_t asc_attr, attr;
 	uint64_t reg_start, reg_end;
 
@@ -286,6 +287,9 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 	CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), attr.u);
 	CSR_WRITE(CAVM_SAM_ASC_REGIONX_END(index), reg_end);
 	CSR_WRITE(CAVM_SAM_ASC_REGIONX_ATTR(index), asc_attr.u);
+
+	region = &ccs_map[index];
+	region->end = reg_end;
 
 	/* Create ASC region of reduced memory with same attribute */
 	if (create_new_asc_region(reg_end + 1, size, asc_attr.u, new_index)) {
@@ -369,12 +373,30 @@ uint64_t memory_region_get_info(int index, uint64_t *start)
 	return sam_region_get_info(index, start);
 }
 
-uint64_t memory_region_get_last_nsec(uint64_t *start)
+int memory_region_get_last_nsec(uint64_t *start, uint64_t alloc_sz)
 {
-	if (asym_mem_config)
-		return sam_region_get_info(NSECURE_NONPRESERVE_1, start);
-	else
-		return sam_region_get_info(NSECURE_NONPRESERVE, start);
+	uint64_t size;
+
+	if (plat_octeontx_bcfg->asym_mem_config) {
+		size = sam_region_get_info(NSECURE_NONPRESERVE_1, start);
+		if (!size)
+			return -1;
+
+		size -= ccs_map[NSECURE_NONPRESERVE_1].rsvd_memsz;
+		ccs_map[NSECURE_NONPRESERVE_1].rsvd_memsz += alloc_sz;
+	}
+	else {
+		size = sam_region_get_info(NSECURE_NONPRESERVE, start);
+		if (!size)
+			return -1;
+
+		size -= ccs_map[NSECURE_NONPRESERVE].rsvd_memsz;
+		ccs_map[NSECURE_NONPRESERVE].rsvd_memsz += alloc_sz;
+	}
+
+	*start = *start + size - alloc_sz;
+
+	return 0;
 }
 
 uint64_t plat_get_memory_size(void)
@@ -382,7 +404,7 @@ uint64_t plat_get_memory_size(void)
 	uint64_t addr, size = 0;
 
 	size = memory_region_get_info(NSECURE_NONPRESERVE, &addr);
-	if (asym_mem_config)
+	if (plat_octeontx_bcfg->asym_mem_config)
 		size += memory_region_get_info(NSECURE_NONPRESERVE_1, &addr);
 	return size;
 }
@@ -445,6 +467,8 @@ void octeontx_security_setup(void)
 	VERBOSE("Flushing IC\n");
 	__asm__ volatile("ic iallu\n"
 			 "isb\n");
+
+	init_ccs_region_map();
 }
 /*
  * This function configures IOBN to grant access for eMMC controller
@@ -628,7 +652,7 @@ int adjust_asc_region_next_avail(uint64_t size,  int *new_index, uint64_t *new_b
 	int idx, ret;
 	uint64_t region_base = 0, region_size = 0;
 
-	if (asym_mem_config)
+	if (plat_octeontx_bcfg->asym_mem_config)
 		idx = NSECURE_NONPRESERVE_1;
 	else
 		idx = NSECURE_NONPRESERVE;

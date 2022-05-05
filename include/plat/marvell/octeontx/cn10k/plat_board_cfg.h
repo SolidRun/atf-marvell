@@ -258,6 +258,7 @@ typedef struct plat_octeontx_board_cfg {
 	int rvu_rsvd_reg_index; /* ASC region index for RVU MEM and LMTLINES */
 	int do_switch_reset; /* Flag to Save EBF SWITCH_MICROINIT dt prop */
 	int reserved_os_memory_size;
+	int asym_mem_config;
 	usb_config_t usb_cfg[MAX_USB_BUS];
 	ras_config_t ras_config;
 } plat_octeontx_board_cfg_t;

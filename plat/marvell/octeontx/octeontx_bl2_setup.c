@@ -46,6 +46,7 @@
 #include <libfdt.h>
 #include <octeontx_security.h>
 #include <octeontx_ecam.h>
+#include <octeontx_dram.h>
 #include <octeontx_io_storage.h>
 #include <timers_octeontx.h>
 #if defined(PLAT_CN10K_FAMILY)
@@ -582,20 +583,18 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
  ******************************************************************************/
 void bl2_platform_setup(void)
 {
-	cavm_setup_platform();
-	bl2_platform_print_chip_id();
-	octeontx_fill_soc_details();
-#if defined(PLAT_CN10K_FAMILY)
-	/* Reserve RAS memory after RVU */
-	plat_initialize_ghes_hest_area();
-#endif
-	octeontx_fill_board_details(1);
-
-	timers_octeontx_init_delay();
         /*
          * Do initial security configuration to allow DRAM/device access.
          */
         octeontx_security_setup();
+
+	cavm_setup_platform();
+	bl2_platform_print_chip_id();
+	octeontx_fill_soc_details();
+
+	octeontx_fill_board_details(1);
+
+	timers_octeontx_init_delay();
 
 	/* Initialise the IO layer and register platform IO devices */
 	octeontx_io_setup();
@@ -606,6 +605,13 @@ void bl2_platform_setup(void)
 
 	/* Enumerate devices on ECAMs */
 	octeontx_pci_init();
+
+#if defined(PLAT_CN10K_FAMILY)
+	/* Reserve RAS memory after RVU */
+	plat_initialize_ghes_hest_area();
+
+	dump_ccs_region_config();
+#endif
 }
 
 /*******************************************************************************

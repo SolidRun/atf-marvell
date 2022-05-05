@@ -98,7 +98,7 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new
 uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index)
 {
 	uint64_t addr = 0;
-	uint64_t mem_size;
+	int ret;
 
 	if (index != NSECURE_NONPRESERVE) {
 		ERROR("%s: Unsupported memory reservation type %d\n", __func__, index);
@@ -114,11 +114,10 @@ uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index)
 		return 0;
 	}
 
-	mem_size = memory_region_get_last_nsec(&addr);
-	if (mem_size > size) {
+	ret = memory_region_get_last_nsec(&addr, size);
+	if (!ret) {
 		plat_octeontx_bcfg->reserved_os_memory_size += size;
-		mem_size -= size;
-		return addr + mem_size;
+		return addr;
 	}
 	return 0;
 }

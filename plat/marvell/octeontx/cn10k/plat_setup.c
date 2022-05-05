@@ -47,6 +47,7 @@
 #include <plat_octeontx.h>
 #include <octeontx_utils.h>
 #include <octeontx_security.h>
+#include <octeontx_board_cfg_setup.h>
 #include <platform_irqs_def.h>
 #include <plat_cn10k_configuration.h>
 #include <sh_fwdata.h>
@@ -105,9 +106,6 @@ extern console_t fwlog_buf;
 #if defined(SAVE_FATAL_ERRLOGS) && defined(IMAGE_BL31)
 int crashdump_init(void *fdt);
 #endif
-
-extern void init_ccs_region_map(void);
-extern void dump_ccs_region_config(void);
 
 static void plat_set_emmc_msix_vectors(void)
 {
@@ -254,8 +252,6 @@ void plat_octeontx_setup(void)
 
 	plat_cn10k_apply_workaround();
 
-	init_ccs_region_map();
-
 	ppr_fw_init();
 
 	sh_fwdata_init();
@@ -287,8 +283,6 @@ void plat_octeontx_setup(void)
 	 */
 	for (pem = 0; pem < plat_octeontx_get_pem_count(); pem++)
 		octeontx_configure_pem_ep_security(pem);
-
-	dump_ccs_region_config();
 
 #ifdef ENABLE_RECORD_FWLOG
 	bl31_el3_plat_prepare_exit();
@@ -937,6 +931,10 @@ void plat_initialize_ghes_hest_area(void)
 	}
 
 	fail = 0;
+
+#if RAS_EXTENSION
+	octeontx_fill_ras_hest_details(fdt, "/soc@0/sdei-ghes", "marvell,sdei-ghes");
+#endif
 
 exit:
 	if (fail)
