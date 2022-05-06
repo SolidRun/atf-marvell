@@ -148,11 +148,13 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 	int status = 0, ret = 0, sig_detect = 0, sig_detect_temp = 0;
 	ecp_link_state_t link_state;
 	rpm_lmac_bringup_context_t *bringup_ctx;
+	portm_config_t *portm;
 
 	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
 	status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
 	debug_rpm("%s: %d:%d ECP link status %d\n", __func__, rpm_id, lmac_id, status);
@@ -222,7 +224,21 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 					if (status == ETH_LINK_STATE_LINK_UP)
 						goto link_up;
 					else if (status == ETH_LINK_STATE_LINK_STOPPED) {
-						rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
+						debug_rpm("%s: %d:%d Link Bringup Stopped\n", __func__, rpm_id, lmac_id);
+						if (portm->an_lt_ena) /* CL73 AN enabled */
+							/* FIXME: Add link training history trace dump */
+							ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_AN_RESTART, lmac_ctx);
+						else
+							ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP, lmac_ctx);
+
+						if (ret == -1) {
+							/* Request not sent */
+							debug_rpm("%s: %d:%d Request not sent to ECP to restart Link Bringup\n",
+								  __func__, rpm_id, lmac_id);
+							rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
+						} else
+							rpm_set_error_type(rpm_id, lmac_id, link_state.s.error_type);
+
 						ecp_dump_state_history(lmac->portm_idx, lmac_id, "Link bringup failed");
 						goto link_failure;
 					}

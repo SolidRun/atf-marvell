@@ -259,12 +259,16 @@ static int rpm_check_sfp_mod_stat(int rpm_id, int lmac_id)
 
 static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 {
-	int status = 0, sig_detect = 0;
+	int status = 0, sig_detect = 0, ret = 0;
 	ecp_link_state_t link_state;
+	rpm_lmac_context_t *lmac_ctx;
 	rpm_lmac_config_t *lmac = NULL;
 	rpm_link_state_t link_sts;
+	portm_config_t *portm;
 
+	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 
 	debug_rpm_intf("%s: %d:%d mode %d\n", __func__, rpm_id, lmac_id, lmac->mode);
 
@@ -294,6 +298,24 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 		link->s.full_duplex = 0;
 		link->s.speed = ETH_LINK_NONE;
 		link->s.fec = 0;
+	}
+
+	debug_rpm_intf("%s: %d:%d Link Status: %d\n", __func__, rpm_id, lmac_id, status);
+
+	if (status == ETH_LINK_STATE_LINK_STOPPED) { /* Check if ECP has stopped link bringup */
+		debug_rpm_intf("%s: %d:%d Link Bringup Stopped\n", __func__, rpm_id, lmac_id);
+		if (portm->an_lt_ena) /* CL73 AN enabled */
+			/* FIXME: Add link training history trace dump */
+			ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_AN_RESTART, lmac_ctx);
+		else
+			ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP, lmac_ctx);
+
+		if (ret == -1) {
+			/* Request not sent */
+			debug_rpm_intf("%s: %d:%d Request not sent to ECP to restart Link Bringup\n",
+				       __func__, rpm_id, lmac_id);
+			rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
+		}
 	}
 
 	debug_rpm_intf("%s: %d:%d link %d speed %d duplex %d fec %d\n",
