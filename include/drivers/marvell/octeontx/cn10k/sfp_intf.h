@@ -181,6 +181,8 @@ typedef struct sfp_slot_info {
 	uint32_t eeprom_addr;
 	/* different power levels in mW */
 	uint32_t max_power;
+	/*QSFP mod select pin output value to select module*/
+	uint32_t  qsfp_modsel_output;
 } sfp_slot_info_t;
 
 /* Ownership of shared memory */
