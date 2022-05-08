@@ -1462,6 +1462,30 @@ void ras_rewrite_cacheline(uint64_t physaddr, int secure)
 	unmap_elx_addr(&m);
 }
 
+static bool is_secure_address(uint64_t addr)
+{
+	int r;
+	union cavm_ccs_asc_regionx_start r_start;
+	union cavm_ccs_asc_regionx_attr r_attr;
+	union cavm_ccs_asc_regionx_end r_end;
+	uint64_t a_start, a_end;
+
+	for (r = 0; r < 4; r++) {
+		r_attr.u = CSR_READ(CAVM_CCS_ASC_REGIONX_ATTR(r));
+		if (r_attr.s.ns_en)
+			continue;
+		r_start.u = CSR_READ(CAVM_CCS_ASC_REGIONX_START(r));
+		r_end.u = CSR_READ(CAVM_CCS_ASC_REGIONX_START(r+1));
+		a_start = r_start.s.addr << 24;
+		a_end = r_end.s.addr << 24;
+
+		if (addr >= a_start && addr <= a_end)
+			return true;
+	}
+
+	return false;
+}
+
 int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 {
 	union cavm_mccx_lmcoex_ras_int ras_int;
@@ -1708,7 +1732,9 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 			CPER_MEM_VALID_BANK | CPER_MEM_VALID_ROW |
 			CPER_MEM_VALID_COLUMN);
 
-		err_rec->severity = fatal ? CPER_SEV_FATAL : CPER_SEV_CORRECTED;
+		err_rec->severity = fatal ? CPER_SEV_RECOVERABLE : CPER_SEV_CORRECTED;
+		if (err_rec->severity == CPER_SEV_RECOVERABLE && is_secure_address(physaddr))
+			err_rec->severity = CPER_SEV_FATAL;
 
 		snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
 			 "LMC%d: DIMM%d,Rank%d/%d,Bank%02d", lmc, dimm, prank,
@@ -1748,7 +1774,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	CSR_WRITE(CAVM_LMCX_CHAR_MASK2(lmc), 0);
 	CSR_WRITE(CAVM_LMCX_ECC_PARITY_TEST(lmc), 0);
 
-	return fatal;
+	return err_rec->severity == CPER_SEV_FATAL;
 }
 
 static int lmcoe_ras_int(int lmcoe)

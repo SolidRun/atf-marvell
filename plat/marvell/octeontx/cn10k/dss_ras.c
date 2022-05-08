@@ -116,7 +116,9 @@ int cn10k_ras_disable_dss(void)
 	return 0;
 }
 
-static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
+extern bool is_secure_address(uint64_t addr);
+
+static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 		 cavm_dssx_ddrctl_regb_ddrc_ch0_eccstat_t eccstat)
 {
 	struct otx2_ghes_err_record *err_rec;
@@ -131,7 +133,7 @@ static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
 				  "dss", &err_ring);
 	if (!err_rec)
-		return;
+		return 0;
 #if SDEI_SUPPORT
 	cm_el1_sysregs_context_save(NON_SECURE);
 #endif
@@ -174,7 +176,10 @@ static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	dss->validation_bits |= !info.dbe ? CPER_MEM_VALID_BIT_POSITION : 0;
 
 	if (info.dbe)
-		err_rec->severity = CPER_SEV_FATAL;
+		if (is_secure_address(addr.phys_addr))
+			err_rec->severity = CPER_SEV_FATAL;
+		else
+			err_rec->severity = CPER_SEV_RECOVERABLE;
 	else
 		err_rec->severity = CPER_SEV_CORRECTED;
 
@@ -183,6 +188,8 @@ static void cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 		 ch, addr.rank, addr.bg, addr.bank, addr.row, addr.col);
 
 	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_DSS_EVENT);
+
+	return err_rec->severity == CPER_SEV_FATAL;
 }
 
 int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
@@ -251,12 +258,12 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 				dss_err_info.dbe, dss_err_info.is_sbr, dss_err_info.ecc_cnt, eccctl.u);
 		}
 
-		cn10k_ras_dss_notify(ch, dss_err_info, eccstat);
+		bool fatal = cn10k_ras_dss_notify(ch, dss_err_info, eccstat);
 
 		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch), eccctl.u);
 
 		CSR_WRITE(CAVM_DSSX_INT_W1C(ch), int_stat.u);
-		if (int_stat.s.ecc_uncorrected_err_intr)
+		if (fatal && int_stat.s.ecc_uncorrected_err_intr)
 			cn10k_fatal_error_handler();
 	}
 	return 0;
