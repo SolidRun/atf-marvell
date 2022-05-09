@@ -160,7 +160,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 	debug_rpm("%s: %d:%d ECP link status %d\n", __func__, rpm_id, lmac_id, status);
 
 	/* With NO_STATE, send request to ECP to bring the link UP */
-	if (status == ETH_LINK_NO_STATE) {
+	if (status == ETH_LINK_STATE_NO_STATE) {
 		ret = ecp_send_link_req(lmac->portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_BRINGUP, lmac_ctx);
 		if (ret == -1) {
 			/* Request not sent */
@@ -427,7 +427,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 			while (clock_get_count(GSER_CLOCK_TIME)
 					< link_timeout) {
 				status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
-				if (status == ETH_LINK_NO_STATE)
+				if (status == ETH_LINK_STATE_NO_STATE)
 					break;
 				else {
 					debug_rpm("%s: %d:%d Link bringdown not successful\n",
@@ -435,7 +435,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 				}
 				mdelay(1);
 			}
-			if (status != ETH_LINK_NO_STATE)
+			if (status != ETH_LINK_STATE_NO_STATE)
 				return -1;
 		}
 	}

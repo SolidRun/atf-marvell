@@ -288,7 +288,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 
 	/* Obtain the link status from ECP via SM */
 	status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
-	if (status != ETH_LINK_NO_STATE) {
+	if (status != ETH_LINK_STATE_NO_STATE) {
 		link->s.link_up = link_state.s.link_up;
 		link->s.full_duplex = link_state.s.duplex;
 		link->s.speed = link_state.s.speed;

@@ -336,9 +336,28 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int count,
 				int portm_idx, const char *msg)
 {
-	int idx;
+	int idx, num = 0;
+	uint64_t first_time = 0;
 
-	debug_ecp_sm_hist("[PORTM%d LMAC%d]: Last ECP state transitions:\n\t(Reason: %s)\n", portm_idx, lmac_id, msg);
+	debug_ecp_sm_hist("[PORTM%d]: Last ECP state transitions:\n\t(Reason: %s)\n", portm_idx, msg);
+
+	/* Find timestamp for first entry with matching LMAC_ID */
+	for (idx = 0; idx < count; idx++) {
+		ecp_state_log_t *log_entry = &ecp_logs[idx];
+
+		/* Only print entries with the same lmac_id */
+		if (lmac_id == log_entry->lmac_id) {
+			first_time = log_entry->timestamp;
+			break;
+		}
+	}
+
+	/* Print Link Up Transition Banner */
+	debug_ecp_sm_hist("[PORTM%d]: Link Up Transitions\n", portm_idx);
+	debug_ecp_sm_hist("%-2s  %-11s  %-8s  %-4s  %-25s  %-15s  %-11s  %-10s  %-7s  %-6s  %-5s\n",
+			  "#", "Time(us)", "MAC_TYPE", "LMAC", "Link State",
+			  "Portm Mode", "FEC", "Sig Detect", "Link Up",
+			  "Duplex", "Speed");
 
 	for (idx = 0; idx < count; idx++) {
 		ecp_state_log_t *log_entry = &ecp_logs[idx];
@@ -347,31 +366,79 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int coun
 		if (lmac_id != log_entry->lmac_id)
 			continue;
 
-		debug_ecp_sm_hist("\n[%llu] ECP State = %d\n",
-			log_entry->timestamp, log_entry->link_rsp.link_state);
+		debug_ecp_sm_hist("%-2d  %-11llu  %-8s  %-4d  %-25s  %-15s  %-11s  %-10u  %-7u  %-6u  %-5u\n",
+				  num,
+				  (num == 0) ? 0 : log_entry->timestamp - first_time,
+				  cn10k_portm_mac_type_to_cfg_str(log_entry->mac_type),
+				  log_entry->lmac_id,
+				  cn10k_eth_link_state_to_str(log_entry->link_rsp.link_state),
+				  cn10k_portm_mode_to_cfg_str(log_entry->portm_mode),
+				  cn10k_portm_fec_type_to_str(log_entry->fec),
+				  log_entry->sig_detect,
+				  log_entry->link_rsp.ecp_link_state.s.link_up,
+				  log_entry->link_rsp.ecp_link_state.s.duplex,
+				  log_entry->link_rsp.ecp_link_state.s.speed);
+		num++;
+	}
 
-		debug_ecp_sm_hist("\tlink_req=\n");
-		debug_ecp_sm_hist("\t\treq_id=%d, sfp_slot_present=%d, sfp_mod_stat=%d, phy_present=%d\n",
-			log_entry->link_req.req_id,
-			log_entry->link_req.sfp_slot_present,
-			log_entry->link_req.sfp_mod_stat,
-			log_entry->link_req.phy_present);
+	/* Print Link Error Transition Banner */
+	debug_ecp_sm_hist("[PORTM%d]: Link Error Transitions\n", portm_idx);
+	debug_ecp_sm_hist("%-2s  %-11s  %-8s  %-4s  %-25s  %-15s  %-25s  %-10s  %-14s  %-13s\n",
+			  "#", "Time(us)", "MAC_TYPE", "LMAC", "Link State",
+			  "Portm Mode", "Error Type", "Error Cnt", "Train Time(ms)",
+			  "Link Time(ms)");
 
-		debug_ecp_sm_hist("\tlink_rsp=\n");
-		debug_ecp_sm_hist("\t\tlink_state=%d, ecp_link_state=0x%llx\n",
-			log_entry->link_rsp.link_state,
-			log_entry->link_rsp.ecp_link_state.link_stat);
-		debug_ecp_sm_hist("\t\tecp_link_dbg=\n");
-		debug_ecp_sm_hist("\t\t\tfail_mode=%u, train_fail_cnt=%u, lnk_fail_count=%u\n",
-			log_entry->link_rsp.ecp_link_dbg.fail_mode,
-			log_entry->link_rsp.ecp_link_dbg.train_fail_cnt,
-			log_entry->link_rsp.ecp_link_dbg.lnk_fail_count);
-		debug_ecp_sm_hist("\t\t\tfail_type=%u, err_cnt=%u, train_time=%u, lnk_time=%u\n",
-			log_entry->link_rsp.ecp_link_dbg.fail_type,
-			log_entry->link_rsp.ecp_link_dbg.err_cnt,
-			log_entry->link_rsp.ecp_link_dbg.train_time,
-			log_entry->link_rsp.ecp_link_dbg.lnk_time);
-		debug_ecp_sm_hist("-----------------------------------\n");
+	num = 0;
+	for (idx = 0; idx < count; idx++) {
+		ecp_state_log_t *log_entry = &ecp_logs[idx];
+
+		/* Only print entries with the same lmac_id */
+		if (lmac_id != log_entry->lmac_id)
+			continue;
+
+		debug_ecp_sm_hist("%-2d  %-11llu  %-8s  %-4u  %-25s  %-15s  %-25s  %-10u  %-14u  %-13u\n",
+				  num,
+				  (num == 0) ? 0 : log_entry->timestamp - first_time,
+				  cn10k_portm_mac_type_to_cfg_str(log_entry->mac_type),
+				  log_entry->lmac_id,
+				  cn10k_eth_link_state_to_str(log_entry->link_rsp.link_state),
+				  cn10k_portm_mode_to_cfg_str(log_entry->portm_mode),
+				  cn10k_link_error_to_str(log_entry->link_rsp.ecp_link_state.s.error_type),
+				  log_entry->link_rsp.ecp_link_dbg.err_cnt,
+				  log_entry->link_rsp.ecp_link_dbg.train_time,
+				  log_entry->link_rsp.ecp_link_dbg.lnk_time);
+		num++;
+	}
+
+	/* Print Link Request Transition Banner */
+	debug_ecp_sm_hist("[PORTM%d]: Link Request Transitions\n", portm_idx);
+	debug_ecp_sm_hist("%-2s  %-11s  %-8s  %-4s  %-25s  %-21s  %-8s  %-7s  %-8s  %-6s  %-7s  %-7s\n",
+			  "#", "Time(us)", "MAC_TYPE", "LMAC", "Link State",
+			  "Req ID", "SFP Pres", "SFP Mod", "PHY Pres",
+			  "AN_Dis", "MAC_Spd", "MAC_Dup");
+
+	num = 0;
+	for (idx = 0; idx < count; idx++) {
+		ecp_state_log_t *log_entry = &ecp_logs[idx];
+
+		/* Only print entries with the same lmac_id */
+		if (lmac_id != log_entry->lmac_id)
+			continue;
+
+		debug_ecp_sm_hist("%-2d  %-11llu  %-8s  %-4u  %-25s  %-21s  %-8u  %-7u  %-8u  %-6u  %-7u  %-7u\n",
+				  num,
+				  (num == 0) ? 0 : log_entry->timestamp - first_time,
+				  cn10k_portm_mac_type_to_cfg_str(log_entry->mac_type),
+				  log_entry->lmac_id,
+				  cn10k_eth_link_state_to_str(log_entry->link_rsp.link_state),
+				  cn10k_ecp_link_req_to_str(log_entry->link_req.req_id),
+				  log_entry->link_req.sfp_slot_present,
+				  log_entry->link_req.sfp_mod_stat,
+				  log_entry->link_req.phy_present,
+				  log_entry->lpcs_spd_dplx.an_disable,
+				  log_entry->lpcs_spd_dplx.mac_speed,
+				  log_entry->lpcs_spd_dplx.mac_duplex);
+		num++;
 	}
 }
 
@@ -468,7 +535,7 @@ unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *li
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
-		return ETH_LINK_NO_STATE;
+		return ETH_LINK_STATE_NO_STATE;
 	}
 	debug_eth_link_intf("%s:PORTM%d\n", __func__, portm_idx);
 
@@ -476,7 +543,7 @@ unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *li
 		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
 				    __func__, portm_idx,
 				    sh_data->lock);
-		return ETH_LINK_NO_STATE;
+		return ETH_LINK_STATE_NO_STATE;
 	}
 
 	sh_data->lock = LINK_OWN_AP;
@@ -493,7 +560,7 @@ unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *li
 		/* FIXME : update other parameters */
 	} else {
 		sh_data->lock = LINK_OWN_NONE;
-		return ETH_LINK_NO_STATE;
+		return ETH_LINK_STATE_NO_STATE;
 	}
 
 	debug_eth_link_intf("%s: portm_idx %d state %d link_up %d speed %d fec %d error type %d sig_detect %d\n",
@@ -588,4 +655,270 @@ unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
 	sh_data->lock = LINK_OWN_NONE;
 
 	return 0;
+}
+
+/**
+ * Convert ECP ETH Link state into a string value
+ *
+ * @param link_state: ECP ETH Link state to convert
+ * @return: ECP ETH Link state string
+ */
+const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
+{
+	const char *str = NULL;
+
+#define ETH_LINK_STATE_CASE(m) case m: str = ((const char *)#m)+15
+
+	switch (link_state) {
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_NO_STATE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_BRINGUP_FIRST);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_BRINGUP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_BRINGDOWN);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_FEC_CHANGE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_MODE_CHANGE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RST_CORE_FIRST_LOOP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RST_CORE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_PLL_RDY_FIRST_LOOP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_PLL_RDY);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_SPEED_CHANGE_FINAL);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_RESTART);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_REMOTE_FAULT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_EXT_PHY_STATUS);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_SIGNAL_FIRST_LOOP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_SIGNAL);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_INIT_FIRST_LOOP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_INIT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_TRAIN_FIRST);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_TRAIN_IN_PROGRESS);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_START);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_SECOND_STAGE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_FIRST_LOOP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_IN_PROGRESS);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LT_FIRST_LOOP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LT_IN_PROGRESS);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_FIRST_LOOP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_IN_PROGRESS);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_UP);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_STOPPED);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LBCK_CHANGE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_PRBS_CHANGE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_SERDES_TEST_STATE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_TXEQ_UPDATE_FIRST);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_TXEQ_UPDATE_IN_PROGRESS);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_TXEQ_ACK_CLR_FIRST);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_TXEQ_ACK_CLR_IN_PROGRESS);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_INH_TIMER_WAIT_FIRST);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_LINK_INH_TIMER_WAIT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_ENABLE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_TX_DISABLE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_LINK_STAT_CK);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_PARALLEL_FLT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_ABILITY_DET);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_ACK_DETECT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_COMPLETE_ACK);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_NP_WAIT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_GOOD_CK);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_GOOD);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_AN_SERDES_WAIT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_SFP_MODULE_UNPLUGGED);
+	break;
+
+	default:
+		break;
+	}
+	return str;
+}
+
+/**
+ * Convert Link Error type into a string value
+ *
+ * @param link_error: Link error to convert
+ * @return: Link error string
+ */
+const char *cn10k_link_error_to_str(link_err_type_t link_error)
+{
+	const char *str = NULL;
+
+#define LINK_ERROR_CASE(m) case m: str = ((const char *)#m)+9
+
+	switch (link_error) {
+	LINK_ERROR_CASE(LINK_ERR_NONE);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_LMAC_NOT_ENABLED);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_LMAC_MODE_INVALID);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_REQUEST_ID_INVALID);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_PREV_ACK_NOT_CLEAR);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_PHY_LINK_DOWN);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_PCS_RESET_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_AN_CPT_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_TX_NOT_IDLE);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_RX_NOT_IDLE);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_BR_BLKLOCK_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_RX_ALIGN_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_TX_FAULT);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_RX_FAULT);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_RESET_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_AN_RESET_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_USX_AN_RESET_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SMUX_RX_LINK_NOT_OK);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_PCS_LINK_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_TRAINING_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_RX_EQU_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_BER_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_RSFEC_ALGN_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPUX_MARKER_LOCK_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SET_FEC_INVALID);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SET_FEC_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_MODULE_INVALID);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_MODULE_NOT_PRESENT);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SPEED_CHANGE_INVALID);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SERDES_RX_NO_SIGNAL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_SERDES_CPRI_PARAM_INVALID);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_ECP_LINK_REQ_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_LPCS_INTERNAL_LBK_INVALID);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_RCV_LNK_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_LOCAL_FLT_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_BLKS_ERR_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_BER_CNT_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_REMOTE_FLT_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_STABLE_TIMEOUT);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_TXRX_TRAIN_SW_TIMEOUT);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_TXRX_TRAIN_BAD_EYE);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_TXRX_TRAIN_LOCAL_TIMEOUT);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_TXRX_TRAIN_REMOTE_TIMEOUT);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_AN_CL73_NO_HCD);
+	break;
+
+	default:
+		break;
+	}
+	return str;
+}
+
+/**
+ * Convert ECP Link request type into a string value
+ *
+ * @param link_req: ECP Link request to convert
+ * @return: ECP Link request string
+ */
+const char *cn10k_ecp_link_req_to_str(ecp_link_req_id_t link_req)
+{
+	const char *str = NULL;
+
+#define LINK_REQ_CASE(m) case m: str = ((const char *)#m)+9
+
+	switch (link_req) {
+	LINK_REQ_CASE(ECP_LINK_REQ_NONE);
+	break;
+	LINK_REQ_CASE(ECP_LINK_REQ_BRINGUP);
+	break;
+	LINK_REQ_CASE(ECP_LINK_REQ_BRINGDOWN);
+	break;
+	LINK_REQ_CASE(ECP_LINK_REQ_MODE_CHANGE);
+	break;
+	LINK_REQ_CASE(ECP_LINK_REQ_FEC_CHANGE);
+	break;
+	LINK_REQ_CASE(ECP_LINK_REQ_AN_RESTART);
+	break;
+	LINK_REQ_CASE(ECP_LINK_REQ_LOOPBACK_STATE_CHANGE);
+	break;
+	LINK_REQ_CASE(ECP_LINK_REQ_PRBS_STATE_CHANGE);
+	break;
+
+	default:
+		break;
+	}
+	return str;
 }

@@ -73,6 +73,13 @@ typedef enum link_err_type {
 	LINK_ERR_BER_CNT_FAIL,
 	LINK_ERR_REMOTE_FLT_FAIL,
 	LINK_ERR_STABLE_TIMEOUT,
+	LINK_ERR_RX_TRAIN_SW_TIMEOUT,
+	LINK_ERR_RX_TRAIN_SERDES_TIMEOUT,
+	LINK_ERR_TXRX_TRAIN_SW_TIMEOUT,
+	LINK_ERR_TXRX_TRAIN_BAD_EYE,
+	LINK_ERR_TXRX_TRAIN_LOCAL_TIMEOUT,
+	LINK_ERR_TXRX_TRAIN_REMOTE_TIMEOUT,
+	LINK_ERR_AN_CL73_NO_HCD,
 	/* TODO: add more error types */
 } link_err_type_t;
 
@@ -89,7 +96,7 @@ typedef enum ecp_link_req_id {
 
 /* Link state enum definition */
 typedef enum link_state {
-	ETH_LINK_NO_STATE = 0,
+	ETH_LINK_STATE_NO_STATE = 0,
 	ETH_LINK_STATE_LINK_BRINGUP_FIRST = 1,      /* First link bringup attempt */
 	ETH_LINK_STATE_LINK_BRINGUP = 2,            /* First link bringup attempt */
 	ETH_LINK_STATE_LINK_BRINGDOWN = 3,          /* Bring link down */
@@ -142,32 +149,6 @@ typedef enum link_state {
 	ETH_LINK_STATE_SFP_MODULE_UNPLUGGED = 50,
 } ecp_link_state_enum_t;
 
-typedef enum lnk_fail_type {
-	ETH_RCV_LNK_FAIL = 0,
-	ETH_LOCAL_FLT_FAIL,
-	ETH_ERR_BLKS_FAIL,
-	ETH_BER_CNT_FAIL,
-	ETH_REMOTE_FLT_FAIL,
-	ETH_STABLE_TIMEOUT,
-} ecp_lnk_fail_type_t;
-
-typedef enum an_fail_type {
-	UNSUPPORTED_TECH = 0,
-	INVALID_WIDTH,
-} an_fail_type_t;
-
-typedef enum lt_fail_type {
-	SERDES_TIMEOUT = 0,
-	SW_TIMEOUT,
-} lt_fail_type_t;
-
-typedef enum ecp_an_fail_mode {
-	LT_FAIL = 0,
-	LNK_FAIL = 1,
-	AN_FAIL = 2,
-	RXT_FAIL = 3,
-} ecp_an_fail_mode_t;
-
 typedef enum ecp_aneg_state {
 	ANEG_ST_AN_ENABLE = 0x1,
 	ANEG_ST_TX_DISABLE = 0x2,
@@ -183,10 +164,8 @@ typedef enum ecp_aneg_state {
 } ecp_aneg_state_t;
 
 typedef struct ecp_link_dbg_status {
-	uint32_t fail_mode:2;     /* fail mode (an, lt, link) */
 	uint32_t train_fail_cnt;  /* Rx/Link training fail cnt */
 	uint32_t lnk_fail_count;  /* Link fail cnt */
-	uint32_t fail_type:4;     /* Detailed failure */
 	uint32_t err_cnt;         /* BER/ERR_BLK count */
 	uint32_t train_time:10;   /* Rx/Tx Training time in ms */
 	uint32_t lnk_time:14;     /* Link time in ms */
@@ -237,11 +216,23 @@ typedef struct ecp_link_resp {
 	ecp_link_dbg_status_t ecp_link_dbg;
 } ecp_link_resp_t;
 
+typedef struct {
+	uint32_t an_disable:1;  /* Set if AN is disabled */
+	uint32_t mac_speed:4;	/* MAC speed to set when AN is disabled (enum eth_link_speed) */
+	uint32_t mac_duplex:1;	/* MAC duplex to set when AN is disabled */
+	uint32_t _reserved:26;
+} lpcs_spd_dplx_t;
+
 typedef struct ecp_state_log {
 	uint64_t timestamp;
 	uint32_t lmac_id;
+	cn10k_portm_mac_type_t mac_type;
+	cn10k_portm_modes_t portm_mode;
+	cn10k_portm_fec_t fec;
 	ecp_link_req_t link_req;
 	ecp_link_resp_t link_rsp;
+	uint32_t sig_detect:1;
+	lpcs_spd_dplx_t lpcs_spd_dplx;
 } ecp_state_log_t;
 
 #define QUEUED_ENTRIES_MAX 8
@@ -257,13 +248,6 @@ typedef struct ecp_state_hist_buf {
 	uint32_t sl_owner;
 	ecp_state_log_t shared_logs[ECP_STS_ENTRIES_MAX];
 } ecp_state_hist_buf_t;
-
-typedef struct {
-	uint32_t an_disable:1;  /* Set if AN is disabled */
-	uint32_t mac_speed:4;	/* MAC speed to set when AN is disabled (enum eth_link_speed) */
-	uint32_t mac_duplex:1;	/* MAC duplex to set when AN is disabled */
-	uint32_t _reserved:26;
-} lpcs_spd_dplx_t;
 
 typedef struct ecp_link_mgmt_sh_data {
 	uint32_t lock;
@@ -293,5 +277,29 @@ unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *li
 unsigned int ecp_update_phy_link_state(int portm, int lmac_id, rpm_link_state_t *phy_link_state);
 unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);
 int ecp_dump_state_history(int portm_idx, int lmac_id, const char *msg);
+
+/**
+ * Convert ECP ETH Link state into a string value
+ *
+ * @param link_state: ECP ETH Link state to convert
+ * @return: ECP ETH Link state string
+ */
+const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state);
+
+/**
+ * Convert Link Error type into a string value
+ *
+ * @param link_error: Link error to convert
+ * @return: Link error string
+ */
+const char *cn10k_link_error_to_str(link_err_type_t link_error);
+
+/**
+ * Convert ECP Link request type into a string value
+ *
+ * @param link_req: ECP Link request to convert
+ * @return: ECP Link request string
+ */
+const char *cn10k_ecp_link_req_to_str(ecp_link_req_id_t link_req);
 
 #endif /* __LNK_INTF_H__ */
