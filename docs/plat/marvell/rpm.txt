@@ -1009,8 +1009,32 @@ get_mode
 get_mode - Display Interface mode for selected ethernet interface
 
 Usage:
-get_mode Example - get_mode <ethX>
+get_mode Example - get_mode <ethX> [portm_idx]
 Use 'ethlist' command to display network interface names
+
+.. Note::
+   For NIX connected interfaces, the target interface
+   to query mode from is selected by providing <ethX>
+   parameter, 'portm_idx' is not required.
+
+   For Ethernet Ports connected to BPHY, u-boot doesn't
+   register ethX interface. Thus to query mode use one
+   of the registered ethX interface connected to NIX
+   for sending message to ATF, and pass 'portm_idx'
+   of BPHY interface to query mode from.
+
+Example: NIX ports: get mode from eth1:
+
+.. code-block:: bash
+
+ > get_mode eth1
+
+Example: BPHY ports: get mode from PORTM#10:
+
+.. code-block:: bash
+
+ > get_mode eth0 10
+
 
 4.3 Change mode via ethtool
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
