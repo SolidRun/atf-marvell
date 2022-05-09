@@ -412,8 +412,11 @@ static inline int f95mm_is_domain_present(struct ecam_device *dev)
 	return (dom_const.s.pres && dom_const.s.permit);
 }
 
-static int f95mm_matched_twsi_slave(int instance)
+static int f95mm_matched_twsi(int instance)
 {
+	if (plat_octeontx_bcfg->bcfg.atf_managed_twsi[instance])
+		return 1;
+
 	if (plat_octeontx_bcfg->bcfg.slave_twsi.s.bus == -1)
 		return 0;
 
@@ -444,13 +447,13 @@ static int f95mm_matched_dev(struct secure_devices *dev,
 	// custom match for specific instance
 	if (dev->instance == ECAM_CUSTOM_INSTANCE) {
 		debug_plat_ecam(
-			"ECAM: pccpf.devid = %x instance=%d bus=%d did=%x\n",
+			"ECAM custom instance: pccpf.devid = %x instance=%d did=%x\n",
 			pccpf_id.s.devid, vsec_ctl.s.inst_num,
-			plat_octeontx_bcfg->bcfg.slave_twsi.s.bus,
 			ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MIO_TWS));
+
 		switch (pccpf_id.s.devid) {
 		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MIO_TWS):
-			return f95mm_matched_twsi_slave(vsec_ctl.s.inst_num);
+			return f95mm_matched_twsi(vsec_ctl.s.inst_num);
 		}
 	}
 

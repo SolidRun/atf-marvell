@@ -1094,6 +1094,9 @@ static int octeontx2_fdt_parse_qsfp_info(const void *fdt, int offset,
 				cgx_idx, lmac_idx, name, i2c_info.bus);
 
 		return 1;
+	} else {
+		/* TWSI managed in ATF */
+		plat_octeontx_bcfg->bcfg.atf_managed_twsi[i2c_info.bus] = 1;
 	}
 
 	/* Update the list of twsi nodes to be trimmed */
@@ -1206,6 +1209,9 @@ static int octeontx2_fdt_parse_sfp_info(const void *fdt, int offset,
 				cgx_idx, lmac_idx, name, i2c_info.bus);
 
 		return 1;
+	} else {
+		/* TWSI managed in ATF */
+		plat_octeontx_bcfg->bcfg.atf_managed_twsi[i2c_info.bus] = 1;
 	}
 
 	/* Update the list of twsi nodes to be trimmed */
