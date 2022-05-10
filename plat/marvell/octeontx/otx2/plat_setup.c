@@ -1013,6 +1013,15 @@ int plat_octeontx_is_eth_lmac_rfoe(unsigned int eth_id,
 	return rfoe_flag;
 }
 
+#if defined(PLAT_OTX2_FAMILY)
+void plat_otx2_early_initialization(void)
+{
+#ifdef MRVL_TF_LOG_MODULE
+	initialize_tf_logging();
+#endif // MRVL_TF_LOG_MODULE
+}
+#endif
+
 /*
  * plat_ras_feature_supported
  *

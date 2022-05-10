@@ -10,6 +10,9 @@ ifeq (${NEED_BL32},yes)
     $(eval $(call add_define,INCLUDE_OPTEE))
 endif
 
+# enable Marvel ATF Runtime Logging
+USE_MRVL_TF_LOGGING     :=       1
+
 # Include common Marvell platform's makefile helper
 include plat/marvell/octeontx/platform.mk
 

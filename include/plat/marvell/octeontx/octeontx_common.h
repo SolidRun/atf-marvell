@@ -171,10 +171,13 @@ void cavm_setup_platform(void);
 
 #if defined(PLAT_CN10K_FAMILY)
 void plat_cn10x_early_initialization(void);
+#elif defined(PLAT_OTX2_FAMILY)
+void plat_otx2_early_initialization(void);
+#endif
+
 #ifdef MRVL_TF_LOG_MODULE
 void initialize_tf_logging(void);
 #endif // MRVL_TF_LOG_MODULE
-#endif
 
 int octeontx_fdt_get_pem_secure(void);
 uint32_t octeontx_fdt_get_next_strmid(void **prop, void **prop_end);

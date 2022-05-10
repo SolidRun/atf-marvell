@@ -58,7 +58,12 @@
 /* define DEBUG_ATF_CGX to enable debug logs */
 #undef DEBUG_ATF_CGX
 
-#ifdef DEBUG_ATF_CGX
+#if defined(MRVL_TF_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_ETH_LINK
+#  define debug_cgx(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+			  tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#elif DEBUG_ATF_CGX
 #define debug_cgx printf
 #else
 #define debug_cgx(...) ((void) (0))

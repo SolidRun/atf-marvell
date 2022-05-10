@@ -170,6 +170,8 @@ void bl31_early_platform_setup(void *from_bl2,
 
 #if defined(PLAT_CN10K_FAMILY)
 	plat_cn10x_early_initialization();
+#elif defined(PLAT_OTX2_FAMILY)
+	plat_otx2_early_initialization();
 #endif
 
 	/*
