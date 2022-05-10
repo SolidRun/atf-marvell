@@ -2,8 +2,8 @@
 #define MCESD_TOP_H
 
 #define MCESD_API_MAJOR_VERSION 2
-#define MCESD_API_MINOR_VERSION 8
-#define MCESD_API_BUILD_ID      7
+#define MCESD_API_MINOR_VERSION 9
+#define MCESD_API_BUILD_ID      0
 
 #define C12GP4                          /* 16FFC_COMPHY_12G_PIPE4, 12FFC_COMPHY_12G_PIPE4 */
 #define C12GP41P2V                      /* 12FFC_COMPHY_12G_PIPE4_1P2V */

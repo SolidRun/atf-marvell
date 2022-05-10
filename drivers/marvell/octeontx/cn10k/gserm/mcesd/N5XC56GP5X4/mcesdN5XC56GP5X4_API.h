@@ -1331,7 +1331,8 @@ MCESD_STATUS API_N5XC56GP5X4_EOMFinalize
 @param[in]  heightLower - lower height value in code
 
 @param[out] widthmUI - width converted to mUI
-@param[out] height100uV - height converted to 100uV
+@param[out] height100uVUpper - upper height converted to 100uV
+@param[out] height100uVLower - lower height converted to 100uV
 
 @note Preprocessor N5XC56GP5X4_DFE_MILLIVOLTS is required
 @note Converts width to mUI by code * 1000 / maxUI
@@ -1349,7 +1350,8 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
     IN MCESD_U16 heightUpper,
     IN MCESD_U16 heightLower,
     OUT MCESD_U16 *widthmUI,
-    OUT MCESD_U16 *height100uV
+    OUT MCESD_U16 *height100uVUpper,
+    OUT MCESD_U16 *height100uVLower
 );
 #endif
 

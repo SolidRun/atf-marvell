@@ -1902,7 +1902,7 @@ MCESD_STATUS API_N5XC56GP5X4_SetSquelchThreshold
         return MCESD_FAIL;
 
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_SQ_INDV, lane, 1);
-    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_SQ_RES_EXT, lane, threshold);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_SQ_RES_EXT, lane, threshold + 0x20);
 
     return MCESD_OK;
 }
@@ -1917,7 +1917,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetSquelchThreshold
     MCESD_U32 data;
 
     N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_SQ_RES_RD, lane, data);
-    *threshold = (MCESD_16)data;
+    *threshold = (MCESD_16)data - 0x20;
 
     return MCESD_OK;
 }
@@ -1932,6 +1932,8 @@ MCESD_STATUS API_N5XC56GP5X4_SetDataPath
     switch (path)
     {
     case N5XC56GP5X4_PATH_NEAR_END_LB:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_SQ_EN, lane, 1);
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DTL_SQ_DET_EN, lane, 1);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DTL_CLAMPING, lane, 7);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_D_RX2TX_LPBK, lane, 0);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_A_TX2RX_LPBK, lane, 0);
@@ -1939,6 +1941,9 @@ MCESD_STATUS API_N5XC56GP5X4_SetDataPath
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_EN, lane, 0);
         break;
     case N5XC56GP5X4_PATH_LOCAL_LB:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_SQ_EN, lane, 0);
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DTL_SQ_DET_EN, lane, 0);
+        MCESD_ATTEMPT(API_N5XC56GP5X4_SetTxEqAll(devPtr, lane, 0x0, 0x0, 0x3f, 0x0));
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DTL_CLAMPING, lane, 7);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_D_RX2TX_LPBK, lane, 0);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_A_TX2RX_LPBK, lane, 1);
@@ -1947,6 +1952,8 @@ MCESD_STATUS API_N5XC56GP5X4_SetDataPath
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_EN, lane, 0);
         break;
     case N5XC56GP5X4_PATH_EXTERNAL:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_SQ_EN, lane, 1);
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DTL_SQ_DET_EN, lane, 1);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DTL_CLAMPING, lane, 7);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_D_RX2TX_LPBK, lane, 0);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_A_TX2RX_LPBK, lane, 0);
@@ -1954,6 +1961,8 @@ MCESD_STATUS API_N5XC56GP5X4_SetDataPath
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_PU_LB, lane, 0);
         break;
     case N5XC56GP5X4_PATH_FAR_END_LB:
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DFE_SQ_EN, lane, 1);
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DTL_SQ_DET_EN, lane, 1);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_DTL_CLAMPING, lane, 0);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_R2T_NO_STOP, lane, 0);
         N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_R2T_RD_START, lane, 0);
@@ -2654,7 +2663,7 @@ MCESD_STATUS API_N5XC56GP5X4_EOMInit
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_ADAPT_EVEN, lane, 1);
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_ADAPT_ODD, lane, 1);
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_ESM_EN, lane, 1);
-    N5XC56GP5X4_POLL_FIELD(devPtr, F_N5XC56GP5X4_EOM_READY, lane, 1, 5000);
+    N5XC56GP5X4_POLL_FIELD(devPtr, F_N5XC56GP5X4_EOM_READY, lane, 1, 15000);
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_ESM_LPNUM, lane, 0xFF);
 
     return MCESD_OK;
@@ -2685,14 +2694,16 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
     IN MCESD_U16 heightUpper,
     IN MCESD_U16 heightLower,
     OUT MCESD_U16 *widthmUI,
-    OUT MCESD_U16 *height100uV
+    OUT MCESD_U16 *height100uVUpper,
+    OUT MCESD_U16 *height100uVLower
 )
 {
     MCESD_U16 phaseStepCount, voltageStepCount;
     MCESD_U32 table[64];
 
     *widthmUI = 0;
-    *height100uV = 0;
+    *height100uVUpper = 0;
+    *height100uVLower = 0;
 
     if (0 == width)
         return MCESD_FAIL; /* Division by 0 Error */
@@ -2703,7 +2714,8 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
 
     /* Convert height */
     MCESD_ATTEMPT(INT_N5XC56GP5X4_GetDfeF0(devPtr, lane, table));
-    *height100uV = table[heightUpper] + table[heightLower];
+    *height100uVUpper = table[heightUpper];
+    *height100uVLower = table[heightLower];
 
     return MCESD_OK;
 }
@@ -3183,7 +3195,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2
 )
 {
     MCESD_U32 rawValue;
-    char msg[80];
+    char msg[82];
     char* leftString;
     char* rightString;
 
@@ -3306,7 +3318,7 @@ static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4
 )
 {
     MCESD_U32 rawValue;
-    char msg[81];
+    char msg[82];
     char* leftString;
     char* rightString;
 
