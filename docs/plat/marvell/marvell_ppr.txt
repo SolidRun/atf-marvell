@@ -5,15 +5,21 @@ The purpose of this document is to describe the ATF's Post Package Repair (PPR).
 The PPR driver supports Fail Row address repair for DDR5 based on
 collected statistic.
 For internal details about DDR5 PPR procedure refer to JESD79-5 4.29.
-The Driver checks if PPR is needed periodically once in 30 days.
+The Driver checks if PPR is needed in the reboot phase if new PPR records
+available compared to the last reboot cycle. The records would keep in PPR region periodically
+once in 30 days (PPR cycle) or on-demand if ECC Error per Row Counter (EpRC)
+for some DRAM raw reached MAX_EpRC_THRESHOLD.
+The hPPR statistics are collected each MRR cycle periodically, but data update
+happened as mentioned above on-demand or each PPR cycle end.
+
 The decision about the repair is taken based on previously collected statistics.
-The statistics are collected in non-volatile memory (spi flash) every 24 hours
+The statistics are collected in non-volatile memory (spi flash) every 24 hours (MRR cycle)
 for all modules, ranks, banks.
 After 30 days the driver searches for the most frequently occurred Row for
 each DRAM device. If DRAM device has available resources for PPR, driver
 decides to perform Fail Row repairing.
 
-The core of the PPR is Error Check and Scrub (ECS) DDR5 mode with an
+The core of the PPR is Error Check and Scrub (ECS inernal DRAM) DDR5 mode with an
 error counting scheme. EBF firmware enables ECS after training is done.
 ECS is running at the background. The memory controller uCODE triggers ECS
 execution every 10us.
@@ -25,12 +31,12 @@ For more details refer to JESD79-5 4.36.
 
 ATF executes timer callback (24h) and collects statistics from ECS transparency
 MR16-MR20 registers for all available Devices/BG/BA/Rows.
-ATF saves MRR registers data as a `struct mrr` and Error per Row Counter (EpRC):
+ATF saves MRR registers data as a `struct mrr` and EpRC:
 
 struct record_t {
 	uint32_t channel   : 5;  // Up to 31 channels
 	uint32_t rank      : 1;  // Ranks 0/1
-	uint32_t device    : 3;  // 5 Devices currently
+	uint32_t device    : 3;  // Up to 5 Devices currently
 	uint32_t bank_gr   : 3;  // Up to 7 Bank Groups
 	uint32_t bank_addr : 2;
 	uint32_t row_num   : 18;
@@ -42,31 +48,34 @@ each Device/BG/BA/Row. That records and counters values should be written into
 the non-volatile memory PPR region. PPR region records layout is `struct ppr`:
 
 struct ppr {
+	uint8_t cases;
+	uint8_t EpRC;
+	uint16_t cycle;
 	union {
 		uint32_t record;
 		union record_t mrr;
 	};
-	uint8_t cases;
-	uint8_t EpRC;
-	uint16_t cycle;
-};
+} __attribute__((packed));
 
 PPR keep row record
-cases - number of occurrences Fail Row during last 30 days (last PPR cycle)
-EpRC - Errors per Roc Counter accumulate from all cases
-cycle - PPR cycle number, increment at 30 days end (PPR cycle end)
+record - failed raw layout coming from MR16-MR20 registers
+cases  - number of occurrences of Failed Row (BG,BA) in last PPR cycle (30 days)
+EpRC   - total number of errors reached ECC err threshold (accumulated in prr cycle)
+         JEST79-5 (4.36.3 ECS Error Tracking) saturated to 0xFF
+cycle  - counter for PPR cycles (PPR_CYCLE days) cycle number
 
 Records should be kept at a head (index head_ppr) of the PPR region.
 
-Later, when there's a reboot, EBF detects that 30 days passed (when it sees
-that TIMER_CYCLE_NUM==30), then EBF scans the PPR region to fetch addresses of
-failed rows, then it performs hardware PPR on those failed rows.
+Later, when there's a reboot, EBF detects that ppr region has valid
+data for hPPR, then EBF scans the PPR region to fetch addresses of
+failed rows, then it performs hardware PPR on those failed rows with
+EpRC greater than EpRC_THRESHOLD.
 
 PPR on demand supported in case of EpRC exceeded error threshold value.
 EBF can provide PPR procedure after threshold reached and not wait for 30 days.
 Header update mrr_max_EpRC after each ECS cycle completed.
-If mrr_max_EpRC reached threshold value make_statistics function
-prepare PPR region accordingly for EBF PPR procedure.
+If mrr_max_EpRC reached threshold MAX_EpRC_THRESHOLD (15) value.
+The make_statistics function prepare PPR region accordingly for EBF PPR procedure.
 EpRC is not absolute errors number value. Each bit of EpRC correspond to
 configurable range [0-256] by default refer to JESD79-5.
 
@@ -75,16 +84,19 @@ configurable range [0-256] by default refer to JESD79-5.
 	+---------------+
 	|SIGNATURE      |
 	+---------------+
-	|HEAD_MRR       |-------+
+	|INDEX_MRR      |-------+
 	+---------------+       |
-	|HEAD_PPR       |---+   |
+	|INDEX_PPR      |---+   |
 	+---------------+   |   |
 	|MRR CYCLE      |   |   |
 	+---------------+   |   |
 	|PPR CYCLE      |   |   |
 	+---------------+   |   |
-	|EpRC           |   |   |
+	|max EpRC       |   |   |
 	+---------------+   |   |
+	|next ppr index |   |   |
+	+---------------+   |   |
+	                    |   |
 	                    |   |
 	                    |   |
 	MRR REGION          |   |
@@ -107,12 +119,19 @@ configurable range [0-256] by default refer to JESD79-5.
 	|               |
 	+---------------+
 
-Header contains index (starting from '0') of the last free record at
-corresponding region.
-Header saves a number of ATF timer (24h) cycles to share with EBF 'MRR CYCLE'.
-'PPR CYCLE' increment every 30 days after daily basis statistics ready.
 SIGNATURE - does the PPR flash region valid, if it does not match we
 erase the PPR flash region and init from the beginning.
+
+Header contains mrr/ppr index (starting from '0') of the last free record at
+corresponding region.
+
+Header saves a number of mrr/ppr cycles. The ppr cycle is share with EBF 'PPR CYCLE'.
+'PPR CYCLE' increment every 30 days or on demand.
+'MRR CYCLE' increment in daily basis.
+
+Max EpRC keep counter for row with maximum errors in last MRR cycle
+
+Next ppr index point on PPR region record index for next hPPR repair procedure to start from.
 
 The header takes ERASE block size 4096 bytes. The further header can
 be extended to add communication with EBF and track PPR progress.

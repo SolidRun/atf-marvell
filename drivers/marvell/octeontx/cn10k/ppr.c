@@ -82,12 +82,14 @@ __aligned(8) static uint8_t wr_buffer[ERASE_SIZE] = {0};
 static mrr_t buf_m[MRR_REGION_SIZE / sizeof(mrr_t)];
 static ppr_t buf_p[PPR_REC_PER_BLK];
 
-#define MR_REC_MASK		0x1F
+#define MR_REC_MASK		0x3F
 #define MR_BG_MASK		0x07
 #define MR_BG_SHIFT		4
 #define MR_BA_MASK		0x03
 #define MR_BA_SHIFT		2
 #define MR_R17_MASK		0x03
+#define MR17_OFFS		8
+#define MR18_OFFS		16
 
 #define MAX_POLL_COUNT	1000
 
@@ -95,9 +97,32 @@ static ppr_t buf_p[PPR_REC_PER_BLK];
 #define MAX_GRP			2
 #define MAX_DRAM		4
 
-#define DEV0_OFFS		24
-#define MR17_OFFS		8
-#define MR18_OFFS		16
+/*
+ * 1.	If working with 4 devices by 8 without ECC, then the needs to configure the mrr_grp_sel to 0x0(group0), which represents the following:
+-	cmd_mrr_data[31:24] is relevant for DRAM3
+-	cmd_mrr_data[23:16] is relevant for DRAM2
+-	cmd_mrr_data[15:8] is relevant for DRAM1
+-	cmd_mrr_data[7:0] is relevant for DRAM0
+
+2.	If working with 2 devices by 16 without ECC, then the needs to configure the mrr_grp_sel to 0x0(group0), which represents the following:
+Which represents the following:
+-	cmd_mrr_data[15:8] is relevant for DRAM1
+-	cmd_mrr_data[7:0] is relevant for DRAM0
+
+3.	If working with 4 devices by 8 with ECC, then the needs to configure the mrr_grp_sel to 0x0(group0),
+Then do “1” and after configure the mrr_grp_sel to 0x1(group1), which represents the following:
+-	cmd_mrr_data[31:24] is relevant for DRAM3 (GRP0)
+-	cmd_mrr_data[23:16] is relevant for DRAM2(GRP0)
+-	cmd_mrr_data[15:8] is relevant for DRAM1(GRP0)
+-	cmd_mrr_data[7:0] is relevant for DRAM0(GRP0)
+-	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) – ECC byte
+
+4.	If working with 2 devices by 16 with ECC, then the needs to configure the mrr_grp_sel to 0x0(group0),
+Then do “1” and after configure the mrr_grp_sel to 0x1(group1), which represents the following:
+-	cmd_mrr_data[15:8] is relevant for DRAM1(GRP0)
+-	cmd_mrr_data[7:0] is relevant for DRAM0(GRP0)
+-	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) – ECC byte
+*/
 
 #define printh() \
 		VERBOSE("%s\nSIG\t%08x\nMRRid\t%d\tPPRid\t%d\nMRRc\t%d\tPPRc\t%d\nmaxEpRC\t%d\thPPRnxt\t%d\n", __func__, \
@@ -243,11 +268,11 @@ static uint32_t ppr_ddrc_ddr5_read_failure_row(uint32_t ch)
 				continue;
 
 			for (dram_idx = 0; dram_idx < MAX_DRAM; dram_idx++) {
-				dramx_mr16[r][dram_grp][dram_idx] = (mr16_val >> (DEV0_OFFS - dram_idx * 8)) & 0xFF;
-				dramx_mr17[r][dram_grp][dram_idx] = (mr17_val >> (DEV0_OFFS - dram_idx * 8)) & 0xFF;
-				dramx_mr18[r][dram_grp][dram_idx] = (mr18_val >> (DEV0_OFFS - dram_idx * 8)) & 0xFF;
-				dramx_mr19[r][dram_grp][dram_idx] = (mr19_val >> (DEV0_OFFS - dram_idx * 8)) & 0xFF;
-				dramx_mr20[r][dram_grp][dram_idx] = (mr20_val >> (DEV0_OFFS - dram_idx * 8)) & 0xFF;
+				dramx_mr16[r][dram_grp][dram_idx] = (mr16_val >> (dram_idx * 8)) & 0xFF;
+				dramx_mr17[r][dram_grp][dram_idx] = (mr17_val >> (dram_idx * 8)) & 0xFF;
+				dramx_mr18[r][dram_grp][dram_idx] = (mr18_val >> (dram_idx * 8)) & 0xFF;
+				dramx_mr19[r][dram_grp][dram_idx] = (mr19_val >> (dram_idx * 8)) & 0xFF;
+				dramx_mr20[r][dram_grp][dram_idx] = (mr20_val >> (dram_idx * 8)) & 0xFF;
 
 				// ECC DRAM device is located at group 1
 				// group 1 has only one ECC device dramxx_mr[r][1][0] the rest 3 is empty and can be skipped
