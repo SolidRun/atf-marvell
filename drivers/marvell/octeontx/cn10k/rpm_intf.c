@@ -353,6 +353,7 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 		lmac_ctx->s.link_up = link_sts.s.link_up;
 		lmac_ctx->s.full_duplex = link_sts.s.full_duplex;
 		lmac_ctx->s.speed = link_sts.s.speed;
+		lmac_ctx->s.fec = link_sts.s.fec;
 		lmac_ctx->s.link_enable = 1;
 		rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
 		bringup_ctx->link_bringup_time = 0;
