@@ -1068,6 +1068,44 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 	return 0;
 }
 
+static int rpm_ecp_req_mode_change_to_cpri(int portm_idx, int rpm_id, int lmac_id,
+			rpm_lmac_context_t *lmac_ctx, ecp_link_state_t *link_state)
+{
+	uint64_t init_time, link_timeout;
+	int ret, status = 0, sig_detect = 0;
+
+	ret = ecp_send_link_req(portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE, lmac_ctx);
+	if (ret == -1) {
+		/* Request not sent */
+		debug_rpm_intf("%s: PORTM%d Request not sent\n",
+			__func__, portm_idx);
+		return -1;
+	}
+
+	init_time = clock_get_count(GSER_CLOCK_TIME);
+	link_timeout = init_time + ECP_MODE_CHANGE_WAIT_STATUS *
+		clock_get_rate(GSER_CLOCK_TIME)/1000000;
+
+	while (clock_get_count(GSER_CLOCK_TIME) < link_timeout) {
+		status = ecp_get_link_state(portm_idx, lmac_id, link_state, &sig_detect);
+		if (status == ETH_LINK_STATE_NO_STATE)
+			break;
+
+		mdelay(5);
+	}
+
+	if (status != ETH_LINK_STATE_NO_STATE) {
+		debug_rpm_intf("%s: PORTM%d Request not sent\n",
+			__func__, portm_idx);
+		return -1;
+	}
+
+	debug_rpm_intf("%s: PORTM%d Mode Change Request sent to ECP\n",
+		__func__, portm_idx);
+
+	return 0;
+}
+
 static int rpm_get_validated_portm_mode(int portm_idx, uint64_t req_mode,
 					int mode_group)
 {
@@ -1116,8 +1154,8 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 		lmac_id = portm->mac_lane;
 		switch_from_eth = 1;
 	} else {
-		rpm_id = -1;
-		lmac_id = -1;
+		rpm_id = 0;
+		lmac_id = portm->mac_lane;
 	}
 
 	req_mode = args->mode;
@@ -1145,8 +1183,8 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 	cn10k_fill_portms_used(portm_idx, portm_mode);
 
 	/* Send request to ECP for mode change */
-	ret = rpm_ecp_req_mode_change(portm_idx, rpm_id, lmac_id,
-		NULL, &link_state);
+	ret = rpm_ecp_req_mode_change_to_cpri(portm_idx,
+		portm->mac_num, portm->mac_lane, NULL, &link_state);
 	if (ret)
 		return -1;
 
@@ -1745,7 +1783,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	err_type = rpm_get_error_type(rpm_id, lmac_id);
 
-	if (request_id == ETH_CMD_GET_PORT_MODE)
+	if (request_id == ETH_CMD_GET_PORT_MODE || request_id == ETH_CMD_MODE_CHANGE)
 		scratchx0.s.evt_sts.stat = ret;
 	else if ((err_type & RPM_ERR_MASK) && (request_id != ETH_CMD_GET_LINK_STS))
 		scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
