@@ -822,16 +822,16 @@ different speed. Following are the parameters expected:
                                   * identified via SCRATCH register that was used for sending the
                                   * command, but via portm_idx field below - in which case mode
                                   * change can be issued using any rpm/lmac SCRATCH register
-                                  * (usecase of switching from CPRI mode)
+                                  * (required for BPHY ports)
                                   */
-       uint64_t portm_idx:5;     /* target PORTM# for mode change command (when switching from CPRI) */
+       uint64_t portm_idx:5;     /* target PORTM# for mode change command (required for BPHY ports) */
        /* This field categorize the mode ID range to accommodate more modes.
         * To specify mode ID range of 0 - 41, this field will be 0.
         * To specify mode ID range of 42 - 83, this field will be 1 and so.
         * mode ID will be still mentioned as 1 << (0 - 41). But the mode_group_idx
         * decides the actual mode range
         */
-       uint64_t mode_group_idx:2;
+       uint64_t mode_group_idx:2; /* 0 or 1 = Ethernet, 2 = CPRI modes group */
        uint64_t mode:42;	/* (1 << eth_mode_t) or (1 << eth_cpri_mode_t)
                                  * depending on the mode_group_index
                                  */
