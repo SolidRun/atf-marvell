@@ -948,25 +948,38 @@ Usage:
 set_mode Example - set_mode <ethX> mode [portm_idx]
 Change mode of selected network interface
 
-mode encoding -
+mode encoding:
 
 Ethernet modes:
     0 - SGMII
     1 - 1G-X
     3 - 10G_C2C
     4 - 10G_C2M
+    5 - 10G_KR
     7 - 25G_C2C
     8 - 25G_C2M
+   10 - 25G_CR
+   11 - 25G_KR
    12 - 40G_C2C
    13 - 40G_C2M
+   14 - 40G_CR4
+   15 - 40G_KR4
    17 - 50G_1_C2C
    18 - 50G_1_C2M
+   20 - 50G_CR
+   21 - 50G_KR
    23 - 100G_4_C2C
    24 - 100G_4_C2M
+   25 - 100G_CR4
+   26 - 100G_KR4
    27 - 50G_2_C2C
    28 - 50G_2_C2M
+   29 - 50G_CR2
+   30 - 50G_KR2
    31 - 100G_2_C2C
    32 - 100G_2_C2M
+   33 - 100G_CR2
+   34 - 100G_KR2
    35 - SFI_1G
 
 CPRI modes:
@@ -975,6 +988,13 @@ CPRI modes:
    86 - CPRI_4_9G
    87 - CPRI_6_1G
    88 - CPRI_9_8G
+   89 - CPRI_2_4G_TEST
+   90 - CPRI_3_1G_TEST
+   91 - CPRI_4_9G_TEST
+   92 - CPRI_6_1G_TEST
+   93 - CPRI_9_8G_TEST
+   94 - CPRI_12_3G_TEST
+   95 - CPRI_19_7G_TEST
 
 .. Note::
 
