@@ -328,6 +328,7 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 
 static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 {
+	int mod_status = 0;
 	rpm_lmac_context_t *lmac_ctx;
 	rpm_lmac_config_t *lmac_cfg;
 	rpm_link_state_t link_sts;
@@ -346,6 +347,22 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 	debug_rpm_intf("%s %d:%d Bring up time %lld bringup_ctx->link_timeout %lld bringup_ctx->link_bringup_init_time %lld\n",
 			__func__, rpm_id, lmac_id, bringup_ctx->link_bringup_time, bringup_ctx->link_timeout,
 			bringup_ctx->link_bringup_init_time);
+
+	mod_status = rpm_check_sfp_mod_stat(rpm_id, lmac_id);
+	if (mod_status != 1)
+		debug_rpm_intf("%s: %d:%d Unable to get Module status\n",
+			       __func__, rpm_id, lmac_id);
+	else {
+		if (!mod_status) {
+			debug_rpm_intf("%s: %d:%d Module not present\n",
+				       __func__, rpm_id, lmac_id);
+			rpm_set_error_type(rpm_id, lmac_id,
+					   ETH_ERR_MODULE_NOT_PRESENT);
+		}
+		/* Update SFP mod status in ECP SM */
+		ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
+	}
+
 	rpm_get_link_status(rpm_id, lmac_id, &link_sts);
 	if (link_sts.s.link_up) {
 		/* Update link status */
@@ -484,6 +501,9 @@ retry_mod_stat1:
 					}
 				}
 			}
+			/* Update SFP mod status in ECP SM */
+			ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
+
 			goto retry_link1;
 		}
 retry_link1:
