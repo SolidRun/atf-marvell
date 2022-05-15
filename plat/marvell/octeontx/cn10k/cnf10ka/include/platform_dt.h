@@ -58,8 +58,6 @@
 #define RVU_ADMIN_FDT_NODE	"rvu-admin@0"
 #define RVU_SSO_TIM_FDT_NODE	"rvu-sso-tim@0"
 #define RVU_NPA_FDT_NODE	"rvu-npa@0"
-#define RVU_CPT_FDT_NODE	"rvu-cpt@0"
 #define RVU_SDP_FDT_NODE	"rvu-sdp@0"
-#define RVU_IPSEC_FDT_NODE	"rvu-ipsec@0"
 
 #endif

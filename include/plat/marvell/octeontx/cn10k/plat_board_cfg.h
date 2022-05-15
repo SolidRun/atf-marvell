@@ -79,7 +79,7 @@ typedef struct rvu_sw_rvu_pf {
 
 /* default, if not defined by platform */
 #ifndef SW_RVU_IPSEC_NUM_PF
-#define SW_RVU_IPSEC_NUM_PF     1
+#define SW_RVU_IPSEC_NUM_PF     0
 #endif
 
 /* default, if not defined by platform */
@@ -94,7 +94,7 @@ typedef struct rvu_sw_rvu_pf {
 
 /* default, if not defined in platform */
 #ifndef SW_RVU_CPT_NUM_PF
-#define SW_RVU_CPT_NUM_PF     1
+#define SW_RVU_CPT_NUM_PF     0
 #endif
 
 typedef enum {

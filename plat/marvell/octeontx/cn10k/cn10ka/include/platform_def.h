@@ -220,4 +220,7 @@
 #define FWLOG_NS_MEM_BASE	(48 * 1024 * 1024)
 #define FWLOG_NS_MEM_SIZE	(4 * 1024 * 1024)
 
+#define SW_RVU_IPSEC_NUM_PF	1
+#define SW_RVU_CPT_NUM_PF	1
+
 #endif

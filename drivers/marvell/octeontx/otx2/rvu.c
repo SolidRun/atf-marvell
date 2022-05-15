@@ -159,7 +159,7 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_NPA_VF,
 		    .class_code = GSP_CLASS_CODE
 		  } },
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
 		{ SW_RVU_IPSEC_PF(0), SW_RVU_IPSEC_NUM_PF,
 		  { .pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_IPSEC_INLINE_PF,
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_IPSEC_INLINE_VF,
@@ -543,7 +543,7 @@ static int octeontx_init_rvu_from_fdt(void)
 		}
 	}
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
 	/* For cn10k family, setup fixed provision for IPSEC PF at (last-3) */
 	sw_pf = find_sw_rvu_pf_info(SW_RVU_IPSEC_PF(0));
 	if (sw_pf != NULL && sw_pf->mapping != SW_RVU_MAP_NONE) {
@@ -828,7 +828,7 @@ static int octeontx_init_rvu_from_fdt(void)
 		sso_tim_pfs--;
 	}
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
 	while (ipsec_pfs > 0) {
 		pf = rvu_first_available(avail_from_bot);
 		if (pf == -1) {

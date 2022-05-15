@@ -1342,7 +1342,7 @@ static int cn10k_parse_sw_rvu(const void *fdt, int parentoffset,
 
 static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 {
-	int offset, rc, soc_offset, cpt, i;
+	int offset, rc, soc_offset, i;
 	char node_name[32];
 
 	/* Initialize all SW_RVU_PF mappings to NONE */
@@ -1436,8 +1436,10 @@ static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	}
 #endif /* RVU_REE_FDT_NODE */
 
+#ifdef RVU_CPT_FDT_NODE
 	/* Find if CPT node is available */
 	if (plat_octeontx_get_cpt_count()) {
+		int cpt;
 		/* if CPT block is available, check if node is
 		 * present before configuring RVU for CPT
 		 */
@@ -1457,6 +1459,7 @@ static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 		debug_dts("RVU: CPT is disabled\n");
 		plat_octeontx_bcfg->rvu_config.cpt_dis = 1;
 	}
+#endif /* RVU_CPT_FDT_NODE */
 
 	/* Here we can mark FDT RVU config as valid */
 	plat_octeontx_bcfg->rvu_config.valid = 1;
