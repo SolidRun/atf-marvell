@@ -270,10 +270,10 @@ void plat_cn10k_fdt_tad_pmu_node_refresh(void)
 	reg[3] = cpu_to_fdt32(size & 0xffffffff);
 
 	/* Write into the Device Tree */
-	fdt_setprop(fdt, offs, "tad-cnt", &tad_cnt, sizeof(tad_cnt));
-	fdt_setprop(fdt, offs, "tad-page-size",
+	fdt_setprop(fdt, offs, "marvell,tad-cnt", &tad_cnt, sizeof(tad_cnt));
+	fdt_setprop(fdt, offs, "marvell,tad-page-size",
 		    &tad_page_size, sizeof(tad_page_size));
-	fdt_setprop(fdt, offs, "tad-pmu-page-size",
+	fdt_setprop(fdt, offs, "marvell,tad-pmu-page-size",
 		    &tad_pmu_page_size, sizeof(tad_pmu_page_size));
 	fdt_setprop(fdt, offs, "reg", reg, sizeof(reg));
 }
