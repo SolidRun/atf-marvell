@@ -2448,7 +2448,7 @@ static void cn10k_fill_gserm_details(void *fdt)
 			refclk_synce = cn10k_fdtebf_get_num(fdt, prop, 10);
 			if (refclk_synce == -1) {
 				debug_dts("%s: No REFCLK-SYNCE-SEL found for GSERM%d. Using non-synce REFCLK.\n", __func__, gserm_idx);
-				refclk_synce = 0;
+				refclk_synce = 1;
 			}
 
 			gserm->sync_e_ena = refclk_synce;

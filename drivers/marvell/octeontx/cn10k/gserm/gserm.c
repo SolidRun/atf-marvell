@@ -1062,9 +1062,9 @@ void gserm_reset_init(void)
 	 *    For Ethernet (RPM) mode, set
 	 *    GSERM(0..6,15)_LANE(0..3)_CONTROL_BCFG[JESD_MODE] = 0.
 	 * (6b) Select the reference clock for the Ethernet mode.
-	 *    Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT] = 0x0 for
+	 *    Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT] = 0x1 for
 	 *    REF_CLK2_P/N (standard Ethernet).
-	 *    Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT] =0x1 for
+	 *    Set GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT] =0x0 for
 	 *    REF_CLK4_P/N (Synchronous Ethernet).
 	 * Note: that GSERM(0..5,15)_COMMON_PHY_CTRL_BCFG[REFCLK_SEL_EXT]
 	 * determines whether all Ethernet lanes in the GSERM use REF_CLK2_P/N, or the
