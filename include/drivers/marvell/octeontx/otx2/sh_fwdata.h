@@ -87,7 +87,11 @@ struct sh_fwdata {
 /* API declarations */
 void sh_fwdata_update_supported_fec(int cgx_id, int lmac_id);
 int sh_fwdata_get_supported_fec(int cgx_id, int lmac_id);
+#ifdef PLAT_CN10K_FAMILY
+void sh_fwdata_update_eeprom_data(int portm_idx, uint16_t sff_id);
+#else
 void sh_fwdata_update_eeprom_data(int cgx_id, int lmac_id, uint16_t sff_id);
+#endif
 void sh_fwdata_clear_eeprom_data(int cgx_id, int lmac_id, uint16_t sff_id);
 void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id);
 void sh_fwdata_update_phy_mod_type(int cgx_id, int lmac_id);

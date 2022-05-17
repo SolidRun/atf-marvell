@@ -184,16 +184,18 @@ static void rpm_set_link_state(int rpm_id, int lmac_id,
 static int rpm_sfp_obtain_capabilities(int rpm_id, int lmac_id)
 {
 	int trans_type;
+	rpm_lmac_config_t *lmac =
+		&plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
 	/* Read the EEPROM to determine new module capabilities */
-	trans_type = sfp_parse_eeprom_data(rpm_id, lmac_id);
+	trans_type = sfp_parse_eeprom_data(lmac->portm_idx);
 
 	if (trans_type != SFP_TRANS_TYPE_NONE) {
 		/* If Valid transceiver found */
 		debug_rpm_intf("%s: %d:%d trans_type %d\n",
 				__func__, rpm_id, lmac_id,
 				trans_type);
-		return sfp_validate_user_options(rpm_id, lmac_id);
+		return sfp_validate_user_options(lmac->portm_idx);
 	}
 
 	debug_rpm_intf("%s: %d:%d Valid transceiver not identified\n",
@@ -206,11 +208,13 @@ static int rpm_check_sfp_mod_stat(int rpm_id, int lmac_id)
 {
 	int ret = 0, mod_status = 0;
 	rpm_lmac_context_t *lmac_ctx;
+	rpm_lmac_config_t *lmac;
 
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
 	/* Obtain the module status */
-	mod_status = sfp_get_mod_status(rpm_id, lmac_id);
+	mod_status = sfp_get_mod_status(lmac->portm_idx);
 
 	debug_rpm_intf("%s: %d:%d mod_status %d\n",
 			__func__, rpm_id, lmac_id, mod_status);
@@ -251,7 +255,7 @@ static int rpm_check_sfp_mod_stat(int rpm_id, int lmac_id)
 	 */
 	if (mod_status == SFP_MOD_STATE_EEPROM_UPDATED) {
 		lmac_ctx->s.mod_stats = mod_status;
-		sfp_parse_eeprom_data(rpm_id, lmac_id);
+		sfp_parse_eeprom_data(lmac->portm_idx);
 		return 1; /* Valid */
 	}
 	return 0;
@@ -1019,18 +1023,7 @@ static void rpm_update_lmac_mode_config(int rpm_id, int lmac_id)
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	mode_info = &lmac->lmac_mode_info[lmac->mode];
 
-	lmac->sfp_slot = 0;
-	lmac->sfp_info = NULL;
-	lmac->an_disable = 0;
-
-	if (mode_info->sfp) {
-		lmac->sfp_info =
-			&plat_octeontx_bcfg->sfp_slots[mode_info->sfp_info_idx];
-		lmac->sfp_slot = 1;
-	}
-
-	if (mode_info->an_disable)
-		lmac->an_disable = 1;
+	lmac->an_disable = mode_info->an_disable;
 
 	rpm_set_supported_link_modes(rpm_id, lmac_id);
 }
@@ -1425,7 +1418,6 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		rpm->enable = 1;
 	}
 	rpm_update_lmac_mode_config(rpm_id, lmac_id);
-	sfp_update_sfp_info(rpm_id, lmac_id);
 
 	/* Update new LMAC mode to shared memory */
 	sh_fwdata_set_lmac_type(rpm_id, lmac_id, PORTM_ETH);
@@ -1711,8 +1703,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				 */
 				if ((lmac_ctx->s.link_enable) &&
 						(lmac->sfp_slot))
-					val = sfp_get_fec_capability(rpm_id,
-								lmac_id);
+					val = sfp_get_fec_capability(lmac->portm_idx);
 				else {
 					val = cn10k_portm_get_mode_desc_fec(portm->portm_mode);
 					if ((val == PORTM_FEC_RS_528_ONLY) || (val == PORTM_FEC_RS_544_ONLY))

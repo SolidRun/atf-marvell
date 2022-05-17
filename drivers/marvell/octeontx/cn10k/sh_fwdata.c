@@ -266,17 +266,23 @@ void sh_fwdata_set_supported_an(int rpm_id, int lmac_id)
 			fwdata->supported_an);
 }
 
-void sh_fwdata_update_eeprom_data(int rpm_id, int lmac_id, uint16_t sff_id)
+void sh_fwdata_update_eeprom_data(int portm_idx, uint16_t sff_id)
 {
 	struct eth_lmac_fwdata_s *fwdata;
-	rpm_lmac_config_t *lmac_cfg;
 	sfp_shared_data_t *sh_data;
+	int rpm_id, lmac_id;
 
-	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	sh_data = sfp_get_sh_mem_ptr(lmac_cfg->portm_idx);
+	rpm_id = cn10k_portm_get_rpm_num(portm_idx);
+	lmac_id = cn10k_portm_get_rpm_lmac_num(portm_idx);
 
+	if (rpm_id == -1 || lmac_id == -1) {
+		ERROR("%s: PORTM%d is not a valid port\n",
+			__func__, portm_idx);
+		return;
+	}
+
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
-
 	fwdata->rw_valid = 0;
 
 	memcpy(fwdata->sfp_eeprom.buf, sh_data->buf, SFP_EEPROM_SIZE);

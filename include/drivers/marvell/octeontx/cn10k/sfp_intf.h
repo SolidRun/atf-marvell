@@ -194,8 +194,6 @@ typedef enum sfp_own {
 
 /* Data structures to be shared between AP and MCP */
 typedef struct sfp_context {
-	/* indicates whether the sfp info was updated */
-	uint32_t updated;
 	/* indicates whether the sfp info is valid */
 	uint32_t valid;
 	/* transceiver state, sfp_mod_state_info_t*/

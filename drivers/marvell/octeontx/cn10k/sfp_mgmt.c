@@ -54,15 +54,13 @@ sfp_shared_data_t *sfp_get_sh_mem_ptr(int portm_idx)
 
 void sfp_init_shmem(void)
 {
-	int eth_idx, lmac_idx;
 	int portm_idx;
 
 	debug_sfp_mgmt("%s\n", __func__);
 	debug_sfp_mgmt("sizeof = %d\n", (int)sizeof(sfp_shared_data_t));
 
 	for (portm_idx = 0; portm_idx < PORTM_MAX; portm_idx++) {
-		rpm_lmac_config_t *lmac;
-		portm_config_t *portm;
+		sfp_slot_info_t *sfp;
 		sfp_shared_data_t *sh_data;
 
 		sh_data = sfp_get_sh_mem_ptr(portm_idx);
@@ -79,21 +77,16 @@ void sfp_init_shmem(void)
 		if (portm_idx >= MAX_PORTM)
 			continue;
 
-		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
-		if (portm->mac_type != PORTM_ETH)
-			continue;
+		sfp = &plat_octeontx_bcfg->sfp_slots[portm_idx];
+		if (sfp->is_sfp || sfp->is_qsfp) {
+			debug_sfp_mgmt("%s: PORTM%d: initializing SFP INFO\n",
+				__func__, portm_idx);
 
-		eth_idx = cn10k_portm_get_rpm_num(portm_idx);
-		lmac_idx = cn10k_portm_get_rpm_lmac_num(portm_idx);
-
-		lmac = &plat_octeontx_bcfg->rpm_cfg[eth_idx].lmac_cfg[lmac_idx];
-
-
-		if (lmac->sfp_slot && lmac->sfp_info) { /* if SFP slot is present */
-			memcpy(&sh_data->sfp_slot, lmac->sfp_info,
-					sizeof(sfp_slot_info_t));
+			memcpy(&sh_data->sfp_slot, sfp,
+				sizeof(sfp_slot_info_t));
 			sh_data->sfp_ctx.valid = 1;
 		}
+
 		/* Assign RPM/LMAC IDs */
 		sh_data->portm_idx = portm_idx;
 
@@ -107,66 +100,12 @@ void sfp_init_shmem(void)
 	}
 }
 
-int sfp_update_sfp_info(int eth_id, int lmac_id)
-{
-	int retry_lock = 5;
-	sfp_context_t *ctx;
-	rpm_lmac_config_t *lmac;
-	sfp_shared_data_t *sh_data;
-	int portm_idx;
-
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
-	sh_data = sfp_get_sh_mem_ptr(portm_idx);
-
-	if (sh_data == NULL) {
-		ERROR("%s: SM pointer is NULL\n", __func__);
-		return -1;
-	}
-	ctx = &sh_data->sfp_ctx;
-
-retry_acquire_lock:
-	if (ctx->lock == SFP_OWN_NONE) {
-		ctx->lock = SFP_OWN_AP;
-	} else {
-		if (retry_lock-- <= 0) {
-			mdelay(1);
-			goto retry_acquire_lock;
-		}
-
-		debug_sfp_mgmt("%s %d:%d lock %d not available for AP\n",
-					__func__,
-					eth_id, lmac_id, ctx->lock);
-		return -1;
-	}
-
-	/* Check and update if SFP slot is present */
-	if (lmac->sfp_slot && lmac->sfp_info) {
-		memcpy(&sh_data->sfp_slot, lmac->sfp_info,
-			sizeof(sfp_slot_info_t));
-		ctx->valid = 1;
-		ctx->updated = 1;
-	} else {
-		if (ctx->valid) {
-			ctx->valid = 0;
-			ctx->updated = 1;
-		}
-	}
-	ctx->lock = SFP_OWN_NONE;
-
-	return 0;
-}
-
-int sfp_get_mod_status(int eth_id, int lmac_id)
+int sfp_get_mod_status(int portm_idx)
 {
 	int retry_lock = 0;
 	sfp_context_t *ctx;
-	rpm_lmac_config_t *lmac;
 	sfp_shared_data_t *sh_data;
-	int portm_idx;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 
 	if (sh_data == NULL) {
@@ -184,32 +123,27 @@ retry_acquire_lock:
 			goto retry_acquire_lock;
 		}
 
-		debug_sfp_mgmt("%s %d:%d lock %d not available for AP\n",
-					__func__,
-					eth_id, lmac_id, ctx->lock);
+		debug_sfp_mgmt("%s PORTM%d lock %d not available for AP\n",
+					__func__, portm_idx, ctx->lock);
 		return -1;
 	}
-	debug_sfp_mgmt("%s: %d:%d ctx %p state %d\n", __func__, eth_id,
-				lmac_id, ctx, ctx->mod_status);
+	debug_sfp_mgmt("%s: PORTM%d ctx %p state %d\n", __func__, portm_idx,
+				ctx, ctx->mod_status);
 	ctx->lock = SFP_OWN_NONE;
 
 	if (ctx->mod_status == SFP_MOD_STATE_ABSENT)
-		debug_sfp_mgmt("%s: %d:%d module not present ctx %p\n",
-			__func__, eth_id, lmac_id, ctx);
+		debug_sfp_mgmt("%s: PORTM%d module not present ctx %p\n",
+			__func__, portm_idx, ctx);
 
 	return ctx->mod_status;
 }
 
-static void sfp_get_info_1g(int eth_id, int lmac_id)
+static void sfp_get_info_1g(int portm_idx)
 {
 	sfp_mod_info_t *mod_info;
 	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
 	sfp_shared_data_t *sh_data;
-	int portm_idx;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	cap_info = &sfp_cap_info[portm_idx];
 
@@ -251,8 +185,8 @@ static void sfp_get_info_1g(int eth_id, int lmac_id)
 			break;
 		default:
 			cap_info->trans_type = SFP_TRANS_TYPE_UNKNOWN;
-			ERROR("%s: %d:%d unknown SFP/SFP+/SFP28 transceiver type\n",
-						__func__, eth_id, lmac_id);
+			ERROR("%s: PORTM%d unknown SFP/SFP+/SFP28 transceiver type\n",
+						__func__, portm_idx);
 			break;
 		}
 		break;
@@ -263,16 +197,12 @@ static void sfp_get_info_1g(int eth_id, int lmac_id)
 	}
 }
 
-static void sfp_get_info_10g(int eth_id, int lmac_id)
+static void sfp_get_info_10g(int portm_idx)
 {
 	sfp_mod_info_t *mod_info;
 	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
 	sfp_shared_data_t *sh_data;
-	int portm_idx;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	cap_info = &sfp_cap_info[portm_idx];
 
@@ -338,8 +268,8 @@ static void sfp_get_info_10g(int eth_id, int lmac_id)
 			/* FIXME: other connector types? */
 			default:
 				cap_info->trans_type = SFP_TRANS_TYPE_UNKNOWN;
-				debug_sfp_mgmt("%s: %d:%d Unknown SFP/SFP+/SFP28 detected\n",
-						__func__, eth_id, lmac_id);
+				debug_sfp_mgmt("%s: PORTM%d Unknown SFP/SFP+/SFP28 detected\n",
+						__func__, portm_idx);
 				break;
 			}
 			break;
@@ -352,16 +282,12 @@ static void sfp_get_info_10g(int eth_id, int lmac_id)
 	}
 }
 
-static void sfp_get_info_25g(int eth_id, int lmac_id)
+static void sfp_get_info_25g(int portm_idx)
 {
 	sfp_mod_info_t *mod_info;
 	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
 	sfp_shared_data_t *sh_data;
-	int portm_idx;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	cap_info = &sfp_cap_info[portm_idx];
 
@@ -490,16 +416,12 @@ static void sfp_get_info_25g(int eth_id, int lmac_id)
 /* SFP EEPROM contents
  * Refer SFF 8472 & SFF 8024
  */
-static void sfp_get_info(int eth_id, int lmac_id)
+static void sfp_get_info(int portm_idx)
 {
 	sfp_mod_info_t *mod_info;
 	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
 	sfp_shared_data_t *sh_data;
-	int portm_idx;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	cap_info = &sfp_cap_info[portm_idx];
 
@@ -512,16 +434,16 @@ static void sfp_get_info(int eth_id, int lmac_id)
 	/* check byte 12 for nominal bit rate */
 	if (mod_info->bitrate >= 250) {
 		debug_sfp_mgmt("%s: 25G signal rate\n", __func__);
-		sfp_get_info_25g(eth_id, lmac_id);
+		sfp_get_info_25g(portm_idx);
 	} else if (mod_info->bitrate >= 100) {
 		debug_sfp_mgmt("%s: 10G signal rate\n", __func__);
-		sfp_get_info_10g(eth_id, lmac_id);
+		sfp_get_info_10g(portm_idx);
 	} else if (mod_info->bitrate >= 10) {
 		debug_sfp_mgmt("%s: 1G signal rate\n", __func__);
-		sfp_get_info_1g(eth_id, lmac_id);
+		sfp_get_info_1g(portm_idx);
 	} else {
-		WARN("%s: %d:%d signal rate not specified for SFP/SFP+/SFP28\n",
-					__func__, eth_id, lmac_id);
+		WARN("%s: PORTM%d signal rate not specified for SFP/SFP+/SFP28\n",
+					__func__, portm_idx);
 		/* FIXME : as per SFF-8472 5.7, a value of 0 indicates that
 		 * the bit rate is not specified and must be determined
 		 * from the transceiver technology. But,
@@ -582,8 +504,7 @@ static void sfp_get_info(int eth_id, int lmac_id)
 	}
 	if (cap_info->trans_type == SFP_TRANS_TYPE_NONE) {
 		/* if transceiver type is not identified, throw error */
-		ERROR("%s : %d:%d unknown cable type\n", __func__, eth_id,
-						lmac_id);
+		ERROR("%s : PORTM%d unknown cable type\n", __func__, portm_idx);
 		return;
 	}
 	/* FIXME : Log the other vendor details if required */
@@ -594,17 +515,13 @@ static void sfp_get_info(int eth_id, int lmac_id)
 			mod_info->vendor_pn, mod_info->vendor_rev);
 }
 
-void qsfp_get_info(int eth_id, int lmac_id)
+static void qsfp_get_info(int portm_idx)
 {
 	int far_end = 0x0;
 	qsfp_mod_info_t *mod_info;
 	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
 	sfp_shared_data_t *sh_data;
-	int portm_idx;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	cap_info = &sfp_cap_info[portm_idx];
 
@@ -787,9 +704,8 @@ void qsfp_get_info(int eth_id, int lmac_id)
 
 	if (cap_info->trans_type == SFP_TRANS_TYPE_NONE) {
 		/* if transceiver type is not identified, throw error */
-		debug_sfp_mgmt("%s : %d:%d unknown cable type\n",
-					__func__, eth_id,
-						lmac_id);
+		debug_sfp_mgmt("%s : PORTM%d unknown cable type\n",
+					__func__, portm_idx);
 		return;
 	}
 
@@ -804,18 +720,12 @@ void qsfp_get_info(int eth_id, int lmac_id)
 /* AN capabilities are determined based on the module
  * connected as specified by IEEE 802.3 SPEC
  */
-int sfp_get_an_capability(int eth_id, int lmac_id)
+int sfp_get_an_capability(int portm_idx)
 {
 	int an = 0;
-	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
-	int portm_idx;
+	sfp_cap_info_t *cap_info = &sfp_cap_info[portm_idx];
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
-	cap_info = &sfp_cap_info[portm_idx];
-
-	debug_sfp_mgmt("%s: %d:%d trans_type %d\n", __func__, eth_id, lmac_id,
+	debug_sfp_mgmt("%s: PORTM%d trans_type %d\n", __func__, portm_idx,
 			cap_info->trans_type);
 
 	switch (cap_info->trans_type) {
@@ -834,7 +744,7 @@ int sfp_get_an_capability(int eth_id, int lmac_id)
 	}
 	cap_info->an_enable = an;
 
-	debug_sfp_mgmt("%s: %d:%d an %d\n", __func__, eth_id, lmac_id, an);
+	debug_sfp_mgmt("%s: PORTM%d an %d\n", __func__, portm_idx, an);
 
 	return an;
 }
@@ -845,18 +755,12 @@ int sfp_get_an_capability(int eth_id, int lmac_id)
  * 25G/50G - RS/FIRECODE FEC
  * 100G	   - RS FEC
  */
-int sfp_get_fec_capability(int eth_id, int lmac_id)
+int sfp_get_fec_capability(int portm_idx)
 {
 	int fec = 0;
-	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
-	int portm_idx;
+	sfp_cap_info_t *cap_info = &sfp_cap_info[portm_idx];
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
-	cap_info = &sfp_cap_info[portm_idx];
-
-	debug_sfp_mgmt("%s: %d:%d trans_type %d\n", __func__, eth_id, lmac_id,
+	debug_sfp_mgmt("%s: PORTM%d trans_type %d\n", __func__, portm_idx,
 			cap_info->trans_type);
 	switch (cap_info->trans_type) {
 	case SFP_TRANS_TYPE_10G_SR:
@@ -909,24 +813,18 @@ int sfp_get_fec_capability(int eth_id, int lmac_id)
 		break;
 	}
 	cap_info->fec_type = fec;
-	debug_sfp_mgmt("%s: %d:%d fec %d\n", __func__, eth_id, lmac_id, fec);
+	debug_sfp_mgmt("%s: PORTM%d fec %d\n", __func__, portm_idx, fec);
 
 	return fec;
 }
 
 /* Get Speed capabilities */
-int sfp_get_speed_capability(int eth_id, int lmac_id)
+int sfp_get_speed_capability(int portm_idx)
 {
 	int max_speed = 0;
-	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
-	int portm_idx;
+	sfp_cap_info_t *cap_info = &sfp_cap_info[portm_idx];
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
-	cap_info = &sfp_cap_info[portm_idx];
-
-	debug_sfp_mgmt("%s: %d:%d trans_type %d\n", __func__, eth_id, lmac_id,
+	debug_sfp_mgmt("%s: PORTM%d trans_type %d\n", __func__, portm_idx,
 			cap_info->trans_type);
 	switch (cap_info->trans_type) {
 	case SFP_TRANS_TYPE_1G_PCC:
@@ -993,18 +891,12 @@ int sfp_get_speed_capability(int eth_id, int lmac_id)
 	return max_speed;
 }
 
-int sfp_is_transceiver_optical(int eth_id, int lmac_id)
+int sfp_is_transceiver_optical(int portm_idx)
 {
 	int optical = 0;
-	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
-	int portm_idx;
+	sfp_cap_info_t *cap_info = &sfp_cap_info[portm_idx];
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
-	cap_info = &sfp_cap_info[portm_idx];
-
-	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+	debug_sfp_mgmt("%s: PORTM%d\n", __func__, portm_idx);
 
 	switch (cap_info->trans_type) {
 	case SFP_TRANS_TYPE_1G_LX:
@@ -1042,18 +934,12 @@ int sfp_is_transceiver_optical(int eth_id, int lmac_id)
 	return optical;
 }
 
-int sfp_is_transceiver_active(int eth_id, int lmac_id)
+int sfp_is_transceiver_active(int portm_idx)
 {
 	int active = 0;
-	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
-	int portm_idx;
+	sfp_cap_info_t *cap_info = &sfp_cap_info[portm_idx];
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
-	cap_info = &sfp_cap_info[portm_idx];
-
-	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+	debug_sfp_mgmt("%s: PORTM%d\n", __func__, portm_idx);
 
 	switch (cap_info->trans_type) {
 	case SFP_TRANS_TYPE_1G_ACC:
@@ -1098,7 +984,7 @@ int sfp_is_transceiver_active(int eth_id, int lmac_id)
 	return active;
 }
 
-int sfp_parse_eeprom_data(int eth_id, int lmac_id)
+int sfp_parse_eeprom_data(int portm_idx)
 {
 	int flag = 0, ret = 0, retry_count = 0;
 	int retry_lock = 0;
@@ -1106,16 +992,26 @@ int sfp_parse_eeprom_data(int eth_id, int lmac_id)
 	sfp_context_t *ctx;
 	sfp_mod_info_t *mod_info;
 	sfp_cap_info_t *cap_info;
-	rpm_lmac_config_t *lmac;
 	sfp_shared_data_t *sh_data;
-	int portm_idx;
+	portm_config_t *portm;
+	int lmac_enabled = 0;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+
+	if (portm->mac_type == PORTM_ETH) {
+		int eth_id, lmac_id;
+		rpm_lmac_config_t *lmac;
+
+		eth_id = portm->mac_num;
+		lmac_id = portm->mac_lane;
+		lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+		lmac_enabled = lmac->lmac_enable;
+	}
+
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	cap_info = &sfp_cap_info[portm_idx];
 
-	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+	debug_sfp_mgmt("%s: PORTM%d\n", __func__, portm_idx);
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
@@ -1138,13 +1034,13 @@ retry_read_eeprom:
 			switch (mod_info->id) {
 			case 0x3:
 				debug_sfp_mgmt("%s: SFP/SFP+/SFP28 inserted\n", __func__);
-				sfp_get_info(eth_id, lmac_id);
+				sfp_get_info(portm_idx);
 				ret = cap_info->trans_type;
 				sff_id = ETH_MODULE_SFF_8472;
 				break;
 			case 0xc:
 				debug_sfp_mgmt("%s: QSFP inserted\n", __func__);
-				qsfp_get_info(eth_id, lmac_id);
+				qsfp_get_info(portm_idx);
 				ret = cap_info->trans_type;
 				sff_id = ETH_MODULE_SFF_8436;
 				flag = 1; /* fall through */
@@ -1169,7 +1065,7 @@ retry_read_eeprom:
 				if ((sh_data->buf[2] & 1) == 0) {
 					debug_sfp_mgmt("%s: QSFP detected and transceiver ready\n",
 								__func__);
-					qsfp_get_info(eth_id, lmac_id);
+					qsfp_get_info(portm_idx);
 					ret = cap_info->trans_type;
 				} else
 					debug_sfp_mgmt("%s: QSFP detected and transceiver not ready\n",
@@ -1179,9 +1075,9 @@ retry_read_eeprom:
 				debug_sfp_mgmt("%s: CXP-28 inserted\n", __func__);
 				break;
 			default:
-				if (lmac->lmac_enable)
-					ERROR("%s: %d:%d unknown transceiver type inserted\n", __func__,
-									eth_id, lmac_id);
+				if (lmac_enabled)
+					ERROR("%s: PORTM%d unknown transceiver type inserted\n", __func__,
+									portm_idx);
 				ret = SFP_TRANS_TYPE_NONE;
 			}
 		} else	{
@@ -1190,8 +1086,8 @@ retry_read_eeprom:
 				goto retry_read_eeprom;
 			}
 
-			debug_sfp_mgmt("%s %d:%d EEPROM not valid state %d\n",
-					 __func__, eth_id, lmac_id,
+			debug_sfp_mgmt("%s PORTM%d EEPROM not valid state %d\n",
+					 __func__, portm_idx,
 					ctx->data_status);
 			ret = SFP_TRANS_TYPE_NONE;
 		}
@@ -1200,9 +1096,9 @@ retry_read_eeprom:
 			mdelay(1);
 			goto retry_acquire_lock;
 		}
-		debug_sfp_mgmt("%s %d:%d lock %d not available for AP\n",
+		debug_sfp_mgmt("%s PORTM%d lock %d not available for AP\n",
 					 __func__,
-					eth_id, lmac_id, ctx->lock);
+					portm_idx, ctx->lock);
 		ret = SFP_TRANS_TYPE_NONE;
 	}
 
@@ -1213,7 +1109,7 @@ retry_read_eeprom:
 	 * buffer now.
 	 */
 	if (ret != SFP_TRANS_TYPE_NONE)
-		sh_fwdata_update_eeprom_data(eth_id, lmac_id, sff_id);
+		sh_fwdata_update_eeprom_data(portm_idx, sff_id);
 
 	/* set the lock to free */
 	ctx->lock = SFP_OWN_NONE;
@@ -1221,33 +1117,44 @@ retry_read_eeprom:
 	return ret;
 }
 
-int sfp_validate_user_options(int eth_id, int lmac_id)
+int sfp_validate_user_options(int portm_idx)
 {
 	int speed_conf = 0;
 	int an_enabled = 0, fec_type = 0;
+	int eth_id, lmac_id;
 	rpm_lmac_config_t *lmac_cfg;
 	phy_config_t *phy;
 	portm_config_t *portm;
 	sfp_cap_info_t *cap_info;
 	char *fec_str[5] = {"none", "baser", "rs", "rs",/* RS 528 */ "rs"/* RS 544 */};
 
-	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+	debug_sfp_mgmt("%s: PORTM%d\n", __func__, portm_idx);
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+
+	if (portm->mac_type != PORTM_ETH) {
+		WARN("%s: PORTM%d is not ethernet\n",
+			__func__, portm_idx);
+		return 0;
+	}
+
+	eth_id = cn10k_portm_get_rpm_num(portm_idx);
+	lmac_id = cn10k_portm_get_rpm_lmac_num(portm_idx);
 
 	lmac_cfg = &(plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id]);
-	cap_info = &sfp_cap_info[lmac_cfg->portm_idx];
+	cap_info = &sfp_cap_info[portm_idx];
 	phy = lmac_cfg->phy_config;
 
 	/* Obtain the module capabilities based on transceiver
 	 * type retrieved from EEPROM
 	 */
-	sfp_get_an_capability(eth_id, lmac_id);
-	sfp_get_fec_capability(eth_id, lmac_id);
-	sfp_get_speed_capability(eth_id, lmac_id);
-	sfp_is_transceiver_active(eth_id, lmac_id);
-	sfp_is_transceiver_optical(eth_id, lmac_id);
+	sfp_get_an_capability(portm_idx);
+	sfp_get_fec_capability(portm_idx);
+	sfp_get_speed_capability(portm_idx);
+	sfp_is_transceiver_active(portm_idx);
+	sfp_is_transceiver_optical(portm_idx);
 
-	debug_sfp_mgmt("%s: %d:%d AN %d FEC %d speed %d active %d optical %d\n",
-			__func__, eth_id, lmac_id,
+	debug_sfp_mgmt("%s: PORTM%d AN %d FEC %d speed %d active %d optical %d\n",
+			__func__, portm_idx,
 			cap_info->an_enable,
 			cap_info->fec_type,
 			cap_info->speed_limit,
@@ -1265,7 +1172,6 @@ int sfp_validate_user_options(int eth_id, int lmac_id)
 	/* FIXME - For now, use this API, but this API doesn't support lower speed modes
 	 * like SGMII/QSGMII
 	 */
-	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 	an_enabled = cn10k_portm_get_mode_desc_ap_sup(portm->portm_mode);
 	if (!an_enabled) {
 		fec_type = portm->fec;
@@ -1283,10 +1189,10 @@ int sfp_validate_user_options(int eth_id, int lmac_id)
 			 * validate it
 			 */
 			if ((cap_info->fec_type & fec_type) == 0) {
-				ERROR("%s: %d:%d User has configured\t"
+				ERROR("%s: PORTM%d User has configured\t"
 				"FEC to be %s,\t"
 				"but module's FEC cap is %s\n", __func__,
-					eth_id, lmac_id, fec_str[fec_type],
+					portm_idx, fec_str[fec_type],
 					fec_str[cap_info->fec_type]);
 				return 0;
 			}
@@ -1297,17 +1203,17 @@ int sfp_validate_user_options(int eth_id, int lmac_id)
 							speed_conf);
 
 		if (speed_conf > cap_info->speed_limit) {
-			ERROR("%s: %d:%d User has configured speed to be %d,\t"
+			ERROR("%s: PORTM%d User has configured speed to be %d,\t"
 					"but module's speed limit is %d\n",
-					__func__, eth_id, lmac_id, speed_conf,
+					__func__, portm_idx, speed_conf,
 					cap_info->speed_limit);
 			return 0;
 		}
 	} else {
 		if (cap_info->an_enable != an_enabled) {
-			ERROR("%s: %d:%d User has configured AN to be %d,\t"
+			ERROR("%s: PORTM%d User has configured AN to be %d,\t"
 					"but module's AN cap is %d\n",
-					__func__, eth_id, lmac_id,
+					__func__, portm_idx,
 					an_enabled,
 					cap_info->an_enable);
 			return 0;
@@ -1317,8 +1223,8 @@ int sfp_validate_user_options(int eth_id, int lmac_id)
 	if (phy && lmac_cfg->phy_present && phy->init && phy->valid &&
 	    phy->mod_type == PHY_MOD_TYPE_PAM4 &&
 	    !(cap_info->fec_type & SFP_FEC_MODE_RS))
-		WARN("%s: %d:%d PAM4 requires RS-FEC, but transceiver is not RS-FEC capable.\n",
-		     __func__, eth_id, lmac_id);
+		WARN("%s: PORTM%d PAM4 requires RS-FEC, but transceiver is not RS-FEC capable.\n",
+		     __func__, portm_idx);
 
 	return 1;
 }

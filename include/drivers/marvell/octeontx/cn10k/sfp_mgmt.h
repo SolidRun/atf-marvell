@@ -333,15 +333,14 @@ typedef struct sfp_capabilities {
 /* Declare APIs */
 void sfp_init_shmem(void);
 void sfp_send_msg_mcp(int cgx_id, int lmac_id);
-int sfp_update_sfp_info(int eth_id, int lmac_id);
-int sfp_parse_eeprom_data(int cgx_id, int lmac_id);
-int sfp_get_mod_status(int cgx_id, int lmac_id);
-int sfp_get_an_capability(int cgx_id, int lmac_id);
-int sfp_get_fec_capability(int cgx_id, int lmac_id);
-int sfp_get_speed_capability(int cgx_id, int lmac_id);
-int sfp_is_transceiver_active(int cgx_id, int lmac_id);
-int sfp_is_transceiver_optical(int cgx_id, int lmac_id);
-int sfp_validate_user_options(int cgx_id, int lmac_id);
+int sfp_parse_eeprom_data(int portm_idx);
+int sfp_get_mod_status(int portm_idx);
+int sfp_get_an_capability(int portm_idx);
+int sfp_get_fec_capability(int portm_idx);
+int sfp_get_speed_capability(int portm_idx);
+int sfp_is_transceiver_active(int portm_idx);
+int sfp_is_transceiver_optical(int portm_idx);
+int sfp_validate_user_options(int portm_idx);
 sfp_shared_data_t *sfp_get_sh_mem_ptr(int portm_idx);
 int mcp_send_async_req(int cgx_id, int lmac_id, int req_id);
 unsigned int mcp_get_an_lt_state(int cgx_id, int lmac_id);
