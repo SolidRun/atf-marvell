@@ -239,8 +239,7 @@ typedef struct sfp_shared_data {
 	sfp_slot_info_t sfp_slot;
 	/* State machine for SFP/QSFP state */
 	sfp_context_t sfp_ctx;
-	uint32_t eth_id;
-	uint32_t lmac_id;
+	uint32_t portm_idx;
 } sfp_shared_data_t;
 
 #endif /* __SFP_INTF_H__ */

@@ -269,7 +269,11 @@ void sh_fwdata_set_supported_an(int rpm_id, int lmac_id)
 void sh_fwdata_update_eeprom_data(int rpm_id, int lmac_id, uint16_t sff_id)
 {
 	struct eth_lmac_fwdata_s *fwdata;
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(rpm_id, lmac_id);
+	rpm_lmac_config_t *lmac_cfg;
+	sfp_shared_data_t *sh_data;
+
+	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	sh_data = sfp_get_sh_mem_ptr(lmac_cfg->portm_idx);
 
 	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
 

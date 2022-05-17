@@ -20,6 +20,7 @@
 #include <eth_intf.h>
 #include <rpm.h>
 #include <sh_fwdata.h>
+#include <eth_link_mgmt_intf.h>
 
 /* For LEGACY logging, define DEBUG_ATF_SFP_MGMT to enable debug logs */
 #undef DEBUG_ATF_SFP_MGMT
@@ -41,57 +42,68 @@ sfp_shared_data_t *mcp_sh_data_global = (void *)SFP_SHMEM_BASE;
 /* Static data to save the transceiver type and its
  * capabilities for each LMAC.
  */
-static sfp_cap_info_t sfp_cap_info[MAX_RPM][MAX_LMAC_PER_RPM];
+static sfp_cap_info_t sfp_cap_info[PORTM_MAX];
 
-sfp_shared_data_t *sfp_get_sh_mem_ptr(int eth_id, int lmac_id)
+sfp_shared_data_t *sfp_get_sh_mem_ptr(int portm_idx)
 {
 	sfp_shared_data_t *sh_data;
 
-	sh_data = (mcp_sh_data_global + (eth_id * MAX_LMAC_PER_RPM) + lmac_id);
+	sh_data = mcp_sh_data_global + portm_idx;
 	return sh_data;
 }
 
 void sfp_init_shmem(void)
 {
 	int eth_idx, lmac_idx;
-	rpm_lmac_config_t *lmac;
-	rpm_config_t *rpm;
-	sfp_shared_data_t *sh_data;
+	int portm_idx;
 
 	debug_sfp_mgmt("%s\n", __func__);
 	debug_sfp_mgmt("sizeof = %d\n", (int)sizeof(sfp_shared_data_t));
 
-	for (eth_idx = 0; eth_idx < MAX_RPM; eth_idx++) {
-		rpm = &plat_octeontx_bcfg->rpm_cfg[eth_idx];
-		for (lmac_idx = 0; lmac_idx < MAX_LMAC_PER_RPM; lmac_idx++) {
-			lmac = &rpm->lmac_cfg[lmac_idx];
-			sh_data = sfp_get_sh_mem_ptr(eth_idx, lmac_idx);
-			if (sh_data == NULL) {
-				ERROR("%s: SM pointer is NULL\n", __func__);
-				return;
-			}
+	for (portm_idx = 0; portm_idx < PORTM_MAX; portm_idx++) {
+		rpm_lmac_config_t *lmac;
+		portm_config_t *portm;
+		sfp_shared_data_t *sh_data;
 
-			/* Initialize shared memory for each LMAC */
-			memset(sh_data, 0, sizeof(sfp_shared_data_t));
-			sh_data->size = sizeof(sfp_shared_data_t);
+		sh_data = sfp_get_sh_mem_ptr(portm_idx);
 
-			if (lmac->sfp_slot && lmac->sfp_info) { /* if SFP slot is present */
-				memcpy(&sh_data->sfp_slot, lmac->sfp_info,
-						sizeof(sfp_slot_info_t));
-				sh_data->sfp_ctx.valid = 1;
-			}
-			/* Assign RPM/LMAC IDs */
-			sh_data->eth_id = eth_idx;
-			sh_data->lmac_id = lmac_idx;
-
-			/* Program the AN/LT interface rev */
-			sh_data->intf_rev = 0xABCD0000;
-
-			/* Copy the board model */
-			strlcpy(sh_data->board_model,
-				plat_octeontx_bcfg->bcfg.board_model,
-				sizeof(sh_data->board_model));
+		if (sh_data == NULL) {
+			ERROR("%s: SM pointer is NULL\n", __func__);
+			return;
 		}
+
+		/* Initialize shared memory for each LMAC */
+		memset(sh_data, 0, sizeof(sfp_shared_data_t));
+		sh_data->size = sizeof(sfp_shared_data_t);
+
+		if (portm_idx >= MAX_PORTM)
+			continue;
+
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+		if (portm->mac_type != PORTM_ETH)
+			continue;
+
+		eth_idx = cn10k_portm_get_rpm_num(portm_idx);
+		lmac_idx = cn10k_portm_get_rpm_lmac_num(portm_idx);
+
+		lmac = &plat_octeontx_bcfg->rpm_cfg[eth_idx].lmac_cfg[lmac_idx];
+
+
+		if (lmac->sfp_slot && lmac->sfp_info) { /* if SFP slot is present */
+			memcpy(&sh_data->sfp_slot, lmac->sfp_info,
+					sizeof(sfp_slot_info_t));
+			sh_data->sfp_ctx.valid = 1;
+		}
+		/* Assign RPM/LMAC IDs */
+		sh_data->portm_idx = portm_idx;
+
+		/* Program the AN/LT interface rev */
+		sh_data->intf_rev = 0xABCD0000;
+
+		/* Copy the board model */
+		strlcpy(sh_data->board_model,
+			plat_octeontx_bcfg->bcfg.board_model,
+			sizeof(sh_data->board_model));
 	}
 }
 
@@ -100,7 +112,12 @@ int sfp_update_sfp_info(int eth_id, int lmac_id)
 	int retry_lock = 5;
 	sfp_context_t *ctx;
 	rpm_lmac_config_t *lmac;
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
+	sfp_shared_data_t *sh_data;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
@@ -123,7 +140,6 @@ retry_acquire_lock:
 		return -1;
 	}
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
 	/* Check and update if SFP slot is present */
 	if (lmac->sfp_slot && lmac->sfp_info) {
 		memcpy(&sh_data->sfp_slot, lmac->sfp_info,
@@ -145,7 +161,13 @@ int sfp_get_mod_status(int eth_id, int lmac_id)
 {
 	int retry_lock = 0;
 	sfp_context_t *ctx;
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
+	rpm_lmac_config_t *lmac;
+	sfp_shared_data_t *sh_data;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
@@ -181,8 +203,15 @@ retry_acquire_lock:
 static void sfp_get_info_1g(int eth_id, int lmac_id)
 {
 	sfp_mod_info_t *mod_info;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	sfp_shared_data_t *sh_data;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
+	cap_info = &sfp_cap_info[portm_idx];
 
 	/* transceiver compliance code : table 5-3 */
 	debug_sfp_mgmt("%s: Read BYTE 6 capabilities\n", __func__);
@@ -237,8 +266,15 @@ static void sfp_get_info_1g(int eth_id, int lmac_id)
 static void sfp_get_info_10g(int eth_id, int lmac_id)
 {
 	sfp_mod_info_t *mod_info;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	sfp_shared_data_t *sh_data;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
+	cap_info = &sfp_cap_info[portm_idx];
 
 	debug_sfp_mgmt("%s: Read BYTE 3 capabilities\n", __func__);
 
@@ -319,8 +355,15 @@ static void sfp_get_info_10g(int eth_id, int lmac_id)
 static void sfp_get_info_25g(int eth_id, int lmac_id)
 {
 	sfp_mod_info_t *mod_info;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	sfp_shared_data_t *sh_data;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
+	cap_info = &sfp_cap_info[portm_idx];
 
 	debug_sfp_mgmt("%s : Read BYTE 36 capabilities\n", __func__);
 
@@ -450,8 +493,15 @@ static void sfp_get_info_25g(int eth_id, int lmac_id)
 static void sfp_get_info(int eth_id, int lmac_id)
 {
 	sfp_mod_info_t *mod_info;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	sfp_shared_data_t *sh_data;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
+	cap_info = &sfp_cap_info[portm_idx];
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
@@ -548,8 +598,15 @@ void qsfp_get_info(int eth_id, int lmac_id)
 {
 	int far_end = 0x0;
 	qsfp_mod_info_t *mod_info;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	sfp_shared_data_t *sh_data;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
+	cap_info = &sfp_cap_info[portm_idx];
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
@@ -750,7 +807,13 @@ void qsfp_get_info(int eth_id, int lmac_id)
 int sfp_get_an_capability(int eth_id, int lmac_id)
 {
 	int an = 0;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	cap_info = &sfp_cap_info[portm_idx];
 
 	debug_sfp_mgmt("%s: %d:%d trans_type %d\n", __func__, eth_id, lmac_id,
 			cap_info->trans_type);
@@ -785,7 +848,13 @@ int sfp_get_an_capability(int eth_id, int lmac_id)
 int sfp_get_fec_capability(int eth_id, int lmac_id)
 {
 	int fec = 0;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	cap_info = &sfp_cap_info[portm_idx];
 
 	debug_sfp_mgmt("%s: %d:%d trans_type %d\n", __func__, eth_id, lmac_id,
 			cap_info->trans_type);
@@ -849,7 +918,13 @@ int sfp_get_fec_capability(int eth_id, int lmac_id)
 int sfp_get_speed_capability(int eth_id, int lmac_id)
 {
 	int max_speed = 0;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	cap_info = &sfp_cap_info[portm_idx];
 
 	debug_sfp_mgmt("%s: %d:%d trans_type %d\n", __func__, eth_id, lmac_id,
 			cap_info->trans_type);
@@ -921,7 +996,13 @@ int sfp_get_speed_capability(int eth_id, int lmac_id)
 int sfp_is_transceiver_optical(int eth_id, int lmac_id)
 {
 	int optical = 0;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	cap_info = &sfp_cap_info[portm_idx];
 
 	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
@@ -964,7 +1045,13 @@ int sfp_is_transceiver_optical(int eth_id, int lmac_id)
 int sfp_is_transceiver_active(int eth_id, int lmac_id)
 {
 	int active = 0;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
+	sfp_cap_info_t *cap_info;
+	rpm_lmac_config_t *lmac;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	cap_info = &sfp_cap_info[portm_idx];
 
 	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
@@ -1015,12 +1102,18 @@ int sfp_parse_eeprom_data(int eth_id, int lmac_id)
 {
 	int flag = 0, ret = 0, retry_count = 0;
 	int retry_lock = 0;
+	uint16_t sff_id = 0;
 	sfp_context_t *ctx;
 	sfp_mod_info_t *mod_info;
-	sfp_shared_data_t *sh_data = sfp_get_sh_mem_ptr(eth_id, lmac_id);
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
-	uint16_t sff_id = 0;
+	sfp_cap_info_t *cap_info;
 	rpm_lmac_config_t *lmac;
+	sfp_shared_data_t *sh_data;
+	int portm_idx;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	portm_idx = lmac->portm_idx;
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
+	cap_info = &sfp_cap_info[portm_idx];
 
 	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
@@ -1030,7 +1123,6 @@ int sfp_parse_eeprom_data(int eth_id, int lmac_id)
 	}
 	ctx = &sh_data->sfp_ctx;
 	mod_info = (sfp_mod_info_t *)sh_data->buf;
-	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
 
 	/* Check if lock is free and if available, check the current state
 	 * to parse the buffer
@@ -1136,12 +1228,13 @@ int sfp_validate_user_options(int eth_id, int lmac_id)
 	rpm_lmac_config_t *lmac_cfg;
 	phy_config_t *phy;
 	portm_config_t *portm;
-	sfp_cap_info_t *cap_info = &sfp_cap_info[eth_id][lmac_id];
+	sfp_cap_info_t *cap_info;
 	char *fec_str[5] = {"none", "baser", "rs", "rs",/* RS 528 */ "rs"/* RS 544 */};
 
 	debug_sfp_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	lmac_cfg = &(plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id]);
+	cap_info = &sfp_cap_info[lmac_cfg->portm_idx];
 	phy = lmac_cfg->phy_config;
 
 	/* Obtain the module capabilities based on transceiver
