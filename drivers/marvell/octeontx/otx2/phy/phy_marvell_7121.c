@@ -121,24 +121,42 @@ static MZD_STATUS mzd_wait( IN MZD_DEV_PTR pDev, IN MZD_UINT waitTime)
 	return MZD_OK;
 }
 
-static MZD_STATUS set_serdes_mux(IN MZD_DEV_PTR pDev)
+static MZD_STATUS set_serdes_mux_vdu(IN MZD_DEV_PTR pDev)
 {
 	MZD_STATUS status;
-	MZD_U8 serdesMux[MZD_MAX_PORTS*MZD_NUM_LANES] =
-		{0x0, 0x1, 0x4, 0x5, 0x8, 0x9, 0xc, 0xd,
-		 0x2, 0x3, 0x6, 0x7, 0xa, 0xb, 0xe, 0xf};
+	MZD_U8 serdesMux[MZD_MAX_PORTS*MZD_NUM_LANES] =	{
+		0x0, 0x1, 0x4, 0x5, 0x8, 0x9, 0xc, 0xd,
+		0x2, 0x3, 0x6, 0x7, 0xa, 0xb, 0xe, 0xf
+	};
 
 	status =  mzdSetSerdesMux(pDev, MZD_LINE_SIDE, serdesMux);
 
-	if (status != MZD_OK)
-	{
+	if (status != MZD_OK) {
 		MZD_DBG_ERROR("mzdSampleSerdesMux: mzdSetSerdesMux call failed\n");
 		return MZD_FAIL;
 	}
 
-	//MZD_ATTEMPT(mzd_wait(pDev, 5000));
 	MZD_ATTEMPT(mzd_wait(pDev, 500));
 
+	return MZD_OK;
+}
+
+static MZD_STATUS set_serdes_mux_cn98xx_pcie_crb(IN MZD_DEV_PTR pDev)
+{
+	MZD_STATUS status;
+	MZD_U8 serdesMux[MZD_MAX_PORTS*MZD_NUM_LANES] =	{
+		0xf, 0xe, 0xd, 0xc, 0xb, 0xa, 0x9, 0x8,
+		0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1, 0x0
+	};
+
+	status =  mzdSetSerdesMux(pDev, MZD_HOST_SIDE, serdesMux);
+
+	if (status != MZD_OK) {
+		MZD_DBG_ERROR("mzdSampleSerdesMux: mzdSetSerdesMux call failed\n");
+		return MZD_FAIL;
+	}
+
+	MZD_ATTEMPT(mzd_wait(pDev, 500));
 	return MZD_OK;
 }
 
@@ -205,7 +223,10 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 
 	if ((!strncmp(plat_octeontx_bcfg->bcfg.board_model, "f95o-vdu", 8))
 		|| (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "f95n-vdu", 8)))
-		set_serdes_mux(phy->priv);
+		set_serdes_mux_vdu(phy->priv);
+
+	if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "cn98xx-pcie-crb", 15))
+		set_serdes_mux_cn98xx_pcie_crb(phy->priv);
 
 	debug_phy_driver("%s: %d:%d phy->addr %d Init Done\n ", __func__, cgx_id, lmac_id, phy->addr);
 	return;
