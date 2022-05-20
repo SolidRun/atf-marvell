@@ -155,6 +155,7 @@ __aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
 __aligned(8) static uint8_t tim0_buffer[TIM_MAX_SIZE];
 static size_t tim0_size;
 static uint64_t tim0_offset;
+static struct smc_version_info clone_destination;
 
 /** Pointer to update log buffer */
 static char *update_log = NULL;
@@ -3273,6 +3274,15 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	/* Copy entries */
 	for (i = 0; i < vinfo->num_objects; i++) {
 		ventry = &vinfo->objects[i];
+
+		/* do not clone if same image is on second bootflash
+		 * If any image is marked to update, tim0 must be updated too
+		 */
+		if (!ventry->perform_clone && strcmp(ventry->name, TIM0_FDT_NAME)) {
+			VERBOSE("Skipping image: %s\n", ventry->name);
+			continue;
+		}
+
 		/* Skip writing TIM0 (object OK) for now. */
 		if (strcmp(ventry->name, TIM0_FDT_NAME)) {
 			VERBOSE("Copying %s from %s %u:%u TIM offset 0x%llx, offset 0x%llx to %s %u:%u TIM offset 0x%llx, offset 0x%llx\n",
@@ -3397,8 +3407,8 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 		ERROR("Invalid descriptor, bad magic number!\n");
 		return -1;
 	}
-	/* There's only one version so far. */
-	if (vinfo->version != VERSION_INFO_VERSION) {
+
+	if (vinfo->version > VERSION_INFO_VERSION) {
 		ERROR("Version 0x%x not supported\n", vinfo->version);
 		return -1;
 	}
@@ -3581,6 +3591,78 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 	return 0;
 }
 
+static void flash_smc_verify_backup_image(struct smc_version_info_entry *image_to_verify, struct smc_version_info *copy_source)
+{
+	int i;
+	int src_image_found = 0;
+	struct smc_version_info_entry *image_src = copy_source->objects;
+
+	/*Find images that have same version*/
+	for (i=0; i<copy_source->num_objects; i++) {
+		if (!strncmp(image_to_verify->name, image_src->name, VER_MAX_NAME_LENGTH)) {
+			src_image_found = 1;
+			break;
+		} else {
+			image_src+=1;
+		}
+	}
+
+	if ((!src_image_found) ||
+	    (image_to_verify->version.major_version != image_src->version.major_version) ||
+	    (image_to_verify->version.minor_version != image_src->version.minor_version))
+		image_src->perform_clone = 1;
+	else
+		image_src->perform_clone = 0;
+}
+
+static int flash_smc_mark_copy(struct smc_version_info *clone_config)
+{
+	int i;
+	int reflash_needed = 0;
+
+	memset(&clone_destination, 0, sizeof(struct smc_version_info));
+
+	clone_destination.magic_number = clone_config->magic_number;
+	clone_destination.version = clone_config->version;
+	clone_destination.version_flags = clone_config->version_flags;
+	clone_destination.bus = clone_config->target_bus;
+	clone_destination.cs = clone_config->target_cs;
+	clone_destination.num_objects = 32;
+
+	/* There is no need to validate hash on cloned image */
+	clone_destination.version_flags &= ~SMC_VERSION_CHECK_VALIDATE_HASH;
+
+	flash_smc_get_versions(&clone_destination);
+
+	/* Mark all images to reflash */
+	for (i=0; i<clone_config->num_objects; i++)
+		clone_config->objects[i].perform_clone = 1;
+
+	/* Check if any image on destination flash should be updated
+	 * If yes - TIM0 will also be updated
+	 */
+	if ((!(clone_config->version_flags & SMC_VERSION_FORCE_COPY_OBJECTS)) &&
+	    (clone_config->version >= VERSION_FORCE_CLONE_MIN_VERSION))
+		for (i=0; i<clone_destination.num_objects; i++)
+			flash_smc_verify_backup_image(&clone_destination.objects[i], clone_config);
+
+	/* Check if any image should be updated.
+	 * If not - skip updating TIM0
+	 */
+	for (i=0; i<clone_config->num_objects; i++) {
+		if (clone_config->objects[i].perform_clone == 1)
+			reflash_needed = 1;
+
+		INFO("image: %s version: %d.%d reflash: %lld\n",
+				clone_config->objects[i].name,
+				clone_config->objects[i].version.major_version,
+				clone_config->objects[i].version.minor_version,
+				clone_config->objects[i].perform_clone);
+	}
+
+	return reflash_needed;
+}
+
 /**
  * Check version and verify objects in flash
  *
@@ -3651,11 +3733,15 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		enum smc_version_ret vret;
 
 		debug_fw_update("Performing backup operation\n");
-		vret = flash_smc_copy_objects(vinfo);
-		if (vret != VERSION_OK)
-			err = -EIO;
-		else
-			err = 0;
+		if (flash_smc_mark_copy(vinfo)) {
+			vret = flash_smc_copy_objects(vinfo);
+			if (vret != VERSION_OK)
+				err = -EIO;
+			else
+				err = 0;
+		} else {
+			INFO("Skipping flash clone\n");
+		}
 	} else {
 		debug_fw_update("Not backing up flash\n");
 	}
