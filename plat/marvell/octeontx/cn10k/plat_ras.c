@@ -210,7 +210,7 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 	desc->validation_bits |= CPER_ARM_VALID_MPIDR;
 	desc->err_info_num     = 1;
 	desc->context_info_num = 0;
-	desc->section_length   = sizeof(struct otx2_ghes_err_record);
+	desc->section_length   = sizeof(struct processor_error);
 	desc->affinity_level   = 0;
 	desc->mpidr            = err_info->mpidr;
 	desc->midr             = err_info->midr;
