@@ -149,9 +149,7 @@ typedef struct lmac_mode_info {
 	uint32_t an_disable:1;
 	uint32_t sgmii_speed:4;
 	uint32_t sgmii_duplex:1;
-	uint32_t sfp:1;
-	uint32_t sfp_info_idx:8;
-	uint32_t reserved1:16;
+	uint32_t reserved1:25;
 } lmac_mode_info_t;
 
 /* Define LMAC structure. */

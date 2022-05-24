@@ -166,28 +166,6 @@ static struct parser_context_s {
 	node_info_t phy_offsets[MAX_PORTM];
 } parser_context;
 
-static inline int _get_cur_or_new_index(int offset, node_info_t *list,
-					 const size_t size, int *idx)
-{
-	int i;
-
-	for (i = 0; i < size; i++)
-		if (!list[i].offset || list[i].offset == offset)
-			break;
-
-	if (i == size)
-		return -1;
-
-	*idx = i;
-
-	if (!list[i].offset) {
-		list[i].offset = offset;
-		return 0;
-	}
-
-	return 1;
-}
-
 static int fdt_check_compatible_new_old_fmt(const void *fdt, int nodeoffset,
 		char *compatible)
 {
@@ -685,7 +663,7 @@ static int cn10k_fdt_lookup_phandle(const void *fdt_addr, int offset,
 }
 
 static int cn10k_fdt_get_bus(const void *fdt, int offset,
-		int rpm_idx, int lmac_idx)
+		const char *dbg_prefix)
 {
 	int node, bus = -1;
 	uint64_t mdio;
@@ -703,7 +681,7 @@ static int cn10k_fdt_get_bus(const void *fdt, int offset,
 	nodename = fdt_get_name(fdt, node, NULL);
 
 	if (nodename && !strncmp(nodename, "mdio", 4)) {
-		debug_dts("RPM%d.LMAC%d: MDIO node\n", rpm_idx, lmac_idx);
+		debug_dts("%s: MDIO node\n", dbg_prefix);
 		mdio = cn10k_fdt_get_uint64(fdt, "reg", node);
 		if (mdio == -1)
 			return mdio;
@@ -711,40 +689,40 @@ static int cn10k_fdt_get_bus(const void *fdt, int offset,
 		bus = (mdio & (1 << 7)) ? 1 : 0;
 
 		if (bus < 0 || bus >= MDIO_NUM) {
-			debug_dts("RPM%d.LMAC%d: '%d' "
+			debug_dts("%s: '%d' "
 				"is not a correct MDIO bus number\n",
-				rpm_idx, lmac_idx, bus);
+				dbg_prefix, bus);
 			return -1;
 		}
 
-		debug_dts("RPM%d.LMAC%d: mdio 0x%llx bus %d\n",
-			rpm_idx, lmac_idx, mdio, bus);
+		debug_dts("%s: mdio 0x%llx bus %d\n",
+			dbg_prefix, mdio, bus);
 	} else if (nodename && !strncmp(nodename, "i2c", 3)) {
-		debug_dts("RPM%d.LMAC%d: I2C node\n", rpm_idx, lmac_idx);
+		debug_dts("%s: I2C node\n", dbg_prefix);
 		i2c = cn10k_fdt_get_int32(fdt, "reg", node);
 
 		/* based on DEVFN, obtain TWSI bus */
 		bus = ((i2c >> 8) & 0x7);
 
 		if (bus < 0 || bus >= TWSI_NUM) {
-			debug_dts("RPM%d.LMAC%d: '%d' "
+			debug_dts("%s: '%d' "
 				"is not a correct I2C bus number\n",
-				rpm_idx, lmac_idx, bus);
+				dbg_prefix, bus);
 			return -1;
 		}
 
-		debug_dts("RPM%d.LMAC%d: bus %d\n",
-			rpm_idx, lmac_idx, bus);
+		debug_dts("%s: bus %d\n",
+			dbg_prefix, bus);
 	} else {
-		WARN("RPM%d.LMAC%d: no compatible bus type for PHY/SFP\n",
-				rpm_idx, lmac_idx);
+		WARN("%s: no compatible bus type for PHY/SFP\n",
+				dbg_prefix);
 	}
 
 	return bus;
 }
 
 static int cn10k_fdt_get_i2c_bus_info(const void *fdt, int dev_offset,
-		i2c_info_t *i2c_info, int rpm_idx, int lmac_idx)
+		i2c_info_t *i2c_info, const char *dbg_prefix)
 {
 	int i, parent, ret;
 	int offset;
@@ -756,8 +734,8 @@ static int cn10k_fdt_get_i2c_bus_info(const void *fdt, int dev_offset,
 		if (!fdt_check_compatible_new_old_fmt(fdt, offset,
 				       i2c_native_compat_list[i].compatible)) {
 
-			debug_dts("RPM%d.LMAC%d: I2C type %d\n", rpm_idx,
-					lmac_idx, i2c_native_compat_list[i].type);
+			debug_dts("%s: I2C type %d\n", dbg_prefix,
+					i2c_native_compat_list[i].type);
 			i2c_info->type = I2C_BUS_DEFAULT;
 			break;
 		}
@@ -768,13 +746,13 @@ static int cn10k_fdt_get_i2c_bus_info(const void *fdt, int dev_offset,
 
 	/* It is a native TWSI bus */
 	ret = cn10k_fdt_get_bus(fdt,
-		dev_offset, rpm_idx, lmac_idx);
+		dev_offset, dbg_prefix);
 
 	if (ret >= 0) {
 		i2c_info->bus = ret;
 	} else {
-		ERROR("RPM%d.LMAC%d: Incorrect I2C bus number\n",
-			rpm_idx, lmac_idx);
+		ERROR("%s: Incorrect I2C bus number\n",
+			dbg_prefix);
 		i2c_info->type = I2C_BUS_NONE;
 		return -1;
 	}
@@ -787,8 +765,8 @@ try_mux:
 	 */
 	parent = fdt_parent_offset(fdt, offset);
 	if (parent < 0) {
-		ERROR("RPM%d.LMAC%d: couldn't find i2c type\n",
-				rpm_idx, lmac_idx);
+		ERROR("%s: couldn't find i2c type\n",
+				dbg_prefix);
 		return -1;
 	}
 
@@ -796,16 +774,16 @@ try_mux:
 		if (!fdt_check_compatible_new_old_fmt(fdt, parent,
 				       i2c_compat_list[i].compatible)) {
 
-			debug_dts("RPM%d.LMAC%d: I2C type %d\n", rpm_idx,
-					lmac_idx, i2c_compat_list[i].type);
+			debug_dts("%s: I2C type %d\n", dbg_prefix,
+					i2c_compat_list[i].type);
 			i2c_info->type = i2c_compat_list[i].type;
 			break;
 		}
 	}
 
 	if (i2c_info->type == I2C_BUS_NONE) {
-		ERROR("RPM%d.LMAC%d: couldn't find valid I2C BUS type\n",
-				rpm_idx, lmac_idx);
+		ERROR("%s: couldn't find valid I2C BUS type\n",
+				dbg_prefix);
 		return -1;
 	}
 
@@ -820,20 +798,20 @@ try_mux:
 				"reg", parent);
 	/* TWSI bus */
 	ret = cn10k_fdt_get_bus(fdt,
-		parent, rpm_idx, lmac_idx);
+		parent, dbg_prefix);
 
 	if (ret >= 0) {
 		i2c_info->bus = ret;
 	} else {
-		ERROR("RPM%d.LMAC%d: Incorrect I2C bus number\n",
-			rpm_idx, lmac_idx);
+		ERROR("%s: Incorrect I2C bus number\n",
+			dbg_prefix);
 		i2c_info->type = I2C_BUS_NONE;
 		return -1;
 	}
 
 	debug_dts(
-		"RPM%d.LMAC%d: I2C SWITCH %d: channel %d addr 0x%x bus %d\n",
-		rpm_idx, lmac_idx, !i2c_info->is_mux,
+		"%s: I2C SWITCH %d: channel %d addr 0x%x bus %d\n",
+		dbg_prefix, !i2c_info->is_mux,
 		i2c_info->channel,
 		i2c_info->addr, i2c_info->bus);
 
@@ -842,7 +820,7 @@ try_mux:
 
 static int cn10k_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
 		const char *propname, gpio_info_t *gpio_info,
-		int rpm_idx, int lmac_idx)
+		const char *dbg_prefix)
 {
 	int len;
 	const struct fdt_property *prop;
@@ -851,15 +829,15 @@ static int cn10k_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
 
 	prop = fdt_get_property(fdt, offset, propname, &len);
 	if (!prop) {
-		WARN("RPM%d.LMAC%d: couldn't find %s property\n",
-				rpm_idx, lmac_idx, propname);
+		WARN("%s: couldn't find %s property\n",
+				dbg_prefix, propname);
 		return -1;
 	}
 
 	if (len != 3 * sizeof(unsigned int)) {
-		ERROR("RPM%d.LMAC%d: %s property is of wrong format : "
+		ERROR("%s: %s property is of wrong format : "
 				"must contain phandle, pin & flags\n",
-				rpm_idx, lmac_idx, propname);
+				dbg_prefix, propname);
 		return -1;
 	}
 
@@ -870,15 +848,15 @@ static int cn10k_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
 
 	int node = fdt_node_offset_by_phandle(fdt, phandle);
 
-	debug_dts("RPM%d.LMAC%d: GPIO name %s pin %d flags %d\n",
-			rpm_idx, lmac_idx, propname,
+	debug_dts("%s: GPIO name %s pin %d flags %d\n",
+			dbg_prefix, propname,
 			gpio_info->pin, gpio_info->flags);
 
 	for (int i = 0; i < ARRAY_SIZE(gpio_compat_list); i++) {
 		if (!fdt_check_compatible_new_old_fmt(fdt, node,
 				gpio_compat_list[i].compatible)) {
-			debug_dts("RPM%d.LMAC%d: gpio type %d\n", rpm_idx,
-					lmac_idx, gpio_compat_list[i].type);
+			debug_dts("%s: gpio type %d\n", dbg_prefix,
+					gpio_compat_list[i].type);
 
 			/* If the gpio is connected directly, just update
 			 * the type and return
@@ -904,7 +882,7 @@ static int cn10k_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
 				node);
 			cn10k_fdt_get_i2c_bus_info(fdt, node,
 					&gpio_info->i2c_info,
-					rpm_idx, lmac_idx);
+					dbg_prefix);
 			if (gpio_info->i2c_info.type == I2C_BUS_NONE) {
 				/* There might be the case of where the GPIO
 				 * expander is behind the I2C switch. Hence
@@ -914,21 +892,21 @@ static int cn10k_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
 				parent = fdt_parent_offset(fdt, node);
 				cn10k_fdt_get_i2c_bus_info(fdt, parent,
 					&gpio_info->i2c_info,
-					rpm_idx, lmac_idx);
+					dbg_prefix);
 				if (gpio_info->i2c_info.type == I2C_BUS_NONE)
 					return -1;
 			}
 			gpio_info->i2c_bus = gpio_info->i2c_info.bus;
-			debug_dts("RPM%d.LMAC%d: GPIO controller : addr 0x%x bus %d num pins %d\n",
-				rpm_idx, lmac_idx,
+			debug_dts("%s: GPIO controller : addr 0x%x bus %d num pins %d\n",
+				dbg_prefix,
 				gpio_info->i2c_addr, gpio_info->i2c_bus,
 				gpio_info->num_pins);
 			break;
 		}
 	}
 	if (gpio_info->type == GPIO_PIN_NONE) {
-		WARN("RPM%d.LMAC%d: couldn't find any valid GPIO type\n",
-				rpm_idx, lmac_idx);
+		WARN("%s: couldn't find any valid GPIO type\n",
+				dbg_prefix);
 		return -1;
 	}
 	return 0;
@@ -943,7 +921,7 @@ static int cn10k_fdt_gpio_get_info_by_phandle(const void *fdt, int offset,
  *
  */
 static int cn10k_fdt_parse_qsfp_info(sfp_slot_info_t *qsfp_info, const void *fdt,
-				     int offset, int rpm_idx, int lmac_idx)
+				     int offset, const char *dbg_prefix)
 {
 	const char *name;
 	i2c_info_t i2c_info;
@@ -958,15 +936,15 @@ static int cn10k_fdt_parse_qsfp_info(sfp_slot_info_t *qsfp_info, const void *fdt
 	/* Parse EEPROM related I2C info */
 	eeprom = cn10k_fdt_lookup_phandle(fdt, offset, "eeprom");
 	if (eeprom < 0) {
-		ERROR("RPM%d.LMAC%d: Couldn't find EEPROM info for SFP\n",
-				rpm_idx, lmac_idx);
+		ERROR("%s: Couldn't find EEPROM info for SFP\n",
+				dbg_prefix);
 
 		ret = -1;
 		goto qsfp_update;
 	}
 
 	i2c_bus_offset = cn10k_fdt_get_i2c_bus_info(fdt, eeprom, &i2c_info,
-					rpm_idx, lmac_idx);
+					dbg_prefix);
 	if (i2c_bus_offset < 0) {
 		ret = -1;
 		goto qsfp_update;
@@ -974,9 +952,9 @@ static int cn10k_fdt_parse_qsfp_info(sfp_slot_info_t *qsfp_info, const void *fdt
 
 	name = fdt_get_name(fdt, offset, NULL);
 	if (fdt_get_property(fdt, i2c_bus_offset, "twsi-in-kernel", &lenp)) {
-		debug_dts("RPM%d.LMAC%d: skipped parsing %s, "
+		debug_dts("%s: skipped parsing %s, "
 			"i2c bus %d is managed in kernel\n",
-				rpm_idx, lmac_idx, name, i2c_info.bus);
+				dbg_prefix, name, i2c_info.bus);
 
 		return 1;
 	} else if (lenp == -FDT_ERR_NOTFOUND) {
@@ -990,14 +968,14 @@ static int cn10k_fdt_parse_qsfp_info(sfp_slot_info_t *qsfp_info, const void *fdt
 
 	qsfp_info->is_sfp = 0;
 	strlcpy(qsfp_info->name, name, sizeof(qsfp_info->name));
-	debug_dts("RPM%d.LMAC%d: qsfp_info->name %s\n",
-			rpm_idx, lmac_idx, qsfp_info->name);
+	debug_dts("%s: qsfp_info->name %s\n",
+			dbg_prefix, qsfp_info->name);
 
 	memcpy(&qsfp_info->i2c_eeprom_info, &i2c_info, sizeof(i2c_info_t));
 
 	qsfp_info->eeprom_addr = cn10k_fdt_get_int32(fdt, "reg", eeprom);
 
-	debug_dts("RPM%d.LMAC%d: EEPROM addr 0x%x\n", rpm_idx, lmac_idx,
+	debug_dts("%s: EEPROM addr 0x%x\n", dbg_prefix,
 					qsfp_info->eeprom_addr);
 
 	/* obtain MAX power for the slot as per the board design */
@@ -1007,27 +985,27 @@ static int cn10k_fdt_parse_qsfp_info(sfp_slot_info_t *qsfp_info, const void *fdt
 
 	/* Parse GPIO info for QSFP interface */
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "mod_sel",
-			&qsfp_info->select, rpm_idx, lmac_idx);
+			&qsfp_info->select, dbg_prefix);
 	if (ret == -1)
 		goto qsfp_update;
 
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "reset",
-			&qsfp_info->reset, rpm_idx, lmac_idx);
+			&qsfp_info->reset, dbg_prefix);
 	if (ret == -1)
 		goto qsfp_update;
 
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "lowpow_mode",
-			&qsfp_info->lp_mode, rpm_idx, lmac_idx);
+			&qsfp_info->lp_mode, dbg_prefix);
 	if (ret == -1)
 		goto qsfp_update;
 
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "mod_present",
-			&qsfp_info->mod_prs, rpm_idx, lmac_idx);
+			&qsfp_info->mod_prs, dbg_prefix);
 	if (ret == -1)
 		goto qsfp_update;
 
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "int",
-			&qsfp_info->interrupt, rpm_idx, lmac_idx);
+			&qsfp_info->interrupt, dbg_prefix);
 	if (ret == -1)
 		goto qsfp_update;
 
@@ -1039,8 +1017,8 @@ static int cn10k_fdt_parse_qsfp_info(sfp_slot_info_t *qsfp_info, const void *fdt
 	return 0;
 
 qsfp_update:
-	ERROR("%s: %d:%d QSFP slot info not parsed fully\n",
-			__func__, rpm_idx, lmac_idx);
+	ERROR("%s: %s: QSFP slot info not parsed fully\n",
+			__func__, dbg_prefix);
 	return ret;
 }
 
@@ -1053,7 +1031,7 @@ qsfp_update:
  *
  */
 static int cn10k_fdt_parse_sfp_info(sfp_slot_info_t *sfp_info, const void *fdt,
-				    int offset, int rpm_idx, int lmac_idx)
+				    int offset, const char *dbg_prefix)
 {
 	const char *name;
 	i2c_info_t i2c_info;
@@ -1068,15 +1046,15 @@ static int cn10k_fdt_parse_sfp_info(sfp_slot_info_t *sfp_info, const void *fdt,
 	/* Parse EEPROM related I2C info */
 	eeprom = cn10k_fdt_lookup_phandle(fdt, offset, "eeprom");
 	if (eeprom < 0) {
-		ERROR("RPM%d.LMAC%d: Couldn't find EEPROM info for SFP\n",
-				rpm_idx, lmac_idx);
+		ERROR("%s: Couldn't find EEPROM info for SFP\n",
+				dbg_prefix);
 
 		ret = -1;
 		goto sfp_update;
 	}
 
 	i2c_bus_offset = cn10k_fdt_get_i2c_bus_info(fdt, eeprom, &i2c_info,
-					rpm_idx, lmac_idx);
+					dbg_prefix);
 	if (i2c_bus_offset < 0) {
 		ret = -1;
 		goto sfp_update;
@@ -1084,9 +1062,9 @@ static int cn10k_fdt_parse_sfp_info(sfp_slot_info_t *sfp_info, const void *fdt,
 
 	name = fdt_get_name(fdt, offset, NULL);
 	if (fdt_get_property(fdt, i2c_bus_offset, "twsi-in-kernel", &lenp)) {
-		debug_dts("RPM%d.LMAC%d: skipped parsing %s, "
+		debug_dts("%s: skipped parsing %s, "
 			"i2c bus %d is managed in kernel\n",
-				rpm_idx, lmac_idx, name, i2c_info.bus);
+				dbg_prefix, name, i2c_info.bus);
 
 		return 1;
 	} else if (lenp == -FDT_ERR_NOTFOUND) {
@@ -1100,14 +1078,14 @@ static int cn10k_fdt_parse_sfp_info(sfp_slot_info_t *sfp_info, const void *fdt,
 
 	sfp_info->is_qsfp = 0;
 	strlcpy(sfp_info->name, name, sizeof(sfp_info->name));
-	debug_dts("RPM%d.LMAC%d: sfp_info->name %s\n",
-			rpm_idx, lmac_idx, sfp_info->name);
+	debug_dts("%s: sfp_info->name %s\n",
+			dbg_prefix, sfp_info->name);
 
 	memcpy(&sfp_info->i2c_eeprom_info, &i2c_info, sizeof(i2c_info_t));
 
 	sfp_info->eeprom_addr = cn10k_fdt_get_int32(fdt, "reg", eeprom);
 
-	debug_dts("RPM%d.LMAC%d: EEPROM addr 0x%x\n", rpm_idx, lmac_idx,
+	debug_dts("%s: EEPROM addr 0x%x\n", dbg_prefix,
 					sfp_info->eeprom_addr);
 
 	/* obtain MAX power for the slot as per the board design */
@@ -1116,21 +1094,21 @@ static int cn10k_fdt_parse_sfp_info(sfp_slot_info_t *sfp_info, const void *fdt,
 
 	/* Parse GPIO info for SFP interface */
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "mod-def0-gpios",
-			&sfp_info->mod_abs, rpm_idx, lmac_idx);
+			&sfp_info->mod_abs, dbg_prefix);
 	if (ret == -1)
 		goto sfp_update;
 
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "tx-disable-gpios",
-			&sfp_info->tx_disable, rpm_idx, lmac_idx);
+			&sfp_info->tx_disable, dbg_prefix);
 	if (ret == -1)
 		goto sfp_update;
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "tx-fault-gpios",
-			&sfp_info->tx_fault, rpm_idx, lmac_idx);
+			&sfp_info->tx_fault, dbg_prefix);
 	if (ret == -1)
 		goto sfp_update;
 
 	ret = cn10k_fdt_gpio_get_info_by_phandle(fdt, offset, "los-gpios",
-			&sfp_info->rx_los, rpm_idx, lmac_idx);
+			&sfp_info->rx_los, dbg_prefix);
 
 	if (ret == -1)
 		goto sfp_update;
@@ -1140,8 +1118,8 @@ static int cn10k_fdt_parse_sfp_info(sfp_slot_info_t *sfp_info, const void *fdt,
 	return 0;
 
 sfp_update:
-	ERROR("%s: %d:%d SFP slot info not parsed fully\n",
-			__func__, rpm_idx, lmac_idx);
+	ERROR("%s: %s: SFP slot info not parsed fully\n",
+			__func__, dbg_prefix);
 	return ret;
 }
 
@@ -1774,18 +1752,14 @@ static int cn10k_fill_rpm_struct(int portm_idx, int rpm_idx, int fec)
  *
  */
 static int cn10k_rpm_get_phy_info(phy_config_t *phy, void *fdt, int lmac_offset,
-				  int phy_offset, int rpm_idx, int lmac_idx)
+				  int phy_offset, const char *dbg_prefix)
 {
-	rpm_lmac_config_t *lmac;
 	int mdio_bus_offset;
 	int lenp;
 	struct parser_context_s *pctx = &parser_context;
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_idx].lmac_cfg[lmac_idx];
-
 	phy->mdio_bus = cn10k_fdt_get_bus(fdt,
-			phy_offset, rpm_idx,
-			lmac_idx);
+			phy_offset, dbg_prefix);
 
 	if (phy->mdio_bus < 0) {
 		ERROR("ERROR: Incorrect mdio bus number\n");
@@ -1801,9 +1775,9 @@ static int cn10k_rpm_get_phy_info(phy_config_t *phy, void *fdt, int lmac_offset,
 	if (fdt_get_property(fdt,
 			mdio_bus_offset, "mdio-in-kernel", &lenp)) {
 
-		debug_dts("%s: %d:%d PHY parsing skipped. "
+		debug_dts("%s: %s: PHY parsing skipped. "
 				"MDIO bus managed in kernel\n",
-				__func__, rpm_idx, lmac_idx);
+				__func__, dbg_prefix);
 		return 1;
 	} else if (lenp == -FDT_ERR_NOTFOUND) {
 
@@ -1816,8 +1790,8 @@ static int cn10k_rpm_get_phy_info(phy_config_t *phy, void *fdt, int lmac_offset,
 		if (!fdt_node_check_compatible(fdt, phy_offset,
 			phy_compat_list[i].compatible)) {
 			phy->type = phy_compat_list[i].phy_type;
-			debug_dts("%s: %d:%d PHY type %d\n",
-				__func__, rpm_idx, lmac_idx,
+			debug_dts("%s: %s: PHY type %d\n",
+				__func__, dbg_prefix,
 				phy->type);
 			break;
 		}
@@ -1839,7 +1813,6 @@ static int cn10k_rpm_get_phy_info(phy_config_t *phy, void *fdt, int lmac_offset,
 	 */
 	phy->fdt_offset = phy_offset;
 
-	lmac->phy_present = 1;
 	return 0;
 }
 
@@ -1858,59 +1831,13 @@ static inline int _node_name_to_lmac_type(const char *node_name)
 	return gserm_get_mode_from_string(type_str);
 }
 
-static void cn10k_fill_lmac_mode_info(void *fdt, lmac_mode_info_t *info, int type,
-				      int offset, int rpm_idx, int lmac_idx)
+static void cn10k_fill_lmac_mode_info(void *fdt, rpm_lmac_config_t *lmac,
+				      int type, int offset, int rpm_idx, int lmac_idx)
 {
-	struct parser_context_s *pctx = &parser_context;
-	int ret, sfp_offset;
-	bool is_sfp;
+	lmac_mode_info_t *info = &lmac->lmac_mode_info[type];
 
-	/* Check for sfp-slot info */
-	is_sfp = true;
-	sfp_offset = cn10k_fdt_lookup_phandle(fdt,
-				offset, "sfp-slot");
-	if (sfp_offset < 0) {
-		sfp_offset = cn10k_fdt_lookup_phandle(fdt,
-			offset, "qsfp-slot");
-		is_sfp = false;
-	}
+	info->available = 1;
 
-	if (sfp_offset > 0) {
-		int cur, idx;
-		sfp_slot_info_t *sfp;
-
-		cur = _get_cur_or_new_index(sfp_offset,
-			pctx->sfp_offsets,
-			MAX_PORTM, &idx);
-
-		if (cur == -1) {
-			ERROR("RPM%d.%d: exceeded number of sfps\n",
-				rpm_idx, lmac_idx);
-			goto check_an;
-		}
-
-		sfp = &plat_octeontx_bcfg->sfp_slots[idx];
-
-		if (!cur) {
-			ret = is_sfp ?
-				cn10k_fdt_parse_sfp_info(sfp, fdt, sfp_offset,
-					rpm_idx, lmac_idx) :
-				cn10k_fdt_parse_qsfp_info(sfp, fdt, sfp_offset,
-					rpm_idx, lmac_idx);
-
-			if (ret == 0)
-				pctx->sfp_offsets[idx].atf_mgmt = 1;
-			else if (ret == 1)
-				pctx->sfp_offsets[idx].atf_mgmt = 0;
-		}
-
-		if (pctx->sfp_offsets[idx].atf_mgmt) {
-			info->sfp = 1;
-			info->sfp_info_idx = idx;
-		}
-	}
-
-check_an:
 	/* Field only for the SGMII/QSGMII LMAC types */
 	if ((type == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 			(type == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
@@ -1990,11 +1917,15 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 	while (lmac_offset > 0) {
 		int lmac_type;
 		int phy_offset;
+		int sfp_offset;
+		bool is_sfp;
 		int ret, len;
 		const int *val;
 		lmac_mode_info_t *mode_info;
 		struct parser_context_s *pctx = &parser_context;
 		const char *node_name = fdt_get_name(fdt, lmac_offset, NULL);
+		int portm_idx;
+		char dbg_prefix[64];
 
 		lmac_idx = cn10k_fdt_get_int32(fdt, "reg", lmac_offset);
 		if (lmac_idx == -1) {
@@ -2003,60 +1934,90 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			goto next_node;
 		}
 
-		lmac = &rpm->lmac_cfg[lmac_idx];
 		lmac_type = _node_name_to_lmac_type(node_name);
-
 		if (lmac_type == -1) {
 			ERROR("RPM%d: invalid lmac type in lmac node %s\n",
 				rpm_idx, node_name);
 			goto next_node;
 		}
-		mode_info = &lmac->lmac_mode_info[lmac_type];
-		mode_info->available = 1;
 
-		cn10k_fill_lmac_mode_info(fdt, mode_info, lmac_type,
-					  lmac_offset, rpm_idx,
-					  lmac_idx);
+		mode_info = &lmac->lmac_mode_info[lmac_type];
+		snprintf(dbg_prefix, ARRAY_SIZE(dbg_prefix),
+			"RPM%d.LMAC%d", rpm_idx, lmac_idx);
+
+		lmac = &rpm->lmac_cfg[lmac_idx];
+		portm_idx = lmac->portm_idx;
+
+		cn10k_fill_lmac_mode_info(fdt, lmac, lmac_type, lmac_offset,
+					  rpm_idx, lmac_idx);
+
+		if (!lmac->port_enable)
+			goto next_node;
 
 		phy_offset = cn10k_fdt_lookup_phandle(fdt, lmac_offset, "phy-handle");
 
 		if (phy_offset > 0) {
-			int cur, idx;
 			phy_config_t *phy;
 
-			cur = _get_cur_or_new_index(phy_offset,
-						     pctx->phy_offsets,
-						     MAX_PORTM, &idx);
+			phy = &plat_octeontx_bcfg->phys[portm_idx];
 
-			if (cur == -1) {
-				ERROR("RPM%d: parsing %s: exceeded number of phys\n",
-					rpm_idx, node_name);
-				goto next_node;
-			}
-
-			phy = &plat_octeontx_bcfg->phys[idx];
-
-			if (!cur) {
+			if (!pctx->phy_offsets[portm_idx].offset) {
+				pctx->phy_offsets[portm_idx].offset = phy_offset;
 				ret = cn10k_rpm_get_phy_info(phy, fdt, lmac_offset,
-					phy_offset, rpm_idx, lmac_idx);
+					phy_offset, dbg_prefix);
 
 				if (ret == -1) {
-					WARN("%s: %d:%d PHY info not correct\n",
+					ERROR("%s: %d:%d PHY info not correct\n",
 						__func__, rpm_idx, lmac_idx);
 					goto next_node;
 				} else if (ret == 0) {
 					/* PHY managed in ATF */
-					pctx->phy_offsets[idx].atf_mgmt = 1;
+					pctx->phy_offsets[portm_idx].atf_mgmt = 1;
 				} else {
 					/* PHY managed in kernel */
-					pctx->phy_offsets[idx].atf_mgmt = 0;
+					pctx->phy_offsets[portm_idx].atf_mgmt = 0;
 				}
 			}
 
-			if (pctx->phy_offsets[idx].atf_mgmt) {
-				lmac->phy_config =
-					&plat_octeontx_bcfg->phys[idx];
+			if (pctx->phy_offsets[portm_idx].atf_mgmt) {
+				lmac->phy_config = phy;
 				lmac->phy_present = 1;
+			}
+		}
+
+		/* Check for sfp-slot info */
+		is_sfp = true;
+		sfp_offset = cn10k_fdt_lookup_phandle(fdt,
+					lmac_offset, "sfp-slot");
+		if (sfp_offset < 0) {
+			sfp_offset = cn10k_fdt_lookup_phandle(fdt,
+				lmac_offset, "qsfp-slot");
+			is_sfp = false;
+		}
+
+		if (sfp_offset > 0) {
+			sfp_slot_info_t *sfp;
+
+			sfp = &plat_octeontx_bcfg->sfp_slots[portm_idx];
+
+			if (!pctx->sfp_offsets[portm_idx].offset) {
+				pctx->sfp_offsets[portm_idx].offset = sfp_offset;
+
+				ret = is_sfp ?
+					cn10k_fdt_parse_sfp_info(sfp, fdt, sfp_offset,
+						dbg_prefix) :
+					cn10k_fdt_parse_qsfp_info(sfp, fdt, sfp_offset,
+						dbg_prefix);
+
+				if (ret == 0)
+					pctx->sfp_offsets[portm_idx].atf_mgmt = 1;
+				else if (ret == 1)
+					pctx->sfp_offsets[portm_idx].atf_mgmt = 0;
+			}
+
+			if (pctx->sfp_offsets[portm_idx].atf_mgmt) {
+				lmac->sfp_info = sfp;
+				lmac->sfp_slot = 1;
 			}
 		}
 
@@ -2073,14 +2034,8 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		 * is to be configured for this lmac. If yes,
 		 * need to enable it and update its sfp_info / an_disable.
 		 */
-		if (!lmac->port_enable || lmac->mode != lmac_type)
+		if (lmac->mode != lmac_type)
 			goto next_node;
-
-		if (mode_info->sfp) {
-			lmac->sfp_info =
-				&plat_octeontx_bcfg->sfp_slots[mode_info->sfp_info_idx];
-			lmac->sfp_slot = 1;
-		}
 
 		if (mode_info->an_disable) {
 			lmac->an_disable = 1;
@@ -2091,6 +2046,48 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		lmac->lmac_enable = 1;
 next_node:
 		lmac_offset = fdt_next_subnode(fdt, lmac_offset);
+	}
+}
+
+static void cn10k_portm_check_linux(void *fdt, int portm_idx, int portm_offset)
+{
+	struct parser_context_s *pctx = &parser_context;
+	char dbg_prefix[64];
+	bool is_sfp;
+	int ret, sfp_offset;
+
+	snprintf(dbg_prefix, ARRAY_SIZE(dbg_prefix),
+		"PORTM%d", portm_idx);
+
+	/* Check for sfp-slot info */
+	is_sfp = true;
+	sfp_offset = cn10k_fdt_lookup_phandle(fdt,
+				portm_offset, "sfp-slot");
+	if (sfp_offset < 0) {
+		sfp_offset = cn10k_fdt_lookup_phandle(fdt,
+			portm_offset, "qsfp-slot");
+		is_sfp = false;
+	}
+
+	if (sfp_offset > 0) {
+		sfp_slot_info_t *sfp;
+
+		sfp = &plat_octeontx_bcfg->sfp_slots[portm_idx];
+
+		if (!pctx->sfp_offsets[portm_idx].offset) {
+			pctx->sfp_offsets[portm_idx].offset = sfp_offset;
+
+			ret = is_sfp ?
+				cn10k_fdt_parse_sfp_info(sfp, fdt, sfp_offset,
+					dbg_prefix) :
+				cn10k_fdt_parse_qsfp_info(sfp, fdt, sfp_offset,
+					dbg_prefix);
+
+			if (ret == 0)
+				pctx->sfp_offsets[portm_idx].atf_mgmt = 1;
+			else if (ret == 1)
+				pctx->sfp_offsets[portm_idx].atf_mgmt = 0;
+		}
 	}
 }
 
@@ -2137,12 +2134,31 @@ static void cn10k_rpm_check_linux(void *fdt)
 		rpm_offset = fdt_subnode_offset(fdt, offset, name);
 
 		if (rpm_offset < 0) {
-			ERROR("DT: %s node present in the device tree\n", name);
+			ERROR("DT: %s node is not present in the device tree\n", name);
 			continue;
 		}
 
 		cn10k_rpm_lmacs_check_linux(fdt, rpm, i, rpm_offset, &fdt_vfs);
 		fdt_nop_node(fdt, rpm_offset);
+	}
+
+	/* Parsing portm@<x> nodes for CPRI modes */
+	for (i = 0; i < plat_octeontx_scfg->portm_count; i++) {
+		int portm_offset;
+		portm_config_t *portm =
+			&(plat_octeontx_bcfg->portm_cfg[i]);
+
+		if (!portm->port_enable)
+			continue;
+
+		snprintf(name, sizeof(name), "portm@%d", i);
+		portm_offset = fdt_subnode_offset(fdt, offset, name);
+
+		if (portm_offset < 0)
+			continue;
+
+		cn10k_portm_check_linux(fdt, i, portm_offset);
+		fdt_nop_node(fdt, portm_offset);
 	}
 
 	/* As all the ATF-managed sfp/qsfps are parsed, we can proceed to
