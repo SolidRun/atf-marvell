@@ -39,6 +39,10 @@
 #define GSERM_PRBS_COMP_TIMEOUT_MS 10
 #define GSERM_LPBK_COMP_TIMEOUT_MS 10
 
+/* GSERM IP Revs */
+#define GSERM_IP_MAJOR_REV 1
+#define GSERM_IP_MINOR_REV 2
+
 /* GSERM delays */
 #define GSERM_RESET_DELAY_US 1000
 /* GSERM Bit defines */

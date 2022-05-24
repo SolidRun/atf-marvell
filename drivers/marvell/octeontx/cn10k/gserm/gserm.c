@@ -956,8 +956,8 @@ void gserm_reset_init(void)
 	debug_gserm("%s: MCESD API Version: %d.%d.%d\n", __func__,
 		    MCESD_API_MAJOR_VERSION, MCESD_API_MINOR_VERSION,
 		    MCESD_API_BUILD_ID);
-	ret = mcesdLoadDriver(MCESD_API_MAJOR_VERSION,
-			      MCESD_API_MINOR_VERSION,
+	ret = mcesdLoadDriver(GSERM_IP_MAJOR_REV,
+			      GSERM_IP_MINOR_REV,
 			      &_mcesd_read_reg,
 			      &_mcesd_write_reg,
 			      &_mcesd_write_pin,
@@ -1576,8 +1576,8 @@ static inline void portm_cfg_to_gserm_cfg(portm_config_t *portm_cfg,
 	gserm_cfg->pin_map_ptr = N5XC56GP5X4_pins;
 	gserm_cfg->pin_map_size = ARRAY_SIZE(N5XC56GP5X4_pins);
 
-	mcesdLoadDriver(MCESD_API_MAJOR_VERSION,
-			MCESD_API_MINOR_VERSION,
+	mcesdLoadDriver(GSERM_IP_MAJOR_REV,
+			GSERM_IP_MINOR_REV,
 			&_mcesd_read_reg,
 			&_mcesd_write_reg,
 			&_mcesd_write_pin,
