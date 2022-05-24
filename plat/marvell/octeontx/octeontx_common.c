@@ -379,20 +379,17 @@ void initialize_tf_logging(void)
 int octeontx_fdt_get_strmid_ptrs(int pem, void **prop, void **prop_end)
 {
 	int offset;
-	const char *pem0_name = "PCIE-HOST-STREAM-IDS-PEM0";
-	const char *pem1_name = "PCIE-HOST-STREAM-IDS-PEM1";
+	char pem_string[32];
 	int ret = -1, prop_len;
 	const void *fdt = fdt_ptr;
 
 	*prop_end = NULL;
 	*prop = NULL;
 
+	sprintf(pem_string, "PCIE-HOST-STREAM-IDS-PEM%d", pem);
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
 	if (offset > 0) {
-		if (pem == 0)
-			*prop = (void *)fdt_getprop(fdt, offset, pem0_name, &prop_len);
-		else
-			*prop = (void *)fdt_getprop(fdt, offset, pem1_name, &prop_len);
+		*prop = (void *)fdt_getprop(fdt, offset, pem_string, &prop_len);
 
 		if (*prop == NULL)
 			return ret;
