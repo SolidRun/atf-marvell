@@ -2235,6 +2235,8 @@ static enum update_ret save_tim0(const struct smc_update_descriptor *desc)
 	ULOG("Saving TIM0 from offset 0x%llx\n", offset);
 	uret = octeontx_read_tim(desc, offset, sizeof(tim0_buffer),
 				 tim0_buffer, thdl, &size);
+	tim0_size = size;
+	tim0_offset = offset;
 	if (uret != UPDATE_OK) {
 		UERROR("Reading TIM0 failed with %d at offset 0x%llx, not erasing\n",
 		       uret, offset);
