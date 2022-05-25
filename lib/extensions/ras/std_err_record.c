@@ -58,7 +58,10 @@ int ser_probe_sysreg(unsigned int idx_start, unsigned int num_idx, int *probe_da
 
 	assert(idx_start < max_idx);
 	assert(check_u32_overflow(idx_start, num_idx) == 0);
+
+#if !defined(PLAT_CN10K_FAMILY)
 	assert((idx_start + num_idx - 1U) < max_idx);
+#endif
 
 	for (i = 0; i < num_idx; i++) {
 		/* Select the error record */
