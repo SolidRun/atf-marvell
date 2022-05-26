@@ -948,11 +948,23 @@ err5:
 				SMC_RET1(handle, -1);
 
 			portm = &plat_octeontx_bcfg->portm_cfg[portm_idx];
-			if (portm->mac_type != PORTM_ETH)
+			if (portm->mac_type != PORTM_ETH &&
+				portm->mac_type != PORTM_CPRI)
 				SMC_RET1(handle, -2);
 
-			eth = portm->mac_num;
-			lmac = portm->mac_lane;
+			eth = cn10k_portm_get_rpm_num(portm_idx);
+			lmac = cn10k_portm_get_rpm_lmac_num(portm_idx);
+
+			if (eth == -1 || lmac == -1)
+				SMC_RET1(handle, -2);
+
+			/*
+			 * For NIX ports parsing EEPROM data is done during
+			 * link bringup, but for BPHY ports need to call it
+			 * explicitly, otherwise EEPROM data will not be
+			 * visible to kernel.
+			 */
+			sfp_parse_eeprom_data(portm_idx);
 		}
 
 		offset = sh_fwdata_get_sfp_info_offset(eth, lmac);
