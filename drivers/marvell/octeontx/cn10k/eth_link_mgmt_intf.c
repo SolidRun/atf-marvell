@@ -772,6 +772,8 @@ const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 	break;
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_SFP_MODULE_UNPLUGGED);
 	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_GSERM_FAILURE);
+	break;
 
 	default:
 		break;
@@ -879,6 +881,10 @@ const char *cn10k_link_error_to_str(link_err_type_t link_error)
 	LINK_ERROR_CASE(LINK_ERR_TXRX_TRAIN_REMOTE_TIMEOUT);
 	break;
 	LINK_ERROR_CASE(LINK_ERR_AN_CL73_NO_HCD);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_MCESD_FAIL);
+	break;
+	LINK_ERROR_CASE(LINK_ERR_GSERM);
 	break;
 
 	default:

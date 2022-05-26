@@ -80,6 +80,8 @@ typedef enum link_err_type {
 	LINK_ERR_TXRX_TRAIN_LOCAL_TIMEOUT,
 	LINK_ERR_TXRX_TRAIN_REMOTE_TIMEOUT,
 	LINK_ERR_AN_CL73_NO_HCD,
+	LINK_ERR_MCESD_FAIL,
+	LINK_ERR_GSERM,
 	/* TODO: add more error types */
 } link_err_type_t;
 
@@ -147,6 +149,7 @@ typedef enum link_state {
 	ETH_LINK_STATE_AN_GOOD = 48,
 	ETH_LINK_STATE_AN_SERDES_WAIT = 49,
 	ETH_LINK_STATE_SFP_MODULE_UNPLUGGED = 50,
+	ETH_LINK_STATE_GSERM_FAILURE = 51,
 } ecp_link_state_enum_t;
 
 typedef enum ecp_aneg_state {
