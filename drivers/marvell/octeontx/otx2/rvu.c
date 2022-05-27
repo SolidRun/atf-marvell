@@ -159,7 +159,7 @@ static struct sw_rvu_dev_info *find_sw_rvu_dev(int bfdt_index)
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_NPA_VF,
 		    .class_code = GSP_CLASS_CODE
 		  } },
-#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
+#if defined(PLAT_CN10K_FAMILY)
 		{ SW_RVU_IPSEC_PF(0), SW_RVU_IPSEC_NUM_PF,
 		  { .pf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_IPSEC_INLINE_PF,
 		    .vf_devid = CAVM_PCC_DEV_IDL_E_SW_RVU_IPSEC_INLINE_VF,
@@ -446,7 +446,9 @@ static int octeontx_init_rvu_from_fdt(void)
 	int top_eth_pf;
 	rvu_sw_rvu_pf_t *sw_pf;
 	struct rvu_pf_eth_lmac eth_lmac_list[MAX_RVU_PFS];
+#if !defined(PLAT_cnf10ka) && !defined(PLAT_cnf10kb)
 	int rvu = RVU_LAST;
+#endif
 #if defined(PLAT_CN10K_FAMILY)
 	int ipsec_pfs;
 #endif
@@ -609,7 +611,7 @@ static int octeontx_init_rvu_from_fdt(void)
 		debug_rvu("RVU: PF%d is last PF required for ETH\n",
 			  top_eth_pf);
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
 	/* Assing last RVU PF for CPT before SDP so that it won't overlap */
 	if (!plat_octeontx_bcfg->rvu_config.cpt_dis) {
 		/* Init last RVU - as CPT if present */
@@ -667,10 +669,12 @@ static int octeontx_init_rvu_from_fdt(void)
 	 * If number of CGX.LMACs <= 12, assign PF15 instead of PF23 for CPT
 	 * If number of CGX.LMACs > 12, assign PF23 for CPT.
 	 */
+#if defined(PLAT_t98)
 	if ((pf <= 13) && IS_OCTEONTX_PN(read_midr(), T98PARTNUM)) {
 		rvu = 15;
 		uninit_pfs--;
 	}
+#endif
 
 #if defined(PLAT_CN10K_FAMILY)
 	if (plat_octeontx_bcfg->rvu_config.cpt_dis) {
@@ -695,7 +699,7 @@ static int octeontx_init_rvu_from_fdt(void)
 	 * and NPA in the ratio of 2:2:1. If there is any reminder left after
 	 * the division, it will be given away in the following order:
 	 * 1. SSO_TIM
-	 * 2. IPSEC
+	 * 2. IPSEC // only on cn10ka, cn10ka
 	 * 3. NPA
 	 */
 	{
@@ -703,7 +707,11 @@ static int octeontx_init_rvu_from_fdt(void)
 		int rem = uninit_pfs - 5 * div;
 
 		sso_tim_pfs = 2 * div;
+#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
 		ipsec_pfs = 2 * div;
+#else
+		ipsec_pfs = 0;
+#endif
 		npa_pfs = div;
 
 		switch (rem) {
@@ -714,7 +722,9 @@ static int octeontx_init_rvu_from_fdt(void)
 			npa_pfs++;
 			/* FALLTHROUGH */
 		case 2:
+#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
 			ipsec_pfs++;
+#endif
 			/* FALLTHROUGH */
 		case 1:
 			sso_tim_pfs++;
