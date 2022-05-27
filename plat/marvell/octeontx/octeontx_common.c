@@ -16,6 +16,8 @@
 #include <octeontx_common.h>
 #include <octeontx_mmap_utils.h>
 #include <plat_board_cfg.h>
+#include <lib/smccc.h>
+#include <services/arm_arch_svc.h>
 #include <assert.h>
 
 #if defined(PLAT_CN10K_FAMILY)
@@ -290,6 +292,51 @@ void cavm_setup_platform(void)
 #else
 	__cavm_platform = cavm_fuse_read_range(0, CAVM_FUSE_NUM_E_RUN_PLATFORMX(0), 3);
 #endif
+}
+
+/*****************************************************************************
+ * plat_is_smccc_feature_available() - This function checks whether SMCCC
+ *                                     feature is availabile for platform.
+ * @fid: SMCCC function id
+ *
+ * Return SMC_ARCH_CALL_SUCCESS if SMCCC feature is available and
+ * SMC_ARCH_CALL_NOT_SUPPORTED otherwise.
+ *****************************************************************************/
+int32_t plat_is_smccc_feature_available(u_register_t fid)
+{
+	switch (fid) {
+	case SMCCC_ARCH_SOC_ID:
+		return SMC_ARCH_CALL_SUCCESS;
+	default:
+		return SMC_ARCH_CALL_NOT_SUPPORTED;
+	}
+}
+
+/* Defines used to retrieve Marvell SOC revision
+ * This is based on JEDEC standard */
+#define MRVL_SOC_CONT_CODE	U(0x3)
+#define MRVL_SOC_IDEN_CODE	U(0x69)
+#define MRVL_SOC_CONT_SHIFT	U(24)
+#define MRVL_SOC_IDEN_SHIFT	U(16)
+
+/* Get SOC version */
+int32_t plat_get_soc_version(void)
+{
+	uint32_t version;
+	uint64_t chip_id;
+
+	chip_id = CSR_READ(CAVM_FUS_CACHEX(0x0));
+	version = ((MRVL_SOC_IDEN_CODE << MRVL_SOC_IDEN_SHIFT) |
+		   (MRVL_SOC_CONT_CODE << MRVL_SOC_CONT_SHIFT) |
+		   (uint32_t)chip_id);
+
+	return version;
+}
+
+/* Get SOC revision */
+int32_t plat_get_soc_revision(void)
+{
+	return (uint32_t)CSR_READ(CAVM_FUS_CACHEX(0x8));
 }
 
 #ifdef MRVL_TF_LOG_MODULE
