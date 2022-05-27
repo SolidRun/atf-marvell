@@ -291,13 +291,14 @@ static void sfp_get_info_25g(int portm_idx)
 	sh_data = sfp_get_sh_mem_ptr(portm_idx);
 	cap_info = &sfp_cap_info[portm_idx];
 
-	debug_sfp_mgmt("%s : Read BYTE 36 capabilities\n", __func__);
 
 	if (sh_data == NULL) {
 		ERROR("%s: SM pointer is NULL\n", __func__);
 		return;
 	}
 	mod_info = (sfp_mod_info_t *)sh_data->buf;
+
+	debug_sfp_mgmt("%s : Read BYTE 36 capabilities %d\n", __func__, mod_info->ext_compliance_code);
 
 	/* Transceiver compliance codes */
 	switch (mod_info->ext_compliance_code) {
@@ -346,6 +347,30 @@ static void sfp_get_info_25g(int portm_idx)
 		debug_sfp_mgmt("%s: 25G active copper cable detected BER of 10^(-12) or below\n",
 								__func__);
 		cap_info->trans_type = SFP_TRANS_TYPE_25G_ACC_M;
+		break;
+	case 0x30:
+		debug_sfp_mgmt("%s:  50GAUI AOC detected\n", __func__);
+		cap_info->trans_type = SFP_TRANS_TYPE_50G_AOC;
+		break;
+	case 0x31:
+		debug_sfp_mgmt("%s:  50GAUI ACC detected\n", __func__);
+		cap_info->trans_type = SFP_TRANS_TYPE_50G_ACC;
+		break;
+	case 0x40:
+		debug_sfp_mgmt("%s:  50GAUI CR detected\n", __func__);
+		cap_info->trans_type = SFP_TRANS_TYPE_50G_CR;
+		break;
+	case 0x41:
+		debug_sfp_mgmt("%s:  50GAUI SR detected\n", __func__);
+		cap_info->trans_type = SFP_TRANS_TYPE_50G_SR;
+		break;
+	case 0x42:
+		debug_sfp_mgmt("%s:  50GAUI FR detected\n", __func__);
+		cap_info->trans_type = SFP_TRANS_TYPE_50G_FR;
+		break;
+	case 0x4A:
+		debug_sfp_mgmt("%s:  50GAUI ER detected\n", __func__);
+		cap_info->trans_type = SFP_TRANS_TYPE_50G_ER;
 		break;
 	default:
 		/* Read byte 3 to check for copper -
@@ -413,6 +438,46 @@ static void sfp_get_info_25g(int portm_idx)
 	}
 }
 
+/* FIXME : For now, add support for bit rate and update transceiver type */
+static void sfp_get_info_cpri(int portm_idx)
+{
+	sfp_mod_info_t *mod_info;
+	sfp_cap_info_t *cap_info;
+	sfp_shared_data_t *sh_data;
+
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
+	cap_info = &sfp_cap_info[portm_idx];
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return;
+	}
+	mod_info = (sfp_mod_info_t *)sh_data->buf;
+
+	debug_sfp_mgmt("%s: portm %d signal rate 0x%x\n", __func__, portm_idx, mod_info->bitrate);
+
+	switch (mod_info->bitrate) {
+	case 0x18:
+		debug_sfp_mgmt("%s: 2.4 Gb/s\n", __func__);
+		break;
+	case 0x1E:
+		debug_sfp_mgmt("%s: 3.07 Gb/s\n", __func__);
+		break;
+	case 0x31:
+		debug_sfp_mgmt("%s: 4.9 Gb/s\n", __func__);
+		break;
+	case 0x3d:
+		debug_sfp_mgmt("%s: 6.1 Gb/s\n", __func__);
+		break;
+	case 0x62:
+		debug_sfp_mgmt("%s: 9.8 Gb/s\n", __func__);
+		break;
+	default:
+	break;
+	}
+	cap_info->trans_type = SFP_TRANS_TYPE_CPRI;
+}
+
 /* SFP EEPROM contents
  * Refer SFF 8472 & SFF 8024
  */
@@ -438,9 +503,12 @@ static void sfp_get_info(int portm_idx)
 	} else if (mod_info->bitrate >= 100) {
 		debug_sfp_mgmt("%s: 10G signal rate\n", __func__);
 		sfp_get_info_10g(portm_idx);
-	} else if (mod_info->bitrate >= 10) {
+	} else if ((mod_info->bitrate == 0xd) || (mod_info->bitrate == 0xc)) {	//signal bit rate of 1.25
 		debug_sfp_mgmt("%s: 1G signal rate\n", __func__);
 		sfp_get_info_1g(portm_idx);
+	} else if (mod_info->bitrate >= 10) {
+		debug_sfp_mgmt("%s: CPRI signal rate\n", __func__);
+		sfp_get_info_cpri(portm_idx);
 	} else {
 		WARN("%s: PORTM%d signal rate not specified for SFP/SFP+/SFP28\n",
 					__func__, portm_idx);
@@ -508,10 +576,10 @@ static void sfp_get_info(int portm_idx)
 		return;
 	}
 	/* FIXME : Log the other vendor details if required */
-	debug_sfp_mgmt("%s: Vendor name: %16.16s Vendor OUI: 02%x:02%x:02%x\t",
+	debug_sfp_mgmt("%s: Vendor name: %s Vendor OUI: %x:%x:%x\t",
 			__func__, mod_info->vendor_name, mod_info->vendor_oui[0],
 			mod_info->vendor_oui[1], mod_info->vendor_oui[2]);
-	debug_sfp_mgmt("Vendor Part num: %16.16s Revision %2.2s\n",
+	debug_sfp_mgmt("Vendor Part num: %s Revision %s\n",
 			mod_info->vendor_pn, mod_info->vendor_rev);
 }
 
@@ -806,6 +874,12 @@ int sfp_get_fec_capability(int portm_idx)
 	case SFP_TRANS_TYPE_200G_SR4:
 	case SFP_TRANS_TYPE_200G_CR4:
 	case SFP_TRANS_TYPE_200G_ACC:
+	case SFP_TRANS_TYPE_50G_AOC:
+	case SFP_TRANS_TYPE_50G_ACC:
+	case SFP_TRANS_TYPE_50G_SR:
+	case SFP_TRANS_TYPE_50G_CR:
+	case SFP_TRANS_TYPE_50G_ER:
+	case SFP_TRANS_TYPE_50G_FR:
 		fec = SFP_FEC_MODE_RS;
 		break;
 	default:
@@ -853,7 +927,13 @@ int sfp_get_speed_capability(int portm_idx)
 	case SFP_TRANS_TYPE_25G_ACC_L:
 	case SFP_TRANS_TYPE_25G_AOC:
 	case SFP_TRANS_TYPE_4x25G_CR:
-		max_speed = 25000;
+	case SFP_TRANS_TYPE_50G_AOC:
+	case SFP_TRANS_TYPE_50G_ACC:
+	case SFP_TRANS_TYPE_50G_SR:
+	case SFP_TRANS_TYPE_50G_CR:
+	case SFP_TRANS_TYPE_50G_FR:
+	case SFP_TRANS_TYPE_50G_ER:
+		max_speed = 50000;
 		break;
 	case SFP_TRANS_TYPE_40G_LR4:
 	case SFP_TRANS_TYPE_40G_SR4:
@@ -882,7 +962,7 @@ int sfp_get_speed_capability(int portm_idx)
 	case SFP_TRANS_TYPE_200G_ACC:
 		max_speed = 200000;
 		break;
-	/* FIXME for 50G/Multirate */
+	/* FIXME for Multirate */
 	default:
 		max_speed = 0;
 		break;
@@ -922,6 +1002,8 @@ int sfp_is_transceiver_optical(int portm_idx)
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_AOC:
 	case SFP_TRANS_TYPE_200G_AOC:
 	case SFP_TRANS_TYPE_200G_SR4:
+	case SFP_TRANS_TYPE_50G_AOC:
+	case SFP_TRANS_TYPE_50G_SR:
 		optical = 1;
 		break;
 	default:
@@ -971,8 +1053,8 @@ int sfp_is_transceiver_active(int portm_idx)
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_SR:
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_LR:
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_AOC:
-	case SFP_TRANS_TYPE_200G_AOC:
-	case SFP_TRANS_TYPE_200G_ACC:
+	case SFP_TRANS_TYPE_50G_AOC:
+	case SFP_TRANS_TYPE_50G_ACC:
 		active = 1;
 		break;
 	default:
