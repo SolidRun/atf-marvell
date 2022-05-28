@@ -83,7 +83,6 @@
 #define AUTOCMD_WRITE_INTO_FLASH 1
 #define SPI_FLASH_PROGRAM_PAGE_SIZE 256
 
-static file_state_t current_file = { 0 };
 extern int handle_gpio_as_spi(int spi_conn);
 
 uint32_t spi_mode;
