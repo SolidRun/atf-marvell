@@ -699,6 +699,99 @@ fec_fail:
 	return -1;
 }
 
+static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int tx_pre2,
+				  int tx_post, rpm_lmac_context_t *lmac_ctx)
+{
+	portm_config_t *portm;
+	portm_tx_tuning_t tx_tuning = {0};
+	int mac_id, lmac_id;
+	uint64_t init_time, tune_timeout;
+	int req_in_prog = 1, ret, txeq_match = 0;
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	mac_id = portm->mac_num;
+	lmac_id = portm->mac_lane;
+
+	debug_rpm_intf("%s: PORTM%d New Tx Eq: pre2:%d, pre1:%d, main:%d, post:%d\n",
+		       __func__, portm_idx, tx_pre2, tx_pre1, tx_main, tx_post);
+
+	tx_tuning.portm_mode = portm->portm_mode;
+	tx_tuning.tx_main = tx_main;
+	tx_tuning.tx_post = tx_post;
+	tx_tuning.tx_pre1 = tx_pre1;
+	tx_tuning.tx_pre2 = tx_pre2;
+	if (!cn10k_portm_tx_tuning_valid(portm_idx, 0, &tx_tuning)) {
+		ERROR("PORTM%d: Invalid Tx equalization settings provided.\n",
+		      portm_idx);
+		return -1;
+	}
+
+	/* Check if new Tx eq settings already match exiting Tx eq settings */
+	for (int lane_idx = 0; lane_idx < portm->gser_numlanes; lane_idx++) {
+		if ((portm->tx_main[lane_idx] == tx_main)
+		    && (portm->tx_post[lane_idx] == tx_post)
+		    && (portm->tx_pre1[lane_idx] == tx_pre1)
+		    && (portm->tx_pre2[lane_idx] == tx_pre2))
+			txeq_match = 1;
+		else {
+			txeq_match = 0;
+			break;
+		}
+	}
+
+	if (txeq_match) {
+		debug_rpm_intf("%s: PORTM%d (RPM%d.LMAC%d) New Tx Equalization matches current Tx eq\n",
+			       __func__, portm_idx, mac_id, lmac_id);
+		return 0;
+	}
+
+	/* Update portm_cfg with new Tx eq settings */
+	for (int lane_idx = 0; lane_idx < portm->gser_numlanes; lane_idx++) {
+		portm->tx_main[lane_idx] = tx_main;
+		portm->tx_post[lane_idx] = tx_post;
+		portm->tx_pre1[lane_idx] = tx_pre1;
+		portm->tx_pre2[lane_idx] = tx_pre2;
+	}
+
+	ret = ecp_send_link_req(portm_idx, mac_id, lmac_id, ECP_LINK_REQ_TXEQ_CHANGE, lmac_ctx);
+	if (ret == -1) {
+		/* Request not sent */
+		debug_rpm_intf("%s: PORTM%d Tx Equalization Request not sent\n",
+			__func__, portm_idx);
+		return -1;
+	}
+
+	debug_rpm_intf("%s: PORTM%d (RPM%d.LMAC%d) Tx Equalization Request sent to ECP\n",
+		__func__, portm_idx, mac_id, lmac_id);
+
+	init_time = clock_get_count(GSER_CLOCK_TIME);
+	tune_timeout = init_time + ECP_TX_EQ_CHANGE_WAIT_MS *
+		clock_get_rate(GSER_CLOCK_TIME)/1000;
+
+	while (clock_get_count(GSER_CLOCK_TIME) < tune_timeout) {
+		req_in_prog = ecp_get_req_in_prog(portm_idx, lmac_id);
+		if (req_in_prog == 0)
+			break;
+
+		mdelay(1);
+	}
+
+	if (req_in_prog != 0) {
+		debug_rpm_intf("%s: PORTM%d Tx Equalization Request did not complete\n",
+			__func__, portm_idx);
+		/* Clear req_in_prog for next request */
+		if (ecp_set_req_in_prog(portm_idx, lmac_id, 0))
+			debug_rpm_intf("%s: PORTM%d Failed to clear req_in_prog\n",
+				       __func__, portm_idx);
+		return -1;
+	}
+
+	debug_rpm_intf("%s: PORTM%d Tx Equalization Request Completed\n",
+		__func__, portm_idx);
+
+	return 0;
+}
+
 static const speed_mode_map_s rpm_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_DISABLED */
 	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_INVALID  */
@@ -1585,6 +1678,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	 */
 	if ((request_id == ETH_CMD_INTF_SHUTDOWN) ||
 		(request_id == ETH_CMD_SET_MAC_ADDR) ||
+		(request_id == ETH_CMD_TUNE_SERDES) ||
 		(request_id == ETH_CMD_GET_FWD_BASE) ||
 		(request_id == ETH_CMD_GET_FW_VER) ||
 		(request_id == ETH_CMD_MODE_CHANGE) ||
@@ -1619,6 +1713,19 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 		case ETH_CMD_SET_MAC_ADDR:
 			sh_fwdata_update_mac_addr(scratchx1.s.mac_args.addr,
 						  scratchx1.s.mac_args.pf_id);
+			break;
+
+		case ETH_CMD_TUNE_SERDES:
+			/* Read the command arguments from SCRATCH(1) */
+			scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
+						rpm_id, lmac_id, 1));
+			ret = rpm_set_serdes_tx_tune(
+				 scratchx1.s.gser_tune.portm_idx,
+				 scratchx1.s.gser_tune.tx_main,
+				 scratchx1.s.gser_tune.tx_pre,
+				 scratchx1.s.gser_tune.tx_pre2,
+				 scratchx1.s.gser_tune.tx_post,
+						     lmac_ctx);
 			break;
 
 		case ETH_CMD_MODE_CHANGE:

@@ -82,6 +82,7 @@ typedef enum link_err_type {
 	LINK_ERR_AN_CL73_NO_HCD,
 	LINK_ERR_MCESD_FAIL,
 	LINK_ERR_GSERM,
+	LINK_ERR_TXEQ_UPDATE_FAIL,
 	/* TODO: add more error types */
 } link_err_type_t;
 
@@ -94,6 +95,7 @@ typedef enum ecp_link_req_id {
 	ECP_LINK_REQ_AN_RESTART,
 	ECP_LINK_REQ_LOOPBACK_STATE_CHANGE,
 	ECP_LINK_REQ_PRBS_STATE_CHANGE,
+	ECP_LINK_REQ_TXEQ_CHANGE,
 } ecp_link_req_id_t;
 
 /* Link state enum definition */
@@ -150,6 +152,8 @@ typedef enum link_state {
 	ETH_LINK_STATE_AN_SERDES_WAIT = 49,
 	ETH_LINK_STATE_SFP_MODULE_UNPLUGGED = 50,
 	ETH_LINK_STATE_GSERM_FAILURE = 51,
+	ETH_LINK_STATE_TXEQ_CHANGE = 52,
+	ETH_LINK_STATE_TXEQ_FAILURE = 53,
 } ecp_link_state_enum_t;
 
 typedef enum ecp_aneg_state {
@@ -255,6 +259,7 @@ typedef struct ecp_state_hist_buf {
 typedef struct ecp_link_mgmt_sh_data {
 	uint32_t lock;
 	uint32_t ack;
+	uint32_t req_in_prog[LMAC_PER_RPM_MAX]; /* Will get set to 1 by AP when requesting mode/txeq change. ECP clears it. */
 	uint32_t portm_idx;
 	portm_config_t portm_cfg;
 	lpcs_spd_dplx_t lpcs_speed_dplx[LMAC_PER_RPM_MAX]; /* Speed and Duplex settings for lpcs modes */
@@ -276,6 +281,25 @@ typedef struct link_shared_data {
 
 void ecp_link_init_shmem(void);
 int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id, rpm_lmac_context_t *lmac_ctx);
+/**
+ * Sets the ECP req_in_prog
+ *
+ * @param portm_idx     PORTM to use
+ * @param lmac_id
+ * @param state         Value to set req_in_prog
+ * @return 1 Failed to send, 0 = Success
+ */
+unsigned int ecp_set_req_in_prog(int portm_idx, int lmac_id, unsigned int state);
+
+/**
+ * Returns status of ECP req_in_prog
+ *
+ * @param portm_idx     PORTM to use
+ * @param lmac_id
+ * @return 0 request done, 1 not done
+ */
+unsigned int ecp_get_req_in_prog(int portm_idx, int lmac_id);
+
 unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *link_state, int *sig_detect);
 unsigned int ecp_update_phy_link_state(int portm, int lmac_id, rpm_link_state_t *phy_link_state);
 unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);

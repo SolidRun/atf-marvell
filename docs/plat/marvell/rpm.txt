@@ -957,6 +957,25 @@ This parameter gets reset when ETH_CMD_LINK_BRING_DOWN is sent by user.
 Note: The timeout parameter passed by user via LINK_TIMEOUT have a higher preference compared to link timeout
 parameter passed via LINK_BRINGUP command.
 
+3.2.4.14 SerDes Tx Tuning
+"""""""""""""""""""""""""
+This command ETH_CMD_TUNE_SERDES is used to tune SerDes TX parameters (tx_pre2, tx_pre, tx_main and tx_post). The tx tuning parameters are applied to all lanes in the specified portm_idx.
+
+Following are the parameters expected:
+
+.. code-block:: c
+
+  /* command argument to be passed for cmd ID - ETH_CMD_TUNE_SERDES */
+  struct eth_get_port_mode_args {
+       uint64_t reserved1:8;
+       uint64_t portm_idx:8;
+       uint64_t tx_main:8;
+       uint64_t tx_pre:8;
+       uint64_t tx_post:8;
+       uint64_t tx_pre2:8;
+       uint64_t reserved2:16;
+  };
+
 3.2.5 Interface from ATF to U-Boot/Kernel
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

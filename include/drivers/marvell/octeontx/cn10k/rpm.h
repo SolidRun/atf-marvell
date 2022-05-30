@@ -48,6 +48,7 @@
 #define ECP_MODE_CHANGE_WAIT_STATUS	60000		/* 60 ms */
 #define RPM_POLL_LINK_BRINGDOWN_STATUS	500000		/* 500 ms */
 #define RPM_POLL_LINK_FECCHANGE_STATUS	4000000		/* 4 second */
+#define ECP_TX_EQ_CHANGE_WAIT_MS	50		/* 50 ms */
 
 typedef struct rpm_tsu_config {
 	int tsu_rx_mode;

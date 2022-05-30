@@ -596,11 +596,21 @@ struct eth_gser_loop {
 /* Configure TX tuning parameters */
 struct eth_gser_tune {
 	uint64_t reserved1:8;
+#ifdef PLAT_CN10K_FAMILY
+	uint64_t portm_idx:8;
+	uint64_t tx_main:8;
+#else
 	uint64_t lane_mask:8;
 	uint64_t tx_swing:8;
+#endif
 	uint64_t tx_pre:8;
 	uint64_t tx_post:8;
+#ifdef PLAT_CN10K_FAMILY
+	uint64_t tx_pre2:8;
+	uint64_t reserved2:16;
+#else
 	uint64_t reserved2:24;
+#endif
 };
 
 union eth_cmd_s {

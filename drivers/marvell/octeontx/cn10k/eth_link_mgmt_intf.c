@@ -268,31 +268,6 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 	/* Get lmac index from PORTM to retrieve FEC and other properties */
 	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 
-	/* Update the new PORTM mode to SM for certain requests */
-	if ((req_id == ECP_LINK_REQ_MODE_CHANGE)
-	    || (req_id == ECP_LINK_REQ_FEC_CHANGE)) {
-		sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
-
-		if (sh_portm == NULL) {
-			ERROR("%s: SM pointer is NULL\n", __func__);
-			return -1;
-		}
-		/* Update Shared Portm struct to match ATF portm struct */
-		*sh_portm = *portm;
-		sh_portm->ap_802_3_adv = portm->ap_802_3_adv;
-	} else if ((req_id == ECP_LINK_REQ_LOOPBACK_STATE_CHANGE)
-		   || (req_id == ECP_LINK_REQ_PRBS_STATE_CHANGE)) {
-		sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
-
-		if (sh_portm == NULL) {
-			ERROR("%s: SM pointer is NULL\n", __func__);
-			return -1;
-		}
-		/* Update Shared Portm struct to match ATF portm struct */
-		*sh_portm = *portm;
-		/* AN/LT does not need to be updated for PRBS/Loopback */
-	}
-
 	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
 		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
 				    __func__, portm_idx,
@@ -312,6 +287,35 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 		sh_data->lmac_id = lmac_id;
 		sh_data->link_req.req_id = req_id;
 		sh_data->portm_cfg.fec = portm->fec;
+		/* Update the new PORTM mode to SM for certain requests */
+		if ((req_id == ECP_LINK_REQ_MODE_CHANGE)
+		    || (req_id == ECP_LINK_REQ_TXEQ_CHANGE)
+		    || (req_id == ECP_LINK_REQ_FEC_CHANGE)) {
+			sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
+			if (sh_portm == NULL) {
+				ERROR("%s: SM pointer is NULL\n", __func__);
+				return -1;
+			}
+			/* Update Shared Portm struct to match ATF portm struct */
+			*sh_portm = *portm;
+			sh_portm->ap_802_3_adv = portm->ap_802_3_adv;
+			/* Set the req_in_prog to 1 (Request being made) */
+			sh_data->req_in_prog[lmac_id] = 1;
+		} else if ((req_id == ECP_LINK_REQ_LOOPBACK_STATE_CHANGE)
+			   || (req_id == ECP_LINK_REQ_PRBS_STATE_CHANGE)) {
+			sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
+
+			if (sh_portm == NULL) {
+				ERROR("%s: SM pointer is NULL\n", __func__);
+				return -1;
+			}
+			/* Update Shared Portm struct to match ATF portm struct */
+			*sh_portm = *portm;
+			/* AN/LT does not need to be updated for PRBS/Loopback */
+			/* Set the req_in_prog to 1 (Request being made) */
+			sh_data->req_in_prog[lmac_id] = 1;
+		}
+
 		sh_data->ack = 1;
 		sh_data->lock = LINK_OWN_NONE;
 	} else {
@@ -525,6 +529,71 @@ int ecp_dump_state_history(int portm_idx, int lmac_id, const char *msg)
 	spin_unlock(&ecp_print_buf_lock);
 
 	return 0;
+}
+
+/**
+ * Sets the ECP req_in_prog
+ *
+ * @param portm_idx     PORTM to use
+ * @param lmac_id
+ * @param state         Value to set req_in_prog
+ * @return 1 Failed to send, 0 = Success
+ */
+unsigned int ecp_set_req_in_prog(int portm_idx, int lmac_id, unsigned int state)
+{
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return 1;
+	}
+	debug_eth_link_intf("%s:PORTM%d\n", __func__, portm_idx);
+
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
+		return 1;
+	}
+
+	sh_data->lock = LINK_OWN_AP;
+	sh_data->req_in_prog[lmac_id] = state;
+	sh_data->lock = LINK_OWN_NONE;
+
+	return 0;
+}
+
+/**
+ * Returns status of ECP req_in_prog
+ *
+ * @param portm_idx     PORTM to use
+ * @param lmac_id
+ * @return 0 request done, 1 not done
+ */
+unsigned int ecp_get_req_in_prog(int portm_idx, int lmac_id)
+{
+	unsigned int req_in_prog = 1;
+
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return 1;
+	}
+	debug_eth_link_intf("%s:PORTM%d\n", __func__, portm_idx);
+
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
+		return 1;
+	}
+
+	sh_data->lock = LINK_OWN_AP;
+	req_in_prog = sh_data->req_in_prog[lmac_id];
+	sh_data->lock = LINK_OWN_NONE;
+
+	return req_in_prog;
 }
 
 unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *link_state, int *sig_detect)
@@ -774,6 +843,10 @@ const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 	break;
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_GSERM_FAILURE);
 	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_TXEQ_CHANGE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_TXEQ_FAILURE);
+	break;
 
 	default:
 		break;
@@ -886,6 +959,8 @@ const char *cn10k_link_error_to_str(link_err_type_t link_error)
 	break;
 	LINK_ERROR_CASE(LINK_ERR_GSERM);
 	break;
+	LINK_ERROR_CASE(LINK_ERR_TXEQ_UPDATE_FAIL);
+	break;
 
 	default:
 		break;
@@ -921,6 +996,8 @@ const char *cn10k_ecp_link_req_to_str(ecp_link_req_id_t link_req)
 	LINK_REQ_CASE(ECP_LINK_REQ_LOOPBACK_STATE_CHANGE);
 	break;
 	LINK_REQ_CASE(ECP_LINK_REQ_PRBS_STATE_CHANGE);
+	break;
+	LINK_REQ_CASE(ECP_LINK_REQ_TXEQ_CHANGE);
 	break;
 
 	default:
