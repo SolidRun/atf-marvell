@@ -617,7 +617,7 @@
  *       x1 - 32bit value for mem_test_settings, next
  *       x2 - 32 bit value for mem_test_settings, power_on
  */
-#define PLAT_OCTEONTX_MEM_TEST_CONFIG   0xc2000f00
+#define PLAT_OCTEONTX_MEM_TEST_CONFIG   0xc2000b15
 
  /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			23

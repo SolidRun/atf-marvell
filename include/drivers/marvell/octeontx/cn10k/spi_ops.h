@@ -24,5 +24,7 @@ int spi_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz);
 int spi_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz);
 int spi_update_ethernet_persistent_data(uintptr_t log_entry, size_t sz);
 int spi_read_ethernet_persistent_data(uintptr_t log_entry, uint64_t *sz);
+int spi_read_memtest_persistent_data(uintptr_t buf, uint64_t *sz);
+int spi_write_memtest_persistent_data(uintptr_t buf, uint64_t sz);
 
 #endif

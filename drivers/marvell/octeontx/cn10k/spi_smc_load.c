@@ -36,7 +36,8 @@
  * 2000		2FFF		MAC Addresses
  * 3000		3FFF		Mem Preserve
  * 4000		23FFF		PPR
- * 24000	3EFFF		Unused
+ * 24000	3DFFF		Unused
+ * 3E000	3EFFF		Memory POST
  * 3F000	3FFFF		Reset Counters
  */
 
@@ -51,6 +52,9 @@
 
 #define PERSIST_PPR_OFFSET			0x4000
 #define PERSIST_PPR_LEN				0x20000
+
+#define PERSIST_MEMTEST_DATA_OFFSET		0x3E000
+#define PERSIST_MEMTEST_DATA_LEN		0x1000
 
 #define PERSIST_RESET_CNTRS_OFFSET		0x3F000
 #define PERSIST_RESET_CNTRS_LEN			0x1000
@@ -525,6 +529,30 @@ int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize)
 	rpram_offset = PERSIST_RPRAM_DATA_OFFSET + cfg->offset;
 
 	return cn10k_spi_dev_write(wrbuf, wrsize, rpram_offset, cfg->bus, cfg->cs);
+}
+
+int spi_read_memtest_persistent_data(uintptr_t buf, uint64_t *sz)
+{
+	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+	uint64_t offset;
+
+	if (cfg == NULL)
+		return -2;
+
+	offset = PERSIST_MEMTEST_DATA_OFFSET + cfg->offset;
+	return cn10k_spi_dev_read(buf, sz, offset, cfg->bus, cfg->cs);
+}
+
+int spi_write_memtest_persistent_data(uintptr_t buf, uint64_t sz)
+{
+	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+	uint64_t offset;
+
+	if (cfg == NULL)
+		return -2;
+
+	offset = PERSIST_MEMTEST_DATA_OFFSET + cfg->offset;
+	return cn10k_spi_dev_write(buf, sz, offset, cfg->bus, cfg->cs);
 }
 
 /* Gather info about all secure busses and chip selects */
