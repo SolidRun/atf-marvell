@@ -224,31 +224,22 @@ static const char *spi_boot_method_to_string(int method)
 	}
 }
 
-static int check_model(void)
-{
-	return cavm_is_model(OCTEONTX_CN10KA) ||
-	       cavm_is_model(OCTEONTX_CNF10KA) ||
-	       cavm_is_model(OCTEONTX_CNF10KB);
-}
-
 int plat_try_next_boot_source(void)
 {
 	const char *method;
 
-	if (check_model()) {
-		switch (plat_octeontx_bcfg->bcfg.boot_dev.boot_type) {
-		case OCTEONTX_BOOT_SPI:
-			method = spi_boot_method_to_string(
-				spi_boot_method[spi_boot_try]);
-			NOTICE("Could not load image using SPI in %s mode\n",
+	switch (plat_octeontx_bcfg->bcfg.boot_dev.boot_type) {
+	case OCTEONTX_BOOT_SPI:
+		method = spi_boot_method_to_string(
+			spi_boot_method[spi_boot_try]);
+		NOTICE("Could not load image using SPI in %s mode\n",
 				method);
-			spi_boot_try++;
-			if (spi_boot_try < ARRAY_SIZE(spi_boot_method)) {
-				method = spi_boot_method_to_string(
+		spi_boot_try++;
+		if (spi_boot_try < ARRAY_SIZE(spi_boot_method)) {
+			method = spi_boot_method_to_string(
 					spi_boot_method[spi_boot_try]);
-				NOTICE("Try SPI %s mode\n", method);
-				return 1;
-			}
+			NOTICE("Try SPI %s mode\n", method);
+			return 1;
 		}
 	}
 
