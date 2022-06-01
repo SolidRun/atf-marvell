@@ -76,7 +76,26 @@ XLAUI					40g
 =====================   =============================
 
 
-2.2 Number of VFs/MSIX
+2.2 portm@<x> node
+^^^^^^^^^^^^^^^^^^
+
+For ports configured to CPRI mode, each port is represented in the following format:
+
+Linux DT
+^^^^^^^^
+
+.. code-block:: none
+
+   portm@0 {	/* PORTM index */
+      ...
+   };
+
+Currently portm node may contain information about SFP/QSFP slots (see Examples section below).
+This is mandatory if SFP management is to be enabled for ports configured to CPRI mode.
+The parser will remove unused portm nodes from the Linux device tree, after parsing is done.
+
+
+2.3 Number of VFs/MSIX
 ^^^^^^^^^^^^^^^^^^^^^^
 Number of VFs/MSIX property for each sub-node defined to be used by RVU driver::
 
@@ -86,7 +105,7 @@ Number of VFs/MSIX property for each sub-node defined to be used by RVU driver::
 
 This is optional. If not, default number of VFs and MSIX per VF are assigned.
 
-2.3 Autonegotiation
+2.4 Autonegotiation
 ^^^^^^^^^^^^^^^^^^^
 
 For AN to be disabled, the sub-node should have following property
@@ -109,7 +128,7 @@ Example of disabling autonegotiation and setting speed to 100M:
 This is applicable only for SGMII/QSGMII modes. For 1000 BASE-X, if PHY is
 not present, AN is by default disabled.
 
-2.4 FEC Configuration
+2.5 FEC Configuration
 ^^^^^^^^^^^^^^^^^^^^^
 
 FEC configuration for each LMAC (Applicable for >=10G speeds) can be configured from
@@ -129,7 +148,7 @@ If this attribute is not specified, FEC will be disabled.
 
    If user wants to disable FEC, specify the value as 0 in the above property
 
-2.5 PHY MDIO bus
+2.6 PHY MDIO bus
 ^^^^^^^^^^^^^^^^
 
 PHY should have the details of which MDIO bus it is connected to and its
@@ -147,7 +166,7 @@ PHY (example PHY info):
    };
 
 
-2.6 The 'mdio-in-kernel' attribute
+2.7 The 'mdio-in-kernel' attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The new attribute 'mdio-in-kernel' was added to mark that given MDIO bus
@@ -173,7 +192,7 @@ subnodes will be managed in ATF and they will be trimmed from Linux dts.
    };
 
 
-2.7 PHY handle
+2.8 PHY handle
 ^^^^^^^^^^^^^^
 
 The corresponding LMAC node depending on the board design, should have
@@ -189,7 +208,7 @@ the handle to PHY:
    };
 
 
-2.8 cn10k,reg-init attribute
+2.9 cn10k,reg-init attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 New attribute 'cn10k,reg-init' was added, which is an optional data
@@ -211,8 +230,8 @@ The syntax is::
 	wait_ms:	delay in milliseconds after the MDIO transaction
 
 
-2.9 The 'twsi-in-kernel' attribute
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2.10 The 'twsi-in-kernel' attribute
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Regarding management of SFP/QSFPs, the new attribute, 'twsi-in-kernel',
 was added to mark that given twsi bus is to be managed by Linux kernel.
@@ -290,7 +309,7 @@ will be removed from dts tree right after ATF is done with parsing.
 };
 
 
-2.10 Examples
+2.11 Examples
 ^^^^^^^^^^^^^
 
 **SFP (example slot info):**
@@ -338,7 +357,8 @@ will be removed from dts tree right after ATF is done with parsing.
 
 .. Note::
 
-   Slot info needs to be mapped to LMAC nodes based on the board design.
+   Slot info needs to be mapped to LMAC nodes for ports configured to ethernet mode
+   or to portm nodes for ports configured to CPRI - based on the board design.
 
 .. code-block:: none
 
@@ -348,6 +368,10 @@ will be removed from dts tree right after ATF is done with parsing.
          qsfp-slot = <&qsfp_2>;
          phy-handle = <&phy0>;
      };
+   };
+
+   portm@10 {
+     sfp-slot = <&sfp_1>;
    };
 
 
