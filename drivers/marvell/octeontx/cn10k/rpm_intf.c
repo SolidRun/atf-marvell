@@ -616,7 +616,7 @@ link_down_fail:
 
 int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 {
-	rpm_link_state_t link_sts;
+	rpm_link_state_t link_sts = {0};
 	rpm_lmac_config_t *lmac;
 	rpm_lmac_context_t *lmac_ctx;
 	portm_config_t *portm;

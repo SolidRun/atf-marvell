@@ -112,9 +112,10 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 			mdelay(5);
 		}
 		/* If the link is not UP, then update the link state as below */
-		if (!sig_detect)
+		if (!sig_detect) {
+			debug_rpm("%s: %d:%d FAILED to detect a signal\n", __func__, rpm_id, lmac_id);
 			bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
-		else
+		} else
 			bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
 		bringup_ctx->link_bringup_time = RPM_LINK_BRINGUP_WAIT_STATUS; /* elapsed time */
 
