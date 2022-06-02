@@ -567,6 +567,11 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	 */
 	plat_cn10k_fdt_tad_pmu_node_refresh();
 
+	/* Add marvell,ddr-speed property (derived
+	 * from cavium,bdk node) under ddrpmu node.
+	 */
+	plat_cn10k_fdt_ddr_pmu_node_refresh();
+
 	/* Fixup the mpam/msc DT node based on
 	 * the DMC_MASK set for the platform.
 	 */

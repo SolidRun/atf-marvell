@@ -256,6 +256,56 @@ void plat_cn10k_fdt_tad_pmu_node_refresh(void)
 	fdt_setprop(fdt, offs, "reg", reg, sizeof(reg));
 }
 
+uint32_t retrieve_dmc_mask_or_ddr_speed(char *string,
+					uint32_t default_val)
+{
+	const char *str = NULL;
+	uint32_t cavium_bdk;
+	void *fdt = fdt_ptr;
+
+	cavium_bdk = fdt_path_offset(fdt, "/cavium,bdk");
+	if (cavium_bdk < 0) {
+		debug_dts("%s: /cavium,bdk is missing from device tree: %s\n",
+			  __func__, fdt_strerror(cavium_bdk));
+	}
+
+	str = fdt_getprop(fdt, cavium_bdk, string, NULL);
+	if (str)
+		return strtol(str, NULL, 0);
+
+	return default_val;
+}
+
+void plat_cn10k_fdt_ddr_pmu_node_refresh(void)
+{
+	const char *compatible = "marvell,cn10k-ddr-pmu";
+	void *fdt = fdt_ptr;
+	uint32_t ddr_speed;
+	int offs, ret;
+
+	/* Prepare DTB */
+	ret = fdt_open_into(fdt, fdt, (fdt_totalsize(fdt)+0x1000));
+	if (ret < 0) {
+		INFO("invalid DT\n");
+		return;
+	}
+
+	/* Retrieve DDR speed */
+	ddr_speed = retrieve_dmc_mask_or_ddr_speed("DDR-SPEED", 0xc80);
+
+	/* Update DDR PMU node with "marvell,ddr-speed" property */
+	ddr_speed = cpu_to_fdt32(ddr_speed);
+	offs = fdt_node_offset_by_compatible(fdt, -1, compatible);
+	while (offs != -FDT_ERR_NOTFOUND) {
+		fdt_setprop(fdt, offs, "marvell,ddr-speed", &ddr_speed,
+			    sizeof(ddr_speed));
+		offs = fdt_node_offset_by_compatible(fdt, offs, compatible);
+	}
+
+	/* Done updating the DT, pack it */
+	fdt_pack(fdt);
+}
+
 #ifdef ENABLE_MPAM_FOR_LOWER_ELS
 void remove_mpam_nodes(void *blob, const char *const nodes_path[],
 			int size_array)
@@ -277,22 +327,11 @@ void remove_mpam_nodes(void *blob, const char *const nodes_path[],
 
 void plat_cn10k_fdt_ddr_mpam_update()
 {
-	uint32_t cavium_bdk;
-	uint32_t dmc_mask=0x3f;
 	void *fdt = fdt_ptr;
-	const char *str = NULL;
+	uint32_t dmc_mask;
 
 	/* Retrieve DMC mask */
-	cavium_bdk = fdt_path_offset(fdt, "/cavium,bdk");
-	if (cavium_bdk < 0) {
-		debug_dts("%s: /cavium,bdk is missing from device tree: %s\n",
-			  __func__, fdt_strerror(cavium_bdk));
-	}
-
-	str = fdt_getprop(fdt, cavium_bdk, "DDR-DMC-MASK", NULL);
-	if (str) {
-		dmc_mask = strtol(str, NULL, 0);
-	}
+	dmc_mask = retrieve_dmc_mask_or_ddr_speed("DDR-DMC-MASK", 0x1);
 
 	switch (dmc_mask) {
 	case 0x1: {
