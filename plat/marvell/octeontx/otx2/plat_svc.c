@@ -19,6 +19,7 @@
 #include <spi_smc_load.h>
 #include <phy_mgmt.h>
 #include <sh_fwdata.h>
+#include <octeontx_dram.h>
 
 extern void *scmi_handle;
 
@@ -45,7 +46,6 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					u_register_t flags)
 {
 	uint64_t ret = 0;
-
 	switch (smc_fid) {
 	case PLAT_OCTEONTX_DISABLE_RVU_LFS:
 		ret = octeontx_clear_lf_to_pf_mapping();
@@ -307,6 +307,30 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	}
 		break;
 
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+	case PLAT_OCTEONTX_PHY_ADVANCE_CMDS:
+	{
+		uintptr_t size, user_buf;
+		uint64_t dram_end;
+
+		user_buf = x1;
+		size = x2;
+
+		dram_end = octeontx_dram_size();
+		if (((void *)user_buf == NULL) ||
+			(user_buf < NS_IMAGE_BASE) ||
+			((user_buf + size) > dram_end) ||
+			(user_buf % 8)) {
+			ERROR("Error: invalid descriptor address 0x%lx, size: 0x%lx\n",
+								user_buf, size);
+			SMC_RET2(handle, -1, 0);
+		}
+
+		ret = phy_advance_commads(x3, x4, (uintptr_t *)user_buf, size);
+
+		SMC_RET1(handle, ret);
+	} break;
+#endif
 	default:
 		return otx2_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

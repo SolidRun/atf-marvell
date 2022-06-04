@@ -345,8 +345,22 @@
  */
 #define PLAT_OCTEONTX_GET_SFP_INFO_OFFSET 0xc2000b13
 
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEONTX_PHY_ADVANCE_CMDS
+ *
+ * x1 - descriptor address
+ * x2 - descriptor size
+ *
+ * Returns:
+ *      x0
+ *              0 -- Success
+ *             -1 -- failure (invalid input or command failed)
+ */
+#define PLAT_OCTEONTX_PHY_ADVANCE_CMDS                0xc2000b0b
+
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			18
+#define OTX2_NUM_SMC_CALLS			19
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
@@ -361,6 +375,8 @@ uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
 int octeontx2_configure_ooo(unsigned int x1);
 int octeontx2_configure_ooo_mask(uint64_t x1);
 int octeontx2_configure_wfe(uint64_t x1);
+
+int phy_macsec_commads(int eth_id, int lmac_id, int *mac_cmds, int size);
 
 #endif /* __PLAT_SVC_H__ */
 

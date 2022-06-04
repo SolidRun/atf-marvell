@@ -22,6 +22,7 @@
 #include <phy_mgmt.h>
 #include <octeontx_utils.h>
 #include <sh_fwdata.h>
+#include <octeontx_mmap_utils.h>
 
 /* define DEBUG_ATF_NW_MGMT to enable debug logs */
 #undef DEBUG_ATF_NW_MGMT	/* PHY, SFP/QSFP management */
@@ -331,6 +332,64 @@ int phy_pkt_gen(int eth_id, int lmac_id, int cmd, int value)
 }
 
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
+
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+int phy_advance_commads(int eth_id, int lmac_id, uintptr_t *adv_cmds, int size)
+{
+	int ret = -1;
+	phy_config_t *phy;
+	uint64_t base_addr = 0;
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+	int ns_map_size;
+
+	debug_nw_mgmt("%s: %d:%d\n", __func__, eth_id, lmac_id);
+
+	if (eth_id < 0 || eth_id >= MAX_CGX)
+		return -1;
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 1); /* Enable the switch */
+
+	/* User Buffer  */
+	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+	base_addr = (uintptr_t)adv_cmds & mask;
+
+	debug_nw_mgmt("%s: base_addr %llx ns_map_size %d\n", __func__,
+					base_addr, ns_map_size);
+	if (((uintptr_t)adv_cmds + size) > (base_addr + ns_map_size))
+		ns_map_size += PAGE_SIZE;
+
+	ret = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+						ns_map_size, MT_RW | MT_NS);
+	if (ret) {
+		WARN("Version check descriptor mmap failed (%d)\n", ret);
+		goto error;
+	}
+	debug_nw_mgmt("%s: Mapping OK %d:%d\n", __func__, eth_id, lmac_id);
+
+	debug_nw_mgmt("%s: phy->valid %d %d:%d\n", __func__, phy->valid, eth_id, lmac_id);
+	/* Call PHY specific config callback here */
+	if (phy->valid && phy->drv->mac_adv_cmds) {
+		ret = phy->drv->mac_adv_cmds(eth_id, lmac_id, adv_cmds, size);
+		debug_nw_mgmt("%s: called >mac_adv_cmds %d:%d adv_cmds %p"
+			" size %d ret %d\n", __func__, eth_id, lmac_id, adv_cmds, size, ret);
+	}
+
+	if (base_addr && ns_map_size)
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
+							ns_map_size);
+
+	if (phy->mux_switch)
+		smi_set_switch(phy, 0); /* Disable the switch */
+
+	debug_nw_mgmt("%s: Exit %d:%d\n", __func__, eth_id, lmac_id);
+
+error:
+	return ret;
+}
+#endif /* ATF_ENABLE_MAC_ADV_CMDS */
 
 int phy_set_mod_type(int cgx_id, int lmac_id, phy_mod_type_t mod_type)
 {

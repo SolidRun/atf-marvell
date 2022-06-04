@@ -245,7 +245,9 @@ typedef struct phy_drv {
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS ||
 	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 	*/
-
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+	void (*mac_adv_cmds)(int eth_id, int lmac_id, void *adv_cmd_data, int size);
+#endif
 } phy_drv_t;
 
 typedef struct phy_fec_stats {
@@ -292,6 +294,9 @@ typedef struct phy_config {
 #endif
 #ifdef MARVELL_PHY_7121
 	void *phy_7121_pktgen;
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+	void *phy_7121_macsec;
+#endif
 #endif
 } phy_config_t;
 
@@ -339,6 +344,10 @@ uint64_t phy_get_prbs_errors(
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS ||
 	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 	*/
+
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+int phy_advance_commads(int eth_id, int lmac_id, uintptr_t *mac_cmds, int size);
+#endif
 
 /* Generic PHY driver APIs to be exposed to other PHY drivers */
 void phy_generic_probe(int eth_id, int lmac_id);
