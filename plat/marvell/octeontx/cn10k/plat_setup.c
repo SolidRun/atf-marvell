@@ -267,8 +267,10 @@ void plat_octeontx_setup(void)
 #endif
 
 #if RAS_EXTENSION
-	extern int cn10k_ras_init(void);
-	cn10k_ras_init();
+	if (cavm_is_platform(PLATFORM_HW)) {
+		extern int cn10k_ras_init(void);
+		cn10k_ras_init();
+	}
 #endif
 
 	plat_set_emmc_msix_vectors();

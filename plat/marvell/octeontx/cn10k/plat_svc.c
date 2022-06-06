@@ -892,7 +892,8 @@ err4:
 		switch (x1) {
 		case PLAT_OCTEONTX_EINJ_DSS:
 #if RAS_EXTENSION
-			ret = cn10k_inject_dss_error(x2, x3, x4);
+			if (cavm_is_platform(PLATFORM_HW))
+				ret = cn10k_inject_dss_error(x2, x3, x4);
 #endif
 			SMC_RET1(handle, ret);
 		break;
