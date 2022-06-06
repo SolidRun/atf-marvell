@@ -3,6 +3,12 @@
 # SPDX-License-Identifier:     BSD-3-Clause
 # https://spdx.org/licenses
 
+WORKAROUND_CVE_2017_5715	:=	1
+
+WORKAROUND_CVE_2018_3639	:=	1
+
+DYNAMIC_WORKAROUND_CVE_2018_3639	:=	1
+
 RAS_EXTENSION		:=       1
 HANDLE_EA_EL3_FIRST	:=       1
 
