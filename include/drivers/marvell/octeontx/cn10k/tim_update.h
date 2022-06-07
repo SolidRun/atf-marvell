@@ -165,6 +165,25 @@ struct smc_update_descriptor {
 	struct smc_update_obj_info object_retinfo[SMC_MAX_OBJECTS];
 };
 
+struct smc_update_descriptor_prev {
+	uint32_t	magic;		/** UPDATE_MAGIC */
+	uint16_t	version;	/** Version of descriptor */
+	uint16_t	update_flags;	/** Flags passed to update process */
+	uint64_t	image_addr;	/** Address of image (CPIO file) */
+	uint64_t	image_size;	/** Size of image (CPIO file) */
+	uint32_t	bus;		/** SPI BUS number */
+	uint32_t	cs;		/** SPI chip select number */
+	uint32_t	async_operation; /** use asynchronus SPI operations */
+	uint32_t	reserved;	/** Space to add stuff */
+	uint64_t	user_addr;	/** Passed to customer function */
+	uint64_t	user_size;	/** Passed to customer function */
+	uint64_t	user_flags;	/** Passed to customer function */
+	uintptr_t	work_buffer;	/** Used for compressed objects */
+	uint64_t	work_buffer_size;/** Size of work buffer */
+	struct smc_update_obj_info object_retinfo[SMC_MAX_OBJECTS];
+};
+
+
 /* Read Flash */
 /**
  * This descriptor is used to read data from flash
