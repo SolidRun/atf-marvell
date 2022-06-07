@@ -1328,7 +1328,7 @@ void gserm_reset_init(void)
 
 	/* (22c) Program the GSERM Tx/Rx polarity */
 	for (int portm_idx = 0; portm_idx < portm_count;) {
-		int tx_pol, rx_pol;
+		int tx_pol, rx_pol, rx_term;
 
 		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 		cfg.gserm_idx = portm->gserm;
@@ -1345,6 +1345,7 @@ void gserm_reset_init(void)
 			gser_lane = (lane_map >> (portm_lane * 4)) & 0xf;
 			tx_pol = portm->tx_pol[portm_lane];
 			rx_pol = portm->rx_pol[portm_lane];
+			rx_term = portm->rx_term;
 
 			debug_gserm("%s: GSERM%d.%d: Configuring Tx_Polarity(%d) and Rx_Polarity(%d)\n",
 				    __func__, cfg.gserm_idx, gser_lane, tx_pol, rx_pol);
@@ -1352,6 +1353,18 @@ void gserm_reset_init(void)
 			API_N5XC56GP5X4_SetTxRxPolarity(&cfg.mcesd_handle,
 						       gser_lane,
 						       tx_pol, rx_pol);
+
+			/* Select the GSERM lane */
+			CSR_MODIFY(c, CAVM_GSERMX_SYSTEM(cfg.gserm_idx),
+				   c.s.lane_sel = 1 << gser_lane);
+
+			debug_gserm("%s: GSERM%d.%d: Configuring Rx termination:%d\n",
+				    __func__, cfg.gserm_idx, gser_lane, rx_term);
+
+			/* Set the GSERM lane rx termination */
+			CSR_MODIFY(c, CAVM_GSERMX_INPUT_PIN_DEBUG_RX_REG12(cfg.gserm_idx),
+				   c.s.rx_dc_term_en_fm_reg_lane = 1; /* Force rx term to come from rx_dc_term_en_lane */
+				   c.s.rx_dc_term_en_lane = rx_term);
 		}
 
 		portm_idx += portm->portms_used;

@@ -2543,7 +2543,7 @@ static void cn10k_fill_portm_details(void *fdt)
 	int port8_11_mac_type = -1, port16_19_mac_type = -1, mac_type;
 	int offset, len;
 	int rx_pol, tx_pol, an_master_lane;
-	int rx_precode, tx_precode;
+	int rx_precode, tx_precode, rx_term;
 	int numlanes = 0;
 	portm_config_t *portm;
 	bool ap_sup;
@@ -2637,7 +2637,6 @@ static void cn10k_fill_portm_details(void *fdt)
 			}
 		}
 
-
 		/* Read the FEC type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-FEC.P%d", portm_idx);
 		fec = cn10k_fdtebf_get_num(fdt, prop, 10);
@@ -2655,6 +2654,24 @@ static void cn10k_fill_portm_details(void *fdt)
 				  portm_idx, cn10k_portm_fec_type_to_str(fec_orig),
 				  cn10k_portm_mode_to_cfg_str(portm_mode),
 				  cn10k_portm_fec_type_to_str(fec));
+
+		/* Read the Rx Termination type from EBF DT */
+		snprintf(prop, sizeof(prop), "PORTM-RX-TERMINATION.P%d", portm_idx);
+		rx_term = cn10k_fdtebf_get_num(fdt, prop, 10);
+
+		if (rx_term == -1)
+			rx_term = PORTM_RX_TERMINATION_AC;
+		else if ((rx_term != PORTM_RX_TERMINATION_AC) /* Invalid setting */
+			 && (rx_term != PORTM_RX_TERMINATION_DC)) {
+			debug_dts("PORTM%d: RX_TERM:%d not supported, using AC termination (%d)\n",
+				  portm_idx, rx_term, PORTM_RX_TERMINATION_AC);
+			rx_term = PORTM_RX_TERMINATION_AC;
+		}
+
+		/* Configure CN10KAS MCM ports with DC termination */
+		if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+		    && ((portm_idx >= 0) && (portm_idx < 3)))
+			rx_term = PORTM_RX_TERMINATION_DC;
 
 		ap_sup = 0;
 		/* Check if portmmode supports 802.3 AP */
@@ -2753,6 +2770,7 @@ static void cn10k_fill_portm_details(void *fdt)
 		portm->gser_numlanes = numlanes;
 		portm->portm_mode = portm_mode;
 		portm->fec = fec;
+		portm->rx_term = rx_term;
 		portm->port_enable = 1;
 
 		/* Program GSERM scratchpad Registers with port config */
@@ -2774,6 +2792,9 @@ static void cn10k_fill_portm_details(void *fdt)
 
 		debug_dts("PORTM%d: 802.3AP supported:%d, AN Master Lane:%d\n",
 			  portm_idx, ap_sup, an_master_lane);
+
+		debug_dts("PORTM%d: Rx termination:%d\n",
+			  portm_idx, rx_term);
 
 		cn10k_fill_portm_mac_info(portm_idx, portm_mode);
 		cn10k_fill_portm_tx_eq_info(portm_idx, portm_mode);

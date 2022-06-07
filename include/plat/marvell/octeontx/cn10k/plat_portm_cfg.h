@@ -192,6 +192,11 @@ typedef enum portm_gserm_prbs_mode {
 	PORTM_PRBS_MODE_BOTH,
 } portm_gserm_prbs_mode_t;
 
+typedef enum portm_rx_termination {
+	PORTM_RX_TERMINATION_AC = 0,
+	PORTM_RX_TERMINATION_DC = 1,
+} portm_rx_termination_t;
+
 /**
  * The following structure is used to describe the possible modes for a PORTM.
  * Each chip defines an array of these per PORTM to describe what modes the
@@ -248,6 +253,7 @@ typedef struct portm_config {
 	portm_ap_802_3_adv_t ap_802_3_adv; /* 802.3 AP advertisement struct */
 	portm_gserm_lpbk_mode_t gserm_lpbk_mode; /* Specifies current PORTM GSERM loopback mode */
 	int gserm_prbs_ena;                /* Specifies whether GSERM PRBS is enabled on PORTM */
+	portm_rx_termination_t rx_term;    /* Specifies Rx termination (0=AC, 1=DC) */
 	/* Index = MAC lane #'s */
 	int tx_main[MAX_LANES_PER_PORTM];   /* Current tx main setting */
 	int tx_post[MAX_LANES_PER_PORTM];   /* Current tx post setting */
