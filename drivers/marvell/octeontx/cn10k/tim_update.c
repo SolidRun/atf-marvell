@@ -3340,22 +3340,26 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 			dst_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 			dst_desc.bus, dst_desc.cs,
 			tim0_ventry->tim_address + dst_offset);
-			err = flash_copy_object(&src_io, &dest_io,
-						0, 0,
-						tim0_ventry->tim_address,
-						tim0_ventry->tim_size);
+		err = flash_copy_object(&src_io, &dest_io,
+				0, 0,
+				tim0_ventry->tim_address,
+				tim0_ventry->tim_size);
 		if (err) {
 			INFO("Error copying %s to backup storage\n",
 			     ventry->name);
 			tim0_ventry->retcode = RET_BACKUP_IO_ERROR;
 			vinfo->retcode = err;
+			goto dest_io_error;
 		}
+		vinfo->retcode = RET_OK;
 	}
 	if (uret != UPDATE_OK) {
 		err = uret;
 		ERROR("Could not write tim0 to destination\n");
+		vinfo->retcode = BACKUP_IO_DST_ERROR;
+	} else {
+		vinfo->retcode = RET_OK;
 	}
-	vinfo->retcode = BACKUP_IO_DST_ERROR;
 
 dest_io_error:
 	/*
