@@ -645,13 +645,13 @@ static bool verify_discovery_opcmd(int spi_con)
 }
 
 static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
-			    enum xspi_addressing mode)
+			    enum xspi_addressing mode, int smode)
 {
 	union cavm_spix_ctrl_consts_spi_ctrl_version hw_version;
 	union cavm_spix_cmn_seq_regs_direct_access_cfg direct_config;
 	union cavm_spix_ctrl_cfg_common_discovery_control discovery_ctrl;
 	union cavm_spix_ctrl_cmd_stat_ctrl_status spi_status;
-	int safemode = 0;
+	int safemode = smode;
 
 	INFO("%s: SPI_%d: Running device-discovery\n", __func__, spi_con);
 
@@ -743,10 +743,20 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
 	return 0;
 }
 
+static void handle_opcmd_reload(int spi_con, int cs, int safemode)
+{
+	int loadres = cdns_xspi_load_cs_configuration(spi_con, cs, safemode);
+
+	if (loadres)
+		cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_3B,
+				loadres == CONFIG_INCORECT_MODE ? 1 : 0);
+}
+
 void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
 {
 	enum xspi_addressing addr_current, addr_new;
 	char *currstr, *newstr;
+	int safemode = 0;
 
 	/*Check current and new xSPI mode*/
 	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
@@ -757,6 +767,10 @@ void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
 		addr_current = XSPI_ADDRESSING_3B;
 	addr_new = end_spi_addr < ADDR_LIMIT_3B ? XSPI_ADDRESSING_3B : XSPI_ADDRESSING_4B;
 
+	/*Check if we are in safemode now*/
+	if (read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_4B)
+		safemode = 1;
+
 	/* There is no need to switch addressing */
 	if (addr_current == addr_new)
 		return;
@@ -766,7 +780,7 @@ void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr)
 
 	INFO("%s: SPI_%d CS: %d - Mode change: previous: %s, new %s\n", __func__, spi_con, cs, currstr, newstr);
 
-	cdns_xspi_config(spi_con, cs, false, addr_new);
+	cdns_xspi_config(spi_con, cs, false, addr_new, safemode);
 }
 
 int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
@@ -944,7 +958,6 @@ uint32_t spi_dev_unlock(int spi_con)
 int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 		      int spi_con, int cs)
 {
-	bool phy_training = false;
 	bool safemode = false;
 
 	handle_gpio_as_spi(spi_con);
@@ -958,9 +971,7 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	/* Try to load config from db
 	 * In caise of load fail, rerun device-discovery
 	 */
-	if (cdns_xspi_load_cs_configuration(spi_con, cs, safemode))
-		return cdns_xspi_config(spi_con, cs, phy_training,
-					XSPI_ADDRESSING_3B);
+	handle_opcmd_reload(spi_con, cs, safemode);
 
 	return 0;
 }
@@ -969,10 +980,8 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs)
 {
 	handle_gpio_as_spi(spi_con);
-	if (!cdns_xspi_verify_cs(spi_con, cs)) {
-		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
-			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_4B);
-	}
+	if (!cdns_xspi_verify_cs(spi_con, cs))
+		handle_opcmd_reload(spi_con, cs, 0);
 
 	/* Verify if opcomands are valid for addressing mode that will be used */
 	prepare_opcomands(spi_con, cs, addr + buf_size);
@@ -989,10 +998,8 @@ int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
 	int bs = buf_size;
 
 	handle_gpio_as_spi(spi_con);
-	if (!cdns_xspi_verify_cs(spi_con, cs)) {
-		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0))
-			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_3B);
-	}
+	if (!cdns_xspi_verify_cs(spi_con, cs))
+		handle_opcmd_reload(spi_con, cs, 0);
 
 	/* Verify if opcomands are valid for addressing mode that will be used */
 	prepare_opcomands(spi_con, cs, addr + buf_size);
@@ -1014,10 +1021,8 @@ int spi_nor_write(const uint8_t *buf, int buf_size, uint32_t addr,
 int spi_nor_erase(uint32_t addr, int addr_len, int spi_con, int cs)
 {
 	handle_gpio_as_spi(spi_con);
-	if (!cdns_xspi_verify_cs(spi_con, cs)) {
-		if (cdns_xspi_load_cs_configuration(spi_con, cs, 0) != CONFIG_OK)
-			cdns_xspi_config(spi_con, cs, false, XSPI_ADDRESSING_3B);
-	}
+	if (!cdns_xspi_verify_cs(spi_con, cs))
+		handle_opcmd_reload(spi_con, cs, 0);
 
 	/* Verify if opcomands are valid for addressing mode that will be used */
 	prepare_opcomands(spi_con, cs, addr);
