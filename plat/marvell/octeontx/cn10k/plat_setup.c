@@ -246,6 +246,8 @@ void plat_octeontx_setup(void)
 
 #if defined(IMAGE_BL31)
 #if defined(SAVE_FATAL_ERRLOGS)
+	void *fdt = fdt_ptr;
+
 	crashdump_init(fdt);
 #endif
 #endif
