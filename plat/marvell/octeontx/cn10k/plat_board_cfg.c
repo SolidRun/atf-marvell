@@ -306,17 +306,18 @@ void plat_cn10k_fdt_ddr_pmu_node_refresh(void)
 	fdt_pack(fdt);
 }
 
-#ifdef ENABLE_MPAM_FOR_LOWER_ELS
-void remove_mpam_nodes(void *blob, const char *const nodes_path[],
-			int size_array)
+void fixup_ddr_mpam_pmu_nodes(void *blob, const char *const nodes_path[],
+			       int size_array)
 {
 	int i=0, rc;
 	int nodeoff;
 
 	for (i = 0; i < size_array; i++) {
 		nodeoff = fdt_path_offset(blob, nodes_path[i]);
-		if (nodeoff < 0)
+		if (nodeoff < 0) {
+			debug_dts("node not found %s\n", nodes_path[i]);
 			continue; /*Not found, skip it*/
+		}
 
 		rc = fdt_nop_node(blob, nodeoff);
 		if (rc < 0)
@@ -325,7 +326,7 @@ void remove_mpam_nodes(void *blob, const char *const nodes_path[],
 	}
 }
 
-void plat_cn10k_fdt_ddr_mpam_update()
+void plat_cn10k_fdt_ddr_mpam_pmu_update(void)
 {
 	void *fdt = fdt_ptr;
 	uint32_t dmc_mask;
@@ -341,9 +342,15 @@ void plat_cn10k_fdt_ddr_mpam_update()
                         "/memory/msc@0x87e1c3240000",
                         "/memory/msc@0x87e1c4240000",
                         "/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu1",
+			"/soc@0/ddrcpmu2",
+			"/soc@0/ddrcpmu3",
+			"/soc@0/ddrcpmu4",
+			"/soc@0/ddrcpmu5",
                 };
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x3: {
@@ -352,9 +359,14 @@ void plat_cn10k_fdt_ddr_mpam_update()
 			"/memory/msc@0x87e1c3240000",
 			"/memory/msc@0x87e1c4240000",
 			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu2",
+			"/soc@0/ddrcpmu3",
+			"/soc@0/ddrcpmu4",
+			"/soc@0/ddrcpmu5",
                 };
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x5: {
@@ -363,9 +375,14 @@ void plat_cn10k_fdt_ddr_mpam_update()
 			"/memory/msc@0x87e1c3240000",
 			"/memory/msc@0x87e1c4240000",
 			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu1",
+			"/soc@0/ddrcpmu3",
+			"/soc@0/ddrcpmu4",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x11: {
@@ -374,9 +391,14 @@ void plat_cn10k_fdt_ddr_mpam_update()
 			"/memory/msc@0x87e1c2240000",
 			"/memory/msc@0x87e1c3240000",
 			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu1",
+			"/soc@0/ddrcpmu2",
+			"/soc@0/ddrcpmu3",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x7: {
@@ -384,9 +406,13 @@ void plat_cn10k_fdt_ddr_mpam_update()
 			"/memory/msc@0x87e1c3240000",
 			"/memory/msc@0x87e1c4240000",
 			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu3",
+			"/soc@0/ddrcpmu4",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0xd: {
@@ -394,29 +420,41 @@ void plat_cn10k_fdt_ddr_mpam_update()
 			"/memory/msc@0x87e1c1240000",
 			"/memory/msc@0x87e1c4240000",
 			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu1",
+			"/soc@0/ddrcpmu4",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x13: {
 		static const char * const nodes_path[] = {
 			"/memory/msc@0x87e1c2240000",
 			"/memory/msc@0x87e1c3240000",
-			"/memory/msc@0x87e5c3240000",
+			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu2",
+			"/soc@0/ddrcpmu3",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x15: {
 		static const char * const nodes_path[] = {
 			"/memory/msc@0x87e1c1240000",
 			"/memory/msc@0x87e1c3240000",
-			"/memory/msc@0x87e5c3240000",
+			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu1",
+			"/soc@0/ddrcpmu3",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x31: {
@@ -424,77 +462,99 @@ void plat_cn10k_fdt_ddr_mpam_update()
 			"/memory/msc@0x87e1c1240000",
 			"/memory/msc@0x87e1c2240000",
 			"/memory/msc@0x87e1c3240000",
+			"/soc@0/ddrcpmu1",
+			"/soc@0/ddrcpmu2",
+			"/soc@0/ddrcpmu3",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0xf: {
 		static const char * const nodes_path[] = {
 			"/memory/msc@0x87e1c4240000",
 			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu4",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x17: {
 		static const char * const nodes_path[] = {
 			"/memory/msc@0x87e1c3240000",
-			"/memory/msc@0x87e5c5240000",
+			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu3",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x1d: {
 		static const char * const nodes_path[] = {
 			"/memory/msc@0x87e1c1240000",
 			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu1",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x33: {
 		static const char * const nodes_path[] = {
 			"/memory/msc@0x87e1c2240000",
 			"/memory/msc@0x87e1c3240000",
+			"/soc@0/ddrcpmu2",
+			"/soc@0/ddrcpmu3",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x35: {
 		static const char * const nodes_path[] = {
 			"/memory/msc@0x87e1c1240000",
 			"/memory/msc@0x87e1c3240000",
+			"/soc@0/ddrcpmu1",
+			"/soc@0/ddrcpmu3",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x1f: {
 		static const char * const nodes_path[] = {
-			"/memory/msc@0x87e5c5240000",
+			"/memory/msc@0x87e1c5240000",
+			"/soc@0/ddrcpmu5",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	case 0x37: {
 		static const char * const nodes_path[] = {
-			"/memory/msc@0x87e3c5240000",
+			"/memory/msc@0x87e1c3240000",
+			"/soc@0/ddrcpmu3",
 		};
 
-		remove_mpam_nodes(fdt, nodes_path, ARRAY_SIZE(nodes_path));
+		fixup_ddr_mpam_pmu_nodes(fdt, nodes_path,
+					 ARRAY_SIZE(nodes_path));
 		break;
 	}
 	default:
 		break;
 	}
 }
-#endif
 
 /* Output information specific for CN10K, for now only RPM. */
 void plat_octeontx_print_board_variables(void)

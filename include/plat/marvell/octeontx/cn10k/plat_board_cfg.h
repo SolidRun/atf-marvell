@@ -268,7 +268,7 @@ uint64_t rvu_rsvd_region_info(uint64_t *start, uint64_t *size);
 void plat_cn10k_fdt_tad_pmu_node_refresh(void);
 void plat_cn10k_fdt_ddr_pmu_node_refresh(void);
 void cn10k_check_fdt_trims(void *fdt);
-void plat_cn10k_fdt_ddr_mpam_update(void);
+void plat_cn10k_fdt_ddr_mpam_pmu_update(void);
 
 #define SPI_CTRL0_ADDR	U(0x8040)
 #define SPI_CTRL1_ADDR	U(0x8050)
