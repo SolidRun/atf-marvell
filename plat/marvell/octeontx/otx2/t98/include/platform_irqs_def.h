@@ -89,14 +89,15 @@
 #define LMC_SPI_IRQ_BASE	(MCC_SPI_IRQ_BASE + MCC_SPI_IRQS)
 #define LMC_SPI_IRQ(irq)	LMC_SPI_IRQ_BASE
 
+/* interrupt (range 0x65 - 0x68) */
 #define SCP_SPI_IRQS		4
 #define SCP_SPI_IRQ_BASE	(LMC_SPI_IRQ_BASE + LMC_SPI_IRQS)
 #define SCP_SPI_IRQ(irq)	(SCP_SPI_IRQ_BASE + irq)
 
-/* PEM MISC interrupts (for EACH PEM): INT_SUM, RST_INT (range 0x65 .. 0x65 + (PEM_SPI_IRQ_DEVS * 2 - 1)) */
+/* PEM MISC interrupts (for EACH PEM): INT_SUM, RST_INT (range 0x69 .. 0x69 + (PEM_SPI_IRQ_DEVS * 2 - 1)) */
 #define PEM_SPI_MISC_IRQ_DEVS		PEM_SPI_IRQ_DEVS
 #define PEM_SPI_MISC_IRQS_PER_DEV	0x2
-#define PEM_SPI_MISC_IRQ_BASE		(LMC_SPI_IRQ_BASE + LMC_SPI_IRQS)
+#define PEM_SPI_MISC_IRQ_BASE		(SCP_SPI_IRQ_BASE + SCP_SPI_IRQS)
 #define PEM_SPI_MISC_IRQ(dev, irq)	((dev) * PEM_SPI_MISC_IRQS_PER_DEV + (irq) + PEM_SPI_MISC_IRQ_BASE)
 
 #endif /* __PLATFORM_IRQS_DEF_H__ */

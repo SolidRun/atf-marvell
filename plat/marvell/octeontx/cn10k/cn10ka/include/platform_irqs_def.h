@@ -75,32 +75,39 @@
 #define GTI_CWD_SPI_IRQ_BASE	(GPIO_SPI_IRQ_NSEC_BASE + GPIO_SPI_NSEC_IRQS)
 #define GTI_CWD_SPI_IRQ(irq)	((irq) + GTI_CWD_SPI_IRQ_BASE)
 
+/* interrupt 0x5c */
 #define MDC_SPI_IRQS		1
 #define MDC_SPI_IRQ_BASE	(GTI_CWD_SPI_IRQ_BASE + GTI_CWD_SPI_IRQS)
 #define MDC_SPI_IRQ(irq)	MDC_SPI_IRQ_BASE
 
+/* interrupt 0x5d */
 #define TAD_SPI_IRQS		1
 #define TAD_SPI_IRQ_BASE	(MDC_SPI_IRQ_BASE + MDC_SPI_IRQS)
 #define TAD_SPI_IRQ(irq)	TAD_SPI_IRQ_BASE
 
+/* interrupt 0x5e */
 #define DSS_SPI_IRQS		1
 #define DSS_SPI_IRQ_BASE	(TAD_SPI_IRQ_BASE + TAD_SPI_IRQS)
 #define DSS_SPI_IRQ(irq)	DSS_SPI_IRQ_BASE
 
+/* interrupt 0x5f */
 #define EMMC_SPI_IRQS		1
 #define EMMC_SPI_IRQ_BASE	(DSS_SPI_IRQ_BASE + DSS_SPI_IRQS)
 #define EMMC_SPI_IRQ(irq)	EMMC_SPI_IRQ_BASE
 
-#define XSPI_SPI_IRQS		2
-#define XSPI_SPI_IRQ_BASE	(RAS_CORE_SPI_IRQ_BASE + RAS_CORE_SPI_IRQS)
-#define XSPI_SPI_IRQ(irq)	((irq) + XSPI_SPI_IRQ_BASE)
-
+/* interrupt (range 0x60 - 0x77) */
 #define RAS_CORE_SPI_IRQS	PLATFORM_CORE_PER_CLUSTER
 #define RAS_CORE_SPI_IRQ_BASE	(EMMC_SPI_IRQ_BASE + EMMC_SPI_IRQS)
 #define RAS_CORE_SPI_IRQ(core)	((core) + RAS_CORE_SPI_IRQ_BASE)
 
+/* interrupt (range 0x78 - 0x79) */
+#define XSPI_SPI_IRQS		2
+#define XSPI_SPI_IRQ_BASE	(RAS_CORE_SPI_IRQ_BASE + RAS_CORE_SPI_IRQS)
+#define XSPI_SPI_IRQ(irq)	((irq) + XSPI_SPI_IRQ_BASE)
+
+/* PEM MISC interrupts (for EACH PEM): INT_SUM, RST_INT (range 0x7a .. 0x7a + (PEM_SPI_IRQ_DEVS * 2 - 1)) */
 #define PEM_SPI_MISC_IRQ_DEVS		PEM_SPI_IRQ_DEVS
 #define PEM_SPI_MISC_IRQS_PER_DEV	0x2
-#define PEM_SPI_MISC_IRQ_BASE		(RAS_CORE_SPI_IRQ_BASE + RAS_CORE_SPI_IRQS)
+#define PEM_SPI_MISC_IRQ_BASE		(XSPI_SPI_IRQ_BASE + XSPI_SPI_IRQS)
 #define PEM_SPI_MISC_IRQ(dev, irq)	((dev) * PEM_SPI_MISC_IRQS_PER_DEV + (irq) + PEM_SPI_MISC_IRQ_BASE)
 #endif /* __PLATFORM_IRQS_DEF_H__ */
