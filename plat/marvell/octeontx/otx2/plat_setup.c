@@ -149,32 +149,6 @@ unsigned int is_pem_in_rc_mode(int pem)
 }
 
 /*
- * Program REVID for SDP RVU PF
- */
-unsigned int plat_configure_sdp_rid(void)
-{
-	uint64_t midr;
-	static int instance;
-
-	midr = read_midr();
-
-	/*
-	 * 98xx has 2xSDPs so mark first instance of SDP block revid as 0 so
-	 * that it will be SDP0 and second instance of SDP block revid as 1 so
-	 * that it will be SDP1
-	 */
-	if (IS_OCTEONTX_PN(midr, T98PARTNUM)) {
-		if (instance)
-			return 1;
-
-		instance = 1;
-
-	}
-
-	return 0;
-}
-
-/*
  * Program REVID for PCIe CPT device.
  */
 unsigned int plat_configure_cpt_rid(void)
