@@ -492,7 +492,85 @@ union cavm_pcc_ea_entry_s
         uint64_t reserved_160_191      : 32;
 #endif /* Word 2 - End */
     } s;
-    /* struct cavm_pcc_ea_entry_s_s cn; */
+    /* struct cavm_pcc_ea_entry_s_s cn10; */
+    /* struct cavm_pcc_ea_entry_s_s cn10ka_p1; */
+    struct cavm_pcc_ea_entry_s_cn10ka_p2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t basel                 : 30; /**< [ 63: 34] Lower bits of the entry 0 base address. */
+        uint64_t base64                : 1;  /**< [ 33: 33] 64-bit base, indicates [BASEH] is present. For CNXXXX always set. */
+        uint64_t reserved_32           : 1;
+        uint64_t enable                : 1;  /**< [ 31: 31] Enable. Always set. */
+        uint64_t w                     : 1;  /**< [ 30: 30] Writable. Always clear. */
+        uint64_t reserved_24_29        : 6;
+        uint64_t sec_prop              : 8;  /**< [ 23: 16] Secondary properties. For CNXXXX always 0xFF, indicating that the primary properties must
+                                                                 be used. */
+        uint64_t pri_prop              : 8;  /**< [ 15:  8] Primary properties.
+                                                                 0x0 = Memory space, non-prefetchable.
+                                                                 0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
+        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivelent indicator.
+                                                                 0x0 = Entry is equivalent to BAR 0.
+                                                                 0x2 = Entry is equivalent to BAR 2.
+                                                                 0x4 = Entry is equivalent to BAR 4.
+                                                                 0x7 = Equivalent not indicated.
+                                                                 0x9 = Entry is equivalent to SR-IOV BAR 0.
+                                                                 0xB = Entry is equivalent to SR-IOV BAR 2.
+                                                                 0xD = Entry is equivalent to SR-IOV BAR 4. */
+        uint64_t reserved_3            : 1;
+        uint64_t entry_size            : 3;  /**< [  2:  0] Number of 32-bit words following this entry format header, excluding the header
+                                                                 itself.
+                                                                 0x4 = Four 32-bit words; header followed by base low, offset low, base high,
+                                                                 offset high. */
+#else /* Word 0 - Little Endian */
+        uint64_t entry_size            : 3;  /**< [  2:  0] Number of 32-bit words following this entry format header, excluding the header
+                                                                 itself.
+                                                                 0x4 = Four 32-bit words; header followed by base low, offset low, base high,
+                                                                 offset high. */
+        uint64_t reserved_3            : 1;
+        uint64_t bei                   : 4;  /**< [  7:  4] BAR equivelent indicator.
+                                                                 0x0 = Entry is equivalent to BAR 0.
+                                                                 0x2 = Entry is equivalent to BAR 2.
+                                                                 0x4 = Entry is equivalent to BAR 4.
+                                                                 0x7 = Equivalent not indicated.
+                                                                 0x9 = Entry is equivalent to SR-IOV BAR 0.
+                                                                 0xB = Entry is equivalent to SR-IOV BAR 2.
+                                                                 0xD = Entry is equivalent to SR-IOV BAR 4. */
+        uint64_t pri_prop              : 8;  /**< [ 15:  8] Primary properties.
+                                                                 0x0 = Memory space, non-prefetchable.
+                                                                 0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
+        uint64_t sec_prop              : 8;  /**< [ 23: 16] Secondary properties. For CNXXXX always 0xFF, indicating that the primary properties must
+                                                                 be used. */
+        uint64_t reserved_24_29        : 6;
+        uint64_t w                     : 1;  /**< [ 30: 30] Writable. Always clear. */
+        uint64_t enable                : 1;  /**< [ 31: 31] Enable. Always set. */
+        uint64_t reserved_32           : 1;
+        uint64_t base64                : 1;  /**< [ 33: 33] 64-bit base, indicates [BASEH] is present. For CNXXXX always set. */
+        uint64_t basel                 : 30; /**< [ 63: 34] Lower bits of the entry 0 base address. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t baseh                 : 32; /**< [127: 96] Upper bits of the entry 0 base address. */
+        uint64_t offsetl               : 30; /**< [ 95: 66] Lower bits of the entry 0 offset. Bits \<1:0\> of the offset are not present and
+                                                                 must be interpreted as all-ones. */
+        uint64_t offset64              : 1;  /**< [ 65: 65] 64-bit offset, indicates [OFFSETH] is present. For CNXXXX always set. */
+        uint64_t reserved_64           : 1;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64           : 1;
+        uint64_t offset64              : 1;  /**< [ 65: 65] 64-bit offset, indicates [OFFSETH] is present. For CNXXXX always set. */
+        uint64_t offsetl               : 30; /**< [ 95: 66] Lower bits of the entry 0 offset. Bits \<1:0\> of the offset are not present and
+                                                                 must be interpreted as all-ones. */
+        uint64_t baseh                 : 32; /**< [127: 96] Upper bits of the entry 0 base address. */
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t reserved_160_191      : 32;
+        uint64_t offseth               : 32; /**< [159:128] Upper bits of the entry 0 offset. */
+#else /* Word 2 - Little Endian */
+        uint64_t offseth               : 32; /**< [159:128] Upper bits of the entry 0 offset. */
+        uint64_t reserved_160_191      : 32;
+#endif /* Word 2 - End */
+    } cn10ka_p2;
+    /* struct cavm_pcc_ea_entry_s_s cn10kb; */
+    /* struct cavm_pcc_ea_entry_s_s cnf10ka; */
+    /* struct cavm_pcc_ea_entry_s_s cnf10kb; */
 };
 
 /**

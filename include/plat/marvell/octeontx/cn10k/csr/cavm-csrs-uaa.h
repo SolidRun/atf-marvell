@@ -1353,7 +1353,7 @@ union cavm_uaax_redirect
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_uaax_redirect_s cn10; */
-    struct cavm_uaax_redirect_cn10ka
+    struct cavm_uaax_redirect_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -1380,10 +1380,11 @@ union cavm_uaax_redirect
                                                                  1 = UAA receive and modem control come from the UAA specified by [IN_SEL]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_uaax_redirect_s cn10ka_p2; */
     /* struct cavm_uaax_redirect_s cn10kb; */
-    /* struct cavm_uaax_redirect_cn10ka cnf10ka; */
-    /* struct cavm_uaax_redirect_cn10ka cnf10kb; */
+    /* struct cavm_uaax_redirect_cn10ka_p1 cnf10ka; */
+    /* struct cavm_uaax_redirect_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_uaax_redirect cavm_uaax_redirect_t;
 

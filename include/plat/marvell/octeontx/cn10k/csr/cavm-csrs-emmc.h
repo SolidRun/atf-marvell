@@ -62,7 +62,7 @@ union cavm_emmcx_clk_ctrl
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_emmcx_clk_ctrl_s cn10; */
-    struct cavm_emmcx_clk_ctrl_cn10ka
+    struct cavm_emmcx_clk_ctrl_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -71,23 +71,24 @@ union cavm_emmcx_clk_ctrl
         uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    struct cavm_emmcx_clk_ctrl_cn10ka_p2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t reserved_1            : 1;
+        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
+#else /* Word 0 - Little Endian */
+        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
+        uint64_t reserved_1            : 1;
+        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } cn10ka_p2;
     /* struct cavm_emmcx_clk_ctrl_s cn10kb; */
-    /* struct cavm_emmcx_clk_ctrl_cn10ka cnf10ka; */
-    struct cavm_emmcx_clk_ctrl_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
-        uint64_t reserved_1            : 1;
-        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t emmc_clk_en           : 1;  /**< [  0:  0](R/W) EMMC IO clk enable. 0 = EMMC IO clock is disabled. 1 = EMMC IO clock is enabled. */
-        uint64_t reserved_1            : 1;
-        uint64_t emmc_imsc_shadow      : 1;  /**< [  2:  2](R/W) EMMC interrupt mask. 1 = EMMC INTR IS UNMASKED. 0 = EMMC INTR IS MASKED. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_emmcx_clk_ctrl_cn10ka_p1 cnf10ka; */
+    /* struct cavm_emmcx_clk_ctrl_cn10ka_p2 cnf10kb; */
 };
 typedef union cavm_emmcx_clk_ctrl cavm_emmcx_clk_ctrl_t;
 
@@ -6030,7 +6031,7 @@ typedef union cavm_emmcx_intr cavm_emmcx_intr_t;
 static inline uint64_t CAVM_EMMCX_INTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a==0))
         return 0x824000000718ll + 0x1000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000718ll + 0x1000000ll * ((a) & 0x0);
@@ -6070,7 +6071,7 @@ typedef union cavm_emmcx_intr_ena_w1c cavm_emmcx_intr_ena_w1c_t;
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a==0))
         return 0x824000000728ll + 0x1000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000728ll + 0x1000000ll * ((a) & 0x0);
@@ -6110,7 +6111,7 @@ typedef union cavm_emmcx_intr_ena_w1s cavm_emmcx_intr_ena_w1s_t;
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a==0))
         return 0x824000000730ll + 0x1000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000730ll + 0x1000000ll * ((a) & 0x0);
@@ -6150,7 +6151,7 @@ typedef union cavm_emmcx_intr_w1s cavm_emmcx_intr_w1s_t;
 static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a==0))
         return 0x824000000720ll + 0x1000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000720ll + 0x1000000ll * ((a) & 0x0);
@@ -6246,8 +6247,10 @@ typedef union cavm_emmcx_msix_vecx_addr cavm_emmcx_msix_vecx_addr_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && ((a==0) && (b==0)))
         return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a==0) && (b<=1)))
+        return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=1)))
         return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b==0)))
@@ -6292,8 +6295,10 @@ typedef union cavm_emmcx_msix_vecx_ctl cavm_emmcx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && ((a==0) && (b==0)))
         return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a==0) && (b<=1)))
+        return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=1)))
         return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) && (b==0)))

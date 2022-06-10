@@ -2627,7 +2627,7 @@ union cavm_npa_af_gen_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npa_af_gen_cfg_s cn10; */
-    struct cavm_npa_af_gen_cfg_cn10ka
+    struct cavm_npa_af_gen_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -2654,10 +2654,11 @@ union cavm_npa_af_gen_cfg
                                                                  alloc/frees are slower. For diagnostic use only. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_npa_af_gen_cfg_s cn10ka_p2; */
     /* struct cavm_npa_af_gen_cfg_s cn10kb; */
-    /* struct cavm_npa_af_gen_cfg_cn10ka cnf10ka; */
-    /* struct cavm_npa_af_gen_cfg_cn10ka cnf10kb; */
+    /* struct cavm_npa_af_gen_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_npa_af_gen_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_npa_af_gen_cfg cavm_npa_af_gen_cfg_t;
 

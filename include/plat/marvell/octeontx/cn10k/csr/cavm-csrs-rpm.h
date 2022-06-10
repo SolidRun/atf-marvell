@@ -19443,13 +19443,13 @@ union cavm_rpmx_ext_mti_portx_status
                                                                  for the link. */
         uint64_t lpcs_rx_sync          : 1;  /**< [  3:  3](RO/H) Asserts (1) when the receiver detected comma characters and 10B alignment has been achieved. */
         uint64_t lpcs_link_status      : 1;  /**< [  2:  2](RO/H) Low rates PCS link. */
-        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high ser is present. */
+        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high BER is present. */
         uint64_t link_ok               : 1;  /**< [  0:  0](RO/H) LINK_STATUS (or LPCS_LINK_STATUS in case of low rates - up to 2.5G)
                                                                  AND no faults are present. */
 #else /* Word 0 - Little Endian */
         uint64_t link_ok               : 1;  /**< [  0:  0](RO/H) LINK_STATUS (or LPCS_LINK_STATUS in case of low rates - up to 2.5G)
                                                                  AND no faults are present. */
-        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high ser is present. */
+        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high BER is present. */
         uint64_t lpcs_link_status      : 1;  /**< [  2:  2](RO/H) Low rates PCS link. */
         uint64_t lpcs_rx_sync          : 1;  /**< [  3:  3](RO/H) Asserts (1) when the receiver detected comma characters and 10B alignment has been achieved. */
         uint64_t lpcs_an_done          : 1;  /**< [  4:  4](RO/H) Asserts (1) when the internal (Clause 37) autonegotiation function completed.
@@ -19522,13 +19522,13 @@ union cavm_rpmx_ext_mti_portx_status
                                                                  for the link. */
         uint64_t lpcs_rx_sync          : 1;  /**< [  3:  3](RO/H) Asserts (1) when the receiver detected comma characters and 10B alignment has been achieved. */
         uint64_t lpcs_link_status      : 1;  /**< [  2:  2](RO/H) Low rates PCS link. */
-        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high ser is present. */
+        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high BER is present. */
         uint64_t link_ok               : 1;  /**< [  0:  0](RO/H) LINK_STATUS (or LPCS_LINK_STATUS in case of low rates - up to 2.5G)
                                                                  AND no faults are present. */
 #else /* Word 0 - Little Endian */
         uint64_t link_ok               : 1;  /**< [  0:  0](RO/H) LINK_STATUS (or LPCS_LINK_STATUS in case of low rates - up to 2.5G)
                                                                  AND no faults are present. */
-        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high ser is present. */
+        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high BER is present. */
         uint64_t lpcs_link_status      : 1;  /**< [  2:  2](RO/H) Low rates PCS link. */
         uint64_t lpcs_rx_sync          : 1;  /**< [  3:  3](RO/H) Asserts (1) when the receiver detected comma characters and 10B alignment has been achieved. */
         uint64_t lpcs_an_done          : 1;  /**< [  4:  4](RO/H) Asserts (1) when the internal (Clause 37) autonegotiation function completed.

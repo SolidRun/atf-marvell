@@ -95,7 +95,7 @@ union cavm_spix_clk_ctrl
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_clk_ctrl_s cn10; */
-    struct cavm_spix_clk_ctrl_cn10ka
+    struct cavm_spix_clk_ctrl_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -138,10 +138,11 @@ union cavm_spix_clk_ctrl
                                                                  0xF = Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_spix_clk_ctrl_s cn10ka_p2; */
     /* struct cavm_spix_clk_ctrl_s cn10kb; */
-    /* struct cavm_spix_clk_ctrl_cn10ka cnf10ka; */
-    /* struct cavm_spix_clk_ctrl_cn10ka cnf10kb; */
+    /* struct cavm_spix_clk_ctrl_cn10ka_p1 cnf10ka; */
+    /* struct cavm_spix_clk_ctrl_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_spix_clk_ctrl cavm_spix_clk_ctrl_t;
 
@@ -3486,7 +3487,7 @@ typedef union cavm_spix_intr cavm_spix_intr_t;
 static inline uint64_t CAVM_SPIX_INTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_INTR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
@@ -3528,7 +3529,7 @@ typedef union cavm_spix_intr_ena_w1c cavm_spix_intr_ena_w1c_t;
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
@@ -3570,7 +3571,7 @@ typedef union cavm_spix_intr_ena_w1s cavm_spix_intr_ena_w1s_t;
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
@@ -3612,7 +3613,7 @@ typedef union cavm_spix_intr_w1s cavm_spix_intr_w1s_t;
 static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);

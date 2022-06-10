@@ -4441,9 +4441,9 @@ union cavm_ehsm_side_sensor_status
                                                                  Bit 0 - clock detect frequency.
                                                                  Bit 1 - clock detect pulse.
                                                                  Bit 2 - thermal attack.
-                                                                 Bit 3 - Low Voltage Detect VDIS. VCORE - VDIS.
-                                                                 Bit 4 - Low Voltage Detect VCORE.VSYS -  VCORE.
-                                                                 Bit 5 - Low Voltage Detect VSYS. VDIS -  VSYS. */
+                                                                 Bit 3 - Low Voltage Detect VDIS.
+                                                                 Bit 4 - Low Voltage Detect VCORE.
+                                                                 Bit 5 - Low Voltage Detect VSYS. */
         uint32_t reserved_6_7          : 2;
         uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
                                                                  Bit 1 - clock detect pulse.
@@ -4463,52 +4463,13 @@ union cavm_ehsm_side_sensor_status
                                                                  Bit 0 - clock detect frequency.
                                                                  Bit 1 - clock detect pulse.
                                                                  Bit 2 - thermal attack.
-                                                                 Bit 3 - Low Voltage Detect VDIS. VCORE - VDIS.
-                                                                 Bit 4 - Low Voltage Detect VCORE.VSYS -  VCORE.
-                                                                 Bit 5 - Low Voltage Detect VSYS. VDIS -  VSYS. */
+                                                                 Bit 3 - Low Voltage Detect VDIS.
+                                                                 Bit 4 - Low Voltage Detect VCORE.
+                                                                 Bit 5 - Low Voltage Detect VSYS. */
         uint32_t reserved_14_31        : 18;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_ehsm_side_sensor_status_s cn10; */
-    /* struct cavm_ehsm_side_sensor_status_s cn10ka; */
-    struct cavm_ehsm_side_sensor_status_cn10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_14_31        : 18;
-        uint32_t sensors_pre_qualifier : 6;  /**< [ 13:  8](RO/H) This field will be asserted even if fuses masking the sensor.
-                                                                 Bit 0 - clock detect frequency.
-                                                                 Bit 1 - clock detect pulse.
-                                                                 Bit 2 - thermal attack.
-                                                                 Bit 3 - Low Voltage Detect VCORE.
-                                                                 Bit 4 - Low Voltage Detect VSYS.
-                                                                 Bit 5 - Low Voltage Detect VDIS. */
-        uint32_t reserved_6_7          : 2;
-        uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
-                                                                 Bit 1 - clock detect pulse.
-                                                                 Bit 2 - thermal attack.
-                                                                 Bit 3 - Low Voltage Detect VCORE.
-                                                                 Bit 4 - Low Voltage Detect VSYS.
-                                                                 Bit 5 - Low Voltage Detect VDIS. */
-#else /* Word 0 - Little Endian */
-        uint32_t sensors               : 6;  /**< [  5:  0](RO/H) Bit 0 - clock detect frequency.
-                                                                 Bit 1 - clock detect pulse.
-                                                                 Bit 2 - thermal attack.
-                                                                 Bit 3 - Low Voltage Detect VCORE.
-                                                                 Bit 4 - Low Voltage Detect VSYS.
-                                                                 Bit 5 - Low Voltage Detect VDIS. */
-        uint32_t reserved_6_7          : 2;
-        uint32_t sensors_pre_qualifier : 6;  /**< [ 13:  8](RO/H) This field will be asserted even if fuses masking the sensor.
-                                                                 Bit 0 - clock detect frequency.
-                                                                 Bit 1 - clock detect pulse.
-                                                                 Bit 2 - thermal attack.
-                                                                 Bit 3 - Low Voltage Detect VCORE.
-                                                                 Bit 4 - Low Voltage Detect VSYS.
-                                                                 Bit 5 - Low Voltage Detect VDIS. */
-        uint32_t reserved_14_31        : 18;
-#endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_ehsm_side_sensor_status_s cnf10ka; */
-    /* struct cavm_ehsm_side_sensor_status_cn10kb cnf10kb; */
+    /* struct cavm_ehsm_side_sensor_status_s cn; */
 };
 typedef union cavm_ehsm_side_sensor_status cavm_ehsm_side_sensor_status_t;
 

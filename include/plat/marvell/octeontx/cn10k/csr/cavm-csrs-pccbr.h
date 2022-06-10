@@ -191,7 +191,67 @@ union cavm_pccbr_xxx_bus
         uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_pccbr_xxx_bus_s cn; */
+    /* struct cavm_pccbr_xxx_bus_s cn10; */
+    /* struct cavm_pccbr_xxx_bus_s cn10ka_p1; */
+    struct cavm_pccbr_xxx_bus_cn10ka_p2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
+        uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number. Resets to PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
+
+                                                                 If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] != 0, this field is read-write only for software;
+                                                                 hardware has a fixed topology below this bridge and will always act as if this field is
+                                                                 programmed to the value in PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
+
+                                                                 If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] = 0, which is true only for PCCBR_PCIEP, this field
+                                                                 operates as specified by PCIe to direct which configuration transactions are presented to
+                                                                 downstream busses. */
+        uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number. Resets to PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
+
+                                                                 If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] != 0, this field is read-write only for software;
+                                                                 hardware has a fixed topology below this bridge and will always act as if this field is
+                                                                 programmed to the value in PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
+
+                                                                 If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] = 0, which is true only for PCCBR_PCIEP, this field
+                                                                 operates as specified by PCIe to direct which configuration transactions are presented to
+                                                                 downstream busses. */
+        uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number.
+                                                                 This field is read-write only for software;
+                                                                 hardware has a fixed topology where all PCCBR's are always off primary bus number
+                                                                 zero, and does not use this register for configuration decoding. */
+#else /* Word 0 - Little Endian */
+        uint32_t pbnum                 : 8;  /**< [  7:  0](R/W) Primary bus number.
+                                                                 This field is read-write only for software;
+                                                                 hardware has a fixed topology where all PCCBR's are always off primary bus number
+                                                                 zero, and does not use this register for configuration decoding. */
+        uint32_t sbnum                 : 8;  /**< [ 15:  8](R/W) Secondary bus number. Resets to PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
+
+                                                                 If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] != 0, this field is read-write only for software;
+                                                                 hardware has a fixed topology below this bridge and will always act as if this field is
+                                                                 programmed to the value in PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
+
+                                                                 If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] = 0, which is true only for PCCBR_PCIEP, this field
+                                                                 operates as specified by PCIe to direct which configuration transactions are presented to
+                                                                 downstream busses. */
+        uint32_t subbnum               : 8;  /**< [ 23: 16](R/W) Subordinate bus number. Resets to PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
+                                                                 If 0x0 no configuration accesses are forwarded to the secondary bus.
+
+                                                                 If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] != 0, this field is read-write only for software;
+                                                                 hardware has a fixed topology below this bridge and will always act as if this field is
+                                                                 programmed to the value in PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM].
+
+                                                                 If PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM] = 0, which is true only for PCCBR_PCIEP, this field
+                                                                 operates as specified by PCIe to direct which configuration transactions are presented to
+                                                                 downstream busses. */
+        uint32_t slt                   : 8;  /**< [ 31: 24](RO) Secondary latency timer. Not applicable to PCI Express, hardwired to 0x0. */
+#endif /* Word 0 - End */
+    } cn10ka_p2;
+    /* struct cavm_pccbr_xxx_bus_s cn10kb; */
+    /* struct cavm_pccbr_xxx_bus_s cnf10ka; */
+    /* struct cavm_pccbr_xxx_bus_s cnf10kb; */
 };
 typedef union cavm_pccbr_xxx_bus cavm_pccbr_xxx_bus_t;
 

@@ -341,28 +341,29 @@ union cavm_apax_apat_rdatx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Contents of 32B response data packet for trapped request. Within a data packet,
-                                                                 all bytes are located at their natural byte positions. For a read, this
-                                                                 register must be written before APA()_APAT_RSP. */
+                                                                 all bytes are located at their natural byte positions. For a transaction that must
+                                                                 return read data, this register must be written before APA()_APAT_RSP. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Contents of 32B response data packet for trapped request. Within a data packet,
-                                                                 all bytes are located at their natural byte positions. For a read, this
-                                                                 register must be written before APA()_APAT_RSP. */
+                                                                 all bytes are located at their natural byte positions. For a transaction that must
+                                                                 return read data, this register must be written before APA()_APAT_RSP. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_apat_rdatx_s cn10; */
-    /* struct cavm_apax_apat_rdatx_s cn10ka; */
-    struct cavm_apax_apat_rdatx_cn10kb
+    /* struct cavm_apax_apat_rdatx_s cn10ka_p1; */
+    struct cavm_apax_apat_rdatx_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Contents of 32B response data packet for trapped request. Within a data packet,
-                                                                 all bytes are located at their natural byte positions. For a transaction that must
-                                                                 return read data, this register must be written before APA()_APAT_RSP. */
+                                                                 all bytes are located at their natural byte positions. For a read, this
+                                                                 register must be written before APA()_APAT_RSP. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SR/W) Contents of 32B response data packet for trapped request. Within a data packet,
-                                                                 all bytes are located at their natural byte positions. For a transaction that must
-                                                                 return read data, this register must be written before APA()_APAT_RSP. */
+                                                                 all bytes are located at their natural byte positions. For a read, this
+                                                                 register must be written before APA()_APAT_RSP. */
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_apax_apat_rdatx_s cn10kb; */
     /* struct cavm_apax_apat_rdatx_s cnf10ka; */
     /* struct cavm_apax_apat_rdatx_s cnf10kb; */
 };
@@ -446,7 +447,7 @@ union cavm_apax_apat_req
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_apat_req_s cn10; */
-    struct cavm_apax_apat_req_cn10ka
+    struct cavm_apax_apat_req_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
@@ -477,7 +478,8 @@ union cavm_apax_apat_req
         uint64_t reserved_61_62        : 2;
         uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_apax_apat_req_s cn10ka_p2; */
     struct cavm_apax_apat_req_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -530,8 +532,8 @@ union cavm_apax_apat_req
         uint64_t valid                 : 1;  /**< [ 63: 63](SRO/H) Set when a request has been trapped.  Cleared by writing APA()_APT_RSP. */
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_apax_apat_req_cn10ka cnf10ka; */
-    /* struct cavm_apax_apat_req_cn10ka cnf10kb; */
+    /* struct cavm_apax_apat_req_cn10ka_p1 cnf10ka; */
+    /* struct cavm_apax_apat_req_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_apax_apat_req cavm_apax_apat_req_t;
 
@@ -769,30 +771,31 @@ union cavm_apax_apat_wdatx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of 32B store data packet for trapped request. Within a data packet,
-                                                                 all bytes are located at their natural byte positions. */
+                                                                 all bytes are located at their natural byte positions. For ATOMICCOMPARE, the
+                                                                 valid data is aligned to the total request size. The compare data is located
+                                                                 in the half which contains the addressed location and the swap data is located
+                                                                 in the remaining half of valid data. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of 32B store data packet for trapped request. Within a data packet,
-                                                                 all bytes are located at their natural byte positions. */
+                                                                 all bytes are located at their natural byte positions. For ATOMICCOMPARE, the
+                                                                 valid data is aligned to the total request size. The compare data is located
+                                                                 in the half which contains the addressed location and the swap data is located
+                                                                 in the remaining half of valid data. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_apax_apat_wdatx_s cn10; */
-    /* struct cavm_apax_apat_wdatx_s cn10ka; */
-    struct cavm_apax_apat_wdatx_cn10kb
+    /* struct cavm_apax_apat_wdatx_s cn10ka_p1; */
+    struct cavm_apax_apat_wdatx_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of 32B store data packet for trapped request. Within a data packet,
-                                                                 all bytes are located at their natural byte positions. For ATOMICCOMPARE, the
-                                                                 valid data is aligned to the total request size. The compare data is located
-                                                                 in the half which contains the addressed location and the swap data is located
-                                                                 in the remaining half of valid data. */
+                                                                 all bytes are located at their natural byte positions. */
 #else /* Word 0 - Little Endian */
         uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Contents of 32B store data packet for trapped request. Within a data packet,
-                                                                 all bytes are located at their natural byte positions. For ATOMICCOMPARE, the
-                                                                 valid data is aligned to the total request size. The compare data is located
-                                                                 in the half which contains the addressed location and the swap data is located
-                                                                 in the remaining half of valid data. */
+                                                                 all bytes are located at their natural byte positions. */
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_apax_apat_wdatx_s cn10kb; */
     /* struct cavm_apax_apat_wdatx_s cnf10ka; */
     /* struct cavm_apax_apat_wdatx_s cnf10kb; */
 };
@@ -850,6 +853,8 @@ typedef union cavm_apax_apat_wdat_be cavm_apax_apat_wdat_be_t;
 static inline uint64_t CAVM_APAX_APAT_WDAT_BE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_WDAT_BE(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=23))
+        return 0x87e340001218ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
         return 0x87e340001218ll + 0x1000000ll * ((a) & 0x7);
     __cavm_csr_fatal("APAX_APAT_WDAT_BE", 1, a, 0, 0, 0, 0, 0);

@@ -759,7 +759,7 @@ union cavm_nix_age_and_send_stats_s
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_nix_age_and_send_stats_s_s cn10; */
-    struct cavm_nix_age_and_send_stats_s_cn10ka
+    struct cavm_nix_age_and_send_stats_s_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Aging and/or Send Stats. Enumerated by NIX_SUBDC_E::AGE_AND_STATS. */
@@ -829,8 +829,8 @@ union cavm_nix_age_and_send_stats_s
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
                                                                  bit \<52\> for forward compatibility. */
 #endif /* Word 1 - End */
-    } cn10ka;
-    struct cavm_nix_age_and_send_stats_s_cn10kb
+    } cn10ka_p1;
+    struct cavm_nix_age_and_send_stats_s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Aging and/or Send Stats. Enumerated by NIX_SUBDC_E::AGE_AND_STATS. */
@@ -890,9 +890,10 @@ union cavm_nix_age_and_send_stats_s
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
                                                                  bit \<52\> for forward compatibility. */
 #endif /* Word 1 - End */
-    } cn10kb;
-    /* struct cavm_nix_age_and_send_stats_s_cn10ka cnf10ka; */
-    /* struct cavm_nix_age_and_send_stats_s_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nix_age_and_send_stats_s_cn10ka_p2 cn10kb; */
+    /* struct cavm_nix_age_and_send_stats_s_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nix_age_and_send_stats_s_cn10ka_p1 cnf10kb; */
 };
 
 /**
@@ -1665,7 +1666,7 @@ union cavm_nix_cq_ctx_s
 #endif /* Word 3 - End */
     } s;
     /* struct cavm_nix_cq_ctx_s_s cn10; */
-    struct cavm_nix_cq_ctx_s_cn10ka
+    struct cavm_nix_cq_ctx_s_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t base                  : 64; /**< [ 63:  0] Base LF IOVA of CQ ring in LLC/DRAM.
@@ -1923,8 +1924,8 @@ union cavm_nix_cq_ctx_s
         uint64_t cq_err_int_ena        : 8;  /**< [255:248] Error interrupt enables. Bits enumerated by NIX_CQERRINT_E. Software can read,
                                                                  set or clear these bits with NIX_LF_CQ_OP_INT. */
 #endif /* Word 3 - End */
-    } cn10ka;
-    struct cavm_nix_cq_ctx_s_cn10kb
+    } cn10ka_p1;
+    struct cavm_nix_cq_ctx_s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t base                  : 64; /**< [ 63:  0] Base LF IOVA of CQ ring in LLC/DRAM.
@@ -2198,9 +2199,10 @@ union cavm_nix_cq_ctx_s
         uint64_t cq_err_int_ena        : 8;  /**< [255:248] Error interrupt enables. Bits enumerated by NIX_CQERRINT_E. Software can read,
                                                                  set or clear these bits with NIX_LF_CQ_OP_INT. */
 #endif /* Word 3 - End */
-    } cn10kb;
-    /* struct cavm_nix_cq_ctx_s_cn10ka cnf10ka; */
-    /* struct cavm_nix_cq_ctx_s_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nix_cq_ctx_s_cn10ka_p2 cn10kb; */
+    /* struct cavm_nix_cq_ctx_s_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nix_cq_ctx_s_cn10ka_p1 cnf10kb; */
 };
 
 /**
@@ -3399,8 +3401,8 @@ union cavm_nix_rq_ctx_s
 #endif /* Word 15 - End */
     } s;
     /* struct cavm_nix_rq_ctx_s_s cn10; */
-    /* struct cavm_nix_rq_ctx_s_s cn10ka; */
-    struct cavm_nix_rq_ctx_s_cn10kb
+    /* struct cavm_nix_rq_ctx_s_s cn10ka_p1; */
+    struct cavm_nix_rq_ctx_s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
@@ -4160,7 +4162,8 @@ union cavm_nix_rq_ctx_s
 #else /* Word 15 - Little Endian */
         uint64_t reserved_960_1023     : 64;
 #endif /* Word 15 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nix_rq_ctx_s_cn10ka_p2 cn10kb; */
     /* struct cavm_nix_rq_ctx_s_s cnf10ka; */
     /* struct cavm_nix_rq_ctx_s_s cnf10kb; */
 };
@@ -5679,7 +5682,7 @@ union cavm_nix_send_mem_s
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_nix_send_mem_s_s cn10; */
-    struct cavm_nix_send_mem_s_cn10ka
+    struct cavm_nix_send_mem_s_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t subdc                 : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send memory. Enumerated by NIX_SUBDC_E::MEM. */
@@ -5751,7 +5754,8 @@ union cavm_nix_send_mem_s
                                                                  Bits \<63:53\> are ignored by hardware; software should use a sign-extended
                                                                  bit \<52\> for forward compatibility. */
 #endif /* Word 1 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nix_send_mem_s_s cn10ka_p2; */
     struct cavm_nix_send_mem_s_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5845,8 +5849,8 @@ union cavm_nix_send_mem_s
                                                                  bit \<52\> for forward compatibility. */
 #endif /* Word 1 - End */
     } cn10kb;
-    /* struct cavm_nix_send_mem_s_cn10ka cnf10ka; */
-    /* struct cavm_nix_send_mem_s_cn10ka cnf10kb; */
+    /* struct cavm_nix_send_mem_s_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nix_send_mem_s_cn10ka_p1 cnf10kb; */
 };
 
 /**
@@ -6568,8 +6572,8 @@ union cavm_nix_sq_ctx_s
 #endif /* Word 15 - End */
     } s;
     /* struct cavm_nix_sq_ctx_s_s cn10; */
-    /* struct cavm_nix_sq_ctx_s_s cn10ka; */
-    struct cavm_nix_sq_ctx_s_cn10kb
+    /* struct cavm_nix_sq_ctx_s_s cn10ka_p1; */
+    struct cavm_nix_sq_ctx_s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t sqe_way_mask          : 16; /**< [ 63: 48] Way partitioning mask for allocating SQB data in NDC (1 means do not use).
@@ -6859,7 +6863,8 @@ union cavm_nix_sq_ctx_s
                                                                  NIX_STAT_LF_TX_E::TX_DROP. */
         uint64_t reserved_1008_1023    : 16;
 #endif /* Word 15 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nix_sq_ctx_s_cn10ka_p2 cn10kb; */
     /* struct cavm_nix_sq_ctx_s_s cnf10ka; */
     /* struct cavm_nix_sq_ctx_s_s cnf10kb; */
 };
@@ -8078,7 +8083,7 @@ union cavm_nixx_af_const
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const_s cn10; */
-    struct cavm_nixx_af_const_cn10ka
+    struct cavm_nixx_af_const_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
@@ -8115,8 +8120,8 @@ union cavm_nixx_af_const
         uint64_t policer               : 1;  /**< [ 61: 61](RO) Policer is supported. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_nixx_af_const_cn10kb
+    } cn10ka_p1;
+    struct cavm_nixx_af_const_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -8153,9 +8158,10 @@ union cavm_nixx_af_const
         uint64_t second_cpt_pass       : 1;  /**< [ 62: 62](RO) RQ MASK/SET and CPT SPB are supported. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_nixx_af_const_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_const_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_const_cn10ka_p2 cn10kb; */
+    /* struct cavm_nixx_af_const_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_const_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_const cavm_nixx_af_const_t;
 
@@ -8212,7 +8218,7 @@ union cavm_nixx_af_const1
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const1_s cn10; */
-    struct cavm_nixx_af_const1_cn10ka
+    struct cavm_nixx_af_const1_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
@@ -8237,10 +8243,11 @@ union cavm_nixx_af_const1
         uint64_t max_dwrr_mtu          : 5;  /**< [ 60: 56](RO) Maximum MTU supported for DWRR purposes for both SDP and RPM. */
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_const1_s cn10ka_p2; */
     /* struct cavm_nixx_af_const1_s cn10kb; */
-    /* struct cavm_nixx_af_const1_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_const1_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_const1_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_const1_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_const1 cavm_nixx_af_const1_t;
 
@@ -8285,7 +8292,7 @@ union cavm_nixx_af_const2
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const2_s cn10; */
-    struct cavm_nixx_af_const2_cn10ka
+    struct cavm_nixx_af_const2_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
@@ -8298,10 +8305,11 @@ union cavm_nixx_af_const2
         uint64_t cints                 : 12; /**< [ 35: 24](RO) Number of completion interrupts per LF. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_const2_s cn10ka_p2; */
     /* struct cavm_nixx_af_const2_s cn10kb; */
-    /* struct cavm_nixx_af_const2_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_const2_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_const2_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_const2_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_const2 cavm_nixx_af_const2_t;
 
@@ -8480,6 +8488,8 @@ typedef union cavm_nixx_af_dwrr_mtux cavm_nixx_af_dwrr_mtux_t;
 static inline uint64_t CAVM_NIXX_AF_DWRR_MTUX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_DWRR_MTUX(uint64_t a, uint64_t b)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=3)))
+        return 0x840040000790ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=3)))
         return 0x840040000790ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3);
     __cavm_csr_fatal("NIXX_AF_DWRR_MTUX", 2, a, b, 0, 0, 0, 0);
@@ -8526,7 +8536,7 @@ typedef union cavm_nixx_af_dwrr_rpm_mtu cavm_nixx_af_dwrr_rpm_mtu_t;
 static inline uint64_t CAVM_NIXX_AF_DWRR_RPM_MTU(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_DWRR_RPM_MTU(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x8400400007a0ll + 0x10000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x8400400007a0ll + 0x10000000ll * ((a) & 0x1);
@@ -8576,7 +8586,7 @@ typedef union cavm_nixx_af_dwrr_sdp_mtu cavm_nixx_af_dwrr_sdp_mtu_t;
 static inline uint64_t CAVM_NIXX_AF_DWRR_SDP_MTU(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_DWRR_SDP_MTU(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=1))
         return 0x840040000790ll + 0x10000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x840040000790ll + 0x10000000ll * ((a) & 0x1);
@@ -9101,7 +9111,7 @@ union cavm_nixx_af_lfx_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_cfg_s cn10; */
-    struct cavm_nixx_af_lfx_cfg_cn10ka
+    struct cavm_nixx_af_lfx_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_35_63        : 29;
@@ -9120,10 +9130,11 @@ union cavm_nixx_af_lfx_cfg
         uint64_t xqe_size              : 2;  /**< [ 34: 33](R/W) Selects the WQE/CQE size for the LF. Enumerated by NIX_XQESZ_E. */
         uint64_t reserved_35_63        : 29;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_lfx_cfg_s cn10ka_p2; */
     /* struct cavm_nixx_af_lfx_cfg_s cn10kb; */
-    /* struct cavm_nixx_af_lfx_cfg_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_lfx_cfg_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_lfx_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_lfx_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_lfx_cfg cavm_nixx_af_lfx_cfg_t;
 
@@ -9320,7 +9331,7 @@ union cavm_nixx_af_lfx_cqs_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_cqs_cfg_s cn10; */
-    struct cavm_nixx_af_lfx_cqs_cfg_cn10ka
+    struct cavm_nixx_af_lfx_cqs_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
@@ -9341,10 +9352,11 @@ union cavm_nixx_af_lfx_cqs_cfg
                                                                  1 = Reads and full cache line writes of context data are allocated into the LLC. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_lfx_cqs_cfg_s cn10ka_p2; */
     /* struct cavm_nixx_af_lfx_cqs_cfg_s cn10kb; */
-    /* struct cavm_nixx_af_lfx_cqs_cfg_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_lfx_cqs_cfg_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_lfx_cqs_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_lfx_cqs_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_lfx_cqs_cfg cavm_nixx_af_lfx_cqs_cfg_t;
 
@@ -9618,7 +9630,7 @@ union cavm_nixx_af_lfx_rqs_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_rqs_cfg_s cn10; */
-    struct cavm_nixx_af_lfx_rqs_cfg_cn10ka
+    struct cavm_nixx_af_lfx_rqs_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
@@ -9639,10 +9651,11 @@ union cavm_nixx_af_lfx_rqs_cfg
                                                                  1 = Reads and full cache line writes of context data are allocated into the LLC. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_lfx_rqs_cfg_s cn10ka_p2; */
     /* struct cavm_nixx_af_lfx_rqs_cfg_s cn10kb; */
-    /* struct cavm_nixx_af_lfx_rqs_cfg_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_lfx_rqs_cfg_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_lfx_rqs_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_lfx_rqs_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_lfx_rqs_cfg cavm_nixx_af_lfx_rqs_cfg_t;
 
@@ -10024,7 +10037,7 @@ union cavm_nixx_af_lfx_rx_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_rx_cfg_s cn10; */
-    struct cavm_nixx_af_lfx_rx_cfg_cn10ka
+    struct cavm_nixx_af_lfx_rx_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
@@ -10155,10 +10168,11 @@ union cavm_nixx_af_lfx_rx_cfg
         uint64_t len_ol3               : 1;  /**< [ 41: 41](R/W) Outer L3 length error check enable. See NIX_RX_PERRCODE_E::OL3_LEN. */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_lfx_rx_cfg_s cn10ka_p2; */
     /* struct cavm_nixx_af_lfx_rx_cfg_s cn10kb; */
-    /* struct cavm_nixx_af_lfx_rx_cfg_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_lfx_rx_cfg_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_lfx_rx_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_lfx_rx_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_lfx_rx_cfg cavm_nixx_af_lfx_rx_cfg_t;
 
@@ -10262,7 +10276,7 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_s cn10; */
-    struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10ka
+    struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
@@ -10333,10 +10347,11 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                  \</pre\> */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_s cn10ka_p2; */
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_s cn10kb; */
-    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_lfx_rx_ipsec_cfg0 cavm_nixx_af_lfx_rx_ipsec_cfg0_t;
 
@@ -10422,7 +10437,7 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg1
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg1_s cn10; */
-    struct cavm_nixx_af_lfx_rx_ipsec_cfg1_cn10ka
+    struct cavm_nixx_af_lfx_rx_ipsec_cfg1_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
@@ -10457,10 +10472,11 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg1
                                                                  NIX_XQE_TYPE_E::RX_IPSECS). */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg1_s cn10ka_p2; */
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg1_s cn10kb; */
-    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg1_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg1_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg1_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg1_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_lfx_rx_ipsec_cfg1 cavm_nixx_af_lfx_rx_ipsec_cfg1_t;
 
@@ -10830,7 +10846,7 @@ union cavm_nixx_af_lfx_sqs_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_lfx_sqs_cfg_s cn10; */
-    struct cavm_nixx_af_lfx_sqs_cfg_cn10ka
+    struct cavm_nixx_af_lfx_sqs_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_37_63        : 27;
@@ -10851,10 +10867,11 @@ union cavm_nixx_af_lfx_sqs_cfg
                                                                  1 = Reads and full cache line writes of context data are allocated into the LLC. */
         uint64_t reserved_37_63        : 27;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_lfx_sqs_cfg_s cn10ka_p2; */
     /* struct cavm_nixx_af_lfx_sqs_cfg_s cn10kb; */
-    /* struct cavm_nixx_af_lfx_sqs_cfg_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_lfx_sqs_cfg_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_lfx_sqs_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_lfx_sqs_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_lfx_sqs_cfg cavm_nixx_af_lfx_sqs_cfg_t;
 
@@ -11849,7 +11866,7 @@ union cavm_nixx_af_mdqx_md_debug
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_mdqx_md_debug_s cn10; */
-    struct cavm_nixx_af_mdqx_md_debug_cn10ka
+    struct cavm_nixx_af_mdqx_md_debug_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -11894,8 +11911,8 @@ union cavm_nixx_af_mdqx_md_debug
         uint64_t md_type               : 2;  /**< [ 62: 61](R/W/H) Meta descriptor type, enumerated by NIX_MDTYPE_E. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_nixx_af_mdqx_md_debug_cn10kb
+    } cn10ka_p1;
+    struct cavm_nixx_af_mdqx_md_debug_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -11942,9 +11959,10 @@ union cavm_nixx_af_mdqx_md_debug
         uint64_t md_type               : 2;  /**< [ 62: 61](R/W/H) Meta descriptor type, enumerated by NIX_MDTYPE_E. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_nixx_af_mdqx_md_debug_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_mdqx_md_debug_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_mdqx_md_debug_cn10ka_p2 cn10kb; */
+    /* struct cavm_nixx_af_mdqx_md_debug_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_mdqx_md_debug_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_mdqx_md_debug cavm_nixx_af_mdqx_md_debug_t;
 
@@ -12213,8 +12231,8 @@ union cavm_nixx_af_mdqx_schedule
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_mdqx_schedule_s cn10; */
-    /* struct cavm_nixx_af_mdqx_schedule_s cn10ka; */
-    struct cavm_nixx_af_mdqx_schedule_cn10kb
+    /* struct cavm_nixx_af_mdqx_schedule_s cn10ka_p1; */
+    struct cavm_nixx_af_mdqx_schedule_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
@@ -12259,7 +12277,8 @@ union cavm_nixx_af_mdqx_schedule
                                                                  queue into the shaper at the next level. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_mdqx_schedule_cn10ka_p2 cn10kb; */
     /* struct cavm_nixx_af_mdqx_schedule_s cnf10ka; */
     /* struct cavm_nixx_af_mdqx_schedule_s cnf10kb; */
 };
@@ -13852,7 +13871,7 @@ union cavm_nixx_af_rx_chanx_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_rx_chanx_cfg_s cn10; */
-    struct cavm_nixx_af_rx_chanx_cfg_cn10ka
+    struct cavm_nixx_af_rx_chanx_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_19_63        : 45;
@@ -13871,7 +13890,45 @@ union cavm_nixx_af_rx_chanx_cfg
                                                                  However only valid channels according to [NIX_AF_LINK(0..14)_CFG] configuration should be used. */
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    struct cavm_nixx_af_rx_chanx_cfg_cn10ka_p2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t bpid3                 : 9;  /**< [ 52: 44](R/W/H) BPID used to receive backpressure when [BP3_ENA] is set. */
+        uint64_t reserved_41_43        : 3;
+        uint64_t bpid2                 : 9;  /**< [ 40: 32](R/W/H) BPID used to receive backpressure when [BP2_ENA] is set. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t bpid1                 : 9;  /**< [ 28: 20](R/W/H) BPID used to receive backpressure when [BP1_ENA] is set. */
+        uint64_t reserved_19           : 1;
+        uint64_t imp                   : 1;  /**< [ 18: 18](RO/H) Al registers are implemented.
+                                                                 However only valid channels according to [NIX_AF_LINK(0..15)_CFG] configuration should be used. */
+        uint64_t sw_xoff               : 1;  /**< [ 17: 17](R/W/H) Software XOFF. When set, backpressure is forced on the RX channel. */
+        uint64_t bp_ena                : 1;  /**< [ 16: 16](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID]. */
+        uint64_t bp1_ena               : 1;  /**< [ 15: 15](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID1]. */
+        uint64_t bp2_ena               : 1;  /**< [ 14: 14](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID2]. */
+        uint64_t bp3_ena               : 1;  /**< [ 13: 13](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID3]. */
+        uint64_t reserved_9_12         : 4;
+        uint64_t bpid                  : 9;  /**< [  8:  0](R/W/H) BPID used to receive backpressure when [BP_ENA] is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t bpid                  : 9;  /**< [  8:  0](R/W/H) BPID used to receive backpressure when [BP_ENA] is set. */
+        uint64_t reserved_9_12         : 4;
+        uint64_t bp3_ena               : 1;  /**< [ 13: 13](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID3]. */
+        uint64_t bp2_ena               : 1;  /**< [ 14: 14](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID2]. */
+        uint64_t bp1_ena               : 1;  /**< [ 15: 15](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID1]. */
+        uint64_t bp_ena                : 1;  /**< [ 16: 16](R/W/H) Backpressure enable. When set, the channel receives backpressure from [BPID]. */
+        uint64_t sw_xoff               : 1;  /**< [ 17: 17](R/W/H) Software XOFF. When set, backpressure is forced on the RX channel. */
+        uint64_t imp                   : 1;  /**< [ 18: 18](RO/H) Al registers are implemented.
+                                                                 However only valid channels according to [NIX_AF_LINK(0..15)_CFG] configuration should be used. */
+        uint64_t reserved_19           : 1;
+        uint64_t bpid1                 : 9;  /**< [ 28: 20](R/W/H) BPID used to receive backpressure when [BP1_ENA] is set. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t bpid2                 : 9;  /**< [ 40: 32](R/W/H) BPID used to receive backpressure when [BP2_ENA] is set. */
+        uint64_t reserved_41_43        : 3;
+        uint64_t bpid3                 : 9;  /**< [ 52: 44](R/W/H) BPID used to receive backpressure when [BP3_ENA] is set. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } cn10ka_p2;
     struct cavm_nixx_af_rx_chanx_cfg_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -13910,8 +13967,8 @@ union cavm_nixx_af_rx_chanx_cfg
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_nixx_af_rx_chanx_cfg_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_rx_chanx_cfg_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_rx_chanx_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_rx_chanx_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_rx_chanx_cfg cavm_nixx_af_rx_chanx_cfg_t;
 
@@ -13997,8 +14054,8 @@ union cavm_nixx_af_rx_cptx_credit
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_rx_cptx_credit_s cn10; */
-    /* struct cavm_nixx_af_rx_cptx_credit_s cn10ka; */
-    struct cavm_nixx_af_rx_cptx_credit_cn10kb
+    /* struct cavm_nixx_af_rx_cptx_credit_s cn10ka_p1; */
+    struct cavm_nixx_af_rx_cptx_credit_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
@@ -14055,7 +14112,8 @@ union cavm_nixx_af_rx_cptx_credit
         uint64_t hysteresis            : 6;  /**< [ 61: 56](R/W) See NIX_AF_RX_CPT()_CREDIT[INST_CREDIT_TH]. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_rx_cptx_credit_cn10ka_p2 cn10kb; */
     /* struct cavm_nixx_af_rx_cptx_credit_s cnf10ka; */
     /* struct cavm_nixx_af_rx_cptx_credit_s cnf10kb; */
 };
@@ -15628,6 +15686,8 @@ typedef union cavm_nixx_af_rx_linkx_rcv cavm_nixx_af_rx_linkx_rcv_t;
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_RCV(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_LINKX_RCV(uint64_t a, uint64_t b)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=15)))
+        return 0x8400400046d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0xf);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=27)))
         return 0x8400400046d0ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x1f);
     __cavm_csr_fatal("NIXX_AF_RX_LINKX_RCV", 2, a, b, 0, 0, 0, 0);
@@ -16261,6 +16321,8 @@ typedef union cavm_nixx_af_rx_no_valid_lf_drop cavm_nixx_af_rx_no_valid_lf_drop_
 static inline uint64_t CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_NO_VALID_LF_DROP(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x8400400046f0ll + 0x10000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x8400400046f0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_NO_VALID_LF_DROP", 1, a, 0, 0, 0, 0, 0);
@@ -16299,6 +16361,8 @@ typedef union cavm_nixx_af_rx_npc_drop cavm_nixx_af_rx_npc_drop_t;
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_DROP(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_NPC_DROP(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x8400400046e0ll + 0x10000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x8400400046e0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_RX_NPC_DROP", 1, a, 0, 0, 0, 0, 0);
@@ -16487,6 +16551,8 @@ typedef union cavm_nixx_af_rx_rqx_maskx cavm_nixx_af_rx_rqx_maskx_t;
 static inline uint64_t CAVM_NIXX_AF_RX_RQX_MASKX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_RQX_MASKX(uint64_t a, uint64_t b, uint64_t c)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=3) && (c<=5)))
+        return 0x840040004a40ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=3) && (c<=5)))
         return 0x840040004a40ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("NIXX_AF_RX_RQX_MASKX", 3, a, b, c, 0, 0, 0);
@@ -16523,6 +16589,8 @@ typedef union cavm_nixx_af_rx_rqx_setx cavm_nixx_af_rx_rqx_setx_t;
 static inline uint64_t CAVM_NIXX_AF_RX_RQX_SETX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_RX_RQX_SETX(uint64_t a, uint64_t b, uint64_t c)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=3) && (c<=5)))
+        return 0x840040004a80ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=3) && (c<=5)))
         return 0x840040004a80ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x3) + 8ll * ((c) & 0x7);
     __cavm_csr_fatal("NIXX_AF_RX_RQX_SETX", 3, a, b, c, 0, 0, 0);
@@ -16910,7 +16978,7 @@ union cavm_nixx_af_seb_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_seb_cfg_s cn10; */
-    struct cavm_nixx_af_seb_cfg_cn10ka
+    struct cavm_nixx_af_seb_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
@@ -16955,10 +17023,11 @@ union cavm_nixx_af_seb_cfg
                                                                  1 = 2-step PTP or 1-Step PTP. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_af_seb_cfg_s cn10ka_p2; */
     /* struct cavm_nixx_af_seb_cfg_s cn10kb; */
-    /* struct cavm_nixx_af_seb_cfg_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_seb_cfg_cn10ka cnf10kb; */
+    /* struct cavm_nixx_af_seb_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_seb_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_seb_cfg cavm_nixx_af_seb_cfg_t;
 
@@ -17008,6 +17077,8 @@ typedef union cavm_nixx_af_seb_coalesce_dbgx cavm_nixx_af_seb_coalesce_dbgx_t;
 static inline uint64_t CAVM_NIXX_AF_SEB_COALESCE_DBGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SEB_COALESCE_DBGX(uint64_t a, uint64_t b)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=1)))
+        return 0x840040000670ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1)))
         return 0x840040000670ll + 0x10000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SEB_COALESCE_DBGX", 2, a, b, 0, 0, 0, 0);
@@ -17155,7 +17226,7 @@ union cavm_nixx_af_smqx_cfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_smqx_cfg_s cn10; */
-    struct cavm_nixx_af_smqx_cfg_cn10ka
+    struct cavm_nixx_af_smqx_cfg_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
@@ -17290,8 +17361,8 @@ union cavm_nixx_af_smqx_cfg
                                                                  add. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_nixx_af_smqx_cfg_cn10kb
+    } cn10ka_p1;
+    struct cavm_nixx_af_smqx_cfg_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_59_63        : 5;
@@ -17420,9 +17491,10 @@ union cavm_nixx_af_smqx_cfg
                                                                  is to be used out of NIX_AF_DWRR_MTU(0..3) for a packet going through this SMQ. */
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_nixx_af_smqx_cfg_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_smqx_cfg_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_smqx_cfg_cn10ka_p2 cn10kb; */
+    /* struct cavm_nixx_af_smqx_cfg_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_smqx_cfg_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_smqx_cfg cavm_nixx_af_smqx_cfg_t;
 
@@ -17633,6 +17705,8 @@ typedef union cavm_nixx_af_spi_to_sa_cfg cavm_nixx_af_spi_to_sa_cfg_t;
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_CFG(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_CFG(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x840040001c80ll + 0x10000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840040001c80ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_CFG", 1, a, 0, 0, 0, 0, 0);
@@ -17675,6 +17749,8 @@ typedef union cavm_nixx_af_spi_to_sa_hash_key cavm_nixx_af_spi_to_sa_hash_key_t;
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x840040001c90ll + 0x10000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840040001c90ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_HASH_KEY", 1, a, 0, 0, 0, 0, 0);
@@ -17727,6 +17803,8 @@ typedef union cavm_nixx_af_spi_to_sa_hash_value cavm_nixx_af_spi_to_sa_hash_valu
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_VALUE(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x840040001ca0ll + 0x10000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840040001ca0ll + 0x10000000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_HASH_VALUE", 1, a, 0, 0, 0, 0, 0);
@@ -17771,6 +17849,8 @@ typedef union cavm_nixx_af_spi_to_sa_keyx_wayx cavm_nixx_af_spi_to_sa_keyx_wayx_
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_KEYX_WAYX(uint64_t a, uint64_t b, uint64_t c)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=2047) && (c<=3)))
+        return 0x840040001c00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff) + 8ll * ((c) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=2047) && (c<=3)))
         return 0x840040001c00ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_KEYX_WAYX", 3, a, b, c, 0, 0, 0);
@@ -17809,6 +17889,8 @@ typedef union cavm_nixx_af_spi_to_sa_valuex_wayx cavm_nixx_af_spi_to_sa_valuex_w
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_VALUEX_WAYX(uint64_t a, uint64_t b, uint64_t c)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=2047) && (c<=3)))
+        return 0x840040001c40ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff) + 8ll * ((c) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=2047) && (c<=3)))
         return 0x840040001c40ll + 0x10000000ll * ((a) & 0x1) + 0x10000ll * ((b) & 0x7ff) + 8ll * ((c) & 0x3);
     __cavm_csr_fatal("NIXX_AF_SPI_TO_SA_VALUEX_WAYX", 3, a, b, c, 0, 0, 0);
@@ -18480,7 +18562,7 @@ union cavm_nixx_af_tl1x_md_debug1
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl1x_md_debug1_s cn10; */
-    struct cavm_nixx_af_tl1x_md_debug1_cn10ka
+    struct cavm_nixx_af_tl1x_md_debug1_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
@@ -18539,8 +18621,8 @@ union cavm_nixx_af_tl1x_md_debug1
         uint64_t reserved_62           : 1;
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_nixx_af_tl1x_md_debug1_cn10kb
+    } cn10ka_p1;
+    struct cavm_nixx_af_tl1x_md_debug1_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
@@ -18601,9 +18683,10 @@ union cavm_nixx_af_tl1x_md_debug1
         uint64_t reserved_62           : 1;
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_nixx_af_tl1x_md_debug1_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_tl1x_md_debug1_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tl1x_md_debug1_cn10ka_p2 cn10kb; */
+    /* struct cavm_nixx_af_tl1x_md_debug1_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_tl1x_md_debug1_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_tl1x_md_debug1 cavm_nixx_af_tl1x_md_debug1_t;
 
@@ -18753,8 +18836,8 @@ union cavm_nixx_af_tl1x_schedule
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl1x_schedule_s cn10; */
-    /* struct cavm_nixx_af_tl1x_schedule_s cn10ka; */
-    struct cavm_nixx_af_tl1x_schedule_cn10kb
+    /* struct cavm_nixx_af_tl1x_schedule_s cn10ka_p1; */
+    struct cavm_nixx_af_tl1x_schedule_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
@@ -18801,7 +18884,8 @@ union cavm_nixx_af_tl1x_schedule
                                                                  If the value programmed is greater than 16384 then hardware will clip it to 16384. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tl1x_schedule_cn10ka_p2 cn10kb; */
     /* struct cavm_nixx_af_tl1x_schedule_s cnf10ka; */
     /* struct cavm_nixx_af_tl1x_schedule_s cnf10kb; */
 };
@@ -19521,7 +19605,7 @@ union cavm_nixx_af_tl2x_md_debug1
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl2x_md_debug1_s cn10; */
-    struct cavm_nixx_af_tl2x_md_debug1_cn10ka
+    struct cavm_nixx_af_tl2x_md_debug1_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
@@ -19580,8 +19664,8 @@ union cavm_nixx_af_tl2x_md_debug1
         uint64_t reserved_62           : 1;
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_nixx_af_tl2x_md_debug1_cn10kb
+    } cn10ka_p1;
+    struct cavm_nixx_af_tl2x_md_debug1_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
@@ -19642,9 +19726,10 @@ union cavm_nixx_af_tl2x_md_debug1
         uint64_t reserved_62           : 1;
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_nixx_af_tl2x_md_debug1_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_tl2x_md_debug1_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tl2x_md_debug1_cn10ka_p2 cn10kb; */
+    /* struct cavm_nixx_af_tl2x_md_debug1_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_tl2x_md_debug1_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_tl2x_md_debug1 cavm_nixx_af_tl2x_md_debug1_t;
 
@@ -19886,8 +19971,8 @@ union cavm_nixx_af_tl2x_schedule
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl2x_schedule_s cn10; */
-    /* struct cavm_nixx_af_tl2x_schedule_s cn10ka; */
-    struct cavm_nixx_af_tl2x_schedule_cn10kb
+    /* struct cavm_nixx_af_tl2x_schedule_s cn10ka_p1; */
+    struct cavm_nixx_af_tl2x_schedule_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
@@ -19932,7 +20017,8 @@ union cavm_nixx_af_tl2x_schedule
                                                                  queue into the shaper at the next level. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tl2x_schedule_cn10ka_p2 cn10kb; */
     /* struct cavm_nixx_af_tl2x_schedule_s cnf10ka; */
     /* struct cavm_nixx_af_tl2x_schedule_s cnf10kb; */
 };
@@ -20058,7 +20144,109 @@ union cavm_nixx_af_tl2x_shape
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl2x_shape_s cn10; */
-    /* struct cavm_nixx_af_tl2x_shape_s cn10ka; */
+    /* struct cavm_nixx_af_tl2x_shape_s cn10ka_p1; */
+    struct cavm_nixx_af_tl2x_shape_cn10ka_p2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t length_disable        : 1;  /**< [ 24: 24](R/W) Length disable. Disables the use of packet lengths in DWRR scheduling
+                                                                 and shaping calculations such that only the value of [ADJUST] is used. */
+        uint64_t reserved_13_23        : 11;
+        uint64_t yellow_disable        : 1;  /**< [ 12: 12](R/W) Disable yellow transitions. Disables green-to-yellow packet color marking
+                                                                 transitions when set. Not used by hardware when corresponding
+                                                                 NIX_AF_TL*()_CIR[ENABLE]/NIX_AF_MDQ()_CIR[ENABLE] is clear. */
+        uint64_t red_disable           : 1;  /**< [ 11: 11](R/W) Disable red transitions. Disables green-to-red and yellow-to-red packet
+                                                                 color marking transitions when set. Not used by hardware when
+                                                                 [RED_ALGO]/NIX_SEND_EXT_S[SHP_RA]=0x2/STALLi nor when corresponding
+                                                                 NIX_AF_TL*()_PIR[ENABLE]/NIX_AF_MDQ()_PIR[ENABLE] is clear. */
+        uint64_t red_algo              : 2;  /**< [ 10:  9](R/W) Shaper red state algorithm when not specified by the NIX SEND. Used by hardware
+                                                                 only when the shaper is in RED state. (A shaper is in RED state when
+                                                                 NIX_AF_TL*()_SHAPE_STATE_PIR[PIR_ACCUM] is negative.) When NIX_SEND_EXT_S[SHP_RA]!=STD (!=0) for a
+                                                                 packet, this [RED_ALGO] is not used, and NIX_SEND_EXT_S[SHP_RA] instead defines
+                                                                 the shaper red state algorithm used for the packet. The
+                                                                 encoding for the [RED_ALGO]/NIX_SEND_EXT_S[SHP_RA] that is used:
+                                                                 0x0 = STALL. See 0x2.
+                                                                 0x1 = SEND. Send packets while the shaper is in RED state. When the shaper is
+                                                                       in RED state, packets that traverse the shaper will be downgraded to
+                                                                       NIX_COLORRESULT_E::RED_SEND (if not already
+                                                                       NIX_COLORRESULT_E::RED_SEND or NIX_COLORRESULT_E::RED_DROP) unless
+                                                                       [RED_DISABLE] is set or NIX_SEND_EXT_S[SHP_DIS] for the packet is
+                                                                       set. See also NIX_REDALG_E::SEND.
+                                                                 0x2 = STALL. Stall packets while the shaper is in RED state until the shaper is
+                                                                       YELLOW or GREEN state. Packets that traverse the shaper are never
+                                                                       downgraded to the RED state in this mode.
+                                                                       See also NIX_REDALG_E::STALL.
+                                                                 0x3 = DISCARD. Continually discard packets while the shaper is in RED state.
+                                                                       When the shaper is in RED state, all packets that traverse the shaper
+                                                                       will be downgraded to NIX_COLORRESULT_E::RED_DROP (if not already
+                                                                       NIX_COLORRESULT_E::RED_DROP), unless [RED_DISABLE] is set or
+                                                                       NIX_SEND_EXT_S[SHP_DIS] for the packet is set.
+                                                                       NIX_COLORRESULT_E::RED_DROP packets traverse all subsequent
+                                                                       schedulers/shapers (all the way through L1), but do so as quickly as
+                                                                       possible without affecting any RR_COUNT, CIR_ACCUM, or PIR_ACCUM
+                                                                       state, and are then discarded by NIX. See also NIX_REDALG_E::DISCARD. */
+        uint64_t adjust                : 9;  /**< [  8:  0](R/W) Shaping and scheduling calculation adjustment. This nine-bit two's
+                                                                 complement signed value allows -255 .. 255 bytes to be added to the packet
+                                                                 length for rate limiting and scheduling calculations. Constraints:
+                                                                 * Must be positive when [LENGTH_DISABLE] is set
+                                                                 * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0
+                                                                 In case of scheduling(DWRR) adjustment value programmed should be such that
+                                                                 (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST] + NIX_nm_SHAPE[ADJUST]) \<
+                                                                 NIX_AF_DWRR_SDP_MTU[x].MTU
+
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+#else /* Word 0 - Little Endian */
+        uint64_t adjust                : 9;  /**< [  8:  0](R/W) Shaping and scheduling calculation adjustment. This nine-bit two's
+                                                                 complement signed value allows -255 .. 255 bytes to be added to the packet
+                                                                 length for rate limiting and scheduling calculations. Constraints:
+                                                                 * Must be positive when [LENGTH_DISABLE] is set
+                                                                 * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0
+                                                                 In case of scheduling(DWRR) adjustment value programmed should be such that
+                                                                 (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST] + NIX_nm_SHAPE[ADJUST]) \<
+                                                                 NIX_AF_DWRR_SDP_MTU[x].MTU
+
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
+                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+        uint64_t red_algo              : 2;  /**< [ 10:  9](R/W) Shaper red state algorithm when not specified by the NIX SEND. Used by hardware
+                                                                 only when the shaper is in RED state. (A shaper is in RED state when
+                                                                 NIX_AF_TL*()_SHAPE_STATE_PIR[PIR_ACCUM] is negative.) When NIX_SEND_EXT_S[SHP_RA]!=STD (!=0) for a
+                                                                 packet, this [RED_ALGO] is not used, and NIX_SEND_EXT_S[SHP_RA] instead defines
+                                                                 the shaper red state algorithm used for the packet. The
+                                                                 encoding for the [RED_ALGO]/NIX_SEND_EXT_S[SHP_RA] that is used:
+                                                                 0x0 = STALL. See 0x2.
+                                                                 0x1 = SEND. Send packets while the shaper is in RED state. When the shaper is
+                                                                       in RED state, packets that traverse the shaper will be downgraded to
+                                                                       NIX_COLORRESULT_E::RED_SEND (if not already
+                                                                       NIX_COLORRESULT_E::RED_SEND or NIX_COLORRESULT_E::RED_DROP) unless
+                                                                       [RED_DISABLE] is set or NIX_SEND_EXT_S[SHP_DIS] for the packet is
+                                                                       set. See also NIX_REDALG_E::SEND.
+                                                                 0x2 = STALL. Stall packets while the shaper is in RED state until the shaper is
+                                                                       YELLOW or GREEN state. Packets that traverse the shaper are never
+                                                                       downgraded to the RED state in this mode.
+                                                                       See also NIX_REDALG_E::STALL.
+                                                                 0x3 = DISCARD. Continually discard packets while the shaper is in RED state.
+                                                                       When the shaper is in RED state, all packets that traverse the shaper
+                                                                       will be downgraded to NIX_COLORRESULT_E::RED_DROP (if not already
+                                                                       NIX_COLORRESULT_E::RED_DROP), unless [RED_DISABLE] is set or
+                                                                       NIX_SEND_EXT_S[SHP_DIS] for the packet is set.
+                                                                       NIX_COLORRESULT_E::RED_DROP packets traverse all subsequent
+                                                                       schedulers/shapers (all the way through L1), but do so as quickly as
+                                                                       possible without affecting any RR_COUNT, CIR_ACCUM, or PIR_ACCUM
+                                                                       state, and are then discarded by NIX. See also NIX_REDALG_E::DISCARD. */
+        uint64_t red_disable           : 1;  /**< [ 11: 11](R/W) Disable red transitions. Disables green-to-red and yellow-to-red packet
+                                                                 color marking transitions when set. Not used by hardware when
+                                                                 [RED_ALGO]/NIX_SEND_EXT_S[SHP_RA]=0x2/STALLi nor when corresponding
+                                                                 NIX_AF_TL*()_PIR[ENABLE]/NIX_AF_MDQ()_PIR[ENABLE] is clear. */
+        uint64_t yellow_disable        : 1;  /**< [ 12: 12](R/W) Disable yellow transitions. Disables green-to-yellow packet color marking
+                                                                 transitions when set. Not used by hardware when corresponding
+                                                                 NIX_AF_TL*()_CIR[ENABLE]/NIX_AF_MDQ()_CIR[ENABLE] is clear. */
+        uint64_t reserved_13_23        : 11;
+        uint64_t length_disable        : 1;  /**< [ 24: 24](R/W) Length disable. Disables the use of packet lengths in DWRR scheduling
+                                                                 and shaping calculations such that only the value of [ADJUST] is used. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cn10ka_p2;
     struct cavm_nixx_af_tl2x_shape_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -20765,7 +20953,7 @@ union cavm_nixx_af_tl3x_md_debug1
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl3x_md_debug1_s cn10; */
-    struct cavm_nixx_af_tl3x_md_debug1_cn10ka
+    struct cavm_nixx_af_tl3x_md_debug1_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
@@ -20824,8 +21012,8 @@ union cavm_nixx_af_tl3x_md_debug1
         uint64_t reserved_62           : 1;
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_nixx_af_tl3x_md_debug1_cn10kb
+    } cn10ka_p1;
+    struct cavm_nixx_af_tl3x_md_debug1_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
@@ -20886,9 +21074,10 @@ union cavm_nixx_af_tl3x_md_debug1
         uint64_t reserved_62           : 1;
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_nixx_af_tl3x_md_debug1_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_tl3x_md_debug1_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tl3x_md_debug1_cn10ka_p2 cn10kb; */
+    /* struct cavm_nixx_af_tl3x_md_debug1_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_tl3x_md_debug1_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_tl3x_md_debug1 cavm_nixx_af_tl3x_md_debug1_t;
 
@@ -21120,8 +21309,8 @@ union cavm_nixx_af_tl3x_schedule
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl3x_schedule_s cn10; */
-    /* struct cavm_nixx_af_tl3x_schedule_s cn10ka; */
-    struct cavm_nixx_af_tl3x_schedule_cn10kb
+    /* struct cavm_nixx_af_tl3x_schedule_s cn10ka_p1; */
+    struct cavm_nixx_af_tl3x_schedule_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
@@ -21166,7 +21355,8 @@ union cavm_nixx_af_tl3x_schedule
                                                                  queue into the shaper at the next level. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tl3x_schedule_cn10ka_p2 cn10kb; */
     /* struct cavm_nixx_af_tl3x_schedule_s cnf10ka; */
     /* struct cavm_nixx_af_tl3x_schedule_s cnf10kb; */
 };
@@ -21982,7 +22172,7 @@ union cavm_nixx_af_tl4x_md_debug1
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl4x_md_debug1_s cn10; */
-    struct cavm_nixx_af_tl4x_md_debug1_cn10ka
+    struct cavm_nixx_af_tl4x_md_debug1_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
@@ -22041,8 +22231,8 @@ union cavm_nixx_af_tl4x_md_debug1
         uint64_t reserved_62           : 1;
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_nixx_af_tl4x_md_debug1_cn10kb
+    } cn10ka_p1;
+    struct cavm_nixx_af_tl4x_md_debug1_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
@@ -22103,9 +22293,10 @@ union cavm_nixx_af_tl4x_md_debug1
         uint64_t reserved_62           : 1;
         uint64_t vld                   : 1;  /**< [ 63: 63](R/W/H) Packet meta descriptor valid. */
 #endif /* Word 0 - End */
-    } cn10kb;
-    /* struct cavm_nixx_af_tl4x_md_debug1_cn10ka cnf10ka; */
-    /* struct cavm_nixx_af_tl4x_md_debug1_cn10ka cnf10kb; */
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tl4x_md_debug1_cn10ka_p2 cn10kb; */
+    /* struct cavm_nixx_af_tl4x_md_debug1_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_af_tl4x_md_debug1_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_af_tl4x_md_debug1 cavm_nixx_af_tl4x_md_debug1_t;
 
@@ -22337,8 +22528,8 @@ union cavm_nixx_af_tl4x_schedule
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tl4x_schedule_s cn10; */
-    /* struct cavm_nixx_af_tl4x_schedule_s cn10ka; */
-    struct cavm_nixx_af_tl4x_schedule_cn10kb
+    /* struct cavm_nixx_af_tl4x_schedule_s cn10ka_p1; */
+    struct cavm_nixx_af_tl4x_schedule_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
@@ -22383,7 +22574,8 @@ union cavm_nixx_af_tl4x_schedule
                                                                  queue into the shaper at the next level. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tl4x_schedule_cn10ka_p2 cn10kb; */
     /* struct cavm_nixx_af_tl4x_schedule_s cnf10ka; */
     /* struct cavm_nixx_af_tl4x_schedule_s cnf10kb; */
 };
@@ -23072,8 +23264,8 @@ union cavm_nixx_af_tx_linkx_norm_credit
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_tx_linkx_norm_credit_s cn10; */
-    /* struct cavm_nixx_af_tx_linkx_norm_credit_s cn10ka; */
-    struct cavm_nixx_af_tx_linkx_norm_credit_cn10kb
+    /* struct cavm_nixx_af_tx_linkx_norm_credit_s cn10ka_p1; */
+    struct cavm_nixx_af_tx_linkx_norm_credit_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
@@ -23158,7 +23350,8 @@ union cavm_nixx_af_tx_linkx_norm_credit
                                                                    0x3 = same as 0x0 (0 bytes) */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_tx_linkx_norm_credit_cn10ka_p2 cn10kb; */
     /* struct cavm_nixx_af_tx_linkx_norm_credit_s cnf10ka; */
     /* struct cavm_nixx_af_tx_linkx_norm_credit_s cnf10kb; */
 };
@@ -24265,7 +24458,7 @@ union cavm_nixx_lf_err_int
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_lf_err_int_s cn10; */
-    struct cavm_nixx_lf_err_int_cn10ka
+    struct cavm_nixx_lf_err_int_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
@@ -24350,10 +24543,11 @@ union cavm_nixx_lf_err_int
         uint64_t rx_vwqe_fault         : 1;  /**< [ 30: 30](R/W1C/H) Memory fault on receive packet VWQE write to LLC/DRAM. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_lf_err_int_s cn10ka_p2; */
     /* struct cavm_nixx_lf_err_int_s cn10kb; */
-    /* struct cavm_nixx_lf_err_int_cn10ka cnf10ka; */
-    /* struct cavm_nixx_lf_err_int_cn10ka cnf10kb; */
+    /* struct cavm_nixx_lf_err_int_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_lf_err_int_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_lf_err_int cavm_nixx_lf_err_int_t;
 
@@ -24440,7 +24634,7 @@ union cavm_nixx_lf_err_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_lf_err_int_ena_w1c_s cn10; */
-    struct cavm_nixx_lf_err_int_ena_w1c_cn10ka
+    struct cavm_nixx_lf_err_int_ena_w1c_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
@@ -24495,10 +24689,11 @@ union cavm_nixx_lf_err_int_ena_w1c
         uint64_t rx_vwqe_fault         : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for NIX_LF_ERR_INT[RX_VWQE_FAULT]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_lf_err_int_ena_w1c_s cn10ka_p2; */
     /* struct cavm_nixx_lf_err_int_ena_w1c_s cn10kb; */
-    /* struct cavm_nixx_lf_err_int_ena_w1c_cn10ka cnf10ka; */
-    /* struct cavm_nixx_lf_err_int_ena_w1c_cn10ka cnf10kb; */
+    /* struct cavm_nixx_lf_err_int_ena_w1c_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_lf_err_int_ena_w1c_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_lf_err_int_ena_w1c cavm_nixx_lf_err_int_ena_w1c_t;
 
@@ -24585,7 +24780,7 @@ union cavm_nixx_lf_err_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_lf_err_int_ena_w1s_s cn10; */
-    struct cavm_nixx_lf_err_int_ena_w1s_cn10ka
+    struct cavm_nixx_lf_err_int_ena_w1s_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
@@ -24640,10 +24835,11 @@ union cavm_nixx_lf_err_int_ena_w1s
         uint64_t rx_vwqe_fault         : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for NIX_LF_ERR_INT[RX_VWQE_FAULT]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_lf_err_int_ena_w1s_s cn10ka_p2; */
     /* struct cavm_nixx_lf_err_int_ena_w1s_s cn10kb; */
-    /* struct cavm_nixx_lf_err_int_ena_w1s_cn10ka cnf10ka; */
-    /* struct cavm_nixx_lf_err_int_ena_w1s_cn10ka cnf10kb; */
+    /* struct cavm_nixx_lf_err_int_ena_w1s_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_lf_err_int_ena_w1s_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_lf_err_int_ena_w1s cavm_nixx_lf_err_int_ena_w1s_t;
 
@@ -24730,7 +24926,7 @@ union cavm_nixx_lf_err_int_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_lf_err_int_w1s_s cn10; */
-    struct cavm_nixx_lf_err_int_w1s_cn10ka
+    struct cavm_nixx_lf_err_int_w1s_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
@@ -24785,10 +24981,11 @@ union cavm_nixx_lf_err_int_w1s
         uint64_t rx_vwqe_fault         : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets NIX_LF_ERR_INT[RX_VWQE_FAULT]. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_nixx_lf_err_int_w1s_s cn10ka_p2; */
     /* struct cavm_nixx_lf_err_int_w1s_s cn10kb; */
-    /* struct cavm_nixx_lf_err_int_w1s_cn10ka cnf10ka; */
-    /* struct cavm_nixx_lf_err_int_w1s_cn10ka cnf10kb; */
+    /* struct cavm_nixx_lf_err_int_w1s_cn10ka_p1 cnf10ka; */
+    /* struct cavm_nixx_lf_err_int_w1s_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_nixx_lf_err_int_w1s cavm_nixx_lf_err_int_w1s_t;
 
@@ -26485,6 +26682,8 @@ typedef union cavm_nixx_lf_sq_op_age_drop_octs cavm_nixx_lf_sq_op_age_drop_octs_
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_AGE_DROP_OCTS(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x840200400a60ll + 0x100000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840200400a60ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_AGE_DROP_OCTS", 1, a, 0, 0, 0, 0, 0);
@@ -26535,6 +26734,8 @@ typedef union cavm_nixx_lf_sq_op_age_drop_pkts cavm_nixx_lf_sq_op_age_drop_pkts_
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_NIXX_LF_SQ_OP_AGE_DROP_PKTS(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+        return 0x840200400a70ll + 0x100000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840200400a70ll + 0x100000ll * ((a) & 0x1);
     __cavm_csr_fatal("NIXX_LF_SQ_OP_AGE_DROP_PKTS", 1, a, 0, 0, 0, 0, 0);

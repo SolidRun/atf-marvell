@@ -14653,13 +14653,13 @@ union cavm_mcsx_mil_ip_gbl_status
         uint64_t hw_init_done          : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
         uint64_t mcs_ip_stats_ready    : 1;  /**< [  0:  0](RO/H) Before SW reads statistics from IP:
-                                                                 1.When MCS_MIL_GLOBAL[FORCE_CLK_EN_CLK] is set, the IP statistics counter counts
+                                                                 1.When MCS_MIL_GLOBAL[FORCE_CLK_EN_IP] is set, the IP statistics counter counts
                                                                  MCS_MIL_IP_CFG[IP_CNT_CFG].
                                                                  2.When done, this field is set to 1'b1 indicating IP statistics are valid and ready to be read.
                                                                  In case MCS_MIL_IP_CFG[IP_IDLE_EN]is set, this usage is redundant. */
 #else /* Word 0 - Little Endian */
         uint64_t mcs_ip_stats_ready    : 1;  /**< [  0:  0](RO/H) Before SW reads statistics from IP:
-                                                                 1.When MCS_MIL_GLOBAL[FORCE_CLK_EN_CLK] is set, the IP statistics counter counts
+                                                                 1.When MCS_MIL_GLOBAL[FORCE_CLK_EN_IP] is set, the IP statistics counter counts
                                                                  MCS_MIL_IP_CFG[IP_CNT_CFG].
                                                                  2.When done, this field is set to 1'b1 indicating IP statistics are valid and ready to be read.
                                                                  In case MCS_MIL_IP_CFG[IP_IDLE_EN]is set, this usage is redundant. */
@@ -14676,12 +14676,12 @@ union cavm_mcsx_mil_ip_gbl_status
         uint64_t reserved_3_63         : 61;
         uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
         uint64_t mcs_ip_stats_ready    : 1;  /**< [  0:  0](RO/H) Before SW reads statistics from IP:
-                                                                 1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_CLK is set, the IP statistics counter counts
+                                                                 1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_IP is set, the IP statistics counter counts
                                                                  MCS_MIL_IP_CFG.IP_CNT_CFG.
                                                                  2.When done, this field is set to 1'b1 indicating IP statistics are valid and ready to be read. */
 #else /* Word 0 - Little Endian */
         uint64_t mcs_ip_stats_ready    : 1;  /**< [  0:  0](RO/H) Before SW reads statistics from IP:
-                                                                 1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_CLK is set, the IP statistics counter counts
+                                                                 1.When MCS_MIL_GLOBAL.FORCE_CLK_EN_IP is set, the IP statistics counter counts
                                                                  MCS_MIL_IP_CFG.IP_CNT_CFG.
                                                                  2.When done, this field is set to 1'b1 indicating IP statistics are valid and ready to be read. */
         uint64_t apb_bridge_sm         : 2;  /**< [  2:  1](RO/H) Reserved. */
@@ -14709,6 +14709,51 @@ static inline uint64_t CAVM_MCSX_MIL_IP_GBL_STATUS(uint64_t a)
 #define arguments_CAVM_MCSX_MIL_IP_GBL_STATUS(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) mcs#_mil_rx_bbe_gbl_crdt
+ *
+ * MCS MIL RX BBE GBL CRDT Register
+ */
+union cavm_mcsx_mil_rx_bbe_gbl_crdt
+{
+    uint64_t u;
+    struct cavm_mcsx_mil_rx_bbe_gbl_crdt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t bbe_gbl_crdt_en       : 1;  /**< [ 16: 16](R/W) When enabled, [BBE_GBL_CRDT] sets the MIL-RX max global data credits towards the
+                                                                 IP for all ports. On bypass mode, should be set to 0. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t bbe_gbl_crdt          : 11; /**< [ 10:  0](R/W) When [BBE_GBL_CRDT_EN] is enabled, sets the MIL-RX max global data credits
+                                                                 towards the IP for all ports. */
+#else /* Word 0 - Little Endian */
+        uint64_t bbe_gbl_crdt          : 11; /**< [ 10:  0](R/W) When [BBE_GBL_CRDT_EN] is enabled, sets the MIL-RX max global data credits
+                                                                 towards the IP for all ports. */
+        uint64_t reserved_11_15        : 5;
+        uint64_t bbe_gbl_crdt_en       : 1;  /**< [ 16: 16](R/W) When enabled, [BBE_GBL_CRDT] sets the MIL-RX max global data credits towards the
+                                                                 IP for all ports. On bypass mode, should be set to 0. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_mil_rx_bbe_gbl_crdt_s cn; */
+};
+typedef union cavm_mcsx_mil_rx_bbe_gbl_crdt cavm_mcsx_mil_rx_bbe_gbl_crdt_t;
+
+static inline uint64_t CAVM_MCSX_MIL_RX_BBE_GBL_CRDT(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MCSX_MIL_RX_BBE_GBL_CRDT(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x87e0800900d0ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MCSX_MIL_RX_BBE_GBL_CRDT", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MCSX_MIL_RX_BBE_GBL_CRDT(a) cavm_mcsx_mil_rx_bbe_gbl_crdt_t
+#define bustype_CAVM_MCSX_MIL_RX_BBE_GBL_CRDT(a) CSR_TYPE_RSL
+#define basename_CAVM_MCSX_MIL_RX_BBE_GBL_CRDT(a) "MCSX_MIL_RX_BBE_GBL_CRDT"
+#define device_bar_CAVM_MCSX_MIL_RX_BBE_GBL_CRDT(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MCSX_MIL_RX_BBE_GBL_CRDT(a) (a)
+#define arguments_CAVM_MCSX_MIL_RX_BBE_GBL_CRDT(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) mcs#_mil_rx_err_cfg
  *
  * MCS MIL RX BBE Credits Configuration Register
@@ -14721,7 +14766,7 @@ union cavm_mcsx_mil_rx_err_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_34_63        : 30;
         uint64_t x2p_protocol_protect_en : 1;/**< [ 33: 33](R/W) Enable X2P Protocol protection, drop invalid data cycles and trigger MIL_RX_X2P_PRT_VLT interrupt. */
-        uint64_t small_packet_drop_en  : 1;  /**< [ 32: 32](R/W) Drop smaller packets than SMALL_PACKET_DROP_THRESH */
+        uint64_t small_packet_drop_en  : 1;  /**< [ 32: 32](R/W) Enable drop packets smaller than MCS_MIL_RX_LMAC(0..19)_CFG[SMALL_PACKET_DROP_THRESH]. */
         uint64_t small_packet_size     : 15; /**< [ 31: 17](R/W) Inject error to MCS_IP for packet smaller than SMALL_PACKET_SIZE, valid only if
                                                                  SMALL_PACKET_ERR_EN is set. */
         uint64_t small_packet_err_en   : 1;  /**< [ 16: 16](R/W) Enable error injection to MCS_IP based on SMALL_PACKET_SIZE. */
@@ -14735,7 +14780,7 @@ union cavm_mcsx_mil_rx_err_cfg
         uint64_t small_packet_err_en   : 1;  /**< [ 16: 16](R/W) Enable error injection to MCS_IP based on SMALL_PACKET_SIZE. */
         uint64_t small_packet_size     : 15; /**< [ 31: 17](R/W) Inject error to MCS_IP for packet smaller than SMALL_PACKET_SIZE, valid only if
                                                                  SMALL_PACKET_ERR_EN is set. */
-        uint64_t small_packet_drop_en  : 1;  /**< [ 32: 32](R/W) Drop smaller packets than SMALL_PACKET_DROP_THRESH */
+        uint64_t small_packet_drop_en  : 1;  /**< [ 32: 32](R/W) Enable drop packets smaller than MCS_MIL_RX_LMAC(0..19)_CFG[SMALL_PACKET_DROP_THRESH]. */
         uint64_t x2p_protocol_protect_en : 1;/**< [ 33: 33](R/W) Enable X2P Protocol protection, drop invalid data cycles and trigger MIL_RX_X2P_PRT_VLT interrupt. */
         uint64_t reserved_34_63        : 30;
 #endif /* Word 0 - End */
@@ -15021,7 +15066,8 @@ union cavm_mcsx_mil_rx_gbl_status
     struct cavm_mcsx_mil_rx_gbl_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_43_63        : 21;
+        uint64_t bbe_gbl_crdt          : 11; /**< [ 42: 32](RO/H) The MIL-RX global data credits towards the IP for all ports. */
         uint64_t x2p_pkt_cnt           : 15; /**< [ 31: 17](RO/H) Reserved. */
         uint64_t calibrate_status      : 16; /**< [ 16:  1](RO/H) X2P device calibration state bit per MCS interface.
                                                                  0 = Device inactive.
@@ -15037,7 +15083,8 @@ union cavm_mcsx_mil_rx_gbl_status
 
                                                                  Bits are enumerated by MCS_INTF_E. */
         uint64_t x2p_pkt_cnt           : 15; /**< [ 31: 17](RO/H) Reserved. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t bbe_gbl_crdt          : 11; /**< [ 42: 32](RO/H) The MIL-RX global data credits towards the IP for all ports. */
+        uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_mil_rx_gbl_status_s cn10; */
@@ -15098,11 +15145,13 @@ union cavm_mcsx_mil_rx_lmacx_cfg
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
         uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Port priority for X2P request arbitration. Highest priority value is 0x0 which equal to 16 credits. */
-        uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
+        uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when
+                                                                 MCS_MIL_RX_ERR_CFG[SMALL_PACKET_DROP_EN] is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats.
                                                                  Min value is 0x1. (0x0 is illegal). */
 #else /* Word 0 - Little Endian */
-        uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when SMALL_PACKET_DROP_EN is set.
+        uint64_t small_packet_drop_thresh : 6;/**< [  5:  0](R/W) Drop packet size equal or smaller than threshold, used only when
+                                                                 MCS_MIL_RX_ERR_CFG[SMALL_PACKET_DROP_EN] is set.
                                                                  Max threshold value is 0x20, correlative to 2 full data beats.
                                                                  Min value is 0x1. (0x0 is illegal). */
         uint64_t port_prio             : 4;  /**< [  9:  6](R/W) Port priority for X2P request arbitration. Highest priority value is 0x0 which equal to 16 credits. */
@@ -15158,7 +15207,7 @@ union cavm_mcsx_mil_rx_lmacx_int
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
-        uint64_t mil_rx_x2p_small_packet_drop : 1;/**< [ 10: 10](R/W1C/H) MIL RX X2P Small packet drop, based on SMALL_PACKET_DROP_EN/THRESH */
+        uint64_t mil_rx_x2p_small_packet_drop : 1;/**< [ 10: 10](R/W1C/H) MIL RX X2P Small packet drop, based on MCS_MIL_RX_ERR_CFG[SMALL_PACKET_DROP_EN]/THRESH */
         uint64_t mil_rx_x2p_prt_vlt    : 1;  /**< [  9:  9](R/W1C/H) MIL RX X2P protocol violation, i.e consecutive SOP's w/o EOP, valid data w/o preliminary SOP, etc..
                                                                  In this case the X2P cycle is silently dropped.
                                                                  For additional diagnostic see X2P in OCLA. */
@@ -15184,7 +15233,7 @@ union cavm_mcsx_mil_rx_lmacx_int
         uint64_t mil_rx_x2p_prt_vlt    : 1;  /**< [  9:  9](R/W1C/H) MIL RX X2P protocol violation, i.e consecutive SOP's w/o EOP, valid data w/o preliminary SOP, etc..
                                                                  In this case the X2P cycle is silently dropped.
                                                                  For additional diagnostic see X2P in OCLA. */
-        uint64_t mil_rx_x2p_small_packet_drop : 1;/**< [ 10: 10](R/W1C/H) MIL RX X2P Small packet drop, based on SMALL_PACKET_DROP_EN/THRESH */
+        uint64_t mil_rx_x2p_small_packet_drop : 1;/**< [ 10: 10](R/W1C/H) MIL RX X2P Small packet drop, based on MCS_MIL_RX_ERR_CFG[SMALL_PACKET_DROP_EN]/THRESH */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;

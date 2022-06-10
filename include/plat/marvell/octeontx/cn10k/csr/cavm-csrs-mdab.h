@@ -59,31 +59,16 @@ union cavm_mdabx_cfg_addr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
                                                                  configuration to local DSP memory. See MDAB Memory MAP table.
-                                                                 SW must program a valid DMEM or PMEM address into this register. */
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
                                                                  configuration to local DSP memory. See MDAB Memory MAP table.
-                                                                 SW must program a valid DMEM or PMEM address into this register. */
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_cfg_addr_s cn10; */
-    /* struct cavm_mdabx_cfg_addr_s cnf10ka; */
-    struct cavm_mdabx_cfg_addr_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
-                                                                 configuration to local DSP memory. See MDAB Memory MAP table.
-                                                                 Software must program a valid DMEM or PMEM address into this register. */
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W) The 128 bit-aligned starting address used by the CFG DMA engine when writing the job
-                                                                 configuration to local DSP memory. See MDAB Memory MAP table.
-                                                                 Software must program a valid DMEM or PMEM address into this register. */
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_cfg_addr_s cn; */
 };
 typedef union cavm_mdabx_cfg_addr cavm_mdabx_cfg_addr_t;
 
@@ -705,7 +690,7 @@ union cavm_mdabx_dac_err_log_src
                                                                      0x0: WR Respond Slave Error.
                                                                      0x1: RD Respond Slave Error.
                                                                      0x2: WR Respond Decode Error.
-                                                                     0x3: RD Respond Decode Error.
+                                                                     0x3: Reserved.
 
                                                                  Error Source == IPB Error:
                                                                      0x0: Decode Error - address does not hit SMEM.
@@ -786,7 +771,7 @@ union cavm_mdabx_dac_err_log_src
                                                                      0x0: WR Respond Slave Error.
                                                                      0x1: RD Respond Slave Error.
                                                                      0x2: WR Respond Decode Error.
-                                                                     0x3: RD Respond Decode Error.
+                                                                     0x3: Reserved.
 
                                                                  Error Source == IPB Error:
                                                                      0x0: Decode Error - address does not hit SMEM.
@@ -2155,9 +2140,13 @@ union cavm_mdabx_id
     struct cavm_mdabx_id_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MDAB ID. */
+        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MBP IDs are 0x0-0x36
+                                                                 LBP IDs are 0x0-0x0A
+                                                                 SSP IDs are 0x0-0x01 */
 #else /* Word 0 - Little Endian */
-        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MDAB ID. */
+        uint32_t mdb_id                : 32; /**< [ 31:  0](RO/H) MBP IDs are 0x0-0x36
+                                                                 LBP IDs are 0x0-0x0A
+                                                                 SSP IDs are 0x0-0x01 */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_id_s cn10; */
@@ -3900,15 +3889,21 @@ union cavm_mdabx_lfsr_taddr
     struct cavm_mdabx_lfsr_taddr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-processor access
                                                                  to store its output data. Bits 3..0 of this register are zeroed to force the
-                                                                 addess to be 128bit aligned. */
+                                                                 address to be 128bit aligned.
+                                                                 Writing this CSR will cause the LSFR coprocessor task to be added
+                                                                 to the task queue. This will cause execution to start. This
+                                                                 CSR should be written after the other LFSR configuration CSRs. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-proccessor access
+        uint32_t addr                  : 28; /**< [ 31:  4](R/W) This register set the start address of the buffer which the co-processor access
                                                                  to store its output data. Bits 3..0 of this register are zeroed to force the
-                                                                 addess to be 128bit aligned. */
+                                                                 address to be 128bit aligned.
+                                                                 Writing this CSR will cause the LSFR coprocessor task to be added
+                                                                 to the task queue. This will cause execution to start. This
+                                                                 CSR should be written after the other LFSR configuration CSRs. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mdabx_lfsr_taddr_s cn; */
@@ -5441,31 +5436,16 @@ union cavm_mdabx_rd_addr
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
                                                                  local DSP memory. For details see MDAB Memory Map table.
-                                                                 SW must program a valid DMEM or PMEM address into this register. */
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
                                                                  local DSP memory. For details see MDAB Memory Map table.
-                                                                 SW must program a valid DMEM or PMEM address into this register. */
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_rd_addr_s cn10; */
-    /* struct cavm_mdabx_rd_addr_s cnf10ka; */
-    struct cavm_mdabx_rd_addr_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
-                                                                 local DSP memory. For details see MDAB Memory Map table.
-                                                                 Software must program a valid DMEM or PMEM address into this register. */
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the RD-DMA engine when writing RD-DMA data to
-                                                                 local DSP memory. For details see MDAB Memory Map table.
-                                                                 Software must program a valid DMEM or PMEM address into this register. */
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_rd_addr_s cn; */
 };
 typedef union cavm_mdabx_rd_addr cavm_mdabx_rd_addr_t;
 
@@ -6682,32 +6662,17 @@ union cavm_mdabx_wr_addr
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
-                                                                 local DSP memory. For details see MDAB Memory Map table
-                                                                 SW must program a valid DMEM or PMEM address into this register. */
+                                                                 local DSP memory. For details see MDAB Memory Map table.
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
         uint32_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
         uint32_t reserved_0_3          : 4;
         uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
-                                                                 local DSP memory. For details see MDAB Memory Map table
-                                                                 SW must program a valid DMEM or PMEM address into this register. */
+                                                                 local DSP memory. For details see MDAB Memory Map table.
+                                                                 Software must program a valid DMEM or PMEM address into this register. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_mdabx_wr_addr_s cn10; */
-    /* struct cavm_mdabx_wr_addr_s cnf10ka; */
-    struct cavm_mdabx_wr_addr_cnf10kb
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
-                                                                 local DSP memory. For details see MDAB Memory Map table.
-                                                                 Software must program a valid DMEM or PMEM address into this register. */
-        uint32_t reserved_0_3          : 4;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_3          : 4;
-        uint32_t addr                  : 28; /**< [ 31:  4](R/W/H) The 128b-aligned starting address used by the WR-DMA engine when reading WR-DMA data from
-                                                                 local DSP memory. For details see MDAB Memory Map table.
-                                                                 Software must program a valid DMEM or PMEM address into this register. */
-#endif /* Word 0 - End */
-    } cnf10kb;
+    /* struct cavm_mdabx_wr_addr_s cn; */
 };
 typedef union cavm_mdabx_wr_addr cavm_mdabx_wr_addr_t;
 

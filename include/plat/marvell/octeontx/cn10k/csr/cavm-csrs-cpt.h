@@ -848,7 +848,7 @@ union cavm_cpt_inst_s
 #endif /* Word 7 - End */
     } s;
     /* struct cavm_cpt_inst_s_s cn10; */
-    struct cavm_cpt_inst_s_cn10ka
+    struct cavm_cpt_inst_s_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t nixtx_addr            : 60; /**< [ 63:  4] When [NIXTXL]!=0x0, [NIXTX_ADDR] points to a NIX TX descriptor:
@@ -1380,8 +1380,8 @@ union cavm_cpt_inst_s
                                                                  See CPT_AF_GRP()_THR[ENA]. CPT_AF_GRP(x)_THR[ENA] must be set to execute
                                                                  the instruction, where x = [EGRP]. */
 #endif /* Word 7 - End */
-    } cn10ka;
-    struct cavm_cpt_inst_s_cn10kb
+    } cn10ka_p1;
+    struct cavm_cpt_inst_s_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_52_63        : 12;
@@ -1909,7 +1909,8 @@ union cavm_cpt_inst_s
                                                                  See CPT_AF_GRP()_THR[ENA]. CPT_AF_GRP(x)_THR[ENA] must be set to execute
                                                                  the instruction, where x = [EGRP]. */
 #endif /* Word 7 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_cpt_inst_s_cn10ka_p2 cn10kb; */
 };
 
 /**
@@ -2643,7 +2644,7 @@ union cavm_cptx_af_ctl
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_ctl_s cn10; */
-    struct cavm_cptx_af_ctl_cn10ka
+    struct cavm_cptx_af_ctl_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
@@ -2712,7 +2713,8 @@ union cavm_cptx_af_ctl
                                                                  For diagnostic use only. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1;
+    /* struct cavm_cptx_af_ctl_s cn10ka_p2; */
     /* struct cavm_cptx_af_ctl_s cn10kb; */
 };
 typedef union cavm_cptx_af_ctl cavm_cptx_af_ctl_t;
@@ -3760,8 +3762,8 @@ union cavm_cptx_af_eco
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_eco_s cn10; */
-    /* struct cavm_cptx_af_eco_s cn10ka; */
-    struct cavm_cptx_af_eco_cn10kb
+    /* struct cavm_cptx_af_eco_s cn10ka_p1; */
+    struct cavm_cptx_af_eco_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -3780,7 +3782,8 @@ union cavm_cptx_af_eco
         uint64_t eco_rw                : 31; /**< [ 31:  1](R/W) Reserved. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_cptx_af_eco_cn10ka_p2 cn10kb; */
 };
 typedef union cavm_cptx_af_eco cavm_cptx_af_eco_t;
 
@@ -5027,7 +5030,10 @@ union cavm_cptx_af_lfx_ctl
                                                                  the NIX function.
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_13_15        : 3;
+        uint64_t rxc_full_dis          : 1;  /**< [ 12: 12](R/W) Disallow use of RXC full-packet mode.  When CPT_CTX_HW_S[PKT_FMT]=FULL, any use
+                                                                 of RXC will be converted to meta-packet mode.  Must not be used with
+                                                                 [PF_FUNC_INST]=1. */
         uint64_t rxc_en                : 1;  /**< [ 11: 11](R/W) Enable CPT to use RXC. [RXC_ENA]=1 indicates this queue is permitted to use RXC.
                                                                  [RXC_ENA]=1 also indicates the queue is using CPT_INST_HW_S.  Both are
                                                                  automatically true when [PF_FUNC_INST]=1.  See CPT_CTX_HW_S[PKT_FMT] and
@@ -5177,7 +5183,10 @@ union cavm_cptx_af_lfx_ctl
                                                                  [RXC_ENA]=1 also indicates the queue is using CPT_INST_HW_S.  Both are
                                                                  automatically true when [PF_FUNC_INST]=1.  See CPT_CTX_HW_S[PKT_FMT] and
                                                                  CPT_CTX_HW_S[PKT_OUT]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t rxc_full_dis          : 1;  /**< [ 12: 12](R/W) Disallow use of RXC full-packet mode.  When CPT_CTX_HW_S[PKT_FMT]=FULL, any use
+                                                                 of RXC will be converted to meta-packet mode.  Must not be used with
+                                                                 [PF_FUNC_INST]=1. */
+        uint64_t reserved_13_15        : 3;
         uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
                                                                  the function is allowed to enqueue descriptors via LMTSTs.
 
@@ -5208,7 +5217,7 @@ union cavm_cptx_af_lfx_ctl
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_lfx_ctl_s cn10; */
-    struct cavm_cptx_af_lfx_ctl_cn10ka
+    struct cavm_cptx_af_lfx_ctl_cn10ka_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
@@ -5409,8 +5418,8 @@ union cavm_cptx_af_lfx_ctl
                                                                  See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
-    } cn10ka;
-    struct cavm_cptx_af_lfx_ctl_cn10kb
+    } cn10ka_p1;
+    struct cavm_cptx_af_lfx_ctl_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
@@ -5440,7 +5449,10 @@ union cavm_cptx_af_lfx_ctl
                                                                  the NIX function.
 
                                                                  [NIXTX_EN] must not be set simultaneously with [PF_FUNC_INST]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t reserved_13_15        : 3;
+        uint64_t rxc_full_dis          : 1;  /**< [ 12: 12](R/W) Disallow use of RXC full-packet mode.  When CPT_CTX_HW_S[PKT_FMT]=FULL, any use
+                                                                 of RXC will be converted to meta-packet mode.  Must not be used with
+                                                                 [PF_FUNC_INST]=1. */
         uint64_t rxc_en                : 1;  /**< [ 11: 11](R/W) Enable CPT to use RXC. [RXC_ENA]=1 indicates this queue is permitted to use RXC.
                                                                  [RXC_ENA]=1 also indicates the queue is using CPT_INST_HW_S.  Both are
                                                                  automatically true when [PF_FUNC_INST]=1.  See CPT_CTX_HW_S[PKT_FMT] and
@@ -5590,7 +5602,10 @@ union cavm_cptx_af_lfx_ctl
                                                                  [RXC_ENA]=1 also indicates the queue is using CPT_INST_HW_S.  Both are
                                                                  automatically true when [PF_FUNC_INST]=1.  See CPT_CTX_HW_S[PKT_FMT] and
                                                                  CPT_CTX_HW_S[PKT_OUT]. */
-        uint64_t reserved_12_15        : 4;
+        uint64_t rxc_full_dis          : 1;  /**< [ 12: 12](R/W) Disallow use of RXC full-packet mode.  When CPT_CTX_HW_S[PKT_FMT]=FULL, any use
+                                                                 of RXC will be converted to meta-packet mode.  Must not be used with
+                                                                 [PF_FUNC_INST]=1. */
+        uint64_t reserved_13_15        : 3;
         uint64_t nixtx_en              : 1;  /**< [ 16: 16](R/W) Enable CPT to pass the descriptor to NIX TX. Software must only set this when
                                                                  the function is allowed to enqueue descriptors via LMTSTs.
 
@@ -5619,7 +5634,8 @@ union cavm_cptx_af_lfx_ctl
                                                                  See also CPT_INST_S[EGRP] and CPT_AF_EXE()_CTL2[GRP_EN]. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_cptx_af_lfx_ctl_cn10ka_p2 cn10kb; */
 };
 typedef union cavm_cptx_af_lfx_ctl cavm_cptx_af_lfx_ctl_t;
 
@@ -5723,8 +5739,8 @@ union cavm_cptx_af_lfx_ctl2
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_af_lfx_ctl2_s cn10; */
-    /* struct cavm_cptx_af_lfx_ctl2_s cn10ka; */
-    struct cavm_cptx_af_lfx_ctl2_cn10kb
+    /* struct cavm_cptx_af_lfx_ctl2_s cn10ka_p1; */
+    struct cavm_cptx_af_lfx_ctl2_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t nix_pf_func           : 16; /**< [ 63: 48](R/W) CPT transfers the NIX TX descriptor identified by CPT_INST_S[NIXTXL],
@@ -5795,7 +5811,8 @@ union cavm_cptx_af_lfx_ctl2
 
                                                                  See also CPT_AF_LF()_CTL[NIXTX_EN,NIX_SEL]. */
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_cptx_af_lfx_ctl2_cn10ka_p2 cn10kb; */
 };
 typedef union cavm_cptx_af_lfx_ctl2 cavm_cptx_af_lfx_ctl2_t;
 
@@ -8543,8 +8560,8 @@ union cavm_cptx_lf_misc_int
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_cptx_lf_misc_int_s cn10; */
-    /* struct cavm_cptx_lf_misc_int_s cn10ka; */
-    struct cavm_cptx_lf_misc_int_cn10kb
+    /* struct cavm_cptx_lf_misc_int_s cn10ka_p1; */
+    struct cavm_cptx_lf_misc_int_cn10ka_p2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
@@ -8693,7 +8710,8 @@ union cavm_cptx_lf_misc_int
                                                                  poison. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } cn10kb;
+    } cn10ka_p2;
+    /* struct cavm_cptx_lf_misc_int_cn10ka_p2 cn10kb; */
 };
 typedef union cavm_cptx_lf_misc_int cavm_cptx_lf_misc_int_t;
 

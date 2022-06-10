@@ -3353,8 +3353,6 @@ static inline uint64_t CAVM_PSM_SETX_ERRCAP_MAB_BADCMD_HI(uint64_t a)
 {
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==1))
         return 0x8600010fc008ll + 0x10ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a==1))
-        return 0x8600010fc008ll + 0x10ll * ((a) & 0x1);
     __cavm_csr_fatal("PSM_SETX_ERRCAP_MAB_BADCMD_HI", 1, a, 0, 0, 0, 0, 0);
 }
 

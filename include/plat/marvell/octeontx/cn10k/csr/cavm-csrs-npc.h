@@ -1641,9 +1641,9 @@ static inline uint64_t CAVM_NPC_AF_INTFX_EXACT_CFG(uint64_t a)
  *
  * NPC AF INTF Exact Match Mask Registers
  * These registers allow for precise control over which bits are to be included in a
- * match operation. A value of one in any of the mask fields [CTYPE, CHAN, LDATA]
+ * match operation. A value of zero in any of the mask fields [CTYPE, CHAN, LDATA]
  * indicate that the bit will be treated as zero for the purposes of matching. The
- * value zero indicates that the data should be used normally.
+ * value one indicates that the data field bit will be included normally.
  */
 union cavm_npc_af_intfx_exact_mask
 {
@@ -1701,13 +1701,17 @@ union cavm_npc_af_intfx_exact_result_ctl
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_43_63        : 21;
-        uint64_t mask                  : 11; /**< [ 42: 32](R/W) Field to mask against exact match hash result. */
+        uint64_t mask                  : 11; /**< [ 42: 32](R/W) Field to mask against exact match hash result. The MASK typical value (0x7ff) uses the
+                                                                 full index. System can modify the value by setting the desired MASK bits to
+                                                                 zero. */
         uint64_t reserved_11_31        : 21;
         uint64_t offset                : 11; /**< [ 10:  0](R/W) Field to add to the post-masked exact match hash result. */
 #else /* Word 0 - Little Endian */
         uint64_t offset                : 11; /**< [ 10:  0](R/W) Field to add to the post-masked exact match hash result. */
         uint64_t reserved_11_31        : 21;
-        uint64_t mask                  : 11; /**< [ 42: 32](R/W) Field to mask against exact match hash result. */
+        uint64_t mask                  : 11; /**< [ 42: 32](R/W) Field to mask against exact match hash result. The MASK typical value (0x7ff) uses the
+                                                                 full index. System can modify the value by setting the desired MASK bits to
+                                                                 zero. */
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;
@@ -1815,6 +1819,10 @@ static inline uint64_t CAVM_NPC_AF_INTFX_HASHX_CFG(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) npc_af_intf#_hash#_mask#
  *
  * NPC AF INTF HASH Mask Registers
+ * These registers allow for precise control over which bits are to be included in the
+ * data hash operation. A value of zero in DATA indicate that the bit will be treated
+ * as zero for the purposes of hashing. The value one indicates that the extracted
+ * packet header data bit will included normally.
  */
 union cavm_npc_af_intfx_hashx_maskx
 {
@@ -1861,11 +1869,15 @@ union cavm_npc_af_intfx_hashx_result_ctl
     struct cavm_npc_af_intfx_hashx_result_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mask                  : 32; /**< [ 63: 32](R/W) Field to mask against the field hash result. */
+        uint64_t mask                  : 32; /**< [ 63: 32](R/W) Field to mask against the field hash result. The MASK typical value (0xffffffff) uses the
+                                                                 full data width. System can modify the value by setting the desired MASK bits to
+                                                                 zero. */
         uint64_t offset                : 32; /**< [ 31:  0](R/W) Field to add to the post-masked field hash result. */
 #else /* Word 0 - Little Endian */
         uint64_t offset                : 32; /**< [ 31:  0](R/W) Field to add to the post-masked field hash result. */
-        uint64_t mask                  : 32; /**< [ 63: 32](R/W) Field to mask against the field hash result. */
+        uint64_t mask                  : 32; /**< [ 63: 32](R/W) Field to mask against the field hash result. The MASK typical value (0xffffffff) uses the
+                                                                 full data width. System can modify the value by setting the desired MASK bits to
+                                                                 zero. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_intfx_hashx_result_ctl_s cn; */
@@ -2508,7 +2520,7 @@ static inline uint64_t CAVM_NPC_AF_INTFX_MISS_TAG_ACT(uint64_t a)
  * Register (RVU_PF_BAR0) npc_af_intf#_secret_key0
  *
  * NPC AF Interface Hash Key0 Registers
- * First 64 bits of key for the Toeplitz hash of both the exact and field hashes.
+ * First 64 bits of key for the Toeplitz hash for both the exact and field hashes.
  */
 union cavm_npc_af_intfx_secret_key0
 {
@@ -2516,13 +2528,27 @@ union cavm_npc_af_intfx_secret_key0
     struct cavm_npc_af_intfx_secret_key0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash of exact and field match content.
-                                                                 The Exact match hash only uses KEY0 and KEY2 for its 95 bits of hash key.
-                                                                 The field hashes uses KEY0, KEY1 and KEY2 for their 159 bits of key. */
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash for exact and field match content. The
+                                                                 exact match hash uses KEY2 and KEY0 for 95 bits of hash key. The field hashes use
+                                                                 KEY2, KEY1 and KEY0 for 159 bits of key.
+
+                                                                 Systems must set KEY to a non-zero value for correct operation. Suggested values
+                                                                 KEY2=0x3d2bcad0
+                                                                 KEY1=0xb08fa343_3d256741
+                                                                 KEY0=0xc20e5b25_da565a6d
+
+                                                                 The KEY should include a salt to make the hash externally unpredictable. */
 #else /* Word 0 - Little Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash of exact and field match content.
-                                                                 The Exact match hash only uses KEY0 and KEY2 for its 95 bits of hash key.
-                                                                 The field hashes uses KEY0, KEY1 and KEY2 for their 159 bits of key. */
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) First 64 bits of key for Toeplitz hash for exact and field match content. The
+                                                                 exact match hash uses KEY2 and KEY0 for 95 bits of hash key. The field hashes use
+                                                                 KEY2, KEY1 and KEY0 for 159 bits of key.
+
+                                                                 Systems must set KEY to a non-zero value for correct operation. Suggested values
+                                                                 KEY2=0x3d2bcad0
+                                                                 KEY1=0xb08fa343_3d256741
+                                                                 KEY0=0xc20e5b25_da565a6d
+
+                                                                 The KEY should include a salt to make the hash externally unpredictable. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_intfx_secret_key0_s cn; */
@@ -2548,7 +2574,7 @@ static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY0(uint64_t a)
  * Register (RVU_PF_BAR0) npc_af_intf#_secret_key1
  *
  * NPC AF Interface Hash Key1 Registers
- * Second 64 bits of key for Toeplitz hash of exact and field hashes match content.
+ * Second 64 bits of key for Toeplitz hash for field hashes.
  */
 union cavm_npc_af_intfx_secret_key1
 {
@@ -2556,13 +2582,27 @@ union cavm_npc_af_intfx_secret_key1
     struct cavm_npc_af_intfx_secret_key1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](R/W) Second 64 bits of key for Toeplitz hash of the exact and field hashes content.
-                                                                 The Exact match hash only uses KEY0 and KEY2 for its 95 bits of hash key.
-                                                                 The field hashes uses KEY0, KEY1 and KEY2 for their 159 bits of key. */
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) Second 64 bits of key for Toeplitz hash for the field hashes content. The exact
+                                                                 match hash uses KEY2 and KEY0 for 95 bits of hash key. The field hashes use KEY2,
+                                                                 KEY1 and KEY0 for 159 bits of key.
+
+                                                                 Systems must set KEY to a non-zero value for correct operation. Suggested values
+                                                                 KEY2=0x3d2bcad0
+                                                                 KEY1=0xb08fa343_3d256741
+                                                                 KEY0=0xc20e5b25_da565a6d
+
+                                                                 The KEY should include a salt to make the hash externally unpredictable. */
 #else /* Word 0 - Little Endian */
-        uint64_t key                   : 64; /**< [ 63:  0](R/W) Second 64 bits of key for Toeplitz hash of the exact and field hashes content.
-                                                                 The Exact match hash only uses KEY0 and KEY2 for its 95 bits of hash key.
-                                                                 The field hashes uses KEY0, KEY1 and KEY2 for their 159 bits of key. */
+        uint64_t key                   : 64; /**< [ 63:  0](R/W) Second 64 bits of key for Toeplitz hash for the field hashes content. The exact
+                                                                 match hash uses KEY2 and KEY0 for 95 bits of hash key. The field hashes use KEY2,
+                                                                 KEY1 and KEY0 for 159 bits of key.
+
+                                                                 Systems must set KEY to a non-zero value for correct operation. Suggested values
+                                                                 KEY2=0x3d2bcad0
+                                                                 KEY1=0xb08fa343_3d256741
+                                                                 KEY0=0xc20e5b25_da565a6d
+
+                                                                 The KEY should include a salt to make the hash externally unpredictable. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_npc_af_intfx_secret_key1_s cn; */
@@ -2588,7 +2628,7 @@ static inline uint64_t CAVM_NPC_AF_INTFX_SECRET_KEY1(uint64_t a)
  * Register (RVU_PF_BAR0) npc_af_intf#_secret_key2
  *
  * NPC AF Interface Hash Key2 Registers
- * Last 64 bits of key for Toeplitz hash of field hashes match content.
+ * Last 31 bits of key for Toeplitz hash for exact and field hashes.
  */
 union cavm_npc_af_intfx_secret_key2
 {
@@ -2597,11 +2637,27 @@ union cavm_npc_af_intfx_secret_key2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
-        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash. The Exact match hash and the field
-                                                                 hashes use bits 30:00 of KEY2 for the lower 31 bits of the hash key. */
+        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash for the exact and field hashes
+                                                                 content. The exact match hash uses KEY2 and KEY0 for 95 bits of hash key. The
+                                                                 field hashes use KEY2, KEY1 and KEY0 for 159 bits of key.
+
+                                                                 Systems must set KEY to a non-zero value for correct operation. Suggested values
+                                                                 KEY2=0x3d2bcad0
+                                                                 KEY1=0xb08fa343_3d256741
+                                                                 KEY0=0xc20e5b25_da565a6d
+
+                                                                 The KEY should include a salt to make the hash externally unpredictable. */
 #else /* Word 0 - Little Endian */
-        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash. The Exact match hash and the field
-                                                                 hashes use bits 30:00 of KEY2 for the lower 31 bits of the hash key. */
+        uint64_t key                   : 31; /**< [ 30:  0](R/W) Third set of key bits for Toeplitz hash for the exact and field hashes
+                                                                 content. The exact match hash uses KEY2 and KEY0 for 95 bits of hash key. The
+                                                                 field hashes use KEY2, KEY1 and KEY0 for 159 bits of key.
+
+                                                                 Systems must set KEY to a non-zero value for correct operation. Suggested values
+                                                                 KEY2=0x3d2bcad0
+                                                                 KEY1=0xb08fa343_3d256741
+                                                                 KEY0=0xc20e5b25_da565a6d
+
+                                                                 The KEY should include a salt to make the hash externally unpredictable. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;

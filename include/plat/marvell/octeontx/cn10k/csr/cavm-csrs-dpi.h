@@ -1844,6 +1844,57 @@ union cavm_dpix_dma_arb_control
     struct cavm_dpix_dma_arb_control_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t rd_eng_ae_th          : 4;  /**< [ 27: 24](R/W) Read Engine almost empty threshold setting. When the value of the read engine
+                                                                 instruction FIFO falls below this setting the almost empty flag is asserted.
+                                                                 When the read engine FIFO is not almost empty, the upstream arbitration logic
+                                                                 only allows high-priority traffic. When the read engine FIFO is almost empty,
+                                                                 both low and high priority traffic is enabled to enter the read engine
+                                                                 instruction FIFO. */
+        uint64_t reserved_18_23        : 6;
+        uint64_t mode                  : 1;  /**< [ 17: 17](R/W) Arbiter Mode.
+                                                                 0 = Strict priority. High priority DMA commands are processed before
+                                                                 low priority DMA commands.
+                                                                 1 = Weighted round-robin mode. Operation further controlled by [WRR_MODE] and
+                                                                 [HI_WT]/[LO_WT]. */
+        uint64_t wrr_mode              : 1;  /**< [ 16: 16](R/W) Weighted round-robin mode.
+                                                                 0 = Strict priority, high priority DMA commands are serviced until Hi priority
+                                                                 credits are exhausted.
+                                                                 1 = WRR mode. High and Low priority DMA commands are serviced round-robin until
+                                                                 high or low priority credits defined by HI_WT and LO_WT are exhausted. */
+        uint64_t reserved_15           : 1;
+        uint64_t hi_wt                 : 7;  /**< [ 14:  8](R/W) High priority weight. [HI_WT]=N+1 (1-128). Used when [MODE]=1 (WRR). */
+        uint64_t reserved_7            : 1;
+        uint64_t lo_wt                 : 7;  /**< [  6:  0](R/W) Low priority weight. [LO_WT]=N+1 (1-128) Used when [MODE]=1 (WRR). */
+#else /* Word 0 - Little Endian */
+        uint64_t lo_wt                 : 7;  /**< [  6:  0](R/W) Low priority weight. [LO_WT]=N+1 (1-128) Used when [MODE]=1 (WRR). */
+        uint64_t reserved_7            : 1;
+        uint64_t hi_wt                 : 7;  /**< [ 14:  8](R/W) High priority weight. [HI_WT]=N+1 (1-128). Used when [MODE]=1 (WRR). */
+        uint64_t reserved_15           : 1;
+        uint64_t wrr_mode              : 1;  /**< [ 16: 16](R/W) Weighted round-robin mode.
+                                                                 0 = Strict priority, high priority DMA commands are serviced until Hi priority
+                                                                 credits are exhausted.
+                                                                 1 = WRR mode. High and Low priority DMA commands are serviced round-robin until
+                                                                 high or low priority credits defined by HI_WT and LO_WT are exhausted. */
+        uint64_t mode                  : 1;  /**< [ 17: 17](R/W) Arbiter Mode.
+                                                                 0 = Strict priority. High priority DMA commands are processed before
+                                                                 low priority DMA commands.
+                                                                 1 = Weighted round-robin mode. Operation further controlled by [WRR_MODE] and
+                                                                 [HI_WT]/[LO_WT]. */
+        uint64_t reserved_18_23        : 6;
+        uint64_t rd_eng_ae_th          : 4;  /**< [ 27: 24](R/W) Read Engine almost empty threshold setting. When the value of the read engine
+                                                                 instruction FIFO falls below this setting the almost empty flag is asserted.
+                                                                 When the read engine FIFO is not almost empty, the upstream arbitration logic
+                                                                 only allows high-priority traffic. When the read engine FIFO is almost empty,
+                                                                 both low and high priority traffic is enabled to enter the read engine
+                                                                 instruction FIFO. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix_dma_arb_control_s cn10; */
+    struct cavm_dpix_dma_arb_control_cn10ka_p1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_18_63        : 46;
         uint64_t mode                  : 1;  /**< [ 17: 17](R/W) Arbiter Mode.
                                                                  0 = Strict priority. High priority DMA commands are processed before
@@ -1876,8 +1927,11 @@ union cavm_dpix_dma_arb_control
                                                                  [HI_WT]/[LO_WT]. */
         uint64_t reserved_18_63        : 46;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_dma_arb_control_s cn; */
+    } cn10ka_p1;
+    /* struct cavm_dpix_dma_arb_control_s cn10ka_p2; */
+    /* struct cavm_dpix_dma_arb_control_s cn10kb; */
+    /* struct cavm_dpix_dma_arb_control_cn10ka_p1 cnf10ka; */
+    /* struct cavm_dpix_dma_arb_control_cn10ka_p1 cnf10kb; */
 };
 typedef union cavm_dpix_dma_arb_control cavm_dpix_dma_arb_control_t;
 
@@ -2560,6 +2614,8 @@ typedef union cavm_dpix_ebo_wr_arb_ctrl cavm_dpix_ebo_wr_arb_ctrl_t;
 static inline uint64_t CAVM_DPIX_EBO_WR_ARB_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_EBO_WR_ARB_CTRL(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x86e000010030ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000010030ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_EBO_WR_ARB_CTRL", 1, a, 0, 0, 0, 0, 0);
@@ -4039,6 +4095,8 @@ typedef union cavm_dpix_ncbo_err_info cavm_dpix_ncbo_err_info_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INFO(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x86e000017200ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017200ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_NCBO_ERR_INFO", 1, a, 0, 0, 0, 0, 0);
@@ -4076,6 +4134,8 @@ typedef union cavm_dpix_ncbo_err_int cavm_dpix_ncbo_err_int_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x86e000017300ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017300ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_NCBO_ERR_INT", 1, a, 0, 0, 0, 0, 0);
@@ -4114,6 +4174,8 @@ typedef union cavm_dpix_ncbo_err_int_ena_w1c cavm_dpix_ncbo_err_int_ena_w1c_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x86e000017310ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017310ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_NCBO_ERR_INT_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
@@ -4152,6 +4214,8 @@ typedef union cavm_dpix_ncbo_err_int_ena_w1s cavm_dpix_ncbo_err_int_ena_w1s_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x86e000017318ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017318ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_NCBO_ERR_INT_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
@@ -4190,6 +4254,8 @@ typedef union cavm_dpix_ncbo_err_int_w1s cavm_dpix_ncbo_err_int_w1s_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_W1S(uint64_t a)
 {
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+        return 0x86e000017308ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017308ll + 0x1000000000ll * ((a) & 0x0);
     __cavm_csr_fatal("DPIX_NCBO_ERR_INT_W1S", 1, a, 0, 0, 0, 0, 0);
@@ -4315,7 +4381,9 @@ typedef union cavm_dpix_pf_msix_vecx_addr cavm_dpix_pf_msix_vecx_addr_t;
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=117)))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && ((a==0) && (b<=117)))
+        return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a==0) && (b<=118)))
         return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=118)))
         return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
@@ -4361,7 +4429,9 @@ typedef union cavm_dpix_pf_msix_vecx_ctl cavm_dpix_pf_msix_vecx_ctl_t;
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA) && ((a==0) && (b<=117)))
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && ((a==0) && (b<=117)))
+        return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
+    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a==0) && (b<=118)))
         return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=118)))
         return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
