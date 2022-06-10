@@ -230,6 +230,15 @@ typedef struct {
 	uint32_t _reserved:26;
 } lpcs_spd_dplx_t;
 
+/* Stores 802.3AP negotiated Portm data */
+typedef struct portm_config_aneg {
+	cn10k_portm_modes_t portm_mode;    /* 802.3ap PORTM mode */
+	cn10k_portm_pcs_type_t pcs_type;   /* 802.3ap PCS type used by portm_mode (Eth only) */
+	int portms_used;                   /* 802.3ap Number of portm's used by port (typically equal to gser_numlanes) */
+	cn10k_portm_fec_t fec;             /* 802.3ap PORTM FEC.*/
+	int gser_numlanes;                 /* 802.3ap Number of SERDES lanes used by  portm_mode */
+} portm_config_aneg_t;
+
 typedef struct ecp_state_log {
 	uint64_t timestamp;
 	uint32_t lmac_id;
@@ -262,6 +271,7 @@ typedef struct ecp_link_mgmt_sh_data {
 	uint32_t req_in_prog[LMAC_PER_RPM_MAX]; /* Will get set to 1 by AP when requesting mode/txeq change. ECP clears it. */
 	uint32_t portm_idx;
 	portm_config_t portm_cfg;
+	portm_config_aneg_t portm_cfg_aneg;     /* Updated as part of 802.3AP autoneg. */
 	lpcs_spd_dplx_t lpcs_speed_dplx[LMAC_PER_RPM_MAX]; /* Speed and Duplex settings for lpcs modes */
 	uint32_t sig_detect:1;
 	uint32_t lmac_id;
@@ -281,6 +291,16 @@ typedef struct link_shared_data {
 
 void ecp_link_init_shmem(void);
 int ecp_send_link_req(int portm, int rpm_id, int lmac_id, int req_id, rpm_lmac_context_t *lmac_ctx);
+
+/**
+ * Gets the ECP Portm config data from 802.3AP negotiation
+ *
+ * @param portm_idx         PORTM to use
+ * @param *portm_cfg_aneg   802.3AP portm config
+ * @return 1 Failed to get lock, 0 = Success
+ */
+int ecp_get_aneg_portm_cfg(int portm_idx, portm_config_aneg_t *portm_cfg_aneg);
+
 /**
  * Sets the ECP req_in_prog
  *

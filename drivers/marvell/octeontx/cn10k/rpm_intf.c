@@ -140,6 +140,28 @@ static void rpm_release_own_status(int rpm_id, int lmac_id)
 			own_status, ETH_OWN_NON_SECURE_SW); /* released the ownership */
 }
 
+static int rpm_update_cl73_portm_cfg(int rpm_id, int lmac_id, int portm_idx)
+{
+	portm_config_t *portm;
+	portm_config_aneg_t portm_cfg_aneg = {0};
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	if (ecp_get_aneg_portm_cfg(portm_idx, &portm_cfg_aneg))
+		return -1;
+
+	portm->portm_mode = portm_cfg_aneg.portm_mode;
+	portm->pcs_type = portm_cfg_aneg.pcs_type;
+	portm->fec = portm_cfg_aneg.fec;
+	portm->gser_numlanes = portm_cfg_aneg.gser_numlanes;
+	portm->portms_used = portm_cfg_aneg.portms_used;
+
+	debug_rpm_intf("%s %d:%d 802.3AP HCD mode:%d, fec:%d, pcs_type:%d, numlanes:%d, portms_used:%d\n",
+		       __func__, rpm_id, lmac_id, portm->portm_mode, portm->fec, portm->pcs_type,
+		       portm->gser_numlanes, portm->portms_used);
+
+	return 0;
+}
+
 static void rpm_set_link_state(int rpm_id, int lmac_id,
 					rpm_link_state_t *link, int err_type)
 {
@@ -292,6 +314,18 @@ static int rpm_get_link_status(int rpm_id, int lmac_id, rpm_link_state_t *link)
 
 	/* Obtain the link status from ECP via SM */
 	status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);
+	/* Update Portm cfg after 802.3AP completes
+	 * Only updates when transitioning from link down to up
+	 */
+	if ((!lmac_ctx->s.link_up) &&
+	    (link_state.s.link_up)) {
+		if (portm->an_lt_ena) {
+			if (rpm_update_cl73_portm_cfg(rpm_id, lmac_id, lmac->portm_idx))
+				debug_rpm_intf("%s %d:%d Failed to update Portm CFG after 802.3AP Link Up\n",
+					       __func__, rpm_id, lmac_id);
+		}
+	}
+
 	if (status != ETH_LINK_STATE_NO_STATE) {
 		link->s.link_up = link_state.s.link_up;
 		link->s.full_duplex = link_state.s.duplex;
@@ -407,10 +441,13 @@ static int rpm_link_bringup(int rpm_id, int lmac_id, uint64_t link_timeout)
 	rpm_lmac_context_t *lmac_ctx;
 	rpm_link_state_t link_sts;
 	rpm_lmac_bringup_context_t *bringup_ctx;
+	portm_config_t *portm;
+
 	/* Get the lmac type and based on lmac
 	 * type, initialize ethernet link
 	 */
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 
 	debug_rpm_intf("%s %d:%d lmac_type %d\n", __func__, rpm_id,
 			lmac_id, lmac_cfg->mode);
@@ -528,6 +565,12 @@ retry_link1:
 			lmac_ctx->s.speed = link_sts.s.speed;
 			lmac_ctx->s.fec = link_sts.s.fec;
 			rpm_set_link_state(rpm_id, lmac_id, &link_sts, 0);
+			/* Update portm data based on 802.3AP Clause 73 HCD */
+			if (portm->an_lt_ena) {
+				if (rpm_update_cl73_portm_cfg(rpm_id, lmac_id, lmac_cfg->portm_idx))
+					debug_rpm_intf("%s %d:%d Failed to update Portm CFG after 802.3AP Link Up\n",
+						__func__, rpm_id, lmac_id);
+			}
 			lmac_ctx->s.link_enable = 1;
 			return 0;
 		}

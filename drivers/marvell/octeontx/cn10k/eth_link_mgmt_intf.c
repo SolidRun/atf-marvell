@@ -289,7 +289,6 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 		sh_data->portm_cfg.fec = portm->fec;
 		/* Update the new PORTM mode to SM for certain requests */
 		if ((req_id == ECP_LINK_REQ_MODE_CHANGE)
-		    || (req_id == ECP_LINK_REQ_TXEQ_CHANGE)
 		    || (req_id == ECP_LINK_REQ_FEC_CHANGE)) {
 			sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
 			if (sh_portm == NULL) {
@@ -299,9 +298,16 @@ int ecp_send_link_req(int portm_idx, int rpm_id, int lmac_id, int req_id, rpm_lm
 			/* Update Shared Portm struct to match ATF portm struct */
 			*sh_portm = *portm;
 			sh_portm->ap_802_3_adv = portm->ap_802_3_adv;
+			/* Initialize the 802.3AP port config data */
+			sh_data->portm_cfg_aneg.portm_mode = portm->portm_mode;
+			sh_data->portm_cfg_aneg.pcs_type = portm->pcs_type;
+			sh_data->portm_cfg_aneg.portms_used = portm->portms_used;
+			sh_data->portm_cfg_aneg.fec = portm->fec;
+			sh_data->portm_cfg_aneg.gser_numlanes = portm->gser_numlanes;
 			/* Set the req_in_prog to 1 (Request being made) */
 			sh_data->req_in_prog[lmac_id] = 1;
 		} else if ((req_id == ECP_LINK_REQ_LOOPBACK_STATE_CHANGE)
+			   || (req_id == ECP_LINK_REQ_TXEQ_CHANGE)
 			   || (req_id == ECP_LINK_REQ_PRBS_STATE_CHANGE)) {
 			sh_portm = ecp_link_get_portm_sh_mem_ptr(portm_idx);
 
@@ -527,6 +533,39 @@ int ecp_dump_state_history(int portm_idx, int lmac_id, const char *msg)
 	spin_lock(&ecp_print_buf_lock);
 	octeontx_free(ecp_print_buf);
 	spin_unlock(&ecp_print_buf_lock);
+
+	return 0;
+}
+
+/**
+ * Gets the ECP Portm config data from 802.3AP negotiation
+ *
+ * @param portm_idx         PORTM to use
+ * @param *portm_cfg_aneg   802.3AP portm config
+ * @return 1 Failed to get lock, 0 = Success
+ */
+int ecp_get_aneg_portm_cfg(int portm_idx, portm_config_aneg_t *portm_cfg_aneg)
+{
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
+
+	debug_eth_link_intf("%s: PORTM%d\n", __func__, portm_idx);
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return -1;
+	}
+
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
+		return -1;
+	}
+
+	sh_data->lock = LINK_OWN_AP;
+
+	*portm_cfg_aneg = sh_data->portm_cfg_aneg;
+	sh_data->lock = LINK_OWN_NONE;
 
 	return 0;
 }
