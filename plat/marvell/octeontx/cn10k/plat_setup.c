@@ -1003,9 +1003,9 @@ int disable_devmem_ns_access(struct ecam_device *dev)
 	bar2 = get_bar_val(config, 2);
 
 	if (bar0)
-		return set_permissions(dev, bar0);
+		set_permissions(dev, bar0);
 	if (bar2)
-		return set_permissions(dev, bar2);
+		set_permissions(dev, bar2);
 
 	return 0;
 }
