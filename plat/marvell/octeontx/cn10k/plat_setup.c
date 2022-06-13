@@ -61,6 +61,7 @@
 #ifdef ENABLE_RECORD_FWLOG
 #include <mem_console.h>
 #endif
+#include <cavm-csrs-fus.h>
 
 #if defined(PLAT_cnf10ka) || defined(PLAT_cnf10kb)
 #include <bphy.h>
@@ -373,16 +374,24 @@ unsigned int plat_configure_cpt_rid(void)
  */
 unsigned int plat_configure_rid(void)
 {
-	if (cavm_is_model(OCTEONTX_CN10KA))
-		return 0x50;
-	else if (cavm_is_model(OCTEONTX_CNF10KA))
-		return 0x60;
-	else if (cavm_is_model(OCTEONTX_CNF10KB))
-		return 0x70;
-	else if (cavm_is_model(OCTEONTX_CN10KB))
-		return 0x80;
+	unsigned int val = 0;
+	int maj, min;
+	uint64_t fus;
 
-	return 0;
+	fus = CSR_READ(CAVM_FUS_CACHEX(0));
+	maj = (fus >> __OM_MAJOR_SHIFT) & 0x3;
+	min = (fus >> __OM_MINOR_SHIFT) & 0x3;
+	if (cavm_is_model(OCTEONTX_CN10KA))
+		val = 0x50;
+	else if (cavm_is_model(OCTEONTX_CNF10KA))
+		val = 0x60;
+	else if (cavm_is_model(OCTEONTX_CNF10KB))
+		val = 0x70;
+	else if (cavm_is_model(OCTEONTX_CN10KB))
+		val = 0x80;
+
+	val |= (min | (maj << 2));
+	return val;
 }
 
 extern void *scmi_handle;
