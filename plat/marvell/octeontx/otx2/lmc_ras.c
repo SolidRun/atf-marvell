@@ -1521,6 +1521,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	/* just for debug... */
 	static int cnt;
 	static uint64_t was[MAX_LMC];
+	int severity = 0;
 
 	status.u = 0;
 	erraddr.u = 0;
@@ -1719,6 +1720,10 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	if (!err_rec && fatal && fatal_rec)
 		err_rec = fatal_rec;
 
+	severity = fatal ? CPER_SEV_RECOVERABLE : CPER_SEV_CORRECTED;
+	if (severity == CPER_SEV_RECOVERABLE && is_secure_address(physaddr))
+		severity = CPER_SEV_FATAL;
+
 	if (err_rec) {
 		err_rec->u.mcc.physical_addr = physaddr;
 		err_rec->u.mcc.card = lmc;
@@ -1732,9 +1737,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 			CPER_MEM_VALID_BANK | CPER_MEM_VALID_ROW |
 			CPER_MEM_VALID_COLUMN);
 
-		err_rec->severity = fatal ? CPER_SEV_RECOVERABLE : CPER_SEV_CORRECTED;
-		if (err_rec->severity == CPER_SEV_RECOVERABLE && is_secure_address(physaddr))
-			err_rec->severity = CPER_SEV_FATAL;
+		err_rec->severity = severity;
 
 		snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
 			 "LMC%d: DIMM%d,Rank%d/%d,Bank%02d", lmc, dimm, prank,
@@ -1774,7 +1777,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	CSR_WRITE(CAVM_LMCX_CHAR_MASK2(lmc), 0);
 	CSR_WRITE(CAVM_LMCX_ECC_PARITY_TEST(lmc), 0);
 
-	return err_rec->severity == CPER_SEV_FATAL;
+	return severity == CPER_SEV_FATAL;
 }
 
 static int lmcoe_ras_int(int lmcoe)
