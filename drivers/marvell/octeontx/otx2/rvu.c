@@ -545,7 +545,7 @@ static int octeontx_init_rvu_from_fdt(void)
 		}
 	}
 
-#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
+#if defined(PLAT_CN10K_FAMILY)
 	/* For cn10k family, setup fixed provision for IPSEC PF at (last-3) */
 	sw_pf = find_sw_rvu_pf_info(SW_RVU_IPSEC_PF(0));
 	if (sw_pf != NULL && sw_pf->mapping != SW_RVU_MAP_NONE) {
@@ -709,11 +709,11 @@ static int octeontx_init_rvu_from_fdt(void)
 		sso_tim_pfs = 2 * div;
 #if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
 		ipsec_pfs = 2 * div;
+		npa_pfs = div;
 #else
 		ipsec_pfs = 0;
+		npa_pfs = 3 * div; // configure ipsec as npa on cnf10x platform
 #endif
-		npa_pfs = div;
-
 		switch (rem) {
 		case 4:
 			sso_tim_pfs++;
@@ -724,6 +724,8 @@ static int octeontx_init_rvu_from_fdt(void)
 		case 2:
 #if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
 			ipsec_pfs++;
+#else
+			npa_pfs++;
 #endif
 			/* FALLTHROUGH */
 		case 1:
@@ -838,7 +840,7 @@ static int octeontx_init_rvu_from_fdt(void)
 		sso_tim_pfs--;
 	}
 
-#if defined(PLAT_cn10ka) || defined(PLAT_cn10kb)
+#if defined(PLAT_CN10K_FAMILY)
 	while (ipsec_pfs > 0) {
 		pf = rvu_first_available(avail_from_bot);
 		if (pf == -1) {

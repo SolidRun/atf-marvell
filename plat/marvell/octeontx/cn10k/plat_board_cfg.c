@@ -1476,6 +1476,9 @@ static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 		debug_dts("RVU: CPT is disabled\n");
 		plat_octeontx_bcfg->rvu_config.cpt_dis = 1;
 	}
+#else
+	debug_dts("RVU: CPT is disabled\n");
+	plat_octeontx_bcfg->rvu_config.cpt_dis = 1;
 #endif /* RVU_CPT_FDT_NODE */
 
 	/* Here we can mark FDT RVU config as valid */
