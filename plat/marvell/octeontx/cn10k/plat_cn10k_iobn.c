@@ -331,9 +331,10 @@ void octeontx_init_iobn(uint64_t config_base, uint64_t config_size)
 	 * times faster than MESHCLK, force the conditional clock to be
 	 * always on by setting IOBN()_CFG0/1[FORCE_SCLK/RCLK_COND_CLK_EN] = 1.
 	 */
-	if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) ||
+
+	if (cavm_is_model(OCTEONTX_CN10KA_PASS1_0) ||
 	    cavm_is_model(OCTEONTX_CNF10KA_PASS1_X) ||
-	    cavm_is_model(OCTEONTX_CNF10KB_PASS1_X)) {
+	    cavm_is_model(OCTEONTX_CNF10KB)) {
 		cfg0.u = CSR_READ(CAVM_IOBNX_CFG0(iobn_nr));
 		cfg0.s.force_sclk_cond_clk_en = 1;
 		/* Each bit is control for a given NCB bus,
