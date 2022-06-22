@@ -655,6 +655,7 @@ static void qsfp_get_info(int portm_idx)
 		switch (mod_info->ext_compliance) {
 		case 0x0:
 			debug_sfp_mgmt("%s: unspecified transceiver type detected\n", __func__);
+			cap_info->trans_type = SFP_TRANS_TYPE_UNKNOWN;
 			break;
 		case 0x1:
 			/* FIXME: need to turn on CDR for optics */
@@ -695,6 +696,7 @@ static void qsfp_get_info(int portm_idx)
 		case 0x10:
 			/* FIXME */
 			debug_sfp_mgmt("%s: 40G ER-4 detected\n", __func__);
+			cap_info->trans_type = SFP_TRANS_TYPE_UNKNOWN;
 			break;
 		case 0x11:
 			debug_sfp_mgmt("%s: 4X10G SR detected\n", __func__);
@@ -1160,7 +1162,7 @@ retry_read_eeprom:
 				if (lmac_enabled)
 					ERROR("%s: PORTM%d unknown transceiver type inserted\n", __func__,
 									portm_idx);
-				ret = SFP_TRANS_TYPE_NONE;
+				ret = SFP_TRANS_TYPE_UNKNOWN;
 			}
 		} else	{
 			if (retry_count++ < 5) {
