@@ -224,6 +224,8 @@ typedef struct spi_config {
 	uint32_t efivar_offset;
 	uint32_t is_secure;
 	uint32_t cs[MAX_SPI_CS];
+	uint32_t configured[MAX_SPI_CS];
+	uint32_t erase_64k[MAX_SPI_CS];
 	struct xspi_cs_config cs_configuration[MAX_SPI_BUS][MAX_SPI_CS];
 } spi_config_t;
 

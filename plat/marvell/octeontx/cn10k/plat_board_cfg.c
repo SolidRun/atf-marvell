@@ -1659,6 +1659,28 @@ static int cn10k_parse_boot_device(const void *fdt, const int offset)
 	return 0;
 }
 
+/* Return numeric representation of the EBF field required. Return -1, if such
+ * field isn't defined. Note that -1 can be value for the field.
+ */
+static long cn10k_fdtebf_get_num(const void *fdt_addr, const char *prop,
+		int base)
+{
+	long ret;
+	int offset;
+	const char *buf;
+	int len;
+
+	offset = fdt_path_offset(fdt_addr, "/cavium,bdk");
+	buf = fdt_getprop(fdt_addr, offset, prop, &len);
+	if (!buf) {
+		debug_dts("No %s option is set in EBF.\n", prop);
+		return -1;
+	}
+	ret = strtol(buf, NULL, base);
+
+	return ret;
+}
+
 /*
  * Parse SPI Controller Config from FDT
  */
@@ -1667,6 +1689,8 @@ static void cn10k_parse_spi_config(const void *fdt)
 	const uint32_t *preg, *reg;
 	uint32_t addr;
 	int node, bus = 0, cs = 0, parent_node[MAX_SPI_BUS] = { 0 };
+	int val;
+	char name[64];
 
 	/* Parse for secure-spi config */
 	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
@@ -1725,28 +1749,15 @@ static void cn10k_parse_spi_config(const void *fdt)
 			debug_dts("Deleted SPI%d node at offset %d\n", bus, parent_node[bus]);
 		}
 	}
-}
-
-/* Return numeric representation of the EBF field required. Return -1, if such
- * field isn't defined. Note that -1 can be value for the field.
- */
-static long cn10k_fdtebf_get_num(const void *fdt_addr, const char *prop,
-		int base)
-{
-	long ret;
-	int offset;
-	const char *buf;
-	int len;
-
-	offset = fdt_path_offset(fdt_addr, "/cavium,bdk");
-	buf = fdt_getprop(fdt_addr, offset, prop, &len);
-	if (!buf) {
-		debug_dts("No %s option is set in EBF.\n", prop);
-		return -1;
+	for (bus = 0; bus < MAX_SPI_BUS; bus++) {
+		for (cs = 0; cs < MAX_SPI_CS; cs++) {
+			snprintf(name, 64, "SPI%d-CS%d-FLASH-SECTOR-64K", bus, cs);
+			val = cn10k_fdtebf_get_num(fdt, name, 16);
+			plat_octeontx_bcfg->spi_cfg[bus].erase_64k[cs] = (val == 1) ? 1 : 0;
+			debug_dts("SPI%d CS%d erase_64k %d val %d\n", bus, cs,
+				  plat_octeontx_bcfg->spi_cfg[bus].erase_64k[cs], val);
+		}
 	}
-	ret = strtol(buf, NULL, base);
-
-	return ret;
 }
 
 static void cn10k_parse_usb_config(const void *fdt_addr)

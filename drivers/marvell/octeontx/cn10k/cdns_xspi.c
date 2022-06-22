@@ -41,6 +41,7 @@
 
 //4byte commands
 #define SPINOR_OP_BE_4K_4B      0x21
+#define SPINOR_OP_BE_64K_4B     0xDC
 #define SPINOR_OP_PP_4B	        0x12
 #define SPINOR_OP_PP_1_4_4_4B	0x3e
 #define SPINOR_OP_READ_4B       0x13
@@ -49,6 +50,7 @@
 
 //3byte commands, for now only x1
 #define SPINOR_OP_BE_4K         0x20
+#define SPINOR_OP_BE_64K        0xD8
 #define SPINOR_OP_PP	        0x02
 #define SPINOR_OP_READ          0x03
 #define SPINOR_OP_READ_1_4_4	0xeb
@@ -363,10 +365,9 @@ static int cdns_xspi_load_cs_configuration(int spi_con, int cs, bool safemode)
 	return CONFIG_OK;
 }
 
-static int cdns_xspi_wait_for_auto_complete(int spi_con)
+static int cdns_xspi_wait_for_auto_complete(int spi_con, int timeout)
 {
 	int ret = 0;
-	int timeout = 100 * 100;
 	union cavm_spix_ctrl_cmd_stat_cmd_status auto_cmd_status;
 
 	auto_cmd_status.u = CSR_READ(CAVM_SPIX_CTRL_CMD_STAT_CMD_STATUS(spi_con));
@@ -791,6 +792,7 @@ int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 	union cavm_spix_ctrl_cmd_stat_cmd_reg1 reg_1;
 	union cavm_spix_ctrl_cmd_stat_cmd_reg4 reg_4;
 	union cavm_spix_ctrl_cmd_stat_cmd_reg5 reg_5;
+	int timeout = 100 * 100;
 
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_AUTO);
 
@@ -802,13 +804,20 @@ int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 	reg_4.s.cmd4 = block_erase_cnt;
 	reg_5.s.cmd5 = (spi_addr >> 32) & 0xffffffff;
 
+	if (plat_octeontx_bcfg->spi_cfg[spi_con].erase_64k[cs]) {
+		if (erase_ctrl.s.erss_seq_p1_cmd_val == SPINOR_OP_BE_4K_4B)
+			erase_ctrl.s.erss_seq_p1_cmd_val = SPINOR_OP_BE_64K_4B;
+		if (erase_ctrl.s.erss_seq_p1_cmd_val == SPINOR_OP_BE_4K)
+			erase_ctrl.s.erss_seq_p1_cmd_val = SPINOR_OP_BE_64K;
+		timeout = 500 * 100;
+	}
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con), erase_ctrl.u);
 	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(spi_con), reg_5.u);
 	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG4(spi_con), reg_4.u);
 	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG1(spi_con), reg_1.u);
 	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG0(spi_con), reg_0.u);
 
-	return cdns_xspi_wait_for_auto_complete(spi_con);
+	return cdns_xspi_wait_for_auto_complete(spi_con, timeout);
 }
 
 int cdns_xspi_auto_memop(uint64_t spi_addr, uint32_t len, void* buf,
@@ -820,6 +829,7 @@ int cdns_xspi_auto_memop(uint64_t spi_addr, uint32_t len, void* buf,
 	union cavm_spix_ctrl_cmd_stat_cmd_reg3 reg_3;
 	union cavm_spix_ctrl_cmd_stat_cmd_reg4 reg_4;
 	union cavm_spix_ctrl_cmd_stat_cmd_reg5 reg_5;
+	int timeout = 100 * 100;
 
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_AUTO);
 
@@ -858,7 +868,7 @@ int cdns_xspi_auto_memop(uint64_t spi_addr, uint32_t len, void* buf,
 	}
 	handle_sdma(spi_con, buf);
 
-	return cdns_xspi_wait_for_auto_complete(spi_con);
+	return cdns_xspi_wait_for_auto_complete(spi_con, timeout);
 }
 
 static uint32_t spi_acquire_flash(void)

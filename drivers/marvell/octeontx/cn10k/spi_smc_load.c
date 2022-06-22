@@ -307,6 +307,106 @@ int spi_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
 __aligned(8) static uint8_t wr_buffer[BUF_SIZE] = {0};
 __aligned(8) static uint8_t rd_buffer[BUF_SIZE] = {0};
 
+#define BUF_SIZE_64K	65536
+__aligned(8) static uint8_t rd_buffer64[BUF_SIZE_64K] = {0};
+
+int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
+			    int loc, int bus, int cs)
+{
+	size_t size = buf_size;
+	uint64_t offset = loc, xfer_len;
+	uint64_t sector_offset, sector_addr;
+	int mode = SPI_ADDRESSING_24BIT, ret = 0;
+	const void *user_buffer = (void *)buf;
+
+	debug_spi_nor("%s buf %lx len %llx loc %x bus %d cs %d\n",
+		      __func__, buf, buf_size, loc, bus, cs);
+	memset(rd_buffer64, 0, BUF_SIZE_64K);
+
+	memset(wr_buffer, 0, BUF_SIZE);
+	memset(rd_buffer, 0, BUF_SIZE);
+
+	CHECK_AND_CONFIG_SPI(bus, cs)
+
+	if (spi_dev_lock(bus)) {
+		WARN("SPI: Lock SPI%d failed\n", bus);
+		return -1;
+	}
+
+	/* Update data */
+	while (size > 0) {
+		sector_addr   = offset & ~(BUF_SIZE_64K - 1);
+		sector_offset = offset &  (BUF_SIZE_64K - 1);
+		xfer_len = size < BUF_SIZE_64K ? size : BUF_SIZE_64K;
+		if (sector_offset + xfer_len > BUF_SIZE_64K)
+			xfer_len = BUF_SIZE_64K - sector_offset;
+
+		debug_spi_nor("%s sect addr %llx offset %llx xferlen %llx\n",
+			      __func__, sector_addr, sector_offset, xfer_len);
+		if (spi_nor_read(rd_buffer64, BUF_SIZE_64K, sector_addr,
+				 mode, bus, cs) < 0) {
+			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			     offset);
+			ret = -1;
+			break;
+		}
+		memcpy((void *)(rd_buffer64 + sector_offset),
+		       (const void *)user_buffer, xfer_len);
+
+		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
+			WARN("SPI: Erase flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			     offset);
+			ret = -1;
+			break;
+		}
+		if (spi_nor_write(rd_buffer64, BUF_SIZE_64K, sector_addr,
+				  mode, bus, cs) < 0) {
+			WARN("SPI: Write flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			     offset);
+			ret = -1;
+			break;
+		}
+		offset += xfer_len;
+		user_buffer += xfer_len;
+		size -= xfer_len;
+	}
+
+	if (ret == -1)
+		return ret;
+
+	/* Verify data */
+	offset = loc;
+	size = buf_size;
+	user_buffer = (void *)buf;
+	while (size > 0) {
+		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
+		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
+
+		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
+				 mode, bus, cs) < 0) {
+			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			     offset);
+			ret = -1;
+			break;
+		}
+		if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
+			WARN("SPI: Compare data failed for file: EFI_VAR\n");
+			ret = -1;
+			break;
+		}
+		offset += xfer_len;
+		user_buffer += xfer_len;
+		size -= xfer_len;
+	}
+
+	if (spi_dev_unlock(bus)) {
+		WARN("SPI: Unlock SPI%d failed\n", bus);
+		return -1;
+	}
+
+	return ret;
+}
+
 int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 			   int loc, int bus, int cs)
 {
@@ -314,6 +414,10 @@ int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 	uint64_t offset = loc, xfer_len;
 	int mode = SPI_ADDRESSING_24BIT, ret = 0;
 	const void *user_buffer = (void *)efi_buf;
+
+	if (plat_octeontx_bcfg->spi_cfg[bus].erase_64k[cs]) {
+		return cn10k_spi_dev_write_64k(efi_buf, efi_size, loc, bus, cs);
+	}
 
 	memset(wr_buffer, 0, BUF_SIZE);
 	memset(rd_buffer, 0, BUF_SIZE);
