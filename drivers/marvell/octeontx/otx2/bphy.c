@@ -237,7 +237,7 @@ static int setup_interrupt_entries(int irq_num, int cpu, int enable)
 	}
 
 	if (enable)
-		INFO("IRQ 0x%x for CPU %d\n", select_irq, cpu);
+		INFO("IRQ 0x%x for CPU 0x%lx\n", select_irq, CPU_TO_MPIDR(cpu));
 
 	plat_set_bphy_psm_msix_vectors(irq_num, select_irq, enable);
 
