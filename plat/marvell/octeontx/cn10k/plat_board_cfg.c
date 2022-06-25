@@ -2922,8 +2922,8 @@ static void cn10k_fill_timer_ms(const void *fdt)
 	const uint32_t *reg;
 
 	/* By default, update timer to 1s */
-	plat_octeontx_bcfg->timer1_ms = 1000;
-	plat_octeontx_bcfg->timer2_ms = 1000;
+	plat_octeontx_bcfg->timer1_ms = 500;
+	plat_octeontx_bcfg->timer2_ms = 500;
 
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		plat_octeontx_bcfg->timer1_ms = 50;
