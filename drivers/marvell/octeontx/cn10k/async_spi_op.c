@@ -5,27 +5,41 @@
 
 #include <spi.h>
 #include <timers.h>
+#include <drivers/delay_timer.h>
 
 #define SPI_PAGE_ALIGN (0x111ll)
 #define SPI_ERASE_SIZE (0x1000)
 #define SPI_OP_SLEEP_TIME_MS 10
-uint8_t spi_update_buffer[SPI_ERASE_SIZE];
 
-struct delayed_spi_op      spi_ops[SPI_OP_COUNT];
-struct delayed_block_op    block_ops[BLOCK_OP_COUNT];
-int spi_op_cnt, block_op_cnt;
-uint64_t delayed_spi_in_progress;
-static uint32_t timer_hd;
-static uint32_t tim_initialized;
+extern uint64_t get_usecs(void);
 
-void (*delayed_callback)(void *cb_param);
-void *callback_params;
+struct async_perf_counter {
+	uint64_t time_min;
+	uint64_t time_max;
+	uint64_t time_avg;
+	uint64_t time_count;
+	uint64_t total_time;
+};
 
 enum spi_op_result {
 	SPI_OP_OK,
 	SPI_OP_FAIL,
 	SPI_OP_COMP_FAIL,
 };
+
+static struct async_perf_counter aperf_counter;
+
+uint8_t spi_update_buffer[SPI_ERASE_SIZE];
+
+struct delayed_spi_op      spi_ops[SPI_OP_COUNT];
+struct delayed_block_op    block_ops[BLOCK_OP_COUNT];
+void (*delayed_callback)(void *cb_param);
+void *callback_params;
+int spi_op_cnt, block_op_cnt;
+uint64_t delayed_spi_in_progress;
+
+static uint32_t timer_hd;
+static uint32_t tim_initialized;
 
 static void spi_async_block_completed(bool start);
 
@@ -117,8 +131,58 @@ static enum spi_op_result op_update_verify_na(struct delayed_spi_params p)
 	return SPI_OP_OK;
 }
 
+static int op_callback(int *op_counter)
+{
+	const uint64_t tcallback_tmax = block_ops[block_op_cnt].dc.max_usec_time;
+	int (*cb_cont)(void *) = block_ops[block_op_cnt].dc.callback_continuous;
+	void *cb_cont_params = block_ops[block_op_cnt].dc.continuous_ptr;
+	bool time_tracking = block_ops[block_op_cnt].dc.time_tracking;
+
+	int64_t tcallback_tleft;
+	uint64_t tcallback_duration;
+
+	enum spi_op_result res = SPI_OP_OK;
+	int spi_cb_ret;
+
+	if (cb_cont != NULL) {
+		tcallback_tleft = tcallback_tmax;
+		while (true) {
+			tcallback_duration = get_usecs();
+			spi_cb_ret = cb_cont(cb_cont_params);
+			tcallback_duration = get_usecs() - tcallback_duration;
+
+			tcallback_tleft -= tcallback_duration;
+			if (spi_cb_ret == SPI_OP_CALLBACK_CONTINUE) {
+				*op_counter = 0;
+				if (!time_tracking)
+					break;
+				if (tcallback_tleft < tcallback_duration)
+					break;
+			} else if (spi_cb_ret == SPI_OP_CALLBACK_FINISHED) {
+				*op_counter = SPI_OP_COUNT;
+				break;
+			} else {
+				*op_counter = SPI_OP_COUNT;
+				res = SPI_OP_FAIL;
+				ERROR("%s: Error during callback\n", __func__);
+				break;
+			}
+		}
+	} else {
+		spi_op_cnt = SPI_OP_COUNT;
+	}
+
+	return res;
+}
+
+#define CALC_MOVING_AVERAGE(avg, count, val) \
+	(((avg)*(count)) + (val)) / ((count + 1))
+
 static int async_tim_handler(int tim)
 {
+	uint64_t async_handler_start = get_usecs();
+	uint64_t async_handler_time_total = 0;
+
 	enum spi_op_result res = SPI_OP_OK;
 
 	switch (spi_ops[spi_op_cnt].type) {
@@ -143,6 +207,9 @@ static int async_tim_handler(int tim)
 	case SPI_OP_NONE:
 		spi_op_cnt = SPI_OP_COUNT;
 		break;
+	case SPI_OP_CALLBACK:
+		res = op_callback(&spi_op_cnt);
+		break;
 	default:
 		INFO("%s: Unsupported op: %d\n", __func__, spi_op_cnt);
 		break;
@@ -161,6 +228,20 @@ static int async_tim_handler(int tim)
 		spi_async_block_completed(false);
 	}
 
+	async_handler_time_total = get_usecs() - async_handler_start;
+
+	if (async_handler_time_total > aperf_counter.time_max)
+		aperf_counter.time_max = async_handler_time_total;
+
+	if (async_handler_time_total < aperf_counter.time_min)
+		aperf_counter.time_min = async_handler_time_total;
+
+	aperf_counter.time_avg = CALC_MOVING_AVERAGE(aperf_counter.time_avg,
+						     aperf_counter.time_count,
+						     async_handler_time_total);
+	aperf_counter.time_count++;
+	aperf_counter.total_time += async_handler_time_total;
+
 	return 0;
 }
 
@@ -171,13 +252,12 @@ static void tim_init(void)
 		tim_initialized = 1;
 	}
 	if ((int)timer_hd < 0) {
-		ERROR("PPR: can't create new timer\n");
+		ERROR("%s: async SPI can't create new timer\n", __func__);
 	} else {
-		INFO("%s: async SPI using timer: %d\n", __func__, timer_hd);
+		INFO("%s: async SPI using timeout timer: %d\n", __func__, timer_hd);
 		timer_start(timer_hd);
 		delayed_spi_in_progress = 1;
 	}
-
 }
 
 static void spi_calculate_update_params(struct delayed_spi_params *p, uint64_t *addr,
@@ -287,7 +367,6 @@ static void spi_write_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int
 			size -= SPI_ERASE_SIZE*op_size;
 			buffer += SPI_ERASE_SIZE*op_size;
 		}
-
 	}
 }
 
@@ -326,10 +405,13 @@ static void spi_read_delayed(uint64_t addr, uint64_t size, uint64_t buffer, int 
 	}
 }
 
+
+
 static void spi_async_block_completed(bool start)
 {
 	bool restart_timer = false;
 	int cb_ret = 0;
+	int cb_init_ret = 0;
 
 	if (!start && block_ops[block_op_cnt].block_callback != NULL) {
 		block_ops[block_op_cnt].status = BLOCK_STATUS_FINISHED_OK;
@@ -345,6 +427,15 @@ static void spi_async_block_completed(bool start)
 		block_ops[block_op_cnt].status = BLOCK_STATUS_PROCESSING;
 	} else {
 		block_ops[block_op_cnt].status = BLOCK_STATUS_PROCESSING;
+	}
+
+	if (block_ops[block_op_cnt].type == BLOCK_CALLBACK) {
+		if (!block_ops[block_op_cnt].dc.initial_executed) {
+			block_ops[block_op_cnt].dc.initial_executed = true;
+			if (block_ops[block_op_cnt].dc.callback_initial != NULL)
+				cb_init_ret = block_ops[block_op_cnt].dc.callback_initial(
+						block_ops[block_op_cnt].dc.initial_ptr);
+		}
 	}
 
 	spi_init_l2_desc();
@@ -374,6 +465,13 @@ static void spi_async_block_completed(bool start)
 				block_ops[block_op_cnt].param.cs);
 		restart_timer = true;
 		break;
+	case BLOCK_CALLBACK:
+		if (cb_init_ret == SPI_OP_CALLBACK_CONTINUE) {
+			spi_ops[0].type = SPI_OP_CALLBACK;
+			spi_ops[1].type = SPI_OP_CALLBACK;
+		}
+		restart_timer = true;
+		break;
 	default:
 		break;
 	}
@@ -394,15 +492,81 @@ static void spi_async_block_completed(bool start)
 		if (restart_timer) {
 			tim_init();
 		} else {
-			INFO("%s: Block chain completed\n", __func__);
 			if (delayed_callback != NULL) {
 				delayed_callback(callback_params);
 			}
 			delayed_callback = NULL;
 			delayed_spi_in_progress = 0;
+			INFO("%s: Block chain completed\n", __func__);
+			INFO("Block chain stats:\nTime MIN: %lldus\n"
+			     "Time MAX: %lldus\nTime AVG: %lldus\n"
+			     "Total: %lldus\n",
+				aperf_counter.time_min,
+				aperf_counter.time_max,
+				aperf_counter.time_avg,
+				aperf_counter.total_time);
 		}
 	}
 }
+/**
+ * Create callback descriptor for async SPI operations
+ *
+ * @param	callback		callback function - executed after completing block
+ *					Callback params:
+ *					void* - pointer to user data
+ *					int - current block number
+ *					struct delayed_block_params* - pointer to structure
+ *								describing performed operation
+ *					returns callback status. Value not equal to 0 will break
+ *					async execution with error, and call last transfer callback.
+ * @param	cb_params		pointer to user callback params
+ * @param	callback_init		callback_init fuction - executed as first callback
+ * 					Callback params:
+ * 					void* - pointer to userdata
+ * 					returns callback status. Value other than
+ * 					SPI_OP_CALLBACK_CONTINUE will finish current block
+ * @param	cb_init			pointer to init callback params
+ * @param	callback_cont		callback_cont fuction - executed as continous callback
+ * 					Callback params:
+ * 					void* - pointer to userdata
+ * 					returns callback status. Value other than
+ * 					SPI_OP_CALLBACK_CONTINUE will finish current block
+ * @param	cb_cont			pointer to continous callback params
+ * @param	callback_tmax_usec	Max duration of time tracking block. if set to 0 time
+ * 					tracking will be disabled.
+ */
+void spi_async_add_block_callback(int (*callback)(void*, int, struct delayed_block_params *),
+				  void *cb_params,
+				  int (*callback_init)(void *), void *cb_init,
+				  int (*callback_cont)(void *), void *cb_cont,
+				  uint64_t callback_tmax_usec)
+
+{
+	block_ops[block_op_cnt].type = BLOCK_CALLBACK;
+	block_ops[block_op_cnt].status = BLOCK_STATUS_PENDING;
+	block_ops[block_op_cnt].block_callback = callback;
+	block_ops[block_op_cnt].block_cb_params = cb_params;
+	block_ops[block_op_cnt].param.spi_addr = 0;
+	block_ops[block_op_cnt].param.memory_addr = 0;
+	block_ops[block_op_cnt].param.size = 0;
+	block_ops[block_op_cnt].param.bus = 0;
+	block_ops[block_op_cnt].param.cs = 0;
+
+	block_ops[block_op_cnt].dc.initial_executed = false;
+	block_ops[block_op_cnt].dc.callback_initial = callback_init;
+	block_ops[block_op_cnt].dc.callback_continuous = callback_cont;
+	block_ops[block_op_cnt].dc.initial_ptr = cb_init;
+	block_ops[block_op_cnt].dc.continuous_ptr = cb_cont;
+
+	block_ops[block_op_cnt].dc.max_usec_time = callback_tmax_usec;
+	block_ops[block_op_cnt].dc.time_tracking =
+				callback_tmax_usec != 0 ? true : false;
+
+	block_op_cnt++;
+
+	INFO("%s: Adding spi callback block: %d\n", __func__, (block_op_cnt-1));
+}
+
 /**
  * Create write transfer descriptor for async SPI operations
  *
@@ -566,6 +730,12 @@ int spi_async_init_delayed(void)
 void spi_async_start(void (*block_callback)(void *), void *params)
 {
 	INFO("%s: Starting delayed spi\n", __func__);
+	aperf_counter.time_min = 0xFFFFFFFFFFFFFFFF;
+	aperf_counter.time_max = 0;
+	aperf_counter.time_avg = 0;
+	aperf_counter.time_count = 0;
+	aperf_counter.total_time = 0;
+
 	block_op_cnt = 0;
 	delayed_callback = block_callback;
 	callback_params = params;

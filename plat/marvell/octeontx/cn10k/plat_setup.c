@@ -567,6 +567,16 @@ static void cn10k_parse_timestamp(void)
 		ts_valid = 1;
 }
 
+uint64_t get_usecs(void)
+{
+	const unsigned long USECS_IN_SEC = 1000000;
+	unsigned long clock_time = read_cntpct_el0();
+	unsigned long clock_rate = read_cntfrq_el0();
+	unsigned long usecs = clock_time / (clock_rate / USECS_IN_SEC);
+
+	return usecs;
+}
+
 /* Print timestamp from AP CNTPCT_EL0 timer */
 static void _plat_print_timestamp(void)
 {
@@ -574,10 +584,7 @@ static void _plat_print_timestamp(void)
 	const unsigned long USECS_IN_MIN = 60 * USECS_IN_SEC;
 	const unsigned long USECS_IN_HOUR = 60 * USECS_IN_MIN;
 	const unsigned long USECS_IN_DAY = 24 * USECS_IN_HOUR;
-
-	unsigned long clock_time = read_cntpct_el0();
-	unsigned long clock_rate = read_cntfrq_el0();
-	unsigned long usecs = clock_time / (clock_rate / USECS_IN_SEC);
+	unsigned long usecs = get_usecs();
 
 	unsigned long days = usecs / USECS_IN_DAY;
 

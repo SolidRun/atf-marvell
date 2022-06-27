@@ -81,6 +81,11 @@ enum direct_mode_operation {
 #define SPI_OP_COUNT 2048
 #define BLOCK_OP_COUNT 64
 
+#define SPI_OP_CALLBACK_CONTINUE 0x00
+#define SPI_OP_CALLBACK_FINISHED 0x01
+#define SPI_OP_CALLBACK_ERROR    0x02
+#define SPI_OP_CALLBACK_NA       0xFF
+
 /* Lelvel 2 descriptors */
 enum delayed_spi_op_type {
 	SPI_OP_ERASE,
@@ -89,6 +94,7 @@ enum delayed_spi_op_type {
 	SPI_OP_UPDATE,
 	SPI_OP_UPDATE_VERIFY,    //Updat verify block - aligned
 	SPI_OP_UPDATE_VERIFY_NA, //Update verify block - not aligned
+	SPI_OP_CALLBACK,
 	SPI_OP_NONE,
 };
 
@@ -111,6 +117,7 @@ enum delayed_block_op_type {
 	BLOCK_WRITE_SPI,
 	BLOCK_READ_SPI,
 	BLOCK_UPDATE_SPI,
+	BLOCK_CALLBACK,
 	BLOCK_NONE,
 };
 
@@ -130,10 +137,21 @@ struct delayed_block_params {
 	int cs;
 };
 
+struct delayed_callbacks {
+	int (*callback_initial)(void *param);
+	void *initial_ptr;
+	bool initial_executed;
+	int (*callback_continuous)(void *param);
+	void *continuous_ptr;
+	bool time_tracking;
+	int max_usec_time;
+};
+
 struct delayed_block_op {
 	enum delayed_block_op_type type;
 	enum delayed_block_op_status status;
 	struct delayed_block_params param;
+	struct delayed_callbacks dc;
 	int (*block_callback)(void*, int, struct delayed_block_params *);
 	void *block_cb_params;
 };
@@ -179,6 +197,11 @@ void spi_async_add_block_read(int bus, int cs, uint64_t spi_addr, void *mem_addr
 void spi_async_add_block_update(int bus, int cs, uint64_t spi_addr, void *mem_addr, uint64_t size,
 			      int (*block_callback)(void*, int, struct delayed_block_params *),
 			      void *cb_params);
+void spi_async_add_block_callback(int (*callback)(void*, int, struct delayed_block_params *),
+				  void *cb_params,
+				  int (*callback_init)(void *), void *cb_init,
+				  int (*callback_cont)(void *), void *cb_cont,
+				  uint64_t callback_tmax_usec);
 int spi_async_init_delayed(void);
 bool spi_async_working(void);
 
