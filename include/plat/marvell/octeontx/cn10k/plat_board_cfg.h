@@ -241,6 +241,10 @@ typedef struct persist_data_config {
 	uint8_t rsvd0;
 } persist_data_cfg_t;
 
+typedef struct ppr_config{
+	uint32_t is_enabled;
+} ppr_config_t;
+
 typedef struct plat_octeontx_board_cfg {
 	board_cfg_t bcfg;
 	rvu_config_t rvu_config;
@@ -261,6 +265,7 @@ typedef struct plat_octeontx_board_cfg {
 	int asym_mem_config;
 	usb_config_t usb_cfg[MAX_USB_BUS];
 	ras_config_t ras_config;
+	ppr_config_t ppr_config;
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;

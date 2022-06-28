@@ -987,6 +987,9 @@ err1:
  */
 void ppr_fw_init(void)
 {
+	if (!plat_octeontx_bcfg->ppr_config.is_enabled)
+		return;
+
 	if (plat_octeontx_bcfg->persist_cfg.valid) {
 		bus = plat_octeontx_bcfg->persist_cfg.bus;
 		cs = plat_octeontx_bcfg->persist_cfg.cs;

@@ -1777,6 +1777,15 @@ static void cn10k_parse_usb_config(const void *fdt_addr)
 	}
 }
 
+static void cn10k_parse_ppr_config(const void *fdt_addr)
+{
+	long is_enabled= cn10k_fdtebf_get_num(fdt_addr, "DDR-PPR-EN", 10);
+	if (is_enabled == 1)
+		plat_octeontx_bcfg->ppr_config.is_enabled = 1;
+	else
+		plat_octeontx_bcfg->ppr_config.is_enabled = 0;
+}
+
 static void cn10k_fill_twsi_slave_details(const void *fdt)
 {
 	int twssl_bus, twssl_addr;
@@ -3061,6 +3070,9 @@ int plat_octeontx_fill_board_details(void)
 
 	plat_octeontx_bcfg->do_switch_reset = cn10k_fdtebf_get_num(fdt,
 						 "SWITCH-MICROINIT", 10);
+
+	/* Parse PPR configuration */
+	cn10k_parse_ppr_config(fdt);
 
 	return 0;
 }
