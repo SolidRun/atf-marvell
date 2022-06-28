@@ -308,12 +308,24 @@ struct eth_link_modes_s {
 };
 
 /* Resp to cmd ID - ETH_CMD_GET_ADV_FEC/ETH_CMD_GET_SUPPORTED_FEC
- * fec : 2 bits
+ * FEC : 2 bits
+ * For CN9XX, below are the possible FEC types
+ *
  * typedef enum cgx_fec_type {
- *     CGX_FEC_NONE,
- *     CGX_FEC_BASE_R,
- *     CGX_FEC_RS
+ *     CGX_FEC_NONE = 0,
+ *     CGX_FEC_BASE_R = 1,
+ *     CGX_FEC_RS = 2,
+ *     CGX_FEC_BASE_R_RS = 3
  * } fec_type_t;
+ *
+ *  For CN10K, below are the possible FEC types
+ *
+ * typedef enum {
+ *	PORTM_FEC_DISABLED = 0,
+ *	PORTM_FEC_BASER = 1,
+ *	PORTM_FEC_RS = 2,
+ *	PORTM_FEC_BASER_RS = 3,
+ * } cn10k_portm_fec_t;
  */
 struct eth_fec_types_s {
 	uint64_t reserved1:9;
@@ -515,13 +527,27 @@ struct eth_set_mode_args {
 	uint64_t mode:56; /* Bitmask of eth_mode_t enum */
 };
 
-/* Resp to cmd ID - ETH_CMD_GET_ADV_FEC/ETH_CMD_GET_SUPPORTED_FEC
- * fec : 2 bits
+/*
+ * Resp to cmd ID - ETH_CMD_GET_ADV_FEC/ETH_CMD_GET_SUPPORTED_FEC
+ * FEC : 2 bits
+ *
+ *  For CN9XX, below are the possible FEC types
+ *
  * typedef enum cgx_fec_type {
- *     CGX_FEC_NONE,
- *     CGX_FEC_BASE_R,
- *     CGX_FEC_RS
+ *     CGX_FEC_NONE = 0,
+ *     CGX_FEC_BASE_R = 1,
+ *     CGX_FEC_RS = 2,
+ *     CGX_FEC_BASE_R_RS = 3
  * } fec_type_t;
+ *
+ *  For CN10K, below are the possible FEC types
+ *
+ * typedef enum {
+ *	PORTM_FEC_DISABLED = 0,
+ *	PORTM_FEC_BASER = 1,
+ *	PORTM_FEC_RS = 2,
+ *	PORTM_FEC_BASER_RS = 3,
+ * } cn10k_portm_fec_t;
  */
 /* command argument to be passed for cmd ID - ETH_CMD_SET_FEC */
 struct eth_set_fec_args {

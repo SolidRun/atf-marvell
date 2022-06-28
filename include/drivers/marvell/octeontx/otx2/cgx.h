@@ -157,8 +157,9 @@ enum cgx_prbs_cmd {
 /* enum declaration for FEC */
 typedef enum cgx_fec_type {
 	CGX_FEC_NONE = 0,
-	CGX_FEC_BASE_R,
-	CGX_FEC_RS
+	CGX_FEC_BASE_R = 1,
+	CGX_FEC_RS = 2,
+	CGX_FEC_BASE_R_RS = 3	/* For KR/CR modes */
 } fec_type_t;
 
 /* structure declarations */
