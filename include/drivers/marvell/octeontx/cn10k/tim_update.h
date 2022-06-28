@@ -287,6 +287,8 @@ struct smc_version_info_entry {
  */
 #define SMC_VERSION_FORCE_COPY_OBJECTS		BIT(7)
 
+#define SMC_VERSION_ASYNC_OPERATION             BIT(8)
+
 /**
  * Maximum number of objects that can return the version info
  */
