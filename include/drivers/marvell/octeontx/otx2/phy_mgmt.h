@@ -246,7 +246,7 @@ typedef struct phy_drv {
 	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 	*/
 #ifdef ATF_ENABLE_MAC_ADV_CMDS
-	void (*mac_adv_cmds)(int eth_id, int lmac_id, void *adv_cmd_data, int size);
+	int (*mac_adv_cmds)(int eth_id, int lmac_id, void *adv_cmd_data, int size);
 #endif
 } phy_drv_t;
 

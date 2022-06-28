@@ -27,9 +27,15 @@
 #include "mzdFwImages.h"
 #include "mzdHwSerdesCntl.h"
 #include "mzdFEC.h"
-
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+#include "macsec/phy_marvell_7121_macsec_api.h"
+#endif
 /* 7121 PHY Device Stucture */
 MZD_DEV mzd_dev;
+
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+phy_7121_macsec_drv_t phy_7121_macsec_drv[MAX_CGX][MAX_LMAC_PER_CGX];
+#endif
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 typedef struct phy_pkt_gen_config {
@@ -167,6 +173,9 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 	MZD_U8 major, minor, buildID;
 	MZD_U32 x7121_serdes_image_size;
 	MZD_DEV_PTR pdev = &mzd_dev;
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+	phy_7121_macsec_drv_t *phy_macsec_drv;
+#endif
 
 	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
 
@@ -179,6 +188,18 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 	if (pdev->devEnabled)
 	{
 		debug_phy_driver("%s: %d:%d Device Already Enabled\n ", __func__, cgx_id, lmac_id);
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+		phy_macsec_drv = &phy_7121_macsec_drv[cgx_id][lmac_id];
+		if (phy_macsec_drv != NULL) {
+			debug_phy_driver("%s: %d:%d Assigned phy_macsec_drv 0x%p\n ", __func__,
+					cgx_id, lmac_id, phy_macsec_drv);
+			phy_7121_macsec_drv_init(phy_macsec_drv);
+			phy->phy_7121_macsec = phy_macsec_drv;
+		} else
+			ERROR("%s: phy_7121_macsec_drv struct NULL\n", __func__);
+#endif
+		debug_phy_driver("%s: %d:%d phy->addr %d Init Done\n ", __func__,
+				cgx_id, lmac_id, phy->addr);
 		return;
 	}
 
@@ -228,6 +249,16 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 	if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "cn98xx-pcie-crb", 15))
 		set_serdes_mux_cn98xx_pcie_crb(phy->priv);
 
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+	phy_macsec_drv = &phy_7121_macsec_drv[cgx_id][lmac_id];
+	if (phy_macsec_drv != NULL) {
+		debug_phy_driver("%s: %d:%d Assigned phy_macsec_drv 0x%p\n ",
+				__func__, cgx_id, lmac_id, phy_macsec_drv);
+		phy_7121_macsec_drv_init(phy_macsec_drv);
+		phy->phy_7121_macsec = phy_macsec_drv;
+	} else
+		ERROR("%s: phy_7121_macsec_drv struct NULL\n", __func__);
+#endif
 	debug_phy_driver("%s: %d:%d phy->addr %d Init Done\n ", __func__, cgx_id, lmac_id, phy->addr);
 	return;
 }
@@ -458,7 +489,7 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 	MZD_DEV_PTR mzd_dev_p;
 	PMZD_MODE_CONFIG mzd_mode_config;
 
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	//debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
 
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 	phy = &lmac_cfg->phy_config;
@@ -466,8 +497,8 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 	//lane = lmac_cfg->lane_to_sds & 3;
 	lane = phy -> port;
 
-	debug_phy_driver("%s: %d:%d phy->addr %d lane %d \n",
-			 __func__, cgx_id, lmac_id, phy->addr, lane);
+	//debug_phy_driver("%s: %d:%d phy->addr %d lane %d\n",
+	//		 __func__, cgx_id, lmac_id, phy->addr, lane);
 
 	link->u64 = 0;
 
@@ -480,16 +511,16 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 
 	if (status != MZD_OK) {
 		ERROR("%s: %d:%d mzdGetDetailedLinkStatus failed for lane %d.\n",
-		      __func__, cgx_id, lmac_id, lane);
+		__func__, cgx_id, lmac_id, lane);
 		return;
 	}
 
 
-        debug_phy_driver("%s: %d:%d phy->addr %d lane %d currentStatus %d latchedStatus %d\n",
-		 __func__, cgx_id, lmac_id, phy->addr, lane, currentStatus, latchedStatus);
+	//debug_phy_driver("%s: %d:%d phy->addr %d lane %d currentStatus %d latchedStatus %d\n",
+	//	 __func__, cgx_id, lmac_id, phy->addr, lane, currentStatus, latchedStatus);
 
 	if (currentStatus != MZD_LINK_UP) {
-		debug_phy_driver("%s: %d:%d  Link Not Up", __func__,cgx_id, lmac_id);
+		//debug_phy_driver("%s: %d:%d  Link Not Up", __func__,cgx_id, lmac_id);
 		return;
 	}
 
@@ -551,8 +582,9 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 		      mzd_mode_config->speed);
 		break;
 	}
-	debug_phy_driver("%s: %d:%d phy->addr %d lane %d speed %d  Exit\n",
-			 __func__, cgx_id, lmac_id, phy->addr, lane, link->s.speed);
+	//debug_phy_driver("%s: %d:%d phy->addr %d lane %d speed %d  Exit\n",
+//			 __func__, cgx_id, lmac_id, phy->addr, lane, link->s.speed);
+
 }
 
 void phy_marvell_7121_supported_modes(int cgx_id, int lmac_id)
@@ -574,6 +606,136 @@ void phy_marvell_7121_supported_modes(int cgx_id, int lmac_id)
 			(1 << ETH_MODE_100G_C2C_BIT) |
 			(1 << ETH_MODE_100G_C2M_BIT));
 }
+
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+int phy_7121_mac_adv_cmd_hndl(int cgx_id,
+				int lmac_id,
+				void *adv_cmd_data,
+				int size)
+{
+//	MZD_U16 channel_id;
+	phy_config_t *phy;
+	MZD_U16 lane_offset;
+	MZD_STATUS status = MZD_OK;
+	phy_7121_adv_cmds_t *adv_cmds = (phy_7121_adv_cmds_t *) adv_cmd_data;
+	phy_7121_macsec_drv_t *phy_macsec_drv;
+
+	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+
+	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
+	//phy->phy_7121_macsec = &phy_7121_macsec_drv[cgx_id][lmac_id];
+	lane_offset = phy->port;
+	phy_macsec_drv = (phy_7121_macsec_drv_t *) phy->phy_7121_macsec;
+
+	if (phy_macsec_drv == NULL) {
+		ERROR("%s: phy_7121_macsec_drv struct NULL\n", __func__);
+		return MZD_FAIL;
+	}
+
+	debug_phy_driver("%s: adv_cmds->mac_adv_cmd %d\n", __func__, adv_cmds->mac_adv_cmd);
+	switch (adv_cmds->mac_adv_cmd) {
+	case PHY_MAC_ADV_MACSEC_TEST:
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_TEST\n", __func__);
+		status = phy_7121_test_macsec_enable_engines(phy->priv,
+						phy->port,
+						lane_offset);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_BYPASS:
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_BYPASS\n", __func__);
+		status = phy_7121_macsec_op_api(cgx_id,
+						lmac_id,
+						adv_cmds->mac_adv_cmd,
+						phy_macsec_drv);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_ENABLE:
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_ENABLE\n", __func__);
+
+		debug_phy_driver(" PHY_MAC_ADV_MACSEC_ENABLE  Program Key Ingress =%s size %d\n",
+					phy_macsec_drv->transform_params_ingress.Key_p,
+					phy_macsec_drv->transform_params_ingress.KeyByteCount);
+		status = phy_7121_macsec_op_api(cgx_id,
+					lmac_id,
+					adv_cmds->mac_adv_cmd,
+					phy_macsec_drv);
+		if (status == MZD_OK)
+			printf("cgx %d lmac %d MACsec Enabled\n", cgx_id, lmac_id);
+		else
+			printf("cgx %d lmac %d MACsec Enable Failed Status %d\n",
+							cgx_id, lmac_id, status);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_SET_MAC_DA:
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_SET_MAC_DA\n", __func__);
+		status = phy_7121_macsec_set_mac_da_api(phy_macsec_drv,
+					&adv_cmds->data.mac);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_SET_KEY:
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_SET_KEY\n", __func__);
+		status = phy_7121_macsec_set_key_api(phy_macsec_drv,
+					&adv_cmds->data.key);
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_SET_KEY "
+				" adv_cmds->data.key.key_size %d\n", __func__,
+				adv_cmds->data.key.key_size);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_RE_KEY:
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_RE_KEY\n", __func__);
+		debug_phy_driver("%s: phy_macsec_drv->mac_ingress_true %d phy_macsec_drv->mac_egress_true %d\n",
+				__func__, phy_macsec_drv->mac_ingress_true, phy_macsec_drv->mac_egress_true);
+
+		if ((phy_macsec_drv->sa_params_ingress_true == true) &&
+			( phy_macsec_drv->sa_params_egress_true == true)) {
+			status = phy_7121_macsec_rekey(phy_macsec_drv);
+		} else {
+			printf("PHY_MAC_ADV_MACSEC_RE_KEY: Missing Ingress And/Or Egress key\n");
+			return MZD_FAIL;
+		}
+		break;
+
+	case PHY_MAC_ADV_MACSEC_PKT_TEST:
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_PKT_TEST\n", __func__);
+		status = phy_7121_macsec_pkt_test(cgx_id,
+					lmac_id,
+					adv_cmds->data.pkttest_cmd.cmd);
+
+		break;
+	case PHY_MAC_ADV_MAC_GET_STATS:
+		debug_phy_driver("%s: PHY_MAC_ADV_MAC_GET_STATS\n", __func__);
+		debug_phy_driver("\n *********** MAC STATS *****************\n");
+		status = phy_7121_get_mac_stats(phy->priv,
+						phy->port,
+						lane_offset);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_GET_STATS:
+		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_GET_STATS\n", __func__);
+		debug_phy_driver("\n *********** MAC SEC STATS *************\n");
+		status = phy_7121_macsec_stats(cgx_id,
+						lmac_id,
+						phy_macsec_drv);
+		break;
+
+	default:
+		debug_phy_driver("%s: ERROR Incorrect commands %d\n",
+					__func__, adv_cmds->mac_adv_cmd);
+		break;
+	}
+
+//phy_7121_mac_adv_cmd_hndl_error:
+	if (status !=  MZD_OK)  {
+		debug_phy_driver("%s: %d:%d failed  status %d\n", __func__,
+						cgx_id, lmac_id, status);
+		return MZD_FAIL;
+	}
+
+	printf("%s: Exit %d:%d Status %d\n", __func__, cgx_id, lmac_id, status);
+
+	return MZD_OK;
+}
+#endif /* ATF_ENABLE_MAC_ADV_CMDS */
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 
@@ -1249,8 +1411,7 @@ static int phy_marvell_7121_enable_prbs(int cgx_id, int lmac_id,
 	enable_rx = dir & QLM_DIRECTION_RX;
 
 	/* set the PRBS pattern. */
-	MZD_ATTEMPT(mzdSetPRBSPattern(
-					pDev,
+	MZD_ATTEMPT(mzdSetPRBSPattern(pDev,
 					phy->addr,
 					host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
 					lane,
@@ -1259,16 +1420,14 @@ static int phy_marvell_7121_enable_prbs(int cgx_id, int lmac_id,
 
 	/* Wait for lock */
 	disableWaitforLock = 0;
-	MZD_ATTEMPT(mzdSetPRBSWaitForLock(
-						pDev,
-						phy->addr,
-						host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
-						lane,
-						disableWaitforLock));
+	MZD_ATTEMPT(mzdSetPRBSWaitForLock(pDev,
+					phy->addr,
+					host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
+					lane,
+					disableWaitforLock));
 
 	/* Enable PRBS tx/rx */
-	MZD_ATTEMPT(mzdSetPRBSEnableTxRx(
-					pDev,
+	MZD_ATTEMPT(mzdSetPRBSEnableTxRx(pDev,
 					phy->addr,
 					host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
 					lane,
@@ -1311,27 +1470,24 @@ static int phy_marvell_7121_disable_prbs(int cgx_id, int lmac_id,
 	prbs_sel = phy_marvell_7121_get_prbs_selector(prbs);
 
 	/* Disable the PRBS */
-	MZD_ATTEMPT(mzdSetPRBSEnableTxRx(
-						pDev,
-						phy->addr,
-						host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
-						lane,
-						MZD_DISABLE, /* TX */
-						MZD_DISABLE, /* RX */
-						prbs_sel));
-
-	/* Do a lane soft reset */
-	waitTimer = 10;
-	MZD_ATTEMPT(mzdLaneSoftReset(
-					pDev,
+	MZD_ATTEMPT(mzdSetPRBSEnableTxRx(pDev,
 					phy->addr,
 					host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
 					lane,
-					waitTimer));
+					MZD_DISABLE, /* TX */
+					MZD_DISABLE, /* RX */
+					prbs_sel));
+
+	/* Do a lane soft reset */
+	waitTimer = 10;
+	MZD_ATTEMPT(mzdLaneSoftReset(pDev,
+				phy->addr,
+				host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
+				lane,
+				waitTimer));
 
 	return 0;
 }
-
 
 static uint64_t phy_marvell_7121_get_prbs_errors(int cgx_id, int lmac_id,
 			int host_side, int clear, int prbs)
@@ -1356,27 +1512,25 @@ static uint64_t phy_marvell_7121_get_prbs_errors(int cgx_id, int lmac_id,
 
 	prbs_sel = phy_marvell_7121_get_prbs_selector(prbs);
 
-	MZD_ATTEMPT(mzdGetPRBSLocked(
-					pDev,
-					phy->addr,
-					host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
-					lane,
-					&prbsLocked));
+	MZD_ATTEMPT(mzdGetPRBSLocked(pDev,
+				phy->addr,
+				host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
+				lane,
+				&prbsLocked));
 	if (!prbsLocked) {
 		WARN("CGX%d(%d): did not get PRBS lock on %s side\n",
 			cgx_id, lane, host_side ? "host":"line");
 		return -1;
 	}
 
-	MZD_ATTEMPT(mzdGetPRBSCounts(
-					pDev,
-					phy->addr,
-					host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
-					lane,
-					prbs_sel,
-					&txBitCount,
-					&rxBitCount,
-					&rxBitErrorCount));
+	MZD_ATTEMPT(mzdGetPRBSCounts(pDev,
+				phy->addr,
+				host_side ? MZD_HOST_SIDE : MZD_LINE_SIDE,
+				lane,
+				prbs_sel,
+				&txBitCount,
+				&rxBitCount,
+				&rxBitErrorCount));
 
 	printf("%s side PRBS stats:\n"
 		"txBitCount:%llu\n"
@@ -1410,17 +1564,20 @@ phy_drv_t marvell_7121_drv = {
 		.reset			= phy_generic_reset,
 		.get_link_status	= phy_marvell_7121_get_link_status,
 		.set_supported_modes	= phy_marvell_7121_supported_modes,
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
+		.mac_adv_cmds           = phy_7121_mac_adv_cmd_hndl,
+#endif
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 		.get_temp		= phy_marvell_7121_get_temp,
 		.set_loopback		= phy_marvell_7121_set_loopback,
-		.get_eye			= phy_marvell_7121_get_eye,
-		.pkt_gen			= phy_marvell_7121_pkt_gen,
+		.get_eye		= phy_marvell_7121_get_eye,
+		.pkt_gen		= phy_marvell_7121_pkt_gen,
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 #if defined(DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS) ||\
 	defined(DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS)
 		.enable_prbs		= phy_marvell_7121_enable_prbs,
 		.disable_prbs		= phy_marvell_7121_disable_prbs,
-		.get_prbs_errors		= phy_marvell_7121_get_prbs_errors,
+		.get_prbs_errors	= phy_marvell_7121_get_prbs_errors,
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS ||
 	* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
 	*/
