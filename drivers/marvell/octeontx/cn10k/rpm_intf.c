@@ -1058,27 +1058,13 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 
-	/* FIXME: KR/CR modes and some CN9XX specific modes are not supported.
+	/* Some CN9XX specific modes are not supported.
 	 * Exclude them from supported link modes
 	 */
-	modes_exclude = (BIT_64(ETH_MODE_25G_CR_BIT) |
-				BIT_64(ETH_MODE_25G_KR_BIT) |
-				BIT_64(ETH_MODE_25GBASE_CR_C_BIT) |
-				BIT_64(ETH_MODE_25GBASE_KR_C_BIT) |
-				BIT_64(ETH_MODE_50G_CR_BIT) |
-				BIT_64(ETH_MODE_50G_KR_BIT) |
-				BIT_64(ETH_MODE_40G_CR4_BIT) |
-				BIT_64(ETH_MODE_40G_KR4_BIT) |
-				BIT_64(ETH_MODE_100G_CR4_BIT) |
-				BIT_64(ETH_MODE_100G_KR4_BIT) |
-				BIT_64(ETH_MODE_80GAUI_C2C_BIT) |
+	modes_exclude = (BIT_64(ETH_MODE_80GAUI_C2C_BIT) |
 				BIT_64(ETH_MODE_25G_2_C2C_BIT) |
 				BIT_64(ETH_MODE_50G_4_C2C_BIT) |
-				BIT_64(ETH_MODE_40GAUI_C2C_BIT) |
-				BIT_64(ETH_MODE_50GBASE_CR2_C_BIT) |
-				BIT_64(ETH_MODE_50GBASE_KR2_C_BIT) |
-				BIT_64(ETH_MODE_100GBASE_CR2_BIT) |
-				BIT_64(ETH_MODE_100GBASE_KR2_BIT));
+				BIT_64(ETH_MODE_40GAUI_C2C_BIT));
 
 	/* FIXME */
 	if (lmac_cfg->phy_present && lmac_cfg->phy_config)
