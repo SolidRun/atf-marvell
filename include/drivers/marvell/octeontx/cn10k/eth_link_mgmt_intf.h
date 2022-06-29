@@ -155,6 +155,8 @@ typedef enum link_state {
 	ETH_LINK_STATE_GSERM_FAILURE = 51,
 	ETH_LINK_STATE_TXEQ_CHANGE = 52,
 	ETH_LINK_STATE_TXEQ_FAILURE = 53,
+	ETH_LINK_STATE_RX_INIT_WAIT = 54,
+	ETH_LINK_STATE_RX_TRAIN_WAIT = 55,
 } ecp_link_state_enum_t;
 
 typedef enum ecp_aneg_state {
