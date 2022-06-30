@@ -1430,6 +1430,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		      is_root_tim ? "Root " : "",
 		      object->data_file->filename, offset);
 		object->update_all = true;
+		uret = UPDATE_OK;
 		goto done;
 	}
 	if (uret == UPDATE_TIM_ERROR) {
@@ -1464,12 +1465,14 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	uret = verify_hash(desc, fl_li, NULL, NULL);
 	if (uret == UPDATE_AUTH_ERROR) {
 		UERROR("Hash mismatch for %s\n", object->data_file->filename);
+		uret = UPDATE_OK;
 		goto done;
 
 	} else if (uret != UPDATE_OK) {
 		/* Something else went wrong */
 		UERROR("Error %d finalizing verification for %s\n",
 		       uret, object->data_file->filename);
+		uret = UPDATE_OK;
 		goto done;
 	}
 
