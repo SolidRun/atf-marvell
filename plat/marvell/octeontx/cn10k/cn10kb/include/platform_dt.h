@@ -22,7 +22,7 @@
 #define MAX_PORTM		6
 #define MAX_REFCLK		3 /* Qty of REF_CLK's */
 
-#define MAX_LMAC_PER_RPM	4 /* FIXME */
+#define MAX_LMAC_PER_RPM	8
 #define MAX_LANES_PER_PORTM	4
 
 /* Total number of Hardware VFs */
