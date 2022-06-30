@@ -213,7 +213,6 @@ void plat_add_mmio(void)
 	int i, device_type_count;
 	cavm_tad_cmn_const_t tcc = { .u = CSR_READ(CAVM_TAD_CMN_CONST) };
 
-	NOTICE("in %s\n", __func__);
 #ifdef ENABLE_RECORD_FWLOG
 #ifdef IMAGE_BL31
 	mmap_add_region(FWLOG_SEC_BASE,
