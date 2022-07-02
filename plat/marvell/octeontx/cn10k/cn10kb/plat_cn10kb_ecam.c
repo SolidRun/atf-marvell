@@ -50,10 +50,6 @@ static int ecam_probe_rpm(unsigned long long arg)
 	int rpm_idx;
 	rpm_config_t *rpm;
 
-	/* Enable RPM2 which is same as previous RPM MAC */
-	if (arg != 2)
-		return 0;
-
 	debug_plat_ecam("%s arg %lld\n", __func__, arg);
 
 	rpm_idx = arg;
@@ -82,7 +78,7 @@ static int ecam_probe_usb(unsigned long long arg)
 }
 
 struct ecam_probe_callback probe_callbacks[] = {
-	{0xa060, 0x177d, ecam_probe_rpm, 0},
+	{0xa09f, 0x177d, ecam_probe_rpm, 0},
 	{0xa01b, 0x177d, ecam_probe_usb, 0},
 	{ECAM_INVALID_DEV_ID, 0, 0, 0}
 };
@@ -332,7 +328,7 @@ static void init_xspi(uint64_t config_base, uint64_t config_size)
 
 struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa00a, 0x177d, init_gpio},
-	{0xa060, 0x177d, init_rpm}, /* 0x60 - PCC_DEV_IDL_E::RPM */
+	{0xa09f, 0x177d, init_rpm}, /* 0x9f - PCC_DEV_IDL_E::RPM */
 	{0xa065, 0x177d, init_rvu}, /* 0x65 - PCC_DEV_IDL_E::RVU_AF */
 	{0xa063, 0x177d, init_rvu_rid}, /* 0x63 - PCC_DEV_IDL_E::RVU */
 	{0xa0f2, 0x177d, init_cpt_rid}, /* 0xf2 - PCC_DEV_IDL_E::RVU_CPT10_PF */
