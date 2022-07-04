@@ -76,7 +76,7 @@ enum direct_mode_operation {
 	CDNS_DIRECT_READ,
 };
 
-
+#if (defined(PLAT_CN10K_FAMILY))
 /* Params for delayed SPI operations */
 #define SPI_OP_COUNT 2048
 #define BLOCK_OP_COUNT 64
@@ -155,7 +155,7 @@ struct delayed_block_op {
 	int (*block_callback)(void*, int, struct delayed_block_params *);
 	void *block_cb_params;
 };
-
+#endif
 
 
 void prepare_opcomands(int spi_con, int cs, uint64_t end_spi_addr);

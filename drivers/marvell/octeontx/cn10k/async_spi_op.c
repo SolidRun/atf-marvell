@@ -3,6 +3,7 @@
 #include <string.h>
 #include <debug.h>
 
+#include <platform_def.h>
 #include <spi.h>
 #include <timers.h>
 #include <drivers/delay_timer.h>
