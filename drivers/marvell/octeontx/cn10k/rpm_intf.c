@@ -1274,6 +1274,21 @@ static int rpm_get_validated_portm_mode(int portm_idx, uint64_t req_mode,
 	return portm_mode;
 }
 
+static void update_gserm_scratch_reg(int portm_idx)
+{
+	portm_config_t *portm;
+	int gserm_idx, lane_idx, speed_mhz;
+	gserm_state_lane_t gserm_state;
+
+	portm = &plat_octeontx_bcfg->portm_cfg[portm_idx];
+	gserm_idx = portm->gserm;
+	lane_idx = portm->lane_map & 0xF;
+	speed_mhz = cn10k_portm_get_mode_desc_speed_mhz(portm->portm_mode);
+
+	gserm_state = gserm_build_state(portm->portm_mode, speed_mhz, 0);
+	gserm_set_state(gserm_idx, lane_idx, gserm_state);
+}
+
 static int rpm_handle_cpri_mode_change(int portm_idx,
 				struct eth_mode_change_args *args)
 {
@@ -1345,6 +1360,9 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 	if (rpm_update_flash_mode_param_by_portm_idx(portm_idx, portm->portm_mode))
 		debug_rpm_intf("%s: PORTM%d Flash update mode failed\n",
 			__func__, portm_idx);
+
+	/* Update GSERM scratchpad register with port config */
+	update_gserm_scratch_reg(portm_idx);
 
 	return 0;
 }
@@ -1547,6 +1565,9 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	if (rpm_update_flash_mode_param(rpm_id, lmac_id, portm->portm_mode))
 		debug_rpm_intf("%s: %d:%d Flash update mode failed\n", __func__,
 			rpm_id, lmac_id);
+
+	/* Update GSERM scratchpad register with port config */
+	update_gserm_scratch_reg(portm_idx);
 
 	return 0;
 mode_err:
