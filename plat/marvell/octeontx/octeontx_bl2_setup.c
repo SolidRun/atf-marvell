@@ -615,8 +615,7 @@ void bl2_platform_setup(void)
 
 #if defined(PLAT_CN10K_FAMILY)
 	/* Reserve RAS memory after RVU */
-	if (cavm_is_platform(PLATFORM_HW))
-		plat_initialize_ghes_hest_area();
+	plat_initialize_ghes_hest_area();
 
 	dump_ccs_region_config();
 #endif

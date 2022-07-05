@@ -863,6 +863,12 @@ void plat_initialize_ghes_hest_area(void)
 		return;
 	}
 
+	if (!cavm_is_platform(PLATFORM_HW)) {
+		fdt_del_node((void *) fdt, ghes_dev_off);
+		fdt_del_node((void *) fdt, ghes_off);
+		return;
+	}
+
 	/* Retrieve GHES area DT settings */
 	ghes_base = ghes_size = 0;
 	freg64 = fdt_getprop(fdt, ghes_off, "reg", &freg_len);
