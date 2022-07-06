@@ -1937,8 +1937,6 @@ static int octeontx2_cgx_get_phy_info(void *fdt, int lmac_offset, int cgx_idx, i
 	cgx_lmac_config_t *lmac;
 	int phy_offset, mux_offset;
 	char phyname[16];
-	int mdio_bus_offset;
-	int lenp;
 	phy_config_t *phy;
 
 	lmac = &plat_octeontx_bcfg->cgx_cfg[cgx_idx].lmac_cfg[lmac_idx];
@@ -1973,27 +1971,20 @@ static int octeontx2_cgx_get_phy_info(void *fdt, int lmac_offset, int cgx_idx, i
 		}
 
 		/* Check if MDIO bus, the PHY is on, has the "mdio-in-kernel"
-		 * attribute specified. If yes, then skip parsing the PHY.
-		 * Otherwise both, bus and the PHY, are going to be trimmed
-		 * from the Linux dts.
+		 * attribute specified (hence is not marked for removal).
+		 * If yes, then skip parsing the PHY. Otherwise both, bus and
+		 * the PHY, are going to be trimmed from the Linux dts.
 		 */
-		mdio_bus_offset = fdt_parent_offset(fdt, phy_offset);
-		if (fdt_get_property(fdt,
-				mdio_bus_offset, "mdio-in-kernel", &lenp)) {
+		if (!mdio_trim_list[phy->mdio_bus]) {
 
 			debug_dts("%s: %d:%d PHY parsing skipped. "
 					"MDIO bus managed in kernel\n",
 					__func__, cgx_idx, lmac_idx);
 			return 1;
-		} else if (lenp == -FDT_ERR_NOTFOUND) {
-
-			/* Update the list of MDIO bus nodes to be trimmed */
-			if (!mdio_trim_list[phy->mdio_bus])
-				mdio_trim_list[phy->mdio_bus] = mdio_bus_offset;
-
-			/* Remove the reference to the PHY from the lmac node */
-			fdt_nop_property(fdt, lmac_offset, phyname);
 		}
+
+		/* Remove the reference to the PHY from the lmac node */
+		fdt_nop_property(fdt, lmac_offset, phyname);
 
 		for (int i = 0; i < ARRAY_SIZE(phy_compat_list); i++) {
 			if (!fdt_node_check_compatible(fdt, phy_offset,
@@ -2343,7 +2334,7 @@ static void octeontx2_cgx_check_linux(void *fdt)
 {
 	int i;
 	cgx_config_t *cgx;
-	int offset, cgx_offset;
+	int offset, cgx_offset, mdio_nexus_of, mdio_of;
 	int fdt_vfs = 0;
 	char name[16];
 
@@ -2356,6 +2347,28 @@ static void octeontx2_cgx_check_linux(void *fdt)
 	if (offset < 0) {
 		ERROR("DT: Unable to find mrml_bridge node.\n");
 		return;
+	}
+
+	mdio_nexus_of = fdt_subnode_offset(fdt, offset, "mdio-nexus");
+	mdio_of = fdt_first_subnode(fdt, mdio_nexus_of);
+	while (mdio_of > 0) {
+		int bus, phy_of, lenp;
+
+		phy_of = fdt_first_subnode(fdt, mdio_of);
+		bus = octeontx2_fdt_get_bus(fdt, phy_of, -1, -1);
+		if (bus >= 0 && bus < MDIO_NUM) {
+
+			/* Check if MDIO bus, has the "mdio-in-kernel" attribute specified.
+			 * If no, then mark the bus to be trimmed from the Linux dts.
+			 */
+			if (fdt_get_property(fdt, mdio_of, "mdio-in-kernel", &lenp)) {
+				debug_dts("%s: MDIO bus %d managed in kernel\n",
+					__func__, bus);
+			} else if (lenp == -FDT_ERR_NOTFOUND && !mdio_trim_list[bus]) {
+				mdio_trim_list[bus] = mdio_of;
+			}
+		}
+		mdio_of = fdt_next_subnode(fdt, mdio_of);
 	}
 
 	for (i = 0; i < plat_octeontx_scfg->cgx_count; i++) {
@@ -2385,7 +2398,7 @@ static void octeontx2_cgx_check_linux(void *fdt)
 	for (i = 0; i < sfp_trim_list_size; i++)
 		fdt_nop_node(fdt, sfp_trim_list[i]);
 
-	/* Also, MDIO bus nodes that have no "mdio-in-kernel" attribute
+	/* MDIO bus nodes that were marked for removal
 	 * are trimmed along with their subnodes (PHYs).
 	 */
 	for (i = 0; i < MDIO_NUM; i++) {
