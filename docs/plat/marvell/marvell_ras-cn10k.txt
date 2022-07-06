@@ -9,8 +9,16 @@ the data being transferred, allowing a RAS-aware OS to handle the outage
 as it sees fit, by analyzing the context in which the data is being used.
 
 Errors in memory/cache transactions are detected by the hardware and handled
-by the firmware.  These can be correctable or uncorrectable 
-and result in a system notification.
+by the firmware.  These can be correctable (CE), uncorrectable unrecoverable (UEU) or
+uncorrectable recoverable (UER errors and result in a system notification.
+  CE error is single bit ECC error in memory or cache.
+  UEU error is double bit ECC error in secure memory region.
+  UER error is double bit ECC error in non-secure memory region.
+
+Note: Only DSS uncorrected errors(UE) are categorized by firmware as Uncorrected
+Unrecoverable(UEU) and Uncorrected Recoverable(UER) based on secure/non-secure
+attribute of the error address. Uncorrected errors from all other modules are
+treated as fatal in the current firmware implementation.
 
 The firmware enables exceptions in relevant CN10K hardware units
 CORE (ARM processor), DSS (DRAM subsystem, DRAM Controller), 

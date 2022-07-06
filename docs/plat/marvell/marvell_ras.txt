@@ -10,12 +10,19 @@ to handle the outage as it sees fit, by analysing the context in which the data
 is being used.
 
 Errors in memory/cache transactions are detected by the hardware and handled
-by the firmware.  These can be correctable or uncorrectable.
-Correctable errors are benign and result in a system notification.  However,
-uncorrectable errors compromise the integrity of the system; after recording
-the error data and sending a notification, the firmware will reset the system
-to prevent further damage.  The recorded error data are made available to
-Linux upon a subsequent boot (via the Boot Error Record Table - BERT).
+by the firmware.  These can be correctable (CE), uncorrectable unrecoverable (UEU) or
+uncorrectable recoverable (UER errors and result in a system notification.
+  CE error is single bit ECC error in memory or cache.
+  UEU error is double bit ECC error in secure memory region.
+  UER error is double bit ECC error in non-secure memory region.
+
+Note: Only MDC uncorrected errors(UE) are categorized by firmware as Uncorrected
+Unrecoverable(UEU) and Uncorrected Recoverable(UER) based on secure/non-secure
+attribute of the error address. Uncorrected errors from all other modules are
+treated as fatal in the current firmware implementation.
+
+The uncorrected errors are recorded and are made available to Linux upon subsequent
+boot (via the Boot Error Record Table - BERT).
 
 The firmware enables exceptions in relevant OcteonTX2 hardware units
 (MDC, MCC, LMC) and performs the following actions:
