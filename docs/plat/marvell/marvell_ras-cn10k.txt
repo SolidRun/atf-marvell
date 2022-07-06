@@ -68,17 +68,32 @@ corresponding table layout and initialization values like polling
 interval, Error Status Block address (8byte), actual Error Status Block, and
 Ring buffer memory block.
 
-CN10K RAS GHES Error injection
-==================================
+Configurations to enable RAS Error Reporting
+============================================
+Enable module config:
+EDAC_OCTEONTX=y
+RAS=y
+EDAC=y
+ARM_SDE_INTERFACE=y
+ACPI_APEI_GHES=y  	/// only if ACPI is configured
+
+RAS GHES Error injection
+========================
 
 Enable module config:
 EDAC_OCTEONTX=y
 RAS=y
 EDAC=y
 ARM_SDE_INTERFACE=y
-ACPI_APEI_GHES=y
+ACPI_APEI_GHES=y  	/// only if ACPI is configured
+MARVELL_CN10K_EINJ=y
 
 EDAC based interface for error injection from sysfs /sys/devices/system/edac/mc/mc0:
+
+EDAC SMC based interface for error injection exemple:
+-rw-r--r--    1 root     root         65536 Apr 19 20:15 address
+-rw-r--r--    1 root     root         65536 Apr 19 20:15 error_type
+--w-------    1 root     root         65536 Apr 19 20:17 inject
 
 address - Physical Address to corrupt
 error_type   - type of error SEC/DED and position of bit to corrupt

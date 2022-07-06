@@ -88,6 +88,15 @@ interval, Error Status Block address (8byte), actual Error Status Block, and
 Ring buffer memory block. Bert.asl describe memory region for ring buffer and
 ESB memory area which fits all errors from ring to notify at boot time.
 
+Configurations to enable RAS Error Reporting
+============================================
+Enable module config EDAC_OCTEONTX:
+ARCH=arm64 CROSS_COMPILE=aarch64-marvell-linux-gnu- make menuconfig
+RAS=y
+EDAC=y
+ARM_SDE_INTERFACE=y
+ACPI_APEI_GHES=y 	/// If ACPI is enabled
+
 OcteonTX2 RAS GHES Error injection
 ==================================
 
@@ -96,8 +105,10 @@ ARCH=arm64 CROSS_COMPILE=aarch64-marvell-linux-gnu- make menuconfig
 RAS=y
 EDAC=y
 ARM_SDE_INTERFACE=y
-ACPI_APEI_GHES=y
-OCTEONTX2_SDEI_GHES_BERT=y
+ACPI_APEI_GHES=y 	/// If ACPI is enabled
+OCTEONTX2_EINJ=y
+
+EDAC based interface for error injection from sysfs /sys/devices/system/edac/mc/mc0:
 
 EDAC SMC based interface for error injection exemple:
 -rw-r--r--    1 root     root         65536 Apr 19 20:15 address
