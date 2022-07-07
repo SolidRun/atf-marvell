@@ -66,13 +66,13 @@ static void print_buffer(const uint8_t *buffer, size_t size)
 
 	for (offset = 0; offset < size; offset++) {
 		if (!(offset % 16))
-			printf("%s%08lx: ", offset ? "\n" : "", offset);
+			debug_ehsm("%s%08lx: ", offset ? "\n" : "", offset);
 		else if (offset % 16 == 8)
-			printf(" - ");
+			debug_ehsm(" - ");
 		else if (offset % 4 == 0)
-			printf("  ");
+			debug_ehsm("  ");
 		else
-			printf(" ");
+			debug_ehsm(" ");
 		printf("%02x", buffer[offset]);
 	}
 	printf("\n");
