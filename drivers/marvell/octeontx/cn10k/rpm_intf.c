@@ -1630,6 +1630,56 @@ static int rpm_get_port_mode(int rpm_id, int lmac_id,
 	return 0;
 }
 
+static int rpm_dump_ecp_state(int rpm_id, int lmac_id,
+			struct eth_ecp_dump_state_args *args)
+{
+	union eth_scratchx0 scratchx0;
+	int mac_lane, portm_idx;
+	portm_config_t *portm;
+
+	portm_idx = args->portm_idx;
+
+	if (portm_idx < 0 || portm_idx >= MAX_PORTM) {
+		ERROR("%s: '%d' is not a valid PORTM index\n",
+			__func__, portm_idx);
+		return -1;
+	}
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+
+	switch (portm->portm_mode) {
+	case PORTM_MODE_DISABLED:
+	case PORTM_MODE_INVALID:
+	case PORTM_MODE_INACTIVE:
+		ERROR("%s: PORTM%d is disabled or inactive\n",
+			__func__, portm_idx);
+		return -1;
+	default:
+		break;
+	}
+
+	if (portm->num_lmacs > 1) {
+		if (args->lmac_id >= portm->num_lmacs) {
+			ERROR("%s: '%d' is not a valid lmac_id\n",
+				__func__, args->lmac_id);
+			return -1;
+		}
+
+		mac_lane = args->lmac_id;
+	} else {
+		mac_lane = portm->mac_lane;
+	}
+
+	scratchx0.u = 0;
+	CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(
+			rpm_id, lmac_id, 0), scratchx0.u);
+
+	debug_rpm_intf("%s: Dumping ECP state history for PORTM%d lmac_id%d\n",
+		__func__, portm_idx, mac_lane);
+
+	return ecp_dump_state_history(portm_idx, mac_lane, "On demand");
+}
+
 static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 				struct eth_mode_change_args *args)
 {
@@ -1732,7 +1782,8 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 		(request_id == ETH_CMD_GET_FWD_BASE) ||
 		(request_id == ETH_CMD_GET_FW_VER) ||
 		(request_id == ETH_CMD_MODE_CHANGE) ||
-		(request_id == ETH_CMD_GET_PORT_MODE)) {
+		(request_id == ETH_CMD_GET_PORT_MODE) ||
+		(request_id == ETH_CMD_ECP_DUMP_STATE)) {
 		switch (request_id) {
 		case ETH_CMD_INTF_SHUTDOWN:
 			rpm_fw_intf_shutdown();
@@ -1791,6 +1842,13 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 						rpm_id, lmac_id, 1));
 			ret = rpm_get_port_mode(rpm_id, lmac_id,
 					&scratchx1.s.port_mode_args);
+			break;
+		case ETH_CMD_ECP_DUMP_STATE:
+			/* Read the command arguments from SCRATCH(1) */
+			scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
+						rpm_id, lmac_id, 1));
+			ret = rpm_dump_ecp_state(rpm_id, lmac_id,
+					&scratchx1.s.ecp_dump_state_args);
 			break;
 		}
 	} else {
@@ -1954,7 +2012,9 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	err_type = rpm_get_error_type(rpm_id, lmac_id);
 
-	if (request_id == ETH_CMD_GET_PORT_MODE || request_id == ETH_CMD_MODE_CHANGE)
+	if (request_id == ETH_CMD_GET_PORT_MODE ||
+		request_id == ETH_CMD_MODE_CHANGE ||
+		request_id == ETH_CMD_ECP_DUMP_STATE)
 		scratchx0.s.evt_sts.stat = ret;
 	else if ((err_type & RPM_ERR_MASK) && (request_id != ETH_CMD_GET_LINK_STS))
 		scratchx0.s.evt_sts.stat = ETH_STAT_FAIL;
