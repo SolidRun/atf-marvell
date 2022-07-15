@@ -214,7 +214,10 @@ typedef struct gserm_plat_config {
 				 * Nibble # = MAC lane (fixed #)
 				 * Nibble Value = Connected GSERM SERDES lane
 				 */
-	int sync_e_ena;         /* Set to 1 if GSERM using SYNC-E REFCLK (cnf10kb & Eth only) */
+	uint16_t sync_e_map;    /* GSERM SYNC-E REFCLK Enable Map
+				 * Nibble # = GSERM lane (fixed #)
+				 * Nibble Value = SYNC-E REFCLK Enabled (cnf10kb & Eth only)
+				 */
 	uint8_t refclk_conn;    /* Set to 1 if a REF_CLK is terminated to the GSERM clock circuit */
 	uint8_t refclk_term;    /* REF_CLK termination: 0 = 50 Ohm, 1 = None */
 } gserm_plat_config_t;

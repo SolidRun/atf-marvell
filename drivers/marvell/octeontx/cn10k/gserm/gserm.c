@@ -792,11 +792,11 @@ static int get_portm_mode_gserm_settings(gserm_portm_programming_t *portm_progra
  * @param gserm       GSERM to configure
  * @param gser_lane   GSERM lane to configure
  * @param mac_type    Type of MAC (e.g Ethernet, CPRI, JESD)
- * @param sync_e_ena  If Ethernet MAC, specifies if SYNC-E clk enabled
+ * @param sync_e_map  If Ethernet MAC, specifies if SYNC-E clk enabled
  *
  */
 static void set_gserm_refclk_config(int gserm, int gser_lane,
-				   int mac_type)
+				   int mac_type, uint16_t sync_e_map)
 {
 
 	/* (6) Select the reference clock input:
@@ -836,8 +836,20 @@ static void set_gserm_refclk_config(int gserm, int gser_lane,
 				   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_122MHZ);
 			break;
 		case PORTM_ETH: /* Selects 156.25 MHz clock */
-			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-				   c.s.refclk_sel &= ~(1ull << gser_lane));
+			if (cavm_is_model(OCTEONTX_CNF10KB) && (gserm <= 1)) {
+				if (sync_e_map & (0xf << (gser_lane * 4))) {  /* Select Sync-Ethernet(1) on GSERM(0..1) */
+					CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+						   c.s.refclk_sel |= 1ull << gser_lane);
+					debug_gserm("%s: GSERM%d.%d Selecting Sync-Ethernet\n", __func__, gserm, gser_lane);
+				} else {  /* Select Std-Ethernet(0) on GSERM(0..1) */
+					CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+						   c.s.refclk_sel &= ~(1ull << gser_lane));
+				}
+			} else {
+				CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+					   c.s.refclk_sel &= ~(1ull << gser_lane));
+			}
+			debug_gserm("%s: GSERM%d.%d sync_e_map: 0x%x\n", __func__, gserm, gser_lane, sync_e_map);
 			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
 				   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_156MHZ);
 			break;
@@ -1134,9 +1146,7 @@ void gserm_reset_init(void)
 		if (cavm_is_model(OCTEONTX_CNF10KB)) {
 			debug_gserm("%s: GSERM%d: Programming SYNCe REFCLK\n", __func__, gserm_idx);
 			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
-				   c.s.refclk_sel_ext = gserm->sync_e_ena ? 1 : 0);
-			CSR_INIT(common_phy_ctrl_bcfg, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx));
-			debug_gserm("GSERM%d: sync_e_ena:%d\n", gserm_idx, common_phy_ctrl_bcfg.s.refclk_sel_ext);
+				   c.s.refclk_sel_ext = gserm->sync_e_map ? 0 : 1);
 		}
 	}
 	/*
@@ -1160,6 +1170,7 @@ void gserm_reset_init(void)
 	for (int portm_idx = 0; portm_idx < portm_count;) {
 		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
 		gserm_num = portm->gserm;
+		gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_num]);
 		lane_map = portm->lane_map;
 		mode_lanes = portm->gser_numlanes;
 		mac_type = portm->mac_type;
@@ -1175,9 +1186,14 @@ void gserm_reset_init(void)
 			debug_gserm("%s: GSERM%d.%d: Programming REFCLK config\n",
 				    __func__, gserm_num, gser_lane);
 			set_gserm_refclk_config(gserm_num, gser_lane,
-						mac_type);
+						mac_type, gserm->sync_e_map);
 		}
-
+		CSR_INIT(common_phy_ctrl_bcfg, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_num));
+		debug_gserm("%s: GSERM%d: refclk_sel_ext:%d refclk_sel_en:0x%x refclk_sel:0x%x\n",
+			    __func__, gserm_num,
+			    common_phy_ctrl_bcfg.s.refclk_sel_ext,
+			    common_phy_ctrl_bcfg.s.refclk_sel_en,
+			    common_phy_ctrl_bcfg.s.refclk_sel);
 		portm_idx += portm->portms_used;
 	}
 	/*
