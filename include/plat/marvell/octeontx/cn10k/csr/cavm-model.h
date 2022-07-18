@@ -82,9 +82,16 @@
 static inline int cavm_is_model(uint32_t arg_model) __attribute__ ((pure, always_inline));
 static inline int cavm_is_model(uint32_t arg_model)
 {
-	uint64_t fuse_val = *(volatile uint64_t *)FUS_CACHE0_ADDRESS;
+#ifdef CAVM_BUILD_HOST
 	uint64_t mask;
+	extern uint32_t cavm_remote_get_model(void) __attribute__ ((pure));
+	uint32_t my_model = cavm_remote_get_model();
+	my_model = (my_model >> 4) & 0xff;
+#else
+	uint64_t fuse_val = *(volatile uint64_t *)FUS_CACHE0_ADDRESS;
 	uint32_t my_model = fuse_val & 0xffffffff;
+	uint64_t mask;
+#endif
 
 	if (arg_model & __OM_IGNORE_REVISION)
 		mask = __OM_PARTNUM_MASK;
