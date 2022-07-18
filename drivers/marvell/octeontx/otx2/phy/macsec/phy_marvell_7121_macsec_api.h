@@ -38,13 +38,45 @@
 #include "adapter_cfye_support.h"
 #include "da_internal.h"
 
+#define MACSEC_SCI_SIZE 8
+#define MACSEC_SCI_PER 8
+
+extern int  macsec_debug;
+
+#define MAC_ADV_MACSEC_DBG(fmt, arg...) \
+				do { \
+					if (macsec_debug) \
+						printf(fmt, ##arg); \
+				} while (0)
+
+typedef struct phy_7121_macsec_key {
+	bool key_flag;
+	uint8_t key[MACSEC_KEY_SIZE];
+} phy_7121_macsec_key_t;
+
+typedef struct phy_7121_macsec_sci {
+	bool sci_flag;
+	uint8_t sci[MACSEC_SCI_SIZE];
+} phy_7121_macsec_sci_t;
+
+typedef struct phy_7121_macsec_sa {
+	phy_7121_macsec_key_t macsec_key;
+	phy_7121_macsec_sci_t sci_id;
+	bool is_actiontype;
+	SecY_SA_ActionType_t actiontype;
+	bool is_droptype;
+	SecY_DropType_t droptype;
+	bool is_seq_no;
+	da_sa_params_t transform_params;
+} phy_7121_macsec_sa_t;
+
 typedef struct phy_7121_macsec_drv {
-	bool sa_params_ingress_true;
-	uint8_t key_ingress[MACSEC_KEY_SIZE];
-	da_sa_params_t transform_params_ingress;
-	bool sa_params_egress_true;
-	uint8_t key_egress[MACSEC_KEY_SIZE];
-	da_sa_params_t transform_params_egress;
+	CfyE_Rule_t rule_params_ingress;
+	CfyE_Rule_t rule_params_egress;
+
+	phy_7121_macsec_sa_t macsec_sa_ingress[MAX_SA_PER_PORT];
+	phy_7121_macsec_sa_t macsec_sa_egress[MAX_SA_PER_PORT];
+
 	bool mac_ingress_true;
 	MZD_U8 mac_ingress[6];
 	bool mac_egress_true;
@@ -53,7 +85,10 @@ typedef struct phy_7121_macsec_drv {
 	MZD_UINT ingressVPort;
 	MZD_UINT egressVPort;
 	MZD_MACSEC_RES_STURCT resMACSecStuct;
+	int macsec_dbg;
 } phy_7121_macsec_drv_t;
+
+void print_key(uint8_t *key_p, unsigned int count);
 
 MZD_STATUS phy_7121_macsec_enable_engines(
 	IN MZD_DEV_PTR pDev,
@@ -63,6 +98,16 @@ MZD_STATUS phy_7121_macsec_enable_engines(
 	IN MZD_OP_MODE opMode,
 	OUT phy_7121_macsec_drv_t *phy_macsec_drv);
 
+MZD_STATUS phy_7121_macsec_vport_add_ingress(phy_7121_macsec_drv_t *phy_macsec_drv);
+MZD_STATUS phy_7121_macsec_vport_add_egress(phy_7121_macsec_drv_t *phy_macsec_drv);
+MZD_STATUS phy_7121_macsec_sa_add_ingress(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
+MZD_STATUS phy_7121_macsec_sa_add_egress(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
+MZD_STATUS phy_7121_macsec_sa_del_ingress(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
+MZD_STATUS phy_7121_macsec_sa_del_egress(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
 MZD_STATUS phy_7121_macsec_op_api(int cgx_id,
 				int lmac_id,
 				int macsec_cmd,
@@ -76,10 +121,26 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 			phy_7121_macsec_drv_t *phy_macsec_drv);
 
 MZD_STATUS  phy_7121_macsec_set_mac_da_api(phy_7121_macsec_drv_t *phy_macsec_drv,
-			mac_da_t *mac_da);
+			macsec_vport_params_t *mac_da);
 
 MZD_STATUS phy_7121_macsec_set_key_api(phy_7121_macsec_drv_t *phy_macsec_drv,
-			key_sa_t *key_sa);
+			macsec_sa_params_t *key_sa);
+
+MZD_STATUS phy_7121_macsec_set_sci_api(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sci_id);
+
+MZD_STATUS phy_7121_macsec_set_pkt_num_api(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *pkt_num);
+
+MZD_STATUS phy_7121_macsec_add_sa_api(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
+MZD_STATUS phy_7121_macsec_del_sa_api(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
+
+MZD_STATUS phy_7121_macsec_actiontype_api(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
+MZD_STATUS phy_7121_macsec_droptype_api(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
 
 MZD_STATUS phy_7121_macsec_pkt_test(int cgx_id,
 			int lmac_id,
@@ -134,5 +195,10 @@ MZD_STATUS phy_7121_macsec_bypass_engines(
 	IN MZD_OP_MODE opMode);
 
 MZD_STATUS phy_7121_macsec_rekey(phy_7121_macsec_drv_t *phy_macsec_drv);
+
+MZD_STATUS phy_7121_macsec_get_port_mac_api(phy_7121_macsec_drv_t *phy_macsec_drv);
+
+MZD_STATUS phy_7121_macsec_get_sa_params_api(phy_7121_macsec_drv_t *phy_macsec_drv,
+						macsec_sa_params_t *sa_params);
 
 #endif

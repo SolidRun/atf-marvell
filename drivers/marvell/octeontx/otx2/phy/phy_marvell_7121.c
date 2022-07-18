@@ -132,7 +132,7 @@ static MZD_STATUS mzd_wait( IN MZD_DEV_PTR pDev, IN MZD_UINT waitTime)
 static MZD_STATUS set_serdes_mux_vdu(IN MZD_DEV_PTR pDev)
 {
 	MZD_STATUS status;
-	MZD_U8 serdesMux[MZD_MAX_PORTS*MZD_NUM_LANES] =	{
+	MZD_U8 serdesMux[MZD_MAX_PORTS*MZD_NUM_LANES] = {
 		0x0, 0x1, 0x4, 0x5, 0x8, 0x9, 0xc, 0xd,
 		0x2, 0x3, 0x6, 0x7, 0xa, 0xb, 0xe, 0xf
 	};
@@ -152,7 +152,7 @@ static MZD_STATUS set_serdes_mux_vdu(IN MZD_DEV_PTR pDev)
 static MZD_STATUS set_serdes_mux_cn98xx_pcie_crb(IN MZD_DEV_PTR pDev)
 {
 	MZD_STATUS status;
-	MZD_U8 serdesMux[MZD_MAX_PORTS*MZD_NUM_LANES] =	{
+	MZD_U8 serdesMux[MZD_MAX_PORTS*MZD_NUM_LANES] = {
 		0xf, 0xe, 0xd, 0xc, 0xb, 0xa, 0x9, 0x8,
 		0x7, 0x6, 0x5, 0x4, 0x3, 0x2, 0x1, 0x0
 	};
@@ -519,7 +519,7 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 
 
 	//debug_phy_driver("%s: %d:%d phy->addr %d lane %d currentStatus %d latchedStatus %d\n",
-	//	 __func__, cgx_id, lmac_id, phy->addr, lane, currentStatus, latchedStatus);
+	//	__func__, cgx_id, lmac_id, phy->addr, lane, currentStatus, latchedStatus);
 
 	if (currentStatus != MZD_LINK_UP) {
 		//debug_phy_driver("%s: %d:%d  Link Not Up", __func__,cgx_id, lmac_id);
@@ -585,7 +585,7 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 		break;
 	}
 	//debug_phy_driver("%s: %d:%d phy->addr %d lane %d speed %d  Exit\n",
-//			 __func__, cgx_id, lmac_id, phy->addr, lane, link->s.speed);
+	//		 __func__, cgx_id, lmac_id, phy->addr, lane, link->s.speed);
 
 }
 
@@ -673,7 +673,7 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 	phy_7121_adv_cmds_t *adv_cmds = (phy_7121_adv_cmds_t *) adv_cmd_data;
 	phy_7121_macsec_drv_t *phy_macsec_drv;
 
-	debug_phy_driver("%s: %d:%d\n", __func__, cgx_id, lmac_id);
+	MAC_ADV_MACSEC_DBG("%s: %d:%d\n", __func__, cgx_id, lmac_id);
 
 	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
 	//phy->phy_7121_macsec = &phy_7121_macsec_drv[cgx_id][lmac_id];
@@ -685,17 +685,24 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 		return MZD_FAIL;
 	}
 
-	debug_phy_driver("%s: adv_cmds->mac_adv_cmd %d\n", __func__, adv_cmds->mac_adv_cmd);
+	if (adv_cmds->mac_adv_cmd_ver != MACSEC_ADV_CMD_VERS) {
+		ERROR("%s:Incorrect commnds version 0x%x Expected 0x%x\n",
+			__func__, adv_cmds->mac_adv_cmd_ver, MACSEC_ADV_CMD_VERS);
+		return MZD_FAIL;
+	}
+
+	MAC_ADV_MACSEC_DBG("%s: adv_cmds->mac_adv_cmd %d\n", __func__, adv_cmds->mac_adv_cmd);
 	switch (adv_cmds->mac_adv_cmd) {
+#ifdef MACSEC_ENGINES_DEF
 	case PHY_MAC_ADV_MACSEC_TEST:
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_TEST\n", __func__);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_TEST\n", __func__);
 		status = phy_7121_test_macsec_enable_engines(phy->priv,
 						phy->port,
 						lane_offset);
 		break;
-
+#endif
 	case PHY_MAC_ADV_MACSEC_BYPASS:
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_BYPASS\n", __func__);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_BYPASS\n", __func__);
 		status = phy_7121_macsec_op_api(cgx_id,
 						lmac_id,
 						adv_cmds->mac_adv_cmd,
@@ -703,11 +710,8 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 		break;
 
 	case PHY_MAC_ADV_MACSEC_ENABLE:
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_ENABLE\n", __func__);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_ENABLE\n", __func__);
 
-		debug_phy_driver(" PHY_MAC_ADV_MACSEC_ENABLE  Program Key Ingress =%s size %d\n",
-					phy_macsec_drv->transform_params_ingress.Key_p,
-					phy_macsec_drv->transform_params_ingress.KeyByteCount);
 		status = phy_7121_macsec_op_api(cgx_id,
 					lmac_id,
 					adv_cmds->mac_adv_cmd,
@@ -720,52 +724,92 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 		break;
 
 	case PHY_MAC_ADV_MACSEC_SET_MAC_DA:
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_SET_MAC_DA\n", __func__);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_MAC_DA\n", __func__);
 		status = phy_7121_macsec_set_mac_da_api(phy_macsec_drv,
-					&adv_cmds->data.mac);
+					&adv_cmds->data.vport_params);
 		break;
+
 
 	case PHY_MAC_ADV_MACSEC_SET_KEY:
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_SET_KEY\n", __func__);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_KEY\n", __func__);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_KEY "
+				" adv_cmds->data.key.key_size %d "
+				" adv_cmds->data.key.key %s\n", __func__,
+				adv_cmds->data.sa_params.key_size,
+				adv_cmds->data.sa_params.key);
 		status = phy_7121_macsec_set_key_api(phy_macsec_drv,
-					&adv_cmds->data.key);
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_SET_KEY "
-				" adv_cmds->data.key.key_size %d\n", __func__,
-				adv_cmds->data.key.key_size);
+					&adv_cmds->data.sa_params);
 		break;
 
+	case PHY_MAC_ADV_MACSEC_SET_SCI:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_SCI\n", __func__);
+		status = phy_7121_macsec_set_sci_api(phy_macsec_drv,
+					&adv_cmds->data.sa_params);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_SCI "
+				" adv_cmds->data.sa_params.key_size %d\n", __func__,
+				adv_cmds->data.sa_params.key_size);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_SET_PKT_NUM:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_PKT_NUM\n", __func__);
+		status = phy_7121_macsec_set_pkt_num_api(phy_macsec_drv,
+					&adv_cmds->data.sa_params);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_PKT_NUM "
+				" adv_cmds->data.sa_params.key_size %d\n", __func__,
+				adv_cmds->data.sa_params.key_size);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_ADD_SA:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_ADD_SA\n", __func__);
+		status = phy_7121_macsec_add_sa_api(phy_macsec_drv,
+					&adv_cmds->data.sa_params);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_ADD_SA "
+				" adv_cmds->data.sa_params.sa_num %d\n", __func__,
+				adv_cmds->data.sa_params.sa_num);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_DEL_SA:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_DEL_SA\n", __func__);
+		status = phy_7121_macsec_del_sa_api(phy_macsec_drv,
+					&adv_cmds->data.sa_params);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_DEL_SA "
+				" adv_cmds->data.sa_params.sa_num %d\n", __func__,
+				adv_cmds->data.sa_params.sa_num);
+		break;
+#ifdef SA_REKEY
 	case PHY_MAC_ADV_MACSEC_RE_KEY:
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_RE_KEY\n", __func__);
-		debug_phy_driver("%s: phy_macsec_drv->mac_ingress_true %d phy_macsec_drv->mac_egress_true %d\n",
-				__func__, phy_macsec_drv->mac_ingress_true, phy_macsec_drv->mac_egress_true);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_RE_KEY\n", __func__);
+		MAC_ADV_MACSEC_DBG(
+		"%s: phy_macsec_drv->mac_ingress_true %d phy_macsec_drv->mac_egress_true %d\n",
+		__func__, phy_macsec_drv->mac_ingress_true, phy_macsec_drv->mac_egress_true);
 
-		if ((phy_macsec_drv->sa_params_ingress_true == true) &&
-			( phy_macsec_drv->sa_params_egress_true == true)) {
+		//if ((phy_macsec_drv->sa_params_ingress_true == true) &&
+		//	( phy_macsec_drv->sa_params_egress_true == true)) {
 			status = phy_7121_macsec_rekey(phy_macsec_drv);
-		} else {
-			printf("PHY_MAC_ADV_MACSEC_RE_KEY: Missing Ingress And/Or Egress key\n");
-			return MZD_FAIL;
-		}
+		//} else {
+		//	printf("PHY_MAC_ADV_MACSEC_RE_KEY: Missing Ingress And/Or Egress key\n");
+		//	return;
+		//}
 		break;
-
+#endif
 	case PHY_MAC_ADV_MACSEC_PKT_TEST:
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_PKT_TEST\n", __func__);
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_PKT_TEST\n", __func__);
 		status = phy_7121_macsec_pkt_test(cgx_id,
 					lmac_id,
 					adv_cmds->data.pkttest_cmd.cmd);
 
 		break;
 	case PHY_MAC_ADV_MAC_GET_STATS:
-		debug_phy_driver("%s: PHY_MAC_ADV_MAC_GET_STATS\n", __func__);
-		debug_phy_driver("\n *********** MAC STATS *****************\n");
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MAC_GET_STATS\n", __func__);
+		MAC_ADV_MACSEC_DBG("\n *********** MAC STATS *****************\n");
 		status = phy_7121_get_mac_stats(phy->priv,
 						phy->port,
 						lane_offset);
 		break;
 
 	case PHY_MAC_ADV_MACSEC_GET_STATS:
-		debug_phy_driver("%s: PHY_MAC_ADV_MACSEC_GET_STATS\n", __func__);
-		debug_phy_driver("\n *********** MAC SEC STATS *************\n");
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_GET_STATS\n", __func__);
+		MAC_ADV_MACSEC_DBG("\n *********** MAC SEC STATS *************\n");
 		status = phy_7121_macsec_stats(cgx_id,
 						lmac_id,
 						phy_macsec_drv);
@@ -783,20 +827,51 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 					adv_cmds->data.gen_rclk.ratio);
 		break;
 
+	case PHY_MAC_ADV_MACSEC_GET_MAC_ADDR:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_GET_MAC_ADDR\n", __func__);
+		status = phy_7121_macsec_get_port_mac_api(phy_macsec_drv);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_GET_SA_PARAMS:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_GET_SA_PARAMS\n", __func__);
+		status = phy_7121_macsec_get_sa_params_api(phy_macsec_drv,
+							&adv_cmds->data.sa_params);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_ACTIONTYPE_SA:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_ACTIONTYPE_SA\n", __func__);
+		status = phy_7121_macsec_actiontype_api(phy_macsec_drv,
+							&adv_cmds->data.sa_params);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_DROPTYPE_SA:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_DROPTYPE_SA\n", __func__);
+		status = phy_7121_macsec_droptype_api(phy_macsec_drv,
+							&adv_cmds->data.sa_params);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_DBG:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_DBG\n", __func__);
+		macsec_debug = adv_cmds->mac_adv_dbg;
+		printf("%s: PHY_MAC_ADV_MACSEC_DBG macsec_debug %d\n",
+				__func__, macsec_debug);
+		break;
+
 	default:
-		debug_phy_driver("%s: ERROR Incorrect commands %d\n",
+		MAC_ADV_MACSEC_DBG("%s: ERROR Incorrect commands %d\n",
 					__func__, adv_cmds->mac_adv_cmd);
 		break;
 	}
 
 //phy_7121_mac_adv_cmd_hndl_error:
-	if (status !=  MZD_OK)  {
-		debug_phy_driver("%s: %d:%d failed  status %d\n", __func__,
+	if (status !=  MZD_OK) {
+		MAC_ADV_MACSEC_DBG("%s: %d:%d failed  status %d\n", __func__,
 						cgx_id, lmac_id, status);
 		return MZD_FAIL;
 	}
 
-	debug_phy_driver("%s: Exit %d:%d Status %d\n", __func__, cgx_id, lmac_id, status);
+	MAC_ADV_MACSEC_DBG("%s: Exit %d:%d Status %d\n", __func__,
+						cgx_id, lmac_id, status);
 
 	return MZD_OK;
 }
