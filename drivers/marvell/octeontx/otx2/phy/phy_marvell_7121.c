@@ -168,6 +168,33 @@ static MZD_STATUS set_serdes_mux_cn98xx_pcie_crb(IN MZD_DEV_PTR pDev)
 	return MZD_OK;
 }
 
+static MZD_STATUS set_serdes_mux_f95n_vran_nic(IN MZD_DEV_PTR pDev)
+{
+	MZD_STATUS status;
+	MZD_U8 serdesMux[MZD_MAX_PORTS*MZD_NUM_LANES] =	{
+		0x0, 0x1, 0x6, 0x7, 0x2, 0x3, 0x8, 0x9,
+		0x4, 0x5, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf
+	};
+
+	status =  mzdSetSerdesMux(pDev, MZD_LINE_SIDE, serdesMux);
+
+	if (status != MZD_OK) {
+		MZD_DBG_ERROR("mzdSampleSerdesMux: mzdSetSerdesMux call failed\n");
+		return MZD_FAIL;
+	}
+
+	status =  mzdSetSerdesMux(pDev, MZD_HOST_SIDE, serdesMux);
+
+	if (status != MZD_OK) {
+		MZD_DBG_ERROR("mzdSampleSerdesMux: mzdSetSerdesMux call failed\n");
+		return MZD_FAIL;
+	}
+
+	MZD_ATTEMPT(mzd_wait(pDev, 500));
+
+	return MZD_OK;
+}
+
 void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 {
 	MZD_STATUS status;
@@ -250,6 +277,9 @@ void phy_marvell_7121_probe(int cgx_id, int lmac_id)
 
 	if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "cn98xx-pcie-crb", 15))
 		set_serdes_mux_cn98xx_pcie_crb(phy->priv);
+
+	if (!strncmp(plat_octeontx_bcfg->bcfg.board_model, "f95n-vran-nic", 13))
+		set_serdes_mux_f95n_vran_nic(phy->priv);
 
 #ifdef ATF_ENABLE_MAC_ADV_CMDS
 	phy_macsec_drv = &phy_7121_macsec_drv[cgx_id][lmac_id];
