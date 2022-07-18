@@ -33,6 +33,10 @@ typedef enum  PHY_7121_ADV_CMDS {
 	PHY_MAC_ADV_MACSEC_RE_KEY,
 	PHY_MAC_ADV_MACSEC_MAX = 100,
 
+	/* Generic PHY commands */
+	PHY_MAC_ADV_GEN_RCLK = 101,
+	PHY_MAC_ADV_GEN_MAX = 200,
+
 	/* Add PTP commands */
 } PHY_7121_ADV_CMDS_t;
 
@@ -62,6 +66,12 @@ typedef struct pkttest {
 	PHY_7121_MACSEC_PKTTEST_t cmd;
 } pkttest_t;
 
+typedef struct phy_gen_rclk {
+	int pin;
+	int src_clk;
+	int ratio;
+} phy_gen_rclk_t;
+
 typedef struct phy_7121_adv_cmds {
 	int mac_adv_cmd;
 	int cgx_id;
@@ -71,6 +81,7 @@ typedef struct phy_7121_adv_cmds {
 		key_sa_t key;
 		mac_da_t mac;
 		pkttest_t pkttest_cmd;
+		phy_gen_rclk_t gen_rclk;
 	} data;
 } phy_7121_adv_cmds_t;
 

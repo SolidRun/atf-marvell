@@ -27,6 +27,8 @@
 #include "mzdFwImages.h"
 #include "mzdHwSerdesCntl.h"
 #include "mzdFEC.h"
+#include "mzdIntrIOConfig.h"
+#include "mzdHwCntl.h"
 #ifdef ATF_ENABLE_MAC_ADV_CMDS
 #include "macsec/phy_marvell_7121_macsec_api.h"
 #endif
@@ -587,6 +589,56 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 
 }
 
+static int phy_marvell_7121_set_rclk(int cgx_id, int lmac_id, int pin, int src_clk, int ratio)
+{
+        phy_config_t *phy;
+        cgx_lmac_config_t *lmac_cfg;
+        MZD_STATUS status = 0;
+        MZD_U16 lane;
+        MZD_U16 regOffset = 0;
+        MZD_U16 regVal = 0;
+        MZD_RCLK_SRC_OPTION rclk_src_option = {
+                .overWriteSrcClock = MZD_TRUE,
+                .srcClockSelect = src_clk,
+                .dividerConfig = 1,
+                .divideRatio = ratio,
+        };
+
+        lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
+
+        phy = &lmac_cfg->phy_config;
+
+        lane = phy -> port;
+        debug_phy_driver("%s: %d:%d rclk pin%d (%d, %d) -> (%d, %d)\n", __func__, cgx_id, lmac_id,
+                        pin, phy->addr, lane, src_clk, ratio);
+
+        status = mzdSetPinMode(phy->priv, pin, MZD_PIN_MODE_RCLK, MZD_FALSE);
+        do {
+                if(status != MZD_OK){
+                        ERROR("failed on mzdSetPinMode: %d\n", status);
+                        break;
+                }
+                status = mzdConfigRClkSource(phy->priv, phy->addr, MZD_LINE_SIDE, lane, rclk_src_option);
+                if(status != MZD_OK){
+                        ERROR("failed on mzdConfigRClkSource: %d\n", status);
+                        break;
+                }
+                status = mzdConfigRClkPin(phy->priv, pin, phy->addr, MZD_LINE_SIDE, lane);
+                if(status != MZD_OK){
+                        ERROR("failed on mzdConfigRClkPin: %d\n", status);
+                        break;
+                }
+                /* clear bit4 as the difference between mzdAPI 2.3 and 2.6 */
+                regOffset = phy->addr + (lane * MZD_NUM_LANES) + (MZD_LINE_MODE_IDX * MZD_MAX_PORTS * MZD_NUM_LANES);
+                mzdHwXmdioRead(phy->priv, ((MZD_DEV_PTR)phy->priv)->mdioPort, MZD_CHIP_REG, MZD_RCLK_OUTPUT_CNTL_BASE + regOffset, &regVal);
+                regVal = regVal | 0x0020;
+                regVal &= 0xffef;
+                mzdHwXmdioWrite(phy->priv, ((MZD_DEV_PTR)phy->priv)->mdioPort, MZD_CHIP_REG, MZD_RCLK_OUTPUT_CNTL_BASE + regOffset, regVal);
+        }while(0);
+        return status;
+}
+
+
 void phy_marvell_7121_supported_modes(int cgx_id, int lmac_id)
 {
 	phy_config_t *phy;
@@ -718,6 +770,18 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 						phy_macsec_drv);
 		break;
 
+	case PHY_MAC_ADV_GEN_RCLK:
+		debug_phy_driver("%s: PHY_MAC_ADV_GEN_RCLK pin %d ratio %d src %d\n",
+			__func__,
+			adv_cmds->data.gen_rclk.pin,
+			adv_cmds->data.gen_rclk.ratio,
+			adv_cmds->data.gen_rclk.src_clk);
+		phy_marvell_7121_set_rclk(cgx_id, lmac_id,
+					adv_cmds->data.gen_rclk.pin,
+					adv_cmds->data.gen_rclk.src_clk,
+					adv_cmds->data.gen_rclk.ratio);
+		break;
+
 	default:
 		debug_phy_driver("%s: ERROR Incorrect commands %d\n",
 					__func__, adv_cmds->mac_adv_cmd);
@@ -731,7 +795,7 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 		return MZD_FAIL;
 	}
 
-	printf("%s: Exit %d:%d Status %d\n", __func__, cgx_id, lmac_id, status);
+	debug_phy_driver("%s: Exit %d:%d Status %d\n", __func__, cgx_id, lmac_id, status);
 
 	return MZD_OK;
 }
