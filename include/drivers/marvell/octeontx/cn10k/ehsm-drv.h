@@ -81,4 +81,15 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 				      const struct tim_header_info *hinfo,
 				      const uint8_t *tim_buffer);
 
+/**
+ * eHSM Read CSR
+ *
+ * @param[in]	reg_off Read register offset
+ * @param[out]	reg_val	Register value
+ *
+ * @return  0 for success, -EIO for eHSM errors and -EINVAL
+ *		for invalid register offset
+ */
+int ehsm_csr_read(int reg_off, uint32_t *reg_val);
+
 #endif /* __EHSM_H__ */

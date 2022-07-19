@@ -26,6 +26,7 @@
 #include <spinlock.h>
 #include <octeontx_semaphore.h>
 #include <rnm.h>
+#include <ehsm-drv.h>
 
 #include "cavm-csrs-gpio.h"
 
@@ -1058,6 +1059,16 @@ err5:
 		}
 		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 		SMC_RET4(handle, ret, next, power_on, mem_len);
+	}
+	break;
+
+	case PLAT_OCTEONTX_EHSM_READ_CSR:
+	{
+		uint32_t reg_val;
+		int reg_off = x1 & 0xfff;
+
+		ret = ehsm_csr_read(reg_off, &reg_val);
+		SMC_RET2(handle, ret, reg_val);
 	}
 	break;
 

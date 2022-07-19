@@ -551,3 +551,66 @@ done:
 
 	return ret;
 }
+
+/**
+ * eHSM Read CSR
+ *
+ * @param[in]	reg_off Read register offset
+ * @param[out]	reg_val	Register value
+ *
+ * @return  0 for success, -EIO for eHSM errors and -EINVAL
+ *      for invalid register offset
+ */
+int ehsm_csr_read(int reg_off, uint32_t *reg_val)
+{
+	struct ehsm_handle ehandle;
+	enum sec_return ret;
+
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+
+	ret = ehsm_initialize(&ehandle);
+	if (ret != SEC_NO_ERROR) {
+		WARN("Error initializing eHSM (%d)\n", ret);
+		return -EIO;
+	}
+
+	switch (reg_off) {
+	case EHSM_BOOTROM_STATUS:
+	{
+		struct ehsm_bootrom_status_reg bootrom_status;
+
+		ret = ehsm_get_bootrom_status(&ehandle, &bootrom_status);
+		*reg_val = bootrom_status.u.r;
+	}
+	break;
+	case EHSM_ROOT_TRUST_STATUS:
+	{
+		struct ehsm_root_of_trust_status rot_status;
+
+		ret = ehsm_get_root_of_trust_status(&ehandle, &rot_status);
+		*reg_val = rot_status.u.r;
+	}
+	break;
+	case EHSM_CHAIN_OF_TRUST_STATUS:
+	{
+		struct ehsm_chain_of_trust_status_reg cot_status;
+
+		ret = ehsm_get_chain_of_trust_status(&ehandle, &cot_status);
+		*reg_val = cot_status.u.r;
+	}
+	break;
+	default:
+		ERROR("Invalid Register offset 0x%x\n", reg_off);
+		return -EINVAL;
+	}
+
+	if (ret != SEC_NO_ERROR) {
+		WARN("Error in eHSM read CSR (%d)\n", ret);
+		return -EIO;
+	}
+
+	return 0;
+}

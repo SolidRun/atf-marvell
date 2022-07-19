@@ -619,8 +619,21 @@
  */
 #define PLAT_OCTEONTX_MEM_TEST_CONFIG   0xc2000b15
 
+/*
+ * x1 - Read register offset
+ *
+ * Return:
+ *	x0:
+ *	    0 -- Success
+ *	    -5 -- EIO
+ *	    other values are error codes
+ *	x1:
+ *	    Register value
+ */
+#define PLAT_OCTEONTX_EHSM_READ_CSR		0xc2000b16
+
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			23
+#define OTX3_NUM_SMC_CALLS			24
 
 
 /* API that allows to define platform specific SMC CALLS */
