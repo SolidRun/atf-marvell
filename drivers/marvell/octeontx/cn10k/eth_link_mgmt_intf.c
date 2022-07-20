@@ -773,7 +773,7 @@ unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
  */
 const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 {
-	const char *str = NULL;
+	const char *str = "UNKNOWN";
 
 #define ETH_LINK_STATE_CASE(m) case m: str = ((const char *)#m)+15
 
@@ -885,6 +885,10 @@ const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_TXEQ_CHANGE);
 	break;
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_TXEQ_FAILURE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_INIT_WAIT);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_TRAIN_WAIT);
 	break;
 
 	default:
@@ -1017,7 +1021,7 @@ const char *cn10k_link_error_to_str(link_err_type_t link_error)
  */
 const char *cn10k_ecp_link_req_to_str(ecp_link_req_id_t link_req)
 {
-	const char *str = NULL;
+	const char *str = "UNKNOWN";
 
 #define LINK_REQ_CASE(m) case m: str = ((const char *)#m)+9
 
