@@ -766,8 +766,8 @@ static const cn10k_portm_modes_t portm_1_lane_slow_usgmii_usxgmii[] = {
 
 	/* USGMII */
 	PORTM_MODE_QSGMII,
-	//PORTM_MODE_Q_USGMII,
-	//PORTM_MODE_O_USGMII,
+	PORTM_MODE_Q_USGMII,
+	PORTM_MODE_O_USGMII,
 
 	/* USXGMII */
 	PORTM_MODE_2_5G_SXGMII,

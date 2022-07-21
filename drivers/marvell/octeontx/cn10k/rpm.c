@@ -500,11 +500,11 @@ void rpm_init(int rpm_id)
 		if (cavm_is_model(OCTEONTX_CN10KB)) {
 			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_rx_lmacs_t,
 					CAVM_RPMX_CMR_RX_LMACS(rpm_id),
-					cn10kb, lmac_exist, (lmac_mask & 0xF));
+					cn10kb, lmac_exist, (lmac_mask & 0xFF));
 
 			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_tx_lmacs_t,
 					CAVM_RPMX_CMR_TX_LMACS(rpm_id),
-					cn10kb, lmac_exist, (lmac_mask & 0xF));
+					cn10kb, lmac_exist, (lmac_mask & 0xFF));
 		} else {
 			CAVM_MODIFY_RPM_CHIP_CSR(cavm_rpmx_cmr_rx_lmacs_t,
 					CAVM_RPMX_CMR_RX_LMACS(rpm_id),

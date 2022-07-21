@@ -465,7 +465,8 @@ static int rpm_link_bringup(int rpm_id, int lmac_id, uint64_t link_timeout)
 
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
-		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII))  {
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_USGMII))  {
 
 		if (lmac_cfg->sfp_slot) {
 retry_mod_stat:
@@ -615,6 +616,7 @@ static int rpm_link_bringdown(int rpm_id, int lmac_id)
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TENG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
+		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_USGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_FORTYG_R) ||
@@ -2283,6 +2285,7 @@ void rpm_fw_intf_shutdown(void)
 			 */
 			init = 0;
 			if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
+			(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_USGMII) ||
 				(lmac_ctx->s.link_enable)) {
 				rpm_link_bringdown(rpm, lmac);
 				mdelay(1);
