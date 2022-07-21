@@ -1525,6 +1525,17 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 
 	/* Clear the errors and send request to ECP for mode change */
 	rpm_set_error_type(rpm_id, lmac_id, 0);
+
+	if (switch_from_cpri) {
+		lmac->fec = portm->fec;
+		lmac->portm_idx = portm_idx;
+		lmac->port_enable = 1;
+		lmac->lmac_enable = 1;
+		rpm->lmac_count++;
+		rpm->enable = 1;
+		rpm_init(rpm_id);
+	}
+
 	ret = rpm_ecp_req_mode_change(portm_idx, rpm_id, lmac_id,
 		lmac_ctx, &link_state);
 	if (ret) {
@@ -1550,14 +1561,6 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 
 		rpm_set_link_state(rpm_id, lmac_id, &link,
 				rpm_get_error_type(rpm_id, lmac_id));
-	}
-	if (switch_from_cpri) {
-		lmac->fec = portm->fec;
-		lmac->portm_idx = portm_idx;
-		lmac->port_enable = 1;
-		lmac->lmac_enable = 1;
-		rpm->lmac_count++;
-		rpm->enable = 1;
 	}
 	rpm_update_lmac_mode_config(rpm_id, lmac_id);
 
