@@ -171,10 +171,19 @@ struct param_set {
 	uint64_t base_addr;
 };
 
+struct io_handle {
+	uintptr_t *dev_handle;		/* Device handle */
+	uintptr_t *io_handle;		/* I/O handle */
+	io_block_spec_t *spec;		/* spec data used with I/O handle */
+	const struct smc_update_descriptor *desc;	/* Update descriptor */
+};
+
 struct unmap_params {
 	int count;
 	struct param_set p[MAX_PARAM_SET_COUNT];
-} uParams;
+	bool media_initialized;
+	struct io_handle io_handle;
+} uParams = {0};
 
 /* CPIO parser ported from EBF */
 
@@ -189,13 +198,6 @@ enum fw_groups {
 	AP_GRP_GSERM,
 	AP_GRP_SWITCH_SUPER,
 	AP_GRP_SWITCH_AP,
-};
-
-struct io_handle {
-	uintptr_t *dev_handle;		/* Device handle */
-	uintptr_t *io_handle;		/* I/O handle */
-	io_block_spec_t *spec;		/* spec data used with I/O handle */
-	const struct smc_update_descriptor *desc;	/* Update descriptor */
 };
 
 /** CPIO header information */
@@ -272,6 +274,7 @@ struct verification_data {
 	int  hashret;
 	uint8_t digest[EHSM_MAX_HASH_SIZE_BYTES];
 	int hash_size;
+	struct ehsm_handle ehdl;
 };
 static struct verification_data vdata;
 
@@ -2468,6 +2471,12 @@ void done_callback(void *p)
 			octeontx_mmap_remove_dynamic_region_with_sync(param->p[i].base_addr,
 								param->p[i].ns_map_size);
 	}
+
+	if (param->media_initialized) {
+		media_done(&param->io_handle);
+		param->media_initialized = false;
+	}
+
 }
 
 /**
@@ -3538,19 +3547,15 @@ static int check_tim(struct smc_version_info *vinfo,
 static int verify_hash_block(void *ptr)
 {
 	struct verification_data *data = (struct verification_data *)ptr;
-
 	struct smc_update_descriptor *desc = &data->udesc;
-	struct ehsm_handle ehdl;
-	int ret = 0;
 	struct tim_load_info *linfo = &_tim_load_info;
-
 	uint64_t blk_size = sizeof(tim_buffer);
+	int ret = 0;
 
 	if (!data->hash_started) {
 		data->read_offset = linfo->src_address;
 		data->size = linfo->image_length;
-
-		ret = ehsm_verify_init(linfo, &ehdl);
+		ret = ehsm_verify_init(linfo, &data->ehdl);
 		if (ret) {
 			UERROR("Error initializing hash verification: %d\n", ret);
 			return SPI_OP_CALLBACK_ERROR;
@@ -3560,7 +3565,7 @@ static int verify_hash_block(void *ptr)
 
 	if (data->size > blk_size) {
 		octeontx_read_data(desc, data->read_offset, blk_size, tim_buffer);
-		ehsm_verify_update(&ehdl, tim_buffer, blk_size);
+		ehsm_verify_update(&data->ehdl, tim_buffer, blk_size);
 		data->read_offset += blk_size;
 		data->size -= blk_size;
 
@@ -3568,7 +3573,7 @@ static int verify_hash_block(void *ptr)
 	}
 	if (data->size) {
 		octeontx_read_data(desc, data->read_offset, data->size, tim_buffer);
-		data->hashret = ehsm_verify_final(&ehdl, tim_buffer, data->size,
+		data->hashret = ehsm_verify_final(&data->ehdl, tim_buffer, data->size,
 						  linfo, data->digest,
 						  &data->hash_size);
 		data->size = 0;
@@ -3581,7 +3586,7 @@ static int verify_hash_block(void *ptr)
 		UERROR("Detected corrupt flash image for %s\n",
 		      linfo->data_filename);
 	} else if (data->hashret != 0) {
-		UERROR("Error %d finalizing verification for %s\n",
+		UERROR("ADSD %d finalizing verification for %s\n",
 		       ret, linfo->data_filename);
 	}
 
@@ -3632,7 +3637,6 @@ static int prepare_vinfo(struct smc_version_info *vinfo)
 	int node;
 	struct smc_update_descriptor *udesc = &vdata.udesc;
 	struct smc_version_info_entry *ventry;
-	struct io_handle io_handle;
 
 	bool async_enabled = false;
 	bool is_root_tim = false;
@@ -3649,13 +3653,16 @@ static int prepare_vinfo(struct smc_version_info *vinfo)
 	if (vinfo->version_flags & VERSION_FLAG_BACKUP)
 		udesc->update_flags |= UPDATE_FLAG_BACKUP;
 
-	io_handle.dev_handle = &media_dev_handle;
-	io_handle.io_handle = &media_handle;
-	io_handle.spec = &media_spec;
-	if (setup_media(&io_handle, udesc)) {
+	uParams.io_handle.dev_handle = &media_dev_handle;
+	uParams.io_handle.io_handle = &media_handle;
+	uParams.io_handle.spec = &media_spec;
+
+	if (setup_media(&uParams.io_handle, udesc)) {
 		vinfo->retcode = INVALID_DEVICE_TREE;
 		return -1;
 	}
+
+	uParams.media_initialized = true;
 
 	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
 		debug_fw_update("Checking  version info for specified objects\n");
@@ -3773,7 +3780,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo)
 	if (!async_enabled) {
 		for (i=0; i<vinfo->num_objects; i++)
 			update_vinfo(&vdata);
-		media_done(&io_handle);
+		media_done(&uParams.io_handle);
 	} else {
 		for (i=0; i<vinfo->num_objects; i++) {
 			spi_async_add_block_callback(NULL, NULL,
