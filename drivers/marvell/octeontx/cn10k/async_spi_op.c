@@ -34,8 +34,10 @@ uint8_t spi_update_buffer[SPI_ERASE_SIZE];
 
 struct delayed_spi_op      spi_ops[SPI_OP_COUNT];
 struct delayed_block_op    block_ops[BLOCK_OP_COUNT];
-void (*delayed_callback)(void *cb_param);
+
+enum spi_dc_ret (*delayed_callback)(void *cb_param);
 void *callback_params;
+
 int spi_op_cnt, block_op_cnt;
 uint64_t delayed_spi_in_progress;
 
@@ -413,6 +415,7 @@ static void spi_async_block_completed(bool start)
 	bool restart_timer = false;
 	int cb_ret = 0;
 	int cb_init_ret = 0;
+	enum spi_dc_ret callback_ret = DC_RET_DONE;
 
 	if (!start && block_ops[block_op_cnt].block_callback != NULL) {
 		block_ops[block_op_cnt].status = BLOCK_STATUS_FINISHED_OK;
@@ -483,29 +486,39 @@ static void spi_async_block_completed(bool start)
 			  block_ops[block_op_cnt].param.spi_addr + block_ops[block_op_cnt].param.size);
 
 	if (cb_ret) {
-		INFO("%s: Stopping due to callback error\n", __func__);
-		if (delayed_callback != NULL) {
+		/* Error condition ignore callback_ret value */
+		ERROR("%s: Stopping due to callback error\n", __func__);
+		if (delayed_callback != NULL)
 			delayed_callback(callback_params);
-		}
+
 		delayed_callback = NULL;
 		delayed_spi_in_progress = 0;
 	} else {
 		if (restart_timer) {
 			tim_init();
 		} else {
-			if (delayed_callback != NULL) {
-				delayed_callback(callback_params);
+			block_op_cnt = 0;
+			spi_init_l1_desc();
+			spi_init_l2_desc();
+
+			if (delayed_callback != NULL)
+				callback_ret = delayed_callback(callback_params);
+
+			if (callback_ret == DC_RET_DONE) {
+				delayed_callback = NULL;
+				delayed_spi_in_progress = 0;
+
+				INFO("%s: Block chain completed\n", __func__);
+				INFO("Block chain stats:\nTime MIN: %lldus\n"
+				"Time MAX: %lldus\nTime AVG: %lldus\n"
+				"Total: %lldus\n",
+					aperf_counter.time_min,
+					aperf_counter.time_max,
+					aperf_counter.time_avg,
+					aperf_counter.total_time);
+			} else {
+				tim_init();
 			}
-			delayed_callback = NULL;
-			delayed_spi_in_progress = 0;
-			INFO("%s: Block chain completed\n", __func__);
-			INFO("Block chain stats:\nTime MIN: %lldus\n"
-			     "Time MAX: %lldus\nTime AVG: %lldus\n"
-			     "Total: %lldus\n",
-				aperf_counter.time_min,
-				aperf_counter.time_max,
-				aperf_counter.time_avg,
-				aperf_counter.total_time);
 		}
 	}
 }
@@ -728,7 +741,7 @@ int spi_async_init_delayed(void)
  * 				void* - pointer to user data
  * @param	params		pointer to user callback params
  */
-void spi_async_start(void (*block_callback)(void *), void *params)
+void spi_async_start(enum spi_dc_ret (*block_callback)(void *), void *params)
 {
 	INFO("%s: Starting delayed spi\n", __func__);
 	aperf_counter.time_min = 0xFFFFFFFFFFFFFFFF;

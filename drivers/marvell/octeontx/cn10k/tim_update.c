@@ -264,19 +264,28 @@ struct verification_data {
 	struct smc_version_info *vinfo;
 	struct smc_version_info_entry *ventry;
 	struct smc_update_descriptor udesc;
+	struct io_handle io;
+	struct ehsm_handle ehdl;
+	struct tim_load_info *linfo;
 	int ventry_counter;
 	int val;
 
-	struct tim_load_info *linfo;
+	uintptr_t media_dev_handle;
+	io_block_spec_t media_spec;
+	uintptr_t media_handle;
+
 	bool hash_started;
 	uint64_t read_offset;
 	size_t size;
 	int  hashret;
 	uint8_t digest[EHSM_MAX_HASH_SIZE_BYTES];
 	int hash_size;
-	struct ehsm_handle ehdl;
 };
-static struct verification_data vdata;
+#define VDATA_SRC 0
+#define VDATA_DST 1
+#define VDATA_INTANCES 2
+static struct verification_data verif_data[VDATA_INTANCES];
+static struct async_clone_data async_clone_internal;
 
 static enum update_ret media_done(struct io_handle *io_handle);
 
@@ -504,6 +513,10 @@ octeontx_read_data(const struct smc_update_descriptor *desc, uint64_t offset,
 		   size_t size, void *buffer);
 static enum update_ret update_tim0(const uint8_t *tim0, uint64_t offset,
 				   size_t size);
+
+static int flash_smc_get_versions(struct smc_version_info *vinfo,
+				  struct verification_data *vdata);
+enum spi_dc_ret async_clone_callback(void *p);
 
 /**
  * Customer defined function to perform image verification
@@ -2155,6 +2168,92 @@ done:
 	return ret;
 }
 
+
+
+static enum update_ret
+octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
+		  size_t max_size, uint8_t *buffer, struct tim_handle *handle,
+		  size_t *tim_size)
+{
+	enum update_ret ret;
+	enum tim_return tret;
+	union tim_headers *hdr = (union tim_headers *)buffer;
+	struct tim_header_info hinfo;
+	const struct smc_update_descriptor *desc = io->desc;
+	int i;
+
+	UINFO("Reading TIM header from offset 0x%llx\n", offset);
+	zeromem(buffer, max_size);
+	ret = octeontx_io_data_read(io, offset, TIM_TIMH_SIZE, (void *)hdr);
+	if (ret != UPDATE_OK) {
+		ERROR("Failed to read TIM from address 0x%llx (%d)\n",
+		      offset, ret);
+		goto done;
+	}
+
+	tret = tim_get_timh_info(hdr, &hinfo);
+	if (tret != TIM_NO_ERROR) {
+		/* See if the TIM is present or not by checking to see if
+		 * the flash is erased or not.
+		 */
+		uint8_t erased_byte =
+			(desc->update_flags & UPDATE_FLAG_EMMC) ? 0 : 0xff;
+		ret = UPDATE_MISSING_TIM;
+
+		for (i = 0; i < TIM_TIMH_SIZE; i++) {
+			if (buffer[i] != erased_byte) {
+				ret = UPDATE_TIM_ERROR;
+				break;
+			}
+		}
+		if (ret != UPDATE_MISSING_TIM) {
+			UWARN("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n",
+			      offset, tret, ret);
+			UWARN("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
+		} else {
+			UINFO("TIM not found at offset 0x%llx, tret: %d\n",
+			      offset, tret);
+		}
+		goto done;
+	}
+
+	if (hinfo.signed_tim_size > max_size) {
+		UERROR("TIM at offset 0x%llx is too large\n", offset);
+		ret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+
+	/* Read the rest of the TIM */
+	ret = octeontx_io_data_read(io, offset + TIM_TIMH_SIZE,
+				 hinfo.signed_tim_size - TIM_TIMH_SIZE,
+				 buffer + TIM_TIMH_SIZE);
+	if (ret != UPDATE_OK) {
+		UERROR("Could not read TIM\n");
+		goto done;
+	}
+
+	/* Validate TIM */
+	tret = tim_load(hdr, offset, handle);
+	if (tret != TIM_NO_ERROR) {
+		UERROR("Error %d parsing TIM at 0x%llx\n", ret, offset);
+		ret = UPDATE_TIM_ERROR;
+		goto done;
+	}
+	ret = ehsm_verify_tim_digital_signature(handle, &hinfo, (uint8_t *)hdr);
+	if (ret != 0) {
+		UERROR("TIM signature verification failed for TIM at offset 0x%llx\n",
+		       offset);
+		ret = UPDATE_AUTH_ERROR;
+		goto done;
+	}
+	ret = UPDATE_OK;
+	if (tim_size)
+		*tim_size = hinfo.signed_tim_size;
+done:
+
+	return ret;
+}
+
 /**
  * Extract TIM0 from the update and update what was saved.
  *
@@ -2461,7 +2560,7 @@ octeontx_write_files(const struct smc_update_descriptor *desc,
 	return UPDATE_OK;
 }
 
-void done_callback(void *p)
+enum spi_dc_ret done_callback(void *p)
 {
 	struct unmap_params *param = (struct unmap_params *)p;
 	int i;
@@ -2472,11 +2571,161 @@ void done_callback(void *p)
 								param->p[i].ns_map_size);
 	}
 
-	if (param->media_initialized) {
-		media_done(&param->io_handle);
-		param->media_initialized = false;
+	return DC_RET_DONE;
+}
+
+void async_mark_copy_images(struct async_clone_data *param) {
+	struct smc_version_info *src = param->vinfo_source;
+	int i;
+
+	for (i=0; i<src->num_objects; i++){
+		if (src->objects[i].retcode == RET_OK)
+			src->objects[i].perform_clone = 1;
+	}
+}
+
+int async_prepare_copy_operation(void *p)
+{
+	struct verification_data *src = &verif_data[VDATA_SRC];
+	struct verification_data *dst = &verif_data[VDATA_DST];
+	struct async_clone_data *clone_cfg = (struct async_clone_data *)p;
+	const int obj_id = clone_cfg->clone_counter++;
+
+	clone_cfg->copy_params.src_handle = &src->io;
+	clone_cfg->copy_params.dst_handle = &dst->io;
+	clone_cfg->copy_params.src_object_addr = clone_cfg->vinfo_source->objects[obj_id].object_address;
+	clone_cfg->copy_params.src_tim_addr = clone_cfg->vinfo_source->objects[obj_id].tim_address;
+	clone_cfg->copy_params.src_object_size = clone_cfg->vinfo_source->objects[obj_id].object_size;
+	clone_cfg->copy_params.src_tim_size = clone_cfg->vinfo_source->objects[obj_id].tim_size;
+
+	INFO("Name: %s, obj 0x%llx:0x%llx, tim: 0x%llx:0x%llx SRC:%d:%d DST:%d:%d\n",
+			clone_cfg->vinfo_source->objects[obj_id].name,
+			clone_cfg->copy_params.src_object_addr,
+			clone_cfg->copy_params.src_object_size,
+			clone_cfg->copy_params.src_tim_addr,
+			clone_cfg->copy_params.src_tim_size,
+			clone_cfg->copy_params.src_handle->desc->bus,
+			clone_cfg->copy_params.src_handle->desc->cs,
+			clone_cfg->copy_params.dst_handle->desc->bus,
+			clone_cfg->copy_params.dst_handle->desc->cs);
+
+	return SPI_OP_CALLBACK_CONTINUE;
+}
+
+int async_do_copy(void *p)
+{
+	struct async_clone_data *clone_cfg = (struct async_clone_data *)p;
+	struct async_clone_copy_params *params = &clone_cfg->copy_params;
+	size_t read_size;
+	int ret;
+
+	/* Copy object first */
+	while (params->src_object_size) {
+		read_size = (params->src_object_size < sizeof(tim_buffer)) ?
+						params->src_object_size : sizeof(tim_buffer);
+		ret = octeontx_io_data_read(params->src_handle,
+					    params->src_object_addr,
+					    read_size, tim_buffer);
+		if (ret) {
+			return SPI_OP_CALLBACK_ERROR;
+		}
+		ret = octeontx_io_data_write(params->dst_handle,
+					     params->src_object_addr,
+					     read_size, tim_buffer);
+		if (ret) {
+			return SPI_OP_CALLBACK_ERROR;
+		}
+		params->src_object_addr += read_size;
+		params->src_object_size -= read_size;
+		return SPI_OP_CALLBACK_CONTINUE;
 	}
 
+	while (params->src_tim_size) {
+		read_size = (params->src_tim_size < sizeof(tim_buffer)) ?
+						params->src_tim_size : sizeof(tim_buffer);
+		ret = octeontx_io_data_read(params->src_handle,
+					    params->src_tim_addr,
+					    read_size, tim_buffer);
+		if (ret) {
+			return SPI_OP_CALLBACK_ERROR;
+		}
+		ret = octeontx_io_data_write(params->dst_handle,
+					     params->src_tim_addr,
+					     read_size, tim_buffer);
+		if (ret) {
+			return SPI_OP_CALLBACK_ERROR;
+		}
+		params->src_tim_addr += read_size;
+		params->src_tim_size -= read_size;
+		return SPI_OP_CALLBACK_CONTINUE;
+	}
+	return SPI_OP_CALLBACK_FINISHED;
+}
+
+void async_copy_images(struct async_clone_data *param) {
+	struct smc_version_info *src = param->vinfo_source;
+	int i;
+
+	for (i=0; i<src->num_objects; i++){
+		if (src->objects[i].perform_clone) {
+			spi_async_add_block_callback(NULL, NULL,
+						async_prepare_copy_operation, param,
+						async_do_copy, param,
+						0);
+		}
+	}
+	spi_async_start(async_clone_callback, &async_clone_internal);
+}
+
+enum spi_dc_ret async_clone_callback(void *p)
+{
+	struct async_clone_data *param = (struct async_clone_data *)p;
+	enum spi_dc_ret ret = DC_RET_DONE;
+
+	//Should we do clone or exit
+	switch (param->state) {
+	case ACLONE_CHECK_SOURCE:
+		ERROR("Incorrect state\n");
+		param->state++;
+		ret = DC_RET_CONTINUE;
+		break;
+	case ACLONE_CHECK_DESTINATION:
+		INFO("Check destination stage\n");
+		flash_smc_get_versions(param->vinfo_destination, &verif_data[VDATA_DST]);
+		param->state++;
+		ret = DC_RET_CONTINUE;
+		break;
+	case ACLONE_MARK_COPY:
+		INFO("Mark copy stage\n");
+		async_mark_copy_images(param);
+		param->state++;
+		ret = DC_RET_CONTINUE;
+		break;
+	case ACLONE_ERASE_TIM0_DEST:
+		INFO("Erase TIM0 stage\n");
+		param->state++;
+		ret = DC_RET_CONTINUE;
+	case ACLONE_COPY_IMAGES:
+		INFO("Copy images\n");
+		param->clone_counter = 0;
+		async_copy_images(param);
+		param->state++;
+		ret = DC_RET_CONTINUE;
+		break;
+	case ACLONE_RESTORE_TIM0_DEST:
+		INFO("Restore TIM0 stage\n");
+		param->state++;
+		ret = DC_RET_CONTINUE;
+		break;
+	case ACLONE_CLEANUP:
+		INFO("Cleanup stage");
+		media_done(&verif_data[0].io);
+		media_done(&verif_data[1].io);
+		done_callback(&uParams);
+		break;
+	}
+
+	return ret;
 }
 
 /**
@@ -3450,7 +3699,7 @@ static int update_vinfo(struct verification_data *hash_data)
 
 static int check_tim(struct smc_version_info *vinfo,
 			     struct smc_version_info_entry *ventry,
-			     struct smc_update_descriptor *udesc,
+			     struct io_handle *io,
 			     uint64_t flash_addr, size_t size,
 			     uint32_t *tim_size)
 {
@@ -3462,7 +3711,7 @@ static int check_tim(struct smc_version_info *vinfo,
 
 	assert(sizeof(tim_buffer) >= TIM_MAX_SIZE);
 	ventry->retcode = RET_OK;
-	uret = octeontx_read_tim(udesc, flash_addr, max_read_size,
+	uret = octeontx_read_tim_io(io, flash_addr, max_read_size,
 				tim_buffer, thdl, NULL);
 	if (uret == UPDATE_MISSING_TIM) {
 		ventry->retcode = RET_NOT_FOUND;
@@ -3547,7 +3796,6 @@ static int check_tim(struct smc_version_info *vinfo,
 static int verify_hash_block(void *ptr)
 {
 	struct verification_data *data = (struct verification_data *)ptr;
-	struct smc_update_descriptor *desc = &data->udesc;
 	struct tim_load_info *linfo = &_tim_load_info;
 	uint64_t blk_size = sizeof(tim_buffer);
 	int ret = 0;
@@ -3564,7 +3812,7 @@ static int verify_hash_block(void *ptr)
 	}
 
 	if (data->size > blk_size) {
-		octeontx_read_data(desc, data->read_offset, blk_size, tim_buffer);
+		octeontx_io_data_read(&data->io, data->read_offset, blk_size, tim_buffer);
 		ehsm_verify_update(&data->ehdl, tim_buffer, blk_size);
 		data->read_offset += blk_size;
 		data->size -= blk_size;
@@ -3572,7 +3820,7 @@ static int verify_hash_block(void *ptr)
 		return SPI_OP_CALLBACK_CONTINUE;
 	}
 	if (data->size) {
-		octeontx_read_data(desc, data->read_offset, data->size, tim_buffer);
+		octeontx_io_data_read(&data->io, data->read_offset, data->size, tim_buffer);
 		data->hashret = ehsm_verify_final(&data->ehdl, tim_buffer, data->size,
 						  linfo, data->digest,
 						  &data->hash_size);
@@ -3609,7 +3857,7 @@ static int init_hash_verification(void *ptr) {
 
 	err = check_tim(data->vinfo,
 			ventry,
-			&data->udesc,
+			&data->io,
 			ventry->tim_address, size,
 			&tim_size);
 
@@ -3624,7 +3872,7 @@ static int init_hash_verification(void *ptr) {
 		return SPI_OP_CALLBACK_CONTINUE;
 }
 
-static int prepare_vinfo(struct smc_version_info *vinfo)
+static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_data *vdata)
 {
 	const char *name;
 	const char *type;
@@ -3635,7 +3883,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo)
 	int timeout = vinfo->timeout;
 
 	int node;
-	struct smc_update_descriptor *udesc = &vdata.udesc;
+	struct smc_update_descriptor *udesc = &vdata->udesc;
 	struct smc_version_info_entry *ventry;
 
 	bool async_enabled = false;
@@ -3653,16 +3901,22 @@ static int prepare_vinfo(struct smc_version_info *vinfo)
 	if (vinfo->version_flags & VERSION_FLAG_BACKUP)
 		udesc->update_flags |= UPDATE_FLAG_BACKUP;
 
-	uParams.io_handle.dev_handle = &media_dev_handle;
-	uParams.io_handle.io_handle = &media_handle;
-	uParams.io_handle.spec = &media_spec;
+	zeromem(&vdata->io, sizeof(vdata->io));
 
-	if (setup_media(&uParams.io_handle, udesc)) {
+	if (async_enabled) {
+		vdata->io.dev_handle = &vdata->media_dev_handle;
+		vdata->io.io_handle = &vdata->media_handle;
+		vdata->io.spec = &vdata->media_spec;
+
+	} else {
+		vdata->io.dev_handle = &media_dev_handle;
+		vdata->io.io_handle = &media_handle;
+		vdata->io.spec = &media_spec;
+	}
+	if (setup_media(&vdata->io, udesc)) {
 		vinfo->retcode = INVALID_DEVICE_TREE;
 		return -1;
 	}
-
-	uParams.media_initialized = true;
 
 	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
 		debug_fw_update("Checking  version info for specified objects\n");
@@ -3772,26 +4026,27 @@ static int prepare_vinfo(struct smc_version_info *vinfo)
 		vinfo->num_objects = obj_num;
 	}
 
-	vdata.vinfo = vinfo;
-	vdata.ventry_counter = 0;
-
+	vdata->vinfo = vinfo;
+	vdata->ventry_counter = 0;
 	spi_async_init_delayed();
 
 	if (!async_enabled) {
 		for (i=0; i<vinfo->num_objects; i++)
-			update_vinfo(&vdata);
-		media_done(&uParams.io_handle);
+			update_vinfo(vdata);
+		media_done(&vdata->io);
 	} else {
 		for (i=0; i<vinfo->num_objects; i++) {
 			spi_async_add_block_callback(NULL, NULL,
-						init_hash_verification, &vdata,
-						verify_hash_block, &vdata,
+						init_hash_verification, vdata,
+						verify_hash_block, vdata,
 						timeout*ms_to_us);
 		}
-		vdata.ventry_counter = 0;
-		spi_async_start(done_callback, &uParams);
+		vdata->ventry_counter = 0;
+		if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_FLASH)
+			spi_async_start(async_clone_callback, &async_clone_internal);
+		else
+			spi_async_start(done_callback, &uParams);
 	}
-
 	return err;
 }
 
@@ -3804,7 +4059,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo)
  *
  * @return	0 for success, -1 on error.
  */
-static int flash_smc_get_versions(struct smc_version_info *vinfo)
+static int flash_smc_get_versions(struct smc_version_info *vinfo, struct verification_data *vdata)
 {
 	INFO("Obtaining object version information\n");
 	if (vinfo->magic_number != VERSION_MAGIC) {
@@ -3831,7 +4086,7 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo)
 		return -1;
 	}
 
-	prepare_vinfo(vinfo);
+	prepare_vinfo(vinfo, vdata);
 
 	return 0;
 }
@@ -3877,7 +4132,7 @@ static int flash_smc_mark_copy(struct smc_version_info *clone_config)
 	/* There is no need to validate hash on cloned image */
 	clone_destination.version_flags &= ~SMC_VERSION_CHECK_VALIDATE_HASH;
 
-	flash_smc_get_versions(&clone_destination);
+	flash_smc_get_versions(&clone_destination, &verif_data[VDATA_DST]);
 
 	/* Mark all images to reflash */
 	for (i=0; i<clone_config->num_objects; i++)
@@ -3968,33 +4223,50 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		goto error;
 	}
 
-	err = flash_smc_get_versions(vinfo);
+	err = flash_smc_get_versions(vinfo, &verif_data[VDATA_SRC]);
 	*uret = err;
 	if (err) {
 		err = -1;
 		goto error;
 	}
 
-	if (vinfo->version_flags & SMC_VERSION_ASYNC_OPERATION)
+	if (vinfo->version_flags & SMC_VERSION_ASYNC_OPERATION) {
 		async_operation = true;
 
-	if (vinfo->version_flags & (SMC_VERSION_COPY_TO_BACKUP_FLASH |
-				    SMC_VERSION_COPY_TO_BACKUP_EMMC |
-				    SMC_VERSION_COPY_TO_BACKUP_OFFSET)) {
-		enum smc_version_ret vret;
+		/* prepare data for async clone */
+		memset(&clone_destination, 0, sizeof(struct smc_version_info));
 
-		debug_fw_update("Performing backup operation\n");
-		if (flash_smc_mark_copy(vinfo)) {
-			vret = flash_smc_copy_objects(vinfo);
-			if (vret != VERSION_OK)
-				err = -EIO;
-			else
-				err = 0;
+		clone_destination.magic_number = vinfo->magic_number;
+		clone_destination.version = vinfo->version;
+		clone_destination.version_flags = vinfo->version_flags;
+		clone_destination.bus = vinfo->target_bus;
+		clone_destination.cs = vinfo->target_cs;
+		clone_destination.num_objects = 32;
+
+		async_clone_internal.vinfo_source = vinfo;
+		async_clone_internal.vinfo_destination = &clone_destination;
+		async_clone_internal.state = ACLONE_CHECK_DESTINATION;
+	}
+
+	if (!async_operation) {
+		if (vinfo->version_flags & (SMC_VERSION_COPY_TO_BACKUP_FLASH |
+					SMC_VERSION_COPY_TO_BACKUP_EMMC |
+					SMC_VERSION_COPY_TO_BACKUP_OFFSET)) {
+			enum smc_version_ret vret;
+
+			debug_fw_update("Performing backup operation\n");
+			if (flash_smc_mark_copy(vinfo)) {
+				vret = flash_smc_copy_objects(vinfo);
+				if (vret != VERSION_OK)
+					err = -EIO;
+				else
+					err = 0;
+			} else {
+				INFO("Skipping flash clone\n");
+			}
 		} else {
-			INFO("Skipping flash clone\n");
+			debug_fw_update("Not backing up flash\n");
 		}
-	} else {
-		debug_fw_update("Not backing up flash\n");
 	}
 error:
 	if (!async_operation || err) {

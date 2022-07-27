@@ -39,6 +39,7 @@
  */
 #define EP_TIM_FILENAME		"ep_script-cn10xx.timb"
 
+
 enum update_ret {
 	/** No errors */
 	UPDATE_OK = 0,
@@ -382,5 +383,35 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
  * Check if async SPI engine is ready
  */
 int async_spi_is_ready(void);
+
+//Asynchronus operations - clone
+//States
+enum async_clone_operations {
+	ACLONE_CHECK_SOURCE=0,
+	ACLONE_CHECK_DESTINATION,
+	ACLONE_MARK_COPY,
+	ACLONE_ERASE_TIM0_DEST,
+	ACLONE_COPY_IMAGES,
+	ACLONE_RESTORE_TIM0_DEST,
+	ACLONE_CLEANUP,
+};
+
+struct async_clone_copy_params {
+	struct io_handle *src_handle;
+	struct io_handle *dst_handle;
+	uint64_t src_object_addr;
+	uint64_t src_object_size;
+	uint64_t src_tim_addr;
+	uint64_t src_tim_size;
+};
+
+//Data structures for clone
+struct async_clone_data {
+	struct smc_version_info *vinfo_source;
+	struct smc_version_info *vinfo_destination;
+	enum async_clone_operations state;
+	struct async_clone_copy_params copy_params;
+	int clone_counter;
+};
 
 #endif	/* __TIM_UPDATE_H__ */

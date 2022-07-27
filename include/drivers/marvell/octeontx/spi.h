@@ -86,6 +86,12 @@ enum direct_mode_operation {
 #define SPI_OP_CALLBACK_ERROR    0x02
 #define SPI_OP_CALLBACK_NA       0xFF
 
+enum spi_dc_ret {
+	DC_RET_DONE = 0, //All delayed operations are done
+	DC_RET_CONTINUE, //Callback generated new chain, continue operations.
+};
+
+
 /* Lelvel 2 descriptors */
 enum delayed_spi_op_type {
 	SPI_OP_ERASE,
@@ -187,7 +193,7 @@ uint32_t spi_dev_unlock(int spi_con);
  */
 int spi_block_config(uintptr_t handle, uint32_t spi_con, uint32_t cs);
 
-void spi_async_start(void (*block_callback)(void *), void *params);
+void spi_async_start(enum spi_dc_ret (*block_callback)(void *), void *params);
 void spi_async_add_block_write(int bus, int cs, uint64_t spi_addr, void *mem_addr, uint64_t size,
 			       int (*block_callback)(void*, int, struct delayed_block_params *),
 			       void *cb_params);
