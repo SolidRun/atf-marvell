@@ -1340,8 +1340,10 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 	/* Send request to ECP for mode change */
 	ret = rpm_ecp_req_mode_change_to_cpri(portm_idx,
 		portm->mac_num, portm->mac_lane, NULL, &link_state);
-	if (ret)
+	if (ret) {
+		ecp_dump_state_history(portm_idx, lmac_id, "Mode change failed");
 		return -1;
+	}
 
 	debug_rpm_intf("%s: PORTM%d change to mode=%d completed\n",
 		__func__, portm_idx, portm_mode);
@@ -1540,6 +1542,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		lmac_ctx, &link_state);
 	if (ret) {
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
+		ecp_dump_state_history(portm_idx, lmac_id, "Mode change failed");
 		goto mode_err;
 	}
 

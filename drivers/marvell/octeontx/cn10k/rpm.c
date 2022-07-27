@@ -89,6 +89,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 		/* Request not sent */
 		debug_rpm("%s: %d:%d Request not sent to ECP\n", __func__, rpm_id, lmac_id);
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_ECP_LINK_REQ_FAIL);
+		ecp_dump_state_history(lmac->portm_idx, lmac_id, "FEC change failed");
 		goto fec_err;
 	} else {
 		debug_rpm("%s: %d:%d Request sent to ECP\n", __func__, rpm_id, lmac_id);
