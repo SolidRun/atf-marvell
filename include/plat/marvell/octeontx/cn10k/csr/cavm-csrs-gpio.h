@@ -1575,7 +1575,20 @@ union cavm_gpio_pkg_ver
     } s;
     /* struct cavm_gpio_pkg_ver_s cn10; */
     /* struct cavm_gpio_pkg_ver_s cn10ka; */
-    /* struct cavm_gpio_pkg_ver_s cn10kb; */
+    struct cavm_gpio_pkg_ver_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
+                                                                 0x0 = SKU package A, code CF290AA = 29 x 29 package, for CN103XX.
+                                                                 0x1 = SKU package B, code CF240AA = 24 x 24 package, for CN102XX. */
+#else /* Word 0 - Little Endian */
+        uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
+                                                                 0x0 = SKU package A, code CF290AA = 29 x 29 package, for CN103XX.
+                                                                 0x1 = SKU package B, code CF240AA = 24 x 24 package, for CN102XX. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn10kb;
     struct cavm_gpio_pkg_ver_cnf10ka
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

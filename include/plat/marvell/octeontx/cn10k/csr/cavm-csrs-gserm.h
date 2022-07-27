@@ -26911,20 +26911,9 @@ union cavm_gsermx_common_phy_ctrl_bcfg
         uint64_t reserved_48_63        : 16;
         uint64_t refclk_sel_ext        : 1;  /**< [ 47: 47](R/W) External refclk mux select for selection between REF_CLK2 (Std-Ethernet) and
                                                                  REF_CLK4(Sync-Ethernet).
-                                                                   0 = REF_CLK2 (Std-Ethernet) is selected.
-                                                                   1 = REF_CLK4 (Sync-Ethernet) is selected. */
-        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by hardware.   When
-                                                                 [REFCLK_OVERRIDE] = 0, writes to these fields are ignored.
-                                                                 When [REFCLK_OVERRIDE] = 1, writes to these fields are applied. For diagnostic use only.
-
-                                                                   [REFCLK_A_OE_L].
-                                                                   [REFCLK_A_OE_R].
-                                                                   [REFCLK_B_OE_L].
-                                                                   [REFCLK_B_OE_R].
-                                                                   [REFCLK_RIGHT_OUTPUT_SEL].
-                                                                   [REFCLK_LEFT_OUTPUT_SEL].
-                                                                   [PHY_REXT_MASTER].
-                                                                 Legacy bit unused in design. */
+                                                                   0 = REF_CLK4 (Sync-Ethernet) is selected.
+                                                                   1 = REF_CLK2 (Std-Ethernet) is selected. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0 = APB bus reset deasserted.
                                                                    1 = APB bus reset asserted. */
@@ -26933,79 +26922,19 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  allow RSL access to APB registers that may exist in the phy IP, but which
                                                                  are not documented in the IP's IPXACT register description file which
                                                                  was imported to form the APB subblock of this csr file. */
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 1 prior to asserting POR or CPU_RESET. This bit may be written
-                                                                 to 0 or 1 by software as necessary.
-                                                                   0 = Program memory may be written (not write protected).
-                                                                   1 = Program memory cannot be written (write protected).
-                                                                 Legacy code. Not used in design. [PRAM_SOC_EN] can be used to control PMEM writes. */
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
         uint64_t reserved_41_42        : 2;
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
-                                                                   0 = PHY is a slave.
-                                                                   1 = PHY is the master.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
-                                                                 should not change outside of the POR CMU power state:
-                                                                   0 = The cm0_refclk_pad output will be held low.
-                                                                   1 = The ref clk driven into the refclkp/m bumps will be driven
-                                                                         out of the CMOS cm0_refclk_pad output to the DPL in all CMU
-                                                                         power states including POR.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
-                                                                   0 = The bumps are terminated with a differential 100 ohm resistance.
-                                                                   1 = The bumps are unterminated.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge:
-
-                                                                   REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
-                                                                     0x0 = Choose clk_ref_b_r_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_b_r_o source from clk_ref_b_r_i.
-                                                                     0x2 = Choose clk_ref_b_r_o source from clk_ref_b_l_i.
-                                                                     0x3 = Choose clk_ref_b_r_o source from refclk_pads.
-
-                                                                   REFCLK_RIGHT_OUTPUT_SEL\<1:0\>:
-                                                                     0x0 = Choose clk_ref_a_r_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_a_r_o source from clk_ref_a_r_i.
-                                                                     0x2 = Choose clk_ref_a_r_o source from clk_ref_a_l_i.
-                                                                     0x3 = Choose clk_ref_a_r_o source from refclk_pads.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge:
-                                                                   REFCLK_LEFT_OUTPUT_SEL\<3:2\>:
-                                                                     0x0 = Choose clk_ref_b_l_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_b_l_o source from clk_ref_b_l_i.
-                                                                     0x2 = Choose clk_ref_b_l_o source from clk_ref_b_r_i.
-                                                                     0x3 = Choose clk_ref_b_l_o source from refclk_pads.
-
-                                                                   REFCLK_LEFT_OUTPUT_SEL\<1:0\>:
-                                                                     0x0 = Choose clk_ref_a_l_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
-                                                                     0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
-                                                                     0x3 = Choose clk_ref_a_l_o source from refclk_pads.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
-                                                                   0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
-                                                                 Legacy bit unused in design. */
-        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) CPU reset. Active-high CPU reset. When asserted, CPU is halted and reset. When
-                                                                 deasserted, CPU will execute its program.
-                                                                 Legacy code. Not used in design. */
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
         uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
                                                                  Bit i of this field controls lane i.
                                                                  0x0 = Reference clock is selected by tied value.
@@ -27081,79 +27010,19 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  0x0 = Reference clock is selected by tied value.
                                                                  0x1 = Reference clock comes from [REFCLK_SEL].
                                                                  This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
-        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) CPU reset. Active-high CPU reset. When asserted, CPU is halted and reset. When
-                                                                 deasserted, CPU will execute its program.
-                                                                 Legacy code. Not used in design. */
-        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
-                                                                   0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge:
-                                                                   REFCLK_LEFT_OUTPUT_SEL\<3:2\>:
-                                                                     0x0 = Choose clk_ref_b_l_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_b_l_o source from clk_ref_b_l_i.
-                                                                     0x2 = Choose clk_ref_b_l_o source from clk_ref_b_r_i.
-                                                                     0x3 = Choose clk_ref_b_l_o source from refclk_pads.
-
-                                                                   REFCLK_LEFT_OUTPUT_SEL\<1:0\>:
-                                                                     0x0 = Choose clk_ref_a_l_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
-                                                                     0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
-                                                                     0x3 = Choose clk_ref_a_l_o source from refclk_pads.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge:
-
-                                                                   REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
-                                                                     0x0 = Choose clk_ref_b_r_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_b_r_o source from clk_ref_b_r_i.
-                                                                     0x2 = Choose clk_ref_b_r_o source from clk_ref_b_l_i.
-                                                                     0x3 = Choose clk_ref_b_r_o source from refclk_pads.
-
-                                                                   REFCLK_RIGHT_OUTPUT_SEL\<1:0\>:
-                                                                     0x0 = Choose clk_ref_a_r_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_a_r_o source from clk_ref_a_r_i.
-                                                                     0x2 = Choose clk_ref_a_r_o source from clk_ref_a_l_i.
-                                                                     0x3 = Choose clk_ref_a_r_o source from refclk_pads.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
-                                                                   0 = The bumps are terminated with a differential 100 ohm resistance.
-                                                                   1 = The bumps are unterminated.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
-                                                                 should not change outside of the POR CMU power state:
-                                                                   0 = The cm0_refclk_pad output will be held low.
-                                                                   1 = The ref clk driven into the refclkp/m bumps will be driven
-                                                                         out of the CMOS cm0_refclk_pad output to the DPL in all CMU
-                                                                         power states including POR.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
-                                                                   0 = PHY is a slave.
-                                                                   1 = PHY is the master.
-                                                                 Legacy bit unused in design. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
         uint64_t reserved_41_42        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 1 prior to asserting POR or CPU_RESET. This bit may be written
-                                                                 to 0 or 1 by software as necessary.
-                                                                   0 = Program memory may be written (not write protected).
-                                                                   1 = Program memory cannot be written (write protected).
-                                                                 Legacy code. Not used in design. [PRAM_SOC_EN] can be used to control PMEM writes. */
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
         uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
                                                                  addresses that are not documented in this csr file. This provides a mechanism to
                                                                  allow RSL access to APB registers that may exist in the phy IP, but which
@@ -27162,22 +27031,11 @@ union cavm_gsermx_common_phy_ctrl_bcfg
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0 = APB bus reset deasserted.
                                                                    1 = APB bus reset asserted. */
-        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by hardware.   When
-                                                                 [REFCLK_OVERRIDE] = 0, writes to these fields are ignored.
-                                                                 When [REFCLK_OVERRIDE] = 1, writes to these fields are applied. For diagnostic use only.
-
-                                                                   [REFCLK_A_OE_L].
-                                                                   [REFCLK_A_OE_R].
-                                                                   [REFCLK_B_OE_L].
-                                                                   [REFCLK_B_OE_R].
-                                                                   [REFCLK_RIGHT_OUTPUT_SEL].
-                                                                   [REFCLK_LEFT_OUTPUT_SEL].
-                                                                   [PHY_REXT_MASTER].
-                                                                 Legacy bit unused in design. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
         uint64_t refclk_sel_ext        : 1;  /**< [ 47: 47](R/W) External refclk mux select for selection between REF_CLK2 (Std-Ethernet) and
                                                                  REF_CLK4(Sync-Ethernet).
-                                                                   0 = REF_CLK2 (Std-Ethernet) is selected.
-                                                                   1 = REF_CLK4 (Sync-Ethernet) is selected. */
+                                                                   0 = REF_CLK4 (Sync-Ethernet) is selected.
+                                                                   1 = REF_CLK2 (Std-Ethernet) is selected. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
@@ -27186,18 +27044,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_47_63        : 17;
-        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by hardware.   When
-                                                                 [REFCLK_OVERRIDE] = 0, writes to these fields are ignored.
-                                                                 When [REFCLK_OVERRIDE] = 1, writes to these fields are applied. For diagnostic use only.
-
-                                                                   [REFCLK_A_OE_L].
-                                                                   [REFCLK_A_OE_R].
-                                                                   [REFCLK_B_OE_L].
-                                                                   [REFCLK_B_OE_R].
-                                                                   [REFCLK_RIGHT_OUTPUT_SEL].
-                                                                   [REFCLK_LEFT_OUTPUT_SEL].
-                                                                   [PHY_REXT_MASTER].
-                                                                 Legacy bit unused in design. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0 = APB bus reset deasserted.
                                                                    1 = APB bus reset asserted. */
@@ -27206,79 +27053,19 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  allow RSL access to APB registers that may exist in the phy IP, but which
                                                                  are not documented in the IP's IPXACT register description file which
                                                                  was imported to form the APB subblock of this csr file. */
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 1 prior to asserting POR or CPU_RESET. This bit may be written
-                                                                 to 0 or 1 by software as necessary.
-                                                                   0 = Program memory may be written (not write protected).
-                                                                   1 = Program memory cannot be written (write protected).
-                                                                 Legacy code. Not used in design. [PRAM_SOC_EN] can be used to control PMEM writes. */
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
         uint64_t reserved_41_42        : 2;
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
-                                                                   0 = PHY is a slave.
-                                                                   1 = PHY is the master.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
-                                                                 should not change outside of the POR CMU power state:
-                                                                   0 = The cm0_refclk_pad output will be held low.
-                                                                   1 = The ref clk driven into the refclkp/m bumps will be driven
-                                                                         out of the CMOS cm0_refclk_pad output to the DPL in all CMU
-                                                                         power states including POR.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
-                                                                   0 = The bumps are terminated with a differential 100 ohm resistance.
-                                                                   1 = The bumps are unterminated.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge:
-
-                                                                   REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
-                                                                     0x0 = Choose clk_ref_b_r_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_b_r_o source from clk_ref_b_r_i.
-                                                                     0x2 = Choose clk_ref_b_r_o source from clk_ref_b_l_i.
-                                                                     0x3 = Choose clk_ref_b_r_o source from refclk_pads.
-
-                                                                   REFCLK_RIGHT_OUTPUT_SEL\<1:0\>:
-                                                                     0x0 = Choose clk_ref_a_r_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_a_r_o source from clk_ref_a_r_i.
-                                                                     0x2 = Choose clk_ref_a_r_o source from clk_ref_a_l_i.
-                                                                     0x3 = Choose clk_ref_a_r_o source from refclk_pads.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge:
-                                                                   REFCLK_LEFT_OUTPUT_SEL\<3:2\>:
-                                                                     0x0 = Choose clk_ref_b_l_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_b_l_o source from clk_ref_b_l_i.
-                                                                     0x2 = Choose clk_ref_b_l_o source from clk_ref_b_r_i.
-                                                                     0x3 = Choose clk_ref_b_l_o source from refclk_pads.
-
-                                                                   REFCLK_LEFT_OUTPUT_SEL\<1:0\>:
-                                                                     0x0 = Choose clk_ref_a_l_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
-                                                                     0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
-                                                                     0x3 = Choose clk_ref_a_l_o source from refclk_pads.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
-                                                                   0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
-                                                                 Legacy bit unused in design. */
-        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) CPU reset. Active-high CPU reset. When asserted, CPU is halted and reset. When
-                                                                 deasserted, CPU will execute its program.
-                                                                 Legacy code. Not used in design. */
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
         uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
                                                                  Bit i of this field controls lane i.
                                                                  0x0 = Reference clock is selected by tied value.
@@ -27354,79 +27141,19 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                  0x0 = Reference clock is selected by tied value.
                                                                  0x1 = Reference clock comes from [REFCLK_SEL].
                                                                  This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
-        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) CPU reset. Active-high CPU reset. When asserted, CPU is halted and reset. When
-                                                                 deasserted, CPU will execute its program.
-                                                                 Legacy code. Not used in design. */
-        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) CMU reference clock input select:
-                                                                   0x0,0x3,0x4,0x7 = Ext ref clock from refclkp/m pads.
-                                                                   0x1 = Ref clock from on-chip CML source, clk_ref_a_l_i.
-                                                                   0x2 = Ref clock from on-chip CML source, clk_ref_a_r_i.
-                                                                   0x5 = Ref clock from on-chip CML source, clk_ref_b_l_i.
-                                                                   0x6 = Ref clock from on-chip CML source, clk_ref_b_r_i.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the bottom of the AFE macro at die edge:
-                                                                   REFCLK_LEFT_OUTPUT_SEL\<3:2\>:
-                                                                     0x0 = Choose clk_ref_b_l_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_b_l_o source from clk_ref_b_l_i.
-                                                                     0x2 = Choose clk_ref_b_l_o source from clk_ref_b_r_i.
-                                                                     0x3 = Choose clk_ref_b_l_o source from refclk_pads.
-
-                                                                   REFCLK_LEFT_OUTPUT_SEL\<1:0\>:
-                                                                     0x0 = Choose clk_ref_a_l_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_a_l_o source from clk_ref_a_l_i.
-                                                                     0x2 = Choose clk_ref_a_l_o source from clk_ref_a_r_i.
-                                                                     0x3 = Choose clk_ref_a_l_o source from refclk_pads.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) CMU reference clock output select for the CML distribution buffers driving
-                                                                 out of the top of the AFE macro at die edge:
-
-                                                                   REFCLK_RIGHT_OUTPUT_SEL\<3:2\>:
-                                                                     0x0 = Choose clk_ref_b_r_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_b_r_o source from clk_ref_b_r_i.
-                                                                     0x2 = Choose clk_ref_b_r_o source from clk_ref_b_l_i.
-                                                                     0x3 = Choose clk_ref_b_r_o source from refclk_pads.
-
-                                                                   REFCLK_RIGHT_OUTPUT_SEL\<1:0\>:
-                                                                     0x0 = Choose clk_ref_a_r_o source from refclk_pads.
-                                                                     0x1 = Choose clk_ref_a_r_o source from clk_ref_a_r_i.
-                                                                     0x2 = Choose clk_ref_a_r_o source from clk_ref_a_l_i.
-                                                                     0x3 = Choose clk_ref_a_r_o source from refclk_pads.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) High impedance enable for the reclkp/m bumps:
-                                                                   0 = The bumps are terminated with a differential 100 ohm resistance.
-                                                                   1 = The bumps are unterminated.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Output enable for the cm0_refclk_pad_o output clock.  This signal
-                                                                 should not change outside of the POR CMU power state:
-                                                                   0 = The cm0_refclk_pad output will be held low.
-                                                                   1 = The ref clk driven into the refclkp/m bumps will be driven
-                                                                         out of the CMOS cm0_refclk_pad output to the DPL in all CMU
-                                                                         power states including POR.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the top of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the top of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "B" out of the bottom of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Output enables for the CML output buffers that drive reference
-                                                                 clock "A" out of the bottom of the AFE macro, active high.
-                                                                 Legacy bit unused in design. */
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) REXT master select:
-                                                                   0 = PHY is a slave.
-                                                                   1 = PHY is the master.
-                                                                 Legacy bit unused in design. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
         uint64_t reserved_41_42        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 1 prior to asserting POR or CPU_RESET. This bit may be written
-                                                                 to 0 or 1 by software as necessary.
-                                                                   0 = Program memory may be written (not write protected).
-                                                                   1 = Program memory cannot be written (write protected).
-                                                                 Legacy code. Not used in design. [PRAM_SOC_EN] can be used to control PMEM writes. */
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
         uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
                                                                  addresses that are not documented in this csr file. This provides a mechanism to
                                                                  allow RSL access to APB registers that may exist in the phy IP, but which
@@ -27435,18 +27162,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
         uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
                                                                    0 = APB bus reset deasserted.
                                                                    1 = APB bus reset asserted. */
-        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) During a cold reset, the following fields are populated by hardware.   When
-                                                                 [REFCLK_OVERRIDE] = 0, writes to these fields are ignored.
-                                                                 When [REFCLK_OVERRIDE] = 1, writes to these fields are applied. For diagnostic use only.
-
-                                                                   [REFCLK_A_OE_L].
-                                                                   [REFCLK_A_OE_R].
-                                                                   [REFCLK_B_OE_L].
-                                                                   [REFCLK_B_OE_R].
-                                                                   [REFCLK_RIGHT_OUTPUT_SEL].
-                                                                   [REFCLK_LEFT_OUTPUT_SEL].
-                                                                   [PHY_REXT_MASTER].
-                                                                 Legacy bit unused in design. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
         uint64_t reserved_47_63        : 17;
 #endif /* Word 0 - End */
     } cn10ka;
@@ -27489,19 +27205,9 @@ union cavm_gsermx_common_phy_ctrl_prot
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 1 prior to asserting POR or CPU_RESET. This bit cannot be
-                                                                 cleared by writing, only cleared upon reset.
-                                                                   0 = Program memory may be written (not write protected).
-                                                                   1 = Program memory cannot be written (write protected).
-                                                                 Legacy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
+        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Sticky write protect for CPU program memory. If write protection is desired on PMEM,
-                                                                 this bit should be set to 1 prior to asserting POR or CPU_RESET. This bit cannot be
-                                                                 cleared by writing, only cleared upon reset.
-                                                                   0 = Program memory may be written (not write protected).
-                                                                   1 = Program memory cannot be written (write protected).
-                                                                 Legacy code. Not used in design. PRAM_SOC_EN can be used to control PMEM writes. */
+        uint64_t pmem_wr_prot_stky     : 1;  /**< [  0:  0](R/W1S) Reserved. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
@@ -47847,7 +47553,7 @@ static inline uint64_t CAVM_GSERMX_DME_ENC_REG2(uint64_t a)
 /**
  * Register (RSL32b) gserm#_dmem#
  *
- * GSERM Data Memory (36kB) Registers
+ * INTERNAL: GSERM Data Memory Registers
  */
 union cavm_gsermx_dmemx
 {
@@ -47855,9 +47561,9 @@ union cavm_gsermx_dmemx
     struct cavm_gsermx_dmemx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Data memory for GSERM microcontroller. Legacy logic unused in design. */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](R/W) Data memory for GSERM microcontroller. Legacy logic unused in design. */
+        uint32_t data                  : 32; /**< [ 31:  0](R/W) Reserved. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_dmemx_s cn; */
@@ -62241,13 +61947,11 @@ union cavm_gsermx_lanex_control_bcfg
         uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved. */
         uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved. */
         uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved. */
-        uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Not used.
-                                                                 For diagnostic use only. */
-        uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Not used.
-                                                                 For diagnostic use only. */
-        uint64_t cgx_quad              : 1;  /**< [ 51: 51](R/W) Not used. */
-        uint64_t cgx_dual              : 1;  /**< [ 50: 50](R/W) Not used. */
-        uint64_t cfg_cgx               : 1;  /**< [ 49: 49](R/W) Not used. */
+        uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Reserved. */
+        uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Reserved. */
+        uint64_t cgx_quad              : 1;  /**< [ 51: 51](R/W) Reserved. */
+        uint64_t cgx_dual              : 1;  /**< [ 50: 50](R/W) Reserved. */
+        uint64_t cfg_cgx               : 1;  /**< [ 49: 49](R/W) Reserved. */
         uint64_t reserved_46_48        : 3;
         uint64_t pin_rx_init_ovr_en    : 1;  /**< [ 45: 45](R/W) Override for PIN_RX_INIT. 0x0 = Internal Logic drives the PIN_RX_INIT. 0x1 =
                                                                  PIN_RX_INIT is driven by following bit. */
@@ -62461,13 +62165,11 @@ union cavm_gsermx_lanex_control_bcfg
         uint64_t pin_rx_init_ovr_en    : 1;  /**< [ 45: 45](R/W) Override for PIN_RX_INIT. 0x0 = Internal Logic drives the PIN_RX_INIT. 0x1 =
                                                                  PIN_RX_INIT is driven by following bit. */
         uint64_t reserved_46_48        : 3;
-        uint64_t cfg_cgx               : 1;  /**< [ 49: 49](R/W) Not used. */
-        uint64_t cgx_dual              : 1;  /**< [ 50: 50](R/W) Not used. */
-        uint64_t cgx_quad              : 1;  /**< [ 51: 51](R/W) Not used. */
-        uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Not used.
-                                                                 For diagnostic use only. */
-        uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Not used.
-                                                                 For diagnostic use only. */
+        uint64_t cfg_cgx               : 1;  /**< [ 49: 49](R/W) Reserved. */
+        uint64_t cgx_dual              : 1;  /**< [ 50: 50](R/W) Reserved. */
+        uint64_t cgx_quad              : 1;  /**< [ 51: 51](R/W) Reserved. */
+        uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Reserved. */
+        uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Reserved. */
         uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved. */
         uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved. */
         uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved. */
@@ -62513,13 +62215,11 @@ union cavm_gsermx_lanex_control_bcfg
         uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved. */
         uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved. */
         uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved. */
-        uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Not used.
-                                                                 For diagnostic use only. */
-        uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Not used.
-                                                                 For diagnostic use only. */
-        uint64_t cgx_quad              : 1;  /**< [ 51: 51](R/W) Not used. */
-        uint64_t cgx_dual              : 1;  /**< [ 50: 50](R/W) Not used. */
-        uint64_t cfg_cgx               : 1;  /**< [ 49: 49](R/W) Not used. */
+        uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Reserved. */
+        uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Reserved. */
+        uint64_t cgx_quad              : 1;  /**< [ 51: 51](R/W) Reserved. */
+        uint64_t cgx_dual              : 1;  /**< [ 50: 50](R/W) Reserved. */
+        uint64_t cfg_cgx               : 1;  /**< [ 49: 49](R/W) Reserved. */
         uint64_t reserved_46_48        : 3;
         uint64_t pin_rx_init_ovr_en    : 1;  /**< [ 45: 45](R/W) Override for PIN_RX_INIT. 0x0 = Internal Logic drives the PIN_RX_INIT. 0x1 =
                                                                  PIN_RX_INIT is driven by following bit. */
@@ -62733,13 +62433,11 @@ union cavm_gsermx_lanex_control_bcfg
         uint64_t pin_rx_init_ovr_en    : 1;  /**< [ 45: 45](R/W) Override for PIN_RX_INIT. 0x0 = Internal Logic drives the PIN_RX_INIT. 0x1 =
                                                                  PIN_RX_INIT is driven by following bit. */
         uint64_t reserved_46_48        : 3;
-        uint64_t cfg_cgx               : 1;  /**< [ 49: 49](R/W) Not used. */
-        uint64_t cgx_dual              : 1;  /**< [ 50: 50](R/W) Not used. */
-        uint64_t cgx_quad              : 1;  /**< [ 51: 51](R/W) Not used. */
-        uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Not used.
-                                                                 For diagnostic use only. */
-        uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Not used.
-                                                                 For diagnostic use only. */
+        uint64_t cfg_cgx               : 1;  /**< [ 49: 49](R/W) Reserved. */
+        uint64_t cgx_dual              : 1;  /**< [ 50: 50](R/W) Reserved. */
+        uint64_t cgx_quad              : 1;  /**< [ 51: 51](R/W) Reserved. */
+        uint64_t reverse_tx_bit_order  : 1;  /**< [ 52: 52](R/W) Reserved. */
+        uint64_t reverse_rx_bit_order  : 1;  /**< [ 53: 53](R/W) Reserved. */
         uint64_t tx_wup_40b20b         : 1;  /**< [ 54: 54](RAZ) Reserved. */
         uint64_t rx_wpk_20b40b         : 1;  /**< [ 55: 55](RAZ) Reserved. */
         uint64_t tx_wup_order          : 1;  /**< [ 56: 56](RAZ) Reserved. */

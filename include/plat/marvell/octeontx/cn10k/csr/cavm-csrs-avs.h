@@ -173,6 +173,8 @@ static inline uint64_t CAVM_AVS_AVS_N5P_1_CTL0_FUNC(void)
         return 0x80a000001088ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x80a000001088ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+        return 0x80a000001088ll;
     __cavm_csr_fatal("AVS_AVS_N5P_1_CTL0", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -229,6 +231,8 @@ static inline uint64_t CAVM_AVS_AVS_N5P_1_CTL1_FUNC(void)
     if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
         return 0x80a000001090ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x80a000001090ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
         return 0x80a000001090ll;
     __cavm_csr_fatal("AVS_AVS_N5P_1_CTL1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -783,7 +787,7 @@ union cavm_avs_lvd_adc0_ctl
     } cn10ka_p2;
     /* struct cavm_avs_lvd_adc0_ctl_cn10ka_p2 cn10kb; */
     /* struct cavm_avs_lvd_adc0_ctl_cn10ka_p1 cnf10ka; */
-    struct cavm_avs_lvd_adc0_ctl_cnf10kb
+    struct cavm_avs_lvd_adc0_ctl_cnf10kb_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
@@ -804,7 +808,8 @@ union cavm_avs_lvd_adc0_ctl
         uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cnf10kb_p1;
+    /* struct cavm_avs_lvd_adc0_ctl_cn10ka_p2 cnf10kb_p2; */
 };
 typedef union cavm_avs_lvd_adc0_ctl cavm_avs_lvd_adc0_ctl_t;
 
@@ -898,7 +903,7 @@ union cavm_avs_lvd_adc1_ctl
     } cn10ka_p2;
     /* struct cavm_avs_lvd_adc1_ctl_cn10ka_p2 cn10kb; */
     /* struct cavm_avs_lvd_adc1_ctl_cn10ka_p1 cnf10ka; */
-    struct cavm_avs_lvd_adc1_ctl_cnf10kb
+    struct cavm_avs_lvd_adc1_ctl_cnf10kb_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
@@ -919,7 +924,8 @@ union cavm_avs_lvd_adc1_ctl
         uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cnf10kb_p1;
+    /* struct cavm_avs_lvd_adc1_ctl_cn10ka_p2 cnf10kb_p2; */
 };
 typedef union cavm_avs_lvd_adc1_ctl cavm_avs_lvd_adc1_ctl_t;
 
@@ -1013,7 +1019,7 @@ union cavm_avs_lvd_adc2_ctl
     } cn10ka_p2;
     /* struct cavm_avs_lvd_adc2_ctl_cn10ka_p2 cn10kb; */
     /* struct cavm_avs_lvd_adc2_ctl_cn10ka_p1 cnf10ka; */
-    struct cavm_avs_lvd_adc2_ctl_cnf10kb
+    struct cavm_avs_lvd_adc2_ctl_cnf10kb_p1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
@@ -1034,7 +1040,8 @@ union cavm_avs_lvd_adc2_ctl
         uint64_t lvd_test              : 4;  /**< [ 54: 51](R/W) Testmon TP selection. */
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
-    } cnf10kb;
+    } cnf10kb_p1;
+    /* struct cavm_avs_lvd_adc2_ctl_cn10ka_p2 cnf10kb_p2; */
 };
 typedef union cavm_avs_lvd_adc2_ctl cavm_avs_lvd_adc2_ctl_t;
 
@@ -1087,6 +1094,8 @@ static inline uint64_t CAVM_AVS_LVD_ADC_0_OBSERVATION_FUNC(void)
         return 0x80a000001098ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x80a000001098ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+        return 0x80a000001098ll;
     __cavm_csr_fatal("AVS_LVD_ADC_0_OBSERVATION", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1132,6 +1141,8 @@ static inline uint64_t CAVM_AVS_LVD_ADC_1_OBSERVATION_FUNC(void)
         return 0x80a0000010a0ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x80a0000010a0ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+        return 0x80a0000010a0ll;
     __cavm_csr_fatal("AVS_LVD_ADC_1_OBSERVATION", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -1176,6 +1187,8 @@ static inline uint64_t CAVM_AVS_LVD_ADC_2_OBSERVATION_FUNC(void)
     if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
         return 0x80a0000010a8ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x80a0000010a8ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
         return 0x80a0000010a8ll;
     __cavm_csr_fatal("AVS_LVD_ADC_2_OBSERVATION", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1581,7 +1594,8 @@ union cavm_avs_sts
     /* struct cavm_avs_sts_s cn10ka_p2; */
     /* struct cavm_avs_sts_s cn10kb; */
     /* struct cavm_avs_sts_cn10ka_p1 cnf10ka; */
-    /* struct cavm_avs_sts_cn10ka_p1 cnf10kb; */
+    /* struct cavm_avs_sts_cn10ka_p1 cnf10kb_p1; */
+    /* struct cavm_avs_sts_s cnf10kb_p2; */
 };
 typedef union cavm_avs_sts cavm_avs_sts_t;
 

@@ -4241,15 +4241,7 @@ union cavm_dssx_ddrctl_regb_arb_port0_pchbtctrl
         uint32_t dbg_force_pcrd_steal_mode : 1;/**< [  4:  4](R/W) Debug feature: SW bit to force enable P-credit steal mode when programmed to 0x1
                                                                  Programming Mode: Dynamic */
         uint32_t reserved_3            : 1;
-        uint32_t crc_ue_rsp_sel        : 2;  /**< [  2:  1](R/W) Selects txDAT response type when the data has ECC uncorrectable errors or CRC errors
-                                                                        - 0x0 : Response is OKAY
-                                                                        - 0x1 : Response is DERR
-                                                                        - 0x2 : Response is OKAY, TxDAT flit poison is set
-                                                                        - 0x3 : Reserved
-
-                                                                  Note: 0x2 should be only programmed in configurations which enable poison on
-                                                                 CHI data flits, reserved in all other configurations.
-                                                                 Programming Mode: Dynamic */
+        uint32_t crc_ue_rsp_sel        : 2;  /**< [  2:  1](R/W) Reserved. */
         uint32_t dis_prefetch          : 1;  /**< [  0:  0](R/W) SW bit to ignore prefetchTgt opcode in CHB port. when set, PrefetcgTgt requests are treated as NOP
 
                                                                  Programming Mode: Dynamic. */
@@ -4257,15 +4249,7 @@ union cavm_dssx_ddrctl_regb_arb_port0_pchbtctrl
         uint32_t dis_prefetch          : 1;  /**< [  0:  0](R/W) SW bit to ignore prefetchTgt opcode in CHB port. when set, PrefetcgTgt requests are treated as NOP
 
                                                                  Programming Mode: Dynamic. */
-        uint32_t crc_ue_rsp_sel        : 2;  /**< [  2:  1](R/W) Selects txDAT response type when the data has ECC uncorrectable errors or CRC errors
-                                                                        - 0x0 : Response is OKAY
-                                                                        - 0x1 : Response is DERR
-                                                                        - 0x2 : Response is OKAY, TxDAT flit poison is set
-                                                                        - 0x3 : Reserved
-
-                                                                  Note: 0x2 should be only programmed in configurations which enable poison on
-                                                                 CHI data flits, reserved in all other configurations.
-                                                                 Programming Mode: Dynamic */
+        uint32_t crc_ue_rsp_sel        : 2;  /**< [  2:  1](R/W) Reserved. */
         uint32_t reserved_3            : 1;
         uint32_t dbg_force_pcrd_steal_mode : 1;/**< [  4:  4](R/W) Debug feature: SW bit to force enable P-credit steal mode when programmed to 0x1
                                                                  Programming Mode: Dynamic */
@@ -4294,29 +4278,13 @@ union cavm_dssx_ddrctl_regb_arb_port0_pchbtctrl
         uint32_t dbg_force_pcrd_steal_mode : 1;/**< [  4:  4](R/W) Debug feature: SW bit to force enable P-credit steal mode when programmed to 0x1
                                                                  Programming Mode: Dynamic */
         uint32_t reserved_3            : 1;
-        uint32_t crc_ue_rsp_sel        : 2;  /**< [  2:  1](R/W) Selects txDAT response type when the data has ECC uncorrectable errors or CRC errors
-                                                                        - 0x0 : Response is OKAY
-                                                                        - 0x1 : Response is DERR
-                                                                        - 0x2 : Response is OKAY, TxDAT flit poison is set
-                                                                        - 0x3 : Reserved
-
-                                                                  Note: 0x2 should be only programmed in configurations which enable poison on
-                                                                 CHI data flits, reserved in all other configurations.
-                                                                 Programming Mode: Dynamic */
+        uint32_t crc_ue_rsp_sel        : 2;  /**< [  2:  1](R/W) Reserved. */
         uint32_t dis_prefetch          : 1;  /**< [  0:  0](R/W) SW bit to ignore prefetchTgt opcode in CHB port. when set, PrefetcgTgt requests are treated as NOP
                                                                  Programming Mode: Dynamic */
 #else /* Word 0 - Little Endian */
         uint32_t dis_prefetch          : 1;  /**< [  0:  0](R/W) SW bit to ignore prefetchTgt opcode in CHB port. when set, PrefetcgTgt requests are treated as NOP
                                                                  Programming Mode: Dynamic */
-        uint32_t crc_ue_rsp_sel        : 2;  /**< [  2:  1](R/W) Selects txDAT response type when the data has ECC uncorrectable errors or CRC errors
-                                                                        - 0x0 : Response is OKAY
-                                                                        - 0x1 : Response is DERR
-                                                                        - 0x2 : Response is OKAY, TxDAT flit poison is set
-                                                                        - 0x3 : Reserved
-
-                                                                  Note: 0x2 should be only programmed in configurations which enable poison on
-                                                                 CHI data flits, reserved in all other configurations.
-                                                                 Programming Mode: Dynamic */
+        uint32_t crc_ue_rsp_sel        : 2;  /**< [  2:  1](R/W) Reserved. */
         uint32_t reserved_3            : 1;
         uint32_t dbg_force_pcrd_steal_mode : 1;/**< [  4:  4](R/W) Debug feature: SW bit to force enable P-credit steal mode when programmed to 0x1
                                                                  Programming Mode: Dynamic */
@@ -8754,6 +8722,56 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_23_31        : 9;
+        uint32_t rd_crc_err_cnt_clr    : 1;  /**< [ 22: 22](R/W1C) Reserved. */
+        uint32_t rd_crc_err_max_reached_int_clr : 1;/**< [ 21: 21](R/W1C) Reserved. */
+        uint32_t rd_crc_err_max_reached_int_en : 1;/**< [ 20: 20](R/W) Reserved. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t wr_crc_err_cnt_clr    : 1;  /**< [ 15: 15](R/W1C) Reserved. */
+        uint32_t wr_crc_err_max_reached_intr_force : 1;/**< [ 14: 14](R/W1C) Reserved. */
+        uint32_t wr_crc_err_max_reached_intr_clr : 1;/**< [ 13: 13](R/W1C) Reserved. */
+        uint32_t wr_crc_err_max_reached_intr_en : 1;/**< [ 12: 12](R/W) Reserved. */
+        uint32_t reserved_11           : 1;
+        uint32_t wr_crc_err_intr_force : 1;  /**< [ 10: 10](R/W1C) Reserved. */
+        uint32_t wr_crc_err_intr_clr   : 1;  /**< [  9:  9](R/W1C) Reserved. */
+        uint32_t wr_crc_err_intr_en    : 1;  /**< [  8:  8](R/W) Reserved. */
+        uint32_t capar_err_cnt_clr     : 1;  /**< [  7:  7](R/W1C) Reserved. */
+        uint32_t capar_err_max_reached_intr_force : 1;/**< [  6:  6](R/W1C) Reserved. */
+        uint32_t capar_err_max_reached_intr_clr : 1;/**< [  5:  5](R/W1C) Reserved. */
+        uint32_t capar_err_max_reached_intr_en : 1;/**< [  4:  4](R/W) Reserved. */
+        uint32_t reserved_3            : 1;
+        uint32_t capar_err_intr_force  : 1;  /**< [  2:  2](R/W1C) Reserved. */
+        uint32_t capar_err_intr_clr    : 1;  /**< [  1:  1](R/W1C) Reserved. */
+        uint32_t capar_err_intr_en     : 1;  /**< [  0:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t capar_err_intr_en     : 1;  /**< [  0:  0](R/W) Reserved. */
+        uint32_t capar_err_intr_clr    : 1;  /**< [  1:  1](R/W1C) Reserved. */
+        uint32_t capar_err_intr_force  : 1;  /**< [  2:  2](R/W1C) Reserved. */
+        uint32_t reserved_3            : 1;
+        uint32_t capar_err_max_reached_intr_en : 1;/**< [  4:  4](R/W) Reserved. */
+        uint32_t capar_err_max_reached_intr_clr : 1;/**< [  5:  5](R/W1C) Reserved. */
+        uint32_t capar_err_max_reached_intr_force : 1;/**< [  6:  6](R/W1C) Reserved. */
+        uint32_t capar_err_cnt_clr     : 1;  /**< [  7:  7](R/W1C) Reserved. */
+        uint32_t wr_crc_err_intr_en    : 1;  /**< [  8:  8](R/W) Reserved. */
+        uint32_t wr_crc_err_intr_clr   : 1;  /**< [  9:  9](R/W1C) Reserved. */
+        uint32_t wr_crc_err_intr_force : 1;  /**< [ 10: 10](R/W1C) Reserved. */
+        uint32_t reserved_11           : 1;
+        uint32_t wr_crc_err_max_reached_intr_en : 1;/**< [ 12: 12](R/W) Reserved. */
+        uint32_t wr_crc_err_max_reached_intr_clr : 1;/**< [ 13: 13](R/W1C) Reserved. */
+        uint32_t wr_crc_err_max_reached_intr_force : 1;/**< [ 14: 14](R/W1C) Reserved. */
+        uint32_t wr_crc_err_cnt_clr    : 1;  /**< [ 15: 15](R/W1C) Reserved. */
+        uint32_t reserved_16_19        : 4;
+        uint32_t rd_crc_err_max_reached_int_en : 1;/**< [ 20: 20](R/W) Reserved. */
+        uint32_t rd_crc_err_max_reached_int_clr : 1;/**< [ 21: 21](R/W1C) Reserved. */
+        uint32_t rd_crc_err_cnt_clr    : 1;  /**< [ 22: 22](R/W1C) Reserved. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
         uint32_t rd_crc_err_cnt_clr    : 1;  /**< [ 22: 22](R/W1C) Read CRC error count clear. If this bit set, Read CRC error count will be
                                                                  cleared. DDRCTL automatically clears this bit.
 
@@ -8963,9 +8981,8 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0
                                                                  Programming Mode: Dynamic. */
         uint32_t reserved_23_31        : 9;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9146,8 +9163,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0
         uint32_t reserved_23_31        : 9;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0 cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl0_t;
 
@@ -9182,6 +9200,96 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1
 {
     uint32_t u;
     struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t capar_err_max_reached_th : 16;/**< [ 31: 16](R/W) Reserved. */
+        uint32_t dfi_alert_async_mode  : 1;  /**< [ 15: 15](R/W) The controller has two input ports about ALERT_N below. This register is to
+                                                                 indicates which one is used internally.
+
+                                                                   dfi_alert_n: Defined in DFI spec, synchronous to DFI clock
+
+                                                                   dwc_ddrphy_alert_async_n: A controller specific signal. Asynchronous to DFI clock cycle.
+
+                                                                     - 1: dwc_ddrphy_alert_async_n
+                                                                     - 0: dfi_alert_n
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t caparity_disable_before_sr : 1;/**< [ 12: 12](R/W) If DDR4-SDRAM's CA parity is enabled by INITMR2.mr5[2:0]!=0 and this register is
+                                                                 set to 1, CA parity is automatically disabled before Self-Refresh entry and
+                                                                 enabled after Self-Refresh exit by issuing MR5.
+                                                                     - 1: CA parity is disabled before Self-Refresh entry
+                                                                     - 0: CA parity is not disabled before Self-Refresh entry
+                                                                     If Geardown is used by MSTR3.geardown_mode=1, this register must be set to 1.
+
+                                                                     If this register set to 0, DRAMSET1TMG5.t_ckesr and DRAMSET1TMG5.t_cksre
+                                                                 must be increased by PL(Parity latency)
+
+                                                                     DDR5: Not supported.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_8_11         : 4;
+        uint32_t crc_inc_dm            : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint32_t dis_rd_crc_ecc_upr_nibble : 1;/**< [  6:  6](R/W) Reserved. */
+        uint32_t reserved_5            : 1;
+        uint32_t wr_crc_enable         : 1;  /**< [  4:  4](R/W) Reserved. */
+        uint32_t rd_crc_enable         : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint32_t reserved_1_2          : 2;
+        uint32_t parity_enable         : 1;  /**< [  0:  0](R/W) C/A Parity enable register
+                                                                     - 1: Enable generation of C/A parity and detection of C/A parity error
+                                                                     - 0: Disable generation of C/A parity and disable detection of C/A parity error
+
+                                                                     If RCD's parity error detection or SDRAM's parity detection is enabled, this
+                                                                 register must be 1.
+
+                                                                 Programming Mode: Static. */
+#else /* Word 0 - Little Endian */
+        uint32_t parity_enable         : 1;  /**< [  0:  0](R/W) C/A Parity enable register
+                                                                     - 1: Enable generation of C/A parity and detection of C/A parity error
+                                                                     - 0: Disable generation of C/A parity and disable detection of C/A parity error
+
+                                                                     If RCD's parity error detection or SDRAM's parity detection is enabled, this
+                                                                 register must be 1.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_1_2          : 2;
+        uint32_t rd_crc_enable         : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint32_t wr_crc_enable         : 1;  /**< [  4:  4](R/W) Reserved. */
+        uint32_t reserved_5            : 1;
+        uint32_t dis_rd_crc_ecc_upr_nibble : 1;/**< [  6:  6](R/W) Reserved. */
+        uint32_t crc_inc_dm            : 1;  /**< [  7:  7](R/W) Reserved. */
+        uint32_t reserved_8_11         : 4;
+        uint32_t caparity_disable_before_sr : 1;/**< [ 12: 12](R/W) If DDR4-SDRAM's CA parity is enabled by INITMR2.mr5[2:0]!=0 and this register is
+                                                                 set to 1, CA parity is automatically disabled before Self-Refresh entry and
+                                                                 enabled after Self-Refresh exit by issuing MR5.
+                                                                     - 1: CA parity is disabled before Self-Refresh entry
+                                                                     - 0: CA parity is not disabled before Self-Refresh entry
+                                                                     If Geardown is used by MSTR3.geardown_mode=1, this register must be set to 1.
+
+                                                                     If this register set to 0, DRAMSET1TMG5.t_ckesr and DRAMSET1TMG5.t_cksre
+                                                                 must be increased by PL(Parity latency)
+
+                                                                     DDR5: Not supported.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_13_14        : 2;
+        uint32_t dfi_alert_async_mode  : 1;  /**< [ 15: 15](R/W) The controller has two input ports about ALERT_N below. This register is to
+                                                                 indicates which one is used internally.
+
+                                                                   dfi_alert_n: Defined in DFI spec, synchronous to DFI clock
+
+                                                                   dwc_ddrphy_alert_async_n: A controller specific signal. Asynchronous to DFI clock cycle.
+
+                                                                     - 1: dwc_ddrphy_alert_async_n
+                                                                     - 0: dfi_alert_n
+
+                                                                 Programming Mode: Static. */
+        uint32_t capar_err_max_reached_th : 16;/**< [ 31: 16](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_cn10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t capar_err_max_reached_th : 16;/**< [ 31: 16](R/W) Threshold for CRCPARSTAT.capar_err_max_reached_intr and
@@ -9322,9 +9430,8 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1
 
                                                                  Programming Mode: Quasi-dynamic Group 3. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9461,8 +9568,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1 cavm_dssx_ddrctl_regb_ddrc_ch0_crcparctl1_t;
 
@@ -18965,6 +19073,252 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0
 
                                                                  Set to 0 to put DDRCTL and DRAM in DLL-on mode for normal frequency operation.
 
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t reserved_14           : 1;
+        uint32_t data_bus_width        : 2;  /**< [ 13: 12](R/W) Selects proportion of DQ bus width that is used by the SDRAM
+                                                                  - 00 - Full DQ bus width to SDRAM
+                                                                  - 01 - Half DQ bus width to SDRAM
+                                                                  - 10 - Quarter DQ bus width to SDRAM
+                                                                  - 11 - Reserved.
+                                                                 Note that half bus width mode is only supported when the SDRAM bus width is a
+                                                                 multiple of 16, and quarter bus width mode is only supported when the SDRAM bus
+                                                                 width is a multiple of 32 and the configuration parameter MEMC_QBUS_SUPPORT is
+                                                                 set. Bus width refers to DQ bus width (excluding any ECC width).
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_11           : 1;
+        uint32_t en_2t_timing_mode     : 1;  /**< [ 10: 10](R/W) If 1, then the DDR controller uses 2T timing. Otherwise, uses 1T timing. In 2T
+                                                                 timing, all command signals (except chip select) are held for 2 clocks on the
+                                                                 SDRAM bus. Chip select is asserted on the second cycle of the command
+
+                                                                 Note:
+                                                                  - 2T timing is supported only in DDR4 mode
+                                                                  - 2T timing is not supported if the configuration parameter MEMC_CMD_RTN2IDLE is set
+                                                                  - 2T timing is not supported in DDR4 geardown mode.
+                                                                  - 2T timing is not supported in Shared-AC dual channel mode and the register value is don't care.
+
+                                                                 Programming Mode: Static. */
+        uint32_t burstchop             : 1;  /**< [  9:  9](R/W) Indicates burstchop set.
+                                                                   - For DDR4, When set, enable burst-chop for Writes (BC4 or BL8 on-the-fly).
+                                                                 BC4 (fixed) mode is not supported.
+
+                                                                   - For DDR5, When set, enable burst-chop for Writes (BC8 or BL16 on-the-fly).
+
+                                                                 Burst Chop for Reads is not supported.
+
+                                                                 Programming Mode: Static. */
+        uint32_t burst_mode            : 1;  /**< [  8:  8](R/W) Indicates burst mode.
+                                                                  - 0 - Sequential burst mode
+                                                                  - 1 - Interleaved burst mode
+                                                                  For LPDDR4, this must be set to 0 (sequential mode).
+
+                                                                 Programming Mode: Static. */
+        uint32_t bg_config             : 2;  /**< [  7:  6](R/W) Device configuration: Number of bank groups
+                                                                   - 2'b00 - 2 BG device
+                                                                   - 2'b01 - 4 BG device
+                                                                   - 2'b10 - 8 BG device
+                                                                   - others - Reserved
+                                                                   Present only in designs configured to support DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t bank_config           : 2;  /**< [  5:  4](R/W) Device configuration: Number of banks
+                                                                   - 2'b00 - 2 banks device
+                                                                   - 2'b01 - 4 banks device
+                                                                   - 2'b10 - 8 banks device
+                                                                   - others - Reserved
+                                                                   Present only in designs configured to support DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_3            : 1;
+        uint32_t ddr5                  : 1;  /**< [  2:  2](R/W) Select DDR5 SDRAM.
+                                                                  0 = non-DDR5 device in use.
+                                                                  1 = DDR5 SDRAM device in use.
+
+                                                                 Present only in designs configured to support DDR5 SDAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_1            : 1;
+        uint32_t ddr4                  : 1;  /**< [  0:  0](R/W) Select DDR4 SDRAM
+                                                                  0 = non-DDR4 device in use.
+                                                                  1 = DDR4 SDRAM device in use.
+
+                                                                 Present only in designs configured to support DDR4 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+#else /* Word 0 - Little Endian */
+        uint32_t ddr4                  : 1;  /**< [  0:  0](R/W) Select DDR4 SDRAM
+                                                                  0 = non-DDR4 device in use.
+                                                                  1 = DDR4 SDRAM device in use.
+
+                                                                 Present only in designs configured to support DDR4 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_1            : 1;
+        uint32_t ddr5                  : 1;  /**< [  2:  2](R/W) Select DDR5 SDRAM.
+                                                                  0 = non-DDR5 device in use.
+                                                                  1 = DDR5 SDRAM device in use.
+
+                                                                 Present only in designs configured to support DDR5 SDAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_3            : 1;
+        uint32_t bank_config           : 2;  /**< [  5:  4](R/W) Device configuration: Number of banks
+                                                                   - 2'b00 - 2 banks device
+                                                                   - 2'b01 - 4 banks device
+                                                                   - 2'b10 - 8 banks device
+                                                                   - others - Reserved
+                                                                   Present only in designs configured to support DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t bg_config             : 2;  /**< [  7:  6](R/W) Device configuration: Number of bank groups
+                                                                   - 2'b00 - 2 BG device
+                                                                   - 2'b01 - 4 BG device
+                                                                   - 2'b10 - 8 BG device
+                                                                   - others - Reserved
+                                                                   Present only in designs configured to support DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t burst_mode            : 1;  /**< [  8:  8](R/W) Indicates burst mode.
+                                                                  - 0 - Sequential burst mode
+                                                                  - 1 - Interleaved burst mode
+                                                                  For LPDDR4, this must be set to 0 (sequential mode).
+
+                                                                 Programming Mode: Static. */
+        uint32_t burstchop             : 1;  /**< [  9:  9](R/W) Indicates burstchop set.
+                                                                   - For DDR4, When set, enable burst-chop for Writes (BC4 or BL8 on-the-fly).
+                                                                 BC4 (fixed) mode is not supported.
+
+                                                                   - For DDR5, When set, enable burst-chop for Writes (BC8 or BL16 on-the-fly).
+
+                                                                 Burst Chop for Reads is not supported.
+
+                                                                 Programming Mode: Static. */
+        uint32_t en_2t_timing_mode     : 1;  /**< [ 10: 10](R/W) If 1, then the DDR controller uses 2T timing. Otherwise, uses 1T timing. In 2T
+                                                                 timing, all command signals (except chip select) are held for 2 clocks on the
+                                                                 SDRAM bus. Chip select is asserted on the second cycle of the command
+
+                                                                 Note:
+                                                                  - 2T timing is supported only in DDR4 mode
+                                                                  - 2T timing is not supported if the configuration parameter MEMC_CMD_RTN2IDLE is set
+                                                                  - 2T timing is not supported in DDR4 geardown mode.
+                                                                  - 2T timing is not supported in Shared-AC dual channel mode and the register value is don't care.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_11           : 1;
+        uint32_t data_bus_width        : 2;  /**< [ 13: 12](R/W) Selects proportion of DQ bus width that is used by the SDRAM
+                                                                  - 00 - Full DQ bus width to SDRAM
+                                                                  - 01 - Half DQ bus width to SDRAM
+                                                                  - 10 - Quarter DQ bus width to SDRAM
+                                                                  - 11 - Reserved.
+                                                                 Note that half bus width mode is only supported when the SDRAM bus width is a
+                                                                 multiple of 16, and quarter bus width mode is only supported when the SDRAM bus
+                                                                 width is a multiple of 32 and the configuration parameter MEMC_QBUS_SUPPORT is
+                                                                 set. Bus width refers to DQ bus width (excluding any ECC width).
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_14           : 1;
+        uint32_t dll_off_mode          : 1;  /**< [ 15: 15](R/W) Set to 1 when the DDRCTL and DRAM has to be put in DLL-off mode for low frequency operation.
+
+                                                                 Set to 0 to put DDRCTL and DRAM in DLL-on mode for normal frequency operation.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t burst_rdwr            : 5;  /**< [ 20: 16](R/W) SDRAM burst length used:
+                                                                  - 00100 - Burst length of 8
+                                                                  - 01000 - Burst length of 16
+                                                                  All other values are reserved.
+
+                                                                  This controls the burst size used to access the SDRAM. This must match the
+                                                                 burst length mode register setting in the SDRAM.
+
+                                                                  For DDR4, this must be set to 0x00100 (BL8).
+
+                                                                  For LPDDR4/LPDDR5/DDR5, this must be set to 0x01000 (BL16).
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t active_ranks          : 2;  /**< [ 25: 24](R/W) Only present for multi-rank configurations.
+
+                                                                 Each bit represents one rank. For two-rank configurations, only bits[25:24] are present.
+                                                                  - 1 - populated.
+                                                                  - 0 - unpopulated.
+                                                                 LSB is the lowest rank number.
+
+                                                                 For 2 ranks following combinations are legal:
+                                                                  - 01 - One rank.
+                                                                  - 11 - Two ranks.
+                                                                  - Others - Reserved.
+                                                                 For 4 ranks following combinations are legal:
+                                                                  - 0001 - One rank.
+                                                                  - 0011 - Two ranks.
+                                                                  - 0101 - Two ranks are populated in Rank0 and Rank2 (DDR5 Only).
+                                                                  - 1111 - Four ranks.
+                                                                 Note: the four rank populated config 4'b0101 can only be supported with
+                                                                 heterogeneous rank support enable.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_26_29        : 4;
+        uint32_t device_config         : 2;  /**< [ 31: 30](R/W) Indicates the configuration of the device used in the system.
+
+                                                                  - 00 - x4 device
+                                                                  - 01 - x8 device
+                                                                  - 10 - x16 device
+                                                                  - 11 - Reserved
+
+                                                                 Programming Mode: Static. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t device_config         : 2;  /**< [ 31: 30](R/W) Indicates the configuration of the device used in the system.
+
+                                                                  - 00 - x4 device
+                                                                  - 01 - x8 device
+                                                                  - 10 - x16 device
+                                                                  - 11 - Reserved
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_26_29        : 4;
+        uint32_t active_ranks          : 2;  /**< [ 25: 24](R/W) Only present for multi-rank configurations.
+
+                                                                 Each bit represents one rank. For two-rank configurations, only bits[25:24] are present.
+                                                                  - 1 - populated.
+                                                                  - 0 - unpopulated.
+                                                                 LSB is the lowest rank number.
+
+                                                                 For 2 ranks following combinations are legal:
+                                                                  - 01 - One rank.
+                                                                  - 11 - Two ranks.
+                                                                  - Others - Reserved.
+                                                                 For 4 ranks following combinations are legal:
+                                                                  - 0001 - One rank.
+                                                                  - 0011 - Two ranks.
+                                                                  - 0101 - Two ranks are populated in Rank0 and Rank2 (DDR5 Only).
+                                                                  - 1111 - Four ranks.
+                                                                 Note: the four rank populated config 4'b0101 can only be supported with
+                                                                 heterogeneous rank support enable.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t burst_rdwr            : 5;  /**< [ 20: 16](R/W) SDRAM burst length used:
+                                                                  - 00100 - Burst length of 8
+                                                                  - 01000 - Burst length of 16
+                                                                  All other values are reserved.
+
+                                                                  This controls the burst size used to access the SDRAM. This must match the
+                                                                 burst length mode register setting in the SDRAM.
+
+                                                                  For DDR4, this must be set to 0x00100 (BL8).
+
+                                                                  For LPDDR4/LPDDR5/DDR5, this must be set to 0x01000 (BL16).
+
+                                                                 Programming Mode: Static. */
+        uint32_t dll_off_mode          : 1;  /**< [ 15: 15](R/W) Set to 1 when the DDRCTL and DRAM has to be put in DLL-off mode for low frequency operation.
+
+                                                                 Set to 0 to put DDRCTL and DRAM in DLL-on mode for normal frequency operation.
+
                                                                  If DDR4 CRC/parity retry is enabled (CRCPARCTL1.crc_parity_retry_enable = 1),
                                                                  dll_off_mode is not supported, and this bit must be set to '0'.
 
@@ -19166,9 +19520,8 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0
 
                                                                  Programming Mode: Static. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -19248,8 +19601,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0
                                                                  Programming Mode: Static */
         uint32_t burstchop             : 1;  /**< [  9:  9](R/W) Indicates burstchop set.
                                                                    - For DDR4, When set, enable burst-chop for Writes (BC4 or BL8 on-the-fly).
-                                                                 BC4 (fixed) mode is not supported. Burst Chop for Writes is exercised only if
-                                                                 CRC is disabled (CRCPARCTL1.wr_crc_enable = 0).
+                                                                 BC4 (fixed) mode is not supported.
 
                                                                    - For DDR5, When set, enable burst-chop for Writes (BC8 or BL16 on-the-fly).
 
@@ -19321,8 +19673,7 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0
                                                                  Programming Mode: Static */
         uint32_t burstchop             : 1;  /**< [  9:  9](R/W) Indicates burstchop set.
                                                                    - For DDR4, When set, enable burst-chop for Writes (BC4 or BL8 on-the-fly).
-                                                                 BC4 (fixed) mode is not supported. Burst Chop for Writes is exercised only if
-                                                                 CRC is disabled (CRCPARCTL1.wr_crc_enable = 0).
+                                                                 BC4 (fixed) mode is not supported.
 
                                                                    - For DDR5, When set, enable burst-chop for Writes (BC8 or BL16 on-the-fly).
 
@@ -19405,8 +19756,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0
                                                                  Programming Mode: Static */
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0 cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0_t;
 
@@ -26372,20 +26724,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
                                                                  Programming Mode: Dynamic */
         uint32_t rd_retry_limit_intr_en : 1; /**< [ 23: 23](R/W) Interrupt enable bit for rd_retry_limit_intr output pin.
                                                                  Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_force : 1;/**< [ 22: 22](R/W1C) Interrupt force bit for RETRYSTAT0.wr_crc_retry_limit_intr.
-
-                                                                     Setting this register to 1 will cause the RETRYSTAT0.wr_crc_retry_limit_intr to be asserted.
-
-                                                                     If RETRYCTL0.wr_crc_retry_limit_intr_en=1, wr_crc_retry_limit_intr output
-                                                                 pin will be asserted as well.
-                                                                     At the end of the interrupt force operation, the DDRCTL automatically clears this bit.
-                                                                 Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_clr : 1;/**< [ 21: 21](R/W1C) Interrupt clear bit for wr_crc_retry_limit_intr.
-
-                                                                     At the end of the interrupt clear operation, the DDRCTL automatically clears this bit.
-                                                                 Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_en : 1;/**< [ 20: 20](R/W) Interrupt enable bit for wr_crc_retry_limit_intr output pin.
-                                                                 Programming Mode: Dynamic */
+        uint32_t wr_crc_retry_limit_intr_force : 1;/**< [ 22: 22](R/W1C) Reserved. */
+        uint32_t wr_crc_retry_limit_intr_clr : 1;/**< [ 21: 21](R/W1C) Reserved. */
+        uint32_t wr_crc_retry_limit_intr_en : 1;/**< [ 20: 20](R/W) Reserved. */
         uint32_t reserved_17_19        : 3;
         uint32_t rd_ue_retry_limiter   : 3;  /**< [ 16: 14](R/W) Specify maximum retry times for a read command due to read uncorrectable ECC
                                                                  error. rd_ue_retry_limiter + 1 indicates maximum retry for a read command due to
@@ -26394,26 +26735,14 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
                                                                  interrupt rd_ue_retry_limit_intr.
 
                                                                  Programming Mode: Static */
-        uint32_t rd_crc_retry_limiter  : 3;  /**< [ 13: 11](R/W) Specify maximum retry times for a read command due to read CRC error.
-                                                                 rd_crc_retry_limiter + 1 indicates maximum retry for a read command due to read
-                                                                 CRC error. Once a read CRC error is detected on the last retry, read data is
-                                                                 returned as RD CRC error and flag a interrupt rd_crc_retry_limit_intr.
-
-                                                                 Programming Mode: Static */
-        uint32_t wr_crc_retry_limiter  : 3;  /**< [ 10:  8](R/W) Specify maximum retry times for a write command due to write CRC error.
-                                                                 wr_crc_retry_limiter + 1 indicates maximum retry for a write command due to
-                                                                 write CRC error. Once it reaches to the threshold, the write is no longer
-                                                                 retried and flag a interrupt wr_crc_retry_limit_intr.
-
-                                                                 Programming Mode: Static */
+        uint32_t rd_crc_retry_limiter  : 3;  /**< [ 13: 11](R/W) Reserved. */
+        uint32_t wr_crc_retry_limiter  : 3;  /**< [ 10:  8](R/W) Reserved. */
         uint32_t reserved_4_7          : 4;
         uint32_t wr_crc_retry_enable   : 1;  /**< [  3:  3](R/W) - 1: enable write command retry when write CRC error occurs
                                                                     - 0: disable write command retry when write CRC error occurs
 
                                                                  Programming Mode: Dynamic. */
-        uint32_t rd_crc_retry_enable   : 1;  /**< [  2:  2](R/W) - 1: enable read command retry when read CRC error occurs
-                                                                    - 0: disable read command retry when read CRC error occurs
-                                                                 Programming Mode: Static */
+        uint32_t rd_crc_retry_enable   : 1;  /**< [  2:  2](R/W) Reserved. */
         uint32_t rd_ue_retry_enable    : 1;  /**< [  1:  1](R/W) - 1: enable read command retry when read uncorrected ECC error occurs
                                                                     - 0: disable read command retry when read uncorrected ECC error occurs
                                                                  Programming Mode: Static */
@@ -26423,26 +26752,14 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
         uint32_t rd_ue_retry_enable    : 1;  /**< [  1:  1](R/W) - 1: enable read command retry when read uncorrected ECC error occurs
                                                                     - 0: disable read command retry when read uncorrected ECC error occurs
                                                                  Programming Mode: Static */
-        uint32_t rd_crc_retry_enable   : 1;  /**< [  2:  2](R/W) - 1: enable read command retry when read CRC error occurs
-                                                                    - 0: disable read command retry when read CRC error occurs
-                                                                 Programming Mode: Static */
+        uint32_t rd_crc_retry_enable   : 1;  /**< [  2:  2](R/W) Reserved. */
         uint32_t wr_crc_retry_enable   : 1;  /**< [  3:  3](R/W) - 1: enable write command retry when write CRC error occurs
                                                                     - 0: disable write command retry when write CRC error occurs
 
                                                                  Programming Mode: Dynamic. */
         uint32_t reserved_4_7          : 4;
-        uint32_t wr_crc_retry_limiter  : 3;  /**< [ 10:  8](R/W) Specify maximum retry times for a write command due to write CRC error.
-                                                                 wr_crc_retry_limiter + 1 indicates maximum retry for a write command due to
-                                                                 write CRC error. Once it reaches to the threshold, the write is no longer
-                                                                 retried and flag a interrupt wr_crc_retry_limit_intr.
-
-                                                                 Programming Mode: Static */
-        uint32_t rd_crc_retry_limiter  : 3;  /**< [ 13: 11](R/W) Specify maximum retry times for a read command due to read CRC error.
-                                                                 rd_crc_retry_limiter + 1 indicates maximum retry for a read command due to read
-                                                                 CRC error. Once a read CRC error is detected on the last retry, read data is
-                                                                 returned as RD CRC error and flag a interrupt rd_crc_retry_limit_intr.
-
-                                                                 Programming Mode: Static */
+        uint32_t wr_crc_retry_limiter  : 3;  /**< [ 10:  8](R/W) Reserved. */
+        uint32_t rd_crc_retry_limiter  : 3;  /**< [ 13: 11](R/W) Reserved. */
         uint32_t rd_ue_retry_limiter   : 3;  /**< [ 16: 14](R/W) Specify maximum retry times for a read command due to read uncorrectable ECC
                                                                  error. rd_ue_retry_limiter + 1 indicates maximum retry for a read command due to
                                                                  read uncorrectable ECC error. Once a read uncorrectable ECC error is detected on
@@ -26451,20 +26768,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
 
                                                                  Programming Mode: Static */
         uint32_t reserved_17_19        : 3;
-        uint32_t wr_crc_retry_limit_intr_en : 1;/**< [ 20: 20](R/W) Interrupt enable bit for wr_crc_retry_limit_intr output pin.
-                                                                 Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_clr : 1;/**< [ 21: 21](R/W1C) Interrupt clear bit for wr_crc_retry_limit_intr.
-
-                                                                     At the end of the interrupt clear operation, the DDRCTL automatically clears this bit.
-                                                                 Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_force : 1;/**< [ 22: 22](R/W1C) Interrupt force bit for RETRYSTAT0.wr_crc_retry_limit_intr.
-
-                                                                     Setting this register to 1 will cause the RETRYSTAT0.wr_crc_retry_limit_intr to be asserted.
-
-                                                                     If RETRYCTL0.wr_crc_retry_limit_intr_en=1, wr_crc_retry_limit_intr output
-                                                                 pin will be asserted as well.
-                                                                     At the end of the interrupt force operation, the DDRCTL automatically clears this bit.
-                                                                 Programming Mode: Dynamic */
+        uint32_t wr_crc_retry_limit_intr_en : 1;/**< [ 20: 20](R/W) Reserved. */
+        uint32_t wr_crc_retry_limit_intr_clr : 1;/**< [ 21: 21](R/W1C) Reserved. */
+        uint32_t wr_crc_retry_limit_intr_force : 1;/**< [ 22: 22](R/W1C) Reserved. */
         uint32_t rd_retry_limit_intr_en : 1; /**< [ 23: 23](R/W) Interrupt enable bit for rd_retry_limit_intr output pin.
                                                                  Programming Mode: Dynamic */
         uint32_t rd_retry_limit_intr_clr : 1;/**< [ 24: 24](R/W1C) Interrupt clear bit for rd_retry_limit_intr.
@@ -26517,20 +26823,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
                                                                  Programming Mode: Dynamic */
         uint32_t rd_retry_limit_intr_en : 1; /**< [ 23: 23](R/W) Interrupt enable bit for rd_retry_limit_intr output pin.
                                                                  Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_force : 1;/**< [ 22: 22](R/W1C) Interrupt force bit for RETRYSTAT0.wr_crc_retry_limit_intr.
-
-                                                                     Setting this register to 1 will cause the RETRYSTAT0.wr_crc_retry_limit_intr to be asserted.
-
-                                                                     If RETRYCTL0.wr_crc_retry_limit_intr_en=1, wr_crc_retry_limit_intr output
-                                                                 pin will be asserted as well.
-                                                                     At the end of the interrupt force operation, the DDRCTL automatically clears this bit.
-                                                                 Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_clr : 1;/**< [ 21: 21](R/W1C) Interrupt clear bit for wr_crc_retry_limit_intr.
-
-                                                                     At the end of the interrupt clear operation, the DDRCTL automatically clears this bit.
-                                                                 Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_en : 1;/**< [ 20: 20](R/W) Interrupt enable bit for wr_crc_retry_limit_intr output pin.
-                                                                 Programming Mode: Dynamic */
+        uint32_t wr_crc_retry_limit_intr_force : 1;/**< [ 22: 22](R/W1C) Reserved. */
+        uint32_t wr_crc_retry_limit_intr_clr : 1;/**< [ 21: 21](R/W1C) Reserved. */
+        uint32_t wr_crc_retry_limit_intr_en : 1;/**< [ 20: 20](R/W) Reserved. */
         uint32_t reserved_17_19        : 3;
         uint32_t rd_ue_retry_limiter   : 3;  /**< [ 16: 14](R/W) Specify maximum retry times for a read command due to read uncorrectable ECC
                                                                  error. rd_ue_retry_limiter + 1 indicates maximum retry for a read command due to
@@ -26539,25 +26834,11 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
                                                                  interrupt rd_ue_retry_limit_intr.
 
                                                                  Programming Mode: Static */
-        uint32_t rd_crc_retry_limiter  : 3;  /**< [ 13: 11](R/W) Specify maximum retry times for a read command due to read CRC error.
-                                                                 rd_crc_retry_limiter + 1 indicates maximum retry for a read command due to read
-                                                                 CRC error. Once a read CRC error is detected on the last retry, read data is
-                                                                 returned as RD CRC error and flag a interrupt rd_crc_retry_limit_intr.
-
-                                                                 Programming Mode: Static */
-        uint32_t wr_crc_retry_limiter  : 3;  /**< [ 10:  8](R/W) Specify maximum retry times for a write command due to write CRC error.
-                                                                 wr_crc_retry_limiter + 1 indicates maximum retry for a write command due to
-                                                                 write CRC error. Once it reaches to the threshold, the write is no longer
-                                                                 retried and flag a interrupt wr_crc_retry_limit_intr.
-
-                                                                 Programming Mode: Static */
+        uint32_t rd_crc_retry_limiter  : 3;  /**< [ 13: 11](R/W) Reserved. */
+        uint32_t wr_crc_retry_limiter  : 3;  /**< [ 10:  8](R/W) Reserved. */
         uint32_t reserved_4_7          : 4;
-        uint32_t wr_crc_retry_enable   : 1;  /**< [  3:  3](R/W) - 1: enable write command retry when write CRC error occurs
-                                                                    - 0: disable write command retry when write CRC error occurs
-                                                                 Programming Mode: Static */
-        uint32_t rd_crc_retry_enable   : 1;  /**< [  2:  2](R/W) - 1: enable read command retry when read CRC error occurs
-                                                                    - 0: disable read command retry when read CRC error occurs
-                                                                 Programming Mode: Static */
+        uint32_t wr_crc_retry_enable   : 1;  /**< [  3:  3](R/W) Reserved. */
+        uint32_t rd_crc_retry_enable   : 1;  /**< [  2:  2](R/W) Reserved. */
         uint32_t rd_ue_retry_enable    : 1;  /**< [  1:  1](R/W) - 1: enable read command retry when read uncorrected ECC error occurs
                                                                     - 0: disable read command retry when read uncorrected ECC error occurs
                                                                  Programming Mode: Static */
@@ -26567,25 +26848,11 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
         uint32_t rd_ue_retry_enable    : 1;  /**< [  1:  1](R/W) - 1: enable read command retry when read uncorrected ECC error occurs
                                                                     - 0: disable read command retry when read uncorrected ECC error occurs
                                                                  Programming Mode: Static */
-        uint32_t rd_crc_retry_enable   : 1;  /**< [  2:  2](R/W) - 1: enable read command retry when read CRC error occurs
-                                                                    - 0: disable read command retry when read CRC error occurs
-                                                                 Programming Mode: Static */
-        uint32_t wr_crc_retry_enable   : 1;  /**< [  3:  3](R/W) - 1: enable write command retry when write CRC error occurs
-                                                                    - 0: disable write command retry when write CRC error occurs
-                                                                 Programming Mode: Static */
+        uint32_t rd_crc_retry_enable   : 1;  /**< [  2:  2](R/W) Reserved. */
+        uint32_t wr_crc_retry_enable   : 1;  /**< [  3:  3](R/W) Reserved. */
         uint32_t reserved_4_7          : 4;
-        uint32_t wr_crc_retry_limiter  : 3;  /**< [ 10:  8](R/W) Specify maximum retry times for a write command due to write CRC error.
-                                                                 wr_crc_retry_limiter + 1 indicates maximum retry for a write command due to
-                                                                 write CRC error. Once it reaches to the threshold, the write is no longer
-                                                                 retried and flag a interrupt wr_crc_retry_limit_intr.
-
-                                                                 Programming Mode: Static */
-        uint32_t rd_crc_retry_limiter  : 3;  /**< [ 13: 11](R/W) Specify maximum retry times for a read command due to read CRC error.
-                                                                 rd_crc_retry_limiter + 1 indicates maximum retry for a read command due to read
-                                                                 CRC error. Once a read CRC error is detected on the last retry, read data is
-                                                                 returned as RD CRC error and flag a interrupt rd_crc_retry_limit_intr.
-
-                                                                 Programming Mode: Static */
+        uint32_t wr_crc_retry_limiter  : 3;  /**< [ 10:  8](R/W) Reserved. */
+        uint32_t rd_crc_retry_limiter  : 3;  /**< [ 13: 11](R/W) Reserved. */
         uint32_t rd_ue_retry_limiter   : 3;  /**< [ 16: 14](R/W) Specify maximum retry times for a read command due to read uncorrectable ECC
                                                                  error. rd_ue_retry_limiter + 1 indicates maximum retry for a read command due to
                                                                  read uncorrectable ECC error. Once a read uncorrectable ECC error is detected on
@@ -26594,20 +26861,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_retryctl0
 
                                                                  Programming Mode: Static */
         uint32_t reserved_17_19        : 3;
-        uint32_t wr_crc_retry_limit_intr_en : 1;/**< [ 20: 20](R/W) Interrupt enable bit for wr_crc_retry_limit_intr output pin.
-                                                                 Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_clr : 1;/**< [ 21: 21](R/W1C) Interrupt clear bit for wr_crc_retry_limit_intr.
-
-                                                                     At the end of the interrupt clear operation, the DDRCTL automatically clears this bit.
-                                                                 Programming Mode: Dynamic */
-        uint32_t wr_crc_retry_limit_intr_force : 1;/**< [ 22: 22](R/W1C) Interrupt force bit for RETRYSTAT0.wr_crc_retry_limit_intr.
-
-                                                                     Setting this register to 1 will cause the RETRYSTAT0.wr_crc_retry_limit_intr to be asserted.
-
-                                                                     If RETRYCTL0.wr_crc_retry_limit_intr_en=1, wr_crc_retry_limit_intr output
-                                                                 pin will be asserted as well.
-                                                                     At the end of the interrupt force operation, the DDRCTL automatically clears this bit.
-                                                                 Programming Mode: Dynamic */
+        uint32_t wr_crc_retry_limit_intr_en : 1;/**< [ 20: 20](R/W) Reserved. */
+        uint32_t wr_crc_retry_limit_intr_clr : 1;/**< [ 21: 21](R/W1C) Reserved. */
+        uint32_t wr_crc_retry_limit_intr_force : 1;/**< [ 22: 22](R/W1C) Reserved. */
         uint32_t rd_retry_limit_intr_en : 1; /**< [ 23: 23](R/W) Interrupt enable bit for rd_retry_limit_intr output pin.
                                                                  Programming Mode: Dynamic */
         uint32_t rd_retry_limit_intr_clr : 1;/**< [ 24: 24](R/W1C) Interrupt clear bit for rd_retry_limit_intr.
@@ -26869,6 +27125,68 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0
                                                                  When dis_auto_refresh transitions from 0 to 1, any pending refreshes are
                                                                  immediately scheduled by the DDRCTL.
 
+                                                                 If FGR mode is enabled (RFSHMOD1.fgr_mode \> 0), disable auto-refresh is not
+                                                                 supported, and this bit must be set to '0'.
+
+                                                                 This register field is changeable on the fly in non-DDR5 mode, and changeable
+                                                                 during INIT/DBG/BIST state or self-refresh mode and MPSM during OPS state in
+                                                                 DDR5 mode.
+
+                                                                 Programming Mode: Dynamic - Refresh Related. */
+#else /* Word 0 - Little Endian */
+        uint32_t dis_auto_refresh      : 1;  /**< [  0:  0](R/W) When '1', disable auto-refresh generated by the DDRCTL. When auto-refresh is
+                                                                 disabled, the SoC core must generate refreshes using the registers
+                                                                 OPREFCTRL*.rankn_refresh.
+
+                                                                 When dis_auto_refresh transitions from 0 to 1, any pending refreshes are
+                                                                 immediately scheduled by the DDRCTL.
+
+                                                                 If FGR mode is enabled (RFSHMOD1.fgr_mode \> 0), disable auto-refresh is not
+                                                                 supported, and this bit must be set to '0'.
+
+                                                                 This register field is changeable on the fly in non-DDR5 mode, and changeable
+                                                                 during INIT/DBG/BIST state or self-refresh mode and MPSM during OPS state in
+                                                                 DDR5 mode.
+
+                                                                 Programming Mode: Dynamic - Refresh Related. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t refresh_update_level  : 1;  /**< [  4:  4](R/W) Toggle this signal (either from 0 to 1 or from 1 to 0) to indicate that the
+                                                                 refresh register(s) have been updated.
+
+                                                                 refresh_update_level must not be toggled when the DDRC is in reset (core_ddrc_rstn = 0).
+
+                                                                 In DDR5 mode, this can be toggled during self-refresh mode and MPSM in OPS state.
+
+                                                                 The refresh register(s) are automatically updated when exiting reset.
+
+                                                                 Programming Mode: Dynamic. */
+        uint32_t reserved_5_31         : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_5_31         : 27;
+        uint32_t refresh_update_level  : 1;  /**< [  4:  4](R/W) Toggle this signal (either from 0 to 1 or from 1 to 0) to indicate that the
+                                                                 refresh register(s) have been updated.
+
+                                                                 refresh_update_level must not be toggled when the DDRC is in reset (core_ddrc_rstn = 0).
+
+                                                                 In DDR5 mode, this can be toggled during self-refresh mode and MPSM in OPS state.
+
+                                                                 The refresh register(s) are automatically updated when exiting reset.
+
+                                                                 Programming Mode: Dynamic. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t dis_auto_refresh      : 1;  /**< [  0:  0](R/W) When '1', disable auto-refresh generated by the DDRCTL. When auto-refresh is
+                                                                 disabled, the SoC core must generate refreshes using the registers
+                                                                 OPREFCTRL*.rankn_refresh.
+
+                                                                 When dis_auto_refresh transitions from 0 to 1, any pending refreshes are
+                                                                 immediately scheduled by the DDRCTL.
+
                                                                  If DDR4 CRC/parity retry is enabled (CRCPARCTL1.crc_parity_retry_enable = 1),
                                                                  disable auto-refresh is not supported, and this bit must be set to '0'.
 
@@ -26912,9 +27230,8 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0
                                                                  Programming Mode: Dynamic. */
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -26977,8 +27294,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0 cavm_dssx_ddrctl_regb_ddrc_ch0_rfshctl0_t;
 
@@ -29631,6 +29949,166 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_stat
         uint32_t selfref_type          : 4;  /**< [  7:  4](RO) Flags if Self Refresh (except LPDDR4/5) or SR-Powerdown (LPDDR4/5) is entered
                                                                  and if it was under Automatic Self Refresh control only or not.
                                                                   - 00 - SDRAM is not in Self Refresh (except LPDDR4/5) or SR-Powerdown
+                                                                 (LPDDR4/5).
+                                                                  - 11 - SDRAM is in Self Refresh (except LPDDR4/5) or SR-Powerdown (LPDDR4/5),
+                                                                 which was caused by Automatic Self Refresh only. If retry is enabled, this
+                                                                 guarantees SRE command is executed correctly without parity error.
+                                                                  - 10 - SDRAM is in Self Refresh (except LPDDR4/5) or SR-Powerdown (LPDDR4/5),
+                                                                 which was not caused solely under Automatic Self Refresh control. It could have
+                                                                 been caused by Hardware Low Power Interface and/or Software (PWRCTL.selfref_sw).
+                                                                 If retry is enabled, this guarantees SRE command is executed correctly without
+                                                                 parity error.
+                                                                  - 01 - SDRAM is in Self Refresh, which was caused by PHY Master Request.
+
+                                                                 For LPDDR54 and DDR4, only bit[5:4] are used.
+
+                                                                  For DDR5, self-refresh per rank control is supported.
+                                                                   - bit[5:4]   - rank 0 selfref_type
+                                                                   - bit[7:6]   - rank 1 selfref_type
+                                                                   - bit[9:8]   - rank 2 selfref_type
+                                                                   - bit[11:10] - rank 3 selfref_type
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_3            : 1;
+        uint32_t operating_mode        : 3;  /**< [  2:  0](RO) Operating mode.
+
+                                                                 DDR4/DDR5 designs:
+                                                                  - 000 - Init
+                                                                  - 001 - Normal
+                                                                  - 010 - Power-down   (For DDR4, this means all ranks are in power-down state.
+                                                                 For DDR5, this means at least one rank is in power-down state, check
+                                                                 powerdown_state for details)
+                                                                  - 011 - Self refresh (For DDR4/DDR5, this means all ranks are in self refresh
+                                                                 state, check selfref_type for details)
+                                                                  - 1XX - Maximum Power Saving Mode (For DDR4 only)
+                                                                 LPDDR4/LPDDR5designs:
+                                                                  - 000 - Init
+                                                                  - 001 - Normal
+                                                                  - 010 - Power-down
+                                                                  - 011 - Self refresh / Self refresh power-down
+
+                                                                 Programming Mode: Static. */
+#else /* Word 0 - Little Endian */
+        uint32_t operating_mode        : 3;  /**< [  2:  0](RO) Operating mode.
+
+                                                                 DDR4/DDR5 designs:
+                                                                  - 000 - Init
+                                                                  - 001 - Normal
+                                                                  - 010 - Power-down   (For DDR4, this means all ranks are in power-down state.
+                                                                 For DDR5, this means at least one rank is in power-down state, check
+                                                                 powerdown_state for details)
+                                                                  - 011 - Self refresh (For DDR4/DDR5, this means all ranks are in self refresh
+                                                                 state, check selfref_type for details)
+                                                                  - 1XX - Maximum Power Saving Mode (For DDR4 only)
+                                                                 LPDDR4/LPDDR5designs:
+                                                                  - 000 - Init
+                                                                  - 001 - Normal
+                                                                  - 010 - Power-down
+                                                                  - 011 - Self refresh / Self refresh power-down
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_3            : 1;
+        uint32_t selfref_type          : 4;  /**< [  7:  4](RO) Flags if Self Refresh (except LPDDR4/5) or SR-Powerdown (LPDDR4/5) is entered
+                                                                 and if it was under Automatic Self Refresh control only or not.
+                                                                  - 00 - SDRAM is not in Self Refresh (except LPDDR4/5) or SR-Powerdown
+                                                                 (LPDDR4/5).
+                                                                  - 11 - SDRAM is in Self Refresh (except LPDDR4/5) or SR-Powerdown (LPDDR4/5),
+                                                                 which was caused by Automatic Self Refresh only. If retry is enabled, this
+                                                                 guarantees SRE command is executed correctly without parity error.
+                                                                  - 10 - SDRAM is in Self Refresh (except LPDDR4/5) or SR-Powerdown (LPDDR4/5),
+                                                                 which was not caused solely under Automatic Self Refresh control. It could have
+                                                                 been caused by Hardware Low Power Interface and/or Software (PWRCTL.selfref_sw).
+                                                                 If retry is enabled, this guarantees SRE command is executed correctly without
+                                                                 parity error.
+                                                                  - 01 - SDRAM is in Self Refresh, which was caused by PHY Master Request.
+
+                                                                 For LPDDR54 and DDR4, only bit[5:4] are used.
+
+                                                                  For DDR5, self-refresh per rank control is supported.
+                                                                   - bit[5:4]   - rank 0 selfref_type
+                                                                   - bit[7:6]   - rank 1 selfref_type
+                                                                   - bit[9:8]   - rank 2 selfref_type
+                                                                   - bit[11:10] - rank 3 selfref_type
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t selfref_cam_not_empty : 1;  /**< [ 16: 16](RO) Self refresh with CAMs not empty.
+
+                                                                 Set to 1 when Self Refresh is entered but CAMs are not drained. Cleared after exiting Self Refresh.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_17_19        : 3;
+        uint32_t powerdown_state       : 2;  /**< [ 21: 20](RO) Power down state. This indicates power down state on a per-rank basis.
+                                                                  0 = SDRAM is not in Power down,
+                                                                  1 = Power down,
+
+                                                                 Note: This register field is only applicable for designs supporting DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t mpsm_state            : 2;  /**< [ 25: 24](RO) Maximum power saving state. This indicates maximum power saving state on a per-rank basis.
+                                                                  - 0 - SDRAM is not in MPSM state,
+                                                                  - 1 - If selfref_type == 2'b00,    corresponding rank is in MPSM IDLE state,
+                                                                        If selfref_type == 2'b10/11, corresponding rank is in MPSM DP state
+
+                                                                 Note: This register field is only applicable for designs supporting DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_26_29        : 4;
+        uint32_t dfi_lp_state          : 1;  /**< [ 30: 30](RO) DFI low power state. When dfi_lp_en_sr/pd is set to 1, DFI Low Power interface
+                                                                 handshake is enabled during Self Refresh/Power Down Entry/Exit.
+                                                                 This field indicates that DFI Low Power from above handshake has been entered for ctrl & data.
+                                                                  - 0 - PHY is not in DFI low power state for ctrl & data,
+                                                                  - 1 - PHY is in DFI low power state for ctrl & data
+
+                                                                 Note: This register field is only applicable for designs supporting DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t dfi_lp_state          : 1;  /**< [ 30: 30](RO) DFI low power state. When dfi_lp_en_sr/pd is set to 1, DFI Low Power interface
+                                                                 handshake is enabled during Self Refresh/Power Down Entry/Exit.
+                                                                 This field indicates that DFI Low Power from above handshake has been entered for ctrl & data.
+                                                                  - 0 - PHY is not in DFI low power state for ctrl & data,
+                                                                  - 1 - PHY is in DFI low power state for ctrl & data
+
+                                                                 Note: This register field is only applicable for designs supporting DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_26_29        : 4;
+        uint32_t mpsm_state            : 2;  /**< [ 25: 24](RO) Maximum power saving state. This indicates maximum power saving state on a per-rank basis.
+                                                                  - 0 - SDRAM is not in MPSM state,
+                                                                  - 1 - If selfref_type == 2'b00,    corresponding rank is in MPSM IDLE state,
+                                                                        If selfref_type == 2'b10/11, corresponding rank is in MPSM DP state
+
+                                                                 Note: This register field is only applicable for designs supporting DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t powerdown_state       : 2;  /**< [ 21: 20](RO) Power down state. This indicates power down state on a per-rank basis.
+                                                                  0 = SDRAM is not in Power down,
+                                                                  1 = Power down,
+
+                                                                 Note: This register field is only applicable for designs supporting DDR5 SDRAM memories.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_17_19        : 3;
+        uint32_t selfref_cam_not_empty : 1;  /**< [ 16: 16](RO) Self refresh with CAMs not empty.
+
+                                                                 Set to 1 when Self Refresh is entered but CAMs are not drained. Cleared after exiting Self Refresh.
+
+                                                                 Programming Mode: Static. */
+        uint32_t reserved_8_15         : 8;
+        uint32_t selfref_type          : 4;  /**< [  7:  4](RO) Flags if Self Refresh (except LPDDR4/5) or SR-Powerdown (LPDDR4/5) is entered
+                                                                 and if it was under Automatic Self Refresh control only or not.
+                                                                  - 00 - SDRAM is not in Self Refresh (except LPDDR4/5) or SR-Powerdown
                                                                  (LPDDR4/5). If retry is enabled by CRCPARCTL1.crc_parity_retry_enable, this also
                                                                  indicates SRE command is still in parity error window or retry is in-progress.
                                                                   - 11 - SDRAM is in Self Refresh (except LPDDR4/5) or SR-Powerdown (LPDDR4/5),
@@ -29750,9 +30228,8 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_stat
                                                                  Programming Mode: Static. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -29913,8 +30390,9 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_stat
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_stat_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_stat cavm_dssx_ddrctl_regb_ddrc_ch0_stat_t;
 
@@ -30676,6 +31154,22 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0
     struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t t_wr_crc_alert_pw_min : 4;  /**< [ 31: 28](R/W) Reserved. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t t_wr_crc_alert_pw_max : 10; /**< [ 25: 16](R/W) Reserved. */
+        uint32_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_15         : 16;
+        uint32_t t_wr_crc_alert_pw_max : 10; /**< [ 25: 16](R/W) Reserved. */
+        uint32_t reserved_26_27        : 2;
+        uint32_t t_wr_crc_alert_pw_min : 4;  /**< [ 31: 28](R/W) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t t_wr_crc_alert_pw_min : 4;  /**< [ 31: 28](R/W) Ignore dfi_alert_n if the duration dfi_alert pulse is less than this duration.
                                                                  Setting 0 to disable the feature.
 
@@ -30716,9 +31210,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0
 
                                                                  Programming Mode: Dynamic. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -30787,8 +31280,9 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0
                                                                  Programming Mode: Dynamic */
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0 cavm_dssx_ddrctl_regb_freq0_ch0_crcpartmg0_t;
 
@@ -32610,6 +33104,80 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0
                                                                   * tWR = Write recovery time. This comes directly from the SDRAM specification.
                                                                  Add one extra cycle for LPDDR4/5 for this parameter.
 
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 2, Group 4. */
+        uint32_t t_faw                 : 8;  /**< [ 23: 16](R/W) TFAW:
+                                                                  At most 4 banks must be activated in a rolling window of tFAW cycles.
+
+                                                                  Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t t_ras_max             : 8;  /**< [ 15:  8](R/W) TRAS(max):  Maximum time between activate and precharge to same bank. This is
+                                                                 the maximum time that a page can be kept open
+
+                                                                  t_ras_max must be set to RoundDown(tRAS(max)/tCK/1024).
+
+                                                                  Unit: 1024 DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t t_ras_min             : 8;  /**< [  7:  0](R/W) TRAS(min):  Minimum time between activate and precharge to the same bank.
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+#else /* Word 0 - Little Endian */
+        uint32_t t_ras_min             : 8;  /**< [  7:  0](R/W) TRAS(min):  Minimum time between activate and precharge to the same bank.
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t t_ras_max             : 8;  /**< [ 15:  8](R/W) TRAS(max):  Maximum time between activate and precharge to same bank. This is
+                                                                 the maximum time that a page can be kept open
+
+                                                                  t_ras_max must be set to RoundDown(tRAS(max)/tCK/1024).
+
+                                                                  Unit: 1024 DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t t_faw                 : 8;  /**< [ 23: 16](R/W) TFAW:
+                                                                  At most 4 banks must be activated in a rolling window of tFAW cycles.
+
+                                                                  Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t wr2pre                : 8;  /**< [ 31: 24](R/W) Minimum time between write and precharge to same bank.
+
+                                                                 Specifications: WL + BL/2 + tWR
+
+                                                                 where:
+                                                                  * WL = write latency.
+                                                                  * BL = burst length. This must match the value programmed in the BL bit of the
+                                                                 mode register to the SDRAM. BST (burst terminate) is not supported at present.
+                                                                  * tWR = Write recovery time. This comes directly from the SDRAM specification.
+                                                                 Add one extra cycle for LPDDR4/5 for this parameter.
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 2, Group 4. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t wr2pre                : 8;  /**< [ 31: 24](R/W) Minimum time between write and precharge to same bank.
+
+                                                                 Specifications: WL + BL/2 + tWR
+
+                                                                 where:
+                                                                  * WL = write latency.
+                                                                  * BL = burst length. This must match the value programmed in the BL bit of the
+                                                                 mode register to the SDRAM. BST (burst terminate) is not supported at present.
+                                                                  * tWR = Write recovery time. This comes directly from the SDRAM specification.
+                                                                 Add one extra cycle for LPDDR4/5 for this parameter.
+
                                                                  For DDR5, add one extra cycle when CRCPARCTL1.wr_crc_enable = 1.
 
                                                                  Unit: DRAM clock cycles.
@@ -32671,9 +33239,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0
 
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 2, Group 4. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -32687,8 +33254,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0
                                                                  mode register to the SDRAM. BST (burst terminate) is not supported at present.
                                                                   - tWR = Write recovery time. This comes directly from the SDRAM specification.
                                                                  Add one extra cycle for LPDDR4/5 for this parameter.
-
-                                                                 For DDR5, add one extra cycle when CRCPARCTL1.wr_crc_enable = 1.
 
                                                                  Note that, depending on the PHY, if using LRDIMM, it may be necessary to adjust
                                                                  the value of this parameter to compensate for the extra cycle of latency through
@@ -32740,8 +33305,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0
                                                                   - tWR = Write recovery time. This comes directly from the SDRAM specification.
                                                                  Add one extra cycle for LPDDR4/5 for this parameter.
 
-                                                                 For DDR5, add one extra cycle when CRCPARCTL1.wr_crc_enable = 1.
-
                                                                  Note that, depending on the PHY, if using LRDIMM, it may be necessary to adjust
                                                                  the value of this parameter to compensate for the extra cycle of latency through
                                                                  the LRDIMM.
@@ -32750,8 +33313,9 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 2, Group 4 */
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0 cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg0_t;
 
@@ -35664,6 +36228,110 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
                                                                      * LPDDR5: tCSLCK
                                                                      * DDR4: tCKSRE (+ PL(parity latency)(*))
                                                                      * DDR5: tCKLCS
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t reserved_15           : 1;
+        uint32_t t_ckesr               : 7;  /**< [ 14:  8](R/W) Minimum CKE low width for Self refresh or Self refresh power down entry to exit
+                                                                 timing in memory clock cycles.
+
+                                                                 Recommended settings:
+                                                                     * LPDDR4: max(tCKE, tSR).
+                                                                     * LPDDR5: tSR.
+                                                                     * DDR4: tCKESR (+ PL(parity latency)(*)).
+                                                                     * DDR5: Don't care.
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t t_cke                 : 6;  /**< [  5:  0](R/W) Delay time between PDE and PDX.
+                                                                  * LPDDR4: tCKE.
+                                                                  * LPDDR5: tCSPD.
+                                                                  * DDR4: tPD (+ PL(parity latency)(*)).
+                                                                  * DDR5: Don't care.
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+#else /* Word 0 - Little Endian */
+        uint32_t t_cke                 : 6;  /**< [  5:  0](R/W) Delay time between PDE and PDX.
+                                                                  * LPDDR4: tCKE.
+                                                                  * LPDDR5: tCSPD.
+                                                                  * DDR4: tPD (+ PL(parity latency)(*)).
+                                                                  * DDR5: Don't care.
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t t_ckesr               : 7;  /**< [ 14:  8](R/W) Minimum CKE low width for Self refresh or Self refresh power down entry to exit
+                                                                 timing in memory clock cycles.
+
+                                                                 Recommended settings:
+                                                                     * LPDDR4: max(tCKE, tSR).
+                                                                     * LPDDR5: tSR.
+                                                                     * DDR4: tCKESR (+ PL(parity latency)(*)).
+                                                                     * DDR5: Don't care.
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t reserved_15           : 1;
+        uint32_t t_cksre               : 7;  /**< [ 22: 16](R/W) This is the time after Self Refresh Down Entry/Power Down Entry that CK is
+                                                                 maintained as a valid clock. Specifies the clock disable delay after SRE/PDE.
+
+                                                                    Recommended settings:
+                                                                     * LPDDR4: tCKELCK
+                                                                     * LPDDR5: tCSLCK
+                                                                     * DDR4: tCKSRE (+ PL(parity latency)(*))
+                                                                     * DDR5: tCKLCS
+
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t reserved_23           : 1;
+        uint32_t t_cksrx               : 6;  /**< [ 29: 24](R/W) This is the time before Self Refresh Exit that CK is maintained as a valid clock
+                                                                 before issuing SRX. Specifies the clock stable time before SRX.
+
+                                                                     Recommended settings:
+                                                                     * LPDDR4: tCKCKEH.
+                                                                     * LPDDR5: tCKCSH.
+                                                                     * DDR4: tCKSRX.
+                                                                     * DDR5: tCKSRX.
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t reserved_30_31        : 2;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_30_31        : 2;
+        uint32_t t_cksrx               : 6;  /**< [ 29: 24](R/W) This is the time before Self Refresh Exit that CK is maintained as a valid clock
+                                                                 before issuing SRX. Specifies the clock stable time before SRX.
+
+                                                                     Recommended settings:
+                                                                     * LPDDR4: tCKCKEH.
+                                                                     * LPDDR5: tCKCSH.
+                                                                     * DDR4: tCKSRX.
+                                                                     * DDR5: tCKSRX.
+                                                                 Unit: DRAM clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2, Group 4. */
+        uint32_t reserved_23           : 1;
+        uint32_t t_cksre               : 7;  /**< [ 22: 16](R/W) This is the time after Self Refresh Down Entry/Power Down Entry that CK is
+                                                                 maintained as a valid clock. Specifies the clock disable delay after SRE/PDE.
+
+                                                                    Recommended settings:
+                                                                     * LPDDR4: tCKELCK
+                                                                     * LPDDR5: tCSLCK
+                                                                     * DDR4: tCKSRE (+ PL(parity latency)(*))
+                                                                     * DDR5: tCKLCS
                                                                  (*)Only if CRCPARCTL1.caparity_disable_before_sr=0, this register must be increased by PL.
 
                                                                  Unit: DRAM clock cycles.
@@ -35747,9 +36415,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
                                                                  Programming Mode: Quasi-dynamic Group 2, Group 4. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -35771,9 +36438,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
                                                                     Recommended settings:
                                                                      - LPDDR4: tCKELCK
                                                                      - LPDDR5: tCSLCK
-                                                                     - DDR4: tCKSRE (+ PL(parity latency)(*))
+                                                                     - DDR4: tCKSRE (+ PL(parity latency))
                                                                      - DDR5: tCKLCS
-                                                                 (*)Only if CRCPARCTL1.caparity_disable_before_sr=0, this register must be increased by PL.
 
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 2, Group 4 */
@@ -35784,9 +36450,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
                                                                  Recommended settings:
                                                                      - LPDDR4: max(tCKE, tSR)
                                                                      - LPDDR5: tSR
-                                                                     - DDR4: tCKESR (+ PL(parity latency)(*))
+                                                                     - DDR4: tCKESR (+ PL(parity latency))
                                                                      - DDR5: Don't care
-                                                                 (*)Only if CRCPARCTL1.caparity_disable_before_sr=0, this register must be increased by PL.
 
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 2, Group 4 */
@@ -35794,9 +36459,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
         uint32_t t_cke                 : 6;  /**< [  5:  0](R/W) Delay time between PDE and PDX.
                                                                   - LPDDR4: tCKE
                                                                   - LPDDR5: tCSPD
-                                                                  - DDR4: tPD (+ PL(parity latency)(*))
+                                                                  - DDR4: tPD (+ PL(parity latency))
                                                                   - DDR5: Don't care
-                                                                 (*)Only if CRCPARCTL1.caparity_disable_before_sr=0, this register must be increased by PL.
 
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 2, Group 4 */
@@ -35804,9 +36468,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
         uint32_t t_cke                 : 6;  /**< [  5:  0](R/W) Delay time between PDE and PDX.
                                                                   - LPDDR4: tCKE
                                                                   - LPDDR5: tCSPD
-                                                                  - DDR4: tPD (+ PL(parity latency)(*))
+                                                                  - DDR4: tPD (+ PL(parity latency))
                                                                   - DDR5: Don't care
-                                                                 (*)Only if CRCPARCTL1.caparity_disable_before_sr=0, this register must be increased by PL.
 
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 2, Group 4 */
@@ -35817,9 +36480,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
                                                                  Recommended settings:
                                                                      - LPDDR4: max(tCKE, tSR)
                                                                      - LPDDR5: tSR
-                                                                     - DDR4: tCKESR (+ PL(parity latency)(*))
+                                                                     - DDR4: tCKESR (+ PL(parity latency))
                                                                      - DDR5: Don't care
-                                                                 (*)Only if CRCPARCTL1.caparity_disable_before_sr=0, this register must be increased by PL.
 
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 2, Group 4 */
@@ -35830,9 +36492,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
                                                                     Recommended settings:
                                                                      - LPDDR4: tCKELCK
                                                                      - LPDDR5: tCSLCK
-                                                                     - DDR4: tCKSRE (+ PL(parity latency)(*))
+                                                                     - DDR4: tCKSRE (+ PL(parity latency))
                                                                      - DDR5: tCKLCS
-                                                                 (*)Only if CRCPARCTL1.caparity_disable_before_sr=0, this register must be increased by PL.
 
                                                                  Unit: DRAM clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 2, Group 4 */
@@ -35850,8 +36511,9 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5 cavm_dssx_ddrctl_regb_freq0_ch0_dramset1tmg5_t;
 
@@ -36959,9 +37621,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg
                                                                  Recommended values:
 
                                                                   DDR4:
-                                                                  - BL8: 5 + WR_PREAMBLE + CRC_MODE
+                                                                  - BL8: 5 + WR_PREAMBLE
                                                                     WR_PREAMBLE = 1 (1tCK write preamble),  2 (2tCK write preamble)
-                                                                    CRC_MODE = 0 (not CRC mode),  1 (CRC mode)
                                                                  Unit: DFI PHY clock cycles.
 
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 4. */
@@ -37053,9 +37714,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg
                                                                  Recommended values:
 
                                                                   DDR4:
-                                                                  - BL8: 5 + WR_PREAMBLE + CRC_MODE
+                                                                  - BL8: 5 + WR_PREAMBLE
                                                                     WR_PREAMBLE = 1 (1tCK write preamble),  2 (2tCK write preamble)
-                                                                    CRC_MODE = 0 (not CRC mode),  1 (CRC mode)
                                                                  Unit: DFI PHY clock cycles.
 
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 4. */
@@ -37063,8 +37723,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_s cn10ka; */
-    struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_cn10kb
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_cn10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_28_31        : 4;
@@ -37077,6 +37737,118 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg
                                                                     WR_PREAMBLE = 1 (1tCK write preamble),  2 (2tCK write preamble)
                                                                     CRC_MODE = 0 (not CRC mode),  1 (CRC mode)
                                                                  Unit: DFI PHY clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 4. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t wr_odt_delay          : 5;  /**< [ 20: 16](R/W) The delay, in DFI PHY clock cycles, from issuing a write command to setting ODT
+                                                                 values associated with that command. ODT setting must remain constant for the
+                                                                 entire time that DQS is driven by the DDRCTL.
+
+                                                                 Recommended values:
+
+                                                                  DDR4:
+                                                                  - DFITMG1.dfi_t_cmd_lat (to adjust for CAL mode)
+                                                                 Unit: DFI PHY clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 4. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t rd_odt_hold           : 4;  /**< [ 11:  8](R/W) DFI PHY clock cycles to hold ODT for a read command. The minimum supported value is 2.
+
+                                                                 Recommended values:
+
+                                                                  DDR4:
+                                                                  - BL8: 5 + RD_PREAMBLE
+                                                                    RD_PREAMBLE = 1 (1tCK read preamble),  2 (2tCK read preamble)
+                                                                 Unit: DFI PHY clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 4. */
+        uint32_t reserved_7            : 1;
+        uint32_t rd_odt_delay          : 5;  /**< [  6:  2](R/W) The delay, in DFI PHY clock cycles, from issuing a read command to setting ODT
+                                                                 values associated with that command. ODT setting must remain constant for the
+                                                                 entire time that DQS is driven by the DDRCTL.
+
+                                                                 Recommended values:
+
+                                                                  DDR4:
+                                                                  - CL - CWL - RD_PREAMBLE + WR_PREAMBLE + DFITMG1.dfi_t_cmd_lat (to adjust for CAL mode)
+                                                                    WR_PREAMBLE = 1 (1tCK write preamble),  2 (2tCK write preamble)
+
+                                                                    RD_PREAMBLE = 1 (1tCK read preamble),  2 (2tCK read preamble)
+
+                                                                    If (CL - CWL - RD_PREAMBLE + WR_PREAMBLE) \< 0,  DDRCTL does not support ODT for read operation.
+                                                                 Unit: DFI PHY clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 4. */
+        uint32_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_1          : 2;
+        uint32_t rd_odt_delay          : 5;  /**< [  6:  2](R/W) The delay, in DFI PHY clock cycles, from issuing a read command to setting ODT
+                                                                 values associated with that command. ODT setting must remain constant for the
+                                                                 entire time that DQS is driven by the DDRCTL.
+
+                                                                 Recommended values:
+
+                                                                  DDR4:
+                                                                  - CL - CWL - RD_PREAMBLE + WR_PREAMBLE + DFITMG1.dfi_t_cmd_lat (to adjust for CAL mode)
+                                                                    WR_PREAMBLE = 1 (1tCK write preamble),  2 (2tCK write preamble)
+
+                                                                    RD_PREAMBLE = 1 (1tCK read preamble),  2 (2tCK read preamble)
+
+                                                                    If (CL - CWL - RD_PREAMBLE + WR_PREAMBLE) \< 0,  DDRCTL does not support ODT for read operation.
+                                                                 Unit: DFI PHY clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 4. */
+        uint32_t reserved_7            : 1;
+        uint32_t rd_odt_hold           : 4;  /**< [ 11:  8](R/W) DFI PHY clock cycles to hold ODT for a read command. The minimum supported value is 2.
+
+                                                                 Recommended values:
+
+                                                                  DDR4:
+                                                                  - BL8: 5 + RD_PREAMBLE
+                                                                    RD_PREAMBLE = 1 (1tCK read preamble),  2 (2tCK read preamble)
+                                                                 Unit: DFI PHY clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 4. */
+        uint32_t reserved_12_15        : 4;
+        uint32_t wr_odt_delay          : 5;  /**< [ 20: 16](R/W) The delay, in DFI PHY clock cycles, from issuing a write command to setting ODT
+                                                                 values associated with that command. ODT setting must remain constant for the
+                                                                 entire time that DQS is driven by the DDRCTL.
+
+                                                                 Recommended values:
+
+                                                                  DDR4:
+                                                                  - DFITMG1.dfi_t_cmd_lat (to adjust for CAL mode)
+                                                                 Unit: DFI PHY clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 4. */
+        uint32_t reserved_21_23        : 3;
+        uint32_t wr_odt_hold           : 4;  /**< [ 27: 24](R/W) DFI PHY clock cycles to hold ODT for a write command. The minimum supported value is 2.
+
+                                                                 Recommended values:
+
+                                                                  DDR4:
+                                                                  - BL8: 5 + WR_PREAMBLE + CRC_MODE
+                                                                    WR_PREAMBLE = 1 (1tCK write preamble),  2 (2tCK write preamble)
+                                                                    CRC_MODE = 0 (not CRC mode),  1 (CRC mode)
+                                                                 Unit: DFI PHY clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 1, Group 4. */
+        uint32_t reserved_28_31        : 4;
+#endif /* Word 0 - End */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_cn10ka_p1_1 cn10ka_p2; */
+    struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_28_31        : 4;
+        uint32_t wr_odt_hold           : 4;  /**< [ 27: 24](R/W) DFI PHY clock cycles to hold ODT for a write command. The minimum supported value is 2.
+
+                                                                 Recommended values:
+
+                                                                  DDR4:
+                                                                  - BL8: 5 + WR_PREAMBLE
+                                                                    WR_PREAMBLE = 1 (1tCK write preamble),  2 (2tCK write preamble)
+                                                                 Unit: DFI PHY clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 4 */
         uint32_t reserved_21_23        : 3;
         uint32_t wr_odt_delay          : 5;  /**< [ 20: 16](R/W) The delay, in DFI PHY clock cycles, from issuing a write command to setting ODT
@@ -37160,16 +37932,16 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg
                                                                  Recommended values:
 
                                                                   DDR4:
-                                                                  - BL8: 5 + WR_PREAMBLE + CRC_MODE
+                                                                  - BL8: 5 + WR_PREAMBLE
                                                                     WR_PREAMBLE = 1 (1tCK write preamble),  2 (2tCK write preamble)
-                                                                    CRC_MODE = 0 (not CRC mode),  1 (CRC mode)
                                                                  Unit: DFI PHY clock cycles.
                                                                  Programming Mode: Quasi-dynamic Group 1, Group 4 */
         uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg cavm_dssx_ddrctl_regb_freq0_ch0_odtcfg_t;
 
@@ -38146,8 +38918,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
                                                                      - PHY requirement:
                                                                      tphy_wrcsgap (see PHY databook for value of tphy_wrcsgap)
 
-                                                                  If CRC feature is enabled, must be increased by 1.
-
                                                                   If write preamble is set to 2tCK(DDR4 only), must be increased by 1.
 
                                                                   Write preamble is always set to 2tCK for LPDDR4, refer to PHY databook to see
@@ -38249,8 +39019,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
                                                                      This value must consider both PHY requirement and ODT requirement.
                                                                      - PHY requirement:
                                                                      tphy_wrcsgap (see PHY databook for value of tphy_wrcsgap)
-
-                                                                  If CRC feature is enabled, must be increased by 1.
 
                                                                   If write preamble is set to 2tCK(DDR4 only), must be increased by 1.
 
@@ -38283,7 +39051,158 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_s cn10ka; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t diff_rank_wr_gap      : 8;  /**< [ 15:  8](R/W) Only present for multi-rank configurations.
+
+                                                                 Indicates the number of clocks of gap in data responses when performing
+                                                                 consecutive writes to different ranks.
+
+                                                                 This is used to switch the delays in the PHY to match the rank requirements.
+                                                                     This value must consider both PHY requirement and ODT requirement.
+                                                                     - PHY requirement:
+                                                                     tphy_wrcsgap (see PHY databook for value of tphy_wrcsgap)
+
+                                                                  If CRC feature is enabled, must be increased by 1.
+
+                                                                  If write preamble is set to 2tCK(DDR4 only), must be increased by 1.
+
+                                                                  Write preamble is always set to 2tCK for LPDDR4, refer to PHY databook to see
+                                                                 if this is already factored into tphy_wrcsgap value or if it needs to be
+                                                                 increased by 1.
+
+                                                                  If write postamble is set to 1.5tCK(LPDDR4 only), must be increased by 1.
+                                                                     - ODT requirement:
+                                                                  The value programmed in this register takes care of the ODT switch off timing
+                                                                 requirement when switching ranks during writes.
+
+                                                                  For LPDDR4, with DQ ODT enabled, diff_rank_wr_gap must be a minimum of ODTLoff - ODTLon - BL/2 + 1
+
+                                                                  For other cases, diff_rank_wr_gap must be a minimum of ODTCFG.wr_odt_hold - BL/2
+
+                                                                 Program this to the larger of PHY requirement or ODT requirement.
+
+                                                                 After PHY has completed training the value programmed may need to be increased.
+                                                                 Refer to relevant PHY documentation.
+
+                                                                 For LPDDR5, Please set to "JEDEC formula + tphy_wckcsgap + board delay"
+
+                                                                 Please see PHY databook for the value of tphy_wckcsgap
+
+                                                                 Unit: DRAM data clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t diff_rank_rd_gap      : 8;  /**< [  7:  0](R/W) Only present for multi-rank configurations.
+
+                                                                 Indicates the number of clocks of gap in data responses when performing
+                                                                 consecutive reads to different ranks.
+
+                                                                 This is used to switch the delays in the PHY to match the rank requirements.
+
+                                                                 This value must consider both PHY requirement and ODT requirement.
+                                                                     - PHY requirement:
+                                                                       tphy_rdcsgap (see PHY databook for value of tphy_rdcsgap)
+
+                                                                       If read preamble is set to 2tCK(DDR4 only), must be increased by 1.
+
+                                                                       If read postamble is set to 1.5tCK(LPDDR4 only), must be increased by 1.
+                                                                     - ODT requirement:
+                                                                       The value programmed in this register takes care of the ODT switch off
+                                                                 timing requirement when switching ranks during reads:
+
+                                                                      diff_rank_rd_gap must be a minimum of ODTCFG.rd_odt_hold - BL/2
+
+                                                                 Program this to the larger of PHY requirement or ODT requirement.
+
+                                                                 After PHY has completed training the value programmed may need to be increased.
+                                                                 Refer to relevant PHY documentation.
+
+                                                                 For LPDDR5, Please set to "JEDEC formula + tphy_wckcsgap + board delay"
+
+                                                                 Please see PHY databook for the value of tphy_wckcsgap
+
+                                                                 Unit: DRAM data clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t diff_rank_rd_gap      : 8;  /**< [  7:  0](R/W) Only present for multi-rank configurations.
+
+                                                                 Indicates the number of clocks of gap in data responses when performing
+                                                                 consecutive reads to different ranks.
+
+                                                                 This is used to switch the delays in the PHY to match the rank requirements.
+
+                                                                 This value must consider both PHY requirement and ODT requirement.
+                                                                     - PHY requirement:
+                                                                       tphy_rdcsgap (see PHY databook for value of tphy_rdcsgap)
+
+                                                                       If read preamble is set to 2tCK(DDR4 only), must be increased by 1.
+
+                                                                       If read postamble is set to 1.5tCK(LPDDR4 only), must be increased by 1.
+                                                                     - ODT requirement:
+                                                                       The value programmed in this register takes care of the ODT switch off
+                                                                 timing requirement when switching ranks during reads:
+
+                                                                      diff_rank_rd_gap must be a minimum of ODTCFG.rd_odt_hold - BL/2
+
+                                                                 Program this to the larger of PHY requirement or ODT requirement.
+
+                                                                 After PHY has completed training the value programmed may need to be increased.
+                                                                 Refer to relevant PHY documentation.
+
+                                                                 For LPDDR5, Please set to "JEDEC formula + tphy_wckcsgap + board delay"
+
+                                                                 Please see PHY databook for the value of tphy_wckcsgap
+
+                                                                 Unit: DRAM data clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t diff_rank_wr_gap      : 8;  /**< [ 15:  8](R/W) Only present for multi-rank configurations.
+
+                                                                 Indicates the number of clocks of gap in data responses when performing
+                                                                 consecutive writes to different ranks.
+
+                                                                 This is used to switch the delays in the PHY to match the rank requirements.
+                                                                     This value must consider both PHY requirement and ODT requirement.
+                                                                     - PHY requirement:
+                                                                     tphy_wrcsgap (see PHY databook for value of tphy_wrcsgap)
+
+                                                                  If CRC feature is enabled, must be increased by 1.
+
+                                                                  If write preamble is set to 2tCK(DDR4 only), must be increased by 1.
+
+                                                                  Write preamble is always set to 2tCK for LPDDR4, refer to PHY databook to see
+                                                                 if this is already factored into tphy_wrcsgap value or if it needs to be
+                                                                 increased by 1.
+
+                                                                  If write postamble is set to 1.5tCK(LPDDR4 only), must be increased by 1.
+                                                                     - ODT requirement:
+                                                                  The value programmed in this register takes care of the ODT switch off timing
+                                                                 requirement when switching ranks during writes.
+
+                                                                  For LPDDR4, with DQ ODT enabled, diff_rank_wr_gap must be a minimum of ODTLoff - ODTLon - BL/2 + 1
+
+                                                                  For other cases, diff_rank_wr_gap must be a minimum of ODTCFG.wr_odt_hold - BL/2
+
+                                                                 Program this to the larger of PHY requirement or ODT requirement.
+
+                                                                 After PHY has completed training the value programmed may need to be increased.
+                                                                 Refer to relevant PHY documentation.
+
+                                                                 For LPDDR5, Please set to "JEDEC formula + tphy_wckcsgap + board delay"
+
+                                                                 Please see PHY databook for the value of tphy_wckcsgap
+
+                                                                 Unit: DRAM data clock cycles.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -38297,7 +39216,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
                                                                      This value must consider both PHY requirement and ODT requirement.
                                                                      - PHY requirement:
                                                                      tphy_wrcsgap (see PHY databook for value of tphy_wrcsgap)
-                                                                  If CRC feature is enabled, must be increased by 1.
 
                                                                   If write preamble is set to 2tCK(DDR4 only), must be increased by 1.
 
@@ -38405,7 +39323,6 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
                                                                      This value must consider both PHY requirement and ODT requirement.
                                                                      - PHY requirement:
                                                                      tphy_wrcsgap (see PHY databook for value of tphy_wrcsgap)
-                                                                  If CRC feature is enabled, must be increased by 1.
 
                                                                   If write preamble is set to 2tCK(DDR4 only), must be increased by 1.
 
@@ -38438,8 +39355,9 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0 cavm_dssx_ddrctl_regb_freq0_ch0_ranktmg0_t;
 
@@ -38618,6 +39536,20 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_25_31        : 7;
+        uint32_t t_wr_crc_retry_window : 9;  /**< [ 24: 16](R/W) Reserved. */
+        uint32_t reserved_0_15         : 16;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_15         : 16;
+        uint32_t t_wr_crc_retry_window : 9;  /**< [ 24: 16](R/W) Reserved. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_s cn10; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
         uint32_t t_wr_crc_retry_window : 9;  /**< [ 24: 16](R/W) Indicate worst case delay for WR CRC error detection from write command
                                                                  scheduled internally to dfi_alert_n=0.
 
@@ -38635,9 +39567,8 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0
                                                                  Programming Mode: Quasi-dynamic Group 3. */
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_s cn10ka; */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -38658,8 +39589,9 @@ union cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0
         uint32_t reserved_25_31        : 7;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_s cnf10ka; */
-    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_s cnf10kb; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0 cavm_dssx_ddrctl_regb_freq0_ch0_retrytmg0_t;
 
@@ -41267,15 +42199,15 @@ union cavm_dssx_int_w1c
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) ddrctl write data RAM ECC single-bit error interrupt. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) ddrctl chi retry list RAM ECC dual-bit error interrupt. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) ddrctl chi retry list RAM ECC single-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) ddrctl CRC retry RAM higher bits ECC dual-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
         uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) ddrctl CRC retry RAM higher bits ECC single-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) ddrctl CRC retry RAM lower bits ECC dual-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) ddrctl CRC retry RAM lower bits ECC single-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) DDR PHY interrupt. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) ddrctl MPAM secured error interrupt. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) ddrctl MPAM non secured error interrupt. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) ddrctl scrubber interrupt indicating one full address range sweep. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) ddrctl wr crc retry limiter is reached. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reserved. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1C/H) ddrctl rd retry limiter is reached. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) MSH to CHI bridge request error check (parity) interrupt. */
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) MSH to CHI bridge data error check (parity) interrupt. */
@@ -41287,30 +42219,12 @@ union cavm_dssx_int_w1c
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) MCT (crypto) read transaction does not hit any address window. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) MCT (crypto) interrupt summary. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) ddrctl RFM alert interrupt. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) ddrctl interrupt - This interrupt is asserted when a CAPAR error is detected. It
-                                                                 may be cleared by writing to DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_INTR_CLR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) ddrctl interrupt - This interrupt is asserted when
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[CAPAR_ERR_CNT]
-                                                                 reaches DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1[CAPAR_ERR_MAX_REACHED_TH]. It is
-                                                                 cleared by writing to
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_MAX_REACHED_INTR_CLR]. It is recommended to clear
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[CAPAR_ERR_CNT] by
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_CNT_CLR]
-                                                                 before clearing this interrupt; otherwise, this interrupt is asserted again immediately. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) ddrctl write CRC error interrupt. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) ddrctl software command error interrupt. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) ddrctl interrupt - This interrupt is asserted when
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[RD_CRC_ERR_CNT] is
-                                                                 reached to CRCPARCTL3.rd_crc_err_max_reached_th. It may be cleared by writing to
-                                                                 CRCPARCTL0.rd_crc_err_max_reached_int_clr. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) ddrctl interrupt - This interrupt is asserted when the
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT10[WR_CRC_ERR_CNT] is reached to
-                                                                 CRCPARCTL2.wr_crc_err_max_reached_th.
-                                                                 It is cleared by writing to CRCPARCTL0.wr_crc_err_max_reached_intr_clr. It is
-                                                                 recommended to clear DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT10[WR_CRC_ERR_CNT] by
-                                                                 DSS()_DDRCTL_REGB_DDRC_CRCPARCTL0[WR_CRC_ERR_CNT_CLR] before clearing this
-                                                                 interrupt; otherwise, this
-                                                                 interrupt is asserted again immediately. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) ddrctl low-power control command error interrupt. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) ddrctl ECC uncorrected error interrupt. */
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) ddrctl ECC corrected error interrupt. */
@@ -41326,30 +42240,12 @@ union cavm_dssx_int_w1c
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) ddrctl ECC corrected error interrupt. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) ddrctl ECC uncorrected error interrupt. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) ddrctl low-power control command error interrupt. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) ddrctl interrupt - This interrupt is asserted when the
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT10[WR_CRC_ERR_CNT] is reached to
-                                                                 CRCPARCTL2.wr_crc_err_max_reached_th.
-                                                                 It is cleared by writing to CRCPARCTL0.wr_crc_err_max_reached_intr_clr. It is
-                                                                 recommended to clear DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT10[WR_CRC_ERR_CNT] by
-                                                                 DSS()_DDRCTL_REGB_DDRC_CRCPARCTL0[WR_CRC_ERR_CNT_CLR] before clearing this
-                                                                 interrupt; otherwise, this
-                                                                 interrupt is asserted again immediately. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) ddrctl interrupt - This interrupt is asserted when
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[RD_CRC_ERR_CNT] is
-                                                                 reached to CRCPARCTL3.rd_crc_err_max_reached_th. It may be cleared by writing to
-                                                                 CRCPARCTL0.rd_crc_err_max_reached_int_clr. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) ddrctl software command error interrupt. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) ddrctl write CRC error interrupt. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) ddrctl interrupt - This interrupt is asserted when
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[CAPAR_ERR_CNT]
-                                                                 reaches DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1[CAPAR_ERR_MAX_REACHED_TH]. It is
-                                                                 cleared by writing to
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_MAX_REACHED_INTR_CLR]. It is recommended to clear
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[CAPAR_ERR_CNT] by
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_CNT_CLR]
-                                                                 before clearing this interrupt; otherwise, this interrupt is asserted again immediately. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) ddrctl interrupt - This interrupt is asserted when a CAPAR error is detected. It
-                                                                 may be cleared by writing to DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_INTR_CLR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) ddrctl RFM alert interrupt. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) MCT (crypto) interrupt summary. */
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) MCT (crypto) read transaction does not hit any address window. */
@@ -41361,15 +42257,15 @@ union cavm_dssx_int_w1c
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) MSH to CHI bridge data error check (parity) interrupt. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) MSH to CHI bridge request error check (parity) interrupt. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1C/H) ddrctl rd retry limiter is reached. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) ddrctl wr crc retry limiter is reached. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reserved. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) ddrctl scrubber interrupt indicating one full address range sweep. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) ddrctl MPAM non secured error interrupt. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) ddrctl MPAM secured error interrupt. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) DDR PHY interrupt. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) ddrctl CRC retry RAM lower bits ECC single-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) ddrctl CRC retry RAM lower bits ECC dual-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
         uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) ddrctl CRC retry RAM higher bits ECC single-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) ddrctl CRC retry RAM higher bits ECC dual-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) ddrctl chi retry list RAM ECC single-bit error interrupt. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) ddrctl chi retry list RAM ECC dual-bit error interrupt. */
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) ddrctl write data RAM ECC single-bit error interrupt. */
@@ -41385,7 +42281,143 @@ union cavm_dssx_int_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_int_w1c_s cn10; */
-    struct cavm_dssx_int_w1c_cn10ka
+    struct cavm_dssx_int_w1c_cn10ka_p1_0
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) ddrctl chi write buffer RAM higher bits ECC dual-bit error interrupt. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) ddrctl chi write buffer RAM lower bits ECC dual-bit error interrupt. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) ddrctl chi write buffer RAM higher bits ECC single-bit error interrupt. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) ddrctl chi write buffer RAM lower bits ECC single-bit error interrupt. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) ddrctl write data RAM ECC dual-bit error interrupt. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) ddrctl write data RAM ECC single-bit error interrupt. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) ddrctl chi retry list RAM ECC dual-bit error interrupt. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) ddrctl chi retry list RAM ECC single-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) ddrctl CRC retry RAM higher bits ECC single-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) DDR PHY interrupt. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) ddrctl MPAM secured error interrupt. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) ddrctl MPAM non secured error interrupt. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) ddrctl scrubber interrupt indicating one full address range sweep. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) MSH to CHI bridge request error check (parity) interrupt. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) MSH to CHI bridge data error check (parity) interrupt. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) MCT (crypto) write data buffer overflow. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) MCT (crypto) write transaction hit multiple address windows. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) MCT (crypto) read data buffer overflow. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) MCT (crypto) read transaction hit multiple address windows. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) MCT (crypto) write transaction does not hit any address window. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) MCT (crypto) read transaction does not hit any address window. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) MCT (crypto) interrupt summary. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) ddrctl RFM alert interrupt. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) ddrctl software command error interrupt. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) ddrctl low-power control command error interrupt. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) ddrctl ECC uncorrected error interrupt. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) ddrctl ECC corrected error interrupt. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) DDR utility command error interrupt. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) This signal is the derate temperature limit interrupt indicating that the DDR5
+                                                                 SDRAM temperature operating limit is exceeded. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) ddrctl control update error interrupt. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) ddrctl control update error interrupt. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) This signal is the derate temperature limit interrupt indicating that the DDR5
+                                                                 SDRAM temperature operating limit is exceeded. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) DDR utility command error interrupt. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) ddrctl ECC corrected error interrupt. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) ddrctl ECC uncorrected error interrupt. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) ddrctl low-power control command error interrupt. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) ddrctl software command error interrupt. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) ddrctl RFM alert interrupt. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) MCT (crypto) interrupt summary. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) MCT (crypto) read transaction does not hit any address window. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) MCT (crypto) write transaction does not hit any address window. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) MCT (crypto) read transaction hit multiple address windows. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) MCT (crypto) read data buffer overflow. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) MCT (crypto) write transaction hit multiple address windows. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) MCT (crypto) write data buffer overflow. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) MSH to CHI bridge data error check (parity) interrupt. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) MSH to CHI bridge request error check (parity) interrupt. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) ddrctl scrubber interrupt indicating one full address range sweep. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) ddrctl MPAM non secured error interrupt. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) ddrctl MPAM secured error interrupt. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) DDR PHY interrupt. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) ddrctl CRC retry RAM higher bits ECC single-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) ddrctl chi retry list RAM ECC single-bit error interrupt. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) ddrctl chi retry list RAM ECC dual-bit error interrupt. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) ddrctl write data RAM ECC single-bit error interrupt. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) ddrctl write data RAM ECC dual-bit error interrupt. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) ddrctl chi write buffer RAM lower bits ECC single-bit error interrupt. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) ddrctl chi write buffer RAM higher bits ECC single-bit error interrupt. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) ddrctl chi write buffer RAM lower bits ECC dual-bit error interrupt. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) ddrctl chi write buffer RAM higher bits ECC dual-bit error interrupt. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cn10ka_p1_0;
+    struct cavm_dssx_int_w1c_cn10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -41556,7 +42588,8 @@ union cavm_dssx_int_w1c
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_int_w1c_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_int_w1c_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -41585,15 +42618,15 @@ union cavm_dssx_int_w1c
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) ddrctl write data RAM ECC single-bit error interrupt. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) ddrctl chi retry list RAM ECC dual-bit error interrupt. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) ddrctl chi retry list RAM ECC single-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) ddrctl CRC retry RAM higher bits ECC dual-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) ddrctl CRC retry RAM higher bits ECC single-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) ddrctl CRC retry RAM lower bits ECC dual-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) ddrctl CRC retry RAM lower bits ECC single-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) DDR PHY interrupt. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) ddrctl MPAM secured error interrupt. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) ddrctl MPAM non secured error interrupt. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) ddrctl scrubber interrupt indicating one full address range sweep. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) ddrctl wr crc retry limiter is reached. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reserved. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1C/H) ddrctl rd retry limiter is reached. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) MSH to CHI bridge request error check (parity) interrupt. */
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) MSH to CHI bridge data error check (parity) interrupt. */
@@ -41605,30 +42638,12 @@ union cavm_dssx_int_w1c
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) MCT (crypto) read transaction does not hit any address window. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) MCT (crypto) interrupt summary. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) ddrctl RFM alert interrupt. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) ddrctl interrupt - This interrupt is asserted when a CAPAR error is detected. It
-                                                                 may be cleared by writing to DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_INTR_CLR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) ddrctl interrupt - This interrupt is asserted when
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[CAPAR_ERR_CNT]
-                                                                 reaches DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1[CAPAR_ERR_MAX_REACHED_TH]. It is
-                                                                 cleared by writing to
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_MAX_REACHED_INTR_CLR]. It is recommended to clear
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[CAPAR_ERR_CNT] by
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_CNT_CLR]
-                                                                 before clearing this interrupt; otherwise, this interrupt is asserted again immediately. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) ddrctl write CRC error interrupt. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) ddrctl software command error interrupt. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) ddrctl interrupt - This interrupt is asserted when
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[RD_CRC_ERR_CNT] is
-                                                                 reached to CRCPARCTL3.rd_crc_err_max_reached_th. It may be cleared by writing to
-                                                                 CRCPARCTL0.rd_crc_err_max_reached_int_clr. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) ddrctl interrupt - This interrupt is asserted when the
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT10[WR_CRC_ERR_CNT] is reached to
-                                                                 CRCPARCTL2.wr_crc_err_max_reached_th.
-                                                                 It is cleared by writing to CRCPARCTL0.wr_crc_err_max_reached_intr_clr. It is
-                                                                 recommended to clear DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT10[WR_CRC_ERR_CNT] by
-                                                                 DSS()_DDRCTL_REGB_DDRC_CRCPARCTL0[WR_CRC_ERR_CNT_CLR] before clearing this
-                                                                 interrupt; otherwise, this
-                                                                 interrupt is asserted again immediately. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) ddrctl low-power control command error interrupt. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) ddrctl ECC uncorrected error interrupt. */
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) ddrctl ECC corrected error interrupt. */
@@ -41644,30 +42659,12 @@ union cavm_dssx_int_w1c
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) ddrctl ECC corrected error interrupt. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) ddrctl ECC uncorrected error interrupt. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) ddrctl low-power control command error interrupt. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) ddrctl interrupt - This interrupt is asserted when the
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT10[WR_CRC_ERR_CNT] is reached to
-                                                                 CRCPARCTL2.wr_crc_err_max_reached_th.
-                                                                 It is cleared by writing to CRCPARCTL0.wr_crc_err_max_reached_intr_clr. It is
-                                                                 recommended to clear DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT10[WR_CRC_ERR_CNT] by
-                                                                 DSS()_DDRCTL_REGB_DDRC_CRCPARCTL0[WR_CRC_ERR_CNT_CLR] before clearing this
-                                                                 interrupt; otherwise, this
-                                                                 interrupt is asserted again immediately. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) ddrctl interrupt - This interrupt is asserted when
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[RD_CRC_ERR_CNT] is
-                                                                 reached to CRCPARCTL3.rd_crc_err_max_reached_th. It may be cleared by writing to
-                                                                 CRCPARCTL0.rd_crc_err_max_reached_int_clr. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) ddrctl software command error interrupt. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) ddrctl write CRC error interrupt. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) ddrctl interrupt - This interrupt is asserted when
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[CAPAR_ERR_CNT]
-                                                                 reaches DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL1[CAPAR_ERR_MAX_REACHED_TH]. It is
-                                                                 cleared by writing to
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_MAX_REACHED_INTR_CLR]. It is recommended to clear
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARSTAT[CAPAR_ERR_CNT] by
-                                                                 DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_CNT_CLR]
-                                                                 before clearing this interrupt; otherwise, this interrupt is asserted again immediately. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) ddrctl interrupt - This interrupt is asserted when a CAPAR error is detected. It
-                                                                 may be cleared by writing to DSS()_DDRCTL_REGB_DDRC_CH0_CRCPARCTL0[CAPAR_ERR_INTR_CLR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) ddrctl RFM alert interrupt. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) MCT (crypto) interrupt summary. */
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) MCT (crypto) read transaction does not hit any address window. */
@@ -41679,15 +42676,15 @@ union cavm_dssx_int_w1c
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) MSH to CHI bridge data error check (parity) interrupt. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) MSH to CHI bridge request error check (parity) interrupt. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1C/H) ddrctl rd retry limiter is reached. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) ddrctl wr crc retry limiter is reached. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reserved. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) ddrctl scrubber interrupt indicating one full address range sweep. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) ddrctl MPAM non secured error interrupt. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) ddrctl MPAM secured error interrupt. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) DDR PHY interrupt. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) ddrctl CRC retry RAM lower bits ECC single-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) ddrctl CRC retry RAM lower bits ECC dual-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) ddrctl CRC retry RAM higher bits ECC single-bit error interrupt. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) ddrctl CRC retry RAM higher bits ECC dual-bit error interrupt. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) ddrctl chi retry list RAM ECC single-bit error interrupt. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) ddrctl chi retry list RAM ECC dual-bit error interrupt. */
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) ddrctl write data RAM ECC single-bit error interrupt. */
@@ -41715,8 +42712,9 @@ union cavm_dssx_int_w1c
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_int_w1c_cn10ka cnf10ka; */
-    /* struct cavm_dssx_int_w1c_cn10ka cnf10kb; */
+    /* struct cavm_dssx_int_w1c_cn10ka_p1_0 cnf10ka_p1_0; */
+    /* struct cavm_dssx_int_w1c_cn10ka_p1_1 cnf10ka_p1_1; */
+    /* struct cavm_dssx_int_w1c_cn10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_int_w1c cavm_dssx_int_w1c_t;
 

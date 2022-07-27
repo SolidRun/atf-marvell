@@ -21662,7 +21662,34 @@ union cavm_rpmx_mti_lpcs_gmode
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_lpcs_gmode_s cn; */
+    /* struct cavm_rpmx_mti_lpcs_gmode_s cn10; */
+    /* struct cavm_rpmx_mti_lpcs_gmode_s cn10ka; */
+    struct cavm_rpmx_mti_lpcs_gmode_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t usgmii_scramble_enable : 1; /**< [ 11: 11](R/W) Enable x58 scrambler/descrambler for USXGMII */
+        uint64_t usgmii8_enable        : 1;  /**< [ 10: 10](R/W) Enable 8-Channel USGMII mode (O-USGMII) of operation over serdes lane 0. When
+                                                                 set, all 8 channels are configured for SGMII and are multiplexed over lane 0
+                                                                 operating with a 10.0Gbps serdes link. The application has to initialize the
+                                                                 serdes accordingly. When this bit is set, bits 8, 9 (QSGMII) must be 0. */
+        uint64_t qsgmii_4_enable       : 1;  /**< [  9:  9](R/W) Enable QSGMII for Channels 4..7 over serdes lane 4 */
+        uint64_t qsgmii_0_enable       : 1;  /**< [  8:  8](R/W) Enable QSGMII for Channels 0..3 over serdes lane 0 */
+        uint64_t lpcs_enable           : 8;  /**< [  7:  0](R/W) Per channel 1G PCS enable. */
+#else /* Word 0 - Little Endian */
+        uint64_t lpcs_enable           : 8;  /**< [  7:  0](R/W) Per channel 1G PCS enable. */
+        uint64_t qsgmii_0_enable       : 1;  /**< [  8:  8](R/W) Enable QSGMII for Channels 0..3 over serdes lane 0 */
+        uint64_t qsgmii_4_enable       : 1;  /**< [  9:  9](R/W) Enable QSGMII for Channels 4..7 over serdes lane 4 */
+        uint64_t usgmii8_enable        : 1;  /**< [ 10: 10](R/W) Enable 8-Channel USGMII mode (O-USGMII) of operation over serdes lane 0. When
+                                                                 set, all 8 channels are configured for SGMII and are multiplexed over lane 0
+                                                                 operating with a 10.0Gbps serdes link. The application has to initialize the
+                                                                 serdes accordingly. When this bit is set, bits 8, 9 (QSGMII) must be 0. */
+        uint64_t usgmii_scramble_enable : 1; /**< [ 11: 11](R/W) Enable x58 scrambler/descrambler for USXGMII */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_rpmx_mti_lpcs_gmode_s cnf10ka; */
+    /* struct cavm_rpmx_mti_lpcs_gmode_s cnf10kb; */
 };
 typedef union cavm_rpmx_mti_lpcs_gmode cavm_rpmx_mti_lpcs_gmode_t;
 

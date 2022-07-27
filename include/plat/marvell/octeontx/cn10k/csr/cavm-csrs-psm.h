@@ -1794,7 +1794,7 @@ static inline uint64_t CAVM_PSM_CONST2_FUNC(void)
  * is triggered, the PSM sets PSM_INT_ERRINT_SUM_W1C[BKTPT] and triggers a
  * PSM_INT_VEC_E::ERRINT interrupt, and can optionally halt.  While halted,
  * the PSM will not schedule any new jobs or execute any commands from the
- * 128 queues, but jobs can still complete, job completion commands can still
+ * 255 queues, but jobs can still complete, job completion commands can still
  * be processed, and new commands may still be added to the queues. The
  * queues can be unhalted by re-enabling the queues (i.e., a write to
  * PSM_QUEUE_ENA_W1S(), or a QRUN command received from a MHAB/MDAB).

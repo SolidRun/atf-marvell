@@ -90,6 +90,7 @@
  * NIX Completion Queue Interrupt Enumeration
  * Enumerates the bit index of NIX_CQ_CTX_S[CQ_ERR_INT,CQ_ERR_INT_ENA].
  */
+#define CAVM_NIX_CQERRINT_E_CPT_DROP (3)
 #define CAVM_NIX_CQERRINT_E_CQE_FAULT (2)
 #define CAVM_NIX_CQERRINT_E_DOOR_ERR (0)
 #define CAVM_NIX_CQERRINT_E_WR_FULL (1)
@@ -368,6 +369,7 @@
  * Enumerates Inline IPSEC SA algorithm.
  */
 #define CAVM_NIX_SA_ALG_E_MS_27_25 (2)
+#define CAVM_NIX_SA_ALG_E_MS_28_25 (3)
 #define CAVM_NIX_SA_ALG_E_MS_31_28 (1)
 #define CAVM_NIX_SA_ALG_E_NON_MS (0)
 
@@ -1471,19 +1473,27 @@ union cavm_nix_cq_ctx_s
                                                                  stopped and all new CQEs to be added to it are dropped. */
         uint64_t qint_idx              : 7;  /**< [ 90: 84] Error queue interrupt index. Select the QINT within LF (index {a} of
                                                                  NIX_LF_QINT()*) which receives [CQ_ERR_INT] events. */
-        uint64_t reserved_81_83        : 3;
+        uint64_t lbpid_high            : 3;  /**< [ 83: 81] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 8:6 */
         uint64_t bpid                  : 9;  /**< [ 80: 72] Backpressure ID (index {a} of NIX_AF_RX_BPID()_STATUS) to which
                                                                  backpressure is asserted when [BP_ENA] bit is set. */
-        uint64_t reserved_69_71        : 3;
+        uint64_t lbpid_med             : 3;  /**< [ 71: 69] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 5:3 */
         uint64_t bp_ena                : 1;  /**< [ 68: 68] Enable CQ backpressure based on [BP] level. */
-        uint64_t reserved_64_67        : 4;
+        uint64_t lbpid_low             : 3;  /**< [ 67: 65] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 2:0 */
+        uint64_t lbp_ena               : 1;  /**< [ 64: 64] Enable CQ backpressure based on [BP] and [FRAC] level. */
 #else /* Word 1 - Little Endian */
-        uint64_t reserved_64_67        : 4;
+        uint64_t lbp_ena               : 1;  /**< [ 64: 64] Enable CQ backpressure based on [BP] and [FRAC] level. */
+        uint64_t lbpid_low             : 3;  /**< [ 67: 65] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 2:0 */
         uint64_t bp_ena                : 1;  /**< [ 68: 68] Enable CQ backpressure based on [BP] level. */
-        uint64_t reserved_69_71        : 3;
+        uint64_t lbpid_med             : 3;  /**< [ 71: 69] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 5:3 */
         uint64_t bpid                  : 9;  /**< [ 80: 72] Backpressure ID (index {a} of NIX_AF_RX_BPID()_STATUS) to which
                                                                  backpressure is asserted when [BP_ENA] bit is set. */
-        uint64_t reserved_81_83        : 3;
+        uint64_t lbpid_high            : 3;  /**< [ 83: 81] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 8:6 */
         uint64_t qint_idx              : 7;  /**< [ 90: 84] Error queue interrupt index. Select the QINT within LF (index {a} of
                                                                  NIX_LF_QINT()*) which receives [CQ_ERR_INT] events. */
         uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL bit in [CQ_ERR_INT]
@@ -1604,7 +1614,9 @@ union cavm_nix_cq_ctx_s
         uint64_t caching               : 1;  /**< [232:232] Selects the style of CQE write to the LLC.
                                                                  0 = Writes of CQE data will not allocate into the LLC.
                                                                  1 = Writes of CQE data are allocated into the LLC. */
-        uint64_t reserved_210_231      : 22;
+        uint64_t reserved_211_231      : 21;
+        uint64_t cpt_drop_err_en       : 1;  /**< [210:210] Set CQ_ERR and when replayed CPT packet is dropped due to CQ_FULL.
+                                                                 Set the CPT_DROP bit in CQ_ERR_INT. */
         uint64_t ena                   : 1;  /**< [209:209] CQ enable. */
         uint64_t drop_ena              : 1;  /**< [208:208] Enable RQ packet DROP based on the [DROP] level. */
         uint64_t drop                  : 8;  /**< [207:200] If [DROP_ENA] is set for a received packet, the packet will be
@@ -1634,7 +1646,9 @@ union cavm_nix_cq_ctx_s
                                                                  See shifted_CNT in [AVG_CON]. */
         uint64_t drop_ena              : 1;  /**< [208:208] Enable RQ packet DROP based on the [DROP] level. */
         uint64_t ena                   : 1;  /**< [209:209] CQ enable. */
-        uint64_t reserved_210_231      : 22;
+        uint64_t cpt_drop_err_en       : 1;  /**< [210:210] Set CQ_ERR and when replayed CPT packet is dropped due to CQ_FULL.
+                                                                 Set the CPT_DROP bit in CQ_ERR_INT. */
+        uint64_t reserved_211_231      : 21;
         uint64_t caching               : 1;  /**< [232:232] Selects the style of CQE write to the LLC.
                                                                  0 = Writes of CQE data will not allocate into the LLC.
                                                                  1 = Writes of CQE data are allocated into the LLC. */
@@ -1989,29 +2003,41 @@ union cavm_nix_cq_ctx_s
         uint64_t cint_idx              : 7;  /**< [ 98: 92] Completion interrupt index. Select the CINT within LF (index {a} of
                                                                  NIX_LF_CINT()*) which receives completion events for
                                                                  this CQ. */
-        uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL bit in [CQ_ERR_INT]
-                                                                 when the corresponding error is detected for a send completion CQE. The CQ is
-                                                                 stopped and all new CQEs to be added to it are dropped. */
+        uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL or NIX_CQERRINT_E::CPT_DROP
+                                                                 bit in [CQ_ERR_INT] when the
+                                                                 corresponding error is detected for a send completion CQE or replayed CPT packet
+                                                                 CQE. The CQ is stopped and all
+                                                                 new CQEs to be added to it are dropped. */
         uint64_t qint_idx              : 7;  /**< [ 90: 84] Error queue interrupt index. Select the QINT within LF (index {a} of
                                                                  NIX_LF_QINT()*) which receives [CQ_ERR_INT] events. */
-        uint64_t reserved_81_83        : 3;
+        uint64_t lbpid_high            : 3;  /**< [ 83: 81] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 8:6 */
         uint64_t bpid                  : 9;  /**< [ 80: 72] Backpressure ID (index {a} of NIX_AF_RX_BPID()_STATUS) to which
                                                                  backpressure is asserted when [BP_ENA] bit is set. */
-        uint64_t reserved_69_71        : 3;
+        uint64_t lbpid_med             : 3;  /**< [ 71: 69] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 5:3 */
         uint64_t bp_ena                : 1;  /**< [ 68: 68] Enable CQ backpressure based on [BP] level. */
-        uint64_t reserved_64_67        : 4;
+        uint64_t lbpid_low             : 3;  /**< [ 67: 65] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 2:0 */
+        uint64_t lbp_ena               : 1;  /**< [ 64: 64] Enable CQ backpressure based on [BP] and [FRAC] level. */
 #else /* Word 1 - Little Endian */
-        uint64_t reserved_64_67        : 4;
+        uint64_t lbp_ena               : 1;  /**< [ 64: 64] Enable CQ backpressure based on [BP] and [FRAC] level. */
+        uint64_t lbpid_low             : 3;  /**< [ 67: 65] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 2:0 */
         uint64_t bp_ena                : 1;  /**< [ 68: 68] Enable CQ backpressure based on [BP] level. */
-        uint64_t reserved_69_71        : 3;
+        uint64_t lbpid_med             : 3;  /**< [ 71: 69] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 5:3 */
         uint64_t bpid                  : 9;  /**< [ 80: 72] Backpressure ID (index {a} of NIX_AF_RX_BPID()_STATUS) to which
                                                                  backpressure is asserted when [BP_ENA] bit is set. */
-        uint64_t reserved_81_83        : 3;
+        uint64_t lbpid_high            : 3;  /**< [ 83: 81] Backpressure ID (index \alpha of NIX_AF_RX_BPID(0..511)_STATUS) to which backpressure is
+                                                                 asserted when [LBP_ENA] bit is set. Bits 8:6 */
         uint64_t qint_idx              : 7;  /**< [ 90: 84] Error queue interrupt index. Select the QINT within LF (index {a} of
                                                                  NIX_LF_QINT()*) which receives [CQ_ERR_INT] events. */
-        uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL bit in [CQ_ERR_INT]
-                                                                 when the corresponding error is detected for a send completion CQE. The CQ is
-                                                                 stopped and all new CQEs to be added to it are dropped. */
+        uint64_t cq_err                : 1;  /**< [ 91: 91] CQ error. Set along with the NIX_CQERRINT_E::WR_FULL or NIX_CQERRINT_E::CPT_DROP
+                                                                 bit in [CQ_ERR_INT] when the
+                                                                 corresponding error is detected for a send completion CQE or replayed CPT packet
+                                                                 CQE. The CQ is stopped and all
+                                                                 new CQEs to be added to it are dropped. */
         uint64_t cint_idx              : 7;  /**< [ 98: 92] Completion interrupt index. Select the CINT within LF (index {a} of
                                                                  NIX_LF_CINT()*) which receives completion events for
                                                                  this CQ. */
@@ -2127,13 +2153,15 @@ union cavm_nix_cq_ctx_s
         uint64_t caching               : 1;  /**< [232:232] Selects the style of CQE write to the LLC.
                                                                  0 = Writes of CQE data will not allocate into the LLC.
                                                                  1 = Writes of CQE data are allocated into the LLC. */
-        uint64_t reserved_228_231      : 4;
+        uint64_t lbp_frac              : 4;  /**< [231:228] Late back pressure FRAC. so the effective_BP=([BP]*[LBP_FRAC])\>\>4. */
         uint64_t stash_thresh          : 4;  /**< [227:224] Stashing is done as long as the number of valid CQEs is below 2^(STASH_THRESH).
                                                                  When the number of CQEs is above the threshold only caching
                                                                  to LLC is done. */
         uint64_t msh_valid             : 1;  /**< [223:223] msh_dst valid. Set when MSH_DST is updated by OP_DOOR. */
         uint64_t msh_dst               : 11; /**< [222:212] msh_dst for stashing. Update dynamically by HW on every OP_DOOR. */
-        uint64_t reserved_210_211      : 2;
+        uint64_t reserved_211          : 1;
+        uint64_t cpt_drop_err_en       : 1;  /**< [210:210] Set CQ_ERR and when replayed CPT packet is dropped due to CQ_FULL.
+                                                                 Set the CPT_DROP bit in CQ_ERR_INT. */
         uint64_t ena                   : 1;  /**< [209:209] CQ enable. */
         uint64_t drop_ena              : 1;  /**< [208:208] Enable RQ packet DROP based on the [DROP] level. */
         uint64_t drop                  : 8;  /**< [207:200] If [DROP_ENA] is set for a received packet, the packet will be
@@ -2163,13 +2191,15 @@ union cavm_nix_cq_ctx_s
                                                                  See shifted_CNT in [AVG_CON]. */
         uint64_t drop_ena              : 1;  /**< [208:208] Enable RQ packet DROP based on the [DROP] level. */
         uint64_t ena                   : 1;  /**< [209:209] CQ enable. */
-        uint64_t reserved_210_211      : 2;
+        uint64_t cpt_drop_err_en       : 1;  /**< [210:210] Set CQ_ERR and when replayed CPT packet is dropped due to CQ_FULL.
+                                                                 Set the CPT_DROP bit in CQ_ERR_INT. */
+        uint64_t reserved_211          : 1;
         uint64_t msh_dst               : 11; /**< [222:212] msh_dst for stashing. Update dynamically by HW on every OP_DOOR. */
         uint64_t msh_valid             : 1;  /**< [223:223] msh_dst valid. Set when MSH_DST is updated by OP_DOOR. */
         uint64_t stash_thresh          : 4;  /**< [227:224] Stashing is done as long as the number of valid CQEs is below 2^(STASH_THRESH).
                                                                  When the number of CQEs is above the threshold only caching
                                                                  to LLC is done. */
-        uint64_t reserved_228_231      : 4;
+        uint64_t lbp_frac              : 4;  /**< [231:228] Late back pressure FRAC. so the effective_BP=([BP]*[LBP_FRAC])\>\>4. */
         uint64_t caching               : 1;  /**< [232:232] Selects the style of CQE write to the LLC.
                                                                  0 = Writes of CQE data will not allocate into the LLC.
                                                                  1 = Writes of CQE data are allocated into the LLC. */
@@ -3407,7 +3437,7 @@ union cavm_nix_rq_ctx_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
                                                                  work-queue entry or buffers or VWQE buffers.
-                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set).
+                                                                 Valid when [SSO_ENA] is set and ([ENA_WQWD] is clear or [VWQE_ENA] is set).
                                                                  To avoid drops when [VWQE_ENA] is set the WQE_AURA should have 512 excess buffers. */
         uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t len_ol4_dis           : 1;  /**< [ 42: 42] Outer L4 length error check disable. */
@@ -3464,7 +3494,7 @@ union cavm_nix_rq_ctx_s
         uint64_t len_ol3_dis           : 1;  /**< [ 43: 43] Outer L3 length error check disable. */
         uint64_t wqe_aura              : 20; /**< [ 63: 44] WQE aura. Aura within NIX_AF_LF()_CFG[NPA_PF_FUNC] for allocating SSO
                                                                  work-queue entry or buffers or VWQE buffers.
-                                                                 Valid when [SSO_ENA] is set and ( [ENA_WQWD] is clear or [VWQE_ENA] is set).
+                                                                 Valid when [SSO_ENA] is set and ([ENA_WQWD] is clear or [VWQE_ENA] is set).
                                                                  To avoid drops when [VWQE_ENA] is set the WQE_AURA should have 512 excess buffers. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -6617,12 +6647,12 @@ union cavm_nix_sq_ctx_s
         uint64_t smq_rr_weight         : 14; /**< [ 90: 77] DWRR weight relative to other SQs programmed to this SQ's SMQ. This value
                                                                  determines the number of data bytes to push to SMQ in a round. Number of
                                                                  data bytes is equal to:
-                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x].MTU
+                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x][MTU]
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE].
 
                                                                  The recommended value of [SMQ_RR_WEIGHT] should be such that:
-                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x].MTU) should be equal
+                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x][MTU]) should be equal
                                                                  or greater than the larger of the MTU size or
                                                                  NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
         uint64_t sso_ena               : 1;  /**< [ 76: 76] SSO add work enable.
@@ -6653,12 +6683,12 @@ union cavm_nix_sq_ctx_s
         uint64_t smq_rr_weight         : 14; /**< [ 90: 77] DWRR weight relative to other SQs programmed to this SQ's SMQ. This value
                                                                  determines the number of data bytes to push to SMQ in a round. Number of
                                                                  data bytes is equal to:
-                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x].MTU
+                                                                 NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x][MTU]
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE].
 
                                                                  The recommended value of [SMQ_RR_WEIGHT] should be such that:
-                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x].MTU) should be equal
+                                                                 (NIX_SQ_CTX_S[SMQ_RR_WEIGHT] \<\< NIX_AF_DWRR_MTU[x][MTU]) should be equal
                                                                  or greater than the larger of the MTU size or
                                                                  NIX_AF_SMQ()_CFG[RR_MINLEN] * NIX_AF_SQ_CONST[SMQ_DEPTH]. */
         uint64_t default_chan          : 12; /**< [102: 91] If the SQ transmits to RPM and/or LBK (corresponding
@@ -8278,7 +8308,7 @@ union cavm_nixx_af_const2
     struct cavm_nixx_af_const2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t spitosas              : 16; /**< [ 63: 48](RO) Number of entries in the SPI to SA table. More details are specified in [NIX_AF_SPI_TO_SA_CFG]. */
+        uint64_t spitosas              : 16; /**< [ 63: 48](RO) Number of entries in the SPI to SA table. More details are specified in NIX_AF_SPI_TO_SA_CFG. */
         uint64_t reserved_36_47        : 12;
         uint64_t cints                 : 12; /**< [ 35: 24](RO) Number of completion interrupts per LF. */
         uint64_t qints                 : 12; /**< [ 23: 12](RO) Number of queue interrupts per LF. */
@@ -8288,7 +8318,7 @@ union cavm_nixx_af_const2
         uint64_t qints                 : 12; /**< [ 23: 12](RO) Number of queue interrupts per LF. */
         uint64_t cints                 : 12; /**< [ 35: 24](RO) Number of completion interrupts per LF. */
         uint64_t reserved_36_47        : 12;
-        uint64_t spitosas              : 16; /**< [ 63: 48](RO) Number of entries in the SPI to SA table. More details are specified in [NIX_AF_SPI_TO_SA_CFG]. */
+        uint64_t spitosas              : 16; /**< [ 63: 48](RO) Number of entries in the SPI to SA table. More details are specified in NIX_AF_SPI_TO_SA_CFG. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_nixx_af_const2_s cn10; */
@@ -9084,7 +9114,7 @@ union cavm_nixx_af_lfx_cfg
         uint64_t reserved_37_63        : 27;
         uint64_t rq_cpt_mask_select    : 2;  /**< [ 36: 35](R/W) Select pairs of NIX_AF_RQ(0..3)_MASK(0..5) and NIX_AF_RQ(0..3)_SET(0..5) as follows:
                                                                  NIX_AF_RQ(RQ_CPT_MASK_SELECT)_MASK(0..5) and NIX_AF_RQ(RQ_CPT_MASK_SELECT)_SET(0..5)
-                                                                 NIX_RQ_CTX_S is qualified per LF as followed:
+                                                                 NIX_RQ_CTX_S is qualified per LF as follows:
                                                                  USED_NIX_RQ_CTX_S=( NIX_RQ_CTX_S & NIX_AF_RQ(RQ_CPT_MASK_SELECT)_MASK(0..5) ) |
                                                                  NIX_AF_RQ(RQ_CPT_MASK_SELECT)_SET(0..5)
                                                                  where & | is bit wise operation */
@@ -9103,7 +9133,7 @@ union cavm_nixx_af_lfx_cfg
         uint64_t xqe_size              : 2;  /**< [ 34: 33](R/W) Selects the WQE/CQE size for the LF. Enumerated by NIX_XQESZ_E. */
         uint64_t rq_cpt_mask_select    : 2;  /**< [ 36: 35](R/W) Select pairs of NIX_AF_RQ(0..3)_MASK(0..5) and NIX_AF_RQ(0..3)_SET(0..5) as follows:
                                                                  NIX_AF_RQ(RQ_CPT_MASK_SELECT)_MASK(0..5) and NIX_AF_RQ(RQ_CPT_MASK_SELECT)_SET(0..5)
-                                                                 NIX_RQ_CTX_S is qualified per LF as followed:
+                                                                 NIX_RQ_CTX_S is qualified per LF as follows:
                                                                  USED_NIX_RQ_CTX_S=( NIX_RQ_CTX_S & NIX_AF_RQ(RQ_CPT_MASK_SELECT)_MASK(0..5) ) |
                                                                  NIX_AF_RQ(RQ_CPT_MASK_SELECT)_SET(0..5)
                                                                  where & | is bit wise operation */
@@ -9964,13 +9994,13 @@ union cavm_nixx_af_lfx_rx_cfg
         uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) Outer L2 length error check enable. See NIX_RE_OPCODE_E::OL2_LENMISM. */
         uint64_t drop_re               : 1;  /**< [ 32: 32](R/W) Drop packets with receive/L2 errors. */
         uint64_t reserved_19_31        : 13;
-        uint64_t rx_error_mask         : 19; /**< [ 18:  0](R/W) drop mask when DROP_RE is enabled.
-                                                                 Each bit corresponds to different type of RX_ERROR. bit i affects error i
-                                                                 when the bit is enabled , it disables the appropriate error */
+        uint64_t rx_error_mask         : 19; /**< [ 18:  0](R/W) Drop mask when DROP_RE is enabled.
+                                                                 Each bit corresponds to different type of RX_ERROR. Bit i affects error i
+                                                                 when the bit is enabled, it disables the appropriate error */
 #else /* Word 0 - Little Endian */
-        uint64_t rx_error_mask         : 19; /**< [ 18:  0](R/W) drop mask when DROP_RE is enabled.
-                                                                 Each bit corresponds to different type of RX_ERROR. bit i affects error i
-                                                                 when the bit is enabled , it disables the appropriate error */
+        uint64_t rx_error_mask         : 19; /**< [ 18:  0](R/W) Drop mask when DROP_RE is enabled.
+                                                                 Each bit corresponds to different type of RX_ERROR. Bit i affects error i
+                                                                 when the bit is enabled, it disables the appropriate error */
         uint64_t reserved_19_31        : 13;
         uint64_t drop_re               : 1;  /**< [ 32: 32](R/W) Drop packets with receive/L2 errors. */
         uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) Outer L2 length error check enable. See NIX_RE_OPCODE_E::OL2_LENMISM. */
@@ -10170,7 +10200,144 @@ union cavm_nixx_af_lfx_rx_cfg
 #endif /* Word 0 - End */
     } cn10ka_p1;
     /* struct cavm_nixx_af_lfx_rx_cfg_s cn10ka_p2; */
-    /* struct cavm_nixx_af_lfx_rx_cfg_s cn10kb; */
+    struct cavm_nixx_af_lfx_rx_cfg_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_42_63        : 22;
+        uint64_t len_ol3               : 1;  /**< [ 41: 41](R/W) Outer L3 length error check enable. See NIX_RX_PERRCODE_E::OL3_LEN. */
+        uint64_t len_ol4               : 1;  /**< [ 40: 40](R/W) Outer L4 UDP length error check enable. See NIX_RX_PERRCODE_E::OL4_LEN. */
+        uint64_t len_il3               : 1;  /**< [ 39: 39](R/W) Inner L3 length error check enable. See NIX_RX_PERRCODE_E::IL3_LEN. */
+        uint64_t len_il4               : 1;  /**< [ 38: 38](R/W) Inner L4 UDP length error check enable. See NIX_RX_PERRCODE_E::IL4_LEN. */
+        uint64_t csum_ol4              : 1;  /**< [ 37: 37](R/W) Enable checking of outer L4 TCP/UDP/SCTP checksum. See
+                                                                 NIX_RX_PERRCODE_E::OL4_CHK. */
+        uint64_t csum_il4              : 1;  /**< [ 36: 36](R/W) Enable checking of inner L4 TCP/UDP/SCTP checksum. See
+                                                                 NIX_RX_PERRCODE_E::IL4_CHK. */
+        uint64_t dis_apad              : 1;  /**< [ 35: 35](R/W) Disable alignment pad. When set, alignment padding is not added before the packet's
+                                                                 first byte.
+
+                                                                 When clear, enables alignment padding before the packet's first byte is written to
+                                                                 either of the following (or both when NIX_RQ_CTX_S[XQE_IMM_COPY] is set):
+                                                                 * The packet's first buffer (first NIX_RX_SG_S segment in WQE/CQE).
+                                                                   The alignment pad size (APAD) is in this case added to the first segment's
+                                                                   NIX_IOVA_S, i.e.  NIX_IOVA_S\<2:0\> = APAD.
+                                                                 * Immediate data following NIX_RX_IMM_S.
+                                                                   The alignment pad size is in this case captured in NIX_RX_IMM_S[APAD].
+
+                                                                 The padding is calculated by the following algorithm:
+                                                                 \<pre\>
+                                                                 int nix_calc_alignment_pad(
+                                                                       // Layer valids and pointers based on NPC_RESULT_S[LA,..,LH] matching
+                                                                       // NIX_AF_RX_DEF_OIP4/OIP6/IIP6, NIX_AF_RX_DEF_CST_APAD_0, NIX_AF_RX_DEF_CST_APAD_1
+
+                                                                       bool oip4_valid,
+                                                                       bool oip6_valid,
+                                                                       bool iip6_valid,
+                                                                       bool cst_apad0_valid,
+                                                                       bool cst_apad1_valid,
+                                                                       int oip4_ptr,
+                                                                       int oip6_ptr,
+                                                                       int iip6_ptr,
+                                                                       int cst_apad0_ptr,
+                                                                       int cst_apad1_ptr )
+                                                                 {
+                                                                    int APAD;
+                                                                    if ([DIS_APAD])
+                                                                       APAD = 0;
+                                                                    else if (cst_apad0_valid)
+                                                                       APAD = (8 - cst_apad0_ptr) & 0x7;
+                                                                    else if (cst_apad1_valid)
+                                                                       APAD = (8 - cst_apad1_ptr) & 0x7;
+                                                                    else if (oip6_valid) // Outer IP.ver == 6
+                                                                       APAD = (8 - oip6_ptr) & 0x7;
+                                                                    else if (oip4_valid && iip6_valid) // Inner IP.ver == 6
+                                                                       APAD = (8 - iip6_ptr) & 0x7;
+                                                                    else if (oip4_valid)
+                                                                       APAD = (4 - oip4_ptr) & 0x7;
+                                                                    else
+                                                                       APAD = 0;
+                                                                    return APAD;
+                                                                 }
+                                                                 \</pre\> */
+        uint64_t ip6_udp_opt           : 1;  /**< [ 34: 34](R/W) IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by
+                                                                 sending the all-0s patterns. IPv6 outlaws this and the spec says to always
+                                                                 check UDP checksum.
+                                                                 0 = Spec compliant, do not allow all-0s IPv6/UDP checksum.
+                                                                 1 = Treat IPv6 as IPv4; the all-0s pattern will cause a UDP checksum pass. */
+        uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) Outer L2 length error check enable. See NIX_RE_OPCODE_E::OL2_LENMISM. */
+        uint64_t drop_re               : 1;  /**< [ 32: 32](R/W) Drop packets with receive/L2 errors. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t rx_error_mask         : 19; /**< [ 18:  0](R/W) Drop mask when DROP_RE is enabled.
+                                                                 Each bit corresponds to different type of RX_ERROR. Bit i affects error i
+                                                                 when the bit is enabled; it disables the appropriate error. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_error_mask         : 19; /**< [ 18:  0](R/W) Drop mask when DROP_RE is enabled.
+                                                                 Each bit corresponds to different type of RX_ERROR. Bit i affects error i
+                                                                 when the bit is enabled; it disables the appropriate error. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t drop_re               : 1;  /**< [ 32: 32](R/W) Drop packets with receive/L2 errors. */
+        uint64_t lenerr_en             : 1;  /**< [ 33: 33](R/W) Outer L2 length error check enable. See NIX_RE_OPCODE_E::OL2_LENMISM. */
+        uint64_t ip6_udp_opt           : 1;  /**< [ 34: 34](R/W) IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by
+                                                                 sending the all-0s patterns. IPv6 outlaws this and the spec says to always
+                                                                 check UDP checksum.
+                                                                 0 = Spec compliant, do not allow all-0s IPv6/UDP checksum.
+                                                                 1 = Treat IPv6 as IPv4; the all-0s pattern will cause a UDP checksum pass. */
+        uint64_t dis_apad              : 1;  /**< [ 35: 35](R/W) Disable alignment pad. When set, alignment padding is not added before the packet's
+                                                                 first byte.
+
+                                                                 When clear, enables alignment padding before the packet's first byte is written to
+                                                                 either of the following (or both when NIX_RQ_CTX_S[XQE_IMM_COPY] is set):
+                                                                 * The packet's first buffer (first NIX_RX_SG_S segment in WQE/CQE).
+                                                                   The alignment pad size (APAD) is in this case added to the first segment's
+                                                                   NIX_IOVA_S, i.e.  NIX_IOVA_S\<2:0\> = APAD.
+                                                                 * Immediate data following NIX_RX_IMM_S.
+                                                                   The alignment pad size is in this case captured in NIX_RX_IMM_S[APAD].
+
+                                                                 The padding is calculated by the following algorithm:
+                                                                 \<pre\>
+                                                                 int nix_calc_alignment_pad(
+                                                                       // Layer valids and pointers based on NPC_RESULT_S[LA,..,LH] matching
+                                                                       // NIX_AF_RX_DEF_OIP4/OIP6/IIP6, NIX_AF_RX_DEF_CST_APAD_0, NIX_AF_RX_DEF_CST_APAD_1
+
+                                                                       bool oip4_valid,
+                                                                       bool oip6_valid,
+                                                                       bool iip6_valid,
+                                                                       bool cst_apad0_valid,
+                                                                       bool cst_apad1_valid,
+                                                                       int oip4_ptr,
+                                                                       int oip6_ptr,
+                                                                       int iip6_ptr,
+                                                                       int cst_apad0_ptr,
+                                                                       int cst_apad1_ptr )
+                                                                 {
+                                                                    int APAD;
+                                                                    if ([DIS_APAD])
+                                                                       APAD = 0;
+                                                                    else if (cst_apad0_valid)
+                                                                       APAD = (8 - cst_apad0_ptr) & 0x7;
+                                                                    else if (cst_apad1_valid)
+                                                                       APAD = (8 - cst_apad1_ptr) & 0x7;
+                                                                    else if (oip6_valid) // Outer IP.ver == 6
+                                                                       APAD = (8 - oip6_ptr) & 0x7;
+                                                                    else if (oip4_valid && iip6_valid) // Inner IP.ver == 6
+                                                                       APAD = (8 - iip6_ptr) & 0x7;
+                                                                    else if (oip4_valid)
+                                                                       APAD = (4 - oip4_ptr) & 0x7;
+                                                                    else
+                                                                       APAD = 0;
+                                                                    return APAD;
+                                                                 }
+                                                                 \</pre\> */
+        uint64_t csum_il4              : 1;  /**< [ 36: 36](R/W) Enable checking of inner L4 TCP/UDP/SCTP checksum. See
+                                                                 NIX_RX_PERRCODE_E::IL4_CHK. */
+        uint64_t csum_ol4              : 1;  /**< [ 37: 37](R/W) Enable checking of outer L4 TCP/UDP/SCTP checksum. See
+                                                                 NIX_RX_PERRCODE_E::OL4_CHK. */
+        uint64_t len_il4               : 1;  /**< [ 38: 38](R/W) Inner L4 UDP length error check enable. See NIX_RX_PERRCODE_E::IL4_LEN. */
+        uint64_t len_il3               : 1;  /**< [ 39: 39](R/W) Inner L3 length error check enable. See NIX_RX_PERRCODE_E::IL3_LEN. */
+        uint64_t len_ol4               : 1;  /**< [ 40: 40](R/W) Outer L4 UDP length error check enable. See NIX_RX_PERRCODE_E::OL4_LEN. */
+        uint64_t len_ol3               : 1;  /**< [ 41: 41](R/W) Outer L3 length error check enable. See NIX_RX_PERRCODE_E::OL3_LEN. */
+        uint64_t reserved_42_63        : 22;
+#endif /* Word 0 - End */
+    } cn10kb;
     /* struct cavm_nixx_af_lfx_rx_cfg_cn10ka_p1 cnf10ka; */
     /* struct cavm_nixx_af_lfx_rx_cfg_cn10ka_p1 cnf10kb; */
 };
@@ -10203,9 +10370,9 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_57_63        : 7;
-        uint64_t res_addr_offset_valid : 1;  /**< [ 56: 56](R/W) if 0 RES_ADDR is at the end of the WQE. if 1 RES_ADDR is WQE_ptr+ RES_ADDR_OFFSET*16 */
-        uint64_t res_addr_offset       : 8;  /**< [ 55: 48](R/W) res_addr offset from WQE ptr in multiple of 16 bytes. RES_ADDR_OFFSET is a
-                                                                 signed number where msb is the sign bit. */
+        uint64_t res_addr_offset_valid : 1;  /**< [ 56: 56](R/W) If 0, [RES_ADDR] is at the end of the WQE. If 1, [RES_ADDR] is WQE_ptr+ RES_ADDR_OFFSET*16 */
+        uint64_t res_addr_offset       : 8;  /**< [ 55: 48](R/W) RES_ADDR offset from WQE ptr in multiple of 16 bytes. RES_ADDR_OFFSET is a
+                                                                 signed number where the MSB is the sign bit. */
         uint64_t hshcpt                : 1;  /**< [ 47: 47](R/W) Hash CPT index. This bit along with [DEFCPT] selects the CPT instance to
                                                                  which this LF sends instructions (CPT_INST_S).
 
@@ -10269,9 +10436,9 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
                                                                     1        1       Inverse of Bit \<0\> of SA_index selects
                                                                  NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
                                                                  \</pre\> */
-        uint64_t res_addr_offset       : 8;  /**< [ 55: 48](R/W) res_addr offset from WQE ptr in multiple of 16 bytes. RES_ADDR_OFFSET is a
-                                                                 signed number where msb is the sign bit. */
-        uint64_t res_addr_offset_valid : 1;  /**< [ 56: 56](R/W) if 0 RES_ADDR is at the end of the WQE. if 1 RES_ADDR is WQE_ptr+ RES_ADDR_OFFSET*16 */
+        uint64_t res_addr_offset       : 8;  /**< [ 55: 48](R/W) RES_ADDR offset from WQE ptr in multiple of 16 bytes. RES_ADDR_OFFSET is a
+                                                                 signed number where the MSB is the sign bit. */
+        uint64_t res_addr_offset_valid : 1;  /**< [ 56: 56](R/W) If 0, [RES_ADDR] is at the end of the WQE. If 1, [RES_ADDR] is WQE_ptr+ RES_ADDR_OFFSET*16 */
         uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
@@ -10349,7 +10516,82 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg0
 #endif /* Word 0 - End */
     } cn10ka_p1;
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_s cn10ka_p2; */
-    /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_s cn10kb; */
+    struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_57_63        : 7;
+        uint64_t res_addr_offset_valid : 1;  /**< [ 56: 56](R/W) If 0, [RES_ADDR] is at the end of the WQE. If 1, [RES_ADDR] is WQE_ptr+ RES_ADDR_OFFSET*16 */
+        uint64_t res_addr_offset       : 8;  /**< [ 55: 48](R/W) RES_ADDR offset from the WQE ptr in multiple of 16 bytes. [RES_ADDR_OFFSET] is a
+                                                                 signed number where the MSB is the sign bit. */
+        uint64_t hshcpt                : 1;  /**< [ 47: 47](R/W) Hash CPT index. This bit along with [DEFCPT] selects the CPT instance to
+                                                                 which this LF sends instructions (CPT_INST_S).
+
+                                                                 \<pre\>
+                                                                 [DEFCPT]  [HSHCPT]  CPT selected by NIX
+                                                                 --------  --------  -------------------
+                                                                    0        0       Always use NIX_AF_RX_CPR(0)_QSEL info to submit to CPT.
+                                                                    0        1       Bit \<0\> of SA_index selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                    1        0       Always use NIX_AF_RX_CPR(1)_QSEL to submit to CPT.
+                                                                    1        1       Inverse of Bit \<0\> of SA_index selects
+                                                                 NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                 \</pre\> */
+        uint64_t defcpt                : 1;  /**< [ 46: 46](R/W) Default CPT index. See [HSHCPT]. */
+        uint64_t tt                    : 2;  /**< [ 45: 44](R/W) SSO tag type to load to NIX_WQE_HDR_S[TT] for IPSEC fast-path
+                                                                 (non-software) packets (NIX_WQE_HDR_S[WQE_TYPE] = NIX_XQE_TYPE_E::RX_IPSECH
+                                                                 or NIX_XQE_TYPE_E::RX_IPSECD). */
+        uint64_t tag_const             : 24; /**< [ 43: 20](R/W) Constant value ORed into NIX_WQE_HDR_S[TAG]\<31:8\> for IPSEC fast-path
+                                                                 (non-software) packets (NIX_WQE_HDR_S[WQE_TYPE] = NIX_XQE_TYPE_E::RX_IPSECH
+                                                                 or NIX_XQE_TYPE_E::RX_IPSECD). */
+        uint64_t sa_pow2_size          : 4;  /**< [ 19: 16](R/W) Power of 2 size of IPSEC SA structure used by CPT:
+                                                                 0x0-0x4 = Reserved.
+                                                                 0x5 = 32 bytes.
+                                                                 0x6 = 64 bytes.
+                                                                 0x7 = 128 bytes.
+                                                                 0x8 = 256 bytes.
+                                                                 0x9 = 512 bytes.
+                                                                 0xA = 1024 bytes.
+                                                                 0xB - 2048 bytes.
+                                                                 0xC-0xF = Reserved. */
+        uint64_t lenm1_max             : 16; /**< [ 15:  0](R/W) Maximum length in bytes (minus 1) of a packet that may use the IPSEC
+                                                                 hardware fast-path. */
+#else /* Word 0 - Little Endian */
+        uint64_t lenm1_max             : 16; /**< [ 15:  0](R/W) Maximum length in bytes (minus 1) of a packet that may use the IPSEC
+                                                                 hardware fast-path. */
+        uint64_t sa_pow2_size          : 4;  /**< [ 19: 16](R/W) Power of 2 size of IPSEC SA structure used by CPT:
+                                                                 0x0-0x4 = Reserved.
+                                                                 0x5 = 32 bytes.
+                                                                 0x6 = 64 bytes.
+                                                                 0x7 = 128 bytes.
+                                                                 0x8 = 256 bytes.
+                                                                 0x9 = 512 bytes.
+                                                                 0xA = 1024 bytes.
+                                                                 0xB - 2048 bytes.
+                                                                 0xC-0xF = Reserved. */
+        uint64_t tag_const             : 24; /**< [ 43: 20](R/W) Constant value ORed into NIX_WQE_HDR_S[TAG]\<31:8\> for IPSEC fast-path
+                                                                 (non-software) packets (NIX_WQE_HDR_S[WQE_TYPE] = NIX_XQE_TYPE_E::RX_IPSECH
+                                                                 or NIX_XQE_TYPE_E::RX_IPSECD). */
+        uint64_t tt                    : 2;  /**< [ 45: 44](R/W) SSO tag type to load to NIX_WQE_HDR_S[TT] for IPSEC fast-path
+                                                                 (non-software) packets (NIX_WQE_HDR_S[WQE_TYPE] = NIX_XQE_TYPE_E::RX_IPSECH
+                                                                 or NIX_XQE_TYPE_E::RX_IPSECD). */
+        uint64_t defcpt                : 1;  /**< [ 46: 46](R/W) Default CPT index. See [HSHCPT]. */
+        uint64_t hshcpt                : 1;  /**< [ 47: 47](R/W) Hash CPT index. This bit along with [DEFCPT] selects the CPT instance to
+                                                                 which this LF sends instructions (CPT_INST_S).
+
+                                                                 \<pre\>
+                                                                 [DEFCPT]  [HSHCPT]  CPT selected by NIX
+                                                                 --------  --------  -------------------
+                                                                    0        0       Always use NIX_AF_RX_CPR(0)_QSEL info to submit to CPT.
+                                                                    0        1       Bit \<0\> of SA_index selects NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                    1        0       Always use NIX_AF_RX_CPR(1)_QSEL to submit to CPT.
+                                                                    1        1       Inverse of Bit \<0\> of SA_index selects
+                                                                 NIX_AF_RX_CPR(0..1)_QSEL to submit to CPT.
+                                                                 \</pre\> */
+        uint64_t res_addr_offset       : 8;  /**< [ 55: 48](R/W) RES_ADDR offset from the WQE ptr in multiple of 16 bytes. [RES_ADDR_OFFSET] is a
+                                                                 signed number where the MSB is the sign bit. */
+        uint64_t res_addr_offset_valid : 1;  /**< [ 56: 56](R/W) If 0, [RES_ADDR] is at the end of the WQE. If 1, [RES_ADDR] is WQE_ptr+ RES_ADDR_OFFSET*16 */
+        uint64_t reserved_57_63        : 7;
+#endif /* Word 0 - End */
+    } cn10kb;
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10ka_p1 cnf10ka; */
     /* struct cavm_nixx_af_lfx_rx_ipsec_cfg0_cn10ka_p1 cnf10kb; */
 };
@@ -10381,9 +10623,9 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg1
     struct cavm_nixx_af_lfx_rx_ipsec_cfg1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t spb_cpt_aura          : 20; /**< [ 63: 44](R/W) Shorts Buffers CPT AURA
+        uint64_t spb_cpt_aura          : 20; /**< [ 63: 44](R/W) Shorts Buffers CPT AURA.
                                                                  Implementation note: this value overrides RQ[SPB_AURA] */
-        uint64_t rq_mask_enable        : 1;  /**< [ 43: 43](R/W) This field enable the masking and setting of bits of the RQ context where the
+        uint64_t rq_mask_enable        : 1;  /**< [ 43: 43](R/W) This field enables the masking and setting of bits of the RQ context where the
                                                                  mask and set is selected by NIX_AF_LF(0..127)_CFG[RQ_CPT_MASK_SELECT]. */
         uint64_t spb_cpt_sizem1        : 5;  /**< [ 42: 38](R/W) buffer size minus 1 in multiple of 128 bytes
                                                                  Implementation note: This value overrides the RQ SPB_HIGH_SIZEM1, SPB_SIZEM1
@@ -10430,9 +10672,9 @@ union cavm_nixx_af_lfx_rx_ipsec_cfg1
         uint64_t spb_cpt_sizem1        : 5;  /**< [ 42: 38](R/W) buffer size minus 1 in multiple of 128 bytes
                                                                  Implementation note: This value overrides the RQ SPB_HIGH_SIZEM1, SPB_SIZEM1
                                                                  with {SPB_CPT_SIZEM1, 4'hF} */
-        uint64_t rq_mask_enable        : 1;  /**< [ 43: 43](R/W) This field enable the masking and setting of bits of the RQ context where the
+        uint64_t rq_mask_enable        : 1;  /**< [ 43: 43](R/W) This field enables the masking and setting of bits of the RQ context where the
                                                                  mask and set is selected by NIX_AF_LF(0..127)_CFG[RQ_CPT_MASK_SELECT]. */
-        uint64_t spb_cpt_aura          : 20; /**< [ 63: 44](R/W) Shorts Buffers CPT AURA
+        uint64_t spb_cpt_aura          : 20; /**< [ 63: 44](R/W) Shorts Buffers CPT AURA.
                                                                  Implementation note: this value overrides RQ[SPB_AURA] */
 #endif /* Word 0 - End */
     } s;
@@ -12251,10 +12493,10 @@ union cavm_nixx_af_mdqx_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
@@ -12263,10 +12505,10 @@ union cavm_nixx_af_mdqx_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
         uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
@@ -15663,7 +15905,7 @@ static inline uint64_t CAVM_NIXX_AF_RX_LINKX_CFG(uint64_t a, uint64_t b)
  * Register (RVU_PF_BAR0) nix#_af_rx_link#_rcv
  *
  * NIX AF Link Statistics Register
- * The counter increments for every packet that is recived in rx link. Index
+ * The counter increments for every packet that is received on the RX link. Index
  * enumerated by NIX_LINK_E.
  */
 union cavm_nixx_af_rx_linkx_rcv
@@ -16299,7 +16541,7 @@ static inline uint64_t CAVM_NIXX_AF_RX_MIRROR_BUF_CFG(uint64_t a)
  * Register (RVU_PF_BAR0) nix#_af_rx_no_valid_lf_drop
  *
  * NIX AF No Valid LF Drop Statistics Register
- * The counter increments for every packet which does not have valid LF.
+ * The counter increments for every packet which does not have a valid LF.
  */
 union cavm_nixx_af_rx_no_valid_lf_drop
 {
@@ -16919,7 +17161,7 @@ union cavm_nixx_af_seb_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
-        uint64_t flush_coalesce_fifo   : 1;  /**< [ 16: 16](R/W1S/H) When set, all the entries in atomic coalesce fifo are sent out to the memory.
+        uint64_t flush_coalesce_fifo   : 1;  /**< [ 16: 16](R/W1S/H) When set, all the entries in atomic coalesce FIFO are sent out to the memory.
                                                                  Once done, hardware clears this bit to indicate flush is done. */
         uint64_t atomics_coalesce_period : 8;/**< [ 15:  8](R/W) Time period for coalescing NIX_AGE_AND_SEND_STATS_S/NIX_SEND_MEM_S if [COAS_EN]
                                                                  is set in those sub-descriptors.
@@ -16972,7 +17214,7 @@ union cavm_nixx_af_seb_cfg
                                                                  It is mentioned as number of 100 MHz ref clock ticks.
 
                                                                  This should give us maximum coalescing over ~2.5us. */
-        uint64_t flush_coalesce_fifo   : 1;  /**< [ 16: 16](R/W1S/H) When set, all the entries in atomic coalesce fifo are sent out to the memory.
+        uint64_t flush_coalesce_fifo   : 1;  /**< [ 16: 16](R/W1S/H) When set, all the entries in atomic coalesce FIFO are sent out to the memory.
                                                                  Once done, hardware clears this bit to indicate flush is done. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
@@ -17024,8 +17266,69 @@ union cavm_nixx_af_seb_cfg
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } cn10ka_p1;
-    /* struct cavm_nixx_af_seb_cfg_s cn10ka_p2; */
-    /* struct cavm_nixx_af_seb_cfg_s cn10kb; */
+    struct cavm_nixx_af_seb_cfg_cn10ka_p2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t flush_coalesce_fifo   : 1;  /**< [ 16: 16](R/W1S/H) When set, all the entries in atomic coalesce FIFO are sent out to the memory.
+                                                                 Once done, hardware clears this bit to indicate flush is done. */
+        uint64_t atomics_coalesce_period : 8;/**< [ 15:  8](R/W) Time period for coalescing NIX_AGE_AND_SEND_STATS_S/NIX_SEND_MEM_S if [COAS_EN]
+                                                                 is set in those sub-descriptors.
+                                                                 It is mentioned as number of 100 MHz ref clock ticks.
+
+                                                                 This should give us maximum coalescing over ~2.5us. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t ptp_1step_en          : 1;  /**< [  2:  2](R/W) Enables 1-step PTP in addition to 2-step PTP implementation.
+                                                                 0 = Only 2-step PTP.
+                                                                 1 = 2-step PTP or 1-Step PTP. */
+        uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted arbitration mode in NIX seb ndx interface.
+                                                                 0 = Fixed priority.
+                                                                 1 = Round-robin.
+
+                                                                 Should be set for most use cases. */
+        uint64_t sg_ndc_sel            : 1;  /**< [  0:  0](R/W) NDC select for reading TX packet data specified by NIX_SEND_SG_S:
+                                                                 0 = TX packet data is read using the NIX RX NDC.
+                                                                 1 = TX packet data is read using the NIX TX NDC.
+
+                                                                 Should be clear for most use cases, especially when SQEs can overflow NDC's
+                                                                 cache (or are not allocated to NDC).
+
+                                                                 For use cases where SQEs are allocated and do not overflow NDC's cache,
+                                                                 setting this bit may increase the maximum bidirectional NIX data rate,
+                                                                 especially at coprocessor clock frequencies below 1 GHz with an average
+                                                                 packet size above 300 bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t sg_ndc_sel            : 1;  /**< [  0:  0](R/W) NDC select for reading TX packet data specified by NIX_SEND_SG_S:
+                                                                 0 = TX packet data is read using the NIX RX NDC.
+                                                                 1 = TX packet data is read using the NIX TX NDC.
+
+                                                                 Should be clear for most use cases, especially when SQEs can overflow NDC's
+                                                                 cache (or are not allocated to NDC).
+
+                                                                 For use cases where SQEs are allocated and do not overflow NDC's cache,
+                                                                 setting this bit may increase the maximum bidirectional NIX data rate,
+                                                                 especially at coprocessor clock frequencies below 1 GHz with an average
+                                                                 packet size above 300 bytes. */
+        uint64_t np_ndc_arb_sel        : 1;  /**< [  1:  1](R/W) Chooses non posted arbitration mode in NIX seb ndx interface.
+                                                                 0 = Fixed priority.
+                                                                 1 = Round-robin.
+
+                                                                 Should be set for most use cases. */
+        uint64_t ptp_1step_en          : 1;  /**< [  2:  2](R/W) Enables 1-step PTP in addition to 2-step PTP implementation.
+                                                                 0 = Only 2-step PTP.
+                                                                 1 = 2-step PTP or 1-Step PTP. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t atomics_coalesce_period : 8;/**< [ 15:  8](R/W) Time period for coalescing NIX_AGE_AND_SEND_STATS_S/NIX_SEND_MEM_S if [COAS_EN]
+                                                                 is set in those sub-descriptors.
+                                                                 It is mentioned as number of 100 MHz ref clock ticks.
+
+                                                                 This should give us maximum coalescing over ~2.5us. */
+        uint64_t flush_coalesce_fifo   : 1;  /**< [ 16: 16](R/W1S/H) When set, all the entries in atomic coalesce FIFO are sent out to the memory.
+                                                                 Once done, hardware clears this bit to indicate flush is done. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } cn10ka_p2;
+    /* struct cavm_nixx_af_seb_cfg_cn10ka_p2 cn10kb; */
     /* struct cavm_nixx_af_seb_cfg_cn10ka_p1 cnf10ka; */
     /* struct cavm_nixx_af_seb_cfg_cn10ka_p1 cnf10kb; */
 };
@@ -17058,19 +17361,36 @@ union cavm_nixx_af_seb_coalesce_dbgx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t clk_100mhz_counter    : 8;  /**< [ 15:  8](R/W) Counter value that is counting number of 100 MHz clock ticks */
+        uint64_t clk_100mhz_counter    : 8;  /**< [ 15:  8](R/W) Counter value that is the counting number of 100 MHz clock ticks */
         uint64_t reserved_7            : 1;
-        uint64_t coalesce_fifo_level   : 7;  /**< [  6:  0](RO/H) Number of entries in coalesce fifo.
+        uint64_t coalesce_fifo_level   : 7;  /**< [  6:  0](RO/H) Number of entries in coalesce FIFO.
                                                                  Read only for software RO/H */
 #else /* Word 0 - Little Endian */
-        uint64_t coalesce_fifo_level   : 7;  /**< [  6:  0](RO/H) Number of entries in coalesce fifo.
+        uint64_t coalesce_fifo_level   : 7;  /**< [  6:  0](RO/H) Number of entries in coalesce FIFO.
                                                                  Read only for software RO/H */
         uint64_t reserved_7            : 1;
-        uint64_t clk_100mhz_counter    : 8;  /**< [ 15:  8](R/W) Counter value that is counting number of 100 MHz clock ticks */
+        uint64_t clk_100mhz_counter    : 8;  /**< [ 15:  8](R/W) Counter value that is the counting number of 100 MHz clock ticks */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_nixx_af_seb_coalesce_dbgx_s cn; */
+    /* struct cavm_nixx_af_seb_coalesce_dbgx_s cn10; */
+    /* struct cavm_nixx_af_seb_coalesce_dbgx_s cn10ka; */
+    struct cavm_nixx_af_seb_coalesce_dbgx_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t clk_100mhz_counter    : 8;  /**< [ 15:  8](R/W) Counter value that is the counting number of 100 MHz clock ticks */
+        uint64_t reserved_7            : 1;
+        uint64_t coalesce_fifo_level   : 7;  /**< [  6:  0](RO/H) Number of entries in the coalesce FIFO.
+                                                                 Read only for software RO/H. */
+#else /* Word 0 - Little Endian */
+        uint64_t coalesce_fifo_level   : 7;  /**< [  6:  0](RO/H) Number of entries in the coalesce FIFO.
+                                                                 Read only for software RO/H. */
+        uint64_t reserved_7            : 1;
+        uint64_t clk_100mhz_counter    : 8;  /**< [ 15:  8](R/W) Counter value that is the counting number of 100 MHz clock ticks */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
 };
 typedef union cavm_nixx_af_seb_coalesce_dbgx cavm_nixx_af_seb_coalesce_dbgx_t;
 
@@ -17767,7 +18087,7 @@ static inline uint64_t CAVM_NIXX_AF_SPI_TO_SA_HASH_KEY(uint64_t a)
  * Register (RVU_PF_BAR0) nix#_af_spi_to_sa_hash_value
  *
  * NIX AF SPI To SA Hash Value Register
- * This register read the output of the hash function. SW should write the key to
+ * This register read the output of the hash function. Software should write the key to
  * NIX_AF_SPI_TO_SA_IN_KEY and then read NIX_AF_SPI_TO_SA_HASH_VALUE in order to get
  * the hash value.
  */
@@ -18844,7 +19164,7 @@ union cavm_nixx_af_tl1x_schedule
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer).
 
-                                                                 This is the actual weight and in combination with NIX_AF_DWRR_MTU[x].MTU makes
+                                                                 This is the actual weight and in combination with NIX_AF_DWRR_MTU[x][MTU] makes
                                                                  up QUANTUM value for this queue.
 
                                                                  Transmit limiter 1 packet meta descriptor are active in the scheduler when the rate limiter
@@ -18856,16 +19176,16 @@ union cavm_nixx_af_tl1x_schedule
                                                                  round robin arbitration.
 
                                                                  Quantum value to ADD back when the current deficit goes negative would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE].
                                                                  If the value programmed is greater than 16384 then hardware will clip it to 16384. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer).
 
-                                                                 This is the actual weight and in combination with NIX_AF_DWRR_MTU[x].MTU makes
+                                                                 This is the actual weight and in combination with NIX_AF_DWRR_MTU[x][MTU] makes
                                                                  up QUANTUM value for this queue.
 
                                                                  Transmit limiter 1 packet meta descriptor are active in the scheduler when the rate limiter
@@ -18877,10 +19197,10 @@ union cavm_nixx_af_tl1x_schedule
                                                                  round robin arbitration.
 
                                                                  Quantum value to ADD back when the current deficit goes negative would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE].
                                                                  If the value programmed is greater than 16384 then hardware will clip it to 16384. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
@@ -19991,10 +20311,10 @@ union cavm_nixx_af_tl2x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
@@ -20003,10 +20323,10 @@ union cavm_nixx_af_tl2x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
         uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
@@ -20294,9 +20614,9 @@ union cavm_nixx_af_tl2x_shape
                                                                  * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0
                                                                  In case of scheduling(DWRR) adjustment value programmed should be such that
                                                                  (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST] + NIX_nm_SHAPE[ADJUST]) \<
-                                                                 NIX_AF_DWRR_MTU[x].MTU
+                                                                 NIX_AF_DWRR_MTU[x][MTU]
 
-                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM, LBK related
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
                                                                  and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
 #else /* Word 0 - Little Endian */
         uint64_t adjust                : 9;  /**< [  8:  0](R/W) Shaping and scheduling calculation adjustment. This nine-bit two's
@@ -20306,9 +20626,9 @@ union cavm_nixx_af_tl2x_shape
                                                                  * May be negative when [LENGTH_DISABLE] is clear and (NIX_AF_SMQ()_CFG[MINLEN] + ADJUST) \> 0
                                                                  In case of scheduling(DWRR) adjustment value programmed should be such that
                                                                  (NIX_nm_MD*[LENGTH] + NIX_nm_MD*[ADJUST] + NIX_nm_SHAPE[ADJUST]) \<
-                                                                 NIX_AF_DWRR_MTU[x].MTU
+                                                                 NIX_AF_DWRR_MTU[x][MTU]
 
-                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM, LBK related
+                                                                 Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
                                                                  and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
         uint64_t red_algo              : 2;  /**< [ 10:  9](R/W) Shaper red state algorithm when not specified by the NIX SEND. Used by hardware
                                                                  only when the shaper is in RED state. (A shaper is in RED state when
@@ -21329,10 +21649,10 @@ union cavm_nixx_af_tl3x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
@@ -21341,10 +21661,10 @@ union cavm_nixx_af_tl3x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
         uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
@@ -22548,10 +22868,10 @@ union cavm_nixx_af_tl4x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
 #else /* Word 0 - Little Endian */
         uint64_t rr_weight             : 14; /**< [ 13:  0](R/W) Round-robin (DWRR) Weight. The deficit-weighted round-robin weight (14-bit unsigned
                                                                  integer). The packet size used in all DWRR (RR_COUNT) calculations is:
@@ -22560,10 +22880,10 @@ union cavm_nixx_af_tl4x_schedule
                                                                     + NIX_nm_SHAPE[ADJUST]
 
                                                                  where nm corresponds to this NIX_nm_SCHEDULE CSR. Quantum value to ADD back would be
-                                                                 [(2^NIX_AF_DWRR_MTU[x].MTU) * RR_WEIGHT].
+                                                                 [(2^NIX_AF_DWRR_MTU[x][MTU]) * RR_WEIGHT].
 
                                                                  Note "x" here is the selected MTU for a MD which can be SDP, RPM or LBK related
-                                                                 and is determined by NIX_AF_SMQ()_CFG.PKT_LINK_TYPE */
+                                                                 and is determined by NIX_AF_SMQ()_CFG[PKT_LINK_TYPE]. */
         uint64_t reserved_14_23        : 10;
         uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this shaping queue in the (lower-level)
                                                                  parent's scheduling algorithm. When this shaping queue is not used, we
@@ -24385,7 +24705,7 @@ union cavm_nixx_lf_err_int
         uint64_t reserved_21_23        : 3;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1C/H) NIX_LF_OP_IPSEC_DYNO_CNT[COUNT] underflow or overflow. */
         uint64_t reserved_16_19        : 4;
-        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on send mem writes/atomics while flushing coalesce fifos in SEB. */
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on send mem writes/atomics while flushing coalesce FIFOs in SEB. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1C/H) RSSE Table entry was disabled or the rsse_offset was larger than the programmed size. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1C/H) Memory fault on receive packet WQE write to LLC/DRAM. */
         uint64_t rq_oor                : 1;  /**< [ 12: 12](R/W1C/H) Packet receive or NIX_LF_RQ_OP_* access to out-of-range RQ. The
@@ -24441,7 +24761,7 @@ union cavm_nixx_lf_err_int
                                                                  RQ = NIX_RX_MCE_S[INDEX]. */
         uint64_t rx_wqe_fault          : 1;  /**< [ 13: 13](R/W1C/H) Memory fault on receive packet WQE write to LLC/DRAM. */
         uint64_t rss_err               : 1;  /**< [ 14: 14](R/W1C/H) RSSE Table entry was disabled or the rsse_offset was larger than the programmed size. */
-        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on send mem writes/atomics while flushing coalesce fifos in SEB. */
+        uint64_t send_coalesce_fault   : 1;  /**< [ 15: 15](R/W1C/H) Memory fault on send mem writes/atomics while flushing coalesce FIFOs in SEB. */
         uint64_t reserved_16_19        : 4;
         uint64_t dyno_err              : 1;  /**< [ 20: 20](R/W1C/H) NIX_LF_OP_IPSEC_DYNO_CNT[COUNT] underflow or overflow. */
         uint64_t reserved_21_23        : 3;

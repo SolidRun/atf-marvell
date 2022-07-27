@@ -761,6 +761,20 @@ union cavm_rst_cold_datax
     struct cavm_rst_cold_datax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data registers preserved through chip, core, ECP,
+                                                                 MCP, and SCP domain resets.
+                                                                 This field is always reinitialized on a cold domain reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data registers preserved through chip, core, ECP,
+                                                                 MCP, and SCP domain resets.
+                                                                 This field is always reinitialized on a cold domain reset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_cold_datax_s cn10; */
+    /* struct cavm_rst_cold_datax_s cn10ka_p1_0; */
+    struct cavm_rst_cold_datax_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data registers preserved through chip, core,
                                                                  MCP and SCP domain resets.
                                                                  This field is always reinitialized on a cold domain reset. */
@@ -769,8 +783,11 @@ union cavm_rst_cold_datax
                                                                  MCP and SCP domain resets.
                                                                  This field is always reinitialized on a cold domain reset. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rst_cold_datax_s cn; */
+    } cn10ka_p1_1;
+    /* struct cavm_rst_cold_datax_cn10ka_p1_1 cn10ka_p2; */
+    /* struct cavm_rst_cold_datax_s cn10kb; */
+    /* struct cavm_rst_cold_datax_s cnf10ka; */
+    /* struct cavm_rst_cold_datax_s cnf10kb; */
 };
 typedef union cavm_rst_cold_datax cavm_rst_cold_datax_t;
 
@@ -1534,6 +1551,30 @@ union cavm_rst_lboot
                                                                  Bit numbers are enumerated by RST_SOURCE_E.
                                                                  Unused bits always read as zero.
 
+                                                                 As various resets occur that were not merely side effects of more powerful resets,
+                                                                 more and more bits will be set. But upon Cold Reset all bits are cleared except the
+                                                                 appropriate one of the two cold reset bits. Bits can be individually cleared by writing 1 to them. */
+#else /* Word 0 - Little Endian */
+        uint64_t lboot                 : 48; /**< [ 47:  0](R/W1C/H) Bit vector of last reset cause(es).
+                                                                 Bit numbers are enumerated by RST_SOURCE_E.
+                                                                 Unused bits always read as zero.
+
+                                                                 As various resets occur that were not merely side effects of more powerful resets,
+                                                                 more and more bits will be set. But upon Cold Reset all bits are cleared except the
+                                                                 appropriate one of the two cold reset bits. Bits can be individually cleared by writing 1 to them. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_lboot_s cn10; */
+    /* struct cavm_rst_lboot_s cn10ka_p1_0; */
+    struct cavm_rst_lboot_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t lboot                 : 48; /**< [ 47:  0](R/W1C/H) Bit vector of last reset cause(es).
+                                                                 Bit numbers are enumerated by RST_SOURCE_E.
+                                                                 Unused bits always read as zero.
+
                                                                  The value reset with a cold domain reset. */
 #else /* Word 0 - Little Endian */
         uint64_t lboot                 : 48; /**< [ 47:  0](R/W1C/H) Bit vector of last reset cause(es).
@@ -1543,8 +1584,11 @@ union cavm_rst_lboot
                                                                  The value reset with a cold domain reset. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rst_lboot_s cn; */
+    } cn10ka_p1_1;
+    /* struct cavm_rst_lboot_cn10ka_p1_1 cn10ka_p2; */
+    /* struct cavm_rst_lboot_s cn10kb; */
+    /* struct cavm_rst_lboot_s cnf10ka; */
+    /* struct cavm_rst_lboot_s cnf10kb; */
 };
 typedef union cavm_rst_lboot cavm_rst_lboot_t;
 

@@ -298,7 +298,7 @@ static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void)
         return 0x840090000180ll;
     if (cavm_is_model(OCTEONTX_CNF10KA))
         return 0x840090000180ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB))
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS1_X))
         return 0x840090000180ll;
     __cavm_csr_fatal("TIM_AF_ADJUST_GTI", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1465,6 +1465,8 @@ static inline uint64_t CAVM_TIM_AF_OFFSET_GTI_FUNC(void)
     if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
         return 0x840090000260ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
+        return 0x840090000260ll;
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
         return 0x840090000260ll;
     __cavm_csr_fatal("TIM_AF_OFFSET_GTI", 0, 0, 0, 0, 0, 0, 0);
 }

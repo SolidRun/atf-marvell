@@ -1384,7 +1384,8 @@ union cavm_uaax_redirect
     /* struct cavm_uaax_redirect_s cn10ka_p2; */
     /* struct cavm_uaax_redirect_s cn10kb; */
     /* struct cavm_uaax_redirect_cn10ka_p1 cnf10ka; */
-    /* struct cavm_uaax_redirect_cn10ka_p1 cnf10kb; */
+    /* struct cavm_uaax_redirect_cn10ka_p1 cnf10kb_p1; */
+    /* struct cavm_uaax_redirect_s cnf10kb_p2; */
 };
 typedef union cavm_uaax_redirect cavm_uaax_redirect_t;
 

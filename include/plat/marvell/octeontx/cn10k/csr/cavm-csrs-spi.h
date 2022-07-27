@@ -49,7 +49,9 @@ union cavm_spix_clk_ctrl
     struct cavm_spix_clk_ctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
+        uint64_t reserved_8_63         : 56;
+        uint64_t xspi_supports_xfer    : 1;  /**< [  7:  7](RO) Indicates is SPI supports XFER function. 1 = SPI supports xfer function. 0 = SPI
+                                                                 does not supports xfer function. */
         uint64_t spi_imsc_shadow       : 1;  /**< [  6:  6](R/W) SPI interrupt enable. 1 = SPI INTR IS UNMASKED. 0 = SPI INTR IS MASKED. */
         uint64_t spi_sclk_force        : 1;  /**< [  5:  5](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
         uint64_t spi_io_clk_div        : 4;  /**< [  4:  1](R/W) SPI IO clock divide control.
@@ -91,7 +93,9 @@ union cavm_spix_clk_ctrl
                                                                  0xF = Reserved. */
         uint64_t spi_sclk_force        : 1;  /**< [  5:  5](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
         uint64_t spi_imsc_shadow       : 1;  /**< [  6:  6](R/W) SPI interrupt enable. 1 = SPI INTR IS UNMASKED. 0 = SPI INTR IS MASKED. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t xspi_supports_xfer    : 1;  /**< [  7:  7](RO) Indicates is SPI supports XFER function. 1 = SPI supports xfer function. 0 = SPI
+                                                                 does not supports xfer function. */
+        uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_spix_clk_ctrl_s cn10; */
@@ -142,7 +146,8 @@ union cavm_spix_clk_ctrl
     /* struct cavm_spix_clk_ctrl_s cn10ka_p2; */
     /* struct cavm_spix_clk_ctrl_s cn10kb; */
     /* struct cavm_spix_clk_ctrl_cn10ka_p1 cnf10ka; */
-    /* struct cavm_spix_clk_ctrl_cn10ka_p1 cnf10kb; */
+    /* struct cavm_spix_clk_ctrl_cn10ka_p1 cnf10kb_p1; */
+    /* struct cavm_spix_clk_ctrl_s cnf10kb_p2; */
 };
 typedef union cavm_spix_clk_ctrl cavm_spix_clk_ctrl_t;
 
@@ -3491,7 +3496,7 @@ static inline uint64_t CAVM_SPIX_INTR(uint64_t a)
         return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS1_X) && (a<=1))
         return 0x804000004000ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3533,7 +3538,7 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1C(uint64_t a)
         return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS1_X) && (a<=1))
         return 0x804000004010ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1C", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3575,7 +3580,7 @@ static inline uint64_t CAVM_SPIX_INTR_ENA_W1S(uint64_t a)
         return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS1_X) && (a<=1))
         return 0x804000004018ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_ENA_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -3617,7 +3622,7 @@ static inline uint64_t CAVM_SPIX_INTR_W1S(uint64_t a)
         return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
         return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
-    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS1_X) && (a<=1))
         return 0x804000004008ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_INTR_W1S", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6500,6 +6505,8 @@ static inline uint64_t CAVM_SPIX_SPARE_REGX(uint64_t a, uint64_t b)
         return 0x804000008220ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=1)))
         return 0x804000008220ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X) && ((a<=1) && (b<=1)))
+        return 0x804000008220ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     __cavm_csr_fatal("SPIX_SPARE_REGX", 2, a, b, 0, 0, 0, 0);
 }
 
@@ -6549,6 +6556,8 @@ static inline uint64_t CAVM_SPIX_XFER_CONST(uint64_t a)
         return 0x804000008230ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x804000008230ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X) && (a<=1))
+        return 0x804000008230ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_CONST", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6597,6 +6606,8 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_CMD(uint64_t a)
     if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
         return 0x804000008200ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x804000008200ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X) && (a<=1))
         return 0x804000008200ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_FUNC_CMD", 1, a, 0, 0, 0, 0, 0);
 }
@@ -6680,6 +6691,8 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL(uint64_t a)
         return 0x804000008210ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x804000008210ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X) && (a<=1))
+        return 0x804000008210ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_FUNC_CTRL", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6719,6 +6732,8 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_CTRL_READ_DATAX(uint64_t a, uint64_t 
     if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a<=1) && (b<=31)))
         return 0x804000008000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) && (b<=31)))
+        return 0x804000008000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X) && ((a<=1) && (b<=31)))
         return 0x804000008000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
     __cavm_csr_fatal("SPIX_XFER_FUNC_CTRL_READ_DATAX", 2, a, b, 0, 0, 0, 0);
 }
@@ -6822,6 +6837,8 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_STS(uint64_t a)
         return 0x804000008218ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x804000008218ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X) && (a<=1))
+        return 0x804000008218ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_FUNC_STS", 1, a, 0, 0, 0, 0, 0);
 }
 
@@ -6862,6 +6879,8 @@ static inline uint64_t CAVM_SPIX_XFER_FUNC_WDATA(uint64_t a)
     if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
         return 0x804000008208ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
+        return 0x804000008208ll + 0x1000000000ll * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X) && (a<=1))
         return 0x804000008208ll + 0x1000000000ll * ((a) & 0x1);
     __cavm_csr_fatal("SPIX_XFER_FUNC_WDATA", 1, a, 0, 0, 0, 0, 0);
 }
