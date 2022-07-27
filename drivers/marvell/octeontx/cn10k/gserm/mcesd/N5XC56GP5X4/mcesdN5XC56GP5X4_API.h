@@ -560,6 +560,44 @@ MCESD_STATUS API_N5XC56GP5X4_SetRefFreq
 );
 
 /**
+@brief  Sets the Tx reference frequency and reference clock selection group
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txFreq - E_N5XC56GP5X4_REFFREQ enum that represents the reference frequency
+@param[in]  txClkSel - E_N5XC56GP5X4_REFCLK_SEL enum that represents the reference clock selection group
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxRefFreq
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_REFFREQ txFreq,
+    IN E_N5XC56GP5X4_REFCLK_SEL txClkSel
+);
+
+/**
+@brief  Sets the Rx reference frequency and reference clock selection group
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  rxFreq - E_N5XC56GP5X4_REFFREQ enum that represents the reference frequency
+@param[in]  rxClkSel - E_N5XC56GP5X4_REFCLK_SEL enum that represents the reference clock selection group
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetRxRefFreq
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_REFFREQ rxFreq,
+    IN E_N5XC56GP5X4_REFCLK_SEL rxClkSel
+);
+
+/**
 @brief  Gets the reference frequency
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
@@ -603,6 +641,40 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxRxBitRate
 );
 
 /**
+@brief  Changes TX bitrate to the specified speed
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txSpeed - E_N5XC56GP5X4_SERDES_SPEED enum that represents the TX bitrate
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxBitRate
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_SERDES_SPEED txSpeed
+);
+
+/**
+@brief  Changes RX bitrate to the specified speed
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  rxSpeed - E_N5XC56GP5X4_SERDES_SPEED enum that represents the RX bitrate
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetRxBitRate
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_SERDES_SPEED rxSpeed
+);
+
+/**
 @brief  Gets the current TX/RX bit rate
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
@@ -638,6 +710,40 @@ MCESD_STATUS API_N5XC56GP5X4_SetDataBusWidth
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     IN E_N5XC56GP5X4_DATABUS_WIDTH txWidth,
+    IN E_N5XC56GP5X4_DATABUS_WIDTH rxWidth
+);
+
+/**
+@brief  Sets the Tx databus width
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txWidth - E_N5XC56GP5X4_DATABUS_WIDTH enum that represents the number of bits for TX databus
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxDataBusWidth
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_DATABUS_WIDTH txWidth
+);
+
+/**
+@brief  Sets the Rx databus width
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  rxWidth - E_N5XC56GP5X4_DATABUS_WIDTH enum that represents the number of bits for RX databus
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetRxDataBusWidth
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
     IN E_N5XC56GP5X4_DATABUS_WIDTH rxWidth
 );
 
@@ -1010,6 +1116,40 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxRxPolarity
 );
 
 /**
+@brief  Sets the Transmitter data polarity
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txPolarity - set transmitter to N5XC56GP5X4_POLARITY_NORMAL or N5XC56GP5X4_POLARITY_INV
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxPolarity
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_POLARITY txPolarity
+);
+
+/**
+@brief  Sets the Receiver data polarity
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  rxPolarity - set receiver to N5XC56GP5X4_POLARITY_NORMAL or N5XC56GP5X4_POLARITY_INV
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetRxPolarity
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_POLARITY rxPolarity
+);
+
+/**
 @brief  Gets the Transmitter and Receiver data polarity
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
@@ -1074,6 +1214,52 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxRxPattern
 );
 
 /**
+@brief  Sets the Transmitter pattern
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txPattern - E_N5XC56GP5X4_PATTERN for transmitter
+@param[in]  txUserPattern - string of hexadecimal characters (max 20 characters); valid when tx pattern = N5XC56GP5X4_PAT_USER
+
+@note Use this function to configure TX pattern before calling API_N5XC56GP5X4_StartPhyTest()
+@note For patterns JITTER_8T and JITTER_4T, databus is adjusted to 32 or 64 bits
+@note For patterns JITTER_10T and JITTER_5T, databus is adjusted to 40 or 80 bits
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxPattern
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_PATTERN txPattern,
+    IN const char* txUserPattern
+);
+
+/**
+@brief  Sets the Receiver pattern
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  rxPattern - E_N5XC56GP5X4_PATTERN for receiver
+@param[in]  rxUserPattern - string of hexadecimal characters (max 20 characters); valid when rx pattern = N5XC56GP5X4_PAT_USER
+
+@note Use this function to configure TX and RX pattern before calling API_N5XC56GP5X4_StartPhyTest()
+@note For patterns JITTER_8T and JITTER_4T, databus is adjusted to 32 or 64 bits
+@note For patterns JITTER_10T and JITTER_5T, databus is adjusted to 40 or 80 bits
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetRxPattern
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_PATTERN rxPattern,
+    IN const char* rxUserPattern
+);
+
+/**
 @brief  Gets the Transmitter and Receiver pattern
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
@@ -1117,6 +1303,40 @@ MCESD_STATUS API_N5XC56GP5X4_SetMSBLSBSwap
 );
 
 /**
+@brief  Sets Tx MSBLSB Swap
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txSwapMsbLsb - E_N5XC56GP5X4_SWAP_MSB_LSB for transmitter
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxMSBLSBSwap
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_SWAP_MSB_LSB txSwapMsbLsb
+);
+
+/**
+@brief  Sets Rx MSBLSB Swap
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  rxSwapMsbLsb - E_N5XC56GP5X4_SWAP_MSB_LSB for receiver
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetRxMSBLSBSwap
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_SWAP_MSB_LSB rxSwapMsbLsb
+);
+
+/**
 @brief  Get MSBLSB Swap
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
@@ -1156,6 +1376,40 @@ MCESD_STATUS API_N5XC56GP5X4_SetGrayCode
 );
 
 /**
+@brief  Sets Tx GrayCode
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txGrayCode - E_N5XC56GP5X4_GRAY_CODE for transmitter
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxGrayCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_GRAY_CODE txGrayCode
+);
+
+/**
+@brief  Sets Rx GrayCode
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  rxGrayCode - E_N5XC56GP5X4_GRAY_CODE for receiver
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetRxGrayCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_GRAY_CODE rxGrayCode
+);
+
+/**
 @brief  Get GrayCode
 
 @param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
@@ -1191,6 +1445,40 @@ MCESD_STATUS API_N5XC56GP5X4_SetPreCode
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     IN MCESD_BOOL txState,
+    IN MCESD_BOOL rxState
+);
+
+/**
+@brief  Sets Tx PreCode
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+@param[in]  txState - MCESD_BOOL for transmitter
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetTxPreCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL txState
+);
+
+/**
+@brief  Sets Rx PreCode
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, etc.
+@param[in]  rxState - MCESD_BOOL for receiver
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_SetRxPreCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
     IN MCESD_BOOL rxState
 );
 
@@ -1391,6 +1679,40 @@ MCESD_STATUS API_N5XC56GP5X4_AssertTxRxCoreReset
     IN MCESD_DEV_PTR devPtr,
     IN MCESD_U8 lane,
     IN MCESD_BOOL txReset,
+    IN MCESD_BOOL rxReset
+);
+
+/**
+@brief  Asserts TX Reset
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  txReset - MCESD_TRUE to reset tx, otherwise MCESD_FALSE
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_AssertTxCoreReset
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL txReset
+);
+
+/**
+@brief  Asserts RX Reset
+
+@param[in]  devPtr - pointer to MCESD_DEV initialized by mcesdLoadDriver() call
+@param[in]  lane - lane number 0, 1, 2, 3, etc.
+@param[in]  rxReset - MCESD_TRUE to reset rx, otherwise MCESD_FALSE
+
+@retval MCESD_OK - on success
+@retval MCESD_FAIL - on error
+*/
+MCESD_STATUS API_N5XC56GP5X4_AssertRxCoreReset
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
     IN MCESD_BOOL rxReset
 );
 

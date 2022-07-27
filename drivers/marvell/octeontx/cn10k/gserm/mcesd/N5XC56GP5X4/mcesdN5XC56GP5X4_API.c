@@ -27,6 +27,7 @@ static MCESD_U32 INT_N5XC56GP5X4_ComputeTxEqEmMain(IN MCESD_U32 pre3Cursor, IN M
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldPtr, OUT MCESD_32 *tapValue);
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertToAverageMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldTopPtr, IN MCESD_FIELD_PTR fieldMidPtr, IN MCESD_FIELD_PTR fieldBotPtr, OUT MCESD_32 *tapValue);
 static MCESD_STATUS INT_N5XC56GP5X4_GetDfeTap_ConvertMsbLsbToMilliCodes(IN MCESD_DEV_PTR devPtr, IN MCESD_U8 lane, IN MCESD_FIELD_PTR fieldMSBPtr, IN MCESD_FIELD_PTR fieldLSBPtr, OUT MCESD_32 *tapValue);
+static MCESD_STATUS INT_N5XC56GP5X4_PhyGenDataToPCIE(IN MCESD_U32 phyGenData, OUT E_N5XC56GP5X4_SERDES_SPEED *speedPCIE);
 static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM2(IN MCESD_U32 data, OUT S_N5XC56GP5X4_TLOG_ENTRY* entry);
 static MCESD_STATUS INT_N5XC56GP5X4_DisplayEntryPAM4(IN MCESD_U32 data, OUT S_N5XC56GP5X4_TLOG_ENTRY* entry);
 #ifdef N5XC56GP5X4_DFE_MILLIVOLTS
@@ -1159,6 +1160,72 @@ MCESD_STATUS API_N5XC56GP5X4_SetRefFreq
     return MCESD_OK;
 }
 
+MCESD_STATUS API_N5XC56GP5X4_SetTxRefFreq
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_REFFREQ txFreq,
+    IN E_N5XC56GP5X4_REFCLK_SEL txClkSel
+)
+{
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFFREF_TX0, txFreq));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFCLK_TX0, txClkSel));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFFREF_TX1, txFreq));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFCLK_TX1, txClkSel));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFFREF_TX2, txFreq));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFCLK_TX2, txClkSel));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFFREF_TX3, txFreq));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFCLK_TX3, txClkSel));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetRxRefFreq
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_REFFREQ rxFreq,
+    IN E_N5XC56GP5X4_REFCLK_SEL rxClkSel
+)
+{
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFFREF_RX0, rxFreq));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFCLK_RX0, rxClkSel));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFFREF_RX1, rxFreq));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFCLK_RX1, rxClkSel));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFFREF_RX2, rxFreq));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFCLK_RX2, rxClkSel));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFFREF_RX3, rxFreq));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_REFCLK_RX3, rxClkSel));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    return MCESD_OK;
+}
+
 MCESD_STATUS API_N5XC56GP5X4_GetRefFreq
 (
     IN MCESD_DEV_PTR devPtr,
@@ -1249,6 +1316,76 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxRxBitRate
     return MCESD_OK;
 }
 
+MCESD_STATUS API_N5XC56GP5X4_SetTxBitRate
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_SERDES_SPEED txSpeed
+)
+{
+    if ((devPtr->ipMajorRev == 1) && (devPtr->ipMinorRev < 2))
+    {
+        /* RX.X < R1.2 */
+        if (txSpeed >= N5XC56GP5X4_SERDES_64G)
+            return MCESD_FAIL; /* Invalid speed for R1.1 revision */
+    }
+
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_TX0, txSpeed));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_TX1, txSpeed));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_TX2, txSpeed));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_TX3, txSpeed));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetRxBitRate
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_SERDES_SPEED rxSpeed
+)
+{
+    if ((devPtr->ipMajorRev == 1) && (devPtr->ipMinorRev < 2))
+    {
+        /* RX.X < R1.2 */
+        if (rxSpeed >= N5XC56GP5X4_SERDES_64G)
+            return MCESD_FAIL; /* Invalid speed for R1.1 revision */
+    }
+
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_RX0, rxSpeed));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_RX1, rxSpeed));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_RX2, rxSpeed));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_PHY_GEN_RX3, rxSpeed));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    return MCESD_OK;
+}
+
 MCESD_STATUS API_N5XC56GP5X4_GetTxRxBitRate
 (
     IN MCESD_DEV_PTR devPtr,
@@ -1257,6 +1394,7 @@ MCESD_STATUS API_N5XC56GP5X4_GetTxRxBitRate
     OUT E_N5XC56GP5X4_SERDES_SPEED *rxSpeed
 )
 {
+    E_N5XC56GP5X4_PHYMODE mode;
     MCESD_U32 txData, rxData;
 
     switch (lane)
@@ -1281,8 +1419,49 @@ MCESD_STATUS API_N5XC56GP5X4_GetTxRxBitRate
         return MCESD_FAIL; /* Invalid lane */
     }
 
+    MCESD_ATTEMPT(API_N5XC56GP5X4_GetPhyMode(devPtr, &mode));
+
+    /* PCIE Mode */
+    if (N5XC56GP5X4_PHYMODE_PCIE == mode)
+    {
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_PhyGenDataToPCIE(txData, txSpeed));
+        MCESD_ATTEMPT(INT_N5XC56GP5X4_PhyGenDataToPCIE(rxData, rxSpeed));
+        return MCESD_OK;
+    }
+
     *txSpeed = (E_N5XC56GP5X4_SERDES_SPEED)txData;
     *rxSpeed = (E_N5XC56GP5X4_SERDES_SPEED)rxData;
+
+    return MCESD_OK;
+}
+
+static MCESD_STATUS INT_N5XC56GP5X4_PhyGenDataToPCIE
+(
+    IN MCESD_U32 phyGenData,
+    OUT E_N5XC56GP5X4_SERDES_SPEED* speedPCIE
+)
+{
+    switch (phyGenData)
+    {
+    case 0:
+        *speedPCIE = N5XC56GP5X4_PCIE_2P5G;
+        break;
+    case 1:
+        *speedPCIE = N5XC56GP5X4_PCIE_5G;
+        break;
+    case 2:
+        *speedPCIE = N5XC56GP5X4_PCIE_8G;
+        break;
+    case 3:
+        *speedPCIE = N5XC56GP5X4_PCIE_16G;
+        break;
+    case 4:
+        *speedPCIE = N5XC56GP5X4_PCIE_32G;
+        break;
+    default:
+        *speedPCIE = 0;
+        return MCESD_FAIL; /* Invalid lane */
+    }
 
     return MCESD_OK;
 }
@@ -1357,6 +1536,96 @@ MCESD_STATUS API_N5XC56GP5X4_SetDataBusWidth
             rxDataPAM2En = 1;
         }
         break;
+    default:
+        break;
+    }
+
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_SEL_BITS, lane, rxDataSelBits);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_PAM2_EN, lane, rxDataPAM2En);
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetTxDataBusWidth
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_DATABUS_WIDTH txWidth
+)
+{
+    MCESD_U32 txDataSelBits = 0, txDataPAM2En = 0;
+
+    switch (txWidth)
+    {
+    case N5XC56GP5X4_DATABUS_80BIT:
+    {
+        txDataSelBits = 0;
+        txDataPAM2En = 0;
+    }
+    break;
+    case N5XC56GP5X4_DATABUS_40BIT:
+    {
+        txDataSelBits = 0;
+        txDataPAM2En = 1;
+    }
+    break;
+    case N5XC56GP5X4_DATABUS_64BIT:
+    {
+        txDataSelBits = 1;
+        txDataPAM2En = 0;
+    }
+    break;
+    case N5XC56GP5X4_DATABUS_32BIT:
+    {
+        txDataSelBits = 1;
+        txDataPAM2En = 1;
+    }
+    break;
+    default:
+        break;
+    }
+
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_SEL_BITS, lane, txDataSelBits);
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_PAM2_EN, lane, txDataPAM2En);
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetRxDataBusWidth
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_DATABUS_WIDTH rxWidth
+)
+{
+    MCESD_U32 rxDataSelBits = 0, rxDataPAM2En = 0;
+
+    switch (rxWidth)
+    {
+    case N5XC56GP5X4_DATABUS_80BIT:
+    {
+        rxDataSelBits = 0;
+        rxDataPAM2En = 0;
+    }
+    break;
+    case N5XC56GP5X4_DATABUS_40BIT:
+    {
+        rxDataSelBits = 0;
+        rxDataPAM2En = 1;
+    }
+    break;
+    case N5XC56GP5X4_DATABUS_64BIT:
+    {
+        rxDataSelBits = 1;
+        rxDataPAM2En = 0;
+    }
+    break;
+    case N5XC56GP5X4_DATABUS_32BIT:
+    {
+        rxDataSelBits = 1;
+        rxDataPAM2En = 1;
+    }
+    break;
     default:
         break;
     }
@@ -2035,6 +2304,30 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxRxPolarity
     return MCESD_OK;
 }
 
+MCESD_STATUS API_N5XC56GP5X4_SetTxPolarity
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_POLARITY txPolarity
+)
+{
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TXD_INV, lane, txPolarity);
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetRxPolarity
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_POLARITY rxPolarity
+)
+{
+    N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RXD_INV, lane, rxPolarity);
+
+    return MCESD_OK;
+}
+
 MCESD_STATUS API_N5XC56GP5X4_GetTxRxPolarity
 (
     IN MCESD_DEV_PTR devPtr,
@@ -2145,6 +2438,110 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxRxPattern
             txWidth = N5XC56GP5X4_DATABUS_40BIT;
     }
 
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RX_PAM2_EN, lane, rxDataPAM2En);
+    if (0 == rxDataPAM2En)
+    {
+        if ((N5XC56GP5X4_PAT_JITTER_8T == rxPattern) || (N5XC56GP5X4_PAT_JITTER_4T == rxPattern))
+            rxWidth = N5XC56GP5X4_DATABUS_64BIT;
+        else if ((N5XC56GP5X4_PAT_JITTER_10T == rxPattern) || (N5XC56GP5X4_PAT_JITTER_5T == rxPattern))
+            rxWidth = N5XC56GP5X4_DATABUS_80BIT;
+    }
+    else
+    {
+        if ((N5XC56GP5X4_PAT_JITTER_8T == rxPattern) || (N5XC56GP5X4_PAT_JITTER_4T == rxPattern))
+            rxWidth = N5XC56GP5X4_DATABUS_32BIT;
+        else if ((N5XC56GP5X4_PAT_JITTER_10T == rxPattern) || (N5XC56GP5X4_PAT_JITTER_5T == rxPattern))
+            rxWidth = N5XC56GP5X4_DATABUS_40BIT;
+    }
+    MCESD_ATTEMPT(API_N5XC56GP5X4_SetDataBusWidth(devPtr, lane, txWidth, rxWidth));
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetTxPattern
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_PATTERN txPattern,
+    IN const char* txUserPattern
+
+)
+{
+    MCESD_U32 txDataPAM2En;
+    E_N5XC56GP5X4_DATABUS_WIDTH txWidth, rxWidth;
+
+    if (N5XC56GP5X4_PAT_USER == txPattern)
+    {
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_PAT_SEL, lane, 1);
+    }
+    else
+    {
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_PAT_SEL, lane, txPattern);
+    }
+
+    if (strlen(txUserPattern) > 0)
+    {
+        MCESD_U8 u8Pattern[10];
+
+        MCESD_ATTEMPT(PatternStringToU8Array(txUserPattern, u8Pattern));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_UP_7948, lane, MAKEU32FROMU8(u8Pattern[0], u8Pattern[1], u8Pattern[2], u8Pattern[3]));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_UP_4716, lane, MAKEU32FROMU8(u8Pattern[4], u8Pattern[5], u8Pattern[6], u8Pattern[7]));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_UP_1500, lane, MAKEU16FROMU8(u8Pattern[8], u8Pattern[9]));
+    }
+
+    MCESD_ATTEMPT(API_N5XC56GP5X4_GetDataBusWidth(devPtr, lane, &txWidth, &rxWidth));
+    N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_TX_PAM2_EN, lane, txDataPAM2En);
+    if (0 == txDataPAM2En)
+    {
+        if ((N5XC56GP5X4_PAT_JITTER_8T == txPattern) || (N5XC56GP5X4_PAT_JITTER_4T == txPattern))
+            txWidth = N5XC56GP5X4_DATABUS_64BIT;
+        else if ((N5XC56GP5X4_PAT_JITTER_10T == txPattern) || (N5XC56GP5X4_PAT_JITTER_5T == txPattern))
+            txWidth = N5XC56GP5X4_DATABUS_80BIT;
+    }
+    else
+    {
+        if ((N5XC56GP5X4_PAT_JITTER_8T == txPattern) || (N5XC56GP5X4_PAT_JITTER_4T == txPattern))
+            txWidth = N5XC56GP5X4_DATABUS_32BIT;
+        else if ((N5XC56GP5X4_PAT_JITTER_10T == txPattern) || (N5XC56GP5X4_PAT_JITTER_5T == txPattern))
+            txWidth = N5XC56GP5X4_DATABUS_40BIT;
+    }
+
+    MCESD_ATTEMPT(API_N5XC56GP5X4_SetDataBusWidth(devPtr, lane, txWidth, rxWidth));
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetRxPattern
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_PATTERN rxPattern,
+    IN const char* rxUserPattern
+)
+{
+    MCESD_U32 rxDataPAM2En;
+    E_N5XC56GP5X4_DATABUS_WIDTH txWidth, rxWidth;
+
+    if (N5XC56GP5X4_PAT_USER == rxPattern)
+    {
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_PAT_SEL, lane, 1);
+    }
+    else
+    {
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_PAT_SEL, lane, rxPattern);
+    }
+
+    if (strlen(rxUserPattern) > 0)
+    {
+        MCESD_U8 u8Pattern[10];
+
+        MCESD_ATTEMPT(PatternStringToU8Array(rxUserPattern, u8Pattern));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_UP_7948, lane, MAKEU32FROMU8(u8Pattern[0], u8Pattern[1], u8Pattern[2], u8Pattern[3]));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_UP_4716, lane, MAKEU32FROMU8(u8Pattern[4], u8Pattern[5], u8Pattern[6], u8Pattern[7]));
+        N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RX_UP_1500, lane, MAKEU16FROMU8(u8Pattern[8], u8Pattern[9]));
+    }
+
+    MCESD_ATTEMPT(API_N5XC56GP5X4_GetDataBusWidth(devPtr, lane, &txWidth, &rxWidth));
     N5XC56GP5X4_READ_FIELD(devPtr, F_N5XC56GP5X4_RX_PAM2_EN, lane, rxDataPAM2En);
     if (0 == rxDataPAM2En)
     {
@@ -2279,6 +2676,66 @@ MCESD_STATUS API_N5XC56GP5X4_SetMSBLSBSwap
     return MCESD_OK;
 }
 
+MCESD_STATUS API_N5XC56GP5X4_SetTxMSBLSBSwap
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_SWAP_MSB_LSB txSwapMsbLsb
+)
+{
+    /* TX Swap MSB LSB */
+    if (N5XC56GP5X4_SWAP_NOT_USED != txSwapMsbLsb)
+    {
+        if (N5XC56GP5X4_SWAP_DISABLE == txSwapMsbLsb)
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TXDATA_SWAP, lane, 0);
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TXD_SWAP, lane, 0);
+        }
+        else if (N5XC56GP5X4_SWAP_PRECODER == txSwapMsbLsb)
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TXDATA_SWAP, lane, 1);
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TXD_SWAP, lane, 0);
+        }
+        else if (N5XC56GP5X4_SWAP_POSTCODER == txSwapMsbLsb)
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TXDATA_SWAP, lane, 0);
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TXD_SWAP, lane, 1);
+        }
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetRxMSBLSBSwap
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_SWAP_MSB_LSB rxSwapMsbLsb
+)
+{
+    /* RX Swap MSB LSB */
+    if (N5XC56GP5X4_SWAP_NOT_USED != rxSwapMsbLsb)
+    {
+        if (N5XC56GP5X4_SWAP_DISABLE == rxSwapMsbLsb)
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RXDATA_SWAP, lane, 0);
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RXD_SWAP, lane, 0);
+        }
+        else if (N5XC56GP5X4_SWAP_PRECODER == rxSwapMsbLsb)
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RXDATA_SWAP, lane, 1);
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RXD_SWAP, lane, 0);
+        }
+        else if (N5XC56GP5X4_SWAP_POSTCODER == rxSwapMsbLsb)
+        {
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RXDATA_SWAP, lane, 0);
+            N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_RXD_SWAP, lane, 1);
+        }
+    }
+
+    return MCESD_OK;
+}
+
 MCESD_STATUS API_N5XC56GP5X4_GetMSBLSBSwap
 (
     IN MCESD_DEV_PTR devPtr,
@@ -2362,6 +2819,68 @@ MCESD_STATUS API_N5XC56GP5X4_SetGrayCode
         }
     }
 
+    if (N5XC56GP5X4_GRAY_NOT_USED != rxGrayCode)
+    {
+        switch (lane)
+        {
+        case 0:
+            MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_GRAY_CODE0, rxGrayCode));
+            break;
+        case 1:
+            MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_GRAY_CODE1, rxGrayCode));
+            break;
+        case 2:
+            MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_GRAY_CODE2, rxGrayCode));
+            break;
+        case 3:
+            MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_GRAY_CODE3, rxGrayCode));
+            break;
+        default:
+            return MCESD_FAIL; /* Invalid lane */
+        }
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetTxGrayCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_GRAY_CODE txGrayCode
+)
+{
+    if (N5XC56GP5X4_GRAY_NOT_USED != txGrayCode)
+    {
+        switch (lane)
+        {
+        case 0:
+            MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_GRAY_CODE0, txGrayCode));
+            break;
+        case 1:
+            MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_GRAY_CODE1, txGrayCode));
+            break;
+        case 2:
+            MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_GRAY_CODE2, txGrayCode));
+            break;
+        case 3:
+            MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_GRAY_CODE3, txGrayCode));
+            break;
+        default:
+            return MCESD_FAIL; /* Invalid lane */
+        }
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetRxGrayCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN E_N5XC56GP5X4_GRAY_CODE rxGrayCode
+)
+{
     if (N5XC56GP5X4_GRAY_NOT_USED != rxGrayCode)
     {
         switch (lane)
@@ -2482,6 +3001,62 @@ MCESD_STATUS API_N5XC56GP5X4_SetPreCode
         return MCESD_FAIL; /* Invalid lane */
     }
     
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetTxPreCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL txState
+)
+{
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_PRE_CODE0, txState));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_PRE_CODE1, txState));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_PRE_CODE2, txState));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_TX_PRE_CODE3, txState));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_SetRxPreCode
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL rxState
+)
+{
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_PRE_CODE0, rxState));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_PRE_CODE1, rxState));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_PRE_CODE2, rxState));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RX_PRE_CODE3, rxState));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
     return MCESD_OK;
 }
 
@@ -2786,6 +3361,62 @@ MCESD_STATUS API_N5XC56GP5X4_AssertTxRxCoreReset
         break;
     case 3:
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_TX3, txReset));
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_RX3, rxReset));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_AssertTxCoreReset
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL txReset
+)
+{
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_TX0, txReset));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_TX1, txReset));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_TX2, txReset));
+        break;
+    case 3:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_TX3, txReset));
+        break;
+    default:
+        return MCESD_FAIL; /* Invalid lane */
+    }
+
+    return MCESD_OK;
+}
+
+MCESD_STATUS API_N5XC56GP5X4_AssertRxCoreReset
+(
+    IN MCESD_DEV_PTR devPtr,
+    IN MCESD_U8 lane,
+    IN MCESD_BOOL rxReset
+)
+{
+    switch (lane)
+    {
+    case 0:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_RX0, rxReset));
+        break;
+    case 1:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_RX1, rxReset));
+        break;
+    case 2:
+        MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_RX2, rxReset));
+        break;
+    case 3:
         MCESD_ATTEMPT(API_N5XC56GP5X4_HwSetPinCfg(devPtr, N5XC56GP5X4_PIN_RESET_RX3, rxReset));
         break;
     default:

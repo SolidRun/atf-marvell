@@ -20,6 +20,12 @@ to you under the terms of the applicable Commercial License.
 #ifndef MCESD_UTILS_H
 #define MCESD_UTILS_H
 
+#if C_LINKAGE
+#ifdef __cplusplus
+extern "C" {
+#endif
+#endif
+
 #define MAX_LINE_LEN 80
 
 /**
@@ -156,5 +162,11 @@ MCESD_STATUS calculateChecksum
     OUT MCESD_U32 *checksum
 );
 
+
+#if C_LINKAGE
+#ifdef __cplusplus
+}
+#endif
+#endif
 
 #endif /* defined MCESD_UTILS_H */
