@@ -385,6 +385,26 @@ void rpm_lmac_init(int rpm_id, int lmac_id)
 	CSR_WRITE(CAVM_RPMX_CMRX_RX_BP_ON(rpm_id, lmac_id),
 			rx_bp_on.u);
 
+#if defined(PLAT_cn10kb)
+	/* Update P2X/X2P field for CMRX_CONFIG. LMACs0..3 mapped to NIX0
+	 * and LMACs4..7 mapped to NIX1
+	 */
+	if ((lmac_id >= 0) && (lmac_id <= 3)) {
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+				CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+				p2x_select, 1);
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+				CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+				x2p_select, 1);
+	} else if ((lmac_id >= 4) && (lmac_id <= 7)) {
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+				CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+				p2x_select, 2);
+		CAVM_MODIFY_RPM_CSR(cavm_rpmx_cmrx_config_t,
+				CAVM_RPMX_CMRX_CONFIG(rpm_id, lmac_id),
+				x2p_select, 2);
+	}
+#endif
 	/* If RPM is connected to BPHY, channel associated with the link has to be
 	 * configured per LMAC
 	 * log2_range : field to be always set to 4
