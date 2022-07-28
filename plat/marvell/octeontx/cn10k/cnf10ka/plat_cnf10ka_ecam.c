@@ -147,19 +147,12 @@ static void init_rpm(uint64_t config_base, uint64_t config_size)
 {
 	union cavm_pccpf_xxx_vsec_ctl vsec_ctl;
 	int rpm_id;
-	rpm_config_t *rpm;
 
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
 	rpm_id = vsec_ctl.s.inst_num;
 
 	debug_plat_ecam("RPM(%d): init config_base:%llx size:%llx\n",
 		vsec_ctl.s.inst_num, config_base, config_size);
-
-	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_id]);
-
-	/* RPM2 to RPM3 are routed to BPHY */
-	if ((rpm_id == 2) || (rpm_id == 3))
-		rpm->is_rfoe = 1;
 
 	rpm_init(rpm_id);
 }

@@ -18,6 +18,8 @@
 #define MAX_USB_BUS		2
 
 #define MAX_RPM			3
+#define BPHY_BITMAP             0x0 /* No BPHY connected RPMs */
+
 #define MAX_GSERM		3
 #define MAX_PORTM		6
 #define MAX_REFCLK		3 /* Qty of REF_CLK's */

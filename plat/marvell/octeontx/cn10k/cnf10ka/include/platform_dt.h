@@ -15,6 +15,8 @@
 #define MAX_SPI_CS		4
 
 #define MAX_RPM			4
+#define BPHY_BITMAP		0xc /* RPMs 2 & 3 are connected to BPHY */
+
 #define MAX_GSERM		7
 #define MAX_PORTM		28
 #define MAX_REFCLK		3  /* Qty of REF_CLK's */

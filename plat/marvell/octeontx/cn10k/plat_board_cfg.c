@@ -2960,6 +2960,14 @@ static void cn10k_fill_rpm_details(void *fdt)
 		portm_idx += portm->portms_used;
 
 	}
+
+	for (rpm_idx = 0; rpm_idx < MAX_RPM; rpm_idx++) {
+		rpm_config_t *rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_idx]);
+
+		if ((BPHY_BITMAP >> rpm_idx) & 1)
+			rpm->is_rfoe = 1;
+	}
+
 	cn10k_rpm_check_linux(fdt);
 	cn10k_rpm_assign_mac(fdt);
 }
