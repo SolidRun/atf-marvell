@@ -489,7 +489,7 @@ union cavm_mdbw_jd_hdr_word_0_s
         uint64_t dsp_job_type          : 2;  /**< [ 62: 61] Indicates whether DMA is performed under software control or automatic
                                                                  hardware control. Job types are enumerated with MDBW_DSP_JOB_SEL_E. */
         uint64_t toth                  : 4;  /**< [ 60: 57] Job timeout threshold. The timeout timer starts counting when the job
-                                                                 gets started on a DAC. The timer increments by one each SCLK cycle,
+                                                                 gets started on a DAC. The timer increments by one each BCLK cycle,
                                                                  and a timeout occurs when the timer reaches the threshold specified
                                                                  as:
 
@@ -529,7 +529,7 @@ union cavm_mdbw_jd_hdr_word_0_s
         uint64_t toth_tick             : 4;  /**< [ 56: 53] Timeout threshold tick count. See MDBW_JD_HDR_WORD_0_S[TOTH] for
                                                                  details. */
         uint64_t toth                  : 4;  /**< [ 60: 57] Job timeout threshold. The timeout timer starts counting when the job
-                                                                 gets started on a DAC. The timer increments by one each SCLK cycle,
+                                                                 gets started on a DAC. The timer increments by one each BCLK cycle,
                                                                  and a timeout occurs when the timer reaches the threshold specified
                                                                  as:
 

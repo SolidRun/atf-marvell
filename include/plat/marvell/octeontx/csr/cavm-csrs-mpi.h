@@ -1423,11 +1423,11 @@ union cavm_mpix_io_ctl
                                                                  0x2 = 8 mA.
                                                                  0x3 = 16 mA. */
         uint64_t reserved_1            : 1;
-        uint64_t slew                  : 1;  /**< [  0:  0](R/W) MPI/SPI bus pins output slew rate control.
+        uint64_t slew                  : 1;  /**< [  0:  0](R/W) MPI/SPI bus pin output slew rate control.
                                                                  0 = High slew rate.
                                                                  1 = Low slew rate. */
 #else /* Word 0 - Little Endian */
-        uint64_t slew                  : 1;  /**< [  0:  0](R/W) MPI/SPI bus pins output slew rate control.
+        uint64_t slew                  : 1;  /**< [  0:  0](R/W) MPI/SPI bus pin output slew rate control.
                                                                  0 = High slew rate.
                                                                  1 = Low slew rate. */
         uint64_t reserved_1            : 1;
@@ -1439,14 +1439,41 @@ union cavm_mpix_io_ctl
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn96xxp3;
-    /* struct cavm_mpix_io_ctl_cn96xxp3 cn96xxp4; */
+    struct cavm_mpix_io_ctl_cn96xxp4
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t drive                 : 2;  /**< [  3:  2](R/W) MPI/SPI bus pin output drive strength.
+                                                                 0x0 = 3 mA.
+                                                                 0x1 = 3 mA.
+                                                                 0x2 = 6 mA.
+                                                                 0x3 = 12 mA. */
+        uint64_t reserved_1            : 1;
+        uint64_t slew                  : 1;  /**< [  0:  0](R/W) MPI/SPI bus pin output slew rate control.
+                                                                 0 = High slew rate.
+                                                                 1 = Low slew rate. */
+#else /* Word 0 - Little Endian */
+        uint64_t slew                  : 1;  /**< [  0:  0](R/W) MPI/SPI bus pin output slew rate control.
+                                                                 0 = High slew rate.
+                                                                 1 = Low slew rate. */
+        uint64_t reserved_1            : 1;
+        uint64_t drive                 : 2;  /**< [  3:  2](R/W) MPI/SPI bus pin output drive strength.
+                                                                 0x0 = 3 mA.
+                                                                 0x1 = 3 mA.
+                                                                 0x2 = 6 mA.
+                                                                 0x3 = 12 mA. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn96xxp4;
     /* struct cavm_mpix_io_ctl_cn96xxp3 cn98xx; */
     /* struct cavm_mpix_io_ctl_s cnf95xxp1; */
     /* struct cavm_mpix_io_ctl_cn96xxp3 cnf95xxp2; */
-    /* struct cavm_mpix_io_ctl_cn96xxp3 cnf95xxp3; */
+    /* struct cavm_mpix_io_ctl_cn96xxp4 cnf95xxp3; */
     /* struct cavm_mpix_io_ctl_cn96xxp3 f95mm; */
-    /* struct cavm_mpix_io_ctl_cn96xxp3 f95o; */
-    /* struct cavm_mpix_io_ctl_cn96xxp3 loki; */
+    /* struct cavm_mpix_io_ctl_cn96xxp3 f95o_p1; */
+    /* struct cavm_mpix_io_ctl_cn96xxp4 f95o_p2; */
+    /* struct cavm_mpix_io_ctl_cn96xxp3 loki_p1; */
+    /* struct cavm_mpix_io_ctl_cn96xxp4 loki_p2; */
 };
 typedef union cavm_mpix_io_ctl cavm_mpix_io_ctl_t;
 

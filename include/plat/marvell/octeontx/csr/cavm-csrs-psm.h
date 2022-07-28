@@ -174,7 +174,83 @@ union cavm_psm_cmd_addjob_s
         uint64_t reserved_117_127      : 11;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_addjob_s_s cn; */
+    /* struct cavm_psm_cmd_addjob_s_s cn9; */
+    /* struct cavm_psm_cmd_addjob_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_addjob_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t jobtype               : 8;  /**< [ 63: 56] Index into the PSM resource table (see PSM_SET0_RSRC_TBL(),
+                                                                 PSM_SET1_RSRC_TBL(), PSM_SET2_RSRC_TBL())
+                                                                 indicating which MHAB/MDAB(s) can service this job. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t tmem                  : 1;  /**< [ 52: 52] Location of the job descriptor.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM. */
+        uint64_t reserved_49_51        : 3;
+        uint64_t mabq                  : 1;  /**< [ 48: 48] Indicates the MAB queue on which the job will be launched.
+                                                                 0 = MAB queue 0
+                                                                 1 = MAB queue 1. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t jobtag                : 16; /**< [ 39: 24] A 16-bit tag used to identify the job. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. The value 0xFF (i.e., the
+                                                                 immediate queue) may not be used for ADDJOB commands. */
+        uint64_t rsrc_set              : 2;  /**< [  7:  6] Identifies the BPHY resource set where the job should be launched. */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_ADDJOB */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_ADDJOB */
+        uint64_t rsrc_set              : 2;  /**< [  7:  6] Identifies the BPHY resource set where the job should be launched. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. The value 0xFF (i.e., the
+                                                                 immediate queue) may not be used for ADDJOB commands. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t jobtag                : 16; /**< [ 39: 24] A 16-bit tag used to identify the job. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t mabq                  : 1;  /**< [ 48: 48] Indicates the MAB queue on which the job will be launched.
+                                                                 0 = MAB queue 0
+                                                                 1 = MAB queue 1. */
+        uint64_t reserved_49_51        : 3;
+        uint64_t tmem                  : 1;  /**< [ 52: 52] Location of the job descriptor.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t jobtype               : 8;  /**< [ 63: 56] Index into the PSM resource table (see PSM_SET0_RSRC_TBL(),
+                                                                 PSM_SET1_RSRC_TBL(), PSM_SET2_RSRC_TBL())
+                                                                 indicating which MHAB/MDAB(s) can service this job. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t jobptr                : 53; /**< [116: 64] Address indicating the location of the job descriptor.
+                                                                 This must be a 64-bit aligned address. If [TMEM] is clear, this is a
+                                                                 local address within BPHY SMEM. If [TMEM] is set, this is an IOVA. */
+#else /* Word 1 - Little Endian */
+        uint64_t jobptr                : 53; /**< [116: 64] Address indicating the location of the job descriptor.
+                                                                 This must be a 64-bit aligned address. If [TMEM] is clear, this is a
+                                                                 local address within BPHY SMEM. If [TMEM] is set, this is an IOVA. */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_addjob_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_addjob_s_s f95o; */
 };
 
 /**
@@ -238,7 +314,61 @@ union cavm_psm_cmd_addwork_s
         uint64_t reserved_117_127      : 11;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_addwork_s_s cn; */
+    /* struct cavm_psm_cmd_addwork_s_s cn9; */
+    /* struct cavm_psm_cmd_addwork_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_addwork_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t tag                   : 32; /**< [ 63: 32] Work queue entry tag. */
+        uint64_t group                 : 8;  /**< [ 31: 24] SSO guest-group that the work queue entry will be added to. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t tagtype               : 2;  /**< [  7:  6] Work queue entry tag type. See SSO_TT_E enumeration. */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_ADDWORK */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_ADDWORK */
+        uint64_t tagtype               : 2;  /**< [  7:  6] Work queue entry tag type. See SSO_TT_E enumeration. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t group                 : 8;  /**< [ 31: 24] SSO guest-group that the work queue entry will be added to. */
+        uint64_t tag                   : 32; /**< [ 63: 32] Work queue entry tag. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t wqeptr                : 53; /**< [116: 64] Work-queue entry pointer to submit to SSO. Bits \<2:0\> are
+                                                                 ignored. */
+#else /* Word 1 - Little Endian */
+        uint64_t wqeptr                : 53; /**< [116: 64] Work-queue entry pointer to submit to SSO. Bits \<2:0\> are
+                                                                 ignored. */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_addwork_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_addwork_s_s f95o; */
 };
 
 /**
@@ -347,7 +477,95 @@ union cavm_psm_cmd_contjob_s
         uint64_t reserved_117_127      : 11;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_contjob_s_s cn; */
+    /* struct cavm_psm_cmd_contjob_s_s cn9; */
+    /* struct cavm_psm_cmd_contjob_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_contjob_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t jobtype               : 8;  /**< [ 63: 56] Index into the PSM resource table (see PSM_SET0_RSRC_TBL(),
+                                                                 PSM_SET1_RSRC_TBL(), PSM_SET2_RSRC_TBL())
+                                                                 indicating which MHAB/MDAB(s) can service this job.  This field is only used on
+                                                                 the first CONTJOB command of a continuation sequence.  It is ignored on
+                                                                 subsequent CONTJOB and ADDJOB commands, since the destination MHAB/MDAB is
+                                                                 already selected. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t tmem                  : 1;  /**< [ 52: 52] Location of the job descriptor.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM. */
+        uint64_t reserved_49_51        : 3;
+        uint64_t mabq                  : 1;  /**< [ 48: 48] Indicates the MAB queue on which the job will be launched.
+                                                                 0 = MAB queue 0
+                                                                 1 = MAB queue 1. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t jobtag                : 16; /**< [ 39: 24] A 16-bit tag used to identify the job. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. The value 0xFF (i.e., the
+                                                                 immediate queue) may not be used for CONTJOB commands. */
+        uint64_t rsrc_set              : 2;  /**< [  7:  6] Identifies the BPHY resource set where the job should be launched.  This field
+                                                                 is only used on the first CONTJOB command of a continuation sequence.  It is
+                                                                 ignored on subsequent CONTJOB and ADDJOB commands, since the destination
+                                                                 MHAB/MDAB is already selected. */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_CONTJOB */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_CONTJOB */
+        uint64_t rsrc_set              : 2;  /**< [  7:  6] Identifies the BPHY resource set where the job should be launched.  This field
+                                                                 is only used on the first CONTJOB command of a continuation sequence.  It is
+                                                                 ignored on subsequent CONTJOB and ADDJOB commands, since the destination
+                                                                 MHAB/MDAB is already selected. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. The value 0xFF (i.e., the
+                                                                 immediate queue) may not be used for CONTJOB commands. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t jobtag                : 16; /**< [ 39: 24] A 16-bit tag used to identify the job. */
+        uint64_t reserved_40_47        : 8;
+        uint64_t mabq                  : 1;  /**< [ 48: 48] Indicates the MAB queue on which the job will be launched.
+                                                                 0 = MAB queue 0
+                                                                 1 = MAB queue 1. */
+        uint64_t reserved_49_51        : 3;
+        uint64_t tmem                  : 1;  /**< [ 52: 52] Location of the job descriptor.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM. */
+        uint64_t reserved_53_55        : 3;
+        uint64_t jobtype               : 8;  /**< [ 63: 56] Index into the PSM resource table (see PSM_SET0_RSRC_TBL(),
+                                                                 PSM_SET1_RSRC_TBL(), PSM_SET2_RSRC_TBL())
+                                                                 indicating which MHAB/MDAB(s) can service this job.  This field is only used on
+                                                                 the first CONTJOB command of a continuation sequence.  It is ignored on
+                                                                 subsequent CONTJOB and ADDJOB commands, since the destination MHAB/MDAB is
+                                                                 already selected. */
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t jobptr                : 53; /**< [116: 64] Address indicating the location of the job descriptor.
+                                                                 This must be a 64-bit aligned address. If [TMEM] is clear, this is a
+                                                                 local address within BPHY SMEM. If [TMEM] is set, this is an IOVA. */
+#else /* Word 1 - Little Endian */
+        uint64_t jobptr                : 53; /**< [116: 64] Address indicating the location of the job descriptor.
+                                                                 This must be a 64-bit aligned address. If [TMEM] is clear, this is a
+                                                                 local address within BPHY SMEM. If [TMEM] is set, this is an IOVA. */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_contjob_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_contjob_s_s f95o; */
 };
 
 /**
@@ -420,7 +638,69 @@ union cavm_psm_cmd_djcnt_s
         uint64_t reserved_64_127       : 64;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_djcnt_s_s cn; */
+    /* struct cavm_psm_cmd_djcnt_s_s cn9; */
+    /* struct cavm_psm_cmd_djcnt_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_djcnt_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_42_63        : 22;
+        uint64_t incr                  : 1;  /**< [ 41: 41] If set to 1, then PSM_CMD_DJCNT_S[DJCNT_ID] will be incremented. */
+        uint64_t decr                  : 1;  /**< [ 40: 40] If set to 1, and if INCR is not 1, then PSM_CMD_DJCNT_S[DJCNT_ID]
+                                                                 will be decremented. */
+        uint64_t reserved_39           : 1;
+        uint64_t djcnt_id              : 7;  /**< [ 38: 32] Selects which DJCNT to modify. */
+        uint64_t value                 : 8;  /**< [ 31: 24] Value to be assigned to the DJCNT, if neither INCR nor
+                                                                 DECR fields are set to 1. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_DJCNT */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_DJCNT */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t value                 : 8;  /**< [ 31: 24] Value to be assigned to the DJCNT, if neither INCR nor
+                                                                 DECR fields are set to 1. */
+        uint64_t djcnt_id              : 7;  /**< [ 38: 32] Selects which DJCNT to modify. */
+        uint64_t reserved_39           : 1;
+        uint64_t decr                  : 1;  /**< [ 40: 40] If set to 1, and if INCR is not 1, then PSM_CMD_DJCNT_S[DJCNT_ID]
+                                                                 will be decremented. */
+        uint64_t incr                  : 1;  /**< [ 41: 41] If set to 1, then PSM_CMD_DJCNT_S[DJCNT_ID] will be incremented. */
+        uint64_t reserved_42_63        : 22;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_64_127       : 64;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_127       : 64;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_djcnt_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_djcnt_s_s f95o; */
 };
 
 /**
@@ -487,7 +767,63 @@ union cavm_psm_cmd_free_s
         uint64_t reserved_117_127      : 11;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_free_s_s cn; */
+    /* struct cavm_psm_cmd_free_s_s cn9; */
+    /* struct cavm_psm_cmd_free_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_free_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_45_63        : 19;
+        uint64_t fab                   : 1;  /**< [ 44: 44] Free absolute parameter to NPA. */
+        uint64_t aura                  : 20; /**< [ 43: 24] The aura that NPA should use when freeing the buffer. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command.
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_FREE */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_FREE */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command.
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t aura                  : 20; /**< [ 43: 24] The aura that NPA should use when freeing the buffer. */
+        uint64_t fab                   : 1;  /**< [ 44: 44] Free absolute parameter to NPA. */
+        uint64_t reserved_45_63        : 19;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t fptr                  : 53; /**< [116: 64] Byte address indicating the location to be freed by NPA.
+                                                                 This must be a cache-line (128-byte) aligned address. */
+#else /* Word 1 - Little Endian */
+        uint64_t fptr                  : 53; /**< [116: 64] Byte address indicating the location to be freed by NPA.
+                                                                 This must be a cache-line (128-byte) aligned address. */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_free_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_free_s_s f95o; */
 };
 
 /**
@@ -548,7 +884,57 @@ union cavm_psm_cmd_gpint_s
         uint64_t reserved_64_127       : 64;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_gpint_s_s cn; */
+    /* struct cavm_psm_cmd_gpint_s_s cn9; */
+    /* struct cavm_psm_cmd_gpint_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_gpint_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t gpint                 : 7;  /**< [ 30: 24] Indicates which general purpose PSM interrupt (0-127) should be raised. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_GPINT */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_GPINT */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t gpint                 : 7;  /**< [ 30: 24] Indicates which general purpose PSM interrupt (0-127) should be raised. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_64_127       : 64;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_127       : 64;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_gpint_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_gpint_s_s f95o; */
 };
 
 /**
@@ -614,7 +1000,61 @@ union cavm_psm_cmd_qblk_s
         uint64_t reserved_64_127       : 64;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_qblk_s_s cn; */
+    /* struct cavm_psm_cmd_qblk_s_s cn9; */
+    /* struct cavm_psm_cmd_qblk_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_qblk_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t qsel                  : 7;  /**< [ 30: 24] Selects the queue to be blocked (i.e., disabled). */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue.
+
+                                                                 Note that QID does not identify the queue to be blocked. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_QBLK */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_QBLK */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue.
+
+                                                                 Note that QID does not identify the queue to be blocked. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qsel                  : 7;  /**< [ 30: 24] Selects the queue to be blocked (i.e., disabled). */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_64_127       : 64;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_127       : 64;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_qblk_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_qblk_s_s f95o; */
 };
 
 /**
@@ -681,7 +1121,61 @@ union cavm_psm_cmd_qrst_s
         uint64_t reserved_64_127       : 64;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_qrst_s_s cn; */
+    /* struct cavm_psm_cmd_qrst_s_s cn9; */
+    /* struct cavm_psm_cmd_qrst_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_qrst_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t qsel                  : 7;  /**< [ 30: 24] Selects the queue to be reset. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue.
+
+                                                                 Note that QID does not identify the queue to be reset. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_QRST */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_QRST */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue.
+
+                                                                 Note that QID does not identify the queue to be reset. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qsel                  : 7;  /**< [ 30: 24] Selects the queue to be reset. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_64_127       : 64;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_127       : 64;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_qrst_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_qrst_s_s f95o; */
 };
 
 /**
@@ -746,7 +1240,61 @@ union cavm_psm_cmd_qrun_s
         uint64_t reserved_64_127       : 64;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_qrun_s_s cn; */
+    /* struct cavm_psm_cmd_qrun_s_s cn9; */
+    /* struct cavm_psm_cmd_qrun_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_qrun_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t qsel                  : 7;  /**< [ 30: 24] Selects the queue to be unblocked. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue.
+
+                                                                 Note that QID does not identify the queue to be unblocked. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_QRUN */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_QRUN */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue.
+
+                                                                 Note that QID does not identify the queue to be unblocked. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qsel                  : 7;  /**< [ 30: 24] Selects the queue to be unblocked. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_64_127       : 64;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_127       : 64;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_qrun_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_qrun_s_s f95o; */
 };
 
 /**
@@ -937,7 +1485,87 @@ union cavm_psm_cmd_wait_s
 #endif /* Word 1 - End */
     } s;
     /* struct cavm_psm_cmd_wait_s_s cn9; */
-    /* struct cavm_psm_cmd_wait_s_s cnf95xx; */
+    /* struct cavm_psm_cmd_wait_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_wait_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_56_63        : 8;
+        uint64_t djcnt_val             : 8;  /**< [ 55: 48] Specifies the DJCNT value for the comparison.  The comparison
+                                                                 will succeed when the counter selected by [DJCNT_ID] is equal-to
+                                                                 or less-than the value in DJCNT_VAL. */
+        uint64_t reserved_47           : 1;
+        uint64_t djcnt_id              : 7;  /**< [ 46: 40] Selects the DJCNT to be used when [WAITMODE] = 1. */
+        uint64_t reserved_33_39        : 7;
+        uint64_t waitmode              : 1;  /**< [ 32: 32] Selects the event to be waited on.
+                                                                 0 = Wait on the PSM timer, as specified by the [CUR_SF], [TICK], [SF], and [FRAME] fields.
+                                                                 1 = Wait on a DJCNT as specified by the [DJCNT_ID] and [DJCNT_VAL] fields. */
+        uint64_t reserved_25_31        : 7;
+        uint64_t cur_sf                : 1;  /**< [ 24: 24] When WAITMODE=0, this field indicates whether the command should match
+                                                                 the current subframe, or the specified absolute subframe number:
+                                                                 0 = Match the subframe specified by the FRAME and SF fields.
+                                                                 1 = Match the current subframe (i.e., only match the TICK field). */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. The value 0xFF (i.e., the
+                                                                 immediate queue) may not be used for ADDJOB commands. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_WAIT. */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_WAIT. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. The value 0xFF (i.e., the
+                                                                 immediate queue) may not be used for ADDJOB commands. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t cur_sf                : 1;  /**< [ 24: 24] When WAITMODE=0, this field indicates whether the command should match
+                                                                 the current subframe, or the specified absolute subframe number:
+                                                                 0 = Match the subframe specified by the FRAME and SF fields.
+                                                                 1 = Match the current subframe (i.e., only match the TICK field). */
+        uint64_t reserved_25_31        : 7;
+        uint64_t waitmode              : 1;  /**< [ 32: 32] Selects the event to be waited on.
+                                                                 0 = Wait on the PSM timer, as specified by the [CUR_SF], [TICK], [SF], and [FRAME] fields.
+                                                                 1 = Wait on a DJCNT as specified by the [DJCNT_ID] and [DJCNT_VAL] fields. */
+        uint64_t reserved_33_39        : 7;
+        uint64_t djcnt_id              : 7;  /**< [ 46: 40] Selects the DJCNT to be used when [WAITMODE] = 1. */
+        uint64_t reserved_47           : 1;
+        uint64_t djcnt_val             : 8;  /**< [ 55: 48] Specifies the DJCNT value for the comparison.  The comparison
+                                                                 will succeed when the counter selected by [DJCNT_ID] is equal-to
+                                                                 or less-than the value in DJCNT_VAL. */
+        uint64_t reserved_56_63        : 8;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_100_127      : 28;
+        uint64_t frame                 : 12; /**< [ 99: 88] PSM timer BFN value to be matched when [WAITMODE] = 0 and [CUR_SF] = 0. */
+        uint64_t sf                    : 4;  /**< [ 87: 84] PSM timer sub-frame value to be matched when [WAITMODE] = 0 and [CUR_SF] = 0. */
+        uint64_t tick                  : 16; /**< [ 83: 68] PSM timer tick counter value to be matched when [WAITMODE] = 0. */
+        uint64_t reserved_64_67        : 4;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_67        : 4;
+        uint64_t tick                  : 16; /**< [ 83: 68] PSM timer tick counter value to be matched when [WAITMODE] = 0. */
+        uint64_t sf                    : 4;  /**< [ 87: 84] PSM timer sub-frame value to be matched when [WAITMODE] = 0 and [CUR_SF] = 0. */
+        uint64_t frame                 : 12; /**< [ 99: 88] PSM timer BFN value to be matched when [WAITMODE] = 0 and [CUR_SF] = 0. */
+        uint64_t reserved_100_127      : 28;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_wait_s_cnf95xxp2 cnf95xxp3; */
     struct cavm_psm_cmd_wait_s_f95o
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1102,7 +1730,79 @@ union cavm_psm_cmd_wrmsg_s
         uint64_t reserved_117_127      : 11;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_wrmsg_s_s cn; */
+    /* struct cavm_psm_cmd_wrmsg_s_s cn9; */
+    /* struct cavm_psm_cmd_wrmsg_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_wrmsg_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
+        uint64_t cmt                   : 1;  /**< [ 57: 57] Wait for write commit.
+                                                                 0 = WRMSG command completes as soon as write request is sent to
+                                                                 memory.
+                                                                 1 = WRMSG command does not complete until after the data has been committed
+                                                                 to memory. */
+        uint64_t tmem                  : 1;  /**< [ 56: 56] Target memory where the message will be written.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM. */
+        uint64_t message               : 32; /**< [ 55: 24] Value to be written to the PSM_MESSAGE_S[MESSAGE] field. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_WRMSG */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_WRMSG */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t message               : 32; /**< [ 55: 24] Value to be written to the PSM_MESSAGE_S[MESSAGE] field. */
+        uint64_t tmem                  : 1;  /**< [ 56: 56] Target memory where the message will be written.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM. */
+        uint64_t cmt                   : 1;  /**< [ 57: 57] Wait for write commit.
+                                                                 0 = WRMSG command completes as soon as write request is sent to
+                                                                 memory.
+                                                                 1 = WRMSG command does not complete until after the data has been committed
+                                                                 to memory. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t sptr                  : 53; /**< [116: 64] Address where PSM will write the message. Must be 64-bit aligned.  If
+                                                                 [TMEM] is clear, this is a local address within BPHY SMEM. If [TMEM]
+                                                                 is set, this is an IOVA. */
+#else /* Word 1 - Little Endian */
+        uint64_t sptr                  : 53; /**< [116: 64] Address where PSM will write the message. Must be 64-bit aligned.  If
+                                                                 [TMEM] is clear, this is a local address within BPHY SMEM. If [TMEM]
+                                                                 is set, this is an IOVA. */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_wrmsg_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_wrmsg_s_s f95o; */
 };
 
 /**
@@ -1198,7 +1898,91 @@ union cavm_psm_cmd_wrsts_s
         uint64_t reserved_117_127      : 11;
 #endif /* Word 1 - End */
     } s;
-    /* struct cavm_psm_cmd_wrsts_s_s cn; */
+    /* struct cavm_psm_cmd_wrsts_s_s cn9; */
+    /* struct cavm_psm_cmd_wrsts_s_s cnf95xxp1; */
+    struct cavm_psm_cmd_wrsts_s_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
+        uint64_t cmt                   : 1;  /**< [ 57: 57] Wait for write commit.
+                                                                 0 = WRSTS command completes as soon as write request is sent to
+                                                                 memory.
+                                                                 1 = WRSTS command does not complete until after the data has been committed
+                                                                 to memory. */
+        uint64_t tmem                  : 1;  /**< [ 56: 56] Target memory where the status will be written.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM. */
+        uint64_t cc                    : 16; /**< [ 55: 40] Completion code. This value is copied to the CC field in the
+                                                                 PSM_STATUS_S structure. */
+        uint64_t jobtag                : 16; /**< [ 39: 24] Value to be written in the PSM_STATUS_S[JOBTAG] field.
+
+                                                                 If the WRSTS command is submitted by a MHAB/MDAB as part of a job
+                                                                 completion event, the JOBTAG will be over-written by the JOBTAG field
+                                                                 for the job that submitted the job completion event. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_WRSTS */
+#else /* Word 0 - Little Endian */
+        uint64_t opcode                : 6;  /**< [  5:  0] PSM_OPCODE_E::PSM_OP_WRSTS */
+        uint64_t reserved_6_7          : 2;
+        uint64_t qid                   : 8;  /**< [ 15:  8] Destination queue. For commands added directly by stores from the AP
+                                                                 cores, this field is ignored and the register address selects which queue
+                                                                 the job is added to. Commands submitted from MHABs/MDABs
+                                                                 use this field to specify the destination queue. If QID = 0xFF (i.e., the
+                                                                 immediate queue), the command will be executed as soon as possible,
+                                                                 without being added to any queue. */
+        uint64_t waitcond              : 8;  /**< [ 23: 16] Specifies the conditions that must be satisfied before
+                                                                 executing this command:
+
+                                                                 _ 0x0 = Do not wait.
+
+                                                                 _ 0x1 - 0x7F = Wait for PSM_CMD_DJCNT_S[WAITCOND] to reach zero.
+
+                                                                 _ 0xFF = Wait for all previous commands in this queue to complete. */
+        uint64_t jobtag                : 16; /**< [ 39: 24] Value to be written in the PSM_STATUS_S[JOBTAG] field.
+
+                                                                 If the WRSTS command is submitted by a MHAB/MDAB as part of a job
+                                                                 completion event, the JOBTAG will be over-written by the JOBTAG field
+                                                                 for the job that submitted the job completion event. */
+        uint64_t cc                    : 16; /**< [ 55: 40] Completion code. This value is copied to the CC field in the
+                                                                 PSM_STATUS_S structure. */
+        uint64_t tmem                  : 1;  /**< [ 56: 56] Target memory where the status will be written.
+                                                                 0 = BPHY SMEM.
+                                                                 1 = Last-level cache or DRAM. */
+        uint64_t cmt                   : 1;  /**< [ 57: 57] Wait for write commit.
+                                                                 0 = WRSTS command completes as soon as write request is sent to
+                                                                 memory.
+                                                                 1 = WRSTS command does not complete until after the data has been committed
+                                                                 to memory. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_117_127      : 11;
+        uint64_t sptr                  : 53; /**< [116: 64] Address where PSM will write the message. Must be 64-bit aligned.  If
+                                                                 [TMEM] is clear, this is a local address within BPHY SMEM. If [TMEM]
+                                                                 is set, this is an IOVA. */
+#else /* Word 1 - Little Endian */
+        uint64_t sptr                  : 53; /**< [116: 64] Address where PSM will write the message. Must be 64-bit aligned.  If
+                                                                 [TMEM] is clear, this is a local address within BPHY SMEM. If [TMEM]
+                                                                 is set, this is an IOVA. */
+        uint64_t reserved_117_127      : 11;
+#endif /* Word 1 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_cmd_wrsts_s_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_cmd_wrsts_s_s f95o; */
 };
 
 /**

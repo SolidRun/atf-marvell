@@ -1280,7 +1280,22 @@ union cavm_psm_int_setx_aerr_sum_w1c
         uint64_t aerr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each DMA error interrupt. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_setx_aerr_sum_w1c_s cn; */
+    /* struct cavm_psm_int_setx_aerr_sum_w1c_s cn9; */
+    /* struct cavm_psm_int_setx_aerr_sum_w1c_s cnf95xxp1; */
+    struct cavm_psm_int_setx_aerr_sum_w1c_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t aerr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each address error interrupt.  The bits are indexed by
+                                                                 the MHAB/MDAB number, as defined by the PSM_SET(0..2)_MABDID_E enum. */
+#else /* Word 0 - Little Endian */
+        uint64_t aerr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each address error interrupt.  The bits are indexed by
+                                                                 the MHAB/MDAB number, as defined by the PSM_SET(0..2)_MABDID_E enum. */
+#endif /* Word 0 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_int_setx_aerr_sum_w1c_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_int_setx_aerr_sum_w1c_s f95mm; */
+    /* struct cavm_psm_int_setx_aerr_sum_w1c_s f95o; */
+    /* struct cavm_psm_int_setx_aerr_sum_w1c_cnf95xxp2 loki; */
 };
 typedef union cavm_psm_int_setx_aerr_sum_w1c cavm_psm_int_setx_aerr_sum_w1c_t;
 
@@ -1450,7 +1465,22 @@ union cavm_psm_int_setx_derr_sum_w1c
         uint64_t derr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each DMA error interrupt. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_setx_derr_sum_w1c_s cn; */
+    /* struct cavm_psm_int_setx_derr_sum_w1c_s cn9; */
+    /* struct cavm_psm_int_setx_derr_sum_w1c_s cnf95xxp1; */
+    struct cavm_psm_int_setx_derr_sum_w1c_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t derr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each DMA error interrupt.  The bits are indexed by
+                                                                 the MHAB/MDAB number, as defined by the PSM_SET(0..2)_MABDID_E enum. */
+#else /* Word 0 - Little Endian */
+        uint64_t derr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each DMA error interrupt.  The bits are indexed by
+                                                                 the MHAB/MDAB number, as defined by the PSM_SET(0..2)_MABDID_E enum. */
+#endif /* Word 0 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_int_setx_derr_sum_w1c_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_int_setx_derr_sum_w1c_s f95mm; */
+    /* struct cavm_psm_int_setx_derr_sum_w1c_s f95o; */
+    /* struct cavm_psm_int_setx_derr_sum_w1c_cnf95xxp2 loki; */
 };
 typedef union cavm_psm_int_setx_derr_sum_w1c cavm_psm_int_setx_derr_sum_w1c_t;
 
@@ -1620,7 +1650,22 @@ union cavm_psm_int_setx_jerr_sum_w1c
         uint64_t jerr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each job error interrupt. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_setx_jerr_sum_w1c_s cn; */
+    /* struct cavm_psm_int_setx_jerr_sum_w1c_s cn9; */
+    /* struct cavm_psm_int_setx_jerr_sum_w1c_s cnf95xxp1; */
+    struct cavm_psm_int_setx_jerr_sum_w1c_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t jerr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each job error interrupt.  The bits are indexed by
+                                                                 the MHAB/MDAB number, as defined by the PSM_SET(0..2)_MABDID_E enum. */
+#else /* Word 0 - Little Endian */
+        uint64_t jerr                  : 64; /**< [ 63:  0](R/W1C/H) Status bit for each job error interrupt.  The bits are indexed by
+                                                                 the MHAB/MDAB number, as defined by the PSM_SET(0..2)_MABDID_E enum. */
+#endif /* Word 0 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_int_setx_jerr_sum_w1c_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_int_setx_jerr_sum_w1c_s f95mm; */
+    /* struct cavm_psm_int_setx_jerr_sum_w1c_s f95o; */
+    /* struct cavm_psm_int_setx_jerr_sum_w1c_cnf95xxp2 loki; */
 };
 typedef union cavm_psm_int_setx_jerr_sum_w1c cavm_psm_int_setx_jerr_sum_w1c_t;
 
@@ -1775,9 +1820,9 @@ static inline uint64_t CAVM_PSM_INT_SETX_JNFAT_ENA_W1S(uint64_t a)
  * Register (NCB) psm_int_set#_jnfat_sum_w1c
  *
  * PHY Scheduler Non-Fatal Job Error Interrupt Registers
- * This register reports the status of the job error interrupts for each
- * MHAB/MDAB. Writing a 1 will clear the selected interrupt. Writes of 0 are
- * ignored.
+ * This register reports the status of the non-fatal job error interrupts
+ * for each MHAB/MDAB. Writing a 1 will clear the selected interrupt.
+ * Writes of 0 are ignored.
  */
 union cavm_psm_int_setx_jnfat_sum_w1c
 {
@@ -1790,7 +1835,24 @@ union cavm_psm_int_setx_jnfat_sum_w1c
         uint64_t jnfat                 : 64; /**< [ 63:  0](R/W1C/H) Status bit for each job error interrupt. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_setx_jnfat_sum_w1c_s cn; */
+    /* struct cavm_psm_int_setx_jnfat_sum_w1c_s cn9; */
+    /* struct cavm_psm_int_setx_jnfat_sum_w1c_s cnf95xxp1; */
+    struct cavm_psm_int_setx_jnfat_sum_w1c_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t jnfat                 : 64; /**< [ 63:  0](R/W1C/H) Status bit for each non-fatal job error interrupt.  The bits are
+                                                                 indexed by the MHAB/MDAB number, as defined by the
+                                                                 PSM_SET(0..2)_MABDID_E enum. */
+#else /* Word 0 - Little Endian */
+        uint64_t jnfat                 : 64; /**< [ 63:  0](R/W1C/H) Status bit for each non-fatal job error interrupt.  The bits are
+                                                                 indexed by the MHAB/MDAB number, as defined by the
+                                                                 PSM_SET(0..2)_MABDID_E enum. */
+#endif /* Word 0 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_int_setx_jnfat_sum_w1c_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_int_setx_jnfat_sum_w1c_s f95mm; */
+    /* struct cavm_psm_int_setx_jnfat_sum_w1c_s f95o; */
+    /* struct cavm_psm_int_setx_jnfat_sum_w1c_cnf95xxp2 loki; */
 };
 typedef union cavm_psm_int_setx_jnfat_sum_w1c cavm_psm_int_setx_jnfat_sum_w1c_t;
 
@@ -1959,7 +2021,22 @@ union cavm_psm_int_setx_jto_sum_w1c
         uint64_t jto                   : 64; /**< [ 63:  0](R/W1C/H) Status bit for each job error interrupt. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_setx_jto_sum_w1c_s cn; */
+    /* struct cavm_psm_int_setx_jto_sum_w1c_s cn9; */
+    /* struct cavm_psm_int_setx_jto_sum_w1c_s cnf95xxp1; */
+    struct cavm_psm_int_setx_jto_sum_w1c_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t jto                   : 64; /**< [ 63:  0](R/W1C/H) Status bit for each job timeout interrupt.  The bits are indexed by
+                                                                 the MHAB/MDAB number, as defined by the PSM_SET(0..2)_MABDID_E enum. */
+#else /* Word 0 - Little Endian */
+        uint64_t jto                   : 64; /**< [ 63:  0](R/W1C/H) Status bit for each job timeout interrupt.  The bits are indexed by
+                                                                 the MHAB/MDAB number, as defined by the PSM_SET(0..2)_MABDID_E enum. */
+#endif /* Word 0 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_int_setx_jto_sum_w1c_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_int_setx_jto_sum_w1c_s f95mm; */
+    /* struct cavm_psm_int_setx_jto_sum_w1c_s f95o; */
+    /* struct cavm_psm_int_setx_jto_sum_w1c_cnf95xxp2 loki; */
 };
 typedef union cavm_psm_int_setx_jto_sum_w1c cavm_psm_int_setx_jto_sum_w1c_t;
 
@@ -2128,7 +2205,24 @@ union cavm_psm_int_setx_mto_sum_w1c
         uint64_t mto                   : 64; /**< [ 63:  0](R/W1C/H) Status bit for each DMA error interrupt. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_psm_int_setx_mto_sum_w1c_s cn; */
+    /* struct cavm_psm_int_setx_mto_sum_w1c_s cn9; */
+    /* struct cavm_psm_int_setx_mto_sum_w1c_s cnf95xxp1; */
+    struct cavm_psm_int_setx_mto_sum_w1c_cnf95xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t mto                   : 64; /**< [ 63:  0](R/W1C/H) Status bit for each MAB FIFO timeout interrupt.  The bits are
+                                                                 indexed by the MHAB/MDAB number, as defined by the
+                                                                 PSM_SET(0..2)_MABDID_E enum. */
+#else /* Word 0 - Little Endian */
+        uint64_t mto                   : 64; /**< [ 63:  0](R/W1C/H) Status bit for each MAB FIFO timeout interrupt.  The bits are
+                                                                 indexed by the MHAB/MDAB number, as defined by the
+                                                                 PSM_SET(0..2)_MABDID_E enum. */
+#endif /* Word 0 - End */
+    } cnf95xxp2;
+    /* struct cavm_psm_int_setx_mto_sum_w1c_cnf95xxp2 cnf95xxp3; */
+    /* struct cavm_psm_int_setx_mto_sum_w1c_s f95mm; */
+    /* struct cavm_psm_int_setx_mto_sum_w1c_s f95o; */
+    /* struct cavm_psm_int_setx_mto_sum_w1c_cnf95xxp2 loki; */
 };
 typedef union cavm_psm_int_setx_mto_sum_w1c cavm_psm_int_setx_mto_sum_w1c_t;
 
