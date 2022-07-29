@@ -16,7 +16,40 @@
 #include <plat/common/platform.h>
 #include <bl31/interrupt_mgmt.h>
 #include <cavm-csrs-mdc.h>
+#include <cavm-csrs-mdn.h>
 #include <cavm-csrs-gic.h>
+
+static uint64_t read_mdc_ras_romx(uint32_t a)
+{
+	return CSR_READ(CAVM_MDC_RAS_ROMX(a));
+}
+
+static union cavm_mdc_ras_entry_s read_mdc_ras_entry_s(int cid, int hid, int nid)
+{
+	union cavm_mdc_ras_entry_s entry;
+	static int once;
+
+	entry.u = 0;
+	entry.u = read_mdc_ras_romx(0);
+
+	if (!entry.u) {
+		if (!once) {
+			ERROR("Unsupported MDC_RAS_ROM version %llx\n", entry.u);
+			once = 1;
+		}
+		return entry;
+	}
+
+	entry.u = read_mdc_ras_romx(cid + 1);
+	debug_ras("RAS_ROM[cid:%d] hbase %llx\n", cid + 1, entry.u);
+	entry.u = read_mdc_ras_romx(entry.u + hid);
+	debug_ras("RAS_ROM[hid:%d] nbase %llx\n", hid, entry.u);
+	entry.u = read_mdc_ras_romx(entry.u + nid);
+	debug_ras("RAS_ROM[nid=%d] leaf %llx, ras_id %x, ras_serr %x\n",
+			nid, entry.u, entry.s.ras_id, entry.s.ras_serr);
+
+	return entry;
+}
 
 int cn10k_ras_mdc_probe(const struct err_record_info *info, int *probe_data)
 {
@@ -46,6 +79,7 @@ int cn10k_ras_enable_mdc(void)
 
 	plat_ic_set_spi_routing(irq, INTR_ROUTING_MODE_PE, (u_register_t)read_mpidr_el1());
 	plat_ic_enable_interrupt(irq);
+
 	return 0;
 }
 
@@ -62,6 +96,7 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	struct cper_sec_mem_err *mdc;
 	const char *type_tok = NULL;
 	const char *type = NULL;
+	union cavm_mdc_ras_entry_s entry;
 
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
 			"mdc", &err_ring);
@@ -89,12 +124,17 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	mdc->validation_bits |= CPER_MEM_VALID_ROW;
 	err_rec->severity |= st.s.dbe ? CPER_SEV_FATAL : CPER_SEV_CORRECTED;
 
+	entry = read_mdc_ras_entry_s(st.s.chain_id, st.s.hub_id, st.s.node_id);
+
+	mdc->validation_bits |= CPER_MEM_VALID_RESPONDER_ID;
+	mdc->responder_id = entry.s.ras_id;
+
 	snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
 			"MDC %s %d.%d.%d", type_tok, st.s.chain_id, st.s.hub_id,
 			st.s.node_id);
 
 	debug_ras("MDC ECC %s chn %d.%d.%d Row:%d\n",
-	      type, st.s.chain_id, st.s.hub_id, st.s.node_id, st.s.row);
+		type, st.s.chain_id, st.s.hub_id, st.s.node_id, st.s.row);
 
 	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_MDC_EVENT);
 }
