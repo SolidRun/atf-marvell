@@ -414,4 +414,34 @@ struct async_clone_data {
 	int clone_counter;
 };
 
+enum async_file_check_ret {
+	ASYNC_CHECK_CONTINUE,
+	ASYNC_CHECK_DONE,
+	ASYNC_CHECK_ERROR,
+};
+
+enum async_update_operations {
+	AUPDATE_VERIF_IMAGE = 0,
+	AUPDATE_INIT_UPDATE,
+	AUPDATE_PROCESS_TIMS,
+	AUPDATE_CHECK_GROUPS,
+	AUPDATE_CHECK_FILES,
+	AUPDATE_CHECK_FLASH_FILES,
+	AUPDATE_CHECK_FLASH_GROUPS,
+	AUPDATE_ERASE_TIM0,
+	AUPDATE_WRITE_FILES,
+	AUPDATE_RESTORE_TIM0,
+	AUPDATE_CLEANUP,
+};
+
+struct async_update_data {
+	struct smc_update_descriptor *desc;
+	enum async_update_operations state;
+	struct object_entry *obj;
+	bool all_present;
+	bool old_tim0_saved;
+	bool tim0_updated;
+	bool update_all;
+	bool init_variables;
+};
 #endif	/* __TIM_UPDATE_H__ */

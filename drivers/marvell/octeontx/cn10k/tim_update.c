@@ -286,6 +286,7 @@ struct verification_data {
 #define VDATA_INTANCES 2
 static struct verification_data verif_data[VDATA_INTANCES];
 static struct async_clone_data async_clone_internal;
+static struct async_update_data aupdate_data;
 
 static enum update_ret media_done(struct io_handle *io_handle);
 
@@ -1618,6 +1619,44 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 	return UPDATE_OK;
 }
 
+static enum async_file_check_ret
+check_flash_files_async(struct async_update_data *data)
+{
+	const struct smc_update_descriptor *desc = data->desc;
+	enum update_ret ret;
+
+	ULOG("Checking files in flash async\n");
+	while (data->obj) {
+		if (data->obj->data_file != NULL) {
+			ret = check_flash_object(desc, data->obj);
+			if (ret != UPDATE_OK)
+				return ASYNC_CHECK_ERROR;
+			if (data->obj->update_all)
+				data->update_all = true;
+			if (data->update_all && !data->all_present) {
+				UERROR("Flash inconsistencies found."
+				       "A complete update image is required\n");
+				return -EINVAL;
+			}
+		}
+		data->obj = data->obj->next;
+		return ASYNC_CHECK_CONTINUE;
+	}
+	return ASYNC_CHECK_DONE;
+}
+
+static enum async_file_check_ret
+check_flash_groups_async(struct async_update_data *data)
+{
+	while (data->obj) {
+		update_flash_group_flags(data->obj->group, data->update_all);
+		data->obj = data->obj->next;
+		return ASYNC_CHECK_CONTINUE;
+	}
+
+	return ASYNC_CHECK_DONE;
+}
+
 /**
  * Check all files in the update file
  */
@@ -2728,6 +2767,116 @@ enum spi_dc_ret async_clone_callback(void *p)
 	return ret;
 }
 
+enum spi_dc_ret async_update_callback(void *p)
+{
+	struct async_update_data *param = (struct async_update_data *)p;
+	struct smc_update_descriptor *desc = param->desc;
+	enum spi_dc_ret ret = DC_RET_CONTINUE;
+	enum async_file_check_ret file_check_ret;
+
+	const void *fw_image = (void *)desc->image_addr;
+	size_t size = desc->image_size;
+	int err;
+
+	if (!param->init_variables) {
+		param->obj = first_object_entry;
+		param->init_variables = true;
+	}
+
+	switch (param->state) {
+	case AUPDATE_VERIF_IMAGE:
+		UINFO("Image verification state\n");
+		if (marvell_cust_verify_fw_update_image(desc)) {
+			UERROR("Customer verification failed\n");
+			return DC_RET_DONE;
+		}
+		param->state++;
+		break;
+	case AUPDATE_INIT_UPDATE:
+		UINFO("Init update stage\n");
+		if (firm_update_init(fw_image, size)) {
+			UERROR("Error parsing firmware\n");
+			return DC_RET_DONE;
+		}
+		param->state++;
+		break;
+	case AUPDATE_PROCESS_TIMS:
+		UINFO("Priocess tims stage\n");
+		if (update_process_tims()) {
+			UERROR("Error parsing TIMs\n");
+			return DC_RET_DONE;
+		}
+		param->state++;
+		break;
+	case AUPDATE_CHECK_GROUPS:
+		UINFO("Check groups stage\n");
+		err = check_groups();
+		if (err < 0) {
+			UERROR("Error parsing groups\n");
+			return DC_RET_DONE;
+		}
+		param->all_present = (err == 1);
+		param->state++;
+		break;
+	case AUPDATE_CHECK_FILES:
+		UINFO("Check files stage\n");
+		if (check_files()) {
+			UERROR("Error parsing files\n");
+			return DC_RET_DONE;
+		}
+		param->init_variables = false;
+		param->state++;
+		break;
+	case AUPDATE_CHECK_FLASH_FILES:
+		UINFO("Check flash files stage\n");
+		file_check_ret = check_flash_files_async(param);
+		if (file_check_ret == ASYNC_CHECK_DONE) {
+			param->state++;
+			param->init_variables = false; /* Reinit *obj pointer */
+		} else if (file_check_ret == ASYNC_CHECK_ERROR)
+			return DC_RET_DONE;
+		break;
+	case AUPDATE_CHECK_FLASH_GROUPS:
+		UINFO("Check flash groups stage\n");
+		file_check_ret = check_flash_groups_async(param);
+		if (file_check_ret == ASYNC_CHECK_DONE)
+			param->state++;
+		else if (file_check_ret == ASYNC_CHECK_ERROR)
+			return DC_RET_DONE;
+		break;
+	case AUPDATE_ERASE_TIM0:
+		UINFO("Erase TIM0 stage\n");
+		err = save_tim0(desc);
+		if (err == UPDATE_OK)
+			err = erase_tim0(desc);
+		param->old_tim0_saved = (err == UPDATE_OK);
+
+		err = get_tim0_from_update();
+		param->tim0_updated = (err == UPDATE_OK);
+		param->state++;
+		break;
+	case AUPDATE_WRITE_FILES:
+		UINFO("Write files stage\n");
+		octeontx_write_files(desc, true);
+		spi_async_start(async_update_callback, &aupdate_data);
+		param->state++;
+		break;
+	case AUPDATE_RESTORE_TIM0:
+		UINFO("Restore TIM0 stage\n");
+		restore_tim0(desc, false);
+		param->state++;
+		break;
+	case AUPDATE_CLEANUP:
+		UINFO("Cleanup stage\n");
+		done_callback(&uParams);
+		param->state++;
+		ret = DC_RET_DONE;
+		break;
+	}
+
+	return ret;
+}
+
 /**
  * Validates and updates the firmware in secure storage for CN10K.
  */
@@ -2751,6 +2900,16 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 
 	tim0_size = 0;
 	zeromem(tim0_buffer, sizeof(tim0_buffer));
+
+	if (desc->async_operation) {
+		UINFO("Async update called\n");
+		memset(&aupdate_data, 0x00, sizeof(aupdate_data));
+		aupdate_data.desc = desc;
+		aupdate_data.state = AUPDATE_VERIF_IMAGE;
+		spi_async_init_delayed();
+		spi_async_start(async_update_callback, &aupdate_data);
+		return UPDATE_OK;
+	}
 
 	pet_dog();
 	err = marvell_cust_verify_fw_update_image(desc);
@@ -3046,15 +3205,14 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 
 error:
-
-	media_done(&io_handle);
-
 	/* unmap non-secure memory buffer */
 	if (err) {
+		media_done(&io_handle);
 		if (base_addr && ns_map_size)
 			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 								      ns_map_size);
 	} else if (!async_operation) {
+		media_done(&io_handle);
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 							      ns_map_size);
 	}
