@@ -2302,6 +2302,41 @@ static void cn10k_rpm_check_linux(void *fdt)
 	cn10k_parse_rvu_config(fdt, &fdt_vfs);
 }
 
+static void __program_local_mac(const void *fdt, int rpm_id, int lmac_id, int pf_idx, int id, int cnt, bool use_id)
+{
+	long mac = -1;
+	char name[32];
+	rpm_lmac_config_t *lmac;
+
+	debug_dts("%s: use_id %d, id %d, cnt %d\n", __func__, use_id, id, cnt);
+	if (use_id) {
+		snprintf(name, sizeof(name), "BOARD-MAC-ADDRESS-ID%d", id);
+		mac = cn10k_fdtebf_get_num(fdt, name, 16);
+		if (mac == -1) {
+			debug_dts("MAC address is not defined for ID%d\n", id);
+			mac = 0;
+		}
+		debug_dts("BOARD-MAC-ADDRESS-ID%d = %lx\n", id, mac);
+	} else if (cnt != -1) {
+		long mac_base;
+		mac_base = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS", 16);
+		if (mac_base == -1)
+			debug_dts("Base MAC address not defined\n");
+		else
+			mac = mac_base + cnt;
+	}
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+	plat_octeontx_bcfg->pf_macs[pf_idx] = mac;
+	debug_dts("%d:%d:Programming pf_id%d with mac %lx\n", rpm_id, lmac_id, pf_idx, mac);
+	lmac->local_mac_address[0] = (mac >> 40) & 0xff;
+	lmac->local_mac_address[1] = (mac >> 32) & 0xff;
+	lmac->local_mac_address[2] = (mac >> 24) & 0xff;
+	lmac->local_mac_address[3] = (mac >> 16) & 0xff;
+	lmac->local_mac_address[4] = (mac >> 8) & 0xff;
+	lmac->local_mac_address[5] = mac & 0xff;
+}
+
 /* Assign all the possible MAC addresses to the LMAC initialized.
  * This is made according to the values from the EBF DT file:
  *   BOARD-MAC-ADDRESS-NUM
@@ -2311,115 +2346,64 @@ static void cn10k_rpm_check_linux(void *fdt)
  */
 static void cn10k_rpm_assign_mac(const void *fdt)
 {
-	int mac_id_num;
+	int mac_id_num, mac_num;
+	int p, pf_idx = 0;
+	int lane, id = 0, cnt = 0;
 
 	/* Parse EBF DT file, to find variables to set MAC address:
-	 *   BOARD-MAC-ADDRESS-NUM
 	 *   BOARD-MAC-ADDRESS-NUM-ID
-	 *   BOARD-MAC-ADDRESS-NUM-OVERRIDE
-	 *   BOARD-MAC-ADDRESS
 	 *   BOARD-MAC-ADDRESS-ID
+	 *   BOARD-MAC-ADDRESS-NUM
+	 *   BOARD-MAC-ADDRESS
 	 */
+
 	mac_id_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-ID-NUM", 10);
 	if (!mac_id_num)
 		mac_id_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-ID-NUM", 16);
 	debug_dts("BOARD-MAC-ADDRESS-ID-NUM=%d\n", mac_id_num);
-	/* Check if MAC IDs are configured for the available ports on the hardware. If
-	 * yes, then save the MAC Address to the appropriate RPM PF
-	 */
-	if (mac_id_num && (mac_id_num <= MAX_PORTM)) {
-		int p, pf_idx = 0;
-		char name[32];
-		long mac;
 
+	/* Now configure MAC address based on base address */
+	mac_num	= cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 10);
+	if (!mac_num)
+		mac_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 16);
+
+	debug_dts("BOARD-MAC-ADDRESS-NUM=%d\n", mac_num);
+
+	for (p = 0; p < MAX_PORTM; p++) {
 		portm_config_t *portm;
-		for (p = 0; p < MAX_PORTM; p++) {
-			snprintf(name, sizeof(name), "BOARD-MAC-ADDRESS-ID%d", p);
-			mac = cn10k_fdtebf_get_num(fdt, name, 16);
-			debug_dts("BOARD-MAC-ADDRESS-ID%d = %lx\n", p, mac);
 
-			if (mac == -1) {
-				debug_dts("MAC address is not defined.\n");
-				mac = 0;
-			}
+		portm = &(plat_octeontx_bcfg->portm_cfg[p]);
+		if (!(portm && (portm->port_enable) && (portm->mac_type == PORTM_ETH))) {
+			id++;
+			continue;
+		}
+		for (lane = 0; lane < portm->num_lmacs; lane++, id++, cnt++) {
+			int rpm_id, lmac_id;
+			rpm_lmac_config_t *lmac;
 
-			portm = &(plat_octeontx_bcfg->portm_cfg[p]);
-			if (portm && (portm->port_enable) && (portm->mac_type == PORTM_ETH)) {
-				int lmac_id, rpm_id;
-				rpm_lmac_config_t *lmac;
+			rpm_id = portm->mac_num;
+			lmac_id = portm->mac_lane + lane;
+			lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
-				plat_octeontx_bcfg->pf_macs[pf_idx++] = mac;
-				lmac_id = portm->mac_lane;
-				rpm_id = portm->mac_num;
-				lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-				lmac->local_mac_address[0] = (mac >> 40) & 0xff;
-				lmac->local_mac_address[1] = (mac >> 32) & 0xff;
-				lmac->local_mac_address[2] = (mac >> 24) & 0xff;
-				lmac->local_mac_address[3] = (mac >> 16) & 0xff;
-				lmac->local_mac_address[4] = (mac >> 8) & 0xff;
-				lmac->local_mac_address[5] = mac & 0xff;
+			debug_dts("%d:%d: pf_idx %d, cnt %d, id %d\n", rpm_id, lmac_id, pf_idx, cnt, id);
+			if (!lmac->lmac_enable)
+				continue;
+
+			if (mac_id_num) {
+				__program_local_mac(fdt, rpm_id, lmac_id, pf_idx, id, 0, 1);
+				pf_idx += 1;
+			} else if (mac_num) {
+				/* Do not program rvu pf if requested macs are all programmed */
+				if (cnt >= mac_num)
+					return;
+
+				__program_local_mac(fdt, rpm_id, lmac_id, pf_idx, 0, cnt, 0);
+				pf_idx += 1;
 			}
 		}
-		/* Program the number of macs configurations */
-		plat_octeontx_bcfg->pf_mac_num = pf_idx;
-	} else {
-		int mac_num;
-		long mac_base;
-		int pf_idx = 0;
-
-		/* Now configure MAC address based on base address */
-		mac_num	= cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 10);
-		if (!mac_num)
-			mac_num = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS-NUM", 16);
-		debug_dts("BOARD-MAC-ADDRESS-NUM=%d\n", mac_num);
-		if (mac_num && (mac_num <= MAX_PORTM)) {
-			int p;
-
-			mac_base = cn10k_fdtebf_get_num(fdt, "BOARD-MAC-ADDRESS", 16);
-			debug_dts("BOARD-MAC-ADDRESS=%lx\n", mac_base);
-			if (mac_base == -1) {
-				debug_dts("Base MAC address is not defined\n");
-				return;
-			}
-			for (p = 0; p < MAX_PORTM; p++) {
-				portm_config_t *portm;
-				int lmac_id, rpm_id;
-				rpm_lmac_config_t *lmac;
-
-				if (p >= mac_num) {
-					debug_dts("Programmed all requested macs\n");
-					return;
-				}
-
-				portm = &(plat_octeontx_bcfg->portm_cfg[p]);
-				if (portm && (portm->port_enable) &&
-				    (portm->mac_type == PORTM_ETH)) {
-					lmac_id = portm->mac_lane;
-					rpm_id = portm->mac_num;
-				} else {
-					/* Don't configure mac address for disabled ports */
-					mac_base++;
-					continue;
-				}
-
-				plat_octeontx_bcfg->pf_macs[pf_idx++] = mac_base;
-				lmac_id = portm->mac_lane;
-				rpm_id = portm->mac_num;
-				lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-				lmac->local_mac_address[0] = (mac_base >> 40) & 0xff;
-				lmac->local_mac_address[1] = (mac_base >> 32) & 0xff;
-				lmac->local_mac_address[2] = (mac_base >> 24) & 0xff;
-				lmac->local_mac_address[3] = (mac_base >> 16) & 0xff;
-				lmac->local_mac_address[4] = (mac_base >> 8) & 0xff;
-				lmac->local_mac_address[5] = mac_base & 0xff;
-				mac_base++;
-			}
-		} else
-			debug_dts("No MAC addresses should be set.\n");
-
-		/* Program the number of macs configurations */
-		plat_octeontx_bcfg->pf_mac_num = pf_idx;
 	}
+	/* Program the number of macs configurations */
+	plat_octeontx_bcfg->pf_mac_num = pf_idx;
 }
 
 /**
