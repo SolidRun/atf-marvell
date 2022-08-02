@@ -1197,9 +1197,11 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 	}
 
 	/* If the link is not UP, then update the link state as below */
-	if (!sig_detect)
+	if (!sig_detect) {
+		debug_rpm_intf("%s: %d:%d FAILED to detect a signal\n", __func__,
+			rpm_id, lmac_id);
 		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
-	else
+	} else
 		bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
 	bringup_ctx->link_bringup_time = RPM_LINK_BRINGUP_WAIT_STATUS; /* elapsed time */
 	debug_rpm_intf("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %lld\n", __func__,
@@ -1561,6 +1563,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		lmac_ctx->s.full_duplex = link.s.full_duplex = link_state.s.duplex;
 		lmac_ctx->s.speed = link.s.speed = link_state.s.speed;
 		lmac_ctx->s.fec = link.s.fec = link_state.s.fec;
+		lmac_ctx->s.link_enable = 1;
 
 		rpm_set_link_state(rpm_id, lmac_id, &link,
 				rpm_get_error_type(rpm_id, lmac_id));
@@ -1689,7 +1692,8 @@ static int rpm_dump_ecp_state(int rpm_id, int lmac_id,
 }
 
 static int rpm_handle_mode_change(int rpm_id, int lmac_id,
-				struct eth_mode_change_args *args)
+				struct eth_mode_change_args *args,
+				rpm_lmac_bringup_context_t **bringup_ctx)
 {
 	portm_config_t *portm;
 	int ret = -1, portm_idx;
@@ -1697,7 +1701,6 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 	int dest_mode_grp = args->mode_group_idx;
 	rpm_lmac_config_t *lmac =
 		&plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	rpm_lmac_bringup_context_t *bringup_ctx;
 
 	if (!lmac->lmac_enable && !use_portm_idx) {
 		ERROR("%s: Missing PORTM index required for non-ethernet mode\n",
@@ -1734,8 +1737,16 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 		break;
 
 	case MODE_GROUP_ETH:
-		bringup_ctx = &bringup_context[rpm_id][lmac_id];
-		if (bringup_ctx->link_bringup_status == LINK_BRINGUP_IN_PROGRESS)
+		if (portm->mac_type == PORTM_ETH) {
+			rpm_id = portm->mac_num;
+			lmac_id = portm->mac_lane;
+		} else {
+			rpm_id = cn10k_portm_get_rpm_num(portm_idx);
+			lmac_id = cn10k_portm_get_rpm_lmac_num(portm_idx);
+		}
+		*bringup_ctx = &bringup_context[rpm_id][lmac_id];
+
+		if ((*bringup_ctx)->link_bringup_status == LINK_BRINGUP_IN_PROGRESS)
 			ret = rpm_handle_link_in_progress(rpm_id, lmac_id);
 		else
 			ret = rpm_handle_eth_mode_change(portm_idx, args);
@@ -1842,7 +1853,8 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 			scratchx1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(
 						rpm_id, lmac_id, 1));
 			ret = rpm_handle_mode_change(rpm_id, lmac_id,
-					&scratchx1.s.mode_change_args);
+					&scratchx1.s.mode_change_args,
+					&bringup_ctx);
 			break;
 		case ETH_CMD_GET_PORT_MODE:
 			/* Read the command arguments from SCRATCH(1) */
