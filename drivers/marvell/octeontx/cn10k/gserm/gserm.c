@@ -1548,6 +1548,56 @@ void gserm_reset_init(void)
 		portm_idx += portm->portms_used;
 	}
 
+	/* Phase adaptation modification specific to CNF10KA */
+	if (cavm_is_model(OCTEONTX_CNF10KA)) {
+		for (int portm_idx = 0; portm_idx < portm_count;) {
+			portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+			gserm_num = portm->gserm;
+			gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_num]);
+			if (!portm->port_enable) {
+				portm_idx++;
+				continue;
+			}
+			if (portm->portm_mode != PORTM_MODE_JESD204C_24_3G) {
+				portm_idx += portm->portms_used;
+				continue;
+			}
+			debug_gserm("%s: GSERM%d: Modifying JESD Phase Adaptation\n",
+				    __func__, gserm_num);
+			CSR_INIT(dfe_control_5, CAVM_GSERMX_DFE_CONTROL_5(gserm_num));
+			if (dfe_control_5.s.phase_adapt_enable_lane != 0x0) {
+				CSR_MODIFY(c, CAVM_GSERMX_DFE_CONTROL_5(gserm_num),
+					   c.s.phase_adapt_enable_lane = 0x0);
+				mdelay(1);
+				dfe_control_5.u = CSR_READ(CAVM_GSERMX_DFE_CONTROL_5(gserm_num));
+				if (dfe_control_5.s.phase_adapt_enable_lane != 0x0)
+					WARN("%s: GSERM%d: Failed to assert phase_adapt_enable_lane is 0x0.\n",
+					__func__, gserm_num);
+			}
+			// iterate calibration setting to the desired point
+			CSR_INIT(rx_align90_cal_2, CAVM_GSERMX_RX_ALIGN90_CAL_2(gserm_num));
+			int setpoint = gserm->rx_cal_setting;
+			int cur_cal = rx_align90_cal_2.s.rx_align90_cal_setting_lane;
+			int cal_amount = cur_cal > setpoint ? cur_cal - setpoint : setpoint - cur_cal;
+			int cal_step = cur_cal > setpoint ? -1 : 1;
+			for (int i = 0; i < cal_amount; i++) {
+				CSR_MODIFY(c, CAVM_GSERMX_RX_ALIGN90_CAL_2(portm->gserm),
+					   c.s.rx_align90_cal_setting_lane += cal_step);
+				mdelay(2);
+			}
+			// Verify value
+			rx_align90_cal_2.u = CSR_READ(CAVM_GSERMX_RX_ALIGN90_CAL_2(gserm_num));
+			if (rx_align90_cal_2.s.rx_align90_cal_setting_lane != setpoint) {
+				WARN("%s: GSERM%d: Failed to reach Rx Cal. Request:%d, Current:%d\n",
+				__func__, gserm_num, setpoint, rx_align90_cal_2.s.rx_align90_cal_setting_lane);
+			} else {
+				debug_gserm("%s: GSERM%d: Reached Phase Adaptation Calibration (%d)\n",
+					    __func__, gserm_num, setpoint);
+			}
+			portm_idx += portm->portms_used;
+		}
+	}
+
 	/* (28) Enable the PHY transmitter output by writing
 	 * GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TX_IDLE] = 0x0.
 	 * Note: This will be done later when link up requested

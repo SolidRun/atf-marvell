@@ -220,6 +220,9 @@ typedef struct gserm_plat_config {
 				 */
 	uint8_t refclk_conn;    /* Set to 1 if a REF_CLK is terminated to the GSERM clock circuit */
 	uint8_t refclk_term;    /* REF_CLK termination: 0 = 50 Ohm, 1 = None */
+	uint8_t rx_cal_setting; /* GSERM Phase Adaptation Calibration Value
+				 * cnf10ka only
+				 */
 } gserm_plat_config_t;
 
 typedef struct spi_config {

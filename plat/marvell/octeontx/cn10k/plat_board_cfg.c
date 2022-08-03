@@ -2532,7 +2532,7 @@ static void cn10k_fill_gserm_details(void *fdt)
 	int offset;
 	int gser_lane, portm_first;
 	char prop[64];
-	int mac_ser_lane_map, refclk_stde, gserm_idx, refclk_term;
+	int mac_ser_lane_map, refclk_stde, gserm_idx, refclk_term, rx_cal;
 	uint8_t lane_mask;
 	gserm_plat_config_t *gserm;
 
@@ -2617,6 +2617,17 @@ static void cn10k_fill_gserm_details(void *fdt)
 				}
 			}
 			debug_dts("GSERM%d: sync_e_map: 0x%x\n", gserm_idx, gserm->sync_e_map);
+		}
+
+		if (cavm_is_model(OCTEONTX_CNF10KA)) {
+			snprintf(prop, sizeof(prop), "PHASE-ADAPT-CAL.GSER%d", gserm_idx);  // Search GSERM
+			rx_cal = cn10k_fdtebf_get_num(fdt, prop, 10);
+			if (rx_cal == -1) {
+				debug_dts("%s: PHASE-ADAPT-CAL not found for GSERM%d. Using 0xf.\n", __func__, gserm_idx);
+				rx_cal = 0xf;
+			}
+			debug_dts("%s: PHASE-ADAPT-CAL for GSERM%d: 0x%x\n", __func__, gserm_idx, rx_cal);
+			gserm->rx_cal_setting = rx_cal;
 		}
 
 		debug_dts("GSERM%d: mac_to_serdes_lane_map: 0x%x\n", gserm_idx, gserm->lane_map);
