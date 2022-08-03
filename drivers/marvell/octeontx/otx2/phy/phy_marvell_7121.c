@@ -589,6 +589,7 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 
 }
 
+#ifdef ATF_ENABLE_MAC_ADV_CMDS
 static int phy_marvell_7121_set_rclk(int cgx_id, int lmac_id, int pin, int src_clk, int ratio)
 {
         phy_config_t *phy;
@@ -637,7 +638,7 @@ static int phy_marvell_7121_set_rclk(int cgx_id, int lmac_id, int pin, int src_c
         }while(0);
         return status;
 }
-
+#endif
 
 void phy_marvell_7121_supported_modes(int cgx_id, int lmac_id)
 {
