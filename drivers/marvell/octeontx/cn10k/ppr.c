@@ -56,6 +56,22 @@
 #define debug(...) ((void) (0))
 #endif
 
+// MRR (Mode Register Read) region statistics for PPR registers
+// 20 ch_max * 2 ranks * 5 dev = 200 max fail rows
+// 200 * 30 days * 4 byte = 24000
+
+#define PERSIST_PPR_OFFSET			0x4000
+#define PERSIST_PPR_LEN			0x20000
+#define PPR_MRR_HEADER_SIZE			0x00001000
+#define MRR_REGION_SIZE			0x00006000
+#define PPR_REGION_SIZE			(PERSIST_PPR_LEN - MRR_REGION_SIZE - PPR_MRR_HEADER_SIZE)
+
+static uint32_t PPR_MRR_HEADER_ADDR;
+static uint32_t MRR_REGION_ADDR;
+static uint32_t MRR_REGION_END;
+static uint32_t PPR_REGION_ADDR;
+static uint32_t PPR_REGION_END;
+
 static uint32_t timer_hd;
 extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
 
@@ -141,6 +157,21 @@ static uint8_t dramx_mr19[MAX_CS][MAX_GRP][MAX_DRAM];
 static uint8_t dramx_mr20[MAX_CS][MAX_GRP][MAX_DRAM];
 
 static mrr_t mrx[MAX_CS * MAX_GRP * MAX_DRAM];
+
+static inline uint32_t MRR_OFFSET(int idx)
+{
+	return MRR_REGION_ADDR + idx * sizeof(struct mrr);
+}
+
+static inline uint32_t PPR_OFFSET(int idx)
+{
+	return PPR_REGION_ADDR + idx * sizeof(struct ppr);
+}
+
+static inline uint32_t MRR_IDX(int addr)
+{
+	return (addr - MRR_REGION_ADDR) / sizeof(struct mrr);
+}
 
 int ddrc_ddr5_sw_cmd_poling(int ch, char *printf_header)
 {
@@ -543,7 +574,7 @@ static int32_t mrr_clear_region(void)
 
 	while (offset < MRR_REGION_END) {
 		if (spi_nor_erase(offset, mode, bus, cs)) {
-			ERROR("Unable erase MRR region 0x%x, 0x%lx\n", offset,
+			ERROR("Unable erase MRR region 0x%x, 0x%x\n", offset,
 				  MRR_OFFSET(ppr_mrr.head_mrr));
 			return -1;
 		}
@@ -564,7 +595,7 @@ static void print_mrr(void)
 	struct mrr *mrr_p;
 	int i = 0;
 
-	debug("%s 0x%lx - 0x%lx\n", __func__, MRR_OFFSET(0), MRR_OFFSET(ppr_mrr.head_mrr));
+	debug("%s 0x%x - 0x%x\n", __func__, MRR_OFFSET(0), MRR_OFFSET(ppr_mrr.head_mrr));
 	mrr_read_record(buf_m, 0, ppr_mrr.head_mrr);
 	for (i = 0; i < ppr_mrr.head_mrr; i++) {
 		mrr_p = (struct mrr *)&buf_m[i];
@@ -585,7 +616,7 @@ static void print_ppr(void)
 
 	memset(buf_p, 0, ERASE_SIZE);
 
-	debug("%s 0x%lx - 0x%lx\n", __func__, PPR_OFFSET(0), PPR_OFFSET(ppr_mrr.head_ppr));
+	debug("%s 0x%x - 0x%x\n", __func__, PPR_OFFSET(0), PPR_OFFSET(ppr_mrr.head_ppr));
 	for (i = 0; i < ppr_mrr.head_ppr; i++) {
 
 		if (i % PPR_REC_PER_BLK == 0)
@@ -777,6 +808,12 @@ static int32_t ppr_make_statistic(void)
 
 static int ppr_timer_cb(int hd)
 {
+	PPR_MRR_HEADER_ADDR = plat_octeontx_bcfg->persist_cfg.offset + PERSIST_PPR_OFFSET;
+	MRR_REGION_ADDR     = PPR_MRR_HEADER_ADDR + PPR_MRR_HEADER_SIZE;
+	MRR_REGION_END      = MRR_REGION_ADDR + MRR_REGION_SIZE;
+	PPR_REGION_ADDR     = MRR_REGION_END;
+	PPR_REGION_END      = PPR_REGION_ADDR + PPR_REGION_SIZE;
+
 	int32_t ret = 0;
 	uint32_t ch = 0;
 	uint32_t r = 0;

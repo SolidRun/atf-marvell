@@ -8,28 +8,6 @@
 #ifndef __PPR_H__
 #define __PPR_H__
 
-#define PPR_FLASH_SIZE				0x20000
-#ifdef PLAT_cnf10kb
-#define PPR_MRR_HEADER_ADDR		0x00F94000
-#else
-#define PPR_MRR_HEADER_ADDR		0x01F94000
-#endif
-
-#define PPR_MRR_HEADER_SIZE		0x00001000
-#define PPR_MRR_HEADER_END		(PPR_MRR_HEADER_ADDR + PPR_MRR_HEADER_SIZE)
-
-// MRR (Mode Register Read) region statistics for PPR registers
-// 20 ch_max * 2 ranks * 5 dev = 200 max fail rows
-// 200 * 30 days * 4 byte = 24000
-#define MRR_REGION_ADDR			(PPR_MRR_HEADER_END)
-#define MRR_REGION_SIZE			0x00006000
-#define MRR_REGION_END			(MRR_REGION_ADDR + MRR_REGION_SIZE)
-
-// PPR region statistic list of MRR record with counter
-#define PPR_REGION_ADDR			(MRR_REGION_END)
-#define PPR_REGION_SIZE		(PPR_FLASH_SIZE - MRR_REGION_SIZE - PPR_MRR_HEADER_SIZE) /*0x19000*/
-#define PPR_REGION_END			(PPR_REGION_ADDR + PPR_REGION_SIZE)
-
 #define MRR_POLL_INTERVAL		(24*60*60*1000) /*24 hours*/
 #define MRR_CYCLES				30 /*30 days*/
 
@@ -111,12 +89,6 @@ struct ppr_mrr_header {
  */
 #define MAX_EpRC_THRESHOLD 15
 #define EpRC_THRESHOLD	2
-
-#define MRR_OFFSET(idx)	(MRR_REGION_ADDR + idx*sizeof(struct mrr))
-#define PPR_OFFSET(idx)	(PPR_REGION_ADDR + idx*sizeof(struct ppr))
-
-#define MRR_IDX(addr) ((addr - MRR_REGION_ADDR) / sizeof(struct mrr))
-#define PPR_IDX(addr) ((addr - PPR_REGION_ADDR) / sizeof(struct ppr))
 
 void ppr_fw_init(void);
 
