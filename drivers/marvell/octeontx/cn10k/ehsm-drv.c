@@ -579,29 +579,13 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 
 	switch (reg_off) {
 	case EHSM_BOOTROM_STATUS:
-	{
-		struct ehsm_bootrom_status_reg bootrom_status;
-
-		ret = ehsm_get_bootrom_status(&ehandle, &bootrom_status);
-		*reg_val = bootrom_status.u.r;
-	}
-	break;
 	case EHSM_ROOT_TRUST_STATUS:
-	{
-		struct ehsm_root_of_trust_status rot_status;
-
-		ret = ehsm_get_root_of_trust_status(&ehandle, &rot_status);
-		*reg_val = rot_status.u.r;
-	}
-	break;
 	case EHSM_CHAIN_OF_TRUST_STATUS:
-	{
-		struct ehsm_chain_of_trust_status_reg cot_status;
-
-		ret = ehsm_get_chain_of_trust_status(&ehandle, &cot_status);
-		*reg_val = cot_status.u.r;
-	}
-	break;
+	case EHSM_UUID0:
+	case EHSM_UUID1:
+	case EHSM_UUID2:
+		ret = ehsm_smc_read_csr(&ehandle, reg_off, reg_val);
+		break;
 	default:
 		ERROR("Invalid Register offset 0x%x\n", reg_off);
 		return -EINVAL;
