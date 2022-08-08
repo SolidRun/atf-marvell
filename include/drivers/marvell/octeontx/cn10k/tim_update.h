@@ -411,7 +411,9 @@ struct async_clone_data {
 	struct smc_version_info *vinfo_destination;
 	enum async_clone_operations state;
 	struct async_clone_copy_params copy_params;
+	bool force_clone;
 	int clone_counter;
+	int clone_object_list[SMC_MAX_OBJECTS];
 };
 
 enum async_file_check_ret {

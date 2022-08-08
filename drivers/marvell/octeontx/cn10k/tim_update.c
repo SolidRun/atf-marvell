@@ -2615,11 +2615,31 @@ enum spi_dc_ret done_callback(void *p)
 
 void async_mark_copy_images(struct async_clone_data *param) {
 	struct smc_version_info *src = param->vinfo_source;
-	int i;
+	struct smc_version_info *dst = param->vinfo_destination;
+	int i, j;
 
-	for (i=0; i<src->num_objects; i++){
-		if (src->objects[i].retcode == RET_OK)
+	for (i = 0 ; i < src->num_objects ; i++) {
+		if (src->objects[i].retcode != RET_OK) {
+			src->objects[i].perform_clone = 0;
+			continue;
+		}
+
+		if (param->force_clone) {
 			src->objects[i].perform_clone = 1;
+		} else {
+			for (j = 0 ; j < dst->num_objects ; j++) {
+				if (!strncmp(src->objects[i].name,
+					dst->objects[j].name,
+					VER_MAX_NAME_LENGTH)) {
+					if (memcmp(&src->objects[i].version,
+						   &dst->objects[j].version,
+						   sizeof(struct tim_opaque_data_version_info))) {
+						src->objects[i].perform_clone = 1;
+					}
+				}
+			}
+		}
+		INFO("File: %s, clone status: %lld\n", src->objects[i].name, src->objects[i].perform_clone);
 	}
 }
 
@@ -2628,7 +2648,10 @@ int async_prepare_copy_operation(void *p)
 	struct verification_data *src = &verif_data[VDATA_SRC];
 	struct verification_data *dst = &verif_data[VDATA_DST];
 	struct async_clone_data *clone_cfg = (struct async_clone_data *)p;
-	const int obj_id = clone_cfg->clone_counter++;
+	const int obj_id = clone_cfg->clone_object_list[clone_cfg->clone_counter++];
+
+	if (obj_id == -1)
+		return SPI_OP_CALLBACK_ERROR;
 
 	clone_cfg->copy_params.src_handle = &src->io;
 	clone_cfg->copy_params.dst_handle = &dst->io;
@@ -2704,16 +2727,22 @@ int async_do_copy(void *p)
 void async_copy_images(struct async_clone_data *param) {
 	struct smc_version_info *src = param->vinfo_source;
 	int i;
+	bool restart_async = false;
 
 	for (i=0; i<src->num_objects; i++){
 		if (src->objects[i].perform_clone) {
+			restart_async = true;
+			param->clone_object_list[param->clone_counter++] = i;
 			spi_async_add_block_callback(NULL, NULL,
 						async_prepare_copy_operation, param,
 						async_do_copy, param,
 						0);
 		}
 	}
-	spi_async_start(async_clone_callback, &async_clone_internal);
+
+	param->clone_counter = 0;
+	if (restart_async)
+		spi_async_start(async_clone_callback, &async_clone_internal);
 }
 
 enum spi_dc_ret async_clone_callback(void *p)
@@ -4266,8 +4295,7 @@ static void flash_smc_verify_backup_image(struct smc_version_info_entry *image_t
 	}
 
 	if ((!src_image_found) ||
-	    (image_to_verify->version.major_version != image_src->version.major_version) ||
-	    (image_to_verify->version.minor_version != image_src->version.minor_version))
+	    (memcmp(&image_to_verify->version, &image_src->version, sizeof(struct tim_opaque_data_version_info))))
 		image_src->perform_clone = 1;
 	else
 		image_src->perform_clone = 0;
@@ -4389,6 +4417,8 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 	}
 
 	if (vinfo->version_flags & SMC_VERSION_ASYNC_OPERATION) {
+		int i;
+
 		async_operation = true;
 
 		/* prepare data for async clone */
@@ -4404,6 +4434,11 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		async_clone_internal.vinfo_source = vinfo;
 		async_clone_internal.vinfo_destination = &clone_destination;
 		async_clone_internal.state = ACLONE_CHECK_DESTINATION;
+		for (i = 0; i < SMC_MAX_OBJECTS; i++)
+			async_clone_internal.clone_object_list[i] = -1;
+
+		if (vinfo->version_flags & SMC_VERSION_FORCE_COPY_OBJECTS)
+			async_clone_internal.force_clone = true;
 	}
 
 	if (!async_operation) {
