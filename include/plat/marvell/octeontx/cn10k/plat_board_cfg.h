@@ -249,6 +249,7 @@ typedef struct persist_data_config {
 
 typedef struct ppr_config{
 	uint32_t is_enabled;
+	uint32_t eprc_th;
 } ppr_config_t;
 
 typedef struct plat_octeontx_board_cfg {

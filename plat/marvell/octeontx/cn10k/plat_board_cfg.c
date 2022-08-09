@@ -1759,10 +1759,14 @@ static void cn10k_parse_usb_config(const void *fdt_addr)
 static void cn10k_parse_ppr_config(const void *fdt_addr)
 {
 	long is_enabled= cn10k_fdtebf_get_num(fdt_addr, "DDR-PPR-EN", 10);
+	long eprc_th = cn10k_fdtebf_get_num(fdt_addr, "DDR-PPR-EPRC-TH", 16);
+
 	if (is_enabled == 1)
 		plat_octeontx_bcfg->ppr_config.is_enabled = 1;
 	else
 		plat_octeontx_bcfg->ppr_config.is_enabled = 0;
+
+	plat_octeontx_bcfg->ppr_config.eprc_th = eprc_th;
 }
 
 static void cn10k_fill_twsi_slave_details(const void *fdt)

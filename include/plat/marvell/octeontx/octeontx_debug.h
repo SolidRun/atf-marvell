@@ -78,6 +78,7 @@ enum mrvl_tf_log_module_e {
 	MRVL_TF_LOG_MODULE_ETH_SFP_MGMT = 1 << 19,
 	MRVL_TF_LOG_MODULE_ETH_PHY_MGMT = 1 << 20,
 	MRVL_TF_LOG_MODULE_RAS = 1 << 21,
+	MRVL_TF_LOG_MODULE_PPR = 1 << 22,
 };
 
 /*

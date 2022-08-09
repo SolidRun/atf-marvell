@@ -14,6 +14,15 @@
 #define FLASH_ERASE_MARK	0xFFFFFFFF
 #define SIGNATURE			0xCAFEBABA
 
+
+#if defined(MRVL_TF_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE MRVL_TF_LOG_MODULE_PPR
+#  define debug_ppr(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR) ? \
+			  tf_log(LOG_MARKER_VERBOSE __VA_ARGS__) : (void)0
+#endif
+
+
 /*
  * struct mrr - Descriptor for MRR registers layout
  * MR16-MR18 Address of Row with Max Errors and Error Count
@@ -48,7 +57,7 @@ typedef int64_t mrr_t;
  */
 struct ppr {
 	uint8_t cases;
-	uint8_t EpRC;
+	uint8_t EpRCacc;
 	uint16_t cycle;
 	union {
 		uint32_t record;
