@@ -19,8 +19,8 @@
 #include <cavm-csrs-tad_cmn.h>
 #include <cavm-csrs-gic.h>
 
-/* Enable SBE, MBE, Parity, NDERR and NxM Errors */
-#define TAD_ERROR_MASK		0xFFF
+/* Enable SBE, MBE, Parity, NDERR */
+#define TAD_ERROR_MASK		0xFFCULL
 
 static uint8_t get_num_tads(void)
 {
@@ -68,6 +68,7 @@ int cn10k_ras_enable_tad(void)
 
 		/* Clear any previous error interrupts */
 		CSR_WRITE(CAVM_TADX_INT_W1C(tad), ~0ULL);
+		CSR_WRITE(CAVM_TADX_INT_ENA_W1C(tad), ~0ULL),
 		/* Enable ECC interrupt */
 		CSR_WRITE(CAVM_TADX_INT_ENA_W1S(tad), TAD_ERROR_MASK);
 	}
@@ -217,7 +218,8 @@ int cn10k_ras_tad_isr(uint32_t id, uint32_t flags, void *cookie)
 		tad_int.u = CSR_READ(CAVM_TADX_INT_W1C(tad));
 		if (tad_int.u) {
 			debug_ras("TAD %d error detected 0x%llx\n", (uint8_t) tad, (uint64_t) tad_int.u);
-			cn10k_ras_tad_notify(tad, tad_int);
+			if (tad_int.u & TAD_ERROR_MASK)
+				cn10k_ras_tad_notify(tad, tad_int);
 			CSR_WRITE(CAVM_TADX_INT_W1C(tad), tad_int.u);
 		}
 	}
