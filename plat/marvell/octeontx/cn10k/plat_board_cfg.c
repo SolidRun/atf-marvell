@@ -48,6 +48,7 @@
 #include <rpm.h>
 #include <strtol.h>
 #include <portm_helper.h>
+#include <fdtebf_helper.h>
 #include <eth_intf.h>
 
 #include "cavm-csrs-ecam.h"
@@ -1657,28 +1658,6 @@ static int cn10k_parse_boot_device(const void *fdt, const int offset)
 	plat_octeontx_bcfg->bcfg.boot_dev.cs = val;
 
 	return 0;
-}
-
-/* Return numeric representation of the EBF field required. Return -1, if such
- * field isn't defined. Note that -1 can be value for the field.
- */
-static long cn10k_fdtebf_get_num(const void *fdt_addr, const char *prop,
-		int base)
-{
-	long ret;
-	int offset;
-	const char *buf;
-	int len;
-
-	offset = fdt_path_offset(fdt_addr, "/cavium,bdk");
-	buf = fdt_getprop(fdt_addr, offset, prop, &len);
-	if (!buf) {
-		debug_dts("No %s option is set in EBF.\n", prop);
-		return -1;
-	}
-	ret = strtol(buf, NULL, base);
-
-	return ret;
 }
 
 /*

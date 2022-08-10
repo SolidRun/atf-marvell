@@ -44,6 +44,7 @@
 //#include <plat_cn10k_configuration.h>
 //#include <octeontx_utils.h> /* Don't think we need */
 //#include <qlm_cn10k.h>
+#include <fdtebf_helper.h>
 #include <strtol.h>
 
 /* for LEGACY logging, define DEBUG_ATF_DTS to enable debug logs */
@@ -60,27 +61,6 @@
 #define debug_dts(...) ((void) (0))
 #endif
 
-/* Return numeric representation of the EBF field required. Return -1, if such
- * field isn't defined. Note that -1 can be value for the field.
- */
-static long cn10k_fdtebf_get_num(const void *fdt_addr, const char *prop,
-		int base)
-{
-	long ret;
-	int offset;
-	const char *buf;
-	int len;
-
-	offset = fdt_path_offset(fdt_addr, "/cavium,bdk");
-	buf = fdt_getprop(fdt_addr, offset, prop, &len);
-	if (!buf) {
-		debug_dts("No %s option is set in EBF.\n", prop);
-		return -1;
-	}
-	ret = strtol(buf, NULL, base);
-
-	return ret;
-}
 
 /**
  * Updates Portm struct Tx Eq settings based on dts or default settings
