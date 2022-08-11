@@ -142,6 +142,3 @@ ifeq (${COT},cca)
 endif
 endif
 endif
-
-$(eval $(call CERT_ADD_CMD_OPT,--print-cert,--save-keys))
-$(eval $(call CERT_ADD_CMD_OPT,soc-fw-key.priv,--soc-fw-key))
