@@ -38,6 +38,9 @@ void release_engine(ENGINE *e)
 	ENGINE_finish(e);
 	/* Release the structural reference from ENGINE_by_id() */
 	ENGINE_free(e);
+
+	e = NULL;
+	engine_to_free_on_exit = NULL;
 }
 
 void release_engine_atexit(void)
