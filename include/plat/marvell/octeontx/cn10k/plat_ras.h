@@ -328,4 +328,5 @@ extern int cn10k_ras_dss_probe(const struct err_record_info *info, int *probe_da
 extern int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_dss(void);
 void cn10k_fatal_error_handler(void);
+void cn10k_fatal_reboot(void);
 #endif /* __PLAT_RAS_H__ */

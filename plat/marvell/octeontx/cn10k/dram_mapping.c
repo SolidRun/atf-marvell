@@ -562,6 +562,7 @@ bool is_secure_address(uint64_t addr)
 	int r;
 	uint64_t a_start, a_end;
 	cavm_sam_asc_regionx_attr_t asc_attr;
+	bool sec = false;
 
 	for (r = 0; r < MAX_NUM_ASC_REGIONS; r++) {
 
@@ -570,13 +571,21 @@ bool is_secure_address(uint64_t addr)
 			continue;
 
 		a_start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(r));
-		a_end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(r)) | ASC_DEF_SIZE_MASK;
+		a_end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(r));
 
-		if (addr >= a_start && addr <= a_end && asc_attr.s.s_en)
-			return true;
+		if ((addr >= a_start) && (addr < a_end) && asc_attr.s.s_en) {
+			sec = true;
+			break;
+		}
+
+		a_start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(r+1));
+		if ((addr < a_start) && asc_attr.s.s_en) {
+			sec = true;
+			break;
+		}
 	}
 
-	return false;
+	return sec;
 }
 
 /////////////////////////////////////////////////////

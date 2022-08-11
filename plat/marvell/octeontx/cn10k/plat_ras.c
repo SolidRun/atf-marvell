@@ -14,12 +14,14 @@
 #include <octeontx_irqs_def.h>
 #include <arch_helpers.h>
 #include <drivers/arm/gicv3.h>
+#include <drivers/delay_timer.h>
 #include <plat_ras.h>
 #include <plat/common/platform.h>
 #include <bl31/interrupt_mgmt.h>
 #include "cavm-arch.h"
 #include "cavm-csrs-apa.h"
 #include "cavm-csrs-gic.h"
+#include "cavm-csrs-rst.h"
 #include "plat_board_cfg.h"
 #include <context.h>
 #ifdef SAVE_FATAL_ERRLOGS
@@ -787,6 +789,16 @@ void cn10k_print_crashdump_data(void *data, int current)
 #endif
 }
 
+void cn10k_fatal_reboot(void)
+{
+	extern void octeontx_scp_sys_reboot(void);
+
+	isb();
+	printf("Fatal ERROR: rebooting\n");
+	mdelay(2000);
+	octeontx_scp_sys_reboot();
+}
+
 void cn10k_fatal_error_handler(void)
 {
 #ifdef SAVE_FATAL_ERRLOGS
@@ -810,11 +822,4 @@ void cn10k_fatal_error_handler(void)
 	crashdump_cpu_context(NULL);
 	crashdump_add(CRASHDUMP_TYPE_HALT, NULL, 0);
 #endif
-
-	isb();
-	while (1) {
-		wfi();
-	}
-	//TODO
-	//system_reset();
 }

@@ -110,7 +110,7 @@ struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 {
 	struct otx2_ghes_err_record *err_rec;
 	struct otx2_ghes_err_ring *err_ring;
-	uint32_t tail, head;
+	volatile uint32_t tail = 0, head = 0;
 	struct fdt_ghes *gh;
 
 	if (ringp)
@@ -134,6 +134,7 @@ struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 
 	tail = err_ring->tail;
 	head = err_ring->head;
+	dsbsy();
 
 	if (((head + 1) % err_ring->size) != tail) {
 		err_rec = &err_ring->records[head];
@@ -177,7 +178,7 @@ void otx2_send_ghes(struct otx2_ghes_err_record *rec,
 		    int event)
 {
 	int ret = 0;
-	uint32_t head = err_ring->head;
+	volatile uint32_t head = err_ring->head;
 
 	/* Ensure that error record is written fully prior to advancing
 	 * the head (which indicates availability to consumer).

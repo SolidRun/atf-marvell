@@ -5,7 +5,7 @@ Marvell CN10K implements the ARMv8 RAS (Reliability, Availability & Serviceabili
 specification.
 
 This decouples the tracking of hardware exception events from any outage to
-the data being transferred, allowing a RAS-aware OS to handle the outage 
+the data being transferred, allowing a RAS-aware OS to handle the outage
 as it sees fit, by analyzing the context in which the data is being used.
 
 Errors in memory/cache transactions are detected by the hardware and handled
@@ -21,7 +21,7 @@ attribute of the error address. Uncorrected errors from all other modules are
 treated as fatal in the current firmware implementation.
 
 The firmware enables exceptions in relevant CN10K hardware units
-CORE (ARM processor), DSS (DRAM subsystem, DRAM Controller), 
+CORE (ARM processor), DSS (DRAM subsystem, DRAM Controller),
 TAD (Cache Tag And Data), MDC (Memory Diagnostic Controller)
 and performs the following actions:
 
@@ -29,20 +29,10 @@ and performs the following actions:
 - Convert the hardware description of the error to CPER (Common Platform Error Record) format
 - Collect CPER errors per hardware component ring buffer.
 - Make SDEI notification towards kerne driver
-- Kernel driver forwards CPER errors to GHES/EDAC framework for processing and logging.
+- Kernel driver forwards CPER errors to EDAC framework for processing and logging.
 - BERT support is not supported for the CN10K platform
 
-
-While the access procedure for GHES is well defined in a UEFI/ACPI platform,
-but also DeviceTree supported. So a custom platform device driver in Linux is 
-provided to derive the GHES location from the device tree, 
-and register the HEST, so the error indications flow to the
-standard processing of a kernel built with **MEMORY_FAILURE=y** option, which is
-notified in the standard fashion with an SDEI.
-
-The Device Tree "sdei-ghes" node describes this shared-memory
-The sdei-ghes module provides the required Hardware Error Source Table
-(HEST) to the kernel, allowing the GHES driver to load.
+The Device Tree "sdei-ghes" node describes shared-memory communication with firmware
 
 For layout details of the Device Tree "sdei-ghes" node see the following kernel document:
 Documentation/devicetree/bindings/edac/marvell-sdei-ghes.txt
@@ -50,23 +40,10 @@ Documentation/devicetree/bindings/edac/marvell-sdei-ghes.txt
 Device Tree sdei-ghes implementation notes
 ==========================================
 ATF and Linux share a common memory block (ring buffer) several CPER format
-error entries can fit into the ring buffer (currently 4 records). In current
+error entries can fit into the ring buffer. In current
 firmware first mode error identification interrupt is delivered
 to ATF. ATF writes error record into ring buffer head and triggers SDEI
 event callback. SDEI callback Linux registered at boot time beforehand.
-sdei-ghes callback move error record from ring buffer tail into Error Status
-Block (estatus) memory area, ESB block allocated for one error entry.
-Generic GHES driver makes periodic polling on Error Status Block and if ESB
-contains error data handler provide error presence notification and error clear.
-
-
-ACPI sdei-ghes implementation notes
-===================================
-Setup Linux bootarg acpi=on.
-GHES requires Sdei.asl table to enable SDEI events. Hest.asl describe
-corresponding table layout and initialization values like polling
-interval, Error Status Block address (8byte), actual Error Status Block, and
-Ring buffer memory block.
 
 Configurations to enable RAS Error Reporting
 ============================================
@@ -75,18 +52,9 @@ EDAC_OCTEONTX=y
 RAS=y
 EDAC=y
 ARM_SDE_INTERFACE=y
-ACPI_APEI_GHES=y  	/// only if ACPI is configured
 
-RAS GHES Error injection
-========================
-
-Enable module config:
-EDAC_OCTEONTX=y
-RAS=y
-EDAC=y
-ARM_SDE_INTERFACE=y
-ACPI_APEI_GHES=y  	/// only if ACPI is configured
-MARVELL_CN10K_EINJ=y
+RAS EDAC Error injection DSS
+============================
 
 EDAC based interface for error injection from sysfs /sys/devices/system/edac/mc/mc0:
 
@@ -101,12 +69,50 @@ error_type   - type of error SEC/DED and position of bit to corrupt
           8    - error type 0 = DED (double), 1 = SEC (single)
 
 Flip one bit at address 0x2fffff000
+===================================
 echo 0x2fffff000 > address
-echo 0x101 > error_type
+echo 0x20000101 > error_type
 echo 1 > inject
 
+cd /sys/devices/system/edac/mc/mc0/ && echo 0x2fffff000 > address && echo 0x20000101 > error_type && echo 1 > inject
+
+Output example:
+EDAC MC0: 1 CE DMC0,R0,BG2,BA3,r49151,c960 on  (status:0x103 bank:3 row:49151 col:960 bit_pos:3 page:0x2ffff offset:0xf000 grain:1 syndrome:0x0 - single-bit ECC)
+
+1 CE - one correctable error
+DMC0 - DMC or channel 0
+R0 - Rank 0
+BG2 - Bank Group 2
+BA3 - Bank Address
+r49151 - DRAM row 49151
+c960 - DRAM collumn 960
+page:0x2ffff offset:0xf000 - physicall address 0x2fffff000, in current test system page offset 16 bits long.
+
 Flip two bits at address 0x2fffff000
+====================================
+setenv bootargs 'reboot_mode=cold'
+echo 1 > /sys/module/edac_core/parameters/edac_mc_panic_on_ue
 echo 0x2fffff000 > address
-echo 0x1 > error_type
+echo 0x20000001 > error_type
 echo 1 > inject
+
+cd /sys/devices/system/edac/mc/mc0/ && echo 0x2fffff000 > address && echo 0x20000001 > error_type && echo 1 > inject
+
 Require cold reboot after injection.
+module/kernel parameter: edac_mc_panic_on_ue=1
+
+Output example:
+EDAC MC0: 1 UE DMC0,R0,BG2,BA3,r49151,c960 on  (status:0x10003 bank:3 row:49151 col:960 page:0x2ffff offset:0xf000 grain:1 - multi-bit ECC)
+
+
+RAS EDAC Interface MDC (Memory Diagnostic Controller)
+=====================================================
+
+/sys/devices/system/edac/mdc/
+
+
+RAS EDAC Interface TAD (LLC last level cache)
+=============================================
+
+/sys/devices/system/edac/llc/
+

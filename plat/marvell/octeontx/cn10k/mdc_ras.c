@@ -97,6 +97,7 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	const char *type_tok = NULL;
 	const char *type = NULL;
 	union cavm_mdc_ras_entry_s entry;
+	int fr = 0;
 
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
 			"mdc", &err_ring);
@@ -129,9 +130,10 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	mdc->validation_bits |= CPER_MEM_VALID_RESPONDER_ID;
 	mdc->responder_id = entry.s.ras_id;
 
-	snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
-			"MDC %s %d.%d.%d", type_tok, st.s.chain_id, st.s.hub_id,
+	fr = snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
+			"MDC %s %d.%d.%d ", type_tok, st.s.chain_id, st.s.hub_id,
 			st.s.node_id);
+	err_rec->fru_text[fr] = '\0';
 
 	debug_ras("MDC ECC %s chn %d.%d.%d Row:%d\n",
 		type, st.s.chain_id, st.s.hub_id, st.s.node_id, st.s.row);

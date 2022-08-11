@@ -124,6 +124,8 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	struct otx2_ghes_err_record *err_rec;
 	struct otx2_ghes_err_ring *err_ring;
 	struct cper_sec_mem_err *dss;
+	bool is_secure = 0;
+	int fr = 0;
 
 	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr0_t ecccaddr0;
 	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr1_t ecccaddr1;
@@ -175,17 +177,17 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 			CPER_MEM_VALID_ERROR_TYPE);
 	dss->validation_bits |= !info.dbe ? CPER_MEM_VALID_BIT_POSITION : 0;
 
-	if (info.dbe)
-		if (is_secure_address(addr.phys_addr))
-			err_rec->severity = CPER_SEV_FATAL;
-		else
-			err_rec->severity = CPER_SEV_RECOVERABLE;
+	if (info.dbe) {
+		is_secure = is_secure_address(addr.phys_addr);
+		err_rec->severity = is_secure ?  CPER_SEV_FATAL : CPER_SEV_RECOVERABLE;
+	}
 	else
 		err_rec->severity = CPER_SEV_CORRECTED;
 
-	snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
-		 "DMC%lld,R%d,BG%d,BA%d,r%d,c%d",
-		 ch, addr.rank, addr.bg, addr.bank, addr.row, addr.col);
+	fr = snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
+			"DMC%lld,R%d,BG%d,BA%d,r%d,c%d",
+			ch, addr.rank, addr.bg, addr.bank, addr.row, addr.col);
+	err_rec->fru_text[fr] = '\0';
 
 	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_DSS_EVENT);
 
@@ -263,8 +265,11 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch), eccctl.u);
 
 		CSR_WRITE(CAVM_DSSX_INT_W1C(ch), int_stat.u);
-		if (fatal && int_stat.s.ecc_uncorrected_err_intr)
+		if (int_stat.s.ecc_uncorrected_err_intr)
 			cn10k_fatal_error_handler();
+
+		if (fatal)
+			cn10k_fatal_reboot();
 	}
 	return 0;
 }
