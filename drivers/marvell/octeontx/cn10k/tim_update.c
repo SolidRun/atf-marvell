@@ -2616,7 +2616,9 @@ enum spi_dc_ret done_callback(void *p)
 void async_mark_copy_images(struct async_clone_data *param) {
 	struct smc_version_info *src = param->vinfo_source;
 	struct smc_version_info *dst = param->vinfo_destination;
-	int i, j;
+	int i, j, tim0_id = -1;
+
+	param->clone_needed = false;
 
 	for (i = 0 ; i < src->num_objects ; i++) {
 		if (src->objects[i].retcode != RET_OK) {
@@ -2624,8 +2626,12 @@ void async_mark_copy_images(struct async_clone_data *param) {
 			continue;
 		}
 
+		if (!strncmp(src->objects[i].name, "tim0", VER_MAX_NAME_LENGTH))
+			tim0_id = i;
+
 		if (param->force_clone) {
 			src->objects[i].perform_clone = 1;
+			param->clone_needed = true;
 		} else {
 			for (j = 0 ; j < dst->num_objects ; j++) {
 				if (!strncmp(src->objects[i].name,
@@ -2635,12 +2641,20 @@ void async_mark_copy_images(struct async_clone_data *param) {
 						   &dst->objects[j].version,
 						   sizeof(struct tim_opaque_data_version_info))) {
 						src->objects[i].perform_clone = 1;
+						param->clone_needed = true;
 					}
 				}
 			}
 		}
 		INFO("File: %s, clone status: %lld\n", src->objects[i].name, src->objects[i].perform_clone);
 	}
+
+	/* Check if we can skip clone - if not mark tim0 for update */
+	if (!param->clone_needed)
+		INFO("Skipping clone operation\n");
+	else
+		if (tim0_id != -1)
+			src->objects[tim0_id].perform_clone = 1;
 }
 
 int async_prepare_copy_operation(void *p)
@@ -2745,16 +2759,52 @@ void async_copy_images(struct async_clone_data *param) {
 		spi_async_start(async_clone_callback, &async_clone_internal);
 }
 
+/* Erase only part of TIM0 to mark clone operation*/
+enum update_ret tim0_async_erase(struct async_clone_data *param)
+{
+	enum update_ret uret;
+	uint64_t offset;
+	size_t size;
+
+	param->copy_params.dst_handle = &verif_data[VDATA_DST].io;
+	zeromem(wr_buffer, sizeof(wr_buffer));
+
+	uret = get_tim0_address_size(&offset, &size);
+	if (uret != UPDATE_OK)
+		return uret;
+
+	uret = octeontx_io_data_write(param->copy_params.dst_handle, offset, 0x1000, wr_buffer);
+
+	return uret;
+}
+
+enum update_ret source_check_async(struct async_clone_data *param)
+{
+	struct smc_version_info *src = param->vinfo_source;
+	int i;
+
+	for (i = 0; i < src->num_objects; i++) {
+		if (src->objects[i].retcode != RET_OK)
+			return UPDATE_UNKNOWN_ERROR;
+	}
+
+	return UPDATE_OK;
+}
+
 enum spi_dc_ret async_clone_callback(void *p)
 {
 	struct async_clone_data *param = (struct async_clone_data *)p;
 	enum spi_dc_ret ret = DC_RET_DONE;
 
-	//Should we do clone or exit
 	switch (param->state) {
 	case ACLONE_CHECK_SOURCE:
-		ERROR("Incorrect state\n");
-		param->state++;
+		INFO("Check source data stage\n");
+		if (source_check_async(param) != UPDATE_OK) {
+			ERROR("Source check verification fail\n");
+			param->state = ACLONE_CLEANUP;
+		} else {
+			param->state++;
+		}
 		ret = DC_RET_CONTINUE;
 		break;
 	case ACLONE_CHECK_DESTINATION:
@@ -2766,22 +2816,25 @@ enum spi_dc_ret async_clone_callback(void *p)
 	case ACLONE_MARK_COPY:
 		INFO("Mark copy stage\n");
 		async_mark_copy_images(param);
-		param->state++;
+		if (param->clone_needed)
+			param->state++;
+		else
+			param->state = ACLONE_CLEANUP;
 		ret = DC_RET_CONTINUE;
 		break;
 	case ACLONE_ERASE_TIM0_DEST:
 		INFO("Erase TIM0 stage\n");
-		param->state++;
+		if (tim0_async_erase(param) != UPDATE_OK) {
+			ERROR("Fail during TIM0 erase\n");
+			param->state = ACLONE_CLEANUP;
+		} else {
+			param->state++;
+		}
 		ret = DC_RET_CONTINUE;
 	case ACLONE_COPY_IMAGES:
 		INFO("Copy images\n");
 		param->clone_counter = 0;
 		async_copy_images(param);
-		param->state++;
-		ret = DC_RET_CONTINUE;
-		break;
-	case ACLONE_RESTORE_TIM0_DEST:
-		INFO("Restore TIM0 stage\n");
 		param->state++;
 		ret = DC_RET_CONTINUE;
 		break;
@@ -4433,7 +4486,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 
 		async_clone_internal.vinfo_source = vinfo;
 		async_clone_internal.vinfo_destination = &clone_destination;
-		async_clone_internal.state = ACLONE_CHECK_DESTINATION;
+		async_clone_internal.state = ACLONE_CHECK_SOURCE;
 		for (i = 0; i < SMC_MAX_OBJECTS; i++)
 			async_clone_internal.clone_object_list[i] = -1;
 

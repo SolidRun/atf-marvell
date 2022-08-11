@@ -392,7 +392,6 @@ enum async_clone_operations {
 	ACLONE_MARK_COPY,
 	ACLONE_ERASE_TIM0_DEST,
 	ACLONE_COPY_IMAGES,
-	ACLONE_RESTORE_TIM0_DEST,
 	ACLONE_CLEANUP,
 };
 
@@ -412,6 +411,7 @@ struct async_clone_data {
 	enum async_clone_operations state;
 	struct async_clone_copy_params copy_params;
 	bool force_clone;
+	bool clone_needed;
 	int clone_counter;
 	int clone_object_list[SMC_MAX_OBJECTS];
 };
