@@ -1,5 +1,5 @@
 /*******************************************************************************
-*                Copyright 2001, Marvell International Ltd.
+*                Copyright 2001, Marvell.
 * This code contains confidential information of Marvell semiconductor, inc
 * no rights are granted herein under any patent, mask work right or copyright
 * of Marvell or any third party

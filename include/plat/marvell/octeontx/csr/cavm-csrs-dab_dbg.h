@@ -4583,7 +4583,7 @@ union cavm_dbgx_midr_el1
                                                                  0x4E    N     NVIDIA Corporation
                                                                  0x50    P     Applied Micro Circuits Corporation
                                                                  0x51    Q     Qualcomm Inc.
-                                                                 0x56    V     Marvell International Ltd.
+                                                                 0x56    V     Marvell.
                                                                  0x69    i     Intel Corporation
                                                                  \</pre\> */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field - used by CNXXXX to indicate major pass number. */
@@ -4639,7 +4639,7 @@ union cavm_dbgx_midr_el1
                                                                  0x4E    N     NVIDIA Corporation
                                                                  0x50    P     Applied Micro Circuits Corporation
                                                                  0x51    Q     Qualcomm Inc.
-                                                                 0x56    V     Marvell International Ltd.
+                                                                 0x56    V     Marvell.
                                                                  0x69    i     Intel Corporation
                                                                  \</pre\> */
 #endif /* Word 0 - End */
@@ -4664,7 +4664,7 @@ union cavm_dbgx_midr_el1
                                                                  0x4E    N     NVIDIA Corporation
                                                                  0x50    P     Applied Micro Circuits Corporation
                                                                  0x51    Q     Qualcomm Inc.
-                                                                 0x56    V     Marvell International Ltd.
+                                                                 0x56    V     Marvell.
                                                                  0x69    i     Intel Corporation
                                                                  \</pre\> */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field - used by CNXXXX to indicate major pass number. */
@@ -4720,7 +4720,7 @@ union cavm_dbgx_midr_el1
                                                                  0x4E    N     NVIDIA Corporation
                                                                  0x50    P     Applied Micro Circuits Corporation
                                                                  0x51    Q     Qualcomm Inc.
-                                                                 0x56    V     Marvell International Ltd.
+                                                                 0x56    V     Marvell.
                                                                  0x69    i     Intel Corporation
                                                                  \</pre\> */
 #endif /* Word 0 - End */
@@ -4745,7 +4745,7 @@ union cavm_dbgx_midr_el1
                                                                  0x4E    N     NVIDIA Corporation
                                                                  0x50    P     Applied Micro Circuits Corporation
                                                                  0x51    Q     Qualcomm Inc.
-                                                                 0x56    V     Marvell International Ltd.
+                                                                 0x56    V     Marvell.
                                                                  0x69    i     Intel Corporation
                                                                  \</pre\> */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field - used by CNXXXX to indicate major pass number. */
@@ -4801,7 +4801,7 @@ union cavm_dbgx_midr_el1
                                                                  0x4E    N     NVIDIA Corporation
                                                                  0x50    P     Applied Micro Circuits Corporation
                                                                  0x51    Q     Qualcomm Inc.
-                                                                 0x56    V     Marvell International Ltd.
+                                                                 0x56    V     Marvell.
                                                                  0x69    i     Intel Corporation
                                                                  \</pre\> */
 #endif /* Word 0 - End */

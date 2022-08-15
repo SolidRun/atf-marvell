@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2020, ARM Limited. All rights reserved.
- * Copyright (C) 2018 Marvell International Ltd.
+ * Copyright (C) 2018 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses

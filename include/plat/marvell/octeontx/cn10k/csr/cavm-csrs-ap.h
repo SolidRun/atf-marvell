@@ -17313,7 +17313,7 @@ union cavm_ap_midr_el1
                                                                  0x4E = 'N' = NVIDIA Corporation.
                                                                  0x50 = 'P' = Applied Micro Circuits Corporation.
                                                                  0x51 = 'Q' = Qualcomm Inc.
-                                                                 0x56 = 'V' = Marvell International Ltd.
+                                                                 0x56 = 'V' = Marvell.
                                                                  0x69 = 'i' = Intel Corporation.
 
                                                                  For CNXXXX, 'C'. */
@@ -17381,7 +17381,7 @@ union cavm_ap_midr_el1
                                                                  0x4E = 'N' = NVIDIA Corporation.
                                                                  0x50 = 'P' = Applied Micro Circuits Corporation.
                                                                  0x51 = 'Q' = Qualcomm Inc.
-                                                                 0x56 = 'V' = Marvell International Ltd.
+                                                                 0x56 = 'V' = Marvell.
                                                                  0x69 = 'i' = Intel Corporation.
 
                                                                  For CNXXXX, 'C'. */
@@ -28844,7 +28844,7 @@ union cavm_ap_vpidr_el2
                                                                  0x4E = 'N' = NVIDIA Corporation.
                                                                  0x50 = 'P' = Applied Micro Circuits Corporation.
                                                                  0x51 = 'Q' = Qualcomm Inc.
-                                                                 0x56 = 'V' = Marvell International Ltd.
+                                                                 0x56 = 'V' = Marvell.
                                                                  0x69 = 'i' = Intel Corporation.
 
                                                                  Arm can assign codes that are not published in this manual.
@@ -28897,7 +28897,7 @@ union cavm_ap_vpidr_el2
                                                                  0x4E = 'N' = NVIDIA Corporation.
                                                                  0x50 = 'P' = Applied Micro Circuits Corporation.
                                                                  0x51 = 'Q' = Qualcomm Inc.
-                                                                 0x56 = 'V' = Marvell International Ltd.
+                                                                 0x56 = 'V' = Marvell.
                                                                  0x69 = 'i' = Intel Corporation.
 
                                                                  Arm can assign codes that are not published in this manual.

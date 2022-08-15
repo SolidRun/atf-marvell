@@ -1,5 +1,5 @@
 /***********************license start***********************************
-* Copyright (C) 2018-2020 Marvell International Ltd.
+* Copyright (C) 2018-2020 Marvell.
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/

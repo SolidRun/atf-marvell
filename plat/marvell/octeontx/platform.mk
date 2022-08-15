@@ -1,4 +1,4 @@
-# Copyright (C) 2016-2018 Marvell International Ltd.
+# Copyright (C) 2016-2018 Marvell.
 #
 # SPDX-License-Identifier:     BSD-3-Clause
 # https://spdx.org/licenses

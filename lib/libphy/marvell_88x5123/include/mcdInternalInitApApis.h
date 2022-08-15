@@ -1,5 +1,5 @@
 /*******************************************************************************
-*              (c), Copyright 2001, Marvell International Ltd.                 *
+*              (c), Copyright 2001, Marvell.                 *
 * THIS CODE CONTAINS CONFIDENTIAL INFORMATION OF MARVELL SEMICONDUCTOR, INC.   *
 * NO RIGHTS ARE GRANTED HEREIN UNDER ANY PATENT, MASK WORK RIGHT OR COPYRIGHT  *
 * OF MARVELL OR ANY THIRD PARTY. MARVELL RESERVES THE RIGHT AT ITS SOLE        *

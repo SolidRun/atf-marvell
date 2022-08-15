@@ -10,7 +10,7 @@ Contributor Acknowledgements
    use for new contributions.
 
 - Linaro Limited
-- Marvell International Ltd.
+- Marvell.
 - NVIDIA Corporation
 - NXP Semiconductors
 - Socionext Inc.
