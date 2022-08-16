@@ -1622,18 +1622,21 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 static enum async_file_check_ret
 check_flash_files_async(struct async_update_data *data)
 {
-	const struct smc_update_descriptor *desc = data->desc;
+	struct smc_update_descriptor *desc = data->desc;
 	enum update_ret ret;
 
 	ULOG("Checking files in flash async\n");
 	while (data->obj) {
 		if (data->obj->data_file != NULL) {
 			ret = check_flash_object(desc, data->obj);
-			if (ret != UPDATE_OK)
+			if (ret != UPDATE_OK) {
+				desc->retcode = ret;
 				return ASYNC_CHECK_ERROR;
+			}
 			if (data->obj->update_all)
 				data->update_all = true;
 			if (data->update_all && !data->all_present) {
+				desc->retcode = ret;
 				UERROR("Flash inconsistencies found."
 				       "A complete update image is required\n");
 				return -EINVAL;
@@ -2855,10 +2858,10 @@ enum spi_dc_ret async_update_callback(void *p)
 	struct smc_update_descriptor *desc = param->desc;
 	enum spi_dc_ret ret = DC_RET_CONTINUE;
 	enum async_file_check_ret file_check_ret;
+	enum update_ret update_ret;
 
 	const void *fw_image = (void *)desc->image_addr;
 	size_t size = desc->image_size;
-	int err;
 
 	if (!param->init_variables) {
 		param->obj = first_object_entry;
@@ -2870,41 +2873,54 @@ enum spi_dc_ret async_update_callback(void *p)
 		UINFO("Image verification state\n");
 		if (marvell_cust_verify_fw_update_image(desc)) {
 			UERROR("Customer verification failed\n");
-			return DC_RET_DONE;
+			desc->retcode = UPDATE_AUTH_ERROR;
+			param->state = AUPDATE_CLEANUP;
+			break;
 		}
 		param->state++;
 		break;
 	case AUPDATE_INIT_UPDATE:
 		UINFO("Init update stage\n");
-		if (firm_update_init(fw_image, size)) {
+		update_ret = firm_update_init(fw_image, size);
+		if (update_ret != UPDATE_OK) {
 			UERROR("Error parsing firmware\n");
-			return DC_RET_DONE;
+			desc->retcode = update_ret;
+			param->state = AUPDATE_CLEANUP;
+			break;
 		}
 		param->state++;
 		break;
 	case AUPDATE_PROCESS_TIMS:
 		UINFO("Priocess tims stage\n");
-		if (update_process_tims()) {
+		update_ret = update_process_tims();
+		if (update_ret) {
 			UERROR("Error parsing TIMs\n");
-			return DC_RET_DONE;
+			desc->retcode = update_ret;
+			param->state = AUPDATE_CLEANUP;
+			break;
 		}
 		param->state++;
 		break;
 	case AUPDATE_CHECK_GROUPS:
 		UINFO("Check groups stage\n");
-		err = check_groups();
-		if (err < 0) {
+		update_ret = check_groups();
+		if (update_ret < 0) {
 			UERROR("Error parsing groups\n");
-			return DC_RET_DONE;
+			desc->retcode = update_ret;
+			param->state = AUPDATE_CLEANUP;
+			break;
 		}
-		param->all_present = (err == 1);
+		param->all_present = (update_ret == 1);
 		param->state++;
 		break;
 	case AUPDATE_CHECK_FILES:
 		UINFO("Check files stage\n");
-		if (check_files()) {
+		update_ret = check_files();
+		if (update_ret) {
 			UERROR("Error parsing files\n");
-			return DC_RET_DONE;
+			desc->retcode = update_ret;
+			param->state = AUPDATE_CLEANUP;
+			break;
 		}
 		param->init_variables = false;
 		param->state++;
@@ -2916,7 +2932,7 @@ enum spi_dc_ret async_update_callback(void *p)
 			param->state++;
 			param->init_variables = false; /* Reinit *obj pointer */
 		} else if (file_check_ret == ASYNC_CHECK_ERROR)
-			return DC_RET_DONE;
+			param->state = AUPDATE_CLEANUP;
 		break;
 	case AUPDATE_CHECK_FLASH_GROUPS:
 		UINFO("Check flash groups stage\n");
@@ -2924,17 +2940,17 @@ enum spi_dc_ret async_update_callback(void *p)
 		if (file_check_ret == ASYNC_CHECK_DONE)
 			param->state++;
 		else if (file_check_ret == ASYNC_CHECK_ERROR)
-			return DC_RET_DONE;
+			param->state = AUPDATE_CLEANUP;
 		break;
 	case AUPDATE_ERASE_TIM0:
 		UINFO("Erase TIM0 stage\n");
-		err = save_tim0(desc);
-		if (err == UPDATE_OK)
-			err = erase_tim0(desc);
-		param->old_tim0_saved = (err == UPDATE_OK);
+		update_ret = save_tim0(desc);
+		if (update_ret == UPDATE_OK)
+			update_ret = erase_tim0(desc);
+		param->old_tim0_saved = (update_ret == UPDATE_OK);
 
-		err = get_tim0_from_update();
-		param->tim0_updated = (err == UPDATE_OK);
+		update_ret = get_tim0_from_update();
+		param->tim0_updated = (update_ret == UPDATE_OK);
 		param->state++;
 		break;
 	case AUPDATE_WRITE_FILES:
@@ -2945,7 +2961,21 @@ enum spi_dc_ret async_update_callback(void *p)
 		break;
 	case AUPDATE_RESTORE_TIM0:
 		UINFO("Restore TIM0 stage\n");
-		restore_tim0(desc, false);
+		if (param->old_tim0_saved || param->tim0_updated) {
+			UINFO("Writing TIM0\n");
+			update_ret = restore_tim0(desc, false);
+			if (update_ret != UPDATE_OK) {
+				UERROR("Error writing TIM0\n");
+				desc->retcode = update_ret;
+				param->state = AUPDATE_CLEANUP;
+				break;
+			}
+		} else {
+			UERROR("Error: TIM0 was not saved or updated, cannot restore!\n");
+			desc->retcode = UPDATE_MISSING_TIM;
+			param->state = AUPDATE_CLEANUP;
+			break;
+		}
 		param->state++;
 		break;
 	case AUPDATE_CLEANUP:
@@ -3085,6 +3115,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 {
 	int err = 0, ns_map_size;
 	struct smc_update_descriptor update_desc;
+	struct smc_update_descriptor *update_desc_async_ptr;
 	uintptr_t addr = 0, size = 0;
 	uint32_t bus, cs;
 	uint64_t base_addr = 0;
@@ -3121,7 +3152,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 			desc_buf, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
-							 MT_RO | MT_NS);
+							 MT_RW | MT_NS);
 	if (err) {
 		ERROR("FW Update: descriptor mmap failed (%d)\n", err);
 		err = -SPI_MMAP_ERR;
@@ -3130,14 +3161,22 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 
 	debug_fw_update("Copying descriptor from 0x%lx to 0x%p\n",
 			desc_buf, &update_desc);
+	update_desc_async_ptr = (struct smc_update_descriptor *) desc_buf;
 	memcpy(&update_desc, (const void *)desc_buf, sizeof(update_desc));
 
 	/* Currently the update flags are not used so we don't save them.
 	 * We store the update error code in them, however, so we zero it here.
 	 */
 	*uret = UPDATE_OK;
-
-	octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
+	uParams.count = 0;
+	if (!update_desc.async_operation) {
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
+		uParams.count = 0;
+	} else {
+		uParams.p[uParams.count].ns_map_size = ns_map_size;
+		uParams.p[uParams.count].base_addr = base_addr;
+		uParams.count += 1;
+	}
 	base_addr = 0;
 	ns_map_size = 0;
 
@@ -3255,9 +3294,9 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		goto error;
 	}
 
-	uParams.count = 1;
-	uParams.p[0].ns_map_size = ns_map_size;
-	uParams.p[0].base_addr = base_addr;
+	uParams.p[uParams.count].ns_map_size = ns_map_size;
+	uParams.p[uParams.count].base_addr = base_addr;
+	uParams.count += 1;
 
 	io_handle.dev_handle = &media_dev_handle;
 	io_handle.io_handle = &media_handle;
@@ -3278,8 +3317,10 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		}
 	}
 
-
-	*uret = octeontx_cn10k_update_fw(&update_desc, &uParams, async_operation);
+	if (!update_desc.async_operation)
+		*uret = octeontx_cn10k_update_fw(&update_desc, &uParams, async_operation);
+	else
+		*uret = octeontx_cn10k_update_fw(update_desc_async_ptr, &uParams, async_operation);
 	if (*uret != UPDATE_OK) {
 		ERROR("Firmware update failed\n");
 		err = -EINVAL;

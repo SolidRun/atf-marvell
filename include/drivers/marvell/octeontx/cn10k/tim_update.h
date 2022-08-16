@@ -153,7 +153,7 @@ struct smc_update_descriptor {
 	uint32_t	bus;		/** SPI BUS number */
 	uint32_t	cs;		/** SPI chip select number */
 	uint32_t	async_operation; /** use asynchronus SPI operations */
-	uint32_t	reserved;	/** Space to add stuff */
+	uint32_t	retcode;	/** Return code for async operations */
 	uint64_t	user_addr;	/** Passed to customer function */
 	uint64_t	user_size;	/** Passed to customer function */
 	uint64_t	user_flags;	/** Passed to customer function */
