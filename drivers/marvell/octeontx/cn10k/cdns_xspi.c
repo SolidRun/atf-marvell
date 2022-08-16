@@ -1373,6 +1373,8 @@ int spi_block_config(uintptr_t handle, uint32_t spi_con, uint32_t cs)
 	fp->spi_con = spi_con;
 	fp->cs = cs;
 
+	spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, spi_con, cs);
+
 	return 0;
 }
 
