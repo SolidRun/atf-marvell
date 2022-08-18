@@ -203,11 +203,21 @@ static void plat_set_coresight_funnel(void)
 static void plat_cn10k_apply_workaround(void)
 {
 	cavm_iobnx_cfg0_t iobn_cfg0;
+	cavm_iobnx_rperf_cntrx_t iobn_rperf_cntr;
+	uint32_t i, j;
 
 	/* Add workaround for ipbuanb-485 */
 	iobn_cfg0.u = CSR_READ(CAVM_IOBNX_CFG0(0));
 	iobn_cfg0.s.dis_ncbo_cr_pois = 0xF;
 	CSR_WRITE(CAVM_IOBNX_CFG0(0), iobn_cfg0.u);
+
+	/* Add workaround for ipbuiobn-38735 */
+	iobn_rperf_cntr.u = 0;
+
+	for (i = 0; i <= plat_octeontx_get_iobn_count(); i++) {
+		for (j = 0; j <= 3; j++)
+			CSR_WRITE(CAVM_IOBNX_RPERF_CNTRX(i, j), iobn_rperf_cntr.u);
+	}
 }
 
 #ifdef ENABLE_RECORD_FWLOG
