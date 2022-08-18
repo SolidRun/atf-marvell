@@ -214,7 +214,7 @@ static void plat_cn10k_apply_workaround(void)
 	/* Add workaround for ipbuiobn-38735 */
 	iobn_rperf_cntr.u = 0;
 
-	for (i = 0; i <= plat_octeontx_get_iobn_count(); i++) {
+	for (i = 0; i < plat_octeontx_get_iobn_count(); i++) {
 		for (j = 0; j <= 3; j++)
 			CSR_WRITE(CAVM_IOBNX_RPERF_CNTRX(i, j), iobn_rperf_cntr.u);
 	}
