@@ -138,7 +138,7 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 	enum ehsm_hash_alg hash_alg;
 	size_t size = li->image_length;
 	bool nonsecure = ((uintptr_t)image >= TZDRAM_BASE + TZDRAM_SIZE);
-	uint8_t digest_out[TIM_MAX_HASH_SIZE_BYTES];
+	__aligned(64) uint8_t digest_out[TIM_MAX_HASH_SIZE_BYTES];
 
 	debug_ehsm("%s(%p, %p, %p, %p) size: 0x%lx\n", __func__, image, li,
 		   digest, hash_size, size);
@@ -222,6 +222,8 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 		/* Everything is secure so we can do it all at once */
 		ret = ehsm_hash_final(&ehandle, image, digest_out, size);
 	}
+
+	inv_dcache_range((uintptr_t)digest_out, TIM_MAX_HASH_SIZE_BYTES);
 
 	if (ret != SEC_NO_ERROR) {
 		WARN("Error finalizing hash (%d)\n", ret);
@@ -337,7 +339,7 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 {
 	enum sec_return ret = SEC_NO_ERROR;
 	bool nonsecure = ((uintptr_t)ptr + size >= TZDRAM_BASE + TZDRAM_SIZE);
-	uint8_t digest_out[TIM_MAX_HASH_SIZE_BYTES];
+	__aligned(64) uint8_t digest_out[TIM_MAX_HASH_SIZE_BYTES];
 
 	if (ehsm_check_alignment(ptr))
 		nonsecure = true;
@@ -370,6 +372,9 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 		WARN("Error %d finalizing hash\n", ret);
 		return -EIO;
 	}
+
+	inv_dcache_range((uintptr_t)digest_out, TIM_MAX_HASH_SIZE_BYTES);
+
 	if (digest)
 		memcpy(digest, digest_out, li->hash_size);
 	if (hash_size)
