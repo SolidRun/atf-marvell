@@ -515,6 +515,20 @@ void plat_octeontx_cpu_setup(void)
 	__asm__ volatile ("msr S3_0_C15_C1_5, %0" : : "r"(val));
 #endif
 
+#if WORKAROUND_IPBUPERS-503
+	/* Workaround for IPBUPERS-503
+	 * Use of the static and dynamic TXREQ limiting functions may
+	 * cause a system deadlock.Use of the static and dynamic TXREQ
+	 * limiting functions may cause a system deadlock.
+	 *
+	 * Do not enable static or dynamic TXREQ limiting functions by
+	 * keeping CPUECTLR2_EL1[2] at 1'b0 and CPUECTLR2_EL1[1:0] at
+	 * 2'b00.
+	 */
+	__asm__ volatile ("mrs %0, S3_0_C15_C1_5" : "=&r"(val));
+	val &= ~0x7ull;
+	__asm__ volatile ("msr S3_0_C15_C1_5, %0" : : "r"(val));
+#endif
 	/* Workaround for IPBUPERS-166
 	 * The CPP instruction will not operate on the desired EL as
 	 * encoded in the instruction. Set CPUACTLR5_EL1[44] which will
