@@ -148,6 +148,9 @@ static const phy_compatible_type_t phy_compat_list[] = {
 #ifdef MARVELL_PHY_3310
 	{ "marvell,88x3310", PHY_MARVELL_3310},
 #endif
+#ifdef MARVELL_PHY_1780
+	{ "marvell,88x1780", PHY_MARVELL_1780},
+#endif
 	{ "marvell,88e1514", PHY_MARVELL_88E1514},
 	{ "marvell,88e1512", PHY_MARVELL_88E1514},
 	{ "ethernet-phy-ieee802.3-c22", PHY_GENERIC_8023_C22},
