@@ -149,22 +149,22 @@ int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie)
 	/* Check MDC Errors */
 	mdc_int.u = CSR_READ(CAVM_MDC_INT_W1C);
 	if (mdc_int.s.ecc_error) {
-		printf("MDC RAS error detected\n");
+		debug_ras("MDC RAS error detected\n");
 		ecc_status.u = CSR_READ(CAVM_MDC_ECC_STATUS);
-		printf("MDC Error type : ");
+		debug_ras("MDC Error type : ");
 		if (ecc_status.s.sbe)
-			printf("SBE\n");
+			debug_ras("SBE\n");
 		if (ecc_status.s.dbe)
-			printf("DBE\n");
+			debug_ras("DBE\n");
 		if (ecc_status.s.sbe_plus)
-			printf("SBE Plus\n");
+			debug_ras("SBE Plus\n");
 		if (ecc_status.s.dbe_plus)
-			printf("DBE Plus\n");
-		printf("node %d hub %d chain %d\n",
+			debug_ras("DBE Plus\n");
+		debug_ras("node %d hub %d chain %d\n",
 			(int)ecc_status.s.node_id,
 			(int)ecc_status.s.hub_id,
 			(int)ecc_status.s.chain_id);
-		printf("SRAM row address 0x%x\n", (int)ecc_status.s.row);
+		debug_ras("SRAM row address 0x%x\n", (int)ecc_status.s.row);
 		cn10k_ras_mdc_notify(ecc_status);
 
 		CSR_WRITE(CAVM_MDC_INT_W1C, mdc_int.u);
