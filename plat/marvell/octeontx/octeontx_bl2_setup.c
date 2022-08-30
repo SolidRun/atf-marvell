@@ -618,6 +618,9 @@ void bl2_platform_setup(void)
 	plat_initialize_ghes_hest_area();
 
 	dump_ccs_region_config();
+#else
+	if (!plat_ras_feature_supported())
+		plat_remove_ras_fdt_nodes();
 #endif
 }
 

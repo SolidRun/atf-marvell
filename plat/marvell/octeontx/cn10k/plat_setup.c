@@ -1062,3 +1062,11 @@ void bl2_el3_plat_prepare_exit(void)
 	flush_dcache_range(FWLOG_SEC_BASE, FWLOG_SEC_SIZE);
 }
 #endif
+
+bool plat_ras_feature_supported(void)
+{
+	if (cavm_is_platform(PLATFORM_HW))
+		return true;
+	else
+		return 0;
+}

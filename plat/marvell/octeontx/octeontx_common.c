@@ -30,7 +30,7 @@
 #pragma weak plat_initialize_boot_error_data_area
 #pragma weak plat_initialize_ghes_hest_area
 #pragma weak plat_ras_feature_supported
-
+#pragma weak plat_remove_ras_fdt_nodes
 extern void plat_add_mmio();
 
 #if !defined(PLAT_CN10K_FAMILY)
@@ -162,6 +162,11 @@ void plat_initialize_ghes_hest_area(void)
 bool plat_ras_feature_supported(void)
 {
 	return false;
+}
+
+/* This can be overridden by platform. */
+void plat_remove_ras_fdt_nodes(void)
+{
 }
 
 /*

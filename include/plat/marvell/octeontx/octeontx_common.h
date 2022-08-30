@@ -162,6 +162,7 @@ void plat_initialize_boot_error_data_area(unsigned long attr);
 void plat_initialize_ghes_hest_area(void);
 
 bool plat_ras_feature_supported(void);
+void plat_remove_ras_fdt_nodes(void);
 
 #ifdef NT_FW_CONFIG
 void plat_octeontx_set_nt_fw_config_size(uint64_t nt_fw_config_size);

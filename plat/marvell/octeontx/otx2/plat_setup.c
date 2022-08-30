@@ -996,6 +996,40 @@ void plat_otx2_early_initialization(void)
 }
 #endif
 
+void plat_remove_ras_fdt_nodes(void)
+{
+	const char *sdei_ghes_mem_name = "/reserved-memory/ghes-hest";
+	const char *sdei_ghes_dev_name = "/soc@0/sdei-ghes";
+	const char *ghes_bert_name = "/reserved-memory/ghes-bert";
+	const char *bed_bert_name = "/soc@0/bed-bert";
+	int ghes_off, ghes_dev_off, ghes_bert_off, bed_bert_off;
+	void *fdt = fdt_ptr;
+
+	ghes_off = fdt_path_offset(fdt, sdei_ghes_mem_name);
+	if (ghes_off == -1)
+		VERBOSE("Missing GHES area from DT\n");
+	else
+		fdt_del_node((void *) fdt, ghes_off);
+
+	ghes_dev_off = fdt_path_offset(fdt, sdei_ghes_dev_name);
+	if (ghes_dev_off == -1)
+		VERBOSE("Missing GHES area Device Driver from DT\n");
+	else
+		fdt_del_node((void *) fdt, ghes_dev_off);
+
+	ghes_bert_off = fdt_path_offset(fdt, ghes_bert_name);
+	if (ghes_bert_off == -1)
+		VERBOSE("Missing GHES BERT area from DT\n");
+	else
+		fdt_del_node((void *) fdt, ghes_bert_off);
+
+	bed_bert_off = fdt_path_offset(fdt, bed_bert_name);
+	if (bed_bert_off == -1)
+		VERBOSE("Missing BERT area from DT\n");
+	else
+		fdt_del_node((void *) fdt, bed_bert_off);
+}
+
 /*
  * plat_ras_feature_supported
  *
@@ -1009,6 +1043,9 @@ void plat_otx2_early_initialization(void)
 bool plat_ras_feature_supported(void)
 {
 	uint64_t midr;
+#ifdef IMAGE_BL2
+	bool ret = false;
+#else
 	static int ret = -1;
 
 	(void)midr;
@@ -1018,6 +1055,7 @@ bool plat_ras_feature_supported(void)
 		ret = false; /* default to false (no support) */
 	else
 		return ret;
+#endif
 
 #if RAS_EXTENSION
 	midr = read_midr();
