@@ -30349,49 +30349,61 @@ union cavm_gsermx_dfe_control_1
                                                                  internal */
         uint32_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable
                                                                  internal */
-        uint32_t reserved_20_21        : 2;
+        uint32_t rx_ee_f1p5_final_en_lane : 2;/**< [ 21: 20](R/W/H) Rx Edge EQ F1P5 Enable Flag For Training End And Tracking
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint32_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable
                                                                  internal */
         uint32_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable
                                                                  internal */
         uint32_t rl2_tune_en_lane      : 1;  /**< [ 17: 17](R/W/H) RL2_TUNE Adjust Enable
                                                                  internal */
-        uint32_t reserved_16           : 1;
+        uint32_t txtrain_force_prec_en_lane : 1;/**< [ 16: 16](R/W/H) Force Precode Enable Selection In Tx Train
+                                                                 internal */
         uint32_t esm_voltage_lane      : 8;  /**< [ 15:  8](R/W/H) Eye Shape Monitor Voltage Value */
         uint32_t dfe_cal_done_lane     : 1;  /**< [  7:  7](RO/H) DFE Adaptation Calculation Done Indicator From MCU
                                                                  internal */
-        uint32_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train When FORCE_DFE_F1P5_CTRL_EN_LANE=1
+        uint32_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train
                                                                  internal */
         uint32_t force_dfe_f1p5_ctrl_en_lane : 1;/**< [  5:  5](R/W/H) Enable DFE F1P5 Force Control After Train
                                                                  internal */
-        uint32_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor */
-        uint32_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready */
-        uint32_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable Flag In Tx Train
+        uint32_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor
+                                                                 internal */
+        uint32_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready
+                                                                 internal */
+        uint32_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable In Tx Train.
                                                                  internal */
         uint32_t tx_train_rx_mod_lane  : 2;  /**< [  1:  0](R/W/H) Tx Train Rx Modulation And Precoding Mode in PAM4
                                                                  internal */
 #else /* Word 0 - Little Endian */
         uint32_t tx_train_rx_mod_lane  : 2;  /**< [  1:  0](R/W/H) Tx Train Rx Modulation And Precoding Mode in PAM4
                                                                  internal */
-        uint32_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable Flag In Tx Train
+        uint32_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable In Tx Train.
                                                                  internal */
-        uint32_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready */
-        uint32_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor */
+        uint32_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready
+                                                                 internal */
+        uint32_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor
+                                                                 internal */
         uint32_t force_dfe_f1p5_ctrl_en_lane : 1;/**< [  5:  5](R/W/H) Enable DFE F1P5 Force Control After Train
                                                                  internal */
-        uint32_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train When FORCE_DFE_F1P5_CTRL_EN_LANE=1
+        uint32_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train
                                                                  internal */
         uint32_t dfe_cal_done_lane     : 1;  /**< [  7:  7](RO/H) DFE Adaptation Calculation Done Indicator From MCU
                                                                  internal */
         uint32_t esm_voltage_lane      : 8;  /**< [ 15:  8](R/W/H) Eye Shape Monitor Voltage Value */
-        uint32_t reserved_16           : 1;
+        uint32_t txtrain_force_prec_en_lane : 1;/**< [ 16: 16](R/W/H) Force Precode Enable Selection In Tx Train
+                                                                 internal */
         uint32_t rl2_tune_en_lane      : 1;  /**< [ 17: 17](R/W/H) RL2_TUNE Adjust Enable
                                                                  internal */
         uint32_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable
                                                                  internal */
         uint32_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable
                                                                  internal */
-        uint32_t reserved_20_21        : 2;
+        uint32_t rx_ee_f1p5_final_en_lane : 2;/**< [ 21: 20](R/W/H) Rx Edge EQ F1P5 Enable Flag For Training End And Tracking
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint32_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable
                                                                  internal */
         uint32_t rx_train_only_dfe_lane : 1; /**< [ 23: 23](R/W/H) Run Rx Train Only DFE Mode For Debug
@@ -30400,68 +30412,7 @@ union cavm_gsermx_dfe_control_1
                                                                  internal */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_dfe_control_1_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t phase_adapt_temp_thr_lane : 8;/**< [ 31: 24](R/W/H) Phase Adapt  Temperature Enable Threshold (5 Degree = 12 Code)
-                                                                 internal */
-        uint32_t rx_train_only_dfe_lane : 1; /**< [ 23: 23](R/W/H) Run Rx Train Only DFE Mode For Debug
-                                                                 internal */
-        uint32_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable
-                                                                 internal */
-        uint32_t reserved_21           : 1;
-        uint32_t reserved_20           : 1;
-        uint32_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable
-                                                                 internal */
-        uint32_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable
-                                                                 internal */
-        uint32_t rl2_tune_en_lane      : 1;  /**< [ 17: 17](R/W/H) RL2_TUNE Adjust Enable
-                                                                 internal */
-        uint32_t reserved_16           : 1;
-        uint32_t esm_voltage_lane      : 8;  /**< [ 15:  8](R/W/H) Eye Shape Monitor Voltage Value */
-        uint32_t dfe_cal_done_lane     : 1;  /**< [  7:  7](RO/H) DFE Adaptation Calculation Done Indicator From MCU
-                                                                 internal */
-        uint32_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train When FORCE_DFE_F1P5_CTRL_EN_LANE=1
-                                                                 internal */
-        uint32_t force_dfe_f1p5_ctrl_en_lane : 1;/**< [  5:  5](R/W/H) Enable DFE F1P5 Force Control After Train
-                                                                 internal */
-        uint32_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor */
-        uint32_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready */
-        uint32_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable Flag In Tx Train
-                                                                 internal */
-        uint32_t tx_train_rx_mod_lane  : 2;  /**< [  1:  0](R/W/H) Tx Train Rx Modulation And Precoding Mode in PAM4
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint32_t tx_train_rx_mod_lane  : 2;  /**< [  1:  0](R/W/H) Tx Train Rx Modulation And Precoding Mode in PAM4
-                                                                 internal */
-        uint32_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable Flag In Tx Train
-                                                                 internal */
-        uint32_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready */
-        uint32_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor */
-        uint32_t force_dfe_f1p5_ctrl_en_lane : 1;/**< [  5:  5](R/W/H) Enable DFE F1P5 Force Control After Train
-                                                                 internal */
-        uint32_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train When FORCE_DFE_F1P5_CTRL_EN_LANE=1
-                                                                 internal */
-        uint32_t dfe_cal_done_lane     : 1;  /**< [  7:  7](RO/H) DFE Adaptation Calculation Done Indicator From MCU
-                                                                 internal */
-        uint32_t esm_voltage_lane      : 8;  /**< [ 15:  8](R/W/H) Eye Shape Monitor Voltage Value */
-        uint32_t reserved_16           : 1;
-        uint32_t rl2_tune_en_lane      : 1;  /**< [ 17: 17](R/W/H) RL2_TUNE Adjust Enable
-                                                                 internal */
-        uint32_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable
-                                                                 internal */
-        uint32_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable
-                                                                 internal */
-        uint32_t reserved_20           : 1;
-        uint32_t reserved_21           : 1;
-        uint32_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable
-                                                                 internal */
-        uint32_t rx_train_only_dfe_lane : 1; /**< [ 23: 23](R/W/H) Run Rx Train Only DFE Mode For Debug
-                                                                 internal */
-        uint32_t phase_adapt_temp_thr_lane : 8;/**< [ 31: 24](R/W/H) Phase Adapt  Temperature Enable Threshold (5 Degree = 12 Code)
-                                                                 internal */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_dfe_control_1_s cn; */
 };
 typedef union cavm_gsermx_dfe_control_1 cavm_gsermx_dfe_control_1_t;
 
@@ -108234,9 +108185,9 @@ union cavm_gsermx_sellv_rx_a90_dataclk_override
         uint32_t sellv_rx_a90_dataclk_override_enable : 8;/**< [ 31: 24](R/W/H) SELLV Rx A90 Data Clock Override enable flag */
         uint32_t sellv_rx_a90_dataclk_override_value : 8;/**< [ 23: 16](R/W/H) SELLV Rx A90 Data Clock Override value */
         uint32_t pcie_64g_calibration_support_en : 8;/**< [ 15:  8](R/W/H) Flag to enable or disable PCIE 64G calibration support */
-        uint32_t reserved_0_7          : 8;
+        uint32_t tximp_sat_wa_en       : 8;  /**< [  7:  0](R/W/H) Flag to Enable TXIMP Saturation WA */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_7          : 8;
+        uint32_t tximp_sat_wa_en       : 8;  /**< [  7:  0](R/W/H) Flag to Enable TXIMP Saturation WA */
         uint32_t pcie_64g_calibration_support_en : 8;/**< [ 15:  8](R/W/H) Flag to enable or disable PCIE 64G calibration support */
         uint32_t sellv_rx_a90_dataclk_override_value : 8;/**< [ 23: 16](R/W/H) SELLV Rx A90 Data Clock Override value */
         uint32_t sellv_rx_a90_dataclk_override_enable : 8;/**< [ 31: 24](R/W/H) SELLV Rx A90 Data Clock Override enable flag */
@@ -108376,7 +108327,7 @@ static inline uint64_t CAVM_GSERMX_SELLV_VREF_FW_CONT_CAL_CTRL_2(uint64_t a)
 /**
  * Register (RSL32b) gserm#_serdes_reset_state
  *
- * INTERNAL: GSERM Phy Serdes Reset State
+ * INTERNAL: GSERM Phy SerDes Reset State
  */
 union cavm_gsermx_serdes_reset_state
 {
@@ -108385,14 +108336,14 @@ union cavm_gsermx_serdes_reset_state
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) Serdes Rx Reset State
+        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) Serdes Tx Reset State
+        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
                                                                  internal */
 #else /* Word 0 - Little Endian */
-        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) Serdes Tx Reset State
+        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
                                                                  internal */
-        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) Serdes Rx Reset State
+        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
@@ -108402,14 +108353,14 @@ union cavm_gsermx_serdes_reset_state
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
         uint32_t reserved_16_23        : 8;
-        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) Serdes Rx Reset State
+        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) Serdes Tx Reset State
+        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
                                                                  internal */
 #else /* Word 0 - Little Endian */
-        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) Serdes Tx Reset State
+        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
                                                                  internal */
-        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) Serdes Rx Reset State
+        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint32_t reserved_16_23        : 8;
         uint32_t reserved_24_31        : 8;
@@ -118756,9 +118707,11 @@ union cavm_gsermx_train_debug0
                                                                  internal */
         uint32_t gain_train_f0a_lane   : 8;  /**< [ 15:  8](R/W/H) Gain Train F0A Save For Debug
                                                                  internal */
-        uint32_t reserved_0_7          : 8;
+        uint32_t txtrain_prec_c_thr_lane : 8;/**< [  7:  0](R/W/H) Tx Train PRECODER Enable CAP Index Threshold
+                                                                 internal */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_7          : 8;
+        uint32_t txtrain_prec_c_thr_lane : 8;/**< [  7:  0](R/W/H) Tx Train PRECODER Enable CAP Index Threshold
+                                                                 internal */
         uint32_t gain_train_f0a_lane   : 8;  /**< [ 15:  8](R/W/H) Gain Train F0A Save For Debug
                                                                  internal */
         uint32_t gain_train_ctle_bypass1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train CTLE BYPASS1_EN Save For Debug
@@ -123422,7 +123375,12 @@ union cavm_gsermx_trx_train_if_timers_enable_lane
     struct cavm_gsermx_trx_train_if_timers_enable_lane_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
+        uint32_t reserved_28_31        : 4;
+        uint32_t rx_ee_f1p5_init_en_lane : 2;/**< [ 27: 26](R/W/H) Rx Edge EQ F1P5 Enable Flag For Initial Training
+                                                                 internal
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint32_t train_timeout_int_lane : 1; /**< [ 25: 25](RO/H) Train Time Out Indicator From MCU
                                                                  internal */
         uint32_t reserved_24           : 1;
@@ -123438,7 +123396,12 @@ union cavm_gsermx_trx_train_if_timers_enable_lane
         uint32_t reserved_24           : 1;
         uint32_t train_timeout_int_lane : 1; /**< [ 25: 25](RO/H) Train Time Out Indicator From MCU
                                                                  internal */
-        uint32_t reserved_26_31        : 6;
+        uint32_t rx_ee_f1p5_init_en_lane : 2;/**< [ 27: 26](R/W/H) Rx Edge EQ F1P5 Enable Flag For Initial Training
+                                                                 internal
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
+        uint32_t reserved_28_31        : 4;
 #endif /* Word 0 - End */
     } s;
     struct cavm_gsermx_trx_train_if_timers_enable_lane_cn
@@ -123448,8 +123411,11 @@ union cavm_gsermx_trx_train_if_timers_enable_lane
         uint32_t reserved_30           : 1;
         uint32_t reserved_29           : 1;
         uint32_t reserved_28           : 1;
-        uint32_t reserved_27           : 1;
-        uint32_t reserved_26           : 1;
+        uint32_t rx_ee_f1p5_init_en_lane : 2;/**< [ 27: 26](R/W/H) Rx Edge EQ F1P5 Enable Flag For Initial Training
+                                                                 internal
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint32_t train_timeout_int_lane : 1; /**< [ 25: 25](RO/H) Train Time Out Indicator From MCU
                                                                  internal */
         uint32_t reserved_24           : 1;
@@ -123465,8 +123431,11 @@ union cavm_gsermx_trx_train_if_timers_enable_lane
         uint32_t reserved_24           : 1;
         uint32_t train_timeout_int_lane : 1; /**< [ 25: 25](RO/H) Train Time Out Indicator From MCU
                                                                  internal */
-        uint32_t reserved_26           : 1;
-        uint32_t reserved_27           : 1;
+        uint32_t rx_ee_f1p5_init_en_lane : 2;/**< [ 27: 26](R/W/H) Rx Edge EQ F1P5 Enable Flag For Initial Training
+                                                                 internal
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint32_t reserved_28           : 1;
         uint32_t reserved_29           : 1;
         uint32_t reserved_30           : 1;
