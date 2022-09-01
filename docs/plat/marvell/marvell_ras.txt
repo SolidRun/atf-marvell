@@ -116,8 +116,8 @@ EDAC SMC based interface for error injection exemple:
 --w-------    1 root     root         65536 Apr 19 20:17 inject
 
 echo 0x800000 > address
-echo 0x300    > error_type
-echo 0x1      > inject
+echo 0x40000300    > error_type
+echo 0x1 > inject
 
 address - identify 'physical address' inject error at specified address
 			Recommended to use addresses from ASC0 secure region
@@ -134,46 +134,46 @@ error_type   - parameter describe control flags
 			bit 7		:  0 = D-cache,  1 = I-cache
 			bit 8		:  1 = read-back poisoned address in EL3
 			bit 9		:  1 = target address EL3-physical, not virtual
-
+			bit 30		:  1 = allow injection
 
 	Injecting DRAM/LMC Single Bit Error (SBE) ECC at physical address 0x800000
 	and read-back poisoned content immediately:
 	echo 0x800000 > address
-	echo 0x300 > error_type
+	echo 0x40000300 > error_type
 
 	Injecting DRAM/LMC Double Bit Error (DBE) ECC at physical address 0x800000
 	and read-back poisoned address immediately:
 	echo 0x800000 > address
-	echo 0x308 > error_type
+	echo 0x40000308 > error_type
 
 	Injecting DRAM/LMC Single Bit Error (SBE) ECC at physical address 0x800000
 	do not read-back immediately, ECC irq will be triggered after outside 
 	read happened:
 	echo 0x800000 > address
-	echo 0x200 > error_type
+	echo 0x40000200 > error_type
 
 
 	Inject D1 Cache Single Bit Error (SBE) error at address 0x800000:
-	echo 0x310 > error_type
+	echo 0x40000310 > error_type
 
 	Inject D1 Cache Double Bit Error (DBE) error at address 0x800000:
-	echo 0x318 > error_type
+	echo 0x40000318 > error_type
 
 	Inject I1 Cache Single Bit Error (SBE) error at address 0x800000:
-	echo 0x390 > error_type
+	echo 0x40000390 > error_type
 
 	Inject DRAM data SBE error at linux kernel predefined virtual address
 	echo 1 > address
-	echo 2 > error_type
+	echo 0x40000002 > error_type
 
 	Inject DRAM code SBE error at linux kernel predefined virtual address
 	echo 2 > address
-	echo 2 > error_type
+	echo 0x40000002 > error_type
 
 	Inject DRAM code SBE error at EL3 predefined address
 	echo 3 > address
-	echo 2 > error_type
+	echo 0x40000002 > error_type
 
 	Inject DRAM data SBE error at EL3 predefined address
 	echo 7 > address
-	echo 2 > error_type
+	echo 0x40000002 > error_type
