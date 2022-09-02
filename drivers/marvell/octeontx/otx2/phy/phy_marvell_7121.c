@@ -31,6 +31,9 @@
 #include "mzdHwCntl.h"
 #ifdef ATF_ENABLE_MAC_ADV_CMDS
 #include "macsec/phy_marvell_7121_macsec_api.h"
+#include "ptp/mzdTaiAPI.h"
+#include "ptp/mzdPtpAPI.h"
+#include "mzdHwAPBusCntl.h"
 #endif
 #include <gti_watchdog.h>
 
@@ -730,6 +733,97 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 }
 
 #ifdef ATF_ENABLE_MAC_ADV_CMDS
+
+static int phy_marvell_7121_ptp_enable_tc_unencrypted(int cgx_id, int lmac_id,
+	int pd_ingr_line, int pd_egr_line, int pd_ingr_host, int pd_egr_host, int ptp_ref_clk)
+{
+	phy_config_t *phy;
+	cgx_lmac_config_t *lmac_cfg;
+	MZD_U16 lane;
+	MZD_OP_MODE lineMode;
+
+	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
+	phy = &lmac_cfg->phy_config;
+	lane = phy->port;
+	lineMode = ((MZD_DEV_PTR)phy->priv)->lineConfig[phy->addr][lane].opMode;
+
+	debug_phy_driver("%s: %d:%d enable tc bypass macsec (%d, %d) lineMode=%d <%d, %d, %d, %d, %d>\n",
+		__func__, cgx_id, lmac_id, phy->addr, lane, lineMode,
+		pd_ingr_line, pd_egr_line, pd_ingr_host, pd_egr_host, ptp_ref_clk);
+
+	/* 1. enable Macsec clock and MAC(Set Reg 0xf01a to 0x10f, */
+	/* bypass PPMFIFO(Set dev4 Reg0xf01b to 0xf0ff and dev3 Reg0xf10b to 0xffff) */
+	if (((MZD_DEV_PTR)phy->priv)->macsecCtrl.macsecInitialized == MZD_FALSE) {
+		MZD_ATTEMPT(mzdMacSecMacInit(phy->priv, phy->addr, MZD_BOTH_SIDE, lane, lineMode,
+			MZD_INIT_MACSEC_ENABLE | MZD_INIT_MACSEC_BYPASS | MZD_INIT_PTP));
+	}
+
+	/* 2. Enable Mac One Step */
+	/* For example low speed , enable both host side and line side MACOneStep */
+	MZD_ATTEMPT(mzdPtpSetMACOneStep(phy->priv, phy->addr, lane, MZD_HOST_SIDE, MZD_FALSE, MZD_TRUE));
+	MZD_ATTEMPT(mzdPtpSetMACOneStep(phy->priv, phy->addr, lane, MZD_LINE_SIDE, MZD_FALSE, MZD_TRUE));
+
+	MZD_ATTEMPT(mzdPtpTSXEnable(phy->priv, phy->addr, lane, MZD_HOST_SIDE, lineMode, MZD_TRUE));
+	MZD_ATTEMPT(mzdPtpTSXEnable(phy->priv, phy->addr, lane, MZD_LINE_SIDE, lineMode, MZD_TRUE));
+
+	/* 4. Enable TAI and PTP */
+	MZD_ATTEMPT(mzdTaiInit(phy->priv, phy->addr));
+	MZD_ATTEMPT(mzdTaiPulseInMuxingEnableSet(phy->priv, phy->addr, MZD_TAI0, MZD_TRUE));
+	MZD_ATTEMPT(mzdTaiTodUpdateEnableFirmware(phy->priv, phy->addr, MZD_TAI0, MZD_TRUE));
+
+	if (ptp_ref_clk) {
+		/* Select refclk from ptp crystal */
+		MZD_ATTEMPT(mzdTaiRefclkSel(phy->priv, phy->addr, MZD_FALSE));
+		/* Use reference clock 125 to output TAI clock 800MHz, and set 2 TAI TOD step to 1.25 ns */
+		/* MZD_TAI_REF_CLK_1 : reference clock = 125MHz */
+		/* MZD_TAI_CLK_0 : TAI clock = 800MHz */
+		MZD_ATTEMPT(mzdTaiClockConfig(phy->priv, phy->addr, MZD_TAI_REF_CLK_1, MZD_TAI_CLK_0));
+	}
+	MZD_ATTEMPT(mzdPtpInit(phy->priv, phy->addr));
+
+	/* 5. Set PTP Mode : for example TC Mode */
+	MZD_ATTEMPT(mzdPtpTCInit(phy->priv, phy->addr, lane, MZD_TRUE));
+	MZD_ATTEMPT(mzdPtpTCInit(phy->priv, phy->addr, lane, MZD_FALSE));
+
+	/* 6. UnEncrypt PTP packet */
+	MZD_ATTEMPT(mzdPtpSetIgnoreMacSec(phy->priv, phy->addr, lane, MZD_TRUE, MZD_TRUE));
+	MZD_ATTEMPT(mzdPtpSetIgnoreMacSec(phy->priv, phy->addr, lane, MZD_FALSE, MZD_TRUE));
+
+	/* Workaround for PTP v2.1 header parsing */
+	/* MACSEC0 Egress parser */
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xc61160, 0x102));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xc61164, 0x112));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xc61168, 0x000));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xc6116c, 0x000));
+
+	/* MACSEC0 Ingress parser0 */
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xce1160, 0x102));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xce1164, 0x112));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xce1168, 0x000));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xce116c, 0x000));
+
+	/* MACSEC0 Ingress parser1 */
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xce9160, 0x102));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xce9164, 0x112));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xce9168, 0x000));
+	MZD_ATTEMPT(mzdHwAPBusWrite(phy->priv, 0xce916c, 0x000));
+
+	MZD_ATTEMPT(mzdPtpTSDFSEnable(phy->priv, phy->addr, lane, MZD_LINE_SIDE, lineMode, MZD_TRUE));
+
+	/* Addtional delays on 4 ways */
+	MZD_ATTEMPT(mzdPtpLineSidePathDelaySet(phy->priv, phy->addr, lane, lineMode, MZD_PTP_BYPASS_MACSEC, MZD_TRUE));
+	MZD_ATTEMPT(mzdPtpHostSidePathDelaySet(phy->priv, phy->addr, lane, lineMode, MZD_PTP_BYPASS_MACSEC, MZD_TRUE));
+
+	MZD_ATTEMPT(mzdPtpAdditionalIngrPDAdd(phy->priv, phy->addr, lane, MZD_FALSE, (MZD_U32)pd_ingr_line));
+	MZD_ATTEMPT(mzdPtpAdditionalEgrPDAdd(phy->priv, phy->addr, lane, MZD_TRUE, (MZD_U32)pd_egr_line));
+
+	MZD_ATTEMPT(mzdPtpAdditionalIngrPDAdd(phy->priv, phy->addr, lane, MZD_TRUE, (MZD_U32)pd_ingr_host));
+	MZD_ATTEMPT(mzdPtpAdditionalEgrPDAdd(phy->priv, phy->addr, lane, MZD_FALSE, (MZD_U32)pd_egr_host));
+
+	printf("cgx %d lmac %d PTP TC Enabled\n", cgx_id, lmac_id);
+	return 0;
+}
+
 static int phy_marvell_7121_set_rclk(int cgx_id, int lmac_id, int pin, int src_clk, int ratio)
 {
         phy_config_t *phy;
@@ -863,12 +957,25 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 							cgx_id, lmac_id, status);
 		break;
 
+	case PHY_MAC_ADV_MACSEC_PTP:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_PTP\n", __func__);
+
+		status = phy_7121_macsec_op_api(cgx_id,
+					lmac_id,
+					adv_cmds->mac_adv_cmd,
+					phy_macsec_drv);
+		if (status == MZD_OK)
+			printf("cgx %d lmac %d MACsec Enabled with PTP path\n", cgx_id, lmac_id);
+		else
+			printf("cgx %d lmac %d MACsec Enable Failed Status %d\n",
+							cgx_id, lmac_id, status);
+		break;
+
 	case PHY_MAC_ADV_MACSEC_SET_MAC_DA:
 		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_MAC_DA\n", __func__);
 		status = phy_7121_macsec_set_mac_da_api(phy_macsec_drv,
 					&adv_cmds->data.vport_params);
 		break;
-
 
 	case PHY_MAC_ADV_MACSEC_SET_KEY:
 		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_KEY\n", __func__);
@@ -955,18 +1062,6 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 						phy_macsec_drv);
 		break;
 
-	case PHY_MAC_ADV_GEN_RCLK:
-		debug_phy_driver("%s: PHY_MAC_ADV_GEN_RCLK pin %d ratio %d src %d\n",
-			__func__,
-			adv_cmds->data.gen_rclk.pin,
-			adv_cmds->data.gen_rclk.ratio,
-			adv_cmds->data.gen_rclk.src_clk);
-		phy_marvell_7121_set_rclk(cgx_id, lmac_id,
-					adv_cmds->data.gen_rclk.pin,
-					adv_cmds->data.gen_rclk.src_clk,
-					adv_cmds->data.gen_rclk.ratio);
-		break;
-
 	case PHY_MAC_ADV_MACSEC_GET_MAC_ADDR:
 		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_GET_MAC_ADDR\n", __func__);
 		status = phy_7121_macsec_get_port_mac_api(phy_macsec_drv);
@@ -996,6 +1091,35 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 		printf("%s: PHY_MAC_ADV_MACSEC_DBG macsec_debug %d\n",
 				__func__, macsec_debug);
 		break;
+
+	case PHY_MAC_ADV_GEN_RCLK:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_GEN_RCLK pin %d ratio %d src %d\n",
+			__func__,
+			adv_cmds->data.gen_rclk.pin,
+			adv_cmds->data.gen_rclk.ratio,
+			adv_cmds->data.gen_rclk.src_clk);
+		phy_marvell_7121_set_rclk(cgx_id, lmac_id,
+					adv_cmds->data.gen_rclk.pin,
+					adv_cmds->data.gen_rclk.src_clk,
+					adv_cmds->data.gen_rclk.ratio);
+		break;
+
+	case PHY_MAC_ADV_GEN_PTP_TC_NOENC:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_GEN_PTP_TC_ENC (%d %d %d %d %d)\n",
+			__func__,
+			adv_cmds->data.ptp_tc.pd_ingr_line,
+			adv_cmds->data.ptp_tc.pd_egr_line,
+			adv_cmds->data.ptp_tc.pd_ingr_host,
+			adv_cmds->data.ptp_tc.pd_egr_host,
+			adv_cmds->data.ptp_tc.ptp_ref_clk);
+
+		phy_marvell_7121_ptp_enable_tc_unencrypted(
+			cgx_id, lmac_id,
+			adv_cmds->data.ptp_tc.pd_ingr_line, adv_cmds->data.ptp_tc.pd_egr_line,
+			adv_cmds->data.ptp_tc.pd_ingr_host, adv_cmds->data.ptp_tc.pd_egr_host,
+			adv_cmds->data.ptp_tc.ptp_ref_clk);
+		break;
+
 
 	default:
 		MAC_ADV_MACSEC_DBG("%s: ERROR Incorrect commands %d\n",

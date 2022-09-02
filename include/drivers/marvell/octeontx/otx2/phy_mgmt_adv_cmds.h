@@ -46,9 +46,8 @@ typedef enum  PHY_7121_ADV_CMDS {
 
 	/* Generic PHY commands */
 	PHY_MAC_ADV_GEN_RCLK = 101,
+	PHY_MAC_ADV_GEN_PTP_TC_NOENC = 102,
 	PHY_MAC_ADV_GEN_MAX = 200,
-
-	/* Add PTP commands */
 } PHY_7121_ADV_CMDS_t;
 
 typedef enum  PHY_7121_MACSEC_PKTTEST {
@@ -115,11 +114,19 @@ typedef struct phy_gen_rclk {
 	int ratio;
 } phy_gen_rclk_t;
 
+typedef struct phy_ptp_tc {
+	int pd_ingr_line;
+	int pd_egr_line;
+	int pd_ingr_host;
+	int pd_egr_host;
+	int ptp_ref_clk;
+} phy_ptp_tc_t;
+
+
 #define MACSEC_ADV_CMD_VERS_MAJOR  0x0001
 #define MACSEC_ADV_CMD_VERS_MINOR  0x0000
 #define MACSEC_ADV_CMD_VERS  (MACSEC_ADV_CMD_VERS_MAJOR \
 				| MACSEC_ADV_CMD_VERS_MINOR)
-
 typedef struct phy_7121_adv_cmds {
 	int mac_adv_cmd_ver;
 	int mac_adv_dbg;
@@ -132,6 +139,7 @@ typedef struct phy_7121_adv_cmds {
 		macsec_vport_params_t vport_params;
 		pkttest_t pkttest_cmd;
 		phy_gen_rclk_t gen_rclk;
+		phy_ptp_tc_t ptp_tc;
 	} data;
 } phy_7121_adv_cmds_t;
 
