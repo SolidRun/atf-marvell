@@ -8,10 +8,10 @@
 
 #ifndef __ASSEMBLER__
 struct fw_logbuf_header {
-    uint64_t fwlog_base;
-    uint64_t fwlog_end;
-    uint64_t fwlog_ptr;
-    uint64_t wraparound;
+	uint64_t fwlog_base;
+	uint64_t fwlog_end;
+	uint64_t fwlog_ptr;
+	uint64_t wraparound;
 } __attribute__((__packed__));
 #endif
 

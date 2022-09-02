@@ -77,6 +77,11 @@ PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/aarch64/pl011_console.S	\
 				${XLAT_TABLES_LIB_SRCS}				\
 				${LIBC_SRCS}
 
+ifeq (${RECORD_FWLOG}, 1)
+$(eval $(call add_define,ENABLE_RECORD_FWLOG))
+PLAT_BL_COMMON_SOURCES	+=	drivers/marvell/octeontx/mem_console.S
+endif
+
 BL2_SOURCES +=			drivers/io/io_memmap.c				\
 				drivers/io/io_storage.c				\
 				drivers/io/io_dummy.c				\

@@ -8,7 +8,7 @@
 #include <arch.h>
 #include <asm_macros.S>
 #include <console_macros.S>
-#include <drivers/marvell/octeontx/cn10k/mem_console.h>
+#include <drivers/marvell/octeontx/mem_console.h>
 
 	/*
 	 * "core" functions are low-level implementations that don't require

@@ -672,7 +672,7 @@ void plat_cn10x_early_initialization(void)
 }
 #endif
 
-void plat_cn10k_el3_arch_setup(void)
+void plat_el3_arch_setup(void)
 {
 #ifdef ENABLE_RECORD_FWLOG
 	struct fw_logbuf_header *ns_fwlogmem = (struct fw_logbuf_header *) FWLOG_NS_MEM_BASE;

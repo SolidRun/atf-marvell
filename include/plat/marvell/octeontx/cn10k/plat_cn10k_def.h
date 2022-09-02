@@ -136,4 +136,13 @@
 #define MRML_RSL_INDEX(bar0)		((bar0 >> 24) & 0x3FF)
 #define MRML_NCB_INDEX(bar2)		((bar2 >> 36) & 0xFF)
 
+#define FWLOG_SEC_LIMIT				BL31_BASE
+#define FWLOG_SEC_SIZE				(512 * 1024)
+#define FWLOG_SEC_BASE				(FWLOG_SEC_LIMIT - FWLOG_SEC_SIZE)
+
+/* Firmware log at 4MB @60MB */
+#define FWLOG_NS_MEM_BASE	(60 * 1024 * 1024)
+#define FWLOG_NS_MEM_SIZE	(4 * 1024 * 1024)
+#define FWLOG_NS_MEM_END	(FWLOG_NS_MEM_BASE + FWLOG_NS_MEM_SIZE)
+
 #endif

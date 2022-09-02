@@ -37,6 +37,12 @@ extern void plat_add_mmio();
 static void plat_adjust_fdt(void);
 #endif
 
+#ifdef ENABLE_RECORD_FWLOG
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+static void plat_add_fwlog(void);
+#endif
+#endif
+
 /* only invoked in BL2, but compiled for BL2/BL31; mark w/'unused' attribute */
 static void plat_initialize_os_persistent_area(void) __attribute__ ((unused));
 
@@ -113,7 +119,37 @@ void plat_add_mmio_map()
 	 */
 	plat_adjust_fdt();
 #endif
+
+#ifdef ENABLE_RECORD_FWLOG
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+	plat_add_fwlog();
+#endif
+#endif
 }
+
+/*
+ * plat_add_fwlog()
+ *
+ * mmap RECORD_FWLOG related regions
+ */
+#ifdef ENABLE_RECORD_FWLOG
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+static void plat_add_fwlog(void)
+{
+#ifdef IMAGE_BL31
+	mmap_add_region(FWLOG_SEC_BASE,
+					FWLOG_SEC_BASE,
+					FWLOG_SEC_SIZE,
+					MT_RW | MT_SECURE | MT_MEMORY);
+#endif
+	/* TODO check this one overlaps with any other regions */
+	mmap_add_region(FWLOG_NS_MEM_BASE,
+					FWLOG_NS_MEM_BASE,
+					FWLOG_NS_MEM_SIZE,
+					MT_RW | MT_NS | MT_MEMORY);
+}
+#endif
+#endif
 
 /*
  * plat_adjust_fdt()

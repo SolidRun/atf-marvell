@@ -55,10 +55,14 @@
 #include <libtim.h>
 #include <plat_board_cfg.h>
 #include <gserm.h>
-#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+#endif
+
+#if defined(ENABLE_RECORD_FWLOG)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 #include <mem_console.h>
 #endif
 #endif
+
 #include <octeontx_board_cfg_setup.h>
 #include <octeontx_scfg_setup.h>
 #include <plat_octeontx.h>
@@ -89,10 +93,12 @@ static meminfo_t bl2_tzram_layout __aligned(CACHE_WRITEBACK_GRANULE)
 /* Data structure for console initialization */
 static console_t console;
 
-#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+#if defined(ENABLE_RECORD_FWLOG)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 console_t fwlog_buf;
 int console_mem_register(uintptr_t baseaddr, uint32_t clock, uint32_t baud,
 			console_t *console);
+#endif
 #endif
 
 #if ENABLE_ATTESTATION_SERVICE
@@ -541,7 +547,8 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	console_pl011_register(UAAX_PF_BAR0(0), 0, 0, &console);
 	console_set_scope((console_t *)&console, CONSOLE_FLAG_RUNTIME);
 
-#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+#if defined(ENABLE_RECORD_FWLOG)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 	struct fw_logbuf_header *sec_fwlogmem = (struct fw_logbuf_header *) FWLOG_SEC_BASE;
 	/* Use WORK_BUFFER MEMORY to save the logs till MMU is enabled */
 	sec_fwlogmem->fwlog_base = (uint64_t) FWLOG_SEC_BASE + sizeof(struct fw_logbuf_header);
@@ -551,6 +558,7 @@ void bl2_el3_early_platform_setup(u_register_t arg0, u_register_t arg1,
 	console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
 	//console_mem_register(FWLOG_SEC_BASE, 0, 0, &fwlog_buf);
 	//console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
+#endif
 #endif
 	console_switch_state(CONSOLE_FLAG_RUNTIME);
 

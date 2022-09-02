@@ -31,6 +31,9 @@
 |		      |
 |		      |
 |---------------------|
+|	Firmware Logs |
+|	512 KB      |
+|---------------------|
 |	BL31	      |
 |	3 MB          |
 |---------------------|
@@ -85,6 +88,12 @@
 |		      |
 |		      |
 |		      |
+|		      |
+|---------------------|
+|		      |
+|	Firmware Logs |
+|	4 MB	  |
+|		      |
 |---------------------|==> Non secure firmware image @ 64 MB
 |		      |
 |	NS Image      |
@@ -126,10 +135,6 @@
 #define BL31_MAX_SIZE			(0x0027e000 + \
 					 MAX_XLAT_TABLES * PAGE_SIZE)
 #define BL31_BASE			(BL31_LIMIT - BL31_MAX_SIZE)
-
-#define FWLOG_SEC_LIMIT			BL31_BASE
-#define FWLOG_SEC_SIZE			(512 * 1024)
-#define FWLOG_SEC_BASE			(FWLOG_SEC_LIMIT - FWLOG_SEC_SIZE)
 
 #define TSP_IRQ_SEC_PHY_TIMER		29
 #define TSP_SEC_MEM_BASE		TZDRAM_BASE
@@ -216,10 +221,6 @@
 					 SERDES_EYE_DATA_SIZE)
 #define SERDES_PRBS_DATA_BASE		(SERDES_SETTINGS_DATA_BASE + \
 					 SERDES_SETTINGS_DATA_SIZE)
-
-/* Firmware log at 4MB @48MB */
-#define FWLOG_NS_MEM_BASE	(48 * 1024 * 1024)
-#define FWLOG_NS_MEM_SIZE	(4 * 1024 * 1024)
 
 #ifndef __ASSEMBLER__
 int plat_is_irq_ns(uint32_t irq);

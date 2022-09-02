@@ -60,8 +60,11 @@
 #include <octeontx_mmap_utils.h>
 #include <gpio_octeontx.h>
 #include <plat_mem_alloc.h>
-#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+
+#if defined(ENABLE_RECORD_FWLOG)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 #include <mem_console.h>
+#endif
 #endif
 
 #if RAS_EXTENSION
@@ -87,11 +90,13 @@ octeontx_bl_platform_args_t octeontx_bl31_plat_args;
 /* Data structure for console initialization */
 static console_t console;
 
-#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
-void plat_cn10k_el3_arch_setup(void);
+#if defined(ENABLE_RECORD_FWLOG)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+void plat_el3_arch_setup(void);
 console_t fwlog_buf;
 int console_mem_register(uintptr_t baseaddr, uint32_t clock, uint32_t baud,
 			console_t *console);
+#endif
 #endif
 
 /*******************************************************************************
@@ -132,9 +137,11 @@ void bl31_early_platform_setup(void *from_bl2,
 	console_pl011_register(UAAX_PF_BAR0(0), 0, 0, &console);
 	console_set_scope((console_t *)&console, CONSOLE_FLAG_RUNTIME);
 
-#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+#if defined(ENABLE_RECORD_FWLOG)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 	console_mem_register(FWLOG_SEC_BASE, 0, 0, &fwlog_buf);
 	console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
+#endif
 #endif
 
 	console_switch_state(CONSOLE_FLAG_RUNTIME);
@@ -272,8 +279,10 @@ void bl31_plat_arch_setup()
 
 	enable_mmu_el3(0);
 
-#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
-	plat_cn10k_el3_arch_setup();
+#if defined(ENABLE_RECORD_FWLOG)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+	plat_el3_arch_setup();
+#endif
 #endif
 }
 
@@ -306,8 +315,10 @@ void bl31_plat_runtime_setup(void)
 	octeontx_mmap_remove_dynamic_region_with_sync(ns_dma_memory_base,
 						      NS_DMA_MEMORY_SIZE);
 #endif
-#if defined(PLAT_CN10K_FAMILY) && defined(ENABLE_RECORD_FWLOG)
+#if defined(ENABLE_RECORD_FWLOG)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 	console_unregister(&fwlog_buf);
+#endif
 #endif
 }
 
