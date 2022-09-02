@@ -61,10 +61,18 @@
 #include <plat_ras.h>
 #endif
 
+#ifdef ENABLE_RECORD_FWLOG
+#include <mem_console.h>
+#endif
+
 #include "cavm-csrs-fusf.h"
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-pem.h"
 #include <plat_fuse.h>
+
+#ifdef ENABLE_RECORD_FWLOG
+extern console_t fwlog_buf;
+#endif
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -79,6 +87,14 @@ static uint64_t disable_ooo_mask;
 static uint64_t enable_wfe_mask;
 
 extern void plat_armtrace_init(void);
+
+#ifdef ENABLE_RECORD_FWLOG
+void bl31_el3_plat_prepare_exit(void)
+{
+	flush_dcache_range(FWLOG_NS_MEM_BASE, FWLOG_NS_MEM_SIZE);
+}
+#endif
+
 /* Any SoC family specific setup
  * to be done in BL31 can be initialized
  * in this API. If there are any platform
@@ -120,6 +136,10 @@ void plat_octeontx_setup(void)
 
 	/* otx2 trace init */
 	plat_armtrace_init();
+
+#ifdef ENABLE_RECORD_FWLOG
+	bl31_el3_plat_prepare_exit();
+#endif
 }
 
 unsigned int is_pem_in_ep_mode(int pem)
@@ -1159,3 +1179,30 @@ int plat_fuse_read(int fuse)
 
 	return FUSE_GET_VAL((dat & 0xff), fuse);
 }
+
+void plat_el3_arch_setup(void)
+{
+#ifdef ENABLE_RECORD_FWLOG
+	struct fw_logbuf_header *ns_fwlogmem = (struct fw_logbuf_header *)FWLOG_NS_MEM_BASE;
+	struct fw_logbuf_header *sec_fwlogmem = (struct fw_logbuf_header *)FWLOG_SEC_BASE;
+	uint64_t fwlog_size;
+
+	if (sec_fwlogmem && sec_fwlogmem->fwlog_base != 0) {
+		fwlog_size = sec_fwlogmem->fwlog_ptr - sec_fwlogmem->fwlog_base;
+		/* Disable the console mem */
+		console_set_scope((console_t *)&fwlog_buf, 0);
+		/* Copy the firmware logs from secure memory to non-secure */
+		memcpy((char *)ns_fwlogmem->fwlog_ptr, (char *)sec_fwlogmem->fwlog_base, fwlog_size);
+		ns_fwlogmem->fwlog_ptr = ns_fwlogmem->fwlog_ptr + fwlog_size;
+		fwlog_buf.base = FWLOG_NS_MEM_BASE;
+		console_set_scope((console_t *)&fwlog_buf, CONSOLE_FLAG_RUNTIME);
+	}
+#endif
+}
+
+#ifdef ENABLE_RECORD_FWLOG
+void bl2_el3_plat_prepare_exit(void)
+{
+	flush_dcache_range(FWLOG_SEC_BASE, FWLOG_SEC_SIZE);
+}
+#endif
