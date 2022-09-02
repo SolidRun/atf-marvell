@@ -83,6 +83,7 @@
 #include "cavm-csrs-mrml.h"
 #include "cavm-csrs-dss.h"
 #include "cavm-csrs-cst_shrd_funnel.h"
+#include "cavm-csrs-rst.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -1048,8 +1049,13 @@ int disable_devmem_ns_access(struct ecam_device *dev)
 	bar0 = get_bar_val(config, 0);
 	bar2 = get_bar_val(config, 2);
 
-	if (bar0)
-		set_permissions(dev, bar0);
+	if (bar0) {
+		/* Allow RST5 CSRs that are in BAR0 to be accessed
+		 * by non-secure platform
+		 */
+		if (bar0 != CAVM_RST_BAR_E_RST_PF_BAR0)
+			set_permissions(dev, bar0);
+	}
 	if (bar2)
 		set_permissions(dev, bar2);
 
