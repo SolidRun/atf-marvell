@@ -290,22 +290,6 @@ static struct async_update_data aupdate_data;
 
 static enum update_ret media_done(struct io_handle *io_handle);
 
-/**
- * This pets the watchdog.
- *
- * We do this periodically since this operation can take a long time.
- */
-void pet_dog(void)
-{
-	unsigned int core_id = plat_my_core_pos();
-
-	/* Core watchdog used by ATF */
-	gti_watchdog_poke(core_id);
-
-	/* Poke GT_WR1, as linux is using only generic watchdog */
-	gti_watchdog_generic_poke(1);
-}
-
 #if 0
 /* The following define the various object groupings.  In order to be valid,
  * all of the files within a group must be present.  Incomplete groups
@@ -1670,7 +1654,7 @@ static enum update_ret check_files(void)
 
 	ULOG("Verifying files in update file\n");
 	for_each_object(obj) {
-		pet_dog();
+		gti_wdog_pet();
 		err = check_file_loc_size(obj->tim_file);
 		if (err)
 			return UPDATE_LOCATION_ERROR;
@@ -1830,7 +1814,7 @@ octeontx_io_data_read(struct io_handle *io_handle, uint64_t offset,
 	size_t bytes_read;
 	int ret;
 
-	pet_dog();
+	gti_wdog_pet();
 
 	debug_fw_update("%s: Reading 0x%lx bytes from media offset 0x%llx\n",
 			__func__, size, offset);
@@ -1899,7 +1883,7 @@ octeontx_io_data_write(struct io_handle *io_handle, uint64_t offset,
 	size_t bytes_written;
 	int ret;
 
-	pet_dog();
+	gti_wdog_pet();
 
 	debug_fw_update("%s: Writing 0x%lx bytes to media offset 0x%llx\n",
 			__func__, size, offset);
@@ -2011,7 +1995,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 		 * operation takes care of handling partial blocks.
 		 */
 		while (size > 0) {
-			pet_dog();
+			gti_wdog_pet();
 			wr_size = (size > SPI_NOR_ERASE_SIZE) ?
 						SPI_NOR_ERASE_SIZE : size;
 			uret = octeontx_write_data(desc, offset, wr_size,
@@ -3023,7 +3007,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 		return UPDATE_OK;
 	}
 
-	pet_dog();
+	gti_wdog_pet();
 	err = marvell_cust_verify_fw_update_image(desc);
 	if (err) {
 		UWARN("Customer verification failed\n");
@@ -3034,14 +3018,14 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	fw_image = (void *)desc->image_addr;
 	size = desc->image_size;
 
-	pet_dog();
+	gti_wdog_pet();
 	ret = firm_update_init(fw_image, size);
 	if (ret != UPDATE_OK) {
 		UWARN("Error parsing firmware\n");
 		goto error;
 	}
 
-	pet_dog();
+	gti_wdog_pet();
 	UINFO("Processing TIMs in update file...\n");
 	debug_fw_update("%s: Processing TIMs\n", __func__);
 	ret = update_process_tims();
@@ -3050,7 +3034,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 		goto error;
 	}
 
-	pet_dog();
+	gti_wdog_pet();
 	UINFO("Validating all objects are present in available groups...\n");
 	debug_fw_update("%s: Checking groups\n", __func__);
 	err = check_groups();
@@ -3060,30 +3044,30 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	}
 	all_present = (err == 1);
 
-	pet_dog();
+	gti_wdog_pet();
 	UINFO("Validating objects...\n");
 	ret = check_files();
 	if (ret != UPDATE_OK)
 		goto error;
 
-	pet_dog();
+	gti_wdog_pet();
 	UINFO("Checking existing flash objects...\n");
 	ret = check_flash_files(desc, all_present);
 	if (ret != UPDATE_OK)
 		goto error;
 
-	pet_dog();
+	gti_wdog_pet();
 	UINFO("Reading and erasing existing TIM0\n");
 	ret = save_tim0(desc);
 	if (ret == UPDATE_OK)
 		ret = erase_tim0(desc);
 	old_tim0_saved = (ret == UPDATE_OK);
 
-	pet_dog();
+	gti_wdog_pet();
 	ret = get_tim0_from_update();
 	tim0_updated = (ret == UPDATE_OK);
 
-	pet_dog();
+	gti_wdog_pet();
 	UINFO("Writing files to flash...\n");
 	ret = octeontx_write_files(desc, async_operation);
 	if (ret != UPDATE_OK)
@@ -3369,13 +3353,13 @@ static int cn10k_read_flash(struct smc_read_flash_descriptor *desc,
 	buffer = (void *)desc->addr;
 	size = desc->length;
 
-	pet_dog();
+	gti_wdog_pet();
 	INFO("Reading Data\n");
 	err = spi_async_init_delayed();
 
-	pet_dog();
+	gti_wdog_pet();
 	spi_async_add_block_read(desc->bus, desc->cs, desc->offset, buffer, size, NULL, NULL);
-	pet_dog();
+	gti_wdog_pet();
 	if (async_operation)
 		spi_async_start(done_callback, p);
 

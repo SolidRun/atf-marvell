@@ -360,6 +360,21 @@ void gti_watchdog_generic_poke(int wdg)
 	CSR_WRITE(CAVM_GTI_WRX_WRR(wdg), 0);
 }
 
+/**
+ * This pets the watchdog
+ */
+void gti_wdog_pet(void)
+{
+	unsigned int core_id = plat_my_core_pos();
+
+	/* Core watchdog used by ATF */
+	gti_watchdog_poke(core_id);
+
+	/* Poke GT_WR1, as linux is using only generic watchdog */
+	gti_watchdog_generic_poke(1);
+}
+
+
 int gti_wdog_remove_handler(void)
 {
 	gti_watchdog_disable();

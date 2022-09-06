@@ -32,6 +32,8 @@
 #ifdef ATF_ENABLE_MAC_ADV_CMDS
 #include "macsec/phy_marvell_7121_macsec_api.h"
 #endif
+#include <gti_watchdog.h>
+
 /* 7121 PHY Device Stucture */
 MZD_DEV mzd_dev;
 
@@ -1164,6 +1166,7 @@ static int phy_marvell_7121_get_eye_measure(int cgx_id, int lmac_id, int host_si
 	MZD_U16 eyeWidth, eyeHeight;
 	E_C112GX4_EYE_TMB eyeTMB;
 
+	gti_wdog_pet();
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 
 	debug_phy_driver("%s: %d:%d fec %d line fec %d\n", __func__, cgx_id, lmac_id,
@@ -1181,9 +1184,11 @@ static int phy_marvell_7121_get_eye_measure(int cgx_id, int lmac_id, int host_si
 
 	MZD_CHECK_DEV_SIDE(pDev, phy->addr, lane, side);
 
+	gti_wdog_pet();
 	MZD_ATTEMPT(mzdSetSerdesDevInfo(pDev, phy->addr, side));
 	eyeTMB = C112GX4_EYE_MID;
 
+	gti_wdog_pet();
 	MZD_ATTEMPT(API_C112GX4_EOMGetWidthHeight(
 							pSerdesDev,
 							(MZD_U8)lane,
@@ -1191,6 +1196,8 @@ static int phy_marvell_7121_get_eye_measure(int cgx_id, int lmac_id, int host_si
 							&eyeWidthCW,
 							&eyeHeightUpperCW,
 							&eyeHeightLowerCW));
+
+	gti_wdog_pet();
 	MZD_ATTEMPT(API_C112GX4_EOMConvertWidthHeight(
 							pSerdesDev,
 							(MZD_U8)lane,
@@ -1200,6 +1207,7 @@ static int phy_marvell_7121_get_eye_measure(int cgx_id, int lmac_id, int host_si
 							&eyeWidth,
 							&eyeHeight));
 
+	gti_wdog_pet();
 	printf("%s side Eye Width Height(mid-point): %d mUI height_mV:%d mV\n",
 		host_side ? "Host" : "Line",  eyeWidth, eyeHeight/10);
 	return 0;
@@ -1216,6 +1224,7 @@ static MZD_STATUS mzdSerdesEyePlotStats_7121
 	MZD_U16 phaseIndex, voltageIndex;
 	MZD_U16 phaseInterval, timeUnit;
 
+	gti_wdog_pet();
 	MZD_CHECK_DEV(pDev, pDev->mdioPort, 0);
 
 	if (!pEyeRawData) {
@@ -1252,6 +1261,7 @@ static MZD_STATUS mzdSerdesEyePlotStats_7121
 				printf("X");
 			}
 		}
+		gti_wdog_pet();
 	}
 	return MZD_OK;
 }
@@ -1268,6 +1278,7 @@ static int phy_marvell_7121_get_eye_plot(int cgx_id, int lmac_id, int host_side)
 	MZD_U32 minSamples = 1;
 	MZD_U32 berThreshold = 1;
 
+	gti_wdog_pet();
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 
 	phy = &lmac_cfg->phy_config;
@@ -1289,6 +1300,7 @@ static int phy_marvell_7121_get_eye_plot(int cgx_id, int lmac_id, int host_side)
 	voltageSteps = 50;
 	phaseLevels = 40;
 
+	gti_wdog_pet();
 	MZD_ATTEMPT(mzdSerdesGetEye(
 					pDev,
 					phy->addr,
@@ -1303,12 +1315,14 @@ static int phy_marvell_7121_get_eye_plot(int cgx_id, int lmac_id, int host_side)
 					&eyeHeight,
 					&eyeRawData));
 
+	gti_wdog_pet();
 	MZD_ATTEMPT(mzdSerdesEyePlotStats_7121(
 					pDev,
 					&eyeRawData,
 					voltageSteps,
 					phaseLevels));
 
+	gti_wdog_pet();
 	printf("%s side Eye Plot (mid-point):\n"
 		"Phase Levels (horizontal) = %d\n"
 		"Voltage steps (vertical) = %d\n",
@@ -1325,15 +1339,17 @@ static int phy_marvell_7121_get_eye(int cgx_id, int lmac_id, int host_side, int 
 	 * Eye plot can take upto 1 minute to complete
 	 * By default use eye measure API instead
 	 */
+	gti_wdog_pet();
 	ret = phy_marvell_7121_get_eye_measure(cgx_id, lmac_id, host_side);
 	if (ret) {
 		return ret;
 	}
 
 	if (type == PHY_EYE_PLOT) {
+		gti_wdog_pet();
 		ret = phy_marvell_7121_get_eye_plot(cgx_id, lmac_id, host_side);
 	}
-
+	gti_wdog_pet();
 	return ret;
 }
 

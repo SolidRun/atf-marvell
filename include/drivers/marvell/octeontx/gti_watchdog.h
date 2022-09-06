@@ -37,4 +37,6 @@ int gti_wdog_start(uint64_t el0_kernel_wdog_callback,
 
 int gti_wdog_restore_wdog_ctxt(void);
 
+void gti_wdog_pet(void);
+
 #endif /* __GTI_WATCHDOG_H__ */
