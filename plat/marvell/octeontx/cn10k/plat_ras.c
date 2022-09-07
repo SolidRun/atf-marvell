@@ -257,7 +257,7 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 {
 	uint64_t erx_status, erx_mis0, msix_status;
 	uint32_t intr = data->interrupt;
-	int err_type = 0;
+	int err_type = 0, notify_os = 1;
 	int core = plat_my_core_pos();
 	cn10k_core_err_info_t core_err_info = {0};
 
@@ -277,22 +277,28 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	erx_status = read_erxstatus_el1();
 	if (erx_status & (ERR_STATUS_V_MASK << ERR_STATUS_V_SHIFT)) {
 		erx_mis0 = read_erxmisc0_el1();
-		ERROR("RAS: CPU Error: ERX_STATUS 0x%lx ERX_MISC0 0x%lx\n",
+		debug_ras("RAS: CPU Error: ERX_STATUS 0x%lx ERX_MISC0 0x%lx\n",
 				(unsigned long)erx_status, (unsigned long) erx_mis0);
 		if (erx_status & (ERR_STATUS_UE_MASK << ERR_STATUS_UE_SHIFT))
 			err_type = RAS_ERR_UE;
-		else if ((erx_status & (ERR_STATUS_CE_MASK << ERR_STATUS_CE_SHIFT)) &&
-			(erx_status & (ERR_STATUS_OF_MASK << ERR_STATUS_OF_SHIFT)))
+		else if (erx_status & (ERR_STATUS_CE_MASK << ERR_STATUS_CE_SHIFT)) {
 			err_type = RAS_ERR_CE;
+			if (erx_status & (ERR_STATUS_OF_MASK << ERR_STATUS_OF_SHIFT))
+				notify_os = 0;
+		}
 		else if (erx_status & (ERR_STATUS_DE_MASK << ERR_STATUS_DE_SHIFT))
 			err_type = RAS_ERR_DE;
+		else
+			notify_os = 0;
 
-		ERROR("RAS: %s on 0x%x from %s\n",
-			err_type_str[err_type],
-			(unsigned int) read_mpidr_el1(),
-			core_err_src[probe_data]);
-		ERROR("RAS: core error code: %s\n",
-			err_code_str[erx_status & ERR_STATUS_SERR_MASK]);
+		if (err_type) {
+			debug_ras("RAS: %s on 0x%x from %s\n",
+				err_type_str[err_type],
+				(unsigned int) read_mpidr_el1(),
+				core_err_src[probe_data]);
+			debug_ras("RAS: core error code: %s\n",
+				err_code_str[erx_status & ERR_STATUS_SERR_MASK]);
+		}
 
 		if (erx_status & (ERR_STATUS_PN_MASK << ERR_STATUS_PN_SHIFT))
 			core_err_info.flags |= CN10K_CORE_ERRFLG_POISON;
@@ -313,16 +319,19 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 
 		write_erxstatus_el1(erx_status);
 	}
+	else
+		notify_os = 0;
 
 	core_err_info.err_type = err_type;
 
 	octeontx_write64(CAVM_APAX_CORE_ECC_INT_W1C(core), msix_status);
 
-	cn10k_core_ras_notify(&core_err_info, erx_status);
+	if (notify_os)
+		cn10k_core_ras_notify(&core_err_info, erx_status);
 
 	plat_ic_end_of_interrupt(intr);
 	if (err_type == 0)
-		ERROR("RAS: Spurious interrupt on CPU 0x%x\n",
+		debug_ras("RAS: Spurious interrupt on CPU 0x%x\n",
 				(unsigned int) core_err_info.mpidr);
 	else if (err_type != RAS_ERR_CE) {
 		ERROR("RAS: Fatal error on CPU 0x%x, Requires cold reset\n",
