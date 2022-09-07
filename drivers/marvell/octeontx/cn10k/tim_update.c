@@ -2926,6 +2926,18 @@ enum spi_dc_ret async_update_callback(void *p)
 		else if (file_check_ret == ASYNC_CHECK_ERROR)
 			param->state = AUPDATE_CLEANUP;
 		break;
+	case AUPDATE_ERASE_EBF_CONFIG:
+		UINFO("Erase EBF config stage\n");
+		if (desc->update_flags & UPDATE_FLAG_ERASE_CONFIG) {
+			update_ret = erase_ebf_config_data(desc);
+			if (update_ret != UPDATE_OK)
+				param->state = AUPDATE_CLEANUP;
+			else
+				param->state++;
+		} else {
+			param->state++;
+		}
+		break;
 	case AUPDATE_ERASE_TIM0:
 		UINFO("Erase TIM0 stage\n");
 		update_ret = save_tim0(desc);
