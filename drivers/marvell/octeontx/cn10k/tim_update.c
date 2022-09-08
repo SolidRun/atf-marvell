@@ -2393,7 +2393,7 @@ static enum update_ret save_tim0(const struct smc_update_descriptor *desc)
 	tim0_size = size;
 	tim0_offset = offset;
 	if (uret != UPDATE_OK) {
-		UERROR("Reading TIM0 failed with %d at offset 0x%llx, not erasing\n",
+		UWARN("Reading TIM0 failed with %d at offset 0x%llx, not erasing\n",
 		       uret, offset);
 		tim0_offset = 0;
 		tim0_size = 0;
