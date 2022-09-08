@@ -583,7 +583,7 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 	}
 
 	switch (reg_off) {
-	case EHSM_BOOTROM_STATUS:
+	case BOOTROM_STATUS:
 	{
 		struct ehsm_bootrom_status_reg bootrom_status;
 
@@ -591,7 +591,7 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 		*reg_val = bootrom_status.u.r;
 	}
 	break;
-	case EHSM_ROOT_TRUST_STATUS:
+	case ROOT_TRUST_STATUS:
 	{
 		struct ehsm_root_of_trust_status rot_status;
 
@@ -599,12 +599,36 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 		*reg_val = rot_status.u.r;
 	}
 	break;
-	case EHSM_CHAIN_OF_TRUST_STATUS:
+	case CHAIN_OF_TRUST_STATUS:
 	{
 		struct ehsm_chain_of_trust_status_reg cot_status;
 
 		ret = ehsm_get_chain_of_trust_status(&ehandle, &cot_status);
 		*reg_val = cot_status.u.r;
+	}
+	break;
+	case UUID0:
+	{
+		uint32_t uuid[3];
+
+		ret = ehsm_get_uuid(&ehandle, uuid);
+		*reg_val = uuid[0];
+	}
+	break;
+	case UUID1:
+	{
+		uint32_t uuid[3];
+
+		ret = ehsm_get_uuid(&ehandle, uuid);
+		*reg_val = uuid[1];
+	}
+	break;
+	case UUID2:
+	{
+		uint32_t uuid[3];
+
+		ret = ehsm_get_uuid(&ehandle, uuid);
+		*reg_val = uuid[2];
 	}
 	break;
 	default:

@@ -10,6 +10,17 @@
 
 #include <libtim.h>
 
+enum smc_reg
+{
+	/* Request input registers */
+	BOOTROM_STATUS		= (0x1),
+	ROOT_TRUST_STATUS,
+	CHAIN_OF_TRUST_STATUS,
+	UUID0,
+	UUID1,
+	UUID2,
+};
+
 struct ehsm_handle;
 
 /**
