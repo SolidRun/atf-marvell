@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017-2018 Marvell.
+ * Copyright (c) 2017 Marvell.
  *
  * SPDX-License-Identifier:     BSD-3-Clause
  * https://spdx.org/licenses

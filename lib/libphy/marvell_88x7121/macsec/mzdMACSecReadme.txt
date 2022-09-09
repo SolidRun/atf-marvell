@@ -1,4 +1,4 @@
-Copyright (C) 2014 - 2021 Marvell Semiconductor Inc.
+Copyright (c) 2014 Marvell.
 
 Confidential. All rights reserved. 
 

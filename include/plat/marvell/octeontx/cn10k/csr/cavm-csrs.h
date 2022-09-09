@@ -3,8 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2016  Cavium Inc. (support@cavium.com). All rights
- * reserved.
+ * Copyright (c) 2003 Cavium. All rights reserved.
  *
  *
  * Redistribution and use in source and binary forms, with or without

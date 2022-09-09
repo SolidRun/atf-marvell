@@ -1,7 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier:           BSD-3-Clause
 # https://spdx.org/licenses
-# Copyright (C) 2018 Marvell.
+# Copyright (c) 2018 Marvell.
 #
 ###############################################################################
 ## This is the pack script for atf                                           ##

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Marvell.
+ * Copyright (c) 2017 Marvell.
  * This program is provided "as is" without any warranty of any kind,
  * and is distributed under the applicable Marvell proprietary limited use
  * license agreement.
