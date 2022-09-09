@@ -153,6 +153,7 @@ uint64_t cn10k_dram_get_size_mbytes_ch(int ch)
 	uint64_t start = 0;
 	uint64_t end = 0;
 	uint64_t size_mb = 0;
+	int valid_ch_num = 0;
 
 	for (r = 0; r < MAX_NUM_ASC_REGIONS; r++) {
 
@@ -168,10 +169,11 @@ uint64_t cn10k_dram_get_size_mbytes_ch(int ch)
 		start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(r));
 		end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(r)) | ASC_DEF_SIZE_MASK;
 
-		size_mb += (((end - start) + 1) >> 20) / __builtin_popcount(ch_mask);
+		size_mb += (((end - start) + 1) >> 20);
+		valid_ch_num++;
 	}
 
-	return size_mb;
+	return size_mb / valid_ch_num;
 }
 
 /////////////////////////////////////////
@@ -516,6 +518,8 @@ static void from_pa_offset_to_geometry(addr_xlate_t *xlate)
 
 	// set the geometry to the struct
 	xlate->col = fields[COL_BITS];
+	xlate->col |= offset & 7; // OR in the 3 LS column bits from the offset/PA
+
 	xlate->bg = fields[BG_BITS];
 	xlate->bank = fields[BANK_BITS];
 	xlate->row = fields[ROW_BITS];
@@ -659,12 +663,14 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	// use the (possibly) updated ch_mask from the region the PA is in!!!
 	int P = __builtin_popcount(xlate->ch_mask);
 
-	debug_ras("DEBUG: FROM_PA entry: phys_addr 0x%llx, ch_mask 0x%x\n", xlate->phys_addr, xlate->ch_mask);
+	debug_ras("DEBUG: FROM_PA entry: phys_addr 0x%llx, ch_mask 0x%x\n",
+			xlate->phys_addr, xlate->ch_mask);
 
 	// this first part simply computes the channel and relative offset
 	// from the given physical address
 
 	for (i = 3; i >= 0; i--) {
+
 		if (cavm_is_platform(PLATFORM_ASIM)) {
 			hash = DMC_HASH[i];
 		} else {
@@ -674,6 +680,7 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 		}
 
 		a = hash & pa_43_7;
+
 		b = 0;
 		limit = 43 - 7;
 
@@ -685,16 +692,18 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	}
 
 	uint64_t padmchashed_43_7 = (pa_43_7 & 0x1FFFFFFFF0UL) | padmchashed_10_7;
-	uint64_t padmchashed_7 = (padmchashed_10_7) & 1;
-	uint64_t padmchashed_8 = (padmchashed_10_7 >> 1) & 1;
-	uint64_t padmchashed_9 = (padmchashed_10_7 >> 2) & 1;
+	uint64_t padmchashed_7 = (padmchashed_10_7       )& 1;
+	uint64_t padmchashed_8 = (padmchashed_10_7  >> 1) & 1;
+	uint64_t padmchashed_9 = (padmchashed_10_7  >> 2) & 1;
 	uint64_t padmchashed_10 = (padmchashed_10_7 >> 3) & 1;
 
 	const struct coeffs *c = &table[P];
 
-	uint64_t dmc_index = padmchashed_7 * c->A + (padmchashed_43_7 % 3) * c->B
-						 + padmchashed_8 * c->C + padmchashed_9 * c->D
-						 + padmchashed_10 * c->E;
+	uint64_t dmc_index = padmchashed_7         * c->A +
+						(padmchashed_43_7 % 3) * c->B +
+						padmchashed_8          * c->C +
+						padmchashed_9          * c->D +
+						padmchashed_10         * c->E;
 
 	int dmc_number[MAX_MEM_CHANS];
 	int tmp_mask = xlate->ch_mask;
@@ -731,7 +740,7 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	// to finish, translate the offset into the geometry setting
 	from_pa_offset_to_geometry(xlate);
 
-	debug_ras("FROM_PA: DSS%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%llx/0x%llx]\n",
+	debug_ras("FROM_PA: DMC%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%llx/0x%llx]\n",
 			  xlate->ch, xlate->rank, xlate->bg, xlate->bank, xlate->row,
 			  xlate->col, xlate->phys_addr, xlate->offset);
 }
@@ -1154,7 +1163,7 @@ void cn10k_dram_xlate_to_pa(addr_xlate_t *xlate)
 
 	from_ch_offset_to_pa(xlate);
 
-	debug_ras("TO_PA: DSS%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%llx/0x%llx]\n",
+	debug_ras("TO_PA: DMC%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%llx/0x%llx]\n",
 			  xlate->ch, xlate->rank, xlate->bg, xlate->bank, xlate->row,
 			  xlate->col, xlate->phys_addr, xlate->offset);
 }
