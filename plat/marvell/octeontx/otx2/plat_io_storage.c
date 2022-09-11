@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, ARM Limited and Contributors. All rights reserved.
- * Copyright (c) 2016-2022, Marvell. All rights reserved.<BR>
+ * Copyright (c) 2016 Marvell. All rights reserved.<BR>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
