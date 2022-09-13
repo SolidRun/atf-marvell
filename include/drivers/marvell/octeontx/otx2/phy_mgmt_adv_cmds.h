@@ -41,6 +41,7 @@ typedef enum  PHY_7121_ADV_CMDS {
 	PHY_MAC_ADV_MACSEC_GET_MAC_ADDR,
 	PHY_MAC_ADV_MACSEC_GET_SA_PARAMS,
 	PHY_MAC_ADV_MACSEC_DBG,
+	PHY_MAC_ADV_MACSEC_SA_SWITCH,
 
 	PHY_MAC_ADV_MACSEC_MAX = 100,
 
@@ -65,17 +66,31 @@ typedef enum  PHY_7121_MACSEC_PKTTEST {
 #define MAX_KEYS_PER_SA 1
 #define MAX_SA_PER_PORT 4
 
+#define MACSEC_MAX_VPORT        2
+
 enum PHY_7121_MACSEC_VPORT {
 	PHY_7121_MACSEC_VPORT_0 = 0,
 	PHY_7121_MACSEC_VPORT_1,
 };
 
+enum PHY_7121_MACSEC_IS_SCI {
+	PHY_7121_MACSEC_IS_SCI_DISABLE = 0,
+	PHY_7121_MACSEC_IS_SCI_ENABLE,
+};
+
+enum PHY_7121_MACSEC_IS_VLAN_TAG {
+	PHY_7121_MACSEC_IS_VLAN_TAG_DISABLE = 0,
+	PHY_7121_MACSEC_IS_VLAN_TAG_ENABLE,
+};
+
 typedef struct {
+	enum PHY_7121_MACSEC_IS_SCI is_sci_explicit;
+	enum PHY_7121_MACSEC_IS_VLAN_TAG is_vlan_tag;
 	enum PHY_7121_MACSEC_VPORT vport_num;
 	PHY_7121_MACSEC_DIR_t dir;
 	unsigned char mac[6];
+	unsigned char vlan_tag[4];
 } macsec_vport_params_t;
-
 
 enum PHY_7121_MACSEC_SA {
 	PHY_7121_MACSEC_SA_0 = 0,
@@ -84,7 +99,13 @@ enum PHY_7121_MACSEC_SA {
 	PHY_7121_MACSEC_SA_3,
 };
 
+enum PHY_7121_MACSEC_IS_CHAINED {
+	PHY_7121_MACSEC_IS_CHAINED_FALSE = 0,
+	PHY_7121_MACSEC_IS_CHAINED_TRUE,
+};
+
 typedef struct {
+	enum PHY_7121_MACSEC_VPORT vport_num;
 	enum PHY_7121_MACSEC_SA  sa_num;
 	PHY_7121_MACSEC_DIR_t dir;
 	uint32_t flags;
@@ -102,7 +123,14 @@ typedef struct {
 	uint32_t seq_num_hi;
 	bool is_ethertype;
 	uint32_t ethertype;
+	enum PHY_7121_MACSEC_IS_CHAINED is_chained;
 } macsec_sa_params_t;
+
+struct macsec_sa_adv_ops {
+	enum PHY_7121_MACSEC_VPORT vport_num;
+	enum PHY_7121_MACSEC_SA sa1;
+	enum PHY_7121_MACSEC_SA sa2;
+};
 
 typedef struct pkttest {
 	PHY_7121_MACSEC_PKTTEST_t cmd;
@@ -122,6 +150,40 @@ typedef struct phy_ptp_tc {
 	int ptp_ref_clk;
 } phy_ptp_tc_t;
 
+struct mac_stats_params {
+	enum PHY_7121_MACSEC_VPORT vport_num;
+	enum PHY_7121_MACSEC_DIR dir;
+};
+
+struct ingress_stats {
+	uint32_t InPktsUnchecked;
+	uint32_t InPktsDelayed;
+	uint32_t InPktsLate;
+	uint32_t InPktsOK;
+	uint32_t InPktsInvalid;
+	uint32_t InPktsNotValid;
+	uint32_t InPktsNotUsingSA;
+	uint32_t InPktsUnusedSA;
+	uint32_t InOctetsDecrypted;
+	uint32_t InOctetsValidated;
+};
+
+struct egress_stats {
+	uint32_t OutPktsEncryptedProtected;
+	uint32_t OutPktsTooLong;
+	uint32_t OutPktsSANotInUse;
+	uint32_t OutOctetsEncryptedProtected;
+};
+
+struct macsec_stats_params {
+	enum PHY_7121_MACSEC_VPORT vport_num;
+	enum PHY_7121_MACSEC_SA sa_num;
+	enum PHY_7121_MACSEC_DIR dir;
+	union {
+		struct ingress_stats ingress;
+		struct egress_stats egress;
+	} stats;
+};
 
 #define MACSEC_ADV_CMD_VERS_MAJOR  0x0001
 #define MACSEC_ADV_CMD_VERS_MINOR  0x0000
@@ -140,6 +202,9 @@ typedef struct phy_7121_adv_cmds {
 		pkttest_t pkttest_cmd;
 		phy_gen_rclk_t gen_rclk;
 		phy_ptp_tc_t ptp_tc;
+		struct mac_stats_params mac_stats;
+		struct macsec_stats_params macsec_stats;
+		struct macsec_sa_adv_ops sa_adv_ops;
 	} data;
 } phy_7121_adv_cmds_t;
 

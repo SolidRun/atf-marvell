@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Marvell.
+ * Copyright (C) 2022 Marvell.
  *
  * SPDX-License-Identifier:	 BSD-3-Clause
  * https://spdx.org/licenses
@@ -52,10 +52,11 @@ MZD_U8 K1[16] = {0};
 #endif
 
 MZD_U8 SCI1[] = {
-	0x12, 0x15, 0x35, 0x24, 0xc0, 0x89, 0x5e, 0x81,
+	 0x12, 0x15, 0x35, 0x24, 0xc0, 0x89, 0x5e, 0x81,
+	/* 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, */
 };
 
-#define PKT_SEQ_NUMBER 0xFFFFFFF0  /* Rollover when SN reaches 0xFFFFFFFF */
+//#define PKT_SEQ_NUMBER 0xFFFFFFF0  /* Rollover when SN reaches 0xFFFFFFFF */
 
 da_sa_params_t Transform_Params_Basic_Transform_Ingress = {
 	SAB_DIRECTION_INGRESS,
@@ -76,10 +77,10 @@ MZD_U8 SrcPacket_Basic_Transform_Ingress[] = {
 	0xd6, 0x09, 0xb1, 0xf0,
 	0x56, 0x63, 0x7a, 0x0d,
 	0x46, 0xdf, 0x99, 0x8d,
-	0x88, 0xe5, 0x2e, 0x00,
+	0x88, 0xe5, 0x2c, 0x00,
 	0xb2, 0xc2, 0x84, 0x65,
-	0x12, 0x15, 0x35, 0x24,
-	0xc0, 0x89, 0x5e, 0x81,
+	0xFF, 0xFF, 0xFF, 0xFF,
+	0xFF, 0xFF, 0xFF, 0xFF,
 	0x70, 0x1a, 0xfa, 0x1c,
 	0xc0, 0x39, 0xc0, 0xd7,
 	0x65, 0x12, 0x8a, 0x66,
@@ -112,6 +113,7 @@ MZD_U8 K2[16] = {0};
 
 MZD_U8 SCI2[] = {
 	0x12, 0x15, 0x35, 0x24, 0xc0, 0x89, 0x5e, 0x81,
+	/* 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, */
 };
 
 da_sa_params_t Transform_Params_Basic_Transform_Egress = {
@@ -124,63 +126,80 @@ da_sa_params_t Transform_Params_Basic_Transform_Egress = {
 	SCI2,
 	NULL,
 	NULL,
-	//PKT_SEQ_NUMBER, /* Sequence number. */
 	0,
 	0,
 	0,
 };
 
-#ifdef SA_REKEY
-static da_sa_params_t Transform_Params_Ingress2 =
-{
-	SAB_DIRECTION_INGRESS,
-	SAB_OP_MACSEC,
-	0,     /* option flags */
-	3,
-	K2,
-	sizeof(K2),
-	SCI1,
-	NULL,
-	NULL,
-	0, /* Sequence number. */
-	0,
-	0xFFFF,
+
+/* VLAN QinQ source packet */
+static const uint8_t SrcPacket_QinQ_MACsec_Egress[] = {
+0xD6, 0x09, 0xB1, 0xF0, 0x56, 0x63, 0x7A, 0x0D, 0x46, 0xDF, 0x99, 0x8D, 0x81, 0x00, 0x01, 0xA1,
+0x92, 0x00, 0x02, 0xB2, 0x08, 0x00, 0x24, 0xC6, 0x98, 0x02, 0xB5, 0x76, 0x99, 0x42, 0xD7, 0xE8,
+0xE2, 0x6E, 0x85, 0x36, 0xDC, 0x96, 0x7F, 0xE9, 0x7E, 0x9E, 0x0C, 0xA0, 0x2C, 0x57, 0xA9, 0x97,
+0x8D, 0x12, 0x8A, 0xDA, 0xE4, 0x65, 0x82, 0xAD, 0x06, 0xEF, 0x16, 0x6B, 0xC7, 0xF0, 0x32, 0x6C,
+0xE0, 0x77, 0x11, 0x56, 0x19, 0xAB,
 };
 
-static da_sa_params_t Transform_Params_Egress2 =
-{
-	SAB_DIRECTION_EGRESS,
-	SAB_OP_MACSEC,
-	0, //SAB_MACSEC_FLAG_ROLLOVER, /** Allow sequence number rollover (debugging only).*/
-	3,
-	K2,
-	sizeof(K2),
-	SCI1,
-	NULL,
-	NULL,
-	0x00000001, /* Sequence number. */
-	0,
-	0,
-};
-#endif
+static const uint8_t *VLAN_1Q_MACsec_Egress_p = &SrcPacket_QinQ_MACsec_Egress[12];
 
-MZD_STATUS phy_7121_macsec_drv_init(phy_7121_macsec_drv_t *phy_macsec_drv)
+static MZD_STATUS phy_7121_macsec_sa_init(phy_7121_macsec_drv_t *phy_macsec_drv,
+				enum PHY_7121_MACSEC_VPORT vport_num,
+				int sa_num, PHY_7121_MACSEC_DIR_t dir)
 {
-	memset(phy_macsec_drv, 0, sizeof(phy_7121_macsec_drv_t));
+	phy_7121_macsec_vport_t *macsec_vport_ingress;
+	phy_7121_macsec_vport_t *macsec_vport_egress;
 
-	for (int i = 0; i < MAX_SA_PER_PORT; i++) {
-		memcpy((void *)&phy_macsec_drv->macsec_sa_ingress[i].transform_params,
+	switch (dir) {
+	case PHY_7121_MACSEC_INGRESS:
+		macsec_vport_ingress = &phy_macsec_drv->macsec_vport_ingress[vport_num];
+
+		memset((void *)&macsec_vport_ingress->macsec_sa[sa_num],
+					0, sizeof(phy_7121_macsec_sa_t));
+		memcpy((void *)&macsec_vport_ingress->macsec_sa[sa_num].transform_params,
 			(void *)&Transform_Params_Basic_Transform_Ingress,
 			sizeof(da_sa_params_t));
+		break;
 
-		memcpy((void *)&phy_macsec_drv->macsec_sa_egress[i].transform_params,
+	case PHY_7121_MACSEC_EGRESS:
+		macsec_vport_egress = &phy_macsec_drv->macsec_vport_egress[vport_num];
+
+		memset((void *)&macsec_vport_egress->macsec_sa[sa_num],
+					0, sizeof(phy_7121_macsec_sa_t));
+		memcpy((void *)&macsec_vport_egress->macsec_sa[sa_num].transform_params,
 			(void *)&Transform_Params_Basic_Transform_Egress,
 			sizeof(da_sa_params_t));
+		break;
 	}
 
 	return MZD_OK;
 }
 
+MZD_STATUS phy_7121_macsec_drv_init(phy_7121_macsec_drv_t *phy_macsec_drv)
+{
+	phy_7121_macsec_vport_t *macsec_vport_ingress;
+	phy_7121_macsec_vport_t *macsec_vport_egress;
+
+	memset(phy_macsec_drv, 0, sizeof(phy_7121_macsec_drv_t));
+
+	for (int i = 0; i < MACSEC_MAX_VPORT; i++) {
+		macsec_vport_ingress =
+				&phy_macsec_drv->macsec_vport_ingress[i];
+		macsec_vport_egress =
+				&phy_macsec_drv->macsec_vport_egress[i];
+		for (int j = 0; j < MAX_SA_PER_PORT; j++) {
+			memcpy((void *)&macsec_vport_ingress->macsec_sa[j].transform_params,
+			(void *)&Transform_Params_Basic_Transform_Ingress,
+			sizeof(da_sa_params_t));
+
+			memcpy((void *)&macsec_vport_egress->macsec_sa[j].transform_params,
+			(void *)&Transform_Params_Basic_Transform_Egress,
+			sizeof(da_sa_params_t));
+		}
+	}
+
+	return MZD_OK;
+}
 
 MZD_STATUS phy_7121_macsec_enable_engines(
 	IN MZD_DEV_PTR pDev,
@@ -195,7 +214,6 @@ MZD_STATUS phy_7121_macsec_enable_engines(
 	MZD_U16 mdioPortIndex = MZD_GET_PORT_IDX(pDev, mdioPort);
 	CfyE_Status_t CfyE_Rc;
 	SecY_Status_t SecY_Rc;
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
 
 	if (pDev->macsecCtrl.macsecInitialized == MZD_FALSE) {
 		Driver164_Init();
@@ -290,19 +308,17 @@ MZD_STATUS phy_7121_macsec_enable_engines(
 		MAC_ADV_MACSEC_DBG("++++++ SecY is initialized successfully ++++++\n");
 	}
 
-	if (resMACSecStuct) {
-		mzdMemSet(resMACSecStuct, 0, sizeof(MZD_MACSEC_RES_STURCT));
 
-		resMACSecStuct->mdioPort = mdioPort;
-		resMACSecStuct->channelID = channelID;
-		resMACSecStuct->ingressDevId = ingressDevId;
-		resMACSecStuct->egressDevId = egressDevId;
-	}
+	phy_macsec_drv->mdioPort = mdioPort;
+	phy_macsec_drv->channelID = channelID;
+	phy_macsec_drv->ingressDevId = ingressDevId;
+	phy_macsec_drv->egressDevId = egressDevId;
 
 	return MZD_OK;
 }
 
-MZD_STATUS phy_7121_macsec_vport_add_ingress(phy_7121_macsec_drv_t *phy_macsec_drv)
+MZD_STATUS phy_7121_macsec_vport_add_ingress(phy_7121_macsec_drv_t *phy_macsec_drv,
+					enum PHY_7121_MACSEC_VPORT vport)
 {
 	CfyE_vPortHandle_t CfyE_IngressVPortHandle = CfyE_vPortHandle_NULL;
 	CfyE_RuleHandle_t CfyE_IngressRuleHandle = CfyE_RuleHandle_NULL;
@@ -315,14 +331,21 @@ MZD_STATUS phy_7121_macsec_vport_add_ingress(phy_7121_macsec_drv_t *phy_macsec_d
 	CfyE_Status_t CfyE_Rc;
 	MZD_U8 *p;
 
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
-	MZD_U16 channelID = resMACSecStuct->channelID;
-
-	MZD_U8 ingressDevId = resMACSecStuct->ingressDevId;
+	MZD_U16 channelID = phy_macsec_drv->channelID;
+	MZD_U8 ingressDevId = phy_macsec_drv->ingressDevId;
 
 	MAC_ADV_MACSEC_DBG("++++++ Ingress v-port Policy ++++++\n");
 	mzdMemSet(&vPortParams, 0, sizeof(vPortParams));
-	vPortParams.SecTagOffset = 12;
+
+	if (phy_macsec_drv->macsec_vport_ingress[vport].is_vlan_tag) {
+		vPortParams.SecTagOffset = 12 + 4;
+		MAC_ADV_MACSEC_DBG("++++++ VLAN TAG enabled vport %d SecTagOffset %d ++++++\n",
+							vport,  vPortParams.SecTagOffset);
+	} else {
+		vPortParams.SecTagOffset = 12;
+		MAC_ADV_MACSEC_DBG("++++++ VLAN TAG disabled vport %d SecTagOffset %d ++++++\n",
+							vport,  vPortParams.SecTagOffset);
+	}
 
 	CfyE_Rc = CfyE_vPort_Add(ingressDevId, &CfyE_IngressVPortHandle,
 			&vPortParams, SECY_MODE_MACSEC);
@@ -343,17 +366,29 @@ MZD_STATUS phy_7121_macsec_vport_add_ingress(phy_7121_macsec_drv_t *phy_macsec_d
 	RuleParams.Mask.PacketType = CFYE_RULE_PKT_TYPE_OTHER;
 
 	RuleParams.Mask.ChannelID = 0xFF;
-	RuleParams.Mask.NumTags = 0x00;
+	if (phy_macsec_drv->macsec_vport_ingress[vport].is_vlan_tag)
+		RuleParams.Mask.NumTags = 0x7F;
+	else
+		RuleParams.Mask.NumTags = 0x00;
 
 	RuleParams.Key.PacketType = CFYE_RULE_PKT_TYPE_OTHER;
 	RuleParams.Key.ChannelID = channelID;
-	RuleParams.Key.NumTags = 0x00;
+
+	if (phy_macsec_drv->macsec_vport_ingress[vport].is_vlan_tag)
+		RuleParams.Key.NumTags = (0x1 << 1);
+	else
+		RuleParams.Key.NumTags = 0x00;
 
 	RuleParams.DataMask[0] = 0x00000000;
 	RuleParams.DataMask[1] = 0x00000000;
 
-	if (phy_macsec_drv->mac_ingress_true)  {
-		p = phy_macsec_drv->mac_ingress;
+	if (phy_macsec_drv->macsec_vport_ingress[vport].is_vlan_tag) {
+		RuleParams.DataMask[2] = 0xFFFFFFFF;
+		RuleParams.DataMask[3] = 0x00000000;
+	}
+
+	if (phy_macsec_drv->macsec_vport_ingress[vport].mac_true)  {
+		p = phy_macsec_drv->macsec_vport_ingress[vport].mac;
 	} else {
 		p = MAC_DA;
 	}
@@ -365,11 +400,24 @@ MZD_STATUS phy_7121_macsec_vport_add_ingress(phy_7121_macsec_drv_t *phy_macsec_d
 			| (p[2] << 16) | (p[3] << 24);
 	RuleParams.Data[1] = p[4] | (p[5] << 8);
 
-	MAC_ADV_MACSEC_DBG("\nRuleParams.DataMask[0] %x RuleParams.DataMask[1] %xn",
-			RuleParams.DataMask[0], RuleParams.DataMask[1]);
+	if (phy_macsec_drv->macsec_vport_ingress[vport].is_vlan_tag) {
+		const uint8_t *q = NULL;
 
-	MAC_ADV_MACSEC_DBG("\nRuleParams.Data[0] %x RuleParams.Data[1] %x\n",
-			RuleParams.Data[0], RuleParams.Data[1]);
+		q = phy_macsec_drv->macsec_vport_ingress[vport].vlan_tag;
+
+		/* Data[2] : Packet data (EtherType, VLAN tag, MPLS label) */
+		RuleParams.Data[2] = (q[3]<<24) | (q[2]<<16) | 0xE588;
+	}
+
+	MAC_ADV_MACSEC_DBG("\nRuleParams.DataMask[0] %x RuleParams.DataMask[1] %x\n"
+				"\nRuleParams.DataMask[2] %x RuleParams.DataMask[3] %x\n",
+			RuleParams.DataMask[0], RuleParams.DataMask[1],
+			RuleParams.DataMask[2], RuleParams.DataMask[3]);
+
+	MAC_ADV_MACSEC_DBG("\nRuleParams.Data[0] %x RuleParams.Data[1] %x\n"
+				"\nRuleParams.Data[2] %x RuleParams.Data[3] %x\n",
+			RuleParams.Data[0], RuleParams.Data[1],
+			RuleParams.Data[2], RuleParams.Data[3]);
 
 	CfyE_Rc = CfyE_Rule_Add(ingressDevId, CfyE_IngressVPortHandle,
 			&CfyE_IngressRuleHandle, &RuleParams);
@@ -385,18 +433,19 @@ MZD_STATUS phy_7121_macsec_vport_add_ingress(phy_7121_macsec_drv_t *phy_macsec_d
 		return MZD_FAIL;
 	}
 
-	phy_macsec_drv->ingressVPort = ingressVPort;
-
-	if (resMACSecStuct) {
-		resMACSecStuct->CfyE_IngressRuleHandle = CfyE_IngressRuleHandle;
-		resMACSecStuct->CfyE_IngressVPortHandle = CfyE_IngressVPortHandle;
-	}
+	phy_macsec_drv->macsec_vport_ingress[vport].vport = ingressVPort;
+	phy_macsec_drv->macsec_vport_ingress[vport].CfyE_RuleHandle
+							= CfyE_IngressRuleHandle;
+	phy_macsec_drv->macsec_vport_ingress[vport].CfyE_VPortHandle
+							= CfyE_IngressVPortHandle;
 
 	MAC_ADV_MACSEC_DBG("++++++ Ingress v-port Policy Added ++++++\n");
+
 	return MZD_OK;
 }
 
-MZD_STATUS phy_7121_macsec_vport_add_egress(phy_7121_macsec_drv_t *phy_macsec_drv)
+MZD_STATUS phy_7121_macsec_vport_add_egress(phy_7121_macsec_drv_t *phy_macsec_drv,
+						enum PHY_7121_MACSEC_VPORT vport)
 {
 	CfyE_vPortHandle_t CfyE_EgressVPortHandle = CfyE_vPortHandle_NULL;
 	CfyE_RuleHandle_t CfyE_EgressRuleHandle = CfyE_RuleHandle_NULL;
@@ -408,12 +457,26 @@ MZD_STATUS phy_7121_macsec_vport_add_egress(phy_7121_macsec_drv_t *phy_macsec_dr
 	CfyE_Status_t CfyE_Rc;
 	MZD_U8 *p;
 
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
-	MZD_U16 channelID = resMACSecStuct->channelID;
+	MZD_U16 channelID = phy_macsec_drv->channelID;
+	MZD_U8 egressDevId = phy_macsec_drv->egressDevId;
 
-	MZD_U8 egressDevId = resMACSecStuct->egressDevId;
+	if (phy_macsec_drv->macsec_vport_egress[vport].is_vlan_tag) {
+		vPortParams.SecTagOffset = 12 + 4;
+		MAC_ADV_MACSEC_DBG("++++++ VLAN TAG enabled vport %d SecTagOffset %d ++++++\n",
+					vport,  vPortParams.SecTagOffset);
+	} else {
+		vPortParams.SecTagOffset = 12;
+		MAC_ADV_MACSEC_DBG("++++++ VLAN TAG disabled vport %d SecTagOffset %d ++++++\n",
+					vport,  vPortParams.SecTagOffset);
+	}
 
-	vPortParams.PktExtension = 3; /* egress packet extension */
+	if (phy_macsec_drv->macsec_vport_egress[vport].is_sci_explicit) {
+		vPortParams.PktExtension = 3;
+		MAC_ADV_MACSEC_DBG(" EGRESS SCI Explicit v-port PktExtension 3\n");
+	} else {
+		MAC_ADV_MACSEC_DBG(" EGRESS SCI Explicit v-port PktExtension 2\n");
+		vPortParams.PktExtension = 2;
+	}
 
 	MAC_ADV_MACSEC_DBG("++++++ Egress v-port policy ++++++\n");
 
@@ -436,18 +499,29 @@ MZD_STATUS phy_7121_macsec_vport_add_egress(phy_7121_macsec_drv_t *phy_macsec_dr
 	RuleParams.Mask.PacketType = CFYE_RULE_PKT_TYPE_OTHER;
 
 	RuleParams.Mask.ChannelID = 0xFF;
-	RuleParams.Mask.NumTags = 0x00;
+
+	if (phy_macsec_drv->macsec_vport_egress[vport].is_vlan_tag)
+		RuleParams.Mask.NumTags = 0x7F;
+	else
+		RuleParams.Mask.NumTags = 0x00;
 
 	RuleParams.Key.PacketType = CFYE_RULE_PKT_TYPE_OTHER;
 	RuleParams.Key.ChannelID = channelID;
-	RuleParams.Key.NumTags = 0x00;
+
+	if (phy_macsec_drv->macsec_vport_egress[vport].is_vlan_tag)
+		RuleParams.Key.NumTags = (0x1 << 2);
+	else
+		RuleParams.Key.NumTags = 0x00;
 
 	RuleParams.DataMask[0] = 0x00000000;
 	RuleParams.DataMask[1] = 0x00000000;
 
-	if (phy_macsec_drv->mac_egress_true) {
-		p =  phy_macsec_drv->mac_egress;
-	} else  {
+	if (phy_macsec_drv->macsec_vport_egress[vport].is_vlan_tag)
+		RuleParams.DataMask[2] = 0xFFFFFFFF;
+
+	if (phy_macsec_drv->macsec_vport_egress[vport].mac_true) {
+		p =  phy_macsec_drv->macsec_vport_egress[vport].mac;
+	} else {
 		p = MAC_DA;
 	}
 
@@ -458,11 +532,25 @@ MZD_STATUS phy_7121_macsec_vport_add_egress(phy_7121_macsec_drv_t *phy_macsec_dr
 			| (p[2] << 16) | (p[3] << 24);
 	RuleParams.Data[1] = p[4] | (p[5] << 8);
 
-	MAC_ADV_MACSEC_DBG("\nRuleParams.DataMask[0] %x RuleParams.DataMask[1] %xn",
-			RuleParams.DataMask[0], RuleParams.DataMask[1]);
+	if (phy_macsec_drv->macsec_vport_egress[vport].is_vlan_tag) {
+		const uint8_t *q = NULL;
 
-	MAC_ADV_MACSEC_DBG("\nRuleParams.Data[0] %x RuleParams.Data[1] %xn",
-			RuleParams.Data[0], RuleParams.Data[1]);
+		q = VLAN_1Q_MACsec_Egress_p;
+
+		RuleParams.Data[2] = (q[3]<<24) | (q[2]<<16) | 0x0008;
+		RuleParams.Data[3] = (q[7]<<16) | (q[6]<<8);
+		RuleParams.DataMask[3] = 0x00FFFF00;
+	}
+
+	MAC_ADV_MACSEC_DBG("\nRuleParams.DataMask[0] %x RuleParams.DataMask[1] %x\n"
+			"\nRuleParams.DataMask[2] %x RuleParams.DataMask[3] %x\n",
+			RuleParams.DataMask[0], RuleParams.DataMask[1],
+			RuleParams.DataMask[2], RuleParams.DataMask[3]);
+
+	MAC_ADV_MACSEC_DBG("\nRuleParams.Data[0] %x RuleParams.Data[1] %x\n"
+				"\nRuleParams.Data[2] %x RuleParams.Data[3] %x\n",
+			RuleParams.Data[0], RuleParams.Data[1],
+			RuleParams.Data[2], RuleParams.Data[3]);
 
 	CfyE_Rc = CfyE_Rule_Add(egressDevId, CfyE_EgressVPortHandle,
 			&CfyE_EgressRuleHandle, &RuleParams);
@@ -481,12 +569,11 @@ MZD_STATUS phy_7121_macsec_vport_add_egress(phy_7121_macsec_drv_t *phy_macsec_dr
 
 	MAC_ADV_MACSEC_DBG(" Rule enabled\n");
 
-	phy_macsec_drv->egressVPort = egressVPort;
-
-	if (resMACSecStuct) {
-		resMACSecStuct->CfyE_EgressRuleHandle = CfyE_EgressRuleHandle;
-		resMACSecStuct->CfyE_EgressVPortHandle = CfyE_EgressVPortHandle;
-	}
+	phy_macsec_drv->macsec_vport_egress[vport].vport = egressVPort;
+	phy_macsec_drv->macsec_vport_egress[vport].CfyE_RuleHandle
+							= CfyE_EgressRuleHandle;
+	phy_macsec_drv->macsec_vport_egress[vport].CfyE_VPortHandle
+							= CfyE_EgressVPortHandle;
 
 	MAC_ADV_MACSEC_DBG("++++++ Egress v-port policy Done ++++++\n");
 	return MZD_OK;
@@ -501,110 +588,169 @@ MZD_STATUS phy_7121_macsec_sa_add_ingress(phy_7121_macsec_drv_t *phy_macsec_drv,
 	SecY_Status_t SecY_Rc;
 	SecY_SAHandle_t SecY_IngressSAHandle;
 
+	enum PHY_7121_MACSEC_VPORT vport_num = sa_params->vport_num;
 	uint8_t curr_sa = sa_params->sa_num;
+	phy_7121_macsec_vport_t *macsec_vport =
+				&phy_macsec_drv->macsec_vport_ingress[vport_num];
 
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
+	MZD_UINT ingressVPort = macsec_vport->vport;
+	MZD_U8 ingressDevId = phy_macsec_drv->ingressDevId;
+	MZD_U16 channelID = phy_macsec_drv->channelID;
 
-	MZD_UINT ingressVPort = phy_macsec_drv->ingressVPort;
-	MZD_U8 ingressDevId = resMACSecStuct->ingressDevId;
+	if (macsec_vport->macsec_sa[curr_sa].in_use) {
+		printf(" Error: Ingress SA %d Already created, Delete first to recreate\n",
+									curr_sa);
+		return MZD_FAIL;
+	}
 
 	MAC_ADV_MACSEC_DBG("++++++ Ingress  SecY policy Set ++++++\n");
 	mzdMemSet(&SA_Params, 0, sizeof(SA_Params));
 
-	/* DA_MACSEC_MODE_INGRESS */
-	if (phy_macsec_drv->macsec_sa_ingress[curr_sa].is_actiontype)  {
-		SA_Params.ActionType = phy_macsec_drv->macsec_sa_ingress[curr_sa].actiontype;
+	if (macsec_vport->macsec_sa[curr_sa].is_actiontype)  {
+		SA_Params.ActionType = macsec_vport->macsec_sa[curr_sa].actiontype;
 		MAC_ADV_MACSEC_DBG("\nProgram ActionType Ingress SA %d DropType %d",
 				curr_sa, SA_Params.ActionType);
 	} else
 		SA_Params.ActionType = SECY_SA_ACTION_INGRESS;
 
-	if (phy_macsec_drv->macsec_sa_ingress[curr_sa].is_droptype)  {
-		SA_Params.DropType = phy_macsec_drv->macsec_sa_ingress[curr_sa].droptype;
+	if (macsec_vport->macsec_sa[curr_sa].is_droptype)  {
+		SA_Params.DropType = macsec_vport->macsec_sa[curr_sa].droptype;
 		MAC_ADV_MACSEC_DBG("\nProgram DropType Ingress SA %d DropType %d",
 				curr_sa, SA_Params.DropType);
 	} else
 		SA_Params.DropType = SECY_SA_DROP_CRC_ERROR;
 
-	SA_Params.DestPort = SECY_PORT_CONTROLLED;
+	if (SA_Params.ActionType == SECY_SA_ACTION_INGRESS) {
+		SA_Params.DestPort = SECY_PORT_CONTROLLED;
+		SA_Params.Params.Ingress.ValidateFramesTagged = SECY_FRAME_VALIDATE_STRICT;
+		//SA_Params.Params.Ingress.ValidateFramesTagged = SECY_FRAME_VALIDATE_DISABLE;
 
-	SA_Params.Params.Ingress.ValidateFramesTagged = SECY_FRAME_VALIDATE_STRICT;
-	//SA_Params.Params.Ingress.ValidateFramesTagged = SECY_FRAME_VALIDATE_DISABLE;
+		SA_Params.Params.Ingress.fReplayProtect = true;
 
-	SA_Params.Params.Ingress.fReplayProtect = true;
-	if (phy_macsec_drv->macsec_sa_ingress[curr_sa].sci_id.sci_flag) {
-		SA_Params.Params.Ingress.SCI_p =
-			phy_macsec_drv->macsec_sa_ingress[curr_sa].transform_params.SCI_p;
+		if (macsec_vport->macsec_sa[curr_sa].sci_id.sci_flag) {
+			SA_Params.Params.Ingress.SCI_p =
+			macsec_vport->macsec_sa[curr_sa].transform_params.SCI_p;
 
-		SA_Params.Params.Ingress.AN = curr_sa;
+			SA_Params.Params.Ingress.AN = curr_sa;
 
-		MAC_ADV_MACSEC_DBG("\nProgram SCI Ingress SA %d AN %d",
+			MAC_ADV_MACSEC_DBG("\nProgram SCI Ingress SA %d AN %d",
+					curr_sa, SA_Params.Params.Ingress.AN);
+			print_key(SA_Params.Params.Ingress.SCI_p, MACSEC_SCI_SIZE);
+		} else {
+			SA_Params.Params.Ingress.SCI_p =
+				da_macsec_discard_const(SCI_Basic_Transform_Ingress_p);
+			SA_Params.Params.Ingress.AN = *TCI_AN_Basic_Transform_Ingress_p & 3;
+
+			MAC_ADV_MACSEC_DBG("\nProgram Default SCI Ingress SA %d AN %d",
 				curr_sa, SA_Params.Params.Ingress.AN);
-		print_key(SA_Params.Params.Ingress.SCI_p, MACSEC_SCI_SIZE);
-	} else {
-		SA_Params.Params.Ingress.SCI_p =
-			da_macsec_discard_const(SCI_Basic_Transform_Ingress_p);
-		SA_Params.Params.Ingress.AN = *TCI_AN_Basic_Transform_Ingress_p & 3;
+			print_key(SA_Params.Params.Ingress.SCI_p, MACSEC_SCI_SIZE);
+		}
 
-		MAC_ADV_MACSEC_DBG("\nProgram Default SCI Ingress SA %d AN %d",
-				curr_sa, SA_Params.Params.Ingress.AN);
-		print_key(SA_Params.Params.Ingress.SCI_p, MACSEC_SCI_SIZE);
-	}
+		SA_Params.Params.Ingress.fAllowTagged = true;
+		SA_Params.Params.Ingress.PreSecTagAuthLength = 12;
 
-	SA_Params.Params.Ingress.fAllowTagged = true;
-	SA_Params.Params.Ingress.PreSecTagAuthLength = 12;
-
-	if ((phy_macsec_drv->macsec_sa_ingress[curr_sa].macsec_key.key_flag)
-		|| (phy_macsec_drv->macsec_sa_ingress[curr_sa].sci_id.sci_flag)) {
-		SA_Params.TransformRecord_p
-		= da_macsec_build_sa(&phy_macsec_drv->macsec_sa_ingress[curr_sa].transform_params,
+		if ((macsec_vport->macsec_sa[curr_sa].macsec_key.key_flag)
+		|| (macsec_vport->macsec_sa[curr_sa].sci_id.sci_flag)) {
+			SA_Params.TransformRecord_p
+			= da_macsec_build_sa(&macsec_vport->macsec_sa[curr_sa].transform_params,
 					 &SAWordCount);
-		MAC_ADV_MACSEC_DBG("\nProgram Key Ingress SA %d", curr_sa);
-		print_key(phy_macsec_drv->macsec_sa_ingress[curr_sa].transform_params.Key_p,
-			phy_macsec_drv->macsec_sa_ingress[curr_sa].transform_params.KeyByteCount);
+			MAC_ADV_MACSEC_DBG("\nProgram Key Ingress SA %d", curr_sa);
+			print_key(macsec_vport->macsec_sa[curr_sa].transform_params.Key_p,
+			macsec_vport->macsec_sa[curr_sa].transform_params.KeyByteCount);
 
-		MAC_ADV_MACSEC_DBG("\nProgram SCI Ingress SA %d", curr_sa);
-		print_key(phy_macsec_drv->macsec_sa_ingress[curr_sa].transform_params.SCI_p,
+			MAC_ADV_MACSEC_DBG("\nProgram SCI Ingress SA %d", curr_sa);
+			print_key(macsec_vport->macsec_sa[curr_sa].transform_params.SCI_p,
 									MACSEC_SCI_SIZE);
 
-	} else {
-		SA_Params.TransformRecord_p
-		= da_macsec_build_sa(&Transform_Params_Basic_Transform_Ingress,
+		} else {
+			SA_Params.TransformRecord_p
+			= da_macsec_build_sa(&Transform_Params_Basic_Transform_Ingress,
 					 &SAWordCount);
-		MAC_ADV_MACSEC_DBG("\nProgram Default Key Ingress");
-		print_key(Transform_Params_Basic_Transform_Ingress.Key_p,
-			Transform_Params_Basic_Transform_Ingress.KeyByteCount);
-	}
+			MAC_ADV_MACSEC_DBG("\nProgram Default Key Ingress");
+			print_key(Transform_Params_Basic_Transform_Ingress.Key_p,
+				Transform_Params_Basic_Transform_Ingress.KeyByteCount);
+		}
 
-	SA_Params.SA_WordCount = SAWordCount;
+		SA_Params.SA_WordCount = SAWordCount;
 
-	SecY_Rc = SecY_SA_Add(ingressDevId, ingressVPort, &SecY_IngressSAHandle,
+		SecY_Rc = SecY_SA_Add(ingressDevId, ingressVPort, &SecY_IngressSAHandle,
 					 &SA_Params);
-	if (SecY_Rc != SECY_STATUS_OK) {
-		MAC_ADV_MACSEC_DBG(" Failed, SecY_SA_Add()=%d\n", SecY_Rc);
-		SecY_Device_Uninit(ingressDevId);
+		if (SecY_Rc != SECY_STATUS_OK) {
+			MAC_ADV_MACSEC_DBG(" Failed, SecY_SA_Add()=%d\n", SecY_Rc);
+			SecY_Device_Uninit(ingressDevId);
+			return MZD_FAIL;
+		}
+
+		MAC_ADV_MACSEC_DBG(" Transform 32-bit word count %d\n",
+				SA_Params.SA_WordCount);
+
+		Log_HexDump32("Ingress Transform data",
+			0,
+			SA_Params.TransformRecord_p,
+			SA_Params.SA_WordCount);
+
+		if (SA_Params.TransformRecord_p) {
+			da_macsec_free(SA_Params.TransformRecord_p);
+		}
+
+		MAC_ADV_MACSEC_DBG(" SA Ingress with Transform Record added\n");
+
+		macsec_vport->macsec_sa[curr_sa].SecY_SAHandle = SecY_IngressSAHandle.p;
+		MAC_ADV_MACSEC_DBG("++++++ Ingress SecY policy Done ++++++\n");
+
+	} else if (SA_Params.ActionType == SECY_SA_ACTION_BYPASS) {
+
+		SecY_SA_t ingressSAParamsBypass;
+
+		mzdMemSet(&ingressSAParamsBypass, 0, sizeof(ingressSAParamsBypass));
+
+		ingressSAParamsBypass.ActionType = SECY_SA_ACTION_BYPASS;
+		ingressSAParamsBypass.DropType = SECY_SA_DROP_NONE;
+		ingressSAParamsBypass.DestPort = SECY_PORT_UNCONTROLLED;
+		ingressSAParamsBypass.SA_WordCount = 0;
+		ingressSAParamsBypass.TransformRecord_p = NULL;
+
+		SecY_Rc = SecY_SA_Add(ingressDevId, ingressVPort, &SecY_IngressSAHandle,
+					&ingressSAParamsBypass);
+		if (SecY_Rc != SECY_STATUS_OK) {
+			printf("Failed, SecY_SA_Add()=%d\n", SecY_Rc);
+			SecY_Device_Uninit(ingressDevId);
+			return MZD_FAIL;
+		}
+
+		{
+			CfyE_Device_Exceptions_t ingressDeviceExceptions;
+			CfyE_Device_Control_t ingressDeviceControl;
+			CfyE_Device_t ingressDevice;
+			CfyE_Status_t CfyE_Rc;
+
+			mzdMemSet(&ingressDeviceExceptions, 0, sizeof(ingressDeviceExceptions));
+			mzdMemSet(&ingressDeviceControl, 0, sizeof(ingressDeviceControl));
+			mzdMemSet(&ingressDevice, 0, sizeof(ingressDevice));
+
+			ingressDeviceExceptions.DropAction = CFYE_DO_NOT_DROP;
+			ingressDeviceExceptions.fForceDrop = false;
+			ingressDeviceExceptions.fDefaultVPortValid = true;
+			ingressDeviceExceptions.DefaultVPort = ingressVPort;
+			ingressDeviceControl.fLowLatencyBypass = false;
+			ingressDeviceControl.Exceptions_p = &ingressDeviceExceptions;
+			ingressDevice.Control_p = &ingressDeviceControl;
+
+			CfyE_Rc = CfyE_Device_Update(ingressDevId, channelID, &ingressDevice);
+			if (CfyE_Rc != CFYE_STATUS_OK) {
+				printf("Failed, ingressDevId=%d CfyE_Device_Update()=%d\n",
+							ingressDevId, CfyE_Rc);
+				return MZD_FAIL;
+			}
+		}
+		MAC_ADV_MACSEC_DBG("\nDummy Bypass SA Ingress with Transform Record added\n");
+
+	} else {
+		printf("\nFailed, Ingress Incorrect ActionType %d\n", SA_Params.ActionType);
 		return MZD_FAIL;
 	}
 
-	MAC_ADV_MACSEC_DBG(" Transform 32-bit word count %d\n",
-				SA_Params.SA_WordCount);
-
-	Log_HexDump32("Ingress Transform data",
-		0,
-		SA_Params.TransformRecord_p,
-		SA_Params.SA_WordCount);
-
-	if (SA_Params.TransformRecord_p) {
-		da_macsec_free(SA_Params.TransformRecord_p);
-	}
-
-	MAC_ADV_MACSEC_DBG(" SA Ingress with Transform Record added\n");
-
-	MAC_ADV_MACSEC_DBG("****** Set Ingress SecY policy DONE  ******\n");
-	if (resMACSecStuct) {
-		resMACSecStuct->SecY_IngressSAHandle = SecY_IngressSAHandle.p;
-	}
-	MAC_ADV_MACSEC_DBG("++++++ Ingress SecY policy Done ++++++\n");
+	macsec_vport->macsec_sa[curr_sa].in_use = true;
 
 	return MZD_OK;
 }
@@ -618,94 +764,213 @@ MZD_STATUS phy_7121_macsec_sa_add_egress(phy_7121_macsec_drv_t *phy_macsec_drv,
 	SecY_Status_t SecY_Rc;
 	SecY_SAHandle_t SecY_EgressSAHandle;
 
+	enum PHY_7121_MACSEC_VPORT vport_num = sa_params->vport_num;
 	uint8_t curr_sa = sa_params->sa_num;
+	phy_7121_macsec_vport_t *macsec_vport =
+				&phy_macsec_drv->macsec_vport_egress[vport_num];
 
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
+	//PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
+	if (macsec_vport->macsec_sa[curr_sa].in_use) {
+		printf(" Error: Egress SA %d Already created, Delete first to recreate\n",
+									curr_sa);
+		return MZD_FAIL;
+	}
 
-	MZD_UINT egressVPort = phy_macsec_drv->egressVPort;
-	MZD_U8 egressDevId = resMACSecStuct->egressDevId;
+	MZD_UINT egressVPort = macsec_vport->vport;
+	MZD_U8 egressDevId = phy_macsec_drv->egressDevId;
+	MZD_U16 channelID = phy_macsec_drv->channelID;
 
 	MAC_ADV_MACSEC_DBG("++++++ Egress SecY policy ++++++\n");
 
 	mzdMemSet(&SA_Params, 0, sizeof(SA_Params));
 
 	/* DA_MACSEC_MODE_EGRESS */
-	if (phy_macsec_drv->macsec_sa_egress[curr_sa].is_actiontype)  {
-		SA_Params.ActionType = phy_macsec_drv->macsec_sa_egress[curr_sa].actiontype;
+	if (macsec_vport->macsec_sa[curr_sa].is_actiontype)  {
+		SA_Params.ActionType = macsec_vport->macsec_sa[curr_sa].actiontype;
 		MAC_ADV_MACSEC_DBG("\nProgram ActionType Egress SA %d DropType %d",
 				curr_sa, SA_Params.ActionType);
 	} else
 		SA_Params.ActionType = SECY_SA_ACTION_EGRESS;
 
-	if (phy_macsec_drv->macsec_sa_egress[curr_sa].is_droptype)  {
-		SA_Params.DropType = phy_macsec_drv->macsec_sa_egress[curr_sa].droptype;
+	if (macsec_vport->macsec_sa[curr_sa].is_droptype)  {
+		SA_Params.DropType = macsec_vport->macsec_sa[curr_sa].droptype;
 		MAC_ADV_MACSEC_DBG("\nProgram DropType Egress SA %d DropType %d",
 				curr_sa, SA_Params.DropType);
 	} else
 		SA_Params.DropType = SECY_SA_DROP_CRC_ERROR;
 
-	SA_Params.DestPort = SECY_PORT_COMMON;
+	if (SA_Params.ActionType == SECY_SA_ACTION_EGRESS) {
 
-	SA_Params.Params.Egress.fProtectFrames = true;
-	SA_Params.Params.Egress.fIncludeSCI = true;
-	SA_Params.Params.Egress.fConfProtect = true;
-	SA_Params.Params.Egress.fAllowDataPkts = true;
-	SA_Params.Params.Egress.PreSecTagAuthLength = 12;
+		SA_Params.DestPort = SECY_PORT_COMMON;
 
-	if ((phy_macsec_drv->macsec_sa_egress[curr_sa].macsec_key.key_flag)
-		|| (phy_macsec_drv->macsec_sa_egress[curr_sa].sci_id.sci_flag))	{
+		SA_Params.Params.Egress.fProtectFrames = true;
 
-		phy_macsec_drv->macsec_sa_egress[curr_sa].transform_params.AN = curr_sa;
-		MAC_ADV_MACSEC_DBG("\nProgram AN  %d",
-				phy_macsec_drv->macsec_sa_egress[curr_sa].transform_params.AN);
+		if (macsec_vport->is_sci_explicit) {
+			MAC_ADV_MACSEC_DBG("\n SCI inclded ");
+			SA_Params.Params.Egress.fIncludeSCI = true;
+		} else {
+			MAC_ADV_MACSEC_DBG("\n SCI not inclded ");
+			SA_Params.Params.Egress.fIncludeSCI = false;
+		}
 
-		SA_Params.TransformRecord_p
-		= da_macsec_build_sa(&phy_macsec_drv->macsec_sa_egress[curr_sa].transform_params,
-					 &SAWordCount);
-		MAC_ADV_MACSEC_DBG("\nProgram Key Egress curr_sa %d", curr_sa);
-		print_key(phy_macsec_drv->macsec_sa_egress[curr_sa].transform_params.Key_p,
-			phy_macsec_drv->macsec_sa_egress[curr_sa].transform_params.KeyByteCount);
-		MAC_ADV_MACSEC_DBG("\nProgram SCI Egress SA %d", curr_sa);
-		print_key(phy_macsec_drv->macsec_sa_egress[curr_sa].transform_params.SCI_p,
+		SA_Params.Params.Egress.fConfProtect = true;
+		SA_Params.Params.Egress.fAllowDataPkts = true;
+		SA_Params.Params.Egress.PreSecTagAuthLength = 12;
+
+		if ((macsec_vport->macsec_sa[curr_sa].macsec_key.key_flag)
+			|| (macsec_vport->macsec_sa[curr_sa].sci_id.sci_flag))	{
+
+			macsec_vport->macsec_sa[curr_sa].transform_params.AN = curr_sa;
+			MAC_ADV_MACSEC_DBG("\nProgram AN  %d",
+					macsec_vport->macsec_sa[curr_sa].transform_params.AN);
+
+			SA_Params.TransformRecord_p
+			= da_macsec_build_sa(&macsec_vport->macsec_sa[curr_sa].transform_params,
+						 &SAWordCount);
+			MAC_ADV_MACSEC_DBG("\nProgram Key Egress curr_sa %d", curr_sa);
+			print_key(macsec_vport->macsec_sa[curr_sa].transform_params.Key_p,
+			macsec_vport->macsec_sa[curr_sa].transform_params.KeyByteCount);
+			MAC_ADV_MACSEC_DBG("\nProgram SCI Egress SA %d", curr_sa);
+			print_key(macsec_vport->macsec_sa[curr_sa].transform_params.SCI_p,
 									MACSEC_SCI_SIZE);
+		} else {
+			SA_Params.TransformRecord_p
+			= da_macsec_build_sa(&Transform_Params_Basic_Transform_Egress,
+						 &SAWordCount);
+			MAC_ADV_MACSEC_DBG("\nDefault Program Key Egress");
+			print_key(Transform_Params_Basic_Transform_Egress.Key_p,
+				Transform_Params_Basic_Transform_Egress.KeyByteCount);
+		}
+
+		SA_Params.SA_WordCount = SAWordCount;
+
+		if (sa_params->is_chained) {
+
+			SecY_SAHandle_t SecY_EgressSAHandle1;
+
+			switch (curr_sa) {
+			case 0:
+			case 2:
+				if (macsec_vport->macsec_sa[curr_sa + 1].in_use)
+					SecY_EgressSAHandle1.p
+					= macsec_vport->macsec_sa[curr_sa + 1].SecY_SAHandle;
+				else {
+					printf(" Failed, SA %d Not created\n", curr_sa);
+					printf(" Failed, Not chained,first SA %d needs to be"
+						       " created\n", curr_sa + 1);
+					return MZD_FAIL;
+				}
+				break;
+			case 1:
+			case 3:
+				if (macsec_vport->macsec_sa[curr_sa - 1].in_use)
+					SecY_EgressSAHandle1.p
+					= macsec_vport->macsec_sa[curr_sa - 1].SecY_SAHandle;
+				else {
+					printf(" Failed, SA %d Not created\n ", curr_sa);
+					printf(" Failed, Not chained, first SA %d needs to be"
+							" created\n", curr_sa - 1);
+					return MZD_FAIL;
+				}
+
+
+			}
+
+			SecY_Rc = SecY_SA_Chain(egressDevId,
+					SecY_EgressSAHandle1,
+					&SecY_EgressSAHandle,
+					&SA_Params);
+
+			if (SecY_Rc != SECY_STATUS_OK) {
+				printf(" Failed, egressDevId %d, SecY_SA_Chain()=%d\n",
+				  egressDevId, SecY_Rc);
+				SecY_Device_Uninit(egressDevId);
+				return MZD_FAIL;
+			}
+		} else {
+			SecY_Rc = SecY_SA_Add(egressDevId,
+					egressVPort,
+					&SecY_EgressSAHandle,
+					&SA_Params);
+
+			if (SecY_Rc != SECY_STATUS_OK) {
+				printf(" Failed, egressDevId %d, SecY_SA_Add()=%d\n",
+				  egressDevId, SecY_Rc);
+				SecY_Device_Uninit(egressDevId);
+				return MZD_FAIL;
+			}
+		}
+
+		MAC_ADV_MACSEC_DBG(" Transform 32-bit word count %d\n", SA_Params.SA_WordCount);
+
+		Log_HexDump32("Egress Transform data",
+			0,
+			SA_Params.TransformRecord_p,
+			SA_Params.SA_WordCount);
+
+		if (SA_Params.TransformRecord_p) {
+			da_macsec_free(SA_Params.TransformRecord_p);
+		}
+
+		MAC_ADV_MACSEC_DBG(" SA Egress with Transform Record added\n");
+
+		macsec_vport->macsec_sa[curr_sa].SecY_SAHandle = SecY_EgressSAHandle.p;
+
+		MAC_ADV_MACSEC_DBG("++++++ Egress SecY Policy Done ++++++\n");
+
+	} else if (SA_Params.ActionType == SECY_SA_ACTION_BYPASS) {
+
+		SecY_SA_t egressSAParamsBypass;
+
+		mzdMemSet(&egressSAParamsBypass, 0, sizeof(egressSAParamsBypass));
+
+		egressSAParamsBypass.ActionType = SECY_SA_ACTION_BYPASS;
+		egressSAParamsBypass.DropType = SECY_SA_DROP_NONE;
+		egressSAParamsBypass.DestPort = SECY_PORT_COMMON;
+		egressSAParamsBypass.SA_WordCount = 0;
+		egressSAParamsBypass.TransformRecord_p = NULL;
+
+		SecY_Rc = SecY_SA_Add(egressDevId, egressVPort, &SecY_EgressSAHandle,
+								&egressSAParamsBypass);
+		if (SecY_Rc != SECY_STATUS_OK) {
+			printf("Failed, SecY_SA_Add()=%d\n", SecY_Rc);
+			SecY_Device_Uninit(egressDevId);
+			return MZD_FAIL;
+		}
+
+		{
+			CfyE_Device_Exceptions_t egressDeviceExceptions;
+			CfyE_Device_Control_t egressDeviceControl;
+			CfyE_Device_t egressDevice;
+			CfyE_Status_t CfyE_Rc;
+
+			mzdMemSet(&egressDeviceExceptions, 0, sizeof(egressDeviceExceptions));
+			mzdMemSet(&egressDeviceControl, 0, sizeof(egressDeviceControl));
+			mzdMemSet(&egressDevice, 0, sizeof(egressDevice));
+
+			egressDeviceExceptions.DropAction = CFYE_DO_NOT_DROP;
+			egressDeviceExceptions.fForceDrop = false;
+			egressDeviceExceptions.fDefaultVPortValid = true;
+			egressDeviceExceptions.DefaultVPort = egressVPort;
+			egressDeviceControl.fLowLatencyBypass = false;
+			egressDeviceControl.Exceptions_p = &egressDeviceExceptions;
+			egressDevice.Control_p = &egressDeviceControl;
+
+			CfyE_Rc = CfyE_Device_Update(egressDevId, channelID, &egressDevice);
+			if (CfyE_Rc != CFYE_STATUS_OK) {
+				printf("Failed, egressDevId=%d CfyE_Device_Update()=%d\n",
+									egressDevId, CfyE_Rc);
+				return MZD_FAIL;
+			}
+		}
+		MAC_ADV_MACSEC_DBG("Dummy Bypass SA Egress with Transform Record added\n");
+
 	} else {
-		SA_Params.TransformRecord_p
-		= da_macsec_build_sa(&Transform_Params_Basic_Transform_Egress,
-					 &SAWordCount);
-		MAC_ADV_MACSEC_DBG("\nDefault Program Key Egress");
-		print_key(Transform_Params_Basic_Transform_Egress.Key_p,
-			Transform_Params_Basic_Transform_Egress.KeyByteCount);
-	}
-
-	SA_Params.SA_WordCount = SAWordCount;
-
-	SecY_Rc = SecY_SA_Add(egressDevId, egressVPort, &SecY_EgressSAHandle, &SA_Params);
-
-	if (SecY_Rc != SECY_STATUS_OK) {
-		MAC_ADV_MACSEC_DBG(" Failed, egressDevId %d, SecY_SA_Add()=%d\n",
-			  egressDevId, SecY_Rc);
-		SecY_Device_Uninit(egressDevId);
+		printf("Failed, Egress Incorrect ActionType %d\n ", SA_Params.ActionType);
 		return MZD_FAIL;
 	}
+	macsec_vport->macsec_sa[curr_sa].in_use = true;
 
-	MAC_ADV_MACSEC_DBG(" Transform 32-bit word count %d\n", SA_Params.SA_WordCount);
-
-	Log_HexDump32("Egress Transform data",
-		0,
-		SA_Params.TransformRecord_p,
-		SA_Params.SA_WordCount);
-
-	if (SA_Params.TransformRecord_p) {
-		da_macsec_free(SA_Params.TransformRecord_p);
-	}
-
-	MAC_ADV_MACSEC_DBG(" SA Egress with Transform Record added\n");
-
-	if (resMACSecStuct) {
-		resMACSecStuct->SecY_EgressSAHandle = SecY_EgressSAHandle.p;
-	}
-
-	MAC_ADV_MACSEC_DBG("++++++ Egress SecY Policy Done ++++++\n");
 	return MZD_OK;
 }
 
@@ -714,13 +979,23 @@ MZD_STATUS phy_7121_macsec_sa_del_ingress(phy_7121_macsec_drv_t *phy_macsec_drv,
 {
 	SecY_SAHandle_t SecY_IngressSAHandle;
 
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
+	enum PHY_7121_MACSEC_VPORT vport_num = sa_params->vport_num;
+	uint8_t curr_sa = sa_params->sa_num;
+	phy_7121_macsec_vport_t *macsec_vport =
+				&phy_macsec_drv->macsec_vport_ingress[vport_num];
 
-	MZD_U8 ingressDevId = resMACSecStuct->ingressDevId;
+	MZD_U8 ingressDevId = phy_macsec_drv->ingressDevId;
 
-	SecY_IngressSAHandle.p = resMACSecStuct->SecY_IngressSAHandle;
+	SecY_IngressSAHandle.p = macsec_vport->macsec_sa[curr_sa].SecY_SAHandle;
 
 	SecY_SA_Remove(ingressDevId, SecY_IngressSAHandle);
+
+	phy_7121_macsec_sa_init(phy_macsec_drv,
+				sa_params->vport_num,
+				sa_params->sa_num,
+				sa_params->dir);
+
+	macsec_vport->macsec_sa[curr_sa].in_use = false;
 
 	return MZD_OK;
 }
@@ -730,16 +1005,54 @@ MZD_STATUS phy_7121_macsec_sa_del_egress(phy_7121_macsec_drv_t *phy_macsec_drv,
 {
 	SecY_SAHandle_t SecY_EgressSAHandle;
 
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
+	enum PHY_7121_MACSEC_VPORT vport_num = sa_params->vport_num;
+	uint8_t curr_sa = sa_params->sa_num;
+	phy_7121_macsec_vport_t *macsec_vport =
+				&phy_macsec_drv->macsec_vport_egress[vport_num];
 
-	MZD_U8 egressDevId = resMACSecStuct->egressDevId;
+	MZD_U8 egressDevId = phy_macsec_drv->egressDevId;
 
-	SecY_EgressSAHandle.p = resMACSecStuct->SecY_EgressSAHandle;
+	SecY_EgressSAHandle.p =  macsec_vport->macsec_sa[curr_sa].SecY_SAHandle;
 
 	SecY_SA_Remove(egressDevId, SecY_EgressSAHandle);
 
+	phy_7121_macsec_sa_init(phy_macsec_drv,
+				sa_params->sa_num,
+				sa_params->vport_num,
+				sa_params->dir);
+
+	macsec_vport->macsec_sa[curr_sa].in_use = false;
+
 	return MZD_OK;
 }
+
+MZD_STATUS phy_7121_macsec_sa_switch(phy_7121_macsec_drv_t *phy_macsec_drv,
+					struct macsec_sa_adv_ops *sa_adv_ops)
+{
+	SecY_SAHandle_t SecY_EgressSAHandle1;
+	SecY_SAHandle_t SecY_EgressSAHandle2;
+
+	enum PHY_7121_MACSEC_VPORT vport_num = sa_adv_ops->vport_num;
+	uint8_t sa1 = sa_adv_ops->sa1;
+	uint8_t sa2 = sa_adv_ops->sa2;
+	SecY_SA_t sa_params;
+
+	phy_7121_macsec_vport_t *macsec_vport =
+				&phy_macsec_drv->macsec_vport_egress[vport_num];
+
+	MZD_U8 egressDevId = phy_macsec_drv->egressDevId;
+
+	SecY_EgressSAHandle1.p =  macsec_vport->macsec_sa[sa1].SecY_SAHandle;
+	SecY_EgressSAHandle2.p =  macsec_vport->macsec_sa[sa2].SecY_SAHandle;
+
+	SecY_SA_Switch(egressDevId,
+			SecY_EgressSAHandle1,
+			SecY_EgressSAHandle2,
+			&sa_params);
+
+	return MZD_OK;
+}
+
 
 MZD_STATUS phy_7121_macsec_bypass_engines(
 	IN MZD_DEV_PTR pDev,
@@ -797,26 +1110,23 @@ MZD_STATUS  phy_7121_get_mac_stats(
 	return MZD_OK;
 }
 
-#define STATS_PRINT
-MZD_STATUS phy_7121_macsec_stats(int cgx_id,
-				int lmac_id,
-				phy_7121_macsec_drv_t *phy_macsec_drv)
+MZD_STATUS phy_7121_macsec_ingress_stats(phy_7121_macsec_drv_t *phy_macsec_drv,
+					struct macsec_stats_params *macsec_stats)
 {
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
-#ifdef STATS_PRINT
-	MZD_U8	ingressDevId = resMACSecStuct->ingressDevId;
-	MZD_U8	egressDevId = resMACSecStuct->egressDevId;
-	SecY_SAHandle_t SecY_IngressSAHandle, SecY_EgressSAHandle;
+	enum PHY_7121_MACSEC_VPORT vport_num = macsec_stats->vport_num;
+	uint8_t curr_sa = macsec_stats->sa_num;
+	phy_7121_macsec_vport_t *macsec_vport_ingress =
+				&phy_macsec_drv->macsec_vport_ingress[vport_num];
+
+	MZD_U8	ingressDevId = phy_macsec_drv->ingressDevId;
+	SecY_SAHandle_t SecY_IngressSAHandle;
 	CfyE_Status_t CfyE_Rc;
 	SecY_Status_t SecY_Rc;
-	MZD_UINT ingressVPort = phy_macsec_drv->ingressVPort;
-	MZD_UINT egressVPort = phy_macsec_drv->egressVPort;
+	MZD_UINT ingressVPort = macsec_vport_ingress->vport;
 
-	SecY_IngressSAHandle.p = resMACSecStuct->SecY_IngressSAHandle;
-	SecY_EgressSAHandle.p = resMACSecStuct->SecY_EgressSAHandle;
+	SecY_IngressSAHandle.p = macsec_vport_ingress->macsec_sa[curr_sa].SecY_SAHandle;
 
-	MAC_ADV_MACSEC_DBG("%s ingressDevId %d, egressDevId %d\n", __func__,
-						ingressDevId, egressDevId);
+	MAC_ADV_MACSEC_DBG("%s ingressDevId %d\n", __func__, ingressDevId);
 	{
 		SecY_SA_Stat_I_t SAStats;
 
@@ -831,7 +1141,7 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 			goto error_exit;
 		}
 
-		printf("\nSecY_Diag_Device_Dump(ingressDevId)=%d\n", CfyE_Rc);
+		MAC_ADV_MACSEC_DBG("\nSecY_Diag_Device_Dump(ingressDevId)=%d\n", CfyE_Rc);
 		SecY_Rc = SecY_Diag_Device_Dump(ingressDevId);
 		if (SecY_Rc != SECY_STATUS_OK) {
 			MAC_ADV_MACSEC_DBG("SecY_Diag_Device_Dump: Failed,"
@@ -841,7 +1151,7 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 
 		/* Read the SA ingress statistics counters, */
 		/* request device synchronization before reading out the statistics */
-		printf("\nSA ingress statistics counters\n");
+		MAC_ADV_MACSEC_DBG("\nSA ingress statistics counters\n");
 		SecY_Rc = SecY_SA_Statistics_I_Get(ingressDevId,
 						   SecY_IngressSAHandle,
 						   &SAStats,
@@ -855,7 +1165,7 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 
 		/* Assume that any counters are less than 2^32, so we can just display */
 		/* the low halves of the 64-bit counters */
-		printf("SecY_SA_Statistics_I_Get:Ingress SA Statistics:\n"
+		MAC_ADV_MACSEC_DBG("SecY_SA_Statistics_I_Get:Ingress SA Statistics:\n"
 		"\tInOctetsDecrypted: %u\n"
 		"\tInOctetsValidated: %u\n"
 		"\tInPktsDelayed:	 %u\n"
@@ -876,6 +1186,18 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 		SAStats.InPktsOK.Lo,
 		SAStats.InPktsUnchecked.Lo,
 		SAStats.InPktsUnusedSA.Lo);
+
+		macsec_stats->stats.ingress.InPktsUnchecked = SAStats.InPktsUnchecked.Lo;
+		macsec_stats->stats.ingress.InPktsDelayed = SAStats.InPktsDelayed.Lo;
+		macsec_stats->stats.ingress.InPktsLate = SAStats.InPktsLate.Lo;
+		macsec_stats->stats.ingress.InPktsOK = SAStats.InPktsOK.Lo;
+		macsec_stats->stats.ingress.InPktsInvalid = SAStats.InPktsInvalid.Lo;
+		macsec_stats->stats.ingress.InPktsNotValid = SAStats.InPktsNotValid.Lo;
+		macsec_stats->stats.ingress.InPktsNotUsingSA = SAStats.InPktsNotUsingSA.Lo;
+		macsec_stats->stats.ingress.InPktsUnusedSA = SAStats.InPktsUnusedSA.Lo;
+		macsec_stats->stats.ingress.InOctetsDecrypted = SAStats.InOctetsDecrypted.Lo;
+		macsec_stats->stats.ingress.InOctetsValidated = SAStats.InOctetsValidated.Lo;
+
 	}
 
 	{
@@ -885,7 +1207,7 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 
 		/* Read the SecY ingress statistics counters. */
 		/* Sync with the SecY device to get the exact counters values */
-		printf("\nSecY ingress statistics counters\n");
+		MAC_ADV_MACSEC_DBG("\nSecY ingress statistics counters\n");
 		SecY_Rc = SecY_SecY_Statistics_I_Get(ingressDevId,
 						 ingressVPort,
 						 &SecYStats,
@@ -898,7 +1220,7 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 
 		/* Assume that any counters are less than 2^32, so we can just display */
 		/* the low halves of the 64-bit counters */
-		printf(
+		MAC_ADV_MACSEC_DBG(
 		"SecY_SecY_Statistics_I_Get: Ingress SecY(%d) Statistics:\n"
 		"\tTransform E r r o r Packets Counter:	%u\n"
 		"\tIngress Controlled Packets Counter:	 %u\n"
@@ -926,7 +1248,7 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 
 		/* Read the IFC/IFC1 ingress statistics counters. */
 		/* Sync with the SecY device to get the exact counters values */
-		printf("\nIFC/IFC1  ingress statistics counters\n");
+		MAC_ADV_MACSEC_DBG("\nIFC/IFC1  ingress statistics counters\n");
 		SecY_Rc = SecY_Ifc_Statistics_I_Get(ingressDevId,
 						ingressVPort,
 						&IfcStats,
@@ -939,7 +1261,7 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 
 		/* Assume that any counters are less than 2^32, so we can just display */
 		/* the low halves of the 64-bit counters */
-		printf(
+		MAC_ADV_MACSEC_DBG(
 			"SecY_Ifc_Statistics_I_Get: Ingress IFC/IFC1(%d) Statistics:\n"
 			"\tUncontrolled Counters:\n"
 			"\t  Octects:		 %u\n"
@@ -962,31 +1284,49 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 			IfcStats.InPktsBroadcastControlled.Lo);
 	}
 
+error_exit:
+
+	return MZD_OK;
+}
+
+MZD_STATUS phy_7121_macsec_egress_stats(phy_7121_macsec_drv_t *phy_macsec_drv,
+					struct macsec_stats_params *macsec_stats)
+{
+	enum PHY_7121_MACSEC_VPORT vport_num = macsec_stats->vport_num;
+	uint8_t curr_sa = macsec_stats->sa_num;
+	phy_7121_macsec_vport_t *macsec_vport_egress =
+				&phy_macsec_drv->macsec_vport_egress[vport_num];
+
+	MZD_U8	egressDevId = phy_macsec_drv->egressDevId;
+	SecY_SAHandle_t SecY_EgressSAHandle;
+	CfyE_Status_t CfyE_Rc;
+	SecY_Status_t SecY_Rc;
+	MZD_UINT egressVPort = macsec_vport_egress->vport;
+
+	SecY_EgressSAHandle.p = macsec_vport_egress->macsec_sa[curr_sa].SecY_SAHandle;
+
+	MAC_ADV_MACSEC_DBG("%s egressDevId %d\n", __func__, egressDevId);
+
 	{
 		SecY_SA_Stat_E_t SAStats;
-
 		ZEROINIT(SAStats);
-
-		printf("\nCfyE_Diag_Device_Dump(egressDevId)=%d\n", CfyE_Rc);
+		MAC_ADV_MACSEC_DBG("\nCfyE_Diag_Device_Dump(egressDevId)=%d\n", egressDevId);
 		CfyE_Rc = CfyE_Diag_Device_Dump(egressDevId);
 		if (CfyE_Rc != CFYE_STATUS_OK) {
 			MAC_ADV_MACSEC_DBG("CfyE_Diag_Device_Dump: Failed,"
 				" CfyE_Diag_Device_Dump(egressDevId)=%d\n", CfyE_Rc);
 			goto error_exit;
 		}
-
-		printf("\nSecY_Diag_Device_Dump(egressDevId)=%d\n", CfyE_Rc);
-
+		MAC_ADV_MACSEC_DBG("\nSecY_Diag_Device_Dump(egressDevId)=%d\n", CfyE_Rc);
 		SecY_Rc = SecY_Diag_Device_Dump(egressDevId);
 		if (SecY_Rc != SECY_STATUS_OK) {
 			printf("SecY_Diag_Device_Dump: Failed,"
 				" SecY_Diag_Device_Dump(egressDevId)=%d\n", SecY_Rc);
 			goto error_exit;
 		}
-
 		/* Read out egress SA statistics, */
 		/* request device synchronization before reading out statistics */
-		printf("\nEgress SA statistics %d\n", CfyE_Rc);
+		MAC_ADV_MACSEC_DBG("\nEgress SA statistics %d\n", CfyE_Rc);
 		SecY_Rc = SecY_SA_Statistics_E_Get(egressDevId,
 					   SecY_EgressSAHandle,
 					   &SAStats,
@@ -996,10 +1336,9 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 			SecY_Rc);
 			goto error_exit;
 		}
-
 		/* Assume that any counters are less than 2^32, so we can just display */
 		/* the low halves of the 64-bit counters */
-		printf("SecY_SA_Statistics_E_Get: Egress SA Statistics:\n"
+		MAC_ADV_MACSEC_DBG("SecY_SA_Statistics_E_Get: Egress SA Statistics:\n"
 		"\tOutOctetsEncryptedProtected: %u\n"
 		"\tOutPktsEncryptedProtected:   %u\n"
 		"\tOutPktsTooLong:		  %u\n"
@@ -1009,11 +1348,18 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 		SAStats.OutPktsTooLong.Lo,
 		SAStats.OutPktsSANotInUse.Lo);
 
+		macsec_stats->stats.egress.OutPktsEncryptedProtected
+							= SAStats.OutOctetsEncryptedProtected.Lo;
+		macsec_stats->stats.egress.OutPktsTooLong
+							 = SAStats.OutPktsTooLong.Lo;
+		macsec_stats->stats.egress.OutPktsSANotInUse
+							= SAStats.OutPktsSANotInUse.Lo;
+		macsec_stats->stats.egress.OutOctetsEncryptedProtected
+							= SAStats.OutPktsEncryptedProtected.Lo;
+
 		{
 			SecY_SecY_Stat_E_t SecYStats;
-
 			ZEROINIT(SecYStats);
-
 			/* Read the SecY ingress statistics counters. */
 			/* Sync with the SecY device to get the exact counters values */
 			SecY_Rc = SecY_SecY_Statistics_E_Get(egressDevId,
@@ -1026,10 +1372,9 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 					SecY_Rc);
 				goto error_exit;
 			}
-
 			/* Assume that any counters are less than 2^32, so we can just display */
 			/* the low halves of the 64-bit counters */
-			printf(
+			MAC_ADV_MACSEC_DBG(
 			"SecY_SecY_Statistics_E_Get: Egress SecY(%d) Statistics:\n"
 			"\tTransform E r r o r Packets Counter: %u\n"
 			"\tEgress Controlled Packets Counter:   %u\n"
@@ -1038,7 +1383,6 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 			SecYStats.OutPktsTransformError.Lo,
 			SecYStats.OutPktsControl.Lo,
 			SecYStats.OutPktsUntagged.Lo);
-
 			if ((SecYStats.OutPktsTransformError.Lo != 0) ||
 				(SecYStats.OutPktsControl.Lo != 0) ||
 				(SecYStats.OutPktsUntagged.Lo != 0)) {
@@ -1052,12 +1396,9 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 				goto error_exit;
 			}
 		}
-
 		{
 			SecY_Ifc_Stat_E_t IfcStats;
-
 			ZEROINIT(IfcStats);
-
 			/* Read the IFC/IFC1 ingress statistics counters. */
 			/* Sync with the SecY device to get the exact counters values */
 			SecY_Rc = SecY_Ifc_Statistics_E_Get(egressDevId,
@@ -1069,10 +1410,9 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 					" SecY_Ifc_Statistics_E_Get()=%d\n", SecY_Rc);
 				goto error_exit;
 			}
-
 			/* Assume that any counters are less than 2^32, so we can just display */
 			/* the low halves of the 64-bit counters */
-			printf(
+			MAC_ADV_MACSEC_DBG(
 			"SecY_Ifc_Statistics_E_Get: Egress IFC/IFC1(%d) Statistics:\n"
 			"\tCommon Counters:\n"
 			"\t  Octects:		 %u\n"
@@ -1099,145 +1439,10 @@ MZD_STATUS phy_7121_macsec_stats(int cgx_id,
 		}
 	}
 
-
 error_exit:
 
-#else
-	phy_config_t *phy;
-
-	phy = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id].phy_config;
-	mzdMACsecStatistics(phy->priv, resMACSecStuct);
-#endif
-
 	return MZD_OK;
 }
-
-#ifdef SA_REKEY
-MZD_STATUS phy_7121_macsec_rekey(phy_7121_macsec_drv_t *phy_macsec_drv)
-{
-	MZD_UINT ingressVPort;
-	//MZD_UINT egressVPort;
-	MZD_U8 ingressDevId, egressDevId;
-	SecY_Status_t SecY_Rc;
-	SecY_SAHandle_t SecY_IngressSAHandle2;
-	SecY_SAHandle_t SecY_EgressSAHandle2;
-	SecY_SAHandle_t SecY_EgressSAHandle1;
-
-	SecY_SA_t SA_Params;
-	MZD_U32 SAWordCount = 0;
-
-	PMZD_MACSEC_RES_STURCT resMACSecStuct = &phy_macsec_drv->resMACSecStuct;
-
-	//SecY_SAHandle_t SecY_IngressSAHandle1 = resMACSecStuct->SecY_IngressSAHandle;
-
-	ingressVPort = phy_macsec_drv->ingressVPort;
-	//egressVPort = phy_macsec_drv->egressVPort;
-
-	ingressDevId = resMACSecStuct->ingressDevId;
-	egressDevId = resMACSecStuct->ingressDevId;
-
-	SecY_EgressSAHandle1.p = resMACSecStuct->SecY_EgressSAHandle;
-
-	{
-		mzdMemSet(&SA_Params, 0, sizeof(SA_Params));
-
-		SA_Params.ActionType = SECY_SA_ACTION_INGRESS;
-		SA_Params.DropType = SECY_SA_DROP_CRC_ERROR;
-		SA_Params.DestPort = SECY_PORT_CONTROLLED;
-
-		SA_Params.Params.Ingress.ValidateFramesTagged =
-				SECY_FRAME_VALIDATE_STRICT;
-		SA_Params.Params.Ingress.fReplayProtect = true;
-		SA_Params.Params.Ingress.SCI_p = SCI1;
-		SA_Params.Params.Ingress.AN = 3;
-		SA_Params.Params.Ingress.fAllowTagged = true;
-		SA_Params.Params.Ingress.PreSecTagAuthLength = 12;
-
-		if (phy_macsec_drv->macsec_sa_ingress[0].) {
-			SA_Params.TransformRecord_p
-			= da_macsec_build_sa(
-			&phy_macsec_drv->macsec_sa_ingress[phy_macsec_drv->macsec_sa_ingress,
-									&SAWordCount);
-			MAC_ADV_MACSEC_DBG("\nProgram Key 2 Ingress");
-			print_key(phy_macsec_drv->transform_params_ingress.Key_p,
-				phy_macsec_drv->transform_params_ingress.KeyByteCount);
-
-			phy_macsec_drv->sa_params_ingress_true = 0;
-		} else {
-
-			SA_Params.TransformRecord_p =
-				da_macsec_build_sa(&Transform_Params_Ingress2,
-								&SAWordCount);
-			MAC_ADV_MACSEC_DBG("\nProgram Default Key 2 Ingress");
-			print_key(Transform_Params_Basic_Transform_Ingress.Key_p,
-					Transform_Params_Basic_Transform_Ingress.KeyByteCount);
-		}
-
-		SA_Params.SA_WordCount = SAWordCount;
-
-		SecY_Rc = SecY_SA_Add(ingressDevId, ingressVPort,
-					&SecY_IngressSAHandle2, &SA_Params);
-		if (SecY_Rc != SECY_STATUS_OK) {
-			MAC_ADV_MACSEC_DBG("%s: Failed, SecY_SA_Add()=%d\n",
-						__func__, SecY_Rc);
-			return MZD_FAIL;
-		}
-
-		if (SA_Params.TransformRecord_p) {
-			da_macsec_free(SA_Params.TransformRecord_p);
-		}
-
-		MAC_ADV_MACSEC_DBG("%s: SA Ingress with Transform Record added\n",
-								__func__);
-	}
-
-        /* Install second egress SA with transform record */
-        {
-		mzdMemSet(&SA_Params, 0, sizeof(SA_Params));
-
-		SA_Params.ActionType = SECY_SA_ACTION_EGRESS;
-		SA_Params.DropType = SECY_SA_DROP_INTERNAL;
-		SA_Params.DestPort = SECY_PORT_COMMON;
-
-		SA_Params.Params.Egress.fProtectFrames = true;
-		SA_Params.Params.Egress.fIncludeSCI = true;
-		SA_Params.Params.Egress.fConfProtect = true;
-		SA_Params.Params.Egress.fAllowDataPkts = true;
-		SA_Params.Params.Egress.PreSecTagAuthLength = 12;
-
-		if (phy_macsec_drv->sa_params_egress_true) {
-			SA_Params.TransformRecord_p
-			= da_macsec_build_sa(&phy_macsec_drv->transform_params_egress,
-									&SAWordCount);
-			MAC_ADV_MACSEC_DBG("\nProgram Key 2 Egress");
-			print_key(phy_macsec_drv->transform_params_egress.Key_p,
-			phy_macsec_drv->transform_params_egress.KeyByteCount);
-
-			phy_macsec_drv->sa_params_egress_true = 0;
-		} else {
-			SA_Params.TransformRecord_p =
-				da_macsec_build_sa(&Transform_Params_Egress2,
-						&SAWordCount);
-			MAC_ADV_MACSEC_DBG("\nDefault Program Key 2 Egress");
-			print_key(phy_macsec_drv->transform_params_egress.Key_p,
-				phy_macsec_drv->transform_params_egress.KeyByteCount);
-		}
-
-		SA_Params.SA_WordCount = SAWordCount;
-	}
-
-        /* Use SecY_SA_Chain instead of SecY_SA_Add to add new egress SA. */
-        SecY_Rc = SecY_SA_Chain(egressDevId,
-                                SecY_EgressSAHandle1,
-                                &SecY_EgressSAHandle2,
-                                &SA_Params);
-
-	/* Store current reference for next key add */
-	resMACSecStuct->SecY_EgressSAHandle = SecY_EgressSAHandle2.p;
-
-	return MZD_OK;
-}
-#endif
 
 MZD_STATUS phy_7121_macsec_pkt_test(int cgx_id,
 				int lmac_id,

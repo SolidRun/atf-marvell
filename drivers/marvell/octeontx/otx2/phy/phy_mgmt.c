@@ -372,7 +372,7 @@ int phy_advance_commads(int eth_id, int lmac_id, uintptr_t *adv_cmds, int size)
 	debug_nw_mgmt("%s: phy->valid %d %d:%d\n", __func__, phy->valid, eth_id, lmac_id);
 	/* Call PHY specific config callback here */
 	if (phy->valid && phy->drv->mac_adv_cmds) {
-		phy->drv->mac_adv_cmds(eth_id, lmac_id, adv_cmds, size);
+		ret = phy->drv->mac_adv_cmds(eth_id, lmac_id, adv_cmds, size);
 		debug_nw_mgmt("%s: called >mac_adv_cmds %d:%d adv_cmds %p"
 			" size %d\n", __func__, eth_id, lmac_id, adv_cmds, size);
 	}

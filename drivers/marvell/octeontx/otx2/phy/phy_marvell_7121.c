@@ -946,6 +946,12 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 					&adv_cmds->data.vport_params);
 		break;
 
+	case PHY_MAC_ADV_MACSEC_ADD_VPORT:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_MAC_DA\n", __func__);
+		status = phy_7121_macsec_add_vport_api(phy_macsec_drv,
+							&adv_cmds->data.vport_params);
+		break;
+
 	case PHY_MAC_ADV_MACSEC_SET_KEY:
 		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_KEY\n", __func__);
 		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SET_KEY "
@@ -1026,14 +1032,14 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 	case PHY_MAC_ADV_MACSEC_GET_STATS:
 		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_GET_STATS\n", __func__);
 		MAC_ADV_MACSEC_DBG("\n *********** MAC SEC STATS *************\n");
-		status = phy_7121_macsec_stats(cgx_id,
-						lmac_id,
-						phy_macsec_drv);
+		status = phy_7121_macsec_stats_api(phy_macsec_drv,
+						&adv_cmds->data.macsec_stats);
 		break;
 
 	case PHY_MAC_ADV_MACSEC_GET_MAC_ADDR:
 		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_GET_MAC_ADDR\n", __func__);
-		status = phy_7121_macsec_get_port_mac_api(phy_macsec_drv);
+		status = phy_7121_macsec_get_port_mac_api(phy_macsec_drv,
+							&adv_cmds->data.vport_params);
 		break;
 
 	case PHY_MAC_ADV_MACSEC_GET_SA_PARAMS:
@@ -1052,6 +1058,12 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_DROPTYPE_SA\n", __func__);
 		status = phy_7121_macsec_droptype_api(phy_macsec_drv,
 							&adv_cmds->data.sa_params);
+		break;
+
+	case PHY_MAC_ADV_MACSEC_SA_SWITCH:
+		MAC_ADV_MACSEC_DBG("%s: PHY_MAC_ADV_MACSEC_SA_SWITCH\n", __func__);
+		status = phy_7121_macsec_sa_switch_api(phy_macsec_drv,
+							&adv_cmds->data.sa_adv_ops);
 		break;
 
 	case PHY_MAC_ADV_MACSEC_DBG:
@@ -1093,7 +1105,8 @@ int phy_7121_mac_adv_cmd_hndl(int cgx_id,
 	default:
 		MAC_ADV_MACSEC_DBG("%s: ERROR Incorrect commands %d\n",
 					__func__, adv_cmds->mac_adv_cmd);
-		break;
+		return MZD_FAIL;
+		//break;
 	}
 
 //phy_7121_mac_adv_cmd_hndl_error:
