@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <strtol.h>
 #include <libfdt.h>
 #include <plat_board_cfg.h>
 #include <octeontx_ecam.h>
@@ -283,11 +284,44 @@ static inline void cn83xx_disable_dev(struct ecam_device *dev)
 	debug_plat_ecam("disable_dev %d:%d:%02x\n", dev->ecam, dev->dev);
 }
 
+/* Function to read PCC-BRIDGE-ENABLE
+ * from FDT.
+ */
+static inline int cn83xx_fdt_get_pccbr(void)
+{
+	const char *str;
+	const void *fdt = fdt_ptr;
+	int offset, len;
+	static int pccbr, parse;
+
+	if (parse) {
+		return pccbr;
+
+	} else {
+
+		offset = fdt_path_offset(fdt, "/cavium,bdk");
+		if (offset < 0) {
+			WARN("FDT node not found\n");
+			return offset;
+		}
+		str = fdt_getprop(fdt, offset, "PCC-BRIDGE-ENABLE", &len);
+		if (str) {
+			parse = 1;
+			pccbr = strtol(str, NULL, 10);
+			return pccbr;
+		}
+
+		/*If dts parameter is not present, default value is 0 */
+		return 0;
+	}
+}
+
 static inline int disable_pccbr(struct ecam_device *dev)
 {
 	/* disable PCC Bridge of BCH and RAD */
 	if ((dev->ecam == 0) && (dev->bus == 0) &&
-	    (dev->dev == 0xE) && dev->func == 0)
+		(dev->dev == 0xE) && (dev->func == 0) &&
+			!cn83xx_fdt_get_pccbr())
 		return 1;
 
 	return 0;
