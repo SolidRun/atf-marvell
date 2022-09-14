@@ -523,8 +523,14 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	xlate.ch_mask = cn10k_get_ch_mask();
 	cn10k_dram_xlate_from_pa(&xlate);
 
-	ret = octeontx_mmap_add_dynamic_region_with_sync(address, address,
+	if (!is_secure_address(xlate.phys_addr)) {
+		ret = octeontx_mmap_add_dynamic_region_with_sync(address, address,
 			PAGE_SIZE, MT_EXECUTE_NEVER | MT_NS | MT_MEMORY | MT_RW);
+	}
+	else {
+		ret = octeontx_mmap_add_dynamic_region_with_sync(address, address,
+			PAGE_SIZE, MT_EXECUTE_NEVER | MT_MEMORY | MT_RW);
+	}
 	if (ret)
 		goto err;
 
@@ -615,9 +621,9 @@ int cn10k_inject_dss_error(uint64_t address, uint64_t etype, uint64_t in_bits)
 		return -1;
 	}
 
-	dss_read_poisoned_address(address, etype);
+	ret = dss_read_poisoned_address(address, etype);
 
-	return 0;
+	return ret;
 }
 
 void plat_check_ras_error(void)

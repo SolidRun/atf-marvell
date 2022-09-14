@@ -602,19 +602,13 @@ bool is_secure_address(uint64_t addr)
 	for (r = 0; r < MAX_NUM_ASC_REGIONS; r++) {
 
 		asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(r));
-		if (asc_attr.s.ns_en)
+		if (!asc_attr.s.s_en)
 			continue;
 
 		a_start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(r));
-		a_end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(r));
+		a_end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(r)) | ASC_DEF_SIZE_MASK;
 
 		if ((addr >= a_start) && (addr < a_end) && asc_attr.s.s_en) {
-			sec = true;
-			break;
-		}
-
-		a_start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(r+1));
-		if ((addr < a_start) && asc_attr.s.s_en) {
 			sec = true;
 			break;
 		}
