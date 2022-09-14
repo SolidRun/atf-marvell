@@ -13,6 +13,8 @@
 #include <octeontx_ecam.h>
 #include <octeontx_utils.h>
 #include <platform_def.h>
+#include <strtol.h>
+#include <libfdt.h>
 #include <plat_ras.h>
 #include <plat_cn10k_configuration.h>
 #include <drivers/delay_timer.h>
@@ -26,6 +28,11 @@
 #define MAX_NUM_ASC_REGIONS  32
 #define ASC_DEF_SIZE_MASK		((1 << 24) - 1)
 #define GZ  (128UL << 10) // 128GB in MB (because (128K * 1MB) == 128GB)
+
+extern uint32_t retrieve_dmc_mask_or_ddr_speed(char *string, uint32_t default_val);
+static int chn_mask_valid;
+static int dram_ch_mask;
+static uint32_t dram_ch_sz_mb[6];
 
 static int my_exp(int factor, int exp)
 {
@@ -58,10 +65,60 @@ static int find_factors(int P, int *out_f2, int *out_f3)
 
 int cn10k_get_ch_mask(void)
 {
-	cavm_sam_asc_regionx_attr_t asc_attr;
+	const void *fdt = fdt_ptr;
+	const char *str;
+	int offset, len;
 
-	asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(0));
-	return asc_attr.s.dmc_mask;
+	if (chn_mask_valid)
+		return dram_ch_mask;
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset < 0) {
+		WARN("FDT node not found\n");
+		return 0;
+	}
+
+	str = fdt_getprop(fdt, offset, "DDR-DMC-MASK", &len);
+	if (str) {
+		dram_ch_mask = strtol(str, NULL, 16);
+		if (dram_ch_mask)
+			chn_mask_valid = 1;
+	}
+	else {
+		cavm_sam_asc_regionx_attr_t asc_attr;
+		/* EBF and ATF are from different release */
+		asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(0));
+		dram_ch_mask = asc_attr.s.dmc_mask;
+		chn_mask_valid = 1;
+	}
+
+	return dram_ch_mask;
+}
+
+int cn10k_get_ch_size(void)
+{
+	int offset;
+	int ret = -1, prop_len;
+	const void *fdt = fdt_ptr;
+	int ch = 0;
+	const fdt32_t *freg;
+	void *prop = NULL;
+
+	offset = fdt_path_offset(fdt, "/cavium,bdk");
+	if (offset > 0) {
+		prop = (void *)fdt_getprop(fdt, offset, "DDR-DMC-CH-SIZE" , &prop_len);
+
+		if (prop == NULL) {
+			return ret;
+		}
+	}
+
+	freg = (const fdt32_t *) prop;
+	for (ch = 0; ch < prop_len/sizeof(uint32_t); ch++) {
+		dram_ch_sz_mb[ch] = fdt32_to_cpu(freg[ch]);
+		VERBOSE("Channel size ch %d size %d\n", ch, dram_ch_sz_mb[ch]);
+	}
+	return 0;
 }
 
 // Check the current DMC_MASK setting, and indicate when it is unsupported
@@ -147,33 +204,7 @@ typedef struct {
 
 uint64_t cn10k_dram_get_size_mbytes_ch(int ch)
 {
-	cavm_sam_asc_regionx_attr_t asc_attr;
-	int ch_mask = 0;
-	int r = 0;
-	uint64_t start = 0;
-	uint64_t end = 0;
-	uint64_t size_mb = 0;
-	int valid_ch_num = 0;
-
-	for (r = 0; r < MAX_NUM_ASC_REGIONS; r++) {
-
-		asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(r));
-		ch_mask = asc_attr.s.dmc_mask;
-
-		if (!(ch_mask & (1 << ch)))
-			continue;
-
-		if (!asc_attr.s.s_en && !asc_attr.s.ns_en)
-			continue;
-
-		start = CSR_READ(CAVM_SAM_ASC_REGIONX_START(r));
-		end = CSR_READ(CAVM_SAM_ASC_REGIONX_END(r)) | ASC_DEF_SIZE_MASK;
-
-		size_mb += (((end - start) + 1) >> 20);
-		valid_ch_num++;
-	}
-
-	return size_mb / valid_ch_num;
+	return dram_ch_sz_mb[ch];
 }
 
 /////////////////////////////////////////
@@ -1155,6 +1186,9 @@ void cn10k_dram_xlate_to_pa(addr_xlate_t *xlate)
 			pos++;
 		}
 	}
+
+	// OR in the LS 3 bits from the column field
+	offset |= (xlate->col & 7);
 
 	// put it into the struct
 	xlate->offset = offset << 2; // restore the "bus" bits

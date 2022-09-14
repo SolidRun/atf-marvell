@@ -74,6 +74,9 @@ int cn10k_ras_enable_dss(void)
 	vecaddr = CAVM_GICD_SETSPI_SR | 1;
 	irq = DSS_SPI_IRQ(0);
 
+extern int cn10k_get_ch_size(void);
+       cn10k_get_ch_size();
+
 	for (ch = 0; ch < get_num_channels(); ch++) {
 		vecaddr_reg = CAVM_DSSX_MSIX_VECX_ADDR(ch, 0);
 		vecctl_reg = CAVM_DSSX_MSIX_VECX_CTL(ch, 0);
@@ -364,8 +367,8 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 	int bits = in_bits & 0xFF;
 	int bit0 = (__builtin_ffs(bits) - 1) & 0x7;
 	int bit1 = (__builtin_ffs(bits ^ (1 << bit0)) - 1) & 0x7;
-	int pos0 = cn10k_dram_bit2flip(bit0 + byte_offset_bits);
-	int pos1 = cn10k_dram_bit2flip(bit1 + byte_offset_bits);
+	int pos0 = cn10k_dram_bit2flip(xlate.ch, bit0 + byte_offset_bits);
+	int pos1 = cn10k_dram_bit2flip(xlate.ch, bit1 + byte_offset_bits);
 
 	reg_ECCCFG2.s.flip_bit_pos0 = pos0;
 	reg_ECCCFG2.s.flip_bit_pos1 = pos1;
