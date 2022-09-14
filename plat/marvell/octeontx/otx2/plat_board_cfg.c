@@ -2815,7 +2815,8 @@ static void otx2_parse_spi_config(const void *fdt)
 {
 	const uint32_t *preg, *reg;
 	uint32_t addr;
-	int node, bus = 0, cs = 0;
+	int node, bus = 0, cs = 0, parent_node[MAX_SPI_BUS] = { 0 };
+
 
 	/* Parse for secure-spi config */
 	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
@@ -2845,6 +2846,12 @@ static void otx2_parse_spi_config(const void *fdt)
 			WARN("Missing reg field for SPI bus\n");
 			continue;
 		}
+		if (fdt_getprop(fdt, node, "secure-spi", NULL)) {
+			debug_dts("SPI:%d:%d: Marked Secure\n", bus, cs);
+			plat_octeontx_bcfg->spi_cfg[bus].is_secure = 1;
+			if (parent_node[bus] == 0)
+				parent_node[bus] = fdt_parent_offset(fdt, node);
+		}
 		if (fdt_getprop(fdt, node, "u-boot,env", NULL)) {
 			preg = fdt_getprop(fdt, node, "u-boot,efivar-offset", NULL);
 			if (preg) {
@@ -2858,6 +2865,15 @@ static void otx2_parse_spi_config(const void *fdt)
 		}
 		plat_octeontx_bcfg->spi_cfg[bus].cs[cs] = 1;
 		node = fdt_node_offset_by_compatible(fdt, node, "spi-flash");
+	}
+	/* Delete secure SPI node from fdt */
+	for (bus = 0; bus < MAX_SPI_BUS; bus++) {
+		if (parent_node[bus]) {
+			if (fdt_nop_node(fdt_ptr, parent_node[bus]))
+				WARN("Unable to delete secure SPI node at offset %d\n",
+						parent_node[bus]);
+			debug_dts("Deleted SPI%d node at offset %d\n", bus, parent_node[bus]);
+		}
 	}
 }
 

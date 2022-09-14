@@ -210,6 +210,7 @@ typedef struct spi_config {
 	uint32_t has_efivar;
 	uint32_t efivar_offset;
 	uint32_t cs[MAX_SPI_CS];
+	bool is_secure;
 } spi_config_t;
 
 typedef struct plat_octeontx_board_cfg {

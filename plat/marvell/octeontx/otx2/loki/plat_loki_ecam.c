@@ -237,6 +237,7 @@ struct secure_devices secure_devs[] = {
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PEM5, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_BCH, ECAM_ALL_INSTANCES},
 	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_PSBM, ECAM_ALL_INSTANCES},
+	{CAVM_PCC_PROD_E_GEN, CAVM_PCC_DEV_IDL_E_MPI, ECAM_CUSTOM_INSTANCE},
 	{ECAM_INVALID_PROD_ID, ECAM_INVALID_PCC_IDL_ID, ECAM_ALL_INSTANCES}
 };
 
@@ -480,6 +481,8 @@ static int loki_matched_dev(struct secure_devices *dev,
 		switch (pccpf_id.s.devid) {
 		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MIO_TWS):
 			return loki_matched_twsi(vsec_ctl.s.inst_num);
+		case ECAM_PROD_DEV_ID(CAVM_PCC_DEV_IDL_E_MPI):
+			return plat_octeontx_bcfg->spi_cfg[vsec_ctl.s.inst_num].is_secure;
 		}
 	}
 
