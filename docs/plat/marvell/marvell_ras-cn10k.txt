@@ -65,6 +65,7 @@ EDAC SMC based interface for error injection exemple:
 
 address - Physical Address to corrupt
 error_type   - type of error SEC/DED and position of bit to corrupt
+	  29   - Set bit 29 for DSS error injection
           0..7 - bit position to corrupt
           8    - error type 0 = DED (double), 1 = SEC (single)
 
