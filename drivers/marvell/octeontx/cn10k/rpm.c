@@ -70,17 +70,16 @@ extern rpm_lmac_bringup_context_t bringup_context[MAX_RPM][MAX_LMAC_PER_RPM];
 int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts)
 {
 	rpm_lmac_config_t *lmac;
-	uint64_t init_time, cmd_timeout;
+	uint64_t init_time = 0, cmd_timeout = 0, ltimeout = 0;
 	int status = 0, ret = 0, sig_detect = 0, sig_detect_temp = 0;
 	ecp_link_state_t link_state = {0};
 	rpm_lmac_bringup_context_t *bringup_ctx;
 
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	bringup_ctx->link_bringup_status = LINK_BRINGUP_INIT;
-	if (!bringup_ctx->link_timeout)
-		bringup_ctx->link_timeout = RPM_POLL_LINK_FECCHANGE_STATUS;
 
-	debug_rpm("%s %d:%d\n", __func__, rpm_id, lmac_id);
+	debug_rpm("%s %d:%d bringup_ctx->link_timeout %lld\n", __func__, rpm_id, lmac_id,
+			bringup_ctx->link_timeout);
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 
@@ -98,8 +97,20 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 		/* Save the bring up time in us */
 		bringup_ctx->link_bringup_init_time = (init_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME));
 
-		/* Allow 4s for ECP to respond for FEC change */
-		cmd_timeout = init_time + RPM_POLL_LINK_FECCHANGE_STATUS *
+		/* Timeout from ETH_CMD_LINK_TIMEOUT command */
+		if ((bringup_ctx->link_timeout) && (bringup_ctx->link_timeout != -1)) {
+			if (bringup_ctx->link_timeout <= RPM_LINK_BRINGUP_WAIT_STATUS)
+				ltimeout = bringup_ctx->link_timeout;
+			else
+				ltimeout = RPM_LINK_BRINGUP_WAIT_STATUS;
+		} else { /* Timeout not passed */
+			ltimeout = RPM_LINK_BRINGUP_WAIT_STATUS;
+			/* Max time to wait for the FEC change is 4s */
+			bringup_ctx->link_timeout = RPM_POLL_LINK_FECCHANGE_STATUS;
+		}
+
+		/* Allow upto 100ms for ECP to respond for FEC change */
+		cmd_timeout = init_time + ltimeout *
 					clock_get_rate(GSER_CLOCK_TIME)/1000000;
 
 		while (clock_get_count(GSER_CLOCK_TIME)
@@ -112,13 +123,22 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 				goto link_state;
 			mdelay(5);
 		}
-		/* If the link is not UP, then update the link state as below */
-		if (!sig_detect) {
-			debug_rpm("%s: %d:%d FAILED to detect a signal\n", __func__, rpm_id, lmac_id);
-			bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+
+		/* If the link timeout specified is less than 100ms of initial wait
+		 * time, update the link bring up status as done so poll timer can
+		 * check the link status
+		 */
+		if (bringup_ctx->link_timeout >= RPM_LINK_BRINGUP_WAIT_STATUS) {
+			/* If the link is not UP, then update the link state as below */
+			if (!sig_detect) {
+				debug_rpm("%s: %d:%d FAILED to detect a signal\n", __func__, rpm_id, lmac_id);
+				bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+			} else
+				bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
 		} else
-			bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
-		bringup_ctx->link_bringup_time = RPM_LINK_BRINGUP_WAIT_STATUS; /* elapsed time */
+			bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
+
+		bringup_ctx->link_bringup_time = ltimeout; /* elapsed time */
 
 		debug_rpm("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %lld\n", __func__,
 						rpm_id, lmac_id, bringup_ctx->link_bringup_status,
