@@ -15,17 +15,18 @@ typedef union {
 	uint64_t u;
 	struct {
 		uint64_t baud_mhz : 16;
-		uint64_t mode     :  8;
+		uint64_t mode     :  8;	/* cn10k_portm_modes_t */
 		uint64_t ref_clk  :  4;
 		uint64_t flags    :  8;
-		uint64_t reserved : 28;
+		uint64_t fec      :  12; /* cn10k_portm_fec_t */
+		uint64_t reserved : 16;
 	} s;
 } gserm_state_lane_t;
 
 /* QLM APIs */
 
 static inline gserm_state_lane_t gserm_build_state(cn10k_portm_modes_t mode, int baud_mhz,
-	uint8_t flags)
+	uint8_t flags, int fec)
 {
 	gserm_state_lane_t state;
 
@@ -33,6 +34,7 @@ static inline gserm_state_lane_t gserm_build_state(cn10k_portm_modes_t mode, int
 	state.s.mode = mode;
 	state.s.baud_mhz = baud_mhz;
 	state.s.flags = flags;
+	state.s.fec = fec;
 	return state;
 }
 

@@ -1289,7 +1289,7 @@ static void update_gserm_scratch_reg(int portm_idx)
 	lane_idx = portm->lane_map & 0xF;
 	speed_mhz = cn10k_portm_get_mode_desc_speed_mhz(portm->portm_mode);
 
-	gserm_state = gserm_build_state(portm->portm_mode, speed_mhz, 0);
+	gserm_state = gserm_build_state(portm->portm_mode, speed_mhz, 0, portm->fec);
 	gserm_set_state(gserm_idx, lane_idx, gserm_state);
 }
 

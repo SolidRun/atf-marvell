@@ -2877,7 +2877,8 @@ static void cn10k_fill_portm_details(void *fdt)
 		/* Serdes lane connected to lowest MAC lane in the port */
 		lane_idx = portm->lane_map & 0xF;
 		baud_rate = cn10k_portm_get_mode_desc_speed_mhz(portm_mode);
-		gserm_state = gserm_build_state(portm_mode, baud_rate, flags);
+		gserm_state = gserm_build_state(portm_mode, baud_rate, flags, fec);
+
 		gserm_set_state(gserm_idx, lane_idx, gserm_state);
 
 		/* Figure out how many portms are used by this port */
