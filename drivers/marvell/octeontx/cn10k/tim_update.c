@@ -164,7 +164,7 @@ static size_t log_bytes_used = 0;
 /** Size of update log buffer */
 static size_t log_size_bytes = 0;
 
-#define MAX_PARAM_SET_COUNT 2
+#define MAX_PARAM_SET_COUNT 5
 
 struct param_set {
 	int ns_map_size;
@@ -2586,17 +2586,44 @@ octeontx_write_files(const struct smc_update_descriptor *desc,
 	return UPDATE_OK;
 }
 
+void prepare_mapping_storage(struct unmap_params *param)
+{
+	memset(param, 0x00, sizeof(struct unmap_params));
+}
+
+void add_mapped_region(struct unmap_params *param, uint64_t base_addr, int map_size)
+{
+	int param_cnt = param->count;
+
+	UINFO("Saving mapping: id: %d, base_addr: 0x%llx, size: 0x%x\n",
+		param_cnt, base_addr, map_size);
+
+	param->p[param_cnt].base_addr = base_addr;
+	param->p[param_cnt].ns_map_size = map_size;
+	param->count += 1;
+}
+
 enum spi_dc_ret done_callback(void *p)
 {
 	struct unmap_params *param = (struct unmap_params *)p;
 	int i;
 
-	for (i = 0; i < param->count; i++) {
-		if (param->p[i].base_addr && param->p[i].ns_map_size)
-			octeontx_mmap_remove_dynamic_region_with_sync(param->p[i].base_addr,
-								param->p[i].ns_map_size);
+	//make sure update log is cleared, and null terminated
+	if (update_log) {
+		update_log[log_size_bytes - 1] = '\0';
+		update_log = NULL;
+		log_bytes_used = 0;
+		log_size_bytes = 0;
 	}
 
+	for (i = 0; i < param->count; i++) {
+		if (param->p[i].base_addr && param->p[i].ns_map_size) {
+			INFO("Unmapping: id: %d, base_addr: 0x%llx, size: 0x%x\n",
+				i, param->p[i].base_addr, param->p[i].ns_map_size);
+			octeontx_mmap_remove_dynamic_region_with_sync(param->p[i].base_addr,
+								param->p[i].ns_map_size);
+		}
+	}
 	return DC_RET_DONE;
 }
 
@@ -3122,6 +3149,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	size_t console_map_size = 0;
 
 	assert(uret);
+	prepare_mapping_storage(&uParams);
 	debug_fw_update("desc: 0x%lx, desc size: 0x%llx, dram size: 0x%llx\n",
 			desc_buf, desc_size, dram_end);
 	/* Round up to page size */
@@ -3165,14 +3193,11 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	 */
 	*uret = UPDATE_OK;
 	uParams.count = 0;
-	if (!update_desc.async_operation) {
+	if (!update_desc.async_operation)
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
-		uParams.count = 0;
-	} else {
-		uParams.p[uParams.count].ns_map_size = ns_map_size;
-		uParams.p[uParams.count].base_addr = base_addr;
-		uParams.count += 1;
-	}
+	else
+		add_mapped_region(&uParams, base_addr, ns_map_size);
+
 	base_addr = 0;
 	ns_map_size = 0;
 
@@ -3208,6 +3233,9 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 			ERROR("FW Update: console mmap failed (%d)\n", err);
 			err = -SPI_MMAP_ERR;
 			goto error;
+		}
+		if (update_desc.async_operation) {
+			add_mapped_region(&uParams, console_base_addr, console_map_size);
 		}
 		update_log = (char *)update_desc.output_console;
 		log_bytes_used = 0;
@@ -3290,9 +3318,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		goto error;
 	}
 
-	uParams.p[uParams.count].ns_map_size = ns_map_size;
-	uParams.p[uParams.count].base_addr = base_addr;
-	uParams.count += 1;
+	add_mapped_region(&uParams, base_addr, ns_map_size);
 
 	io_handle.dev_handle = &media_dev_handle;
 	io_handle.io_handle = &media_handle;
@@ -3334,17 +3360,15 @@ error:
 		media_done(&io_handle);
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 							      ns_map_size);
-	}
-
-	if (console_base_addr != 0 && console_map_size != 0) {
-		update_log[log_size_bytes - 1] = '\0';
-		octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
+		if (console_base_addr != 0 && console_map_size != 0) {
+			update_log[log_size_bytes - 1] = '\0';
+			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
 							      console_map_size);
+		}
+		update_log = NULL;
+		log_bytes_used = 0;
+		log_size_bytes = 0;
 	}
-	update_log = NULL;
-	log_bytes_used = 0;
-	log_size_bytes = 0;
-
 	return err;
 }
 
