@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -31828,29 +31828,22 @@ union cavm_gserpx_control_config7
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t cal_sq_thresh_in      : 8;  /**< [ 31: 24](R/W/H) SQ Threshold. */
-        uint64_t reserved_0_23         : 24;
+        uint64_t cdr_lock_ofst_thresh  : 8;  /**< [ 23: 16](R/W/H) Offset Threshold For CDR Lock Or Unlock
+                                                                 internal */
+        uint64_t cdr_lock_ofst_diff_thresh : 8;/**< [ 15:  8](R/W/H) Offset Threshold Difference Between Two Times For CDR Lock Or Unlock
+                                                                 internal */
+        uint64_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_23         : 24;
+        uint64_t reserved_0_7          : 8;
+        uint64_t cdr_lock_ofst_diff_thresh : 8;/**< [ 15:  8](R/W/H) Offset Threshold Difference Between Two Times For CDR Lock Or Unlock
+                                                                 internal */
+        uint64_t cdr_lock_ofst_thresh  : 8;  /**< [ 23: 16](R/W/H) Offset Threshold For CDR Lock Or Unlock
+                                                                 internal */
         uint64_t cal_sq_thresh_in      : 8;  /**< [ 31: 24](R/W/H) SQ Threshold. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_control_config7_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cal_sq_thresh_in      : 8;  /**< [ 31: 24](R/W/H) SQ Threshold. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t reserved_8_15         : 8;
-        uint64_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
-        uint64_t reserved_8_15         : 8;
-        uint64_t reserved_16_23        : 8;
-        uint64_t cal_sq_thresh_in      : 8;  /**< [ 31: 24](R/W/H) SQ Threshold. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_control_config7_s cn; */
 };
 typedef union cavm_gserpx_control_config7 cavm_gserpx_control_config7_t;
 
@@ -32192,6 +32185,63 @@ static inline uint64_t CAVM_GSERPX_CONTROL_CONFIG9(uint64_t a)
 #define device_bar_CAVM_GSERPX_CONTROL_CONFIG9(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_CONTROL_CONFIG9(a) (a)
 #define arguments_CAVM_GSERPX_CONTROL_CONFIG9(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_ctle_boundary
+ *
+ * INTERNAL: GSERP Phy CTLE Parameters Boundary
+ */
+union cavm_gserpx_ctle_boundary
+{
+    uint64_t u;
+    struct cavm_gserpx_ctle_boundary_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ctle_res1_sel_min_lane : 4; /**< [ 31: 28](R/W/H) CTLE Res1 Lower Bound */
+        uint64_t ctle_res1_sel_max_lane : 4; /**< [ 27: 24](R/W/H) CTLE Res1 Upper Bound */
+        uint64_t ctle_cap1_sel_min_lane : 4; /**< [ 23: 20](R/W/H) CTLE Cap1 Lower Bound */
+        uint64_t ctle_cap1_sel_max_lane : 4; /**< [ 19: 16](R/W/H) CTLE Cap1 Upper Bound */
+        uint64_t ctle_res2_sel_min_lane : 4; /**< [ 15: 12](R/W/H) CTLE Res2 Lower Bound */
+        uint64_t ctle_res2_sel_max_lane : 4; /**< [ 11:  8](R/W/H) CTLE Res2 Upper Bound */
+        uint64_t ctle_cap2_sel_min_lane : 4; /**< [  7:  4](R/W/H) CTLE Cap2 Lower Bound */
+        uint64_t ctle_cap2_sel_max_lane : 4; /**< [  3:  0](R/W/H) CTLE Cap2 Upper Bound */
+#else /* Word 0 - Little Endian */
+        uint64_t ctle_cap2_sel_max_lane : 4; /**< [  3:  0](R/W/H) CTLE Cap2 Upper Bound */
+        uint64_t ctle_cap2_sel_min_lane : 4; /**< [  7:  4](R/W/H) CTLE Cap2 Lower Bound */
+        uint64_t ctle_res2_sel_max_lane : 4; /**< [ 11:  8](R/W/H) CTLE Res2 Upper Bound */
+        uint64_t ctle_res2_sel_min_lane : 4; /**< [ 15: 12](R/W/H) CTLE Res2 Lower Bound */
+        uint64_t ctle_cap1_sel_max_lane : 4; /**< [ 19: 16](R/W/H) CTLE Cap1 Upper Bound */
+        uint64_t ctle_cap1_sel_min_lane : 4; /**< [ 23: 20](R/W/H) CTLE Cap1 Lower Bound */
+        uint64_t ctle_res1_sel_max_lane : 4; /**< [ 27: 24](R/W/H) CTLE Res1 Upper Bound */
+        uint64_t ctle_res1_sel_min_lane : 4; /**< [ 31: 28](R/W/H) CTLE Res1 Lower Bound */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_ctle_boundary_s cn; */
+};
+typedef union cavm_gserpx_ctle_boundary cavm_gserpx_ctle_boundary_t;
+
+static inline uint64_t CAVM_GSERPX_CTLE_BOUNDARY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_CTLE_BOUNDARY(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c858ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c858ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c858ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c858ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_CTLE_BOUNDARY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_CTLE_BOUNDARY(a) cavm_gserpx_ctle_boundary_t
+#define bustype_CAVM_GSERPX_CTLE_BOUNDARY(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_CTLE_BOUNDARY(a) "GSERPX_CTLE_BOUNDARY"
+#define device_bar_CAVM_GSERPX_CTLE_BOUNDARY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_CTLE_BOUNDARY(a) (a)
+#define arguments_CAVM_GSERPX_CTLE_BOUNDARY(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_debug
@@ -33312,49 +33362,61 @@ union cavm_gserpx_dfe_control_1
                                                                  internal */
         uint64_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable
                                                                  internal */
-        uint64_t reserved_20_21        : 2;
+        uint64_t rx_ee_f1p5_final_en_lane : 2;/**< [ 21: 20](R/W/H) Rx Edge EQ F1P5 Enable Flag For Training End And Tracking
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint64_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable
                                                                  internal */
         uint64_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable
                                                                  internal */
         uint64_t rl2_tune_en_lane      : 1;  /**< [ 17: 17](R/W/H) RL2_TUNE Adjust Enable
                                                                  internal */
-        uint64_t reserved_16           : 1;
+        uint64_t txtrain_force_prec_en_lane : 1;/**< [ 16: 16](R/W/H) Force Precode Enable Selection In Tx Train
+                                                                 internal */
         uint64_t esm_voltage_lane      : 8;  /**< [ 15:  8](R/W/H) Eye Shape Monitor Voltage Value */
         uint64_t dfe_cal_done_lane     : 1;  /**< [  7:  7](RO/H) DFE Adaptation Calculation Done Indicator From MCU
                                                                  internal */
-        uint64_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train When FORCE_DFE_F1P5_CTRL_EN_LANE=1
+        uint64_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train
                                                                  internal */
         uint64_t force_dfe_f1p5_ctrl_en_lane : 1;/**< [  5:  5](R/W/H) Enable DFE F1P5 Force Control After Train
                                                                  internal */
-        uint64_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor */
-        uint64_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready */
-        uint64_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable Flag In Tx Train
+        uint64_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor
+                                                                 internal */
+        uint64_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready
+                                                                 internal */
+        uint64_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable In Tx Train.
                                                                  internal */
         uint64_t tx_train_rx_mod_lane  : 2;  /**< [  1:  0](R/W/H) Tx Train Rx Modulation And Precoding Mode in PAM4
                                                                  internal */
 #else /* Word 0 - Little Endian */
         uint64_t tx_train_rx_mod_lane  : 2;  /**< [  1:  0](R/W/H) Tx Train Rx Modulation And Precoding Mode in PAM4
                                                                  internal */
-        uint64_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable Flag In Tx Train
+        uint64_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable In Tx Train.
                                                                  internal */
-        uint64_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready */
-        uint64_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor */
+        uint64_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready
+                                                                 internal */
+        uint64_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor
+                                                                 internal */
         uint64_t force_dfe_f1p5_ctrl_en_lane : 1;/**< [  5:  5](R/W/H) Enable DFE F1P5 Force Control After Train
                                                                  internal */
-        uint64_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train When FORCE_DFE_F1P5_CTRL_EN_LANE=1
+        uint64_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train
                                                                  internal */
         uint64_t dfe_cal_done_lane     : 1;  /**< [  7:  7](RO/H) DFE Adaptation Calculation Done Indicator From MCU
                                                                  internal */
         uint64_t esm_voltage_lane      : 8;  /**< [ 15:  8](R/W/H) Eye Shape Monitor Voltage Value */
-        uint64_t reserved_16           : 1;
+        uint64_t txtrain_force_prec_en_lane : 1;/**< [ 16: 16](R/W/H) Force Precode Enable Selection In Tx Train
+                                                                 internal */
         uint64_t rl2_tune_en_lane      : 1;  /**< [ 17: 17](R/W/H) RL2_TUNE Adjust Enable
                                                                  internal */
         uint64_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable
                                                                  internal */
         uint64_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable
                                                                  internal */
-        uint64_t reserved_20_21        : 2;
+        uint64_t rx_ee_f1p5_final_en_lane : 2;/**< [ 21: 20](R/W/H) Rx Edge EQ F1P5 Enable Flag For Training End And Tracking
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint64_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable
                                                                  internal */
         uint64_t rx_train_only_dfe_lane : 1; /**< [ 23: 23](R/W/H) Run Rx Train Only DFE Mode For Debug
@@ -33364,70 +33426,7 @@ union cavm_gserpx_dfe_control_1
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_dfe_control_1_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t phase_adapt_temp_thr_lane : 8;/**< [ 31: 24](R/W/H) Phase Adapt  Temperature Enable Threshold (5 Degree = 12 Code)
-                                                                 internal */
-        uint64_t rx_train_only_dfe_lane : 1; /**< [ 23: 23](R/W/H) Run Rx Train Only DFE Mode For Debug
-                                                                 internal */
-        uint64_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable
-                                                                 internal */
-        uint64_t reserved_21           : 1;
-        uint64_t reserved_20           : 1;
-        uint64_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable
-                                                                 internal */
-        uint64_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable
-                                                                 internal */
-        uint64_t rl2_tune_en_lane      : 1;  /**< [ 17: 17](R/W/H) RL2_TUNE Adjust Enable
-                                                                 internal */
-        uint64_t reserved_16           : 1;
-        uint64_t esm_voltage_lane      : 8;  /**< [ 15:  8](R/W/H) Eye Shape Monitor Voltage Value */
-        uint64_t dfe_cal_done_lane     : 1;  /**< [  7:  7](RO/H) DFE Adaptation Calculation Done Indicator From MCU
-                                                                 internal */
-        uint64_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train When FORCE_DFE_F1P5_CTRL_EN_LANE=1
-                                                                 internal */
-        uint64_t force_dfe_f1p5_ctrl_en_lane : 1;/**< [  5:  5](R/W/H) Enable DFE F1P5 Force Control After Train
-                                                                 internal */
-        uint64_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor */
-        uint64_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready */
-        uint64_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable Flag In Tx Train
-                                                                 internal */
-        uint64_t tx_train_rx_mod_lane  : 2;  /**< [  1:  0](R/W/H) Tx Train Rx Modulation And Precoding Mode in PAM4
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint64_t tx_train_rx_mod_lane  : 2;  /**< [  1:  0](R/W/H) Tx Train Rx Modulation And Precoding Mode in PAM4
-                                                                 internal */
-        uint64_t txtrain_prec_en_lane  : 1;  /**< [  2:  2](R/W/H) Precode Enable Flag In Tx Train
-                                                                 internal */
-        uint64_t eom_ready_lane        : 1;  /**< [  3:  3](R/W/H) Eye Monitor Drawing Ready */
-        uint64_t eom_dfe_call_lane     : 1;  /**< [  4:  4](R/W/H) DFE Call Enable For Eye Shape Monitor */
-        uint64_t force_dfe_f1p5_ctrl_en_lane : 1;/**< [  5:  5](R/W/H) Enable DFE F1P5 Force Control After Train
-                                                                 internal */
-        uint64_t dfe_f1p5_en_lane      : 1;  /**< [  6:  6](R/W/H) DFE F1P5 Force Control Value After Train When FORCE_DFE_F1P5_CTRL_EN_LANE=1
-                                                                 internal */
-        uint64_t dfe_cal_done_lane     : 1;  /**< [  7:  7](RO/H) DFE Adaptation Calculation Done Indicator From MCU
-                                                                 internal */
-        uint64_t esm_voltage_lane      : 8;  /**< [ 15:  8](R/W/H) Eye Shape Monitor Voltage Value */
-        uint64_t reserved_16           : 1;
-        uint64_t rl2_tune_en_lane      : 1;  /**< [ 17: 17](R/W/H) RL2_TUNE Adjust Enable
-                                                                 internal */
-        uint64_t cds_call_force_en_lane : 1; /**< [ 18: 18](R/W/H) CDS Call Force Enable
-                                                                 internal */
-        uint64_t sq_fw_filter_en_lane  : 1;  /**< [ 19: 19](R/W/H) SQ Firmware Filter Enable
-                                                                 internal */
-        uint64_t reserved_20           : 1;
-        uint64_t reserved_21           : 1;
-        uint64_t sq_auto_train_lane    : 1;  /**< [ 22: 22](R/W/H) SQ Auto Tx Train Enable
-                                                                 internal */
-        uint64_t rx_train_only_dfe_lane : 1; /**< [ 23: 23](R/W/H) Run Rx Train Only DFE Mode For Debug
-                                                                 internal */
-        uint64_t phase_adapt_temp_thr_lane : 8;/**< [ 31: 24](R/W/H) Phase Adapt  Temperature Enable Threshold (5 Degree = 12 Code)
-                                                                 internal */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_dfe_control_1_s cn; */
 };
 typedef union cavm_gserpx_dfe_control_1 cavm_gserpx_dfe_control_1_t;
 
@@ -33523,7 +33522,9 @@ union cavm_gserpx_dfe_control_3
                                                                  internal */
         uint64_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
                                                                  internal */
-        uint64_t reserved_6_7          : 2;
+        uint64_t reserved_7            : 1;
+        uint64_t rx_tracking_enable_ini_lane : 1;/**< [  6:  6](R/W/H) Rx Tracking Enable Initial
+                                                                 internal */
         uint64_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
                                                                  internal */
         uint64_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
@@ -33537,7 +33538,9 @@ union cavm_gserpx_dfe_control_3
         uint64_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
         uint64_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
                                                                  internal */
-        uint64_t reserved_6_7          : 2;
+        uint64_t rx_tracking_enable_ini_lane : 1;/**< [  6:  6](R/W/H) Rx Tracking Enable Initial
+                                                                 internal */
+        uint64_t reserved_7            : 1;
         uint64_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
                                                                  internal */
         uint64_t cal_phase_lane        : 8;  /**< [ 23: 16](R/W/H) Align90_Ref Calibration Save For Current PLL Rate.
@@ -33547,42 +33550,7 @@ union cavm_gserpx_dfe_control_3
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_dfe_control_3_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t opt_phase_offset_normal_lane : 8;/**< [ 31: 24](R/W/H) Optimum Phase Offset Data In Normal Mode.
-                                                                 internal */
-        uint64_t cal_phase_lane        : 8;  /**< [ 23: 16](R/W/H) Align90_Ref Calibration Save For Current PLL Rate.
-                                                                 internal */
-        uint64_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
-                                                                 internal */
-        uint64_t reserved_7            : 1;
-        uint64_t reserved_6            : 1;
-        uint64_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
-                                                                 internal */
-        uint64_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
-        uint64_t reserved_1_2          : 2;
-        uint64_t final_gain_adjust_en_lane : 1;/**< [  0:  0](R/W/H) Enable Final Gain Adjust
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint64_t final_gain_adjust_en_lane : 1;/**< [  0:  0](R/W/H) Enable Final Gain Adjust
-                                                                 internal */
-        uint64_t reserved_1_2          : 2;
-        uint64_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
-        uint64_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
-                                                                 internal */
-        uint64_t reserved_6            : 1;
-        uint64_t reserved_7            : 1;
-        uint64_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
-                                                                 internal */
-        uint64_t cal_phase_lane        : 8;  /**< [ 23: 16](R/W/H) Align90_Ref Calibration Save For Current PLL Rate.
-                                                                 internal */
-        uint64_t opt_phase_offset_normal_lane : 8;/**< [ 31: 24](R/W/H) Optimum Phase Offset Data In Normal Mode.
-                                                                 internal */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_dfe_control_3_s cn; */
 };
 typedef union cavm_gserpx_dfe_control_3 cavm_gserpx_dfe_control_3_t;
 
@@ -61023,9 +60991,7 @@ union cavm_gserpx_input_pin_debug_cmn_reg9
     struct cavm_gserpx_input_pin_debug_cmn_reg9_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_input        : 16; /**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT input */
-        uint64_t reserved_input_fm_reg : 1;  /**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT input select */
+        uint64_t reserved_15_63        : 49;
         uint64_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input */
         uint64_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
         uint64_t reserved_0_12         : 13;
@@ -61033,12 +60999,27 @@ union cavm_gserpx_input_pin_debug_cmn_reg9
         uint64_t reserved_0_12         : 13;
         uint64_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
         uint64_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input */
-        uint64_t reserved_input_fm_reg : 1;  /**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT input select */
-        uint64_t reserved_input        : 16; /**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT input */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gserpx_input_pin_debug_cmn_reg9_s cn; */
+    struct cavm_gserpx_input_pin_debug_cmn_reg9_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_input        : 16;
+        uint64_t reserved_input_fm_reg : 1;
+        uint64_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input */
+        uint64_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
+        uint64_t reserved_0_12         : 13;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_12         : 13;
+        uint64_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
+        uint64_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input */
+        uint64_t reserved_input_fm_reg : 1;
+        uint64_t reserved_input        : 16;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
 };
 typedef union cavm_gserpx_input_pin_debug_cmn_reg9 cavm_gserpx_input_pin_debug_cmn_reg9_t;
 
@@ -62923,9 +62904,7 @@ union cavm_gserpx_input_pin_debug_rx_reg11
     struct cavm_gserpx_input_pin_debug_rx_reg11_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_input_rx_lane : 16;/**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT_RX input */
-        uint64_t reserved_input_rx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT_RX input select */
+        uint64_t reserved_15_63        : 49;
         uint64_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) PIN_RX_ACJTAG_AC input */
         uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_RX_ACJTAG_AC input select */
         uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) PIN_RX_ACJTAG_EN input */
@@ -62953,12 +62932,47 @@ union cavm_gserpx_input_pin_debug_rx_reg11
         uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) PIN_RX_ACJTAG_EN input */
         uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_RX_ACJTAG_AC input select */
         uint64_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) PIN_RX_ACJTAG_AC input */
-        uint64_t reserved_input_rx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT_RX input select */
-        uint64_t reserved_input_rx_lane : 16;/**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT_RX input */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gserpx_input_pin_debug_rx_reg11_s cn; */
+    struct cavm_gserpx_input_pin_debug_rx_reg11_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_input_rx_lane : 16;
+        uint64_t reserved_input_rx_fm_reg_lane : 1;
+        uint64_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) PIN_RX_ACJTAG_AC input */
+        uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_RX_ACJTAG_AC input select */
+        uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) PIN_RX_ACJTAG_EN input */
+        uint64_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) PIN_RX_ACJTAG_EN input select */
+        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) PIN_RX_ACJTAG_HYST input */
+        uint64_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) PIN_RX_ACJTAG_HYST input select */
+        uint64_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) PIN_RX_ACJTAG_INITN input */
+        uint64_t rx_acjtag_initn_fm_reg_lane : 1;/**< [  5:  5](R/W/H) PIN_RX_ACJTAG_INITN input select */
+        uint64_t rx_acjtag_initp_lane  : 1;  /**< [  4:  4](R/W/H) PIN_RX_ACJTAG_INITP input */
+        uint64_t rx_acjtag_initp_fm_reg_lane : 1;/**< [  3:  3](R/W/H) PIN_RX_ACJTAG_INITP input select */
+        uint64_t rx_acjtag_init_clk_lane : 1;/**< [  2:  2](R/W/H) PIN_RX_ACJTAG_INIT_CLK input */
+        uint64_t rx_acjtag_init_clk_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_RX_ACJTAG_INIT_CLK input select */
+        uint64_t rx_acjtag_mode_lane   : 1;  /**< [  0:  0](R/W/H) PIN_RX_ACJTAG_MODE input */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_acjtag_mode_lane   : 1;  /**< [  0:  0](R/W/H) PIN_RX_ACJTAG_MODE input */
+        uint64_t rx_acjtag_init_clk_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_RX_ACJTAG_INIT_CLK input select */
+        uint64_t rx_acjtag_init_clk_lane : 1;/**< [  2:  2](R/W/H) PIN_RX_ACJTAG_INIT_CLK input */
+        uint64_t rx_acjtag_initp_fm_reg_lane : 1;/**< [  3:  3](R/W/H) PIN_RX_ACJTAG_INITP input select */
+        uint64_t rx_acjtag_initp_lane  : 1;  /**< [  4:  4](R/W/H) PIN_RX_ACJTAG_INITP input */
+        uint64_t rx_acjtag_initn_fm_reg_lane : 1;/**< [  5:  5](R/W/H) PIN_RX_ACJTAG_INITN input select */
+        uint64_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) PIN_RX_ACJTAG_INITN input */
+        uint64_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) PIN_RX_ACJTAG_HYST input select */
+        uint64_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) PIN_RX_ACJTAG_HYST input */
+        uint64_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) PIN_RX_ACJTAG_EN input select */
+        uint64_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) PIN_RX_ACJTAG_EN input */
+        uint64_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_RX_ACJTAG_AC input select */
+        uint64_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) PIN_RX_ACJTAG_AC input */
+        uint64_t reserved_input_rx_fm_reg_lane : 1;
+        uint64_t reserved_input_rx_lane : 16;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
 };
 typedef union cavm_gserpx_input_pin_debug_rx_reg11 cavm_gserpx_input_pin_debug_rx_reg11_t;
 
@@ -64718,9 +64732,7 @@ union cavm_gserpx_input_pin_debug_tx_reg13
     struct cavm_gserpx_input_pin_debug_tx_reg13_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_input_tx_lane : 16;/**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT_TX input */
-        uint64_t reserved_input_tx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT_TX input select */
+        uint64_t reserved_15_63        : 49;
         uint64_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) PIN_REPEAT_MODE_EN input */
         uint64_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_REPEAT_MODE_EN input select */
         uint64_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) PIN_SSC_EN input */
@@ -64748,12 +64760,47 @@ union cavm_gserpx_input_pin_debug_tx_reg13
         uint64_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) PIN_SSC_EN input */
         uint64_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_REPEAT_MODE_EN input select */
         uint64_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) PIN_REPEAT_MODE_EN input */
-        uint64_t reserved_input_tx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT_TX input select */
-        uint64_t reserved_input_tx_lane : 16;/**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT_TX input */
-        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gserpx_input_pin_debug_tx_reg13_s cn; */
+    struct cavm_gserpx_input_pin_debug_tx_reg13_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_input_tx_lane : 16;
+        uint64_t reserved_input_tx_fm_reg_lane : 1;
+        uint64_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) PIN_REPEAT_MODE_EN input */
+        uint64_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_REPEAT_MODE_EN input select */
+        uint64_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) PIN_SSC_EN input */
+        uint64_t ssc_en_fm_reg_lane    : 1;  /**< [ 11: 11](R/W/H) PIN_SSC_EN input select */
+        uint64_t tx_acjtag_en_lane     : 1;  /**< [ 10: 10](R/W/H) PIN_TX_ACJTAG_EN input */
+        uint64_t tx_acjtag_en_fm_reg_lane : 1;/**< [  9:  9](R/W/H) PIN_TX_ACJTAG_EN input select */
+        uint64_t tx_acjtag_in_lane     : 1;  /**< [  8:  8](R/W/H) PIN_TX_ACJTAG_IN input */
+        uint64_t tx_acjtag_in_fm_reg_lane : 1;/**< [  7:  7](R/W/H) PIN_TX_ACJTAG_IN input select */
+        uint64_t txdclk_nt_sel_lane    : 3;  /**< [  6:  4](R/W/H) PIN_TXDCLK_NT_SEL input */
+        uint64_t txdclk_nt_sel_fm_reg_lane : 1;/**< [  3:  3](R/W/H) PIN_TXDCLK_NT_SEL input select */
+        uint64_t txdclk_nt_en_lane     : 1;  /**< [  2:  2](R/W/H) PIN_TXDCLK_NT_EN input */
+        uint64_t txdclk_nt_en_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_TXDCLK_NT_EN input select */
+        uint64_t txdclk_4x_en_lane     : 1;  /**< [  0:  0](R/W/H) PIN_TXDCLK_4X_EN input */
+#else /* Word 0 - Little Endian */
+        uint64_t txdclk_4x_en_lane     : 1;  /**< [  0:  0](R/W/H) PIN_TXDCLK_4X_EN input */
+        uint64_t txdclk_nt_en_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_TXDCLK_NT_EN input select */
+        uint64_t txdclk_nt_en_lane     : 1;  /**< [  2:  2](R/W/H) PIN_TXDCLK_NT_EN input */
+        uint64_t txdclk_nt_sel_fm_reg_lane : 1;/**< [  3:  3](R/W/H) PIN_TXDCLK_NT_SEL input select */
+        uint64_t txdclk_nt_sel_lane    : 3;  /**< [  6:  4](R/W/H) PIN_TXDCLK_NT_SEL input */
+        uint64_t tx_acjtag_in_fm_reg_lane : 1;/**< [  7:  7](R/W/H) PIN_TX_ACJTAG_IN input select */
+        uint64_t tx_acjtag_in_lane     : 1;  /**< [  8:  8](R/W/H) PIN_TX_ACJTAG_IN input */
+        uint64_t tx_acjtag_en_fm_reg_lane : 1;/**< [  9:  9](R/W/H) PIN_TX_ACJTAG_EN input select */
+        uint64_t tx_acjtag_en_lane     : 1;  /**< [ 10: 10](R/W/H) PIN_TX_ACJTAG_EN input */
+        uint64_t ssc_en_fm_reg_lane    : 1;  /**< [ 11: 11](R/W/H) PIN_SSC_EN input select */
+        uint64_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) PIN_SSC_EN input */
+        uint64_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_REPEAT_MODE_EN input select */
+        uint64_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) PIN_REPEAT_MODE_EN input */
+        uint64_t reserved_input_tx_fm_reg_lane : 1;
+        uint64_t reserved_input_tx_lane : 16;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
 };
 typedef union cavm_gserpx_input_pin_debug_tx_reg13 cavm_gserpx_input_pin_debug_tx_reg13_t;
 
@@ -84179,6 +84226,55 @@ static inline uint64_t CAVM_GSERPX_PH_CTRL_REG1(uint64_t a)
 #define device_bar_CAVM_GSERPX_PH_CTRL_REG1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_PH_CTRL_REG1(a) (a)
 #define arguments_CAVM_GSERPX_PH_CTRL_REG1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_ph_os_boundary
+ *
+ * INTERNAL: GSERP Phy Phase Boundary
+ */
+union cavm_gserpx_ph_os_boundary
+{
+    uint64_t u;
+    struct cavm_gserpx_ph_os_boundary_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
+        uint64_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
+        uint64_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface */
+        uint64_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_7          : 8;
+        uint64_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface */
+        uint64_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
+        uint64_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_ph_os_boundary_s cn; */
+};
+typedef union cavm_gserpx_ph_os_boundary cavm_gserpx_ph_os_boundary_t;
+
+static inline uint64_t CAVM_GSERPX_PH_OS_BOUNDARY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_PH_OS_BOUNDARY(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c860ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c860ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c860ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c860ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_PH_OS_BOUNDARY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_PH_OS_BOUNDARY(a) cavm_gserpx_ph_os_boundary_t
+#define bustype_CAVM_GSERPX_PH_OS_BOUNDARY(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_PH_OS_BOUNDARY(a) "GSERPX_PH_OS_BOUNDARY"
+#define device_bar_CAVM_GSERPX_PH_OS_BOUNDARY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_PH_OS_BOUNDARY(a) (a)
+#define arguments_CAVM_GSERPX_PH_OS_BOUNDARY(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_phy_csr_sel
@@ -117791,32 +117887,25 @@ union cavm_gserpx_rx_impedance_cal_wa_1
         uint64_t reserved_32_63        : 32;
         uint64_t rx_impedance_cal_result_adjusted_lane : 8;/**< [ 31: 24](R/W/H) Rx Impedance Calibration Result Adjusted Indicator
                                                                  internal */
-        uint64_t reserved_0_23         : 24;
+        uint64_t dfe_res_f0a_high_thres_init_g0_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Parameter For G0, Train Debug
+                                                                 internal */
+        uint64_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Parameter For G1, Train Debug
+                                                                 internal */
+        uint64_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [  7:  0](R/W/H) Gain Train Parameter For G2, Train Debug
+                                                                 internal */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_23         : 24;
+        uint64_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [  7:  0](R/W/H) Gain Train Parameter For G2, Train Debug
+                                                                 internal */
+        uint64_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Parameter For G1, Train Debug
+                                                                 internal */
+        uint64_t dfe_res_f0a_high_thres_init_g0_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Parameter For G0, Train Debug
+                                                                 internal */
         uint64_t rx_impedance_cal_result_adjusted_lane : 8;/**< [ 31: 24](R/W/H) Rx Impedance Calibration Result Adjusted Indicator
                                                                  internal */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_rx_impedance_cal_wa_1_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t rx_impedance_cal_result_adjusted_lane : 8;/**< [ 31: 24](R/W/H) Rx Impedance Calibration Result Adjusted Indicator
-                                                                 internal */
-        uint64_t reserved_16_23        : 8;
-        uint64_t reserved_8_15         : 8;
-        uint64_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
-        uint64_t reserved_8_15         : 8;
-        uint64_t reserved_16_23        : 8;
-        uint64_t rx_impedance_cal_result_adjusted_lane : 8;/**< [ 31: 24](R/W/H) Rx Impedance Calibration Result Adjusted Indicator
-                                                                 internal */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_rx_impedance_cal_wa_1_s cn; */
 };
 typedef union cavm_gserpx_rx_impedance_cal_wa_1 cavm_gserpx_rx_impedance_cal_wa_1_t;
 
@@ -119102,9 +119191,9 @@ union cavm_gserpx_sellv_rx_a90_dataclk_override
         uint64_t sellv_rx_a90_dataclk_override_enable : 8;/**< [ 31: 24](R/W/H) SELLV Rx A90 Data Clock Override enable flag */
         uint64_t sellv_rx_a90_dataclk_override_value : 8;/**< [ 23: 16](R/W/H) SELLV Rx A90 Data Clock Override value */
         uint64_t pcie_64g_calibration_support_en : 8;/**< [ 15:  8](R/W/H) Flag to enable or disable PCIE 64G calibration support */
-        uint64_t reserved_0_7          : 8;
+        uint64_t tximp_sat_wa_en       : 8;  /**< [  7:  0](R/W/H) Flag to Enable TXIMP Saturation WA */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
+        uint64_t tximp_sat_wa_en       : 8;  /**< [  7:  0](R/W/H) Flag to Enable TXIMP Saturation WA */
         uint64_t pcie_64g_calibration_support_en : 8;/**< [ 15:  8](R/W/H) Flag to enable or disable PCIE 64G calibration support */
         uint64_t sellv_rx_a90_dataclk_override_value : 8;/**< [ 23: 16](R/W/H) SELLV Rx A90 Data Clock Override value */
         uint64_t sellv_rx_a90_dataclk_override_enable : 8;/**< [ 31: 24](R/W/H) SELLV Rx A90 Data Clock Override enable flag */
@@ -119249,7 +119338,7 @@ static inline uint64_t CAVM_GSERPX_SELLV_VREF_FW_CONT_CAL_CTRL_2(uint64_t a)
 /**
  * Register (RSL) gserp#_serdes_reset_state
  *
- * INTERNAL: GSERP Phy Serdes Reset State
+ * INTERNAL: GSERP Phy SerDes Reset State
  */
 union cavm_gserpx_serdes_reset_state
 {
@@ -119258,14 +119347,14 @@ union cavm_gserpx_serdes_reset_state
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) Serdes Rx Reset State
+        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) Serdes Tx Reset State
+        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
                                                                  internal */
 #else /* Word 0 - Little Endian */
-        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) Serdes Tx Reset State
+        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
                                                                  internal */
-        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) Serdes Rx Reset State
+        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -119276,14 +119365,14 @@ union cavm_gserpx_serdes_reset_state
         uint64_t reserved_32_63        : 32;
         uint64_t reserved_24_31        : 8;
         uint64_t reserved_16_23        : 8;
-        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) Serdes Rx Reset State
+        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) Serdes Tx Reset State
+        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
                                                                  internal */
 #else /* Word 0 - Little Endian */
-        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) Serdes Tx Reset State
+        uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
                                                                  internal */
-        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) Serdes Rx Reset State
+        uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint64_t reserved_16_23        : 8;
         uint64_t reserved_24_31        : 8;
@@ -123506,33 +123595,28 @@ union cavm_gserpx_squelch_refthr_base
     struct cavm_gserpx_squelch_refthr_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
+        uint64_t reserved_32_63        : 32;
+        uint64_t rx_phase_init_gain_train_g0_lane : 8;/**< [ 31: 24](R/W/H) Gain Train Initialization Phase Offset For G0, Train Debug
+                                                                 internal */
+        uint64_t rx_phase_init_gain_train_g1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Initialization Phase Offset For G1, Train Debug
+                                                                 internal */
+        uint64_t rx_phase_init_gain_train_g2_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Initialization Phase Offset For G2, Train Debug
+                                                                 internal */
         uint64_t sq_refthr_base_speed_tbl_lane : 8;/**< [  7:  0](R/W/H) Squelch base threshold from speed table
                                                                  internal */
 #else /* Word 0 - Little Endian */
         uint64_t sq_refthr_base_speed_tbl_lane : 8;/**< [  7:  0](R/W/H) Squelch base threshold from speed table
                                                                  internal */
-        uint64_t reserved_8_63         : 56;
+        uint64_t rx_phase_init_gain_train_g2_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Initialization Phase Offset For G2, Train Debug
+                                                                 internal */
+        uint64_t rx_phase_init_gain_train_g1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Initialization Phase Offset For G1, Train Debug
+                                                                 internal */
+        uint64_t rx_phase_init_gain_train_g0_lane : 8;/**< [ 31: 24](R/W/H) Gain Train Initialization Phase Offset For G0, Train Debug
+                                                                 internal */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_squelch_refthr_base_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_24_31        : 8;
-        uint64_t reserved_16_23        : 8;
-        uint64_t reserved_8_15         : 8;
-        uint64_t sq_refthr_base_speed_tbl_lane : 8;/**< [  7:  0](R/W/H) Squelch base threshold from speed table
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint64_t sq_refthr_base_speed_tbl_lane : 8;/**< [  7:  0](R/W/H) Squelch base threshold from speed table
-                                                                 internal */
-        uint64_t reserved_8_15         : 8;
-        uint64_t reserved_16_23        : 8;
-        uint64_t reserved_24_31        : 8;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_squelch_refthr_base_s cn; */
 };
 typedef union cavm_gserpx_squelch_refthr_base cavm_gserpx_squelch_refthr_base_t;
 
@@ -130009,9 +130093,11 @@ union cavm_gserpx_train_debug0
                                                                  internal */
         uint64_t gain_train_f0a_lane   : 8;  /**< [ 15:  8](R/W/H) Gain Train F0A Save For Debug
                                                                  internal */
-        uint64_t reserved_0_7          : 8;
+        uint64_t txtrain_prec_c_thr_lane : 8;/**< [  7:  0](R/W/H) Tx Train PRECODER Enable CAP Index Threshold
+                                                                 internal */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
+        uint64_t txtrain_prec_c_thr_lane : 8;/**< [  7:  0](R/W/H) Tx Train PRECODER Enable CAP Index Threshold
+                                                                 internal */
         uint64_t gain_train_f0a_lane   : 8;  /**< [ 15:  8](R/W/H) Gain Train F0A Save For Debug
                                                                  internal */
         uint64_t gain_train_ctle_bypass1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train CTLE BYPASS1_EN Save For Debug
@@ -130047,6 +130133,55 @@ static inline uint64_t CAVM_GSERPX_TRAIN_DEBUG0(uint64_t a)
 #define arguments_CAVM_GSERPX_TRAIN_DEBUG0(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gserp#_train_debug1
+ *
+ * INTERNAL: GSERP Phy
+ */
+union cavm_gserpx_train_debug1
+{
+    uint64_t u;
+    struct cavm_gserpx_train_debug1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rx_phase_exit_gain_train_g0_lane : 8;/**< [ 31: 24](R/W/H) Gain Train Exit Phase Offset For G0, Train Debug */
+        uint64_t rx_phase_exit_gain_train_g1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Exit Phase Offset For G1, Train Debug */
+        uint64_t rx_phase_exit_gain_train_g2_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Exit Phase Offset For G2, Train Debug */
+        uint64_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_7          : 8;
+        uint64_t rx_phase_exit_gain_train_g2_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Exit Phase Offset For G2, Train Debug */
+        uint64_t rx_phase_exit_gain_train_g1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Exit Phase Offset For G1, Train Debug */
+        uint64_t rx_phase_exit_gain_train_g0_lane : 8;/**< [ 31: 24](R/W/H) Gain Train Exit Phase Offset For G0, Train Debug */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gserpx_train_debug1_s cn; */
+};
+typedef union cavm_gserpx_train_debug1 cavm_gserpx_train_debug1_t;
+
+static inline uint64_t CAVM_GSERPX_TRAIN_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_TRAIN_DEBUG1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c850ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c850ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c850ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c850ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_TRAIN_DEBUG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_TRAIN_DEBUG1(a) cavm_gserpx_train_debug1_t
+#define bustype_CAVM_GSERPX_TRAIN_DEBUG1(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_TRAIN_DEBUG1(a) "GSERPX_TRAIN_DEBUG1"
+#define device_bar_CAVM_GSERPX_TRAIN_DEBUG1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_TRAIN_DEBUG1(a) (a)
+#define arguments_CAVM_GSERPX_TRAIN_DEBUG1(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gserp#_train_debug_0
  *
  * INTERNAL: GSERP Phy
@@ -130062,19 +130197,17 @@ union cavm_gserpx_train_debug_0
                                                                  internal */
         uint64_t tx_train_pcie_eye_chk_low_val_lane : 4;/**< [ 27: 24](R/W/H) EOM eye check threshold value for low range for FOM training
                                                                  internal */
-        uint64_t dfe_res_f0a_high_thres_init_g3_lane : 8;/**< [ 23: 16](R/W/H) DFE Resolution F0a High Threshold Initial
+        uint64_t reserved_16_23        : 8;
+        uint64_t dfe_res_f0a_high_thres_init_g5_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
-        uint64_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
-                                                                 internal */
-        uint64_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
+        uint64_t dfe_res_f0a_high_thres_init_g4_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
 #else /* Word 0 - Little Endian */
-        uint64_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
+        uint64_t dfe_res_f0a_high_thres_init_g4_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
-        uint64_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
+        uint64_t dfe_res_f0a_high_thres_init_g5_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
-        uint64_t dfe_res_f0a_high_thres_init_g3_lane : 8;/**< [ 23: 16](R/W/H) DFE Resolution F0a High Threshold Initial
-                                                                 internal */
+        uint64_t reserved_16_23        : 8;
         uint64_t tx_train_pcie_eye_chk_low_val_lane : 4;/**< [ 27: 24](R/W/H) EOM eye check threshold value for low range for FOM training
                                                                  internal */
         uint64_t tx_train_pcie_fom_f0d_weight_lane : 4;/**< [ 31: 28](R/W/H) PCIe FOM metric eo weighting factor
@@ -135041,7 +135174,12 @@ union cavm_gserpx_trx_train_if_timers_enable_lane
     struct cavm_gserpx_trx_train_if_timers_enable_lane_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_26_63        : 38;
+        uint64_t reserved_28_63        : 36;
+        uint64_t rx_ee_f1p5_init_en_lane : 2;/**< [ 27: 26](R/W/H) Rx Edge EQ F1P5 Enable Flag For Initial Training
+                                                                 internal
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint64_t train_timeout_int_lane : 1; /**< [ 25: 25](RO/H) Train Time Out Indicator From MCU
                                                                  internal */
         uint64_t reserved_24           : 1;
@@ -135057,7 +135195,12 @@ union cavm_gserpx_trx_train_if_timers_enable_lane
         uint64_t reserved_24           : 1;
         uint64_t train_timeout_int_lane : 1; /**< [ 25: 25](RO/H) Train Time Out Indicator From MCU
                                                                  internal */
-        uint64_t reserved_26_63        : 38;
+        uint64_t rx_ee_f1p5_init_en_lane : 2;/**< [ 27: 26](R/W/H) Rx Edge EQ F1P5 Enable Flag For Initial Training
+                                                                 internal
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
+        uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
     struct cavm_gserpx_trx_train_if_timers_enable_lane_cn
@@ -135068,8 +135211,11 @@ union cavm_gserpx_trx_train_if_timers_enable_lane
         uint64_t reserved_30           : 1;
         uint64_t reserved_29           : 1;
         uint64_t reserved_28           : 1;
-        uint64_t reserved_27           : 1;
-        uint64_t reserved_26           : 1;
+        uint64_t rx_ee_f1p5_init_en_lane : 2;/**< [ 27: 26](R/W/H) Rx Edge EQ F1P5 Enable Flag For Initial Training
+                                                                 internal
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint64_t train_timeout_int_lane : 1; /**< [ 25: 25](RO/H) Train Time Out Indicator From MCU
                                                                  internal */
         uint64_t reserved_24           : 1;
@@ -135085,8 +135231,11 @@ union cavm_gserpx_trx_train_if_timers_enable_lane
         uint64_t reserved_24           : 1;
         uint64_t train_timeout_int_lane : 1; /**< [ 25: 25](RO/H) Train Time Out Indicator From MCU
                                                                  internal */
-        uint64_t reserved_26           : 1;
-        uint64_t reserved_27           : 1;
+        uint64_t rx_ee_f1p5_init_en_lane : 2;/**< [ 27: 26](R/W/H) Rx Edge EQ F1P5 Enable Flag For Initial Training
+                                                                 internal
+                                                                 0: both
+                                                                 1: edge offset
+                                                                 2: F1P5 */
         uint64_t reserved_28           : 1;
         uint64_t reserved_29           : 1;
         uint64_t reserved_30           : 1;
@@ -147149,6 +147298,84 @@ static inline uint64_t CAVM_GSERPX_TXTRAIN_IF_REG1(uint64_t a)
 #define device_bar_CAVM_GSERPX_TXTRAIN_IF_REG1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERPX_TXTRAIN_IF_REG1(a) (a)
 #define arguments_CAVM_GSERPX_TXTRAIN_IF_REG1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gserp#_user_tx_em_default_pcie
+ *
+ * INTERNAL: GSERP Phy User Defined TX Emphasis Default PCIE
+ */
+union cavm_gserpx_user_tx_em_default_pcie
+{
+    uint64_t u;
+    struct cavm_gserpx_user_tx_em_default_pcie_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t tx_amp_pipe1_default_lane : 7;/**< [ 30: 24](R/W/H) TX Amplitude PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint64_t reserved_21_23        : 3;
+        uint64_t tx_emph1_pipe1_default_lane : 5;/**< [ 20: 16](R/W/H) TX EMPH PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint64_t reserved_15           : 1;
+        uint64_t tx_amp_pipe0_default_lane : 7;/**< [ 14:  8](R/W/H) TX Amplitude PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint64_t reserved_5_7          : 3;
+        uint64_t tx_emph1_pipe0_default_lane : 5;/**< [  4:  0](R/W/H) TX EMPH PCIE Gen1/Gen2 6dB Default Overwrite */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_emph1_pipe0_default_lane : 5;/**< [  4:  0](R/W/H) TX EMPH PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint64_t reserved_5_7          : 3;
+        uint64_t tx_amp_pipe0_default_lane : 7;/**< [ 14:  8](R/W/H) TX Amplitude PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint64_t reserved_15           : 1;
+        uint64_t tx_emph1_pipe1_default_lane : 5;/**< [ 20: 16](R/W/H) TX EMPH PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint64_t reserved_21_23        : 3;
+        uint64_t tx_amp_pipe1_default_lane : 7;/**< [ 30: 24](R/W/H) TX Amplitude PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } s;
+    struct cavm_gserpx_user_tx_em_default_pcie_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t reserved_31           : 1;
+        uint64_t tx_amp_pipe1_default_lane : 7;/**< [ 30: 24](R/W/H) TX Amplitude PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint64_t reserved_21_23        : 3;
+        uint64_t tx_emph1_pipe1_default_lane : 5;/**< [ 20: 16](R/W/H) TX EMPH PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint64_t reserved_15           : 1;
+        uint64_t tx_amp_pipe0_default_lane : 7;/**< [ 14:  8](R/W/H) TX Amplitude PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint64_t reserved_5_7          : 3;
+        uint64_t tx_emph1_pipe0_default_lane : 5;/**< [  4:  0](R/W/H) TX EMPH PCIE Gen1/Gen2 6dB Default Overwrite */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_emph1_pipe0_default_lane : 5;/**< [  4:  0](R/W/H) TX EMPH PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint64_t reserved_5_7          : 3;
+        uint64_t tx_amp_pipe0_default_lane : 7;/**< [ 14:  8](R/W/H) TX Amplitude PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint64_t reserved_15           : 1;
+        uint64_t tx_emph1_pipe1_default_lane : 5;/**< [ 20: 16](R/W/H) TX EMPH PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint64_t reserved_21_23        : 3;
+        uint64_t tx_amp_pipe1_default_lane : 7;/**< [ 30: 24](R/W/H) TX Amplitude PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint64_t reserved_31           : 1;
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn;
+};
+typedef union cavm_gserpx_user_tx_em_default_pcie cavm_gserpx_user_tx_em_default_pcie_t;
+
+static inline uint64_t CAVM_GSERPX_USER_TX_EM_DEFAULT_PCIE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERPX_USER_TX_EM_DEFAULT_PCIE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e09000c868ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=1) || (a==15)))
+        return 0x87e09000c868ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a==0) || (a==15)))
+        return 0x87e09000c868ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a==0) || (a==15)))
+        return 0x87e09000c868ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERPX_USER_TX_EM_DEFAULT_PCIE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERPX_USER_TX_EM_DEFAULT_PCIE(a) cavm_gserpx_user_tx_em_default_pcie_t
+#define bustype_CAVM_GSERPX_USER_TX_EM_DEFAULT_PCIE(a) CSR_TYPE_RSL
+#define basename_CAVM_GSERPX_USER_TX_EM_DEFAULT_PCIE(a) "GSERPX_USER_TX_EM_DEFAULT_PCIE"
+#define device_bar_CAVM_GSERPX_USER_TX_EM_DEFAULT_PCIE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERPX_USER_TX_EM_DEFAULT_PCIE(a) (a)
+#define arguments_CAVM_GSERPX_USER_TX_EM_DEFAULT_PCIE(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserp#_vref_vddacal_sel_override

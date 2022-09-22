@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -853,7 +853,7 @@ typedef union cavm_apax_apat_wdat_be cavm_apax_apat_wdat_be_t;
 static inline uint64_t CAVM_APAX_APAT_WDAT_BE(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_APAT_WDAT_BE(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=23))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=23))
         return 0x87e340001218ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
         return 0x87e340001218ll + 0x1000000ll * ((a) & 0x7);
@@ -1347,7 +1347,7 @@ typedef union cavm_apax_dispblk cavm_apax_dispblk_t;
 static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_APAX_DISPBLK(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a<=23))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && (a<=23))
         return 0x87e340001700ll + 0x1000000ll * ((a) & 0x1f);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=7))
         return 0x87e340001700ll + 0x1000000ll * ((a) & 0x7);

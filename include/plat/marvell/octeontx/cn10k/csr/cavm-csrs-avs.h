@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -169,11 +169,11 @@ typedef union cavm_avs_avs_n5p_1_ctl0 cavm_avs_avs_n5p_1_ctl0_t;
 static inline uint64_t CAVM_AVS_AVS_N5P_1_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_AVS_N5P_1_CTL0_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x80a000001088ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x80a000001088ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x80a000001088ll;
     __cavm_csr_fatal("AVS_AVS_N5P_1_CTL0", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -228,11 +228,11 @@ typedef union cavm_avs_avs_n5p_1_ctl1 cavm_avs_avs_n5p_1_ctl1_t;
 static inline uint64_t CAVM_AVS_AVS_N5P_1_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_AVS_N5P_1_CTL1_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x80a000001090ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x80a000001090ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x80a000001090ll;
     __cavm_csr_fatal("AVS_AVS_N5P_1_CTL1", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1090,11 +1090,11 @@ typedef union cavm_avs_lvd_adc_0_observation cavm_avs_lvd_adc_0_observation_t;
 static inline uint64_t CAVM_AVS_LVD_ADC_0_OBSERVATION_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_LVD_ADC_0_OBSERVATION_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x80a000001098ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x80a000001098ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x80a000001098ll;
     __cavm_csr_fatal("AVS_LVD_ADC_0_OBSERVATION", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1137,11 +1137,11 @@ typedef union cavm_avs_lvd_adc_1_observation cavm_avs_lvd_adc_1_observation_t;
 static inline uint64_t CAVM_AVS_LVD_ADC_1_OBSERVATION_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_LVD_ADC_1_OBSERVATION_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x80a0000010a0ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x80a0000010a0ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x80a0000010a0ll;
     __cavm_csr_fatal("AVS_LVD_ADC_1_OBSERVATION", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1184,11 +1184,11 @@ typedef union cavm_avs_lvd_adc_2_observation cavm_avs_lvd_adc_2_observation_t;
 static inline uint64_t CAVM_AVS_LVD_ADC_2_OBSERVATION_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_AVS_LVD_ADC_2_OBSERVATION_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x80a0000010a8ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x80a0000010a8ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x80a0000010a8ll;
     __cavm_csr_fatal("AVS_LVD_ADC_2_OBSERVATION", 0, 0, 0, 0, 0, 0, 0);
 }

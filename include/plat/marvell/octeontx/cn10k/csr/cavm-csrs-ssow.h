@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -139,7 +139,7 @@ typedef union cavm_ssow_af_flr_ggrp_digestx cavm_ssow_af_flr_ggrp_digestx_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_GGRP_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=3))
         return 0x840080000200ll + 8ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840080000200ll + 8ll * ((a) & 0x1);
@@ -178,7 +178,7 @@ typedef union cavm_ssow_af_flr_gws_digest cavm_ssow_af_flr_gws_digest_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_GWS_DIGEST_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x840080000400ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x840080000400ll;
@@ -216,7 +216,7 @@ typedef union cavm_ssow_af_flr_hwgrp_digestx cavm_ssow_af_flr_hwgrp_digestx_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_HWGRP_DIGESTX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=3))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=3))
         return 0x840080000100ll + 8ll * ((a) & 0x3);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x840080000100ll + 8ll * ((a) & 0x1);
@@ -255,7 +255,7 @@ typedef union cavm_ssow_af_flr_hws_digest cavm_ssow_af_flr_hws_digest_t;
 static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_FLR_HWS_DIGEST_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x840080000300ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x840080000300ll;
@@ -374,7 +374,7 @@ typedef union cavm_ssow_af_lf_flr cavm_ssow_af_lf_flr_t;
 static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_SSOW_AF_LF_FLR_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x840080000040ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x840080000040ll;

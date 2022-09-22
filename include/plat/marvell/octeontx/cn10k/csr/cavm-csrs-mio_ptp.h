@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -685,11 +685,11 @@ typedef union cavm_mio_ptp_cur_rollover_capture cavm_mio_ptp_cur_rollover_captur
 static inline uint64_t CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CUR_ROLLOVER_CAPTURE_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000001018ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000001018ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x807000001018ll;
     __cavm_csr_fatal("MIO_PTP_CUR_ROLLOVER_CAPTURE", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -728,7 +728,7 @@ typedef union cavm_mio_ptp_curr_rollover_set cavm_mio_ptp_curr_rollover_set_t;
 static inline uint64_t CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_CURR_ROLLOVER_SET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000000ff0ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000000ff0ll;
@@ -936,7 +936,7 @@ typedef union cavm_mio_ptp_frns_timestamp cavm_mio_ptp_frns_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_FRNS_TIMESTAMP_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000000fe0ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000000fe0ll;
@@ -1304,7 +1304,7 @@ typedef union cavm_mio_ptp_nano_timestamp cavm_mio_ptp_nano_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_NANO_TIMESTAMP_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000000ff8ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000000ff8ll;
@@ -1345,11 +1345,11 @@ typedef union cavm_mio_ptp_nxt_rollover_capture cavm_mio_ptp_nxt_rollover_captur
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_CAPTURE_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000001010ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000001010ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x807000001010ll;
     __cavm_csr_fatal("MIO_PTP_NXT_ROLLOVER_CAPTURE", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1388,7 +1388,7 @@ typedef union cavm_mio_ptp_nxt_rollover_set cavm_mio_ptp_nxt_rollover_set_t;
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_NXT_ROLLOVER_SET_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000000fe8ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000000fe8ll;
@@ -1591,7 +1591,7 @@ typedef union cavm_mio_ptp_sec_nano_timestamp cavm_mio_ptp_sec_nano_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_NANO_TIMESTAMP_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000001008ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000001008ll;
@@ -1634,7 +1634,7 @@ typedef union cavm_mio_ptp_sec_rollover cavm_mio_ptp_sec_rollover_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_ROLLOVER_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_ROLLOVER_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000000fd8ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000000fd8ll;
@@ -1677,7 +1677,7 @@ typedef union cavm_mio_ptp_sec_timestamp cavm_mio_ptp_sec_timestamp_t;
 static inline uint64_t CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_SEC_TIMESTAMP_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000001000ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000001000ll;
@@ -1941,11 +1941,11 @@ typedef union cavm_mio_ptp_timestamp_2 cavm_mio_ptp_timestamp_2_t;
 static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_MIO_PTP_TIMESTAMP_2_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x807000001020ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x807000001020ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x807000001020ll;
     __cavm_csr_fatal("MIO_PTP_TIMESTAMP_2", 0, 0, 0, 0, 0, 0, 0);
 }

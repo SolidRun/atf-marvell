@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -832,7 +832,7 @@ typedef union cavm_rnm_pf_trng_datx cavm_rnm_pf_trng_datx_t;
 static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_TRNG_DATX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=127))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=127))
         return 0x87e00f001000ll + 0x10ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
         return 0x87e00f001000ll + 0x10ll * ((a) & 0x7f);
@@ -875,7 +875,7 @@ typedef union cavm_rnm_pf_trng_resx cavm_rnm_pf_trng_resx_t;
 static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_PF_TRNG_RESX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=127))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=127))
         return 0x87e00f001008ll + 0x10ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
         return 0x87e00f001008ll + 0x10ll * ((a) & 0x7f);
@@ -965,7 +965,7 @@ typedef union cavm_rnm_random cavm_rnm_random_t;
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_RANDOM_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX))
         return 0x80f000800000ll;
     if (cavm_is_model(OCTEONTX_CNF10KA))
         return 0x80f000800000ll;
@@ -1258,7 +1258,7 @@ typedef union cavm_rnm_vf_trng_datx cavm_rnm_vf_trng_datx_t;
 static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_VF_TRNG_DATX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=127))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=127))
         return 0x80f000800800ll + 0x10ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
         return 0x80f000800800ll + 0x10ll * ((a) & 0x7f);
@@ -1301,7 +1301,7 @@ typedef union cavm_rnm_vf_trng_resx cavm_rnm_vf_trng_resx_t;
 static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_RNM_VF_TRNG_RESX(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=127))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=127))
         return 0x80f000800808ll + 0x10ll * ((a) & 0x7f);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=127))
         return 0x80f000800808ll + 0x10ll * ((a) & 0x7f);

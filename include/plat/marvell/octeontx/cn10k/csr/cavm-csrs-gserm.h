@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -26943,8 +26943,11 @@ union cavm_gsermx_common_phy_ctrl_bcfg
         uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
                                                                  Bit i of this field controls lane i.
                                                                  This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
-                                                                 0x0 = Reference clock comes from REF_CLK2/REF_CLK4 based on [REFCLK_SEL_EXT].
-                                                                 0x1 = Reference clock comes from REF_CLK3.
+                                                                 0x0 = For GSERM0/1 Reference clock comes from REF_CLK2 and for other GSERM
+                                                                 instances Reference clock comes from REF_CLK2/REF_CLK4 based on
+                                                                 [REFCLK_SEL_EXT].
+                                                                 0x1 = For GSERM0/1 Reference clock comes from REF_CLK4 and for other GSERM
+                                                                 instances Reference clock comes from REF_CLK3.
                                                                  This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
         uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
                                                                    0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
@@ -27002,8 +27005,11 @@ union cavm_gsermx_common_phy_ctrl_bcfg
         uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
                                                                  Bit i of this field controls lane i.
                                                                  This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
-                                                                 0x0 = Reference clock comes from REF_CLK2/REF_CLK4 based on [REFCLK_SEL_EXT].
-                                                                 0x1 = Reference clock comes from REF_CLK3.
+                                                                 0x0 = For GSERM0/1 Reference clock comes from REF_CLK2 and for other GSERM
+                                                                 instances Reference clock comes from REF_CLK2/REF_CLK4 based on
+                                                                 [REFCLK_SEL_EXT].
+                                                                 0x1 = For GSERM0/1 Reference clock comes from REF_CLK4 and for other GSERM
+                                                                 instances Reference clock comes from REF_CLK3.
                                                                  This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
         uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
                                                                  Bit i of this field controls lane i.
@@ -27074,8 +27080,11 @@ union cavm_gsermx_common_phy_ctrl_bcfg
         uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
                                                                  Bit i of this field controls lane i.
                                                                  This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
-                                                                 0x0 = Reference clock comes from REF_CLK2/REF_CLK4 based on [REFCLK_SEL_EXT].
-                                                                 0x1 = Reference clock comes from REF_CLK3.
+                                                                 0x0 = For GSERM0/1 Reference clock comes from REF_CLK2 and for other GSERM
+                                                                 instances Reference clock comes from REF_CLK2/REF_CLK4 based on
+                                                                 [REFCLK_SEL_EXT].
+                                                                 0x1 = For GSERM0/1 Reference clock comes from REF_CLK4 and for other GSERM
+                                                                 instances Reference clock comes from REF_CLK3.
                                                                  This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
         uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
                                                                    0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
@@ -27133,8 +27142,11 @@ union cavm_gsermx_common_phy_ctrl_bcfg
         uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
                                                                  Bit i of this field controls lane i.
                                                                  This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
-                                                                 0x0 = Reference clock comes from REF_CLK2/REF_CLK4 based on [REFCLK_SEL_EXT].
-                                                                 0x1 = Reference clock comes from REF_CLK3.
+                                                                 0x0 = For GSERM0/1 Reference clock comes from REF_CLK2 and for other GSERM
+                                                                 instances Reference clock comes from REF_CLK2/REF_CLK4 based on
+                                                                 [REFCLK_SEL_EXT].
+                                                                 0x1 = For GSERM0/1 Reference clock comes from REF_CLK4 and for other GSERM
+                                                                 instances Reference clock comes from REF_CLK3.
                                                                  This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
         uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
                                                                  Bit i of this field controls lane i.
@@ -29015,26 +29027,21 @@ union cavm_gsermx_control_config7
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t cal_sq_thresh_in      : 8;  /**< [ 31: 24](R/W/H) SQ Threshold. */
-        uint32_t reserved_0_23         : 24;
+        uint32_t cdr_lock_ofst_thresh  : 8;  /**< [ 23: 16](R/W/H) Offset Threshold For CDR Lock Or Unlock
+                                                                 internal */
+        uint32_t cdr_lock_ofst_diff_thresh : 8;/**< [ 15:  8](R/W/H) Offset Threshold Difference Between Two Times For CDR Lock Or Unlock
+                                                                 internal */
+        uint32_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_23         : 24;
+        uint32_t reserved_0_7          : 8;
+        uint32_t cdr_lock_ofst_diff_thresh : 8;/**< [ 15:  8](R/W/H) Offset Threshold Difference Between Two Times For CDR Lock Or Unlock
+                                                                 internal */
+        uint32_t cdr_lock_ofst_thresh  : 8;  /**< [ 23: 16](R/W/H) Offset Threshold For CDR Lock Or Unlock
+                                                                 internal */
         uint32_t cal_sq_thresh_in      : 8;  /**< [ 31: 24](R/W/H) SQ Threshold. */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_control_config7_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cal_sq_thresh_in      : 8;  /**< [ 31: 24](R/W/H) SQ Threshold. */
-        uint32_t reserved_16_23        : 8;
-        uint32_t reserved_8_15         : 8;
-        uint32_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_7          : 8;
-        uint32_t reserved_8_15         : 8;
-        uint32_t reserved_16_23        : 8;
-        uint32_t cal_sq_thresh_in      : 8;  /**< [ 31: 24](R/W/H) SQ Threshold. */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_control_config7_s cn; */
 };
 typedef union cavm_gsermx_control_config7 cavm_gsermx_control_config7_t;
 
@@ -29370,6 +29377,61 @@ static inline uint64_t CAVM_GSERMX_CONTROL_CONFIG9(uint64_t a)
 #define device_bar_CAVM_GSERMX_CONTROL_CONFIG9(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERMX_CONTROL_CONFIG9(a) (a)
 #define arguments_CAVM_GSERMX_CONTROL_CONFIG9(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_ctle_boundary
+ *
+ * INTERNAL: GSERM Phy CTLE Parameters Boundary
+ */
+union cavm_gsermx_ctle_boundary
+{
+    uint32_t u;
+    struct cavm_gsermx_ctle_boundary_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ctle_res1_sel_min_lane : 4; /**< [ 31: 28](R/W/H) CTLE Res1 Lower Bound */
+        uint32_t ctle_res1_sel_max_lane : 4; /**< [ 27: 24](R/W/H) CTLE Res1 Upper Bound */
+        uint32_t ctle_cap1_sel_min_lane : 4; /**< [ 23: 20](R/W/H) CTLE Cap1 Lower Bound */
+        uint32_t ctle_cap1_sel_max_lane : 4; /**< [ 19: 16](R/W/H) CTLE Cap1 Upper Bound */
+        uint32_t ctle_res2_sel_min_lane : 4; /**< [ 15: 12](R/W/H) CTLE Res2 Lower Bound */
+        uint32_t ctle_res2_sel_max_lane : 4; /**< [ 11:  8](R/W/H) CTLE Res2 Upper Bound */
+        uint32_t ctle_cap2_sel_min_lane : 4; /**< [  7:  4](R/W/H) CTLE Cap2 Lower Bound */
+        uint32_t ctle_cap2_sel_max_lane : 4; /**< [  3:  0](R/W/H) CTLE Cap2 Upper Bound */
+#else /* Word 0 - Little Endian */
+        uint32_t ctle_cap2_sel_max_lane : 4; /**< [  3:  0](R/W/H) CTLE Cap2 Upper Bound */
+        uint32_t ctle_cap2_sel_min_lane : 4; /**< [  7:  4](R/W/H) CTLE Cap2 Lower Bound */
+        uint32_t ctle_res2_sel_max_lane : 4; /**< [ 11:  8](R/W/H) CTLE Res2 Upper Bound */
+        uint32_t ctle_res2_sel_min_lane : 4; /**< [ 15: 12](R/W/H) CTLE Res2 Lower Bound */
+        uint32_t ctle_cap1_sel_max_lane : 4; /**< [ 19: 16](R/W/H) CTLE Cap1 Upper Bound */
+        uint32_t ctle_cap1_sel_min_lane : 4; /**< [ 23: 20](R/W/H) CTLE Cap1 Lower Bound */
+        uint32_t ctle_res1_sel_max_lane : 4; /**< [ 27: 24](R/W/H) CTLE Res1 Upper Bound */
+        uint32_t ctle_res1_sel_min_lane : 4; /**< [ 31: 28](R/W/H) CTLE Res1 Lower Bound */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_ctle_boundary_s cn; */
+};
+typedef union cavm_gsermx_ctle_boundary cavm_gsermx_ctle_boundary_t;
+
+static inline uint64_t CAVM_GSERMX_CTLE_BOUNDARY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_CTLE_BOUNDARY(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c858ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) || (a==15)))
+        return 0x87e0a000c858ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c858ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c858ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_CTLE_BOUNDARY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_CTLE_BOUNDARY(a) cavm_gsermx_ctle_boundary_t
+#define bustype_CAVM_GSERMX_CTLE_BOUNDARY(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_CTLE_BOUNDARY(a) "GSERMX_CTLE_BOUNDARY"
+#define device_bar_CAVM_GSERMX_CTLE_BOUNDARY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_CTLE_BOUNDARY(a) (a)
+#define arguments_CAVM_GSERMX_CTLE_BOUNDARY(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gserm#_debug_sel
@@ -30505,7 +30567,9 @@ union cavm_gsermx_dfe_control_3
                                                                  internal */
         uint32_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
                                                                  internal */
-        uint32_t reserved_6_7          : 2;
+        uint32_t reserved_7            : 1;
+        uint32_t rx_tracking_enable_ini_lane : 1;/**< [  6:  6](R/W/H) Rx Tracking Enable Initial
+                                                                 internal */
         uint32_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
                                                                  internal */
         uint32_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
@@ -30519,7 +30583,9 @@ union cavm_gsermx_dfe_control_3
         uint32_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
         uint32_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
                                                                  internal */
-        uint32_t reserved_6_7          : 2;
+        uint32_t rx_tracking_enable_ini_lane : 1;/**< [  6:  6](R/W/H) Rx Tracking Enable Initial
+                                                                 internal */
+        uint32_t reserved_7            : 1;
         uint32_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
                                                                  internal */
         uint32_t cal_phase_lane        : 8;  /**< [ 23: 16](R/W/H) Align90_Ref Calibration Save For Current PLL Rate.
@@ -30528,40 +30594,7 @@ union cavm_gsermx_dfe_control_3
                                                                  internal */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_dfe_control_3_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t opt_phase_offset_normal_lane : 8;/**< [ 31: 24](R/W/H) Optimum Phase Offset Data In Normal Mode.
-                                                                 internal */
-        uint32_t cal_phase_lane        : 8;  /**< [ 23: 16](R/W/H) Align90_Ref Calibration Save For Current PLL Rate.
-                                                                 internal */
-        uint32_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
-                                                                 internal */
-        uint32_t reserved_7            : 1;
-        uint32_t reserved_6            : 1;
-        uint32_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
-                                                                 internal */
-        uint32_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
-        uint32_t reserved_1_2          : 2;
-        uint32_t final_gain_adjust_en_lane : 1;/**< [  0:  0](R/W/H) Enable Final Gain Adjust
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint32_t final_gain_adjust_en_lane : 1;/**< [  0:  0](R/W/H) Enable Final Gain Adjust
-                                                                 internal */
-        uint32_t reserved_1_2          : 2;
-        uint32_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
-        uint32_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
-                                                                 internal */
-        uint32_t reserved_6            : 1;
-        uint32_t reserved_7            : 1;
-        uint32_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
-                                                                 internal */
-        uint32_t cal_phase_lane        : 8;  /**< [ 23: 16](R/W/H) Align90_Ref Calibration Save For Current PLL Rate.
-                                                                 internal */
-        uint32_t opt_phase_offset_normal_lane : 8;/**< [ 31: 24](R/W/H) Optimum Phase Offset Data In Normal Mode.
-                                                                 internal */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_dfe_control_3_s cn; */
 };
 typedef union cavm_gsermx_dfe_control_3 cavm_gsermx_dfe_control_3_t;
 
@@ -55309,8 +55342,7 @@ union cavm_gsermx_input_pin_debug_cmn_reg9
     struct cavm_gsermx_input_pin_debug_cmn_reg9_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_input        : 16; /**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT input */
-        uint32_t reserved_input_fm_reg : 1;  /**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT input select */
+        uint32_t reserved_15_31        : 17;
         uint32_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input */
         uint32_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
         uint32_t reserved_0_12         : 13;
@@ -55318,11 +55350,25 @@ union cavm_gsermx_input_pin_debug_cmn_reg9
         uint32_t reserved_0_12         : 13;
         uint32_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
         uint32_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input */
-        uint32_t reserved_input_fm_reg : 1;  /**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT input select */
-        uint32_t reserved_input        : 16; /**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT input */
+        uint32_t reserved_15_31        : 17;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gsermx_input_pin_debug_cmn_reg9_s cn; */
+    struct cavm_gsermx_input_pin_debug_cmn_reg9_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_input        : 16;
+        uint32_t reserved_input_fm_reg : 1;
+        uint32_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input */
+        uint32_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
+        uint32_t reserved_0_12         : 13;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_12         : 13;
+        uint32_t fw_ready_fm_reg       : 1;  /**< [ 13: 13](R/W/H) PIN_FW_READY input select */
+        uint32_t fw_ready              : 1;  /**< [ 14: 14](R/W/H) PIN_FW_READY input */
+        uint32_t reserved_input_fm_reg : 1;
+        uint32_t reserved_input        : 16;
+#endif /* Word 0 - End */
+    } cn;
 };
 typedef union cavm_gsermx_input_pin_debug_cmn_reg9 cavm_gsermx_input_pin_debug_cmn_reg9_t;
 
@@ -57143,8 +57189,7 @@ union cavm_gsermx_input_pin_debug_rx_reg11
     struct cavm_gsermx_input_pin_debug_rx_reg11_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_input_rx_lane : 16;/**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT_RX input */
-        uint32_t reserved_input_rx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT_RX input select */
+        uint32_t reserved_15_31        : 17;
         uint32_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) PIN_RX_ACJTAG_AC input */
         uint32_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_RX_ACJTAG_AC input select */
         uint32_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) PIN_RX_ACJTAG_EN input */
@@ -57172,11 +57217,45 @@ union cavm_gsermx_input_pin_debug_rx_reg11
         uint32_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) PIN_RX_ACJTAG_EN input */
         uint32_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_RX_ACJTAG_AC input select */
         uint32_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) PIN_RX_ACJTAG_AC input */
-        uint32_t reserved_input_rx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT_RX input select */
-        uint32_t reserved_input_rx_lane : 16;/**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT_RX input */
+        uint32_t reserved_15_31        : 17;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gsermx_input_pin_debug_rx_reg11_s cn; */
+    struct cavm_gsermx_input_pin_debug_rx_reg11_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_input_rx_lane : 16;
+        uint32_t reserved_input_rx_fm_reg_lane : 1;
+        uint32_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) PIN_RX_ACJTAG_AC input */
+        uint32_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_RX_ACJTAG_AC input select */
+        uint32_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) PIN_RX_ACJTAG_EN input */
+        uint32_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) PIN_RX_ACJTAG_EN input select */
+        uint32_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) PIN_RX_ACJTAG_HYST input */
+        uint32_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) PIN_RX_ACJTAG_HYST input select */
+        uint32_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) PIN_RX_ACJTAG_INITN input */
+        uint32_t rx_acjtag_initn_fm_reg_lane : 1;/**< [  5:  5](R/W/H) PIN_RX_ACJTAG_INITN input select */
+        uint32_t rx_acjtag_initp_lane  : 1;  /**< [  4:  4](R/W/H) PIN_RX_ACJTAG_INITP input */
+        uint32_t rx_acjtag_initp_fm_reg_lane : 1;/**< [  3:  3](R/W/H) PIN_RX_ACJTAG_INITP input select */
+        uint32_t rx_acjtag_init_clk_lane : 1;/**< [  2:  2](R/W/H) PIN_RX_ACJTAG_INIT_CLK input */
+        uint32_t rx_acjtag_init_clk_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_RX_ACJTAG_INIT_CLK input select */
+        uint32_t rx_acjtag_mode_lane   : 1;  /**< [  0:  0](R/W/H) PIN_RX_ACJTAG_MODE input */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_acjtag_mode_lane   : 1;  /**< [  0:  0](R/W/H) PIN_RX_ACJTAG_MODE input */
+        uint32_t rx_acjtag_init_clk_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_RX_ACJTAG_INIT_CLK input select */
+        uint32_t rx_acjtag_init_clk_lane : 1;/**< [  2:  2](R/W/H) PIN_RX_ACJTAG_INIT_CLK input */
+        uint32_t rx_acjtag_initp_fm_reg_lane : 1;/**< [  3:  3](R/W/H) PIN_RX_ACJTAG_INITP input select */
+        uint32_t rx_acjtag_initp_lane  : 1;  /**< [  4:  4](R/W/H) PIN_RX_ACJTAG_INITP input */
+        uint32_t rx_acjtag_initn_fm_reg_lane : 1;/**< [  5:  5](R/W/H) PIN_RX_ACJTAG_INITN input select */
+        uint32_t rx_acjtag_initn_lane  : 1;  /**< [  6:  6](R/W/H) PIN_RX_ACJTAG_INITN input */
+        uint32_t rx_acjtag_hyst_fm_reg_lane : 1;/**< [  7:  7](R/W/H) PIN_RX_ACJTAG_HYST input select */
+        uint32_t rx_acjtag_hyst_lane   : 3;  /**< [ 10:  8](R/W/H) PIN_RX_ACJTAG_HYST input */
+        uint32_t rx_acjtag_en_fm_reg_lane : 1;/**< [ 11: 11](R/W/H) PIN_RX_ACJTAG_EN input select */
+        uint32_t rx_acjtag_en_lane     : 1;  /**< [ 12: 12](R/W/H) PIN_RX_ACJTAG_EN input */
+        uint32_t rx_acjtag_ac_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_RX_ACJTAG_AC input select */
+        uint32_t rx_acjtag_ac_lane     : 1;  /**< [ 14: 14](R/W/H) PIN_RX_ACJTAG_AC input */
+        uint32_t reserved_input_rx_fm_reg_lane : 1;
+        uint32_t reserved_input_rx_lane : 16;
+#endif /* Word 0 - End */
+    } cn;
 };
 typedef union cavm_gsermx_input_pin_debug_rx_reg11 cavm_gsermx_input_pin_debug_rx_reg11_t;
 
@@ -58872,8 +58951,7 @@ union cavm_gsermx_input_pin_debug_tx_reg13
     struct cavm_gsermx_input_pin_debug_tx_reg13_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_input_tx_lane : 16;/**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT_TX input */
-        uint32_t reserved_input_tx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT_TX input select */
+        uint32_t reserved_15_31        : 17;
         uint32_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) PIN_REPEAT_MODE_EN input */
         uint32_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_REPEAT_MODE_EN input select */
         uint32_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) PIN_SSC_EN input */
@@ -58901,11 +58979,45 @@ union cavm_gsermx_input_pin_debug_tx_reg13
         uint32_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) PIN_SSC_EN input */
         uint32_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_REPEAT_MODE_EN input select */
         uint32_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) PIN_REPEAT_MODE_EN input */
-        uint32_t reserved_input_tx_fm_reg_lane : 1;/**< [ 15: 15](R/W/H) PIN_RESERVED_INPUT_TX input select */
-        uint32_t reserved_input_tx_lane : 16;/**< [ 31: 16](R/W/H) PIN_RESERVED_INPUT_TX input */
+        uint32_t reserved_15_31        : 17;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gsermx_input_pin_debug_tx_reg13_s cn; */
+    struct cavm_gsermx_input_pin_debug_tx_reg13_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_input_tx_lane : 16;
+        uint32_t reserved_input_tx_fm_reg_lane : 1;
+        uint32_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) PIN_REPEAT_MODE_EN input */
+        uint32_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_REPEAT_MODE_EN input select */
+        uint32_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) PIN_SSC_EN input */
+        uint32_t ssc_en_fm_reg_lane    : 1;  /**< [ 11: 11](R/W/H) PIN_SSC_EN input select */
+        uint32_t tx_acjtag_en_lane     : 1;  /**< [ 10: 10](R/W/H) PIN_TX_ACJTAG_EN input */
+        uint32_t tx_acjtag_en_fm_reg_lane : 1;/**< [  9:  9](R/W/H) PIN_TX_ACJTAG_EN input select */
+        uint32_t tx_acjtag_in_lane     : 1;  /**< [  8:  8](R/W/H) PIN_TX_ACJTAG_IN input */
+        uint32_t tx_acjtag_in_fm_reg_lane : 1;/**< [  7:  7](R/W/H) PIN_TX_ACJTAG_IN input select */
+        uint32_t txdclk_nt_sel_lane    : 3;  /**< [  6:  4](R/W/H) PIN_TXDCLK_NT_SEL input */
+        uint32_t txdclk_nt_sel_fm_reg_lane : 1;/**< [  3:  3](R/W/H) PIN_TXDCLK_NT_SEL input select */
+        uint32_t txdclk_nt_en_lane     : 1;  /**< [  2:  2](R/W/H) PIN_TXDCLK_NT_EN input */
+        uint32_t txdclk_nt_en_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_TXDCLK_NT_EN input select */
+        uint32_t txdclk_4x_en_lane     : 1;  /**< [  0:  0](R/W/H) PIN_TXDCLK_4X_EN input */
+#else /* Word 0 - Little Endian */
+        uint32_t txdclk_4x_en_lane     : 1;  /**< [  0:  0](R/W/H) PIN_TXDCLK_4X_EN input */
+        uint32_t txdclk_nt_en_fm_reg_lane : 1;/**< [  1:  1](R/W/H) PIN_TXDCLK_NT_EN input select */
+        uint32_t txdclk_nt_en_lane     : 1;  /**< [  2:  2](R/W/H) PIN_TXDCLK_NT_EN input */
+        uint32_t txdclk_nt_sel_fm_reg_lane : 1;/**< [  3:  3](R/W/H) PIN_TXDCLK_NT_SEL input select */
+        uint32_t txdclk_nt_sel_lane    : 3;  /**< [  6:  4](R/W/H) PIN_TXDCLK_NT_SEL input */
+        uint32_t tx_acjtag_in_fm_reg_lane : 1;/**< [  7:  7](R/W/H) PIN_TX_ACJTAG_IN input select */
+        uint32_t tx_acjtag_in_lane     : 1;  /**< [  8:  8](R/W/H) PIN_TX_ACJTAG_IN input */
+        uint32_t tx_acjtag_en_fm_reg_lane : 1;/**< [  9:  9](R/W/H) PIN_TX_ACJTAG_EN input select */
+        uint32_t tx_acjtag_en_lane     : 1;  /**< [ 10: 10](R/W/H) PIN_TX_ACJTAG_EN input */
+        uint32_t ssc_en_fm_reg_lane    : 1;  /**< [ 11: 11](R/W/H) PIN_SSC_EN input select */
+        uint32_t ssc_en_lane           : 1;  /**< [ 12: 12](R/W/H) PIN_SSC_EN input */
+        uint32_t repeat_mode_en_fm_reg_lane : 1;/**< [ 13: 13](R/W/H) PIN_REPEAT_MODE_EN input select */
+        uint32_t repeat_mode_en_lane   : 1;  /**< [ 14: 14](R/W/H) PIN_REPEAT_MODE_EN input */
+        uint32_t reserved_input_tx_fm_reg_lane : 1;
+        uint32_t reserved_input_tx_lane : 16;
+#endif /* Word 0 - End */
+    } cn;
 };
 typedef union cavm_gsermx_input_pin_debug_tx_reg13 cavm_gsermx_input_pin_debug_tx_reg13_t;
 
@@ -78456,6 +78568,53 @@ static inline uint64_t CAVM_GSERMX_PH_CTRL_REG1(uint64_t a)
 #define arguments_CAVM_GSERMX_PH_CTRL_REG1(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL32b) gserm#_ph_os_boundary
+ *
+ * INTERNAL: GSERM Phy Phase Boundary
+ */
+union cavm_gsermx_ph_os_boundary
+{
+    uint32_t u;
+    struct cavm_gsermx_ph_os_boundary_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
+        uint32_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
+        uint32_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface */
+        uint32_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_7          : 8;
+        uint32_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface */
+        uint32_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
+        uint32_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_ph_os_boundary_s cn; */
+};
+typedef union cavm_gsermx_ph_os_boundary cavm_gsermx_ph_os_boundary_t;
+
+static inline uint64_t CAVM_GSERMX_PH_OS_BOUNDARY(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_PH_OS_BOUNDARY(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c860ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) || (a==15)))
+        return 0x87e0a000c860ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c860ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c860ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_PH_OS_BOUNDARY", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_PH_OS_BOUNDARY(a) cavm_gsermx_ph_os_boundary_t
+#define bustype_CAVM_GSERMX_PH_OS_BOUNDARY(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_PH_OS_BOUNDARY(a) "GSERMX_PH_OS_BOUNDARY"
+#define device_bar_CAVM_GSERMX_PH_OS_BOUNDARY(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_PH_OS_BOUNDARY(a) (a)
+#define arguments_CAVM_GSERMX_PH_OS_BOUNDARY(a) (a),-1,-1,-1
+
+/**
  * Register (RSL32b) gserm#_phytest_oob_ctrl
  *
  * INTERNAL: GSERM Phy PHYTest OOB Control
@@ -97644,8 +97803,8 @@ static inline uint64_t CAVM_GSERMX_PY_DEBUG_1(uint64_t a)
  *
  * GSERM Reference Clock Control1 Register
  * This register contains control inputs going to the REF_CLK IP module.
- * Only the GSERM0 instance of GSERM is expected to make the connections.
- *
+ * Refer to the Reference-Clock Termination section in the Clocking chapter to
+ * determine which reference clock termination is controlled by each instance of GSERM.
  * This register is asynchronously reset on rst__pll_dcok.
  */
 union cavm_gsermx_refclk_ctl1
@@ -98049,8 +98208,8 @@ static inline uint64_t CAVM_GSERMX_REFCLK_CTL1(uint64_t a)
  *
  * GSERM Reference Clock Control2 Register
  * This register contains control inputs going to the REF_CLK IP module.
- * Only the GSERM0 instance of GSERM is expected to make the connections.
- *
+ * Refer to the Reference-Clock Termination section in the Clocking chapter to
+ * determine which reference clock termination is controlled by each instance of GSERM.
  * This register is asynchronously reset on rst__pll_dcok.
  */
 union cavm_gsermx_refclk_ctl2
@@ -98248,7 +98407,8 @@ static inline uint64_t CAVM_GSERMX_REFCLK_DIS_FALLING_RESPONSE(uint64_t a)
  *
  * GSERM Reference Clock Status Register
  * This register contains status values coming from the REF_CLK IP module.
- * Only the GSERM0 instance of GSERM is expected to make the connections.
+ * Refer to the Reference-Clock Termination section in the Clocking chapter to
+ * determine which reference clock termination is controlled by each instance of GSERM.
  */
 union cavm_gsermx_refclk_status
 {
@@ -106988,29 +107148,24 @@ union cavm_gsermx_rx_impedance_cal_wa_1
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rx_impedance_cal_result_adjusted_lane : 8;/**< [ 31: 24](R/W/H) Rx Impedance Calibration Result Adjusted Indicator
                                                                  internal */
-        uint32_t reserved_0_23         : 24;
+        uint32_t dfe_res_f0a_high_thres_init_g0_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Parameter For G0, Train Debug
+                                                                 internal */
+        uint32_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Parameter For G1, Train Debug
+                                                                 internal */
+        uint32_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [  7:  0](R/W/H) Gain Train Parameter For G2, Train Debug
+                                                                 internal */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_23         : 24;
+        uint32_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [  7:  0](R/W/H) Gain Train Parameter For G2, Train Debug
+                                                                 internal */
+        uint32_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Parameter For G1, Train Debug
+                                                                 internal */
+        uint32_t dfe_res_f0a_high_thres_init_g0_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Parameter For G0, Train Debug
+                                                                 internal */
         uint32_t rx_impedance_cal_result_adjusted_lane : 8;/**< [ 31: 24](R/W/H) Rx Impedance Calibration Result Adjusted Indicator
                                                                  internal */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_rx_impedance_cal_wa_1_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t rx_impedance_cal_result_adjusted_lane : 8;/**< [ 31: 24](R/W/H) Rx Impedance Calibration Result Adjusted Indicator
-                                                                 internal */
-        uint32_t reserved_16_23        : 8;
-        uint32_t reserved_8_15         : 8;
-        uint32_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_7          : 8;
-        uint32_t reserved_8_15         : 8;
-        uint32_t reserved_16_23        : 8;
-        uint32_t rx_impedance_cal_result_adjusted_lane : 8;/**< [ 31: 24](R/W/H) Rx Impedance Calibration Result Adjusted Indicator
-                                                                 internal */
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_rx_impedance_cal_wa_1_s cn; */
 };
 typedef union cavm_gsermx_rx_impedance_cal_wa_1 cavm_gsermx_rx_impedance_cal_wa_1_t;
 
@@ -111616,31 +111771,26 @@ union cavm_gsermx_squelch_refthr_base
     struct cavm_gsermx_squelch_refthr_base_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
+        uint32_t rx_phase_init_gain_train_g0_lane : 8;/**< [ 31: 24](R/W/H) Gain Train Initialization Phase Offset For G0, Train Debug
+                                                                 internal */
+        uint32_t rx_phase_init_gain_train_g1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Initialization Phase Offset For G1, Train Debug
+                                                                 internal */
+        uint32_t rx_phase_init_gain_train_g2_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Initialization Phase Offset For G2, Train Debug
+                                                                 internal */
         uint32_t sq_refthr_base_speed_tbl_lane : 8;/**< [  7:  0](R/W/H) Squelch base threshold from speed table
                                                                  internal */
 #else /* Word 0 - Little Endian */
         uint32_t sq_refthr_base_speed_tbl_lane : 8;/**< [  7:  0](R/W/H) Squelch base threshold from speed table
                                                                  internal */
-        uint32_t reserved_8_31         : 24;
+        uint32_t rx_phase_init_gain_train_g2_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Initialization Phase Offset For G2, Train Debug
+                                                                 internal */
+        uint32_t rx_phase_init_gain_train_g1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Initialization Phase Offset For G1, Train Debug
+                                                                 internal */
+        uint32_t rx_phase_init_gain_train_g0_lane : 8;/**< [ 31: 24](R/W/H) Gain Train Initialization Phase Offset For G0, Train Debug
+                                                                 internal */
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_squelch_refthr_base_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t reserved_16_23        : 8;
-        uint32_t reserved_8_15         : 8;
-        uint32_t sq_refthr_base_speed_tbl_lane : 8;/**< [  7:  0](R/W/H) Squelch base threshold from speed table
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint32_t sq_refthr_base_speed_tbl_lane : 8;/**< [  7:  0](R/W/H) Squelch base threshold from speed table
-                                                                 internal */
-        uint32_t reserved_8_15         : 8;
-        uint32_t reserved_16_23        : 8;
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_squelch_refthr_base_s cn; */
 };
 typedef union cavm_gsermx_squelch_refthr_base cavm_gsermx_squelch_refthr_base_t;
 
@@ -118746,6 +118896,53 @@ static inline uint64_t CAVM_GSERMX_TRAIN_DEBUG0(uint64_t a)
 #define arguments_CAVM_GSERMX_TRAIN_DEBUG0(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL32b) gserm#_train_debug1
+ *
+ * INTERNAL: GSERM Phy
+ */
+union cavm_gsermx_train_debug1
+{
+    uint32_t u;
+    struct cavm_gsermx_train_debug1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rx_phase_exit_gain_train_g0_lane : 8;/**< [ 31: 24](R/W/H) Gain Train Exit Phase Offset For G0, Train Debug */
+        uint32_t rx_phase_exit_gain_train_g1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Exit Phase Offset For G1, Train Debug */
+        uint32_t rx_phase_exit_gain_train_g2_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Exit Phase Offset For G2, Train Debug */
+        uint32_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_7          : 8;
+        uint32_t rx_phase_exit_gain_train_g2_lane : 8;/**< [ 15:  8](R/W/H) Gain Train Exit Phase Offset For G2, Train Debug */
+        uint32_t rx_phase_exit_gain_train_g1_lane : 8;/**< [ 23: 16](R/W/H) Gain Train Exit Phase Offset For G1, Train Debug */
+        uint32_t rx_phase_exit_gain_train_g0_lane : 8;/**< [ 31: 24](R/W/H) Gain Train Exit Phase Offset For G0, Train Debug */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_train_debug1_s cn; */
+};
+typedef union cavm_gsermx_train_debug1 cavm_gsermx_train_debug1_t;
+
+static inline uint64_t CAVM_GSERMX_TRAIN_DEBUG1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_TRAIN_DEBUG1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c850ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) || (a==15)))
+        return 0x87e0a000c850ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c850ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c850ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_TRAIN_DEBUG1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_TRAIN_DEBUG1(a) cavm_gsermx_train_debug1_t
+#define bustype_CAVM_GSERMX_TRAIN_DEBUG1(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_TRAIN_DEBUG1(a) "GSERMX_TRAIN_DEBUG1"
+#define device_bar_CAVM_GSERMX_TRAIN_DEBUG1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_TRAIN_DEBUG1(a) (a)
+#define arguments_CAVM_GSERMX_TRAIN_DEBUG1(a) (a),-1,-1,-1
+
+/**
  * Register (RSL32b) gserm#_train_debug_0
  *
  * INTERNAL: GSERM Phy
@@ -118760,19 +118957,17 @@ union cavm_gsermx_train_debug_0
                                                                  internal */
         uint32_t tx_train_pcie_eye_chk_low_val_lane : 4;/**< [ 27: 24](R/W/H) EOM eye check threshold value for low range for FOM training
                                                                  internal */
-        uint32_t dfe_res_f0a_high_thres_init_g3_lane : 8;/**< [ 23: 16](R/W/H) DFE Resolution F0a High Threshold Initial
+        uint32_t reserved_16_23        : 8;
+        uint32_t dfe_res_f0a_high_thres_init_g5_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
-        uint32_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
-                                                                 internal */
-        uint32_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
+        uint32_t dfe_res_f0a_high_thres_init_g4_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
 #else /* Word 0 - Little Endian */
-        uint32_t dfe_res_f0a_high_thres_init_g1_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
+        uint32_t dfe_res_f0a_high_thres_init_g4_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
-        uint32_t dfe_res_f0a_high_thres_init_g2_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
+        uint32_t dfe_res_f0a_high_thres_init_g5_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
-        uint32_t dfe_res_f0a_high_thres_init_g3_lane : 8;/**< [ 23: 16](R/W/H) DFE Resolution F0a High Threshold Initial
-                                                                 internal */
+        uint32_t reserved_16_23        : 8;
         uint32_t tx_train_pcie_eye_chk_low_val_lane : 4;/**< [ 27: 24](R/W/H) EOM eye check threshold value for low range for FOM training
                                                                  internal */
         uint32_t tx_train_pcie_fom_f0d_weight_lane : 4;/**< [ 31: 28](R/W/H) PCIe FOM metric eo weighting factor
@@ -133290,6 +133485,61 @@ static inline uint64_t CAVM_GSERMX_TXTRAIN_IF_REG1(uint64_t a)
 #define device_bar_CAVM_GSERMX_TXTRAIN_IF_REG1(a) 0x0 /* PF_BAR0 */
 #define busnum_CAVM_GSERMX_TXTRAIN_IF_REG1(a) (a)
 #define arguments_CAVM_GSERMX_TXTRAIN_IF_REG1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_user_tx_em_default_pcie
+ *
+ * INTERNAL: GSERM Phy User Defined TX Emphasis Default PCIE
+ */
+union cavm_gsermx_user_tx_em_default_pcie
+{
+    uint32_t u;
+    struct cavm_gsermx_user_tx_em_default_pcie_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t tx_amp_pipe1_default_lane : 7;/**< [ 30: 24](R/W/H) TX Amplitude PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint32_t reserved_21_23        : 3;
+        uint32_t tx_emph1_pipe1_default_lane : 5;/**< [ 20: 16](R/W/H) TX EMPH PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint32_t reserved_15           : 1;
+        uint32_t tx_amp_pipe0_default_lane : 7;/**< [ 14:  8](R/W/H) TX Amplitude PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint32_t reserved_5_7          : 3;
+        uint32_t tx_emph1_pipe0_default_lane : 5;/**< [  4:  0](R/W/H) TX EMPH PCIE Gen1/Gen2 6dB Default Overwrite */
+#else /* Word 0 - Little Endian */
+        uint32_t tx_emph1_pipe0_default_lane : 5;/**< [  4:  0](R/W/H) TX EMPH PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint32_t reserved_5_7          : 3;
+        uint32_t tx_amp_pipe0_default_lane : 7;/**< [ 14:  8](R/W/H) TX Amplitude PCIE Gen1/Gen2 6dB Default Overwrite */
+        uint32_t reserved_15           : 1;
+        uint32_t tx_emph1_pipe1_default_lane : 5;/**< [ 20: 16](R/W/H) TX EMPH PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint32_t reserved_21_23        : 3;
+        uint32_t tx_amp_pipe1_default_lane : 7;/**< [ 30: 24](R/W/H) TX Amplitude PCIE Gen1/Gen2 3.5dB Default Overwrite */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_user_tx_em_default_pcie_s cn; */
+};
+typedef union cavm_gsermx_user_tx_em_default_pcie cavm_gsermx_user_tx_em_default_pcie_t;
+
+static inline uint64_t CAVM_GSERMX_USER_TX_EM_DEFAULT_PCIE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_USER_TX_EM_DEFAULT_PCIE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a000c868ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) || (a==15)))
+        return 0x87e0a000c868ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a000c868ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a000c868ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_USER_TX_EM_DEFAULT_PCIE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_USER_TX_EM_DEFAULT_PCIE(a) cavm_gsermx_user_tx_em_default_pcie_t
+#define bustype_CAVM_GSERMX_USER_TX_EM_DEFAULT_PCIE(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_USER_TX_EM_DEFAULT_PCIE(a) "GSERMX_USER_TX_EM_DEFAULT_PCIE"
+#define device_bar_CAVM_GSERMX_USER_TX_EM_DEFAULT_PCIE(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_USER_TX_EM_DEFAULT_PCIE(a) (a)
+#define arguments_CAVM_GSERMX_USER_TX_EM_DEFAULT_PCIE(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) gserm#_vref_vddacal_sel_override

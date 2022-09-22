@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -231,14 +231,10 @@ union cavm_mhbw_jd_dma_cfg_word_1_s
                                                                  MHBW_TMEM_SEL_E. */
         uint64_t reserved_53_61        : 9;
         uint64_t start_addr            : 53; /**< [ 52:  0] Specifies the byte address of the DMA starting location.
-                                                                 The address must be aligned to the width of the DMA port. As an
-                                                                 exception, 256 bit ports only require that START_ADDR is 128 bit
-                                                                 aligned. */
+                                                                 The address must be aligned to the width of the DMA port. */
 #else /* Word 0 - Little Endian */
         uint64_t start_addr            : 53; /**< [ 52:  0] Specifies the byte address of the DMA starting location.
-                                                                 The address must be aligned to the width of the DMA port. As an
-                                                                 exception, 256 bit ports only require that START_ADDR is 128 bit
-                                                                 aligned. */
+                                                                 The address must be aligned to the width of the DMA port. */
         uint64_t reserved_53_61        : 9;
         uint64_t target_mem            : 2;  /**< [ 63: 62] Specifies the target memory for the address, as enumerate in
                                                                  MHBW_TMEM_SEL_E. */

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -11385,7 +11385,7 @@ typedef union cavm_usbhx_uctl_eusb2phy_cfg2 cavm_usbhx_uctl_eusb2phy_cfg2_t;
 static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_EUSB2PHY_CFG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100140ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100140ll + 0x1000000000ll * ((a) & 0x1);
@@ -12806,7 +12806,7 @@ typedef union cavm_usbhx_uctl_usb31cntrlr_cfg1 cavm_usbhx_uctl_usb31cntrlr_cfg1_
 static inline uint64_t CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31CNTRLR_CFG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100188ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100188ll + 0x1000000000ll * ((a) & 0x1);
@@ -12866,7 +12866,7 @@ typedef union cavm_usbhx_uctl_usb31cntrlr_cfg2 cavm_usbhx_uctl_usb31cntrlr_cfg2_
 static inline uint64_t CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31CNTRLR_CFG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100190ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100190ll + 0x1000000000ll * ((a) & 0x1);
@@ -12976,7 +12976,7 @@ typedef union cavm_usbhx_uctl_usb31phy_cfg1 cavm_usbhx_uctl_usb31phy_cfg1_t;
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG1(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG1(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100148ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100148ll + 0x1000000000ll * ((a) & 0x1);
@@ -13050,7 +13050,7 @@ typedef union cavm_usbhx_uctl_usb31phy_cfg2 cavm_usbhx_uctl_usb31phy_cfg2_t;
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG2(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG2(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100150ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100150ll + 0x1000000000ll * ((a) & 0x1);
@@ -13108,7 +13108,7 @@ typedef union cavm_usbhx_uctl_usb31phy_cfg3 cavm_usbhx_uctl_usb31phy_cfg3_t;
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG3(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG3(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100158ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100158ll + 0x1000000000ll * ((a) & 0x1);
@@ -13150,7 +13150,7 @@ typedef union cavm_usbhx_uctl_usb31phy_cfg4 cavm_usbhx_uctl_usb31phy_cfg4_t;
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG4(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG4(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100160ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100160ll + 0x1000000000ll * ((a) & 0x1);
@@ -13238,7 +13238,7 @@ typedef union cavm_usbhx_uctl_usb31phy_cfg5 cavm_usbhx_uctl_usb31phy_cfg5_t;
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG5(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG5(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100168ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100168ll + 0x1000000000ll * ((a) & 0x1);
@@ -13314,7 +13314,7 @@ typedef union cavm_usbhx_uctl_usb31phy_cfg6 cavm_usbhx_uctl_usb31phy_cfg6_t;
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG6(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG6(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100170ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100170ll + 0x1000000000ll * ((a) & 0x1);
@@ -13394,7 +13394,7 @@ typedef union cavm_usbhx_uctl_usb31phy_cfg7 cavm_usbhx_uctl_usb31phy_cfg7_t;
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG7(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG7(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100178ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100178ll + 0x1000000000ll * ((a) & 0x1);
@@ -13468,7 +13468,7 @@ typedef union cavm_usbhx_uctl_usb31phy_cfg8 cavm_usbhx_uctl_usb31phy_cfg8_t;
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG8(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_USBHX_UCTL_USB31PHY_CFG8(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a<=1))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a<=1))
         return 0x868000100180ll + 0x1000000000ll * ((a) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a<=1))
         return 0x868000100180ll + 0x1000000000ll * ((a) & 0x1);

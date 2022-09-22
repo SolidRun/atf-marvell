@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1221,21 +1221,21 @@ union cavm_bts_pd1pps_div_cfg1
         uint64_t divider_tc            : 32; /**< [ 31:  0](R/W) Divider counter terminal count value.
 
                                                                  When BTS_PD1PPS_DIV_CFG0[CLKOUT_5050_DUTY]=0, this field should be
-                                                                 set to the clock frequency minus one, i.e., 0x1D4BFFF (307199999 for the 30.72
+                                                                 set to the clock frequency, i.e., 0x1D4C000 (307200000 for the 30.72
                                                                  MHz clock.
 
                                                                  When BTS_PD1PPS_DIV_CFG0[CLKOUT_5050_DUTY]=1, this field should be
-                                                                 set to half the clock frequency minus one, i.e., 0xEA5FFF (153599999 for the
+                                                                 set to half the clock frequency, i.e., 0xEA6000 (153600000 for the
                                                                  30.72 MHz clock. */
 #else /* Word 0 - Little Endian */
         uint64_t divider_tc            : 32; /**< [ 31:  0](R/W) Divider counter terminal count value.
 
                                                                  When BTS_PD1PPS_DIV_CFG0[CLKOUT_5050_DUTY]=0, this field should be
-                                                                 set to the clock frequency minus one, i.e., 0x1D4BFFF (307199999 for the 30.72
+                                                                 set to the clock frequency, i.e., 0x1D4C000 (307200000 for the 30.72
                                                                  MHz clock.
 
                                                                  When BTS_PD1PPS_DIV_CFG0[CLKOUT_5050_DUTY]=1, this field should be
-                                                                 set to half the clock frequency minus one, i.e., 0xEA5FFF (153599999 for the
+                                                                 set to half the clock frequency, i.e., 0xEA6000 (153600000 for the
                                                                  30.72 MHz clock. */
         uint64_t divider_start_pos     : 32; /**< [ 63: 32](R/W) Divider start position. When a new value is written to
                                                                  [DIVIDER_START_POS], the counter will reset to 0 the next time the
@@ -1631,21 +1631,21 @@ union cavm_bts_pdbfn_div_cfg1
         uint64_t divider_tc            : 32; /**< [ 31:  0](R/W) Divider counter terminal count value.
 
                                                                  When BTS_PDBFN_DIV_CFG0[CLKOUT_5050_DUTY]=0, this field should be
-                                                                 set to the clock frequency minus one, i.e., 0x1D4BFFF (30719999) for the 30.72
+                                                                 set to the clock frequency, i.e., 0x1D4C000 (30720000) for the 30.72
                                                                  MHz clock.
 
                                                                  When BTS_PDBFN_DIV_CFG0[CLKOUT_5050_DUTY]=1, this field should be
-                                                                 set to half the clock frequency minus one, i.e., 0xEA5FFF (15359999) for the
+                                                                 set to half the clock frequency, i.e., 0xEA6000 (15360000) for the
                                                                  30.72 MHz clock. */
 #else /* Word 0 - Little Endian */
         uint64_t divider_tc            : 32; /**< [ 31:  0](R/W) Divider counter terminal count value.
 
                                                                  When BTS_PDBFN_DIV_CFG0[CLKOUT_5050_DUTY]=0, this field should be
-                                                                 set to the clock frequency minus one, i.e., 0x1D4BFFF (30719999) for the 30.72
+                                                                 set to the clock frequency, i.e., 0x1D4C000 (30720000) for the 30.72
                                                                  MHz clock.
 
                                                                  When BTS_PDBFN_DIV_CFG0[CLKOUT_5050_DUTY]=1, this field should be
-                                                                 set to half the clock frequency minus one, i.e., 0xEA5FFF (15359999) for the
+                                                                 set to half the clock frequency, i.e., 0xEA6000 (15360000) for the
                                                                  30.72 MHz clock. */
         uint64_t divider_start_pos     : 32; /**< [ 63: 32](R/W) Divider start position. When a new value is written to
                                                                  [DIVIDER_START_POS], the counter will reset to 0 the next time the

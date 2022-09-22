@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -616,7 +616,34 @@ union cavm_tad_cmn_mpamcfg_cpbm_ns
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_mpamcfg_cpbm_ns_s cn; */
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_ns_s cn10; */
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_ns_s cn10ka; */
+    struct cavm_tad_cmn_mpamcfg_cpbm_ns_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t cpbm                  : 16; /**< [ 15:  0](R/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
+                                                                 n.
+                                                                 0b0 = The PARTID is not permitted to allocate into cache portion n.
+                                                                 0b1 = The PARTID is permitted to allocate within cache portion n.
+
+                                                                 The width of the CPBM changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
+                                                                 When RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), the CPBM is only
+                                                                 12 bits, and only bits [11..0] may be written. */
+#else /* Word 0 - Little Endian */
+        uint64_t cpbm                  : 16; /**< [ 15:  0](R/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
+                                                                 n.
+                                                                 0b0 = The PARTID is not permitted to allocate into cache portion n.
+                                                                 0b1 = The PARTID is permitted to allocate within cache portion n.
+
+                                                                 The width of the CPBM changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
+                                                                 When RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), the CPBM is only
+                                                                 12 bits, and only bits [11..0] may be written. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_ns_s cnf10ka; */
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_ns_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_mpamcfg_cpbm_ns cavm_tad_cmn_mpamcfg_cpbm_ns_t;
 
@@ -682,7 +709,34 @@ union cavm_tad_cmn_mpamcfg_cpbm_s
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_tad_cmn_mpamcfg_cpbm_s_s cn; */
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_s_s cn10; */
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_s_s cn10ka; */
+    struct cavm_tad_cmn_mpamcfg_cpbm_s_cn10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t cpbm                  : 16; /**< [ 15:  0](SR/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
+                                                                 n.
+                                                                 0b0 = The PARTID is not permitted to allocate into cache portion n.
+                                                                 0b1 = The PARTID is permitted to allocate within cache portion n.
+
+                                                                 The width of the CPBM changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
+                                                                 When RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), the CPBM is only
+                                                                 12 bits, and only bits [11..0] may be written. */
+#else /* Word 0 - Little Endian */
+        uint64_t cpbm                  : 16; /**< [ 15:  0](SR/W) Each bit, CPBM\<n\>, grants permission to the PARTID to allocate cache lines within cache portion
+                                                                 n.
+                                                                 0b0 = The PARTID is not permitted to allocate into cache portion n.
+                                                                 0b1 = The PARTID is permitted to allocate within cache portion n.
+
+                                                                 The width of the CPBM changes depending on the RIS value in TAD_CMN_MPAMCFG_PART_SEL.
+                                                                 When RIS=0 (LTG), the CPBM is 16 bits. When RIS=1 (DTG), the CPBM is only
+                                                                 12 bits, and only bits [11..0] may be written. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn10kb;
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_s_s cnf10ka; */
+    /* struct cavm_tad_cmn_mpamcfg_cpbm_s_s cnf10kb; */
 };
 typedef union cavm_tad_cmn_mpamcfg_cpbm_s cavm_tad_cmn_mpamcfg_cpbm_s_t;
 

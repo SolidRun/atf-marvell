@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -948,7 +948,7 @@ union cavm_mcsx_const
                                                                  MCS_IP_MODE[MACSEC_IP_MODE_SET] and is reflected on
                                                                  MCS_IP_MODE[MACSEC_IP_MODE]. If MACSEC_DISABLE = 1'b1, the MACSEC is disabled,
                                                                  else this field defines the operational mode.
-                                                                   0x0 - Cisco Clear Tag mode / IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
+                                                                   0x0 - CT mode / IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
                                                                    0x1 - IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
                                                                    0x2/0x3 - IEEE802.1AE 2006 mode enabled. */
         uint64_t macsec_disable        : 1;  /**< [  0:  0](RO) Disable L2 MAC security. */
@@ -958,7 +958,7 @@ union cavm_mcsx_const
                                                                  MCS_IP_MODE[MACSEC_IP_MODE_SET] and is reflected on
                                                                  MCS_IP_MODE[MACSEC_IP_MODE]. If MACSEC_DISABLE = 1'b1, the MACSEC is disabled,
                                                                  else this field defines the operational mode.
-                                                                   0x0 - Cisco Clear Tag mode / IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
+                                                                   0x0 - CT mode / IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
                                                                    0x1 - IEEE802.1AE 2018 mode / IEEE802.1AE 2006 mode enabled.
                                                                    0x2/0x3 - IEEE802.1AE 2006 mode enabled. */
         uint64_t reserved_3_63         : 61;
@@ -13904,7 +13904,7 @@ union cavm_mcsx_ip_mode
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
         uint64_t macsec_ip_mode_set    : 2;  /**< [  4:  3](R/W) Configuration for IP mode.
-                                                                   2'b00 - Cisco Clear Tag mode.
+                                                                   2'b00 - CT mode.
                                                                    2'b01 - IEEE802.1AE 2018 enabled.
                                                                    2'b1x - IEEE802.1AE 2006 enabled.
                                                                    Getting to the intended mode is possible only if it's enabled by the MCS_CONST[MACSEC_FUSE_MODE]. */
@@ -13912,7 +13912,7 @@ union cavm_mcsx_ip_mode
                                                                  Operational mode of the MCS is based on  MCS_CONST[MACSEC_FUSE_MODE] and
                                                                  MCS_CONST[MACSEC_FUSE_DISABLE] after setting the appropriate bit according to
                                                                  MACSEC_IP_MODE_SET.
-                                                                   3'b000 - Cisco Clear Tag mode.
+                                                                   3'b000 - CT mode.
                                                                    3'b001 - IEEE802.1AE 2018 enabled.
                                                                    3'b01x - IEEE802.1AE 2006 enabled.
                                                                    3'b1xx - MCS is disabled. */
@@ -13921,12 +13921,12 @@ union cavm_mcsx_ip_mode
                                                                  Operational mode of the MCS is based on  MCS_CONST[MACSEC_FUSE_MODE] and
                                                                  MCS_CONST[MACSEC_FUSE_DISABLE] after setting the appropriate bit according to
                                                                  MACSEC_IP_MODE_SET.
-                                                                   3'b000 - Cisco Clear Tag mode.
+                                                                   3'b000 - CT mode.
                                                                    3'b001 - IEEE802.1AE 2018 enabled.
                                                                    3'b01x - IEEE802.1AE 2006 enabled.
                                                                    3'b1xx - MCS is disabled. */
         uint64_t macsec_ip_mode_set    : 2;  /**< [  4:  3](R/W) Configuration for IP mode.
-                                                                   2'b00 - Cisco Clear Tag mode.
+                                                                   2'b00 - CT mode.
                                                                    2'b01 - IEEE802.1AE 2018 enabled.
                                                                    2'b1x - IEEE802.1AE 2006 enabled.
                                                                    Getting to the intended mode is possible only if it's enabled by the MCS_CONST[MACSEC_FUSE_MODE]. */
@@ -14724,10 +14724,16 @@ union cavm_mcsx_mil_rx_bbe_gbl_crdt
                                                                  IP for all ports. On bypass mode, should be set to 0. */
         uint64_t reserved_11_15        : 5;
         uint64_t bbe_gbl_crdt          : 11; /**< [ 10:  0](R/W) When [BBE_GBL_CRDT_EN] is enabled, sets the MIL-RX max global data credits
-                                                                 towards the IP for all ports. */
+                                                                 towards the IP for all ports.
+                                                                 Updating this value should be done together with setting [BBE_GBL_CRDT_EN] =
+                                                                 1'b1 or after [BBE_GBL_CRDT_EN] = 1'b1.
+                                                                 On full cripple mode or MCS_MIL_GLOBAL[EXTERNAL_BYPASS] is set this field can not be updated. */
 #else /* Word 0 - Little Endian */
         uint64_t bbe_gbl_crdt          : 11; /**< [ 10:  0](R/W) When [BBE_GBL_CRDT_EN] is enabled, sets the MIL-RX max global data credits
-                                                                 towards the IP for all ports. */
+                                                                 towards the IP for all ports.
+                                                                 Updating this value should be done together with setting [BBE_GBL_CRDT_EN] =
+                                                                 1'b1 or after [BBE_GBL_CRDT_EN] = 1'b1.
+                                                                 On full cripple mode or MCS_MIL_GLOBAL[EXTERNAL_BYPASS] is set this field can not be updated. */
         uint64_t reserved_11_15        : 5;
         uint64_t bbe_gbl_crdt_en       : 1;  /**< [ 16: 16](R/W) When enabled, [BBE_GBL_CRDT] sets the MIL-RX max global data credits towards the
                                                                  IP for all ports. On bypass mode, should be set to 0. */
@@ -18297,6 +18303,7 @@ static inline uint64_t CAVM_MCSX_PEX_TX_SLAVE_SECTAG_CFG(uint64_t a)
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_0#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Data 0 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM - 128x120: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -18460,6 +18467,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_0X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_1#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Data 1 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM - 128x120: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -18505,6 +18513,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_1X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_2#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Data 2 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM - 128x120: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -18521,7 +18530,7 @@ union cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_2x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_42_63        : 22;
-        uint64_t port                  : 5;  /**< [ 41: 37](R/W) Port number, 0-3 */
+        uint64_t port                  : 5;  /**< [ 41: 37](R/W) Port number, 0-19 */
         uint64_t express               : 1;  /**< [ 36: 36](R/W) Express packet. */
         uint64_t flowid_user_field     : 5;  /**< [ 35: 31](R/W) User-Defined Flow_ID */
         uint64_t mac_sa                : 31; /**< [ 30:  0](R/W) MAC SA field extracted from the packet */
@@ -18529,7 +18538,7 @@ union cavm_mcsx_rs_cmcs_ccpm_rx_slave_flowid_tcam_data_2x
         uint64_t mac_sa                : 31; /**< [ 30:  0](R/W) MAC SA field extracted from the packet */
         uint64_t flowid_user_field     : 5;  /**< [ 35: 31](R/W) User-Defined Flow_ID */
         uint64_t express               : 1;  /**< [ 36: 36](R/W) Express packet. */
-        uint64_t port                  : 5;  /**< [ 41: 37](R/W) Port number, 0-3 */
+        uint64_t port                  : 5;  /**< [ 41: 37](R/W) Port number, 0-19 */
         uint64_t reserved_42_63        : 22;
 #endif /* Word 0 - End */
     } s;
@@ -18556,6 +18565,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_DATA_2X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_0#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Mask 0 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM_MASK - 128x182: Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -18599,6 +18609,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_0X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_1#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Mask 1 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM_MASK - 128x182: Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -18638,6 +18649,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_1X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_flowid_tcam_mask_2#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Flowid Tcam Mask 2 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM_MASK - 128x182: Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -18683,7 +18695,8 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_FLOWID_TCAM_MASK_2X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_rx_flowid_tcam_enable#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Rx Flowid Tcam Enable Register
- * Flow ID TCAM enable: For a TCAM entry to be considered in the search/compare
+ * Note - this register is only available and used in CT mode
+ *  Flow ID TCAM enable: For a TCAM entry to be considered in the search/compare
  * function, the corresponding TCAM entry must be enabled (set to 1).  When disabled,
  * the corresponding TCAM entry is ignored in the search/compare.
  */
@@ -18721,6 +18734,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_RX_FLOWID_TCAM_ENABLEX(ui
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_sc_plcy_mem#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Sc Plcy Mem Register
+ * Note - this register is only available and used in CT mode
  * SC Policy Memory - 128x64: The SC Policy Table provides enhanced sc to sci selection
  * for IV generation.  Writing to the top most(MSB) portion of the entry triggers the
  * write to memory
@@ -18759,6 +18773,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_SC_PLCY_MEMX(uint64_t a, 
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_secy_plcy_mem_0#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Secy Plcy Mem 0 Register
+ * Note - this register is only available and used in CT mode
  * SecY Policy Memory - 128x70 : The SecY Policy Table is indexed by the SecY obtained
  * from the SecY Map table (aka Flow-ID policy/map) above.  Each entry consists of the
  * following information:
@@ -18775,11 +18790,8 @@ union cavm_mcsx_rs_cmcs_ccpm_rx_slave_secy_plcy_mem_0x
                                                                  packet PN must be greater than or equal to  the associated next_pn
                                                                  (sa_pn_table_mem) minus this value or the packet must be dropped. */
         uint64_t replay_protect        : 1;  /**< [ 17: 17](R/W) Enables Anti-Replay protection */
-        uint64_t pre_sectag_auth_enable : 1; /**< [ 16: 16](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
-                                                                 calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+        uint64_t pre_sectag_auth_enable : 1; /**< [ 16: 16](R/W) When set, include the region [pre_sectag_auth_start:pre_sectag_auth_end] in the
+                                                                 generation of the ICV (i.e. in the set of authenticated bytes) */
         uint64_t confidentiality_offset : 7; /**< [ 15:  9](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
         uint64_t cipher                : 4;  /**< [  8:  5](R/W) Defines the cipher suite to use for this SecY
                                                                  This is an enum with the following supported options:
@@ -18791,19 +18803,33 @@ union cavm_mcsx_rs_cmcs_ccpm_rx_slave_secy_plcy_mem_0x
                                                                  2'b01 = Reserved.
                                                                  2'b10 = Preserve SecTag, Strip ICV.
                                                                  2'b11 = Preserve both SecTag and ICV. */
-        uint64_t validate_frames_tagged : 2; /**< [  2:  1](R/W) Defines the permit policy for frames as defined in 802.1ae. Encoded as follows:
+        uint64_t validate_frames_tagged : 2; /**< [  2:  1](R/W) Defines the permit policy for tagged frames as defined in 802.1ae. Encoded as follows:
                                                                  0 = DISABLED: Disable validation.
                                                                  1 = CHECK: Enable validation, do not discard invalid frames.
                                                                  2 = STRICT: Enable validation and discard invalid frames.
                                                                  3 = NULL: No processing or accounting. */
-        uint64_t controlled_port_enabled_tagged : 1;/**< [  0:  0](R/W) Enable (or disable) operation of the Controlled port associated with this SecY.
-                                                                 This can be used to disable the Controlled port and drop all data packets until
-                                                                 the secure connectivity has been fully established. */
+        uint64_t controlled_port_enabled_tagged : 1;/**< [  0:  0](R/W) When set to a 0 deny all data (non-control) packets which are
+                                                                 tagged (i.e., they have a SecTag) before they are processed
+                                                                 by the MACsec logic. It is important to note that the control
+                                                                 packet identification logic can identify tagged packets with
+                                                                 {C=0;E=1}. When enabled these packets will be sent
+                                                                 through the uncontrolled port, so those packets will not be
+                                                                 affected by this bit.
+                                                                 When set to a 1 allow data (non-control) packets which are
+                                                                 tagged (i.e., they have a SecTag) to be processed by the
+                                                                 MACsec logic. */
 #else /* Word 0 - Little Endian */
-        uint64_t controlled_port_enabled_tagged : 1;/**< [  0:  0](R/W) Enable (or disable) operation of the Controlled port associated with this SecY.
-                                                                 This can be used to disable the Controlled port and drop all data packets until
-                                                                 the secure connectivity has been fully established. */
-        uint64_t validate_frames_tagged : 2; /**< [  2:  1](R/W) Defines the permit policy for frames as defined in 802.1ae. Encoded as follows:
+        uint64_t controlled_port_enabled_tagged : 1;/**< [  0:  0](R/W) When set to a 0 deny all data (non-control) packets which are
+                                                                 tagged (i.e., they have a SecTag) before they are processed
+                                                                 by the MACsec logic. It is important to note that the control
+                                                                 packet identification logic can identify tagged packets with
+                                                                 {C=0;E=1}. When enabled these packets will be sent
+                                                                 through the uncontrolled port, so those packets will not be
+                                                                 affected by this bit.
+                                                                 When set to a 1 allow data (non-control) packets which are
+                                                                 tagged (i.e., they have a SecTag) to be processed by the
+                                                                 MACsec logic. */
+        uint64_t validate_frames_tagged : 2; /**< [  2:  1](R/W) Defines the permit policy for tagged frames as defined in 802.1ae. Encoded as follows:
                                                                  0 = DISABLED: Disable validation.
                                                                  1 = CHECK: Enable validation, do not discard invalid frames.
                                                                  2 = STRICT: Enable validation and discard invalid frames.
@@ -18819,11 +18845,8 @@ union cavm_mcsx_rs_cmcs_ccpm_rx_slave_secy_plcy_mem_0x
                                                                  2= GCM-AES-XPN-128
                                                                  3= GCM-AES-XPN-256 */
         uint64_t confidentiality_offset : 7; /**< [ 15:  9](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
-        uint64_t pre_sectag_auth_enable : 1; /**< [ 16: 16](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
-                                                                 calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+        uint64_t pre_sectag_auth_enable : 1; /**< [ 16: 16](R/W) When set, include the region [pre_sectag_auth_start:pre_sectag_auth_end] in the
+                                                                 generation of the ICV (i.e. in the set of authenticated bytes) */
         uint64_t replay_protect        : 1;  /**< [ 17: 17](R/W) Enables Anti-Replay protection */
         uint64_t replay_window         : 32; /**< [ 49: 18](R/W) Unsigned value indicating the size of the anti-replay window. The incoming
                                                                  packet PN must be greater than or equal to  the associated next_pn
@@ -18855,6 +18878,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_SECY_PLCY_MEM_0X(uint64_t
  * Register (RSL) mcs#_rs_cmcs_ccpm_rx_slave_secy_plcy_mem_1#
  *
  * MCS Rs Cmcs Ccpm Rx Slave Secy Plcy Mem 1 Register
+ * Note - this register is only available and used in CT mode
  * SecY Policy Memory - 128x70 : The SecY Policy Table is indexed by the SecY obtained
  * from the SecY Map table (aka Flow-ID policy/map) above.  Each entry consists of the
  * following information:
@@ -18866,10 +18890,18 @@ union cavm_mcsx_rs_cmcs_ccpm_rx_slave_secy_plcy_mem_1x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t validate_frames_untagged : 1;/**< [  8:  8](R/W) Enables dropping of untagged, non control data packets */
-        uint64_t controlled_port_enabled_untagged : 1;/**< [  7:  7](R/W) Enable (or disable) operation of the Controlled port associated with this SecY.
-                                                                 This can be used to disable the Controlled port and drop all data packets until
-                                                                 the secure connectivity has been fully established. */
+        uint64_t validate_frames_untagged : 1;/**< [  8:  8](R/W) When set to a 1 deny and account all data packets (not
+                                                                 identified as a control packet) which are untagged (i.e., they
+                                                                 don?t have a SecTag)
+                                                                 When set to 0 allow and account all data packets (not
+                                                                 identified as a control packet) which are untagged (i.e., they
+                                                                 don?t have a SecTag) */
+        uint64_t controlled_port_enabled_untagged : 1;/**< [  7:  7](R/W) When set to a 0 deny all data (non-control) packets which are
+                                                                 untagged (i.e., they don?t have a SecTag) before they are
+                                                                 processed by the MACsec logic
+                                                                 When set to a 1 allow data (non-control) packets which are
+                                                                 untagged (i.e., they don?t have a SecTag) to be processed by
+                                                                 the MACsec logic */
         uint64_t sectag_location       : 5;  /**< [  6:  2](R/W) Identifies the position of a posible sectag carried over bulk MPLS. */
         uint64_t mpls_has_ctl_wd       : 1;  /**< [  1:  1](R/W) Identifies presence of MPLS control word. */
         uint64_t eompls_sub_port       : 1;  /**< [  0:  0](R/W) Identifies presence of EoMPLS on subport. */
@@ -18877,10 +18909,18 @@ union cavm_mcsx_rs_cmcs_ccpm_rx_slave_secy_plcy_mem_1x
         uint64_t eompls_sub_port       : 1;  /**< [  0:  0](R/W) Identifies presence of EoMPLS on subport. */
         uint64_t mpls_has_ctl_wd       : 1;  /**< [  1:  1](R/W) Identifies presence of MPLS control word. */
         uint64_t sectag_location       : 5;  /**< [  6:  2](R/W) Identifies the position of a posible sectag carried over bulk MPLS. */
-        uint64_t controlled_port_enabled_untagged : 1;/**< [  7:  7](R/W) Enable (or disable) operation of the Controlled port associated with this SecY.
-                                                                 This can be used to disable the Controlled port and drop all data packets until
-                                                                 the secure connectivity has been fully established. */
-        uint64_t validate_frames_untagged : 1;/**< [  8:  8](R/W) Enables dropping of untagged, non control data packets */
+        uint64_t controlled_port_enabled_untagged : 1;/**< [  7:  7](R/W) When set to a 0 deny all data (non-control) packets which are
+                                                                 untagged (i.e., they don?t have a SecTag) before they are
+                                                                 processed by the MACsec logic
+                                                                 When set to a 1 allow data (non-control) packets which are
+                                                                 untagged (i.e., they don?t have a SecTag) to be processed by
+                                                                 the MACsec logic */
+        uint64_t validate_frames_untagged : 1;/**< [  8:  8](R/W) When set to a 1 deny and account all data packets (not
+                                                                 identified as a control packet) which are untagged (i.e., they
+                                                                 don?t have a SecTag)
+                                                                 When set to 0 allow and account all data packets (not
+                                                                 identified as a control packet) which are untagged (i.e., they
+                                                                 don?t have a SecTag) */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
@@ -18907,6 +18947,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_RX_SLAVE_SECY_PLCY_MEM_1X(uint64_t
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_0#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Data 0 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM - 128x120: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -19060,6 +19101,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_0X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_1#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Data 1 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM - 128x120: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -19145,6 +19187,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_1X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_2#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Data 2 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM - 128x120: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -19161,7 +19204,7 @@ union cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_2x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_46_63        : 18;
-        uint64_t port                  : 5;  /**< [ 45: 41](R/W) Port number, 0-3 */
+        uint64_t port                  : 5;  /**< [ 45: 41](R/W) Port number, 0-19 */
         uint64_t express               : 1;  /**< [ 40: 40](R/W) Express packet. */
         uint64_t flowid_user_field     : 5;  /**< [ 39: 35](R/W) User-Defined Flow_ID */
         uint64_t mac_sa                : 35; /**< [ 34:  0](R/W) MAC SA field extracted from the packet */
@@ -19169,7 +19212,7 @@ union cavm_mcsx_rs_cmcs_ccpm_tx_slave_flowid_tcam_data_2x
         uint64_t mac_sa                : 35; /**< [ 34:  0](R/W) MAC SA field extracted from the packet */
         uint64_t flowid_user_field     : 5;  /**< [ 39: 35](R/W) User-Defined Flow_ID */
         uint64_t express               : 1;  /**< [ 40: 40](R/W) Express packet. */
-        uint64_t port                  : 5;  /**< [ 45: 41](R/W) Port number, 0-3 */
+        uint64_t port                  : 5;  /**< [ 45: 41](R/W) Port number, 0-19 */
         uint64_t reserved_46_63        : 18;
 #endif /* Word 0 - End */
     } s;
@@ -19196,6 +19239,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_DATA_2X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_0#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Mask 0 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM_MASK - 128x182: Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -19235,6 +19279,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_0X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_1#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Mask 1 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM_MASK - 128x182: Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -19278,6 +19323,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_1X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_flowid_tcam_mask_2#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Flowid Tcam Mask 2 Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM_MASK - 128x182: Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -19323,7 +19369,11 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_FLOWID_TCAM_MASK_2X(uint6
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_hdr_sc_mem#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Hdr Sc Mem Register
- * HDR SC Memory - 128x64: The SC  Table provides enhanced subport to sc selection .
+ * Note - this register is only available and used in CT mode
+ * HDR SC Memory - 128x$(C_NUM_SC_W):
+ * In the presence of a 10B egress header, this memory is used to map the sub-port
+ * (secy) in the 10B header to its corresponding secure channel
+ * In the absence of a 10B egress header, this memory is not used
  */
 union cavm_mcsx_rs_cmcs_ccpm_tx_slave_hdr_sc_memx
 {
@@ -19332,9 +19382,9 @@ union cavm_mcsx_rs_cmcs_ccpm_tx_slave_hdr_sc_memx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
-        uint64_t sc                    : 7;  /**< [  6:  0](R/W) Identifies the SC for this Flow */
+        uint64_t sc                    : 7;  /**< [  6:  0](R/W) Identifies the secure channel to which the sub-port (secy) maps to */
 #else /* Word 0 - Little Endian */
-        uint64_t sc                    : 7;  /**< [  6:  0](R/W) Identifies the SC for this Flow */
+        uint64_t sc                    : 7;  /**< [  6:  0](R/W) Identifies the secure channel to which the sub-port (secy) maps to */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
@@ -19361,6 +19411,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_HDR_SC_MEMX(uint64_t a, u
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_secy_plcy_mem#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Secy Plcy Mem Register
+ * Note - this register is only available and used in CT mode
  * SecY Policy Memory - 128x122 : The SecY Policy Table is indexed by the SecY obtained
  * from the SecY Map table (aka Flow-ID policy/map) above.  Each entry consists of the
  * following information:
@@ -19393,11 +19444,8 @@ union cavm_mcsx_rs_cmcs_ccpm_tx_slave_secy_plcy_memx
                                                                     If an 8B prepended header is present, then the CPM will add the 8 to this
                                                                  field before sending to the BBE. */
         uint64_t reserved_14           : 1;
-        uint64_t pre_sectag_auth_enable : 1; /**< [ 13: 13](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
-                                                                 calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+        uint64_t pre_sectag_auth_enable : 1; /**< [ 13: 13](R/W) When set, include the region [pre_sectag_auth_start:pre_sectag_auth_end] in the
+                                                                 generation of the ICV (i.e. in the set of authenticated bytes) */
         uint64_t confidentiality_offset : 7; /**< [ 12:  6](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
         uint64_t cipher                : 4;  /**< [  5:  2](R/W) Defines the cipher suite to use for this SecY
                                                                  This is an enum with the following supported options:
@@ -19423,11 +19471,8 @@ union cavm_mcsx_rs_cmcs_ccpm_tx_slave_secy_plcy_memx
                                                                  2= GCM-AES-XPN-128
                                                                  3= GCM-AES-XPN-256 */
         uint64_t confidentiality_offset : 7; /**< [ 12:  6](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
-        uint64_t pre_sectag_auth_enable : 1; /**< [ 13: 13](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
-                                                                 calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+        uint64_t pre_sectag_auth_enable : 1; /**< [ 13: 13](R/W) When set, include the region [pre_sectag_auth_start:pre_sectag_auth_end] in the
+                                                                 generation of the ICV (i.e. in the set of authenticated bytes) */
         uint64_t reserved_14           : 1;
         uint64_t sectag_offset         : 7;  /**< [ 21: 15](R/W) SecTag can only be inserted into the first 128B of the frame.
                                                                  If sectag_insert_mode is set to "Relative Offset Mode":
@@ -19475,6 +19520,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_SECY_PLCY_MEMX(uint64_t a
  * Register (RSL) mcs#_rs_cmcs_ccpm_tx_slave_tx_flowid_tcam_enable#
  *
  * MCS Rs Cmcs Ccpm Tx Slave Tx Flowid Tcam Enable Register
+ * Note - this register is only available and used in CT mode
  * Flow ID TCAM enable: For a TCAM entry to be considered in the search/compare
  * function, the corresponding TCAM entry must be enabled (set to 1).  When disabled,
  * the corresponding TCAM entry is ignored in the search/compare.
@@ -19513,7 +19559,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CCPM_TX_SLAVE_TX_FLOWID_TCAM_ENABLEX(ui
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_btag_cfg
  *
  * MCS Rs Cmcs Cpex Rx Slave Btag Cfg Register
- * Configuration for PBB B-tag
+ * Configuration for PBB B-tag. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_btag_cfg
 {
@@ -19550,50 +19596,10 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_BTAG_CFG(uint64_t a)
 #define arguments_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_BTAG_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_cisco_egress_header_cfg
- *
- * MCS Rs Cmcs Cpex Rx Slave Cisco Egress Header Cfg Register
- * E-Type/TPID configuration for optional egress header tag
- */
-union cavm_mcsx_rs_cmcs_cpex_rx_slave_cisco_egress_header_cfg
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_cmcs_cpex_rx_slave_cisco_egress_header_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t cisco_egress_header   : 16; /**< [ 16:  1](R/W) EthType for Clear Tag Egress Header */
-        uint64_t cisco_egress_header_en : 1; /**< [  0:  0](R/W) Enable tx_clear_tag_header. Set to 1 to enable or 0 to disable. */
-#else /* Word 0 - Little Endian */
-        uint64_t cisco_egress_header_en : 1; /**< [  0:  0](R/W) Enable tx_clear_tag_header. Set to 1 to enable or 0 to disable. */
-        uint64_t cisco_egress_header   : 16; /**< [ 16:  1](R/W) EthType for Clear Tag Egress Header */
-        uint64_t reserved_17_63        : 47;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_rs_cmcs_cpex_rx_slave_cisco_egress_header_cfg_s cn; */
-};
-typedef union cavm_mcsx_rs_cmcs_cpex_rx_slave_cisco_egress_header_cfg cavm_mcsx_rs_cmcs_cpex_rx_slave_cisco_egress_header_cfg_t;
-
-static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e08005a870ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) cavm_mcsx_rs_cmcs_cpex_rx_slave_cisco_egress_header_cfg_t
-#define bustype_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) "MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG"
-#define device_bar_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) (a)
-#define arguments_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_cpex_configuration
  *
  * MCS Rs Cmcs Cpex Rx Slave Cpex Configuration Register
- * General CPEX Configuration
+ * General CPEX Configuration. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_cpex_configuration
 {
@@ -19632,10 +19638,52 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(uint64
 #define arguments_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CPEX_CONFIGURATION(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_ct_egress_header_cfg
+ *
+ * MCS Rs Cmcs Cpex Rx Slave Ct Egress Header Cfg Register
+ * E-Type/TPID configuration for optional egress header tag. Note - this register is
+ * only available and used in CT mode
+ */
+union cavm_mcsx_rs_cmcs_cpex_rx_slave_ct_egress_header_cfg
+{
+    uint64_t u;
+    struct cavm_mcsx_rs_cmcs_cpex_rx_slave_ct_egress_header_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t ct_egress_header      : 16; /**< [ 16:  1](R/W) EthType for CT Egress Header */
+        uint64_t ct_egress_header_en   : 1;  /**< [  0:  0](R/W) Enable tx_clear_tag_header. Set to 1 to enable or 0 to disable. */
+#else /* Word 0 - Little Endian */
+        uint64_t ct_egress_header_en   : 1;  /**< [  0:  0](R/W) Enable tx_clear_tag_header. Set to 1 to enable or 0 to disable. */
+        uint64_t ct_egress_header      : 16; /**< [ 16:  1](R/W) EthType for CT Egress Header */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_rs_cmcs_cpex_rx_slave_ct_egress_header_cfg_s cn; */
+};
+typedef union cavm_mcsx_rs_cmcs_cpex_rx_slave_ct_egress_header_cfg cavm_mcsx_rs_cmcs_cpex_rx_slave_ct_egress_header_cfg_t;
+
+static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x87e08005a870ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG(a) cavm_mcsx_rs_cmcs_cpex_rx_slave_ct_egress_header_cfg_t
+#define bustype_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG(a) CSR_TYPE_RSL
+#define basename_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG(a) "MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG"
+#define device_bar_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG(a) (a)
+#define arguments_CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CT_EGRESS_HEADER_CFG(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_ctl_pkt_rule_cdp
  *
  * MCS Rs Cmcs Cpex Rx Slave Ctl Pkt Rule Cdp Register
- * MAC address to identify CDP or VTP VLAN Trunking Protocol packets
+ * MAC address to identify CDP or VTP VLAN Trunking Protocol packets. Note - this
+ * register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_ctl_pkt_rule_cdp
 {
@@ -19675,7 +19723,9 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CTL_PKT_RULE_CDP(uint64_t
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_ctl_pkt_rule_enable#
  *
  * MCS Rs Cmcs Cpex Rx Slave Ctl Pkt Rule Enable Register
- * Enable bits for rule based control packet matching for inner PBB and EoMPLS ethernet frames
+ * Enable bits for rule based control packet matching for inner PBB and EoMPLS ethernet
+ * frames. Note - this register is only available and used in CT mode. Note - this
+ * register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_ctl_pkt_rule_enablex
 {
@@ -19725,7 +19775,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_CTL_PKT_RULE_ENABLEX(uint
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_eli_label_cfg
  *
  * MCS Rs Cmcs Cpex Rx Slave Eli Label Cfg Register
- * MPLS stack configuration
+ * MPLS stack configuration. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_eli_label_cfg
 {
@@ -19763,7 +19813,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_ELI_LABEL_CFG(uint64_t a)
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_itag_cfg
  *
  * MCS Rs Cmcs Cpex Rx Slave Itag Cfg Register
- * Configuration for PBB I-tag
+ * Configuration for PBB I-tag. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_itag_cfg
 {
@@ -19804,7 +19854,8 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_ITAG_CFG(uint64_t a)
  *
  * MCS Rs Cmcs Cpex Rx Slave Mpls Sel 3 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
- * register is used when the set contains 3 labels.
+ * register is used when the set contains 3 labels. Note - this register is only
+ * available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_mpls_sel_3_labelsx
 {
@@ -19861,7 +19912,8 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_MPLS_SEL_3_LABELSX(uint64
  *
  * MCS Rs Cmcs Cpex Rx Slave Mpls Sel 4 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
- * register is used when the set contains 4 labels.
+ * register is used when the set contains 4 labels. Note - this register is only
+ * available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_mpls_sel_4_labelsx
 {
@@ -19920,7 +19972,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_MPLS_SEL_4_LABELSX(uint64
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 5 labels or conditionally 6 labels on ingress
  * if the last label is found to be the entropy label and RFC6790 is enabled for this
- * port.
+ * port. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_mpls_sel_5_labelsx
 {
@@ -19990,7 +20042,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_MPLS_SEL_5_LABELSX(uint64
  * MCS Rs Cmcs Cpex Rx Slave Mpls Sel 6 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 6 labels. This register is reserved on
- * ingress.
+ * ingress. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_mpls_sel_6_labelsx
 {
@@ -20060,7 +20112,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_MPLS_SEL_6_LABELSX(uint64
  * MCS Rs Cmcs Cpex Rx Slave Mpls Sel 7 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 7 labels. This register is reserved on
- * ingress.
+ * ingress. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_mpls_sel_7_labelsx
 {
@@ -20134,7 +20186,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_MPLS_SEL_7_LABELSX(uint64
  * MCS Rs Cmcs Cpex Rx Slave Mpls Sel 8 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 8 labels. This register is reserved on
- * ingress.
+ * ingress. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_mpls_sel_8_labelsx
 {
@@ -20209,7 +20261,8 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_MPLS_SEL_8_LABELSX(uint64
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 9 labels or conditionally 10 labels if the
  * last label is found to be the entropy label and RFC6790 is enabled for this port.
- * This register is reserved on ingress.
+ * This register is reserved on ingress. Note - this register is only available and
+ * used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_mpls_sel_9_labelsx
 {
@@ -20293,7 +20346,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_MPLS_SEL_9_LABELSX(uint64
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_rfc6391_cfg
  *
  * MCS Rs Cmcs Cpex Rx Slave Rfc6391 Cfg Register
- * MPLS stack configuration
+ * MPLS stack configuration. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_rfc6391_cfg
 {
@@ -20333,7 +20386,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_RFC6391_CFG(uint64_t a)
  * Register (RSL) mcs#_rs_cmcs_cpex_rx_slave_rfc6790_cfg
  *
  * MCS Rs Cmcs Cpex Rx Slave Rfc6790 Cfg Register
- * MPLS stack configuration
+ * MPLS stack configuration. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_rx_slave_rfc6790_cfg
 {
@@ -20371,7 +20424,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_RX_SLAVE_RFC6790_CFG(uint64_t a)
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_btag_cfg
  *
  * MCS Rs Cmcs Cpex Tx Slave Btag Cfg Register
- * Configuration for PBB B-tag
+ * Configuration for PBB B-tag. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_btag_cfg
 {
@@ -20408,50 +20461,10 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_BTAG_CFG(uint64_t a)
 #define arguments_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_BTAG_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_cisco_egress_header_cfg
- *
- * MCS Rs Cmcs Cpex Tx Slave Cisco Egress Header Cfg Register
- * E-Type/TPID configuration for optional egress header tag
- */
-union cavm_mcsx_rs_cmcs_cpex_tx_slave_cisco_egress_header_cfg
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_cmcs_cpex_tx_slave_cisco_egress_header_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t cisco_egress_header   : 16; /**< [ 16:  1](R/W) EthType for Clear Tag Egress Header */
-        uint64_t cisco_egress_header_en : 1; /**< [  0:  0](R/W) Enable tx_clear_tag_header. Set to 1 to enable or 0 to disable. */
-#else /* Word 0 - Little Endian */
-        uint64_t cisco_egress_header_en : 1; /**< [  0:  0](R/W) Enable tx_clear_tag_header. Set to 1 to enable or 0 to disable. */
-        uint64_t cisco_egress_header   : 16; /**< [ 16:  1](R/W) EthType for Clear Tag Egress Header */
-        uint64_t reserved_17_63        : 47;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_rs_cmcs_cpex_tx_slave_cisco_egress_header_cfg_s cn; */
-};
-typedef union cavm_mcsx_rs_cmcs_cpex_tx_slave_cisco_egress_header_cfg cavm_mcsx_rs_cmcs_cpex_tx_slave_cisco_egress_header_cfg_t;
-
-static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(uint64_t a) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(uint64_t a)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
-        return 0x87e08005d060ll + 0x1000000ll * ((a) & 0x0);
-    __cavm_csr_fatal("MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG", 1, a, 0, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) cavm_mcsx_rs_cmcs_cpex_tx_slave_cisco_egress_header_cfg_t
-#define bustype_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) "MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG"
-#define device_bar_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) (a)
-#define arguments_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CISCO_EGRESS_HEADER_CFG(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_cpex_configuration
  *
  * MCS Rs Cmcs Cpex Tx Slave Cpex Configuration Register
- * General CPEX Configuration
+ * General CPEX Configuration. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_cpex_configuration
 {
@@ -20490,10 +20503,52 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(uint64
 #define arguments_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CPEX_CONFIGURATION(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_ct_egress_header_cfg
+ *
+ * MCS Rs Cmcs Cpex Tx Slave Ct Egress Header Cfg Register
+ * E-Type/TPID configuration for optional egress header tag. Note - this register is
+ * only available and used in CT mode
+ */
+union cavm_mcsx_rs_cmcs_cpex_tx_slave_ct_egress_header_cfg
+{
+    uint64_t u;
+    struct cavm_mcsx_rs_cmcs_cpex_tx_slave_ct_egress_header_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t ct_egress_header      : 16; /**< [ 16:  1](R/W) EthType for CT Egress Header */
+        uint64_t ct_egress_header_en   : 1;  /**< [  0:  0](R/W) Enable tx_clear_tag_header. Set to 1 to enable or 0 to disable. */
+#else /* Word 0 - Little Endian */
+        uint64_t ct_egress_header_en   : 1;  /**< [  0:  0](R/W) Enable tx_clear_tag_header. Set to 1 to enable or 0 to disable. */
+        uint64_t ct_egress_header      : 16; /**< [ 16:  1](R/W) EthType for CT Egress Header */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_mcsx_rs_cmcs_cpex_tx_slave_ct_egress_header_cfg_s cn; */
+};
+typedef union cavm_mcsx_rs_cmcs_cpex_tx_slave_ct_egress_header_cfg cavm_mcsx_rs_cmcs_cpex_tx_slave_ct_egress_header_cfg_t;
+
+static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
+        return 0x87e08005d060ll + 0x1000000ll * ((a) & 0x0);
+    __cavm_csr_fatal("MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG(a) cavm_mcsx_rs_cmcs_cpex_tx_slave_ct_egress_header_cfg_t
+#define bustype_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG(a) CSR_TYPE_RSL
+#define basename_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG(a) "MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG"
+#define device_bar_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG(a) (a)
+#define arguments_CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CT_EGRESS_HEADER_CFG(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_ctl_pkt_rule_cdp
  *
  * MCS Rs Cmcs Cpex Tx Slave Ctl Pkt Rule Cdp Register
- * MAC address to identify CDP or VTP VLAN Trunking Protocol packets
+ * MAC address to identify CDP or VTP VLAN Trunking Protocol packets. Note - this
+ * register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_ctl_pkt_rule_cdp
 {
@@ -20533,7 +20588,9 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CTL_PKT_RULE_CDP(uint64_t
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_ctl_pkt_rule_enable#
  *
  * MCS Rs Cmcs Cpex Tx Slave Ctl Pkt Rule Enable Register
- * Enable bits for rule based control packet matching for inner PBB and EoMPLS ethernet frames
+ * Enable bits for rule based control packet matching for inner PBB and EoMPLS ethernet
+ * frames. Note - this register is only available and used in CT mode. Note - this
+ * register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_ctl_pkt_rule_enablex
 {
@@ -20583,7 +20640,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_CTL_PKT_RULE_ENABLEX(uint
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_eli_label_cfg
  *
  * MCS Rs Cmcs Cpex Tx Slave Eli Label Cfg Register
- * MPLS stack configuration
+ * MPLS stack configuration. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_eli_label_cfg
 {
@@ -20621,7 +20678,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_ELI_LABEL_CFG(uint64_t a)
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_itag_cfg
  *
  * MCS Rs Cmcs Cpex Tx Slave Itag Cfg Register
- * Configuration for PBB I-tag
+ * Configuration for PBB I-tag. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_itag_cfg
 {
@@ -20662,7 +20719,8 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_ITAG_CFG(uint64_t a)
  *
  * MCS Rs Cmcs Cpex Tx Slave Mpls Sel 3 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
- * register is used when the set contains 3 labels.
+ * register is used when the set contains 3 labels. Note - this register is only
+ * available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_mpls_sel_3_labelsx
 {
@@ -20719,7 +20777,8 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_MPLS_SEL_3_LABELSX(uint64
  *
  * MCS Rs Cmcs Cpex Tx Slave Mpls Sel 4 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
- * register is used when the set contains 4 labels.
+ * register is used when the set contains 4 labels. Note - this register is only
+ * available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_mpls_sel_4_labelsx
 {
@@ -20778,7 +20837,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_MPLS_SEL_4_LABELSX(uint64
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 5 labels or conditionally 6 labels on ingress
  * if the last label is found to be the entropy label and RFC6790 is enabled for this
- * port.
+ * port. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_mpls_sel_5_labelsx
 {
@@ -20848,7 +20907,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_MPLS_SEL_5_LABELSX(uint64
  * MCS Rs Cmcs Cpex Tx Slave Mpls Sel 6 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 6 labels. This register is reserved on
- * ingress.
+ * ingress. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_mpls_sel_6_labelsx
 {
@@ -20918,7 +20977,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_MPLS_SEL_6_LABELSX(uint64
  * MCS Rs Cmcs Cpex Tx Slave Mpls Sel 7 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 7 labels. This register is reserved on
- * ingress.
+ * ingress. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_mpls_sel_7_labelsx
 {
@@ -20992,7 +21051,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_MPLS_SEL_7_LABELSX(uint64
  * MCS Rs Cmcs Cpex Tx Slave Mpls Sel 8 Labels Register
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 8 labels. This register is reserved on
- * ingress.
+ * ingress. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_mpls_sel_8_labelsx
 {
@@ -21067,7 +21126,8 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_MPLS_SEL_8_LABELSX(uint64
  * Selects which two mpls labels to extract from the set of parsed labels. This
  * register is used when the set contains 9 labels or conditionally 10 labels if the
  * last label is found to be the entropy label and RFC6790 is enabled for this port.
- * This register is reserved on ingress.
+ * This register is reserved on ingress. Note - this register is only available and
+ * used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_mpls_sel_9_labelsx
 {
@@ -21151,7 +21211,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_MPLS_SEL_9_LABELSX(uint64
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_rfc6391_cfg
  *
  * MCS Rs Cmcs Cpex Tx Slave Rfc6391 Cfg Register
- * MPLS stack configuration
+ * MPLS stack configuration. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_rfc6391_cfg
 {
@@ -21191,7 +21251,7 @@ static inline uint64_t CAVM_MCSX_RS_CMCS_CPEX_TX_SLAVE_RFC6391_CFG(uint64_t a)
  * Register (RSL) mcs#_rs_cmcs_cpex_tx_slave_rfc6790_cfg
  *
  * MCS Rs Cmcs Cpex Tx Slave Rfc6790 Cfg Register
- * MPLS stack configuration
+ * MPLS stack configuration. Note - this register is only available and used in CT mode
  */
 union cavm_mcsx_rs_cmcs_cpex_tx_slave_rfc6790_cfg
 {
@@ -21684,15 +21744,13 @@ union cavm_mcsx_rs_mcs_bbe_rx_slave_fifo_credit_cfgx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W) The number of credits to issue to the BBE for each port.  It relates to how much
-                                                                 space is allocated in each of the PAB's Data FIFO.
-                                                                 Note that if Full-Packet mode is active, essentially only 1 FIFO is used for all
-                                                                 ports, and only port 0 of this register should be accessed. */
+        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W) The number of credits to issue to the BBE for each port. A port is elligible for
+                                                                 scheduling in the BBE when
+                                                                 there are at least two credits available. This value should not be set lower than 7 */
 #else /* Word 0 - Little Endian */
-        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W) The number of credits to issue to the BBE for each port.  It relates to how much
-                                                                 space is allocated in each of the PAB's Data FIFO.
-                                                                 Note that if Full-Packet mode is active, essentially only 1 FIFO is used for all
-                                                                 ports, and only port 0 of this register should be accessed. */
+        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W) The number of credits to issue to the BBE for each port. A port is elligible for
+                                                                 scheduling in the BBE when
+                                                                 there are at least two credits available. This value should not be set lower than 7 */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
@@ -21810,14 +21868,14 @@ union cavm_mcsx_rs_mcs_bbe_rx_slave_global_credit_adjust_value
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t value                 : 10; /**< [  9:  0](R/W) This allows software to adjust global credit count after a port reset where some
-                                                                 credits of that port may have lost.
+        uint64_t value                 : 10; /**< [  9:  0](R/W) This allows software to adjust global credit count after a port reset where
+                                                                 some credits of that port may have lost.
                                                                  When 1 is written to the [GLOBAL_CREDIT_ADJUST_GO] register, the global credit
                                                                  counter will be incremented by the amount
                                                                  as stored in this register. */
 #else /* Word 0 - Little Endian */
-        uint64_t value                 : 10; /**< [  9:  0](R/W) This allows software to adjust global credit count after a port reset where some
-                                                                 credits of that port may have lost.
+        uint64_t value                 : 10; /**< [  9:  0](R/W) This allows software to adjust global credit count after a port reset where
+                                                                 some credits of that port may have lost.
                                                                  When 1 is written to the [GLOBAL_CREDIT_ADJUST_GO] register, the global credit
                                                                  counter will be incremented by the amount
                                                                  as stored in this register. */
@@ -21856,15 +21914,13 @@ union cavm_mcsx_rs_mcs_bbe_rx_slave_global_credit_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t value                 : 10; /**< [  9:  0](R/W) The initial amount of global credits assigned to PAB's FIFO.  This value is
-                                                                 based on PAB's FIFO depth and whether Full-packet mode is active.
-                                                                 Software must reprogram this register separately in each Tx/Rx direction.  For
-                                                                 instance, this value should be set to 940 in Rx, and 49 in Tx */
+        uint64_t value                 : 10; /**< [  9:  0](R/W) The initial amount of global credits assigned to PAB's FIFO.  Global credits
+                                                                 represent a shared pool of resources across all ports.
+                                                                 A port is elligible for scheduling in the BBE if there is at least 2 global credits available. */
 #else /* Word 0 - Little Endian */
-        uint64_t value                 : 10; /**< [  9:  0](R/W) The initial amount of global credits assigned to PAB's FIFO.  This value is
-                                                                 based on PAB's FIFO depth and whether Full-packet mode is active.
-                                                                 Software must reprogram this register separately in each Tx/Rx direction.  For
-                                                                 instance, this value should be set to 940 in Rx, and 49 in Tx */
+        uint64_t value                 : 10; /**< [  9:  0](R/W) The initial amount of global credits assigned to PAB's FIFO.  Global credits
+                                                                 represent a shared pool of resources across all ports.
+                                                                 A port is elligible for scheduling in the BBE if there is at least 2 global credits available. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
@@ -22594,15 +22650,13 @@ union cavm_mcsx_rs_mcs_bbe_tx_slave_fifo_credit_cfg_0
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W) The number of credits to issue to the BBE for each port.  It relates to how much
-                                                                 space is allocated in each of the PAB's Data FIFO.
-                                                                 Note that if Full-Packet mode is active, essentially only 1 FIFO is used for all
-                                                                 ports, and only port 0 of this register should be accessed. */
+        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W) The number of credits to issue to the BBE for each port. A port is elligible for
+                                                                 scheduling in the BBE when
+                                                                 there are at least two credits available. This value should not be set lower than 7 */
 #else /* Word 0 - Little Endian */
-        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W) The number of credits to issue to the BBE for each port.  It relates to how much
-                                                                 space is allocated in each of the PAB's Data FIFO.
-                                                                 Note that if Full-Packet mode is active, essentially only 1 FIFO is used for all
-                                                                 ports, and only port 0 of this register should be accessed. */
+        uint64_t credit_cnt            : 10; /**< [  9:  0](R/W) The number of credits to issue to the BBE for each port. A port is elligible for
+                                                                 scheduling in the BBE when
+                                                                 there are at least two credits available. This value should not be set lower than 7 */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
@@ -22720,14 +22774,14 @@ union cavm_mcsx_rs_mcs_bbe_tx_slave_global_credit_adjust_value
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t value                 : 10; /**< [  9:  0](R/W) This allows software to adjust global credit count after a port reset where some
-                                                                 credits of that port may have lost.
+        uint64_t value                 : 10; /**< [  9:  0](R/W) This allows software to adjust global credit count after a port reset where
+                                                                 some credits of that port may have lost.
                                                                  When 1 is written to the [GLOBAL_CREDIT_ADJUST_GO] register, the global credit
                                                                  counter will be incremented by the amount
                                                                  as stored in this register. */
 #else /* Word 0 - Little Endian */
-        uint64_t value                 : 10; /**< [  9:  0](R/W) This allows software to adjust global credit count after a port reset where some
-                                                                 credits of that port may have lost.
+        uint64_t value                 : 10; /**< [  9:  0](R/W) This allows software to adjust global credit count after a port reset where
+                                                                 some credits of that port may have lost.
                                                                  When 1 is written to the [GLOBAL_CREDIT_ADJUST_GO] register, the global credit
                                                                  counter will be incremented by the amount
                                                                  as stored in this register. */
@@ -22766,15 +22820,13 @@ union cavm_mcsx_rs_mcs_bbe_tx_slave_global_credit_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
-        uint64_t value                 : 10; /**< [  9:  0](R/W) The initial amount of global credits assigned to PAB's FIFO.  This value is
-                                                                 based on PAB's FIFO depth and whether Full-packet mode is active.
-                                                                 Software must reprogram this register separately in each Tx/Rx direction.  For
-                                                                 instance, this value should be set to 940 in Rx, and 49 in Tx */
+        uint64_t value                 : 10; /**< [  9:  0](R/W) The initial amount of global credits assigned to PAB's FIFO.  Global credits
+                                                                 represent a shared pool of resources across all ports.
+                                                                 A port is elligible for scheduling in the BBE if there is at least 2 global credits available. */
 #else /* Word 0 - Little Endian */
-        uint64_t value                 : 10; /**< [  9:  0](R/W) The initial amount of global credits assigned to PAB's FIFO.  This value is
-                                                                 based on PAB's FIFO depth and whether Full-packet mode is active.
-                                                                 Software must reprogram this register separately in each Tx/Rx direction.  For
-                                                                 instance, this value should be set to 940 in Rx, and 49 in Tx */
+        uint64_t value                 : 10; /**< [  9:  0](R/W) The initial amount of global credits assigned to PAB's FIFO.  Global credits
+                                                                 represent a shared pool of resources across all ports.
+                                                                 A port is elligible for scheduling in the BBE if there is at least 2 global credits available. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
@@ -23458,6 +23510,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_ENABLE_RXMCS_INSERTIONX(uin
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_flowid_tcam_data_0#
  *
  * MCS Rs Mcs Cpm Rx Slave Flowid Tcam Data 0 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * Flow ID TCAM - 128x212: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -23503,6 +23557,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_FLOWID_TCAM_DATA_0X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_flowid_tcam_data_1#
  *
  * MCS Rs Mcs Cpm Rx Slave Flowid Tcam Data 1 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * Flow ID TCAM - 128x212: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -23518,13 +23574,13 @@ union cavm_mcsx_rs_mcs_cpm_rx_slave_flowid_tcam_data_1x
     struct cavm_mcsx_rs_mcs_cpm_rx_slave_flowid_tcam_data_1x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t outer_tag_id          : 16; /**< [ 63: 48](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
+        uint64_t outer_tag_id          : 16; /**< [ 63: 48](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
         uint64_t ether_type            : 16; /**< [ 47: 32](R/W) First E-Type found in the packet that doesn't match one of the preconfigured VLAN values. */
         uint64_t mac_sa                : 32; /**< [ 31:  0](R/W) MAC SA field extracted from the packet */
 #else /* Word 0 - Little Endian */
         uint64_t mac_sa                : 32; /**< [ 31:  0](R/W) MAC SA field extracted from the packet */
         uint64_t ether_type            : 16; /**< [ 47: 32](R/W) First E-Type found in the packet that doesn't match one of the preconfigured VLAN values. */
-        uint64_t outer_tag_id          : 16; /**< [ 63: 48](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
+        uint64_t outer_tag_id          : 16; /**< [ 63: 48](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cpm_rx_slave_flowid_tcam_data_1x_s cn; */
@@ -23550,6 +23606,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_FLOWID_TCAM_DATA_1X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_flowid_tcam_data_2#
  *
  * MCS Rs Mcs Cpm Rx Slave Flowid Tcam Data 2 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * Flow ID TCAM - 128x212: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -23575,15 +23633,15 @@ union cavm_mcsx_rs_mcs_cpm_rx_slave_flowid_tcam_data_2x
         uint64_t tag_match_bitmap      : 8;  /**< [ 55: 48](R/W) Maps 1 to 1 with the set of configurable Etype CSRs and set when the associated
                                                                  E-Type (or TPID) was found in the packet. */
         uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) 2 bytes of additional bonus data. */
-        uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} or {1'b0, EXP} for MPLS. */
-        uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
-        uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} or {1'b0, EXP} for MPLS. */
-        uint64_t outer_tag_id          : 4;  /**< [  3:  0](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
+        uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} */
+        uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
+        uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} */
+        uint64_t outer_tag_id          : 4;  /**< [  3:  0](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
 #else /* Word 0 - Little Endian */
-        uint64_t outer_tag_id          : 4;  /**< [  3:  0](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
-        uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} or {1'b0, EXP} for MPLS. */
-        uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
-        uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} or {1'b0, EXP} for MPLS. */
+        uint64_t outer_tag_id          : 4;  /**< [  3:  0](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
+        uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} */
+        uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
+        uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} */
         uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) 2 bytes of additional bonus data. */
         uint64_t tag_match_bitmap      : 8;  /**< [ 55: 48](R/W) Maps 1 to 1 with the set of configurable Etype CSRs and set when the associated
                                                                  E-Type (or TPID) was found in the packet. */
@@ -23619,6 +23677,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_FLOWID_TCAM_DATA_2X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_flowid_tcam_data_3#
  *
  * MCS Rs Mcs Cpm Rx Slave Flowid Tcam Data 3 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * Flow ID TCAM - 128x212: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -23635,29 +23695,25 @@ union cavm_mcsx_rs_mcs_cpm_rx_slave_flowid_tcam_data_3x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t port                  : 5;  /**< [ 19: 15](R/W) Port number, 0-3 */
+        uint64_t port                  : 5;  /**< [ 19: 15](R/W) Port number, 0-19 */
         uint64_t express               : 1;  /**< [ 14: 14](R/W) Express packet. */
         uint64_t flowid_user_field     : 5;  /**< [ 13:  9](R/W) User-Defined Flow_ID */
-        uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags or MPLS labels before the SecTAG, excluding the Rx/Tx-MCS header tags.
-                                                                 Bit 0: no tags/labels before SecTAG
-                                                                 Bit 1: 1 tag/label before SecTAG
-                                                                 Bit 2: 2 tags/labels before SecTAG
-                                                                 Bit 3: 3 labels before SecTAG
-                                                                 Bit 4: 4 or more labels before SecTAG
-                                                                 Bit 5-6: Reserved. */
+        uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags before the SecTAG, excluding the Rx/Tx-MCS header tags.
+                                                                 Bit 0: no tags before SecTAG
+                                                                 Bit 1: 1 tag before SecTAG
+                                                                 Bit 2: 2 tags before SecTAG
+                                                                 Bit 3-6: Reserved. */
         uint64_t inner_vlan_type       : 2;  /**< [  1:  0](R/W) Encoded value indicating which VLAN TPID value matched for the second outermost VLAN Tag. */
 #else /* Word 0 - Little Endian */
         uint64_t inner_vlan_type       : 2;  /**< [  1:  0](R/W) Encoded value indicating which VLAN TPID value matched for the second outermost VLAN Tag. */
-        uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags or MPLS labels before the SecTAG, excluding the Rx/Tx-MCS header tags.
-                                                                 Bit 0: no tags/labels before SecTAG
-                                                                 Bit 1: 1 tag/label before SecTAG
-                                                                 Bit 2: 2 tags/labels before SecTAG
-                                                                 Bit 3: 3 labels before SecTAG
-                                                                 Bit 4: 4 or more labels before SecTAG
-                                                                 Bit 5-6: Reserved. */
+        uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags before the SecTAG, excluding the Rx/Tx-MCS header tags.
+                                                                 Bit 0: no tags before SecTAG
+                                                                 Bit 1: 1 tag before SecTAG
+                                                                 Bit 2: 2 tags before SecTAG
+                                                                 Bit 3-6: Reserved. */
         uint64_t flowid_user_field     : 5;  /**< [ 13:  9](R/W) User-Defined Flow_ID */
         uint64_t express               : 1;  /**< [ 14: 14](R/W) Express packet. */
-        uint64_t port                  : 5;  /**< [ 19: 15](R/W) Port number, 0-3 */
+        uint64_t port                  : 5;  /**< [ 19: 15](R/W) Port number, 0-19 */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -23684,6 +23740,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_FLOWID_TCAM_DATA_3X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_flowid_tcam_mask_0#
  *
  * MCS Rs Mcs Cpm Rx Slave Flowid Tcam Mask 0 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * Flow ID TCAM_MASK - 128x212 : Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -23723,6 +23781,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_FLOWID_TCAM_MASK_0X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_flowid_tcam_mask_1#
  *
  * MCS Rs Mcs Cpm Rx Slave Flowid Tcam Mask 1 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * Flow ID TCAM_MASK - 128x212 : Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -23764,6 +23824,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_FLOWID_TCAM_MASK_1X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_flowid_tcam_mask_2#
  *
  * MCS Rs Mcs Cpm Rx Slave Flowid Tcam Mask 2 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * Flow ID TCAM_MASK - 128x212 : Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -23817,6 +23879,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_FLOWID_TCAM_MASK_2X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_flowid_tcam_mask_3#
  *
  * MCS Rs Mcs Cpm Rx Slave Flowid Tcam Mask 3 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * Flow ID TCAM_MASK - 128x212 : Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -25015,6 +25079,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_SECY_MAP_MEMX(uint64_t a, u
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_secy_plcy_mem_0#
  *
  * MCS Rs Mcs Cpm Rx Slave Secy Plcy Mem 0 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * SecY Policy Memory - 128x70 : The SecY Policy Table is indexed by the SecY obtained
  * from the SecY Map table (aka Flow-ID policy/map) above.  Each entry consists of the
  * following information:
@@ -25032,9 +25098,7 @@ union cavm_mcsx_rs_mcs_cpm_rx_slave_secy_plcy_mem_0x
         uint64_t replay_protect        : 1;  /**< [ 17: 17](R/W) Enables Anti-Replay protection */
         uint64_t pre_sectag_auth_enable : 1; /**< [ 16: 16](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
                                                                  calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+                                                                 clear require the DA+SA to be included in the authentication. */
         uint64_t confidentiality_offset : 7; /**< [ 15:  9](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
         uint64_t cipher                : 4;  /**< [  8:  5](R/W) Defines the cipher suite to use for this SecY
                                                                  This is an enum with the following supported options:
@@ -25076,9 +25140,7 @@ union cavm_mcsx_rs_mcs_cpm_rx_slave_secy_plcy_mem_0x
         uint64_t confidentiality_offset : 7; /**< [ 15:  9](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
         uint64_t pre_sectag_auth_enable : 1; /**< [ 16: 16](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
                                                                  calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+                                                                 clear require the DA+SA to be included in the authentication. */
         uint64_t replay_protect        : 1;  /**< [ 17: 17](R/W) Enables Anti-Replay protection */
         uint64_t replay_window         : 32; /**< [ 49: 18](R/W) Unsigned value indicating the size of the anti-replay window. The incoming
                                                                  packet PN must be greater than or equal to  the associated next_pn
@@ -25109,6 +25171,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_RX_SLAVE_SECY_PLCY_MEM_0X(uint64_t a
  * Register (RSL) mcs#_rs_mcs_cpm_rx_slave_secy_plcy_mem_1#
  *
  * MCS Rs Mcs Cpm Rx Slave Secy Plcy Mem 1 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_RX_SLAVE is used instead.
  * SecY Policy Memory - 128x70 : The SecY Policy Table is indexed by the SecY obtained
  * from the SecY Map table (aka Flow-ID policy/map) above.  Each entry consists of the
  * following information:
@@ -25474,6 +25538,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_DEBUG_STATUS(uint64_t a)
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_flowid_tcam_data_0#
  *
  * MCS Rs Mcs Cpm Tx Slave Flowid Tcam Data 0 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * Flow ID TCAM - 128x212: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -25519,6 +25585,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_FLOWID_TCAM_DATA_0X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_flowid_tcam_data_1#
  *
  * MCS Rs Mcs Cpm Tx Slave Flowid Tcam Data 1 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * Flow ID TCAM - 128x212: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -25534,13 +25602,13 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_flowid_tcam_data_1x
     struct cavm_mcsx_rs_mcs_cpm_tx_slave_flowid_tcam_data_1x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t outer_tag_id          : 16; /**< [ 63: 48](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
+        uint64_t outer_tag_id          : 16; /**< [ 63: 48](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
         uint64_t ether_type            : 16; /**< [ 47: 32](R/W) First E-Type found in the packet that doesn't match one of the preconfigured VLAN values. */
         uint64_t mac_sa                : 32; /**< [ 31:  0](R/W) MAC SA field extracted from the packet */
 #else /* Word 0 - Little Endian */
         uint64_t mac_sa                : 32; /**< [ 31:  0](R/W) MAC SA field extracted from the packet */
         uint64_t ether_type            : 16; /**< [ 47: 32](R/W) First E-Type found in the packet that doesn't match one of the preconfigured VLAN values. */
-        uint64_t outer_tag_id          : 16; /**< [ 63: 48](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
+        uint64_t outer_tag_id          : 16; /**< [ 63: 48](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cpm_tx_slave_flowid_tcam_data_1x_s cn; */
@@ -25566,6 +25634,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_FLOWID_TCAM_DATA_1X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_flowid_tcam_data_2#
  *
  * MCS Rs Mcs Cpm Tx Slave Flowid Tcam Data 2 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * Flow ID TCAM - 128x212: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -25591,15 +25661,15 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_flowid_tcam_data_2x
         uint64_t tag_match_bitmap      : 8;  /**< [ 55: 48](R/W) Maps 1 to 1 with the set of configurable Etype CSRs and set when the associated
                                                                  E-Type (or TPID) was found in the first 6 tags of the packet. */
         uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) 2 bytes of additional bonus data. */
-        uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} or {1'b0, EXP} for MPLS. */
-        uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
-        uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} or {1'b0, EXP} for MPLS. */
-        uint64_t outer_tag_id          : 4;  /**< [  3:  0](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
+        uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} */
+        uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
+        uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} */
+        uint64_t outer_tag_id          : 4;  /**< [  3:  0](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
 #else /* Word 0 - Little Endian */
-        uint64_t outer_tag_id          : 4;  /**< [  3:  0](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
-        uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} or {1'b0, EXP} for MPLS. */
-        uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]}, or 20-bit MPLS label. */
-        uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} or {1'b0, EXP} for MPLS. */
+        uint64_t outer_tag_id          : 4;  /**< [  3:  0](R/W) Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
+        uint64_t outer_priority        : 4;  /**< [  7:  4](R/W) Outermost VLAN {PCP/Pbits, DE/CFI} */
+        uint64_t second_outer_tag_id   : 20; /**< [ 27:  8](R/W) 2nd Outermost VLAN ID {8'd0, VLAN_ID[11:0]} */
+        uint64_t second_outer_priority : 4;  /**< [ 31: 28](R/W) 2nd Outermost VLAN {PCP/Pbits, DE/CFI} */
         uint64_t bonus_data            : 16; /**< [ 47: 32](R/W) 2 bytes of additional bonus data. */
         uint64_t tag_match_bitmap      : 8;  /**< [ 55: 48](R/W) Maps 1 to 1 with the set of configurable Etype CSRs and set when the associated
                                                                  E-Type (or TPID) was found in the first 6 tags of the packet. */
@@ -25635,6 +25705,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_FLOWID_TCAM_DATA_2X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_flowid_tcam_data_3#
  *
  * MCS Rs Mcs Cpm Tx Slave Flowid Tcam Data 3 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * Flow ID TCAM - 128x212: With standard MACsec, a Security Association can only be
  * associated with a port.  WAN based MACsec allows different flows on the same port to
  * support different SecYs and Security Associations (SA) greatly expanding upon its
@@ -25651,29 +25723,25 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_flowid_tcam_data_3x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t port                  : 5;  /**< [ 19: 15](R/W) Port number, 0-3. */
+        uint64_t port                  : 5;  /**< [ 19: 15](R/W) Port number, 0-19. */
         uint64_t express               : 1;  /**< [ 14: 14](R/W) Express packet. */
         uint64_t flowid_user_field     : 5;  /**< [ 13:  9](R/W) User-Defined Flow_ID */
-        uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags or MPLS labels before the SecTAG, excluding the Rx/Tx-MCS header tags.
-                                                                 Bit 0: no tags/labels before SecTAG
-                                                                 Bit 1: 1 tag/label before SecTAG
-                                                                 Bit 2: 2 tags/labels before SecTAG
-                                                                 Bit 3: 3 labels before SecTAG
-                                                                 Bit 4: 4 or more labels before SecTAG.
-                                                                 Bit 5-6: Reserved */
+        uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags before the SecTAG, excluding the Rx/Tx-MCS header tags.
+                                                                 Bit 0: no tags before SecTAG
+                                                                 Bit 1: 1 tag before SecTAG
+                                                                 Bit 2: 2 tags before SecTAG
+                                                                 Bit 3-6: Reserved. */
         uint64_t inner_vlan_type       : 2;  /**< [  1:  0](R/W) Encoded value indicating which VLAN TPID value matched for the second outermost VLAN Tag. */
 #else /* Word 0 - Little Endian */
         uint64_t inner_vlan_type       : 2;  /**< [  1:  0](R/W) Encoded value indicating which VLAN TPID value matched for the second outermost VLAN Tag. */
-        uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags or MPLS labels before the SecTAG, excluding the Rx/Tx-MCS header tags.
-                                                                 Bit 0: no tags/labels before SecTAG
-                                                                 Bit 1: 1 tag/label before SecTAG
-                                                                 Bit 2: 2 tags/labels before SecTAG
-                                                                 Bit 3: 3 labels before SecTAG
-                                                                 Bit 4: 4 or more labels before SecTAG.
-                                                                 Bit 5-6: Reserved */
+        uint64_t num_tags              : 7;  /**< [  8:  2](R/W) Number of VLAN tags before the SecTAG, excluding the Rx/Tx-MCS header tags.
+                                                                 Bit 0: no tags before SecTAG
+                                                                 Bit 1: 1 tag before SecTAG
+                                                                 Bit 2: 2 tags before SecTAG
+                                                                 Bit 3-6: Reserved. */
         uint64_t flowid_user_field     : 5;  /**< [ 13:  9](R/W) User-Defined Flow_ID */
         uint64_t express               : 1;  /**< [ 14: 14](R/W) Express packet. */
-        uint64_t port                  : 5;  /**< [ 19: 15](R/W) Port number, 0-3. */
+        uint64_t port                  : 5;  /**< [ 19: 15](R/W) Port number, 0-19. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
@@ -25700,6 +25768,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_FLOWID_TCAM_DATA_3X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_flowid_tcam_mask_0#
  *
  * MCS Rs Mcs Cpm Tx Slave Flowid Tcam Mask 0 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * Flow ID TCAM_MASK - 128x212 : Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -25739,6 +25809,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_FLOWID_TCAM_MASK_0X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_flowid_tcam_mask_1#
  *
  * MCS Rs Mcs Cpm Tx Slave Flowid Tcam Mask 1 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * Flow ID TCAM_MASK - 128x212 : Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -25780,6 +25852,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_FLOWID_TCAM_MASK_1X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_flowid_tcam_mask_2#
  *
  * MCS Rs Mcs Cpm Tx Slave Flowid Tcam Mask 2 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * Flow ID TCAM_MASK - 128x212 : Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -25833,6 +25907,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_FLOWID_TCAM_MASK_2X(uint64_
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_flowid_tcam_mask_3#
  *
  * MCS Rs Mcs Cpm Tx Slave Flowid Tcam Mask 3 Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * Flow ID TCAM_MASK - 128x212 : Set mask bit to 1 to mask/exclude corresponding
  * flowid_tcam_data bit from compare.  ie. that bit will result in a match.
  */
@@ -25989,16 +26065,15 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_sa_map_mem_0x
     struct cavm_mcsx_rs_mcs_cpm_tx_slave_sa_map_mem_0x_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sectag_sci            : 42; /**< [ 63: 22](R/W) Identifies the SecTAG SCI for this Flow. */
-        uint64_t tx_sa_active          : 1;  /**< [ 21: 21](R/W) Per SC, SA Active indicator determines which of 2 possible SAs associated to the
-                                                                 corresponding SC is currently the active SA. If set, then sa_index1 (SA MAP
-                                                                 memory) is the currently active SA index.  If cleared, the sa_index0 (SA MAP
-                                                                 memory) is the currently active SA index). */
-        uint64_t sa_index1_vld         : 1;  /**< [ 20: 20](R/W) When set, indicates that the corresponding SC's SA index1 (SA MAP memory) is valid. */
-        uint64_t sa_index0_vld         : 1;  /**< [ 19: 19](R/W) When set, indicates that the corresponding SC's SA index0 (SA MAP memory) is valid. */
+        uint64_t sectag_sci            : 42; /**< [ 63: 22](R/W) Identifies the SecTAG SCI for this secure channel. */
+        uint64_t tx_sa_active          : 1;  /**< [ 21: 21](R/W) Indicates which of the two (sa_index0, sa_index1) SAs for this SC is active. If
+                                                                 set, then sa_index1 is the currently active SA index.  If cleared, the sa_index0
+                                                                 is the currently active SA index. */
+        uint64_t sa_index1_vld         : 1;  /**< [ 20: 20](R/W) When set, indicates that the corresponding SC's SA index1 (sa_index1) is valid. */
+        uint64_t sa_index0_vld         : 1;  /**< [ 19: 19](R/W) When set, indicates that the corresponding SC's SA index0 (sa_index0) is valid. */
         uint64_t auto_rekey_enable     : 1;  /**< [ 18: 18](R/W) Per SC auto rekey enable. If enabled, then once the pn_threshold is reached,
                                                                  auto rekey will happen.  On rekey, the inactive SA becomes the active SA.  The
-                                                                 old SA becomes invalidated (tx_sa_vld bit is cleared).  Note that when Auto-
+                                                                 old SA becomes invalidated (sa_index*_vld bit is cleared).  Note that when Auto-
                                                                  Rekey reaches the PN Rekey threshold, it can consume up to 4 more PN's (i.e., 4
                                                                  more packets) before re-keying to the next SA. */
         uint64_t reserved_17           : 1;
@@ -26012,16 +26087,15 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_sa_map_mem_0x
         uint64_t reserved_17           : 1;
         uint64_t auto_rekey_enable     : 1;  /**< [ 18: 18](R/W) Per SC auto rekey enable. If enabled, then once the pn_threshold is reached,
                                                                  auto rekey will happen.  On rekey, the inactive SA becomes the active SA.  The
-                                                                 old SA becomes invalidated (tx_sa_vld bit is cleared).  Note that when Auto-
+                                                                 old SA becomes invalidated (sa_index*_vld bit is cleared).  Note that when Auto-
                                                                  Rekey reaches the PN Rekey threshold, it can consume up to 4 more PN's (i.e., 4
                                                                  more packets) before re-keying to the next SA. */
-        uint64_t sa_index0_vld         : 1;  /**< [ 19: 19](R/W) When set, indicates that the corresponding SC's SA index0 (SA MAP memory) is valid. */
-        uint64_t sa_index1_vld         : 1;  /**< [ 20: 20](R/W) When set, indicates that the corresponding SC's SA index1 (SA MAP memory) is valid. */
-        uint64_t tx_sa_active          : 1;  /**< [ 21: 21](R/W) Per SC, SA Active indicator determines which of 2 possible SAs associated to the
-                                                                 corresponding SC is currently the active SA. If set, then sa_index1 (SA MAP
-                                                                 memory) is the currently active SA index.  If cleared, the sa_index0 (SA MAP
-                                                                 memory) is the currently active SA index). */
-        uint64_t sectag_sci            : 42; /**< [ 63: 22](R/W) Identifies the SecTAG SCI for this Flow. */
+        uint64_t sa_index0_vld         : 1;  /**< [ 19: 19](R/W) When set, indicates that the corresponding SC's SA index0 (sa_index0) is valid. */
+        uint64_t sa_index1_vld         : 1;  /**< [ 20: 20](R/W) When set, indicates that the corresponding SC's SA index1 (sa_index1) is valid. */
+        uint64_t tx_sa_active          : 1;  /**< [ 21: 21](R/W) Indicates which of the two (sa_index0, sa_index1) SAs for this SC is active. If
+                                                                 set, then sa_index1 is the currently active SA index.  If cleared, the sa_index0
+                                                                 is the currently active SA index. */
+        uint64_t sectag_sci            : 42; /**< [ 63: 22](R/W) Identifies the SecTAG SCI for this secure channel. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cpm_tx_slave_sa_map_mem_0x_s cn; */
@@ -26059,9 +26133,9 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_sa_map_mem_1x
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_22_63        : 42;
-        uint64_t sectag_sci            : 22; /**< [ 21:  0](R/W) Identifies the SecTAG SCI for this Flow. */
+        uint64_t sectag_sci            : 22; /**< [ 21:  0](R/W) Identifies the SecTAG SCI for this secure channel. */
 #else /* Word 0 - Little Endian */
-        uint64_t sectag_sci            : 22; /**< [ 21:  0](R/W) Identifies the SecTAG SCI for this Flow. */
+        uint64_t sectag_sci            : 22; /**< [ 21:  0](R/W) Identifies the SecTAG SCI for this secure channel. */
         uint64_t reserved_22_63        : 42;
 #endif /* Word 0 - End */
     } s;
@@ -26548,6 +26622,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CPM_TX_SLAVE_SECY_MAP_MEMX(uint64_t a, u
  * Register (RSL) mcs#_rs_mcs_cpm_tx_slave_secy_plcy_mem#
  *
  * MCS Rs Mcs Cpm Tx Slave Secy Plcy Mem Register
+ * This register is unused in CT mode. The register by the same name in the
+ * CMCS_CCPM_TX_SLAVE is used instead.
  * SecY Policy Memory - 128x122 : The SecY Policy Table is indexed by the SecY obtained
  * from the SecY Map table (aka Flow-ID policy/map) above.  Each entry consists of the
  * following information:
@@ -26573,8 +26649,10 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_secy_plcy_memx
                                                                     This field defines the offset in bytes from a matching Etype
                                                                  If sectag_insert_mode is set to "Fixed Offset Mode":
                                                                     This field defines the offset in bytes from from the start of the MAC_DA of the packet.
-                                                                    If an 8B prepended header is present, then the CPM will add the 8 to this
-                                                                 field before sending to the BBE. */
+                                                                    If a TX MCS header is present, then the CPM will add the value in the
+                                                                 FIXED_OFFSET_ADJUST register to this field before sending to the BBE.
+                                                                    If there are n 8B prepended headers present, then the CPM will add n*8 to
+                                                                 this field before sending to the BBE. */
         uint64_t sectag_insert_mode    : 1;  /**< [ 14: 14](R/W) Defines how to handle SecTag insertion on egress. 0= SecTag is inserted at
                                                                  SecTag_Offset bytes following an E-Type matching a special E-Type value
                                                                  (Relative Offset Mode).
@@ -26582,9 +26660,7 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_secy_plcy_memx
                                                                  (Fixed Offset Mode). */
         uint64_t pre_sectag_auth_enable : 1; /**< [ 13: 13](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
                                                                  calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+                                                                 clear require the DA+SA to be included in the authentication. */
         uint64_t confidentiality_offset : 7; /**< [ 12:  6](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
         uint64_t cipher                : 4;  /**< [  5:  2](R/W) Defines the cipher suite to use for this SecY
                                                                  This is an enum with the following supported options:
@@ -26612,9 +26688,7 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_secy_plcy_memx
         uint64_t confidentiality_offset : 7; /**< [ 12:  6](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
         uint64_t pre_sectag_auth_enable : 1; /**< [ 13: 13](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
                                                                  calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+                                                                 clear require the DA+SA to be included in the authentication. */
         uint64_t sectag_insert_mode    : 1;  /**< [ 14: 14](R/W) Defines how to handle SecTag insertion on egress. 0= SecTag is inserted at
                                                                  SecTag_Offset bytes following an E-Type matching a special E-Type value
                                                                  (Relative Offset Mode).
@@ -26625,8 +26699,10 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_secy_plcy_memx
                                                                     This field defines the offset in bytes from a matching Etype
                                                                  If sectag_insert_mode is set to "Fixed Offset Mode":
                                                                     This field defines the offset in bytes from from the start of the MAC_DA of the packet.
-                                                                    If an 8B prepended header is present, then the CPM will add the 8 to this
-                                                                 field before sending to the BBE. */
+                                                                    If a TX MCS header is present, then the CPM will add the value in the
+                                                                 FIXED_OFFSET_ADJUST register to this field before sending to the BBE.
+                                                                    If there are n 8B prepended headers present, then the CPM will add n*8 to
+                                                                 this field before sending to the BBE. */
         uint64_t sectag_tci            : 6;  /**< [ 27: 22](R/W) Tag Control Information excluding the AN field which originates from the SA
                                                                  Policy table. This field is inserted into the SecTag of the outgoing packet. */
         uint64_t mtu                   : 16; /**< [ 43: 28](R/W) Specifies the outgoing maximum transmission unit (MTU) in bytes for this SecY.
@@ -26658,8 +26734,10 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_secy_plcy_memx
                                                                     This field defines the offset in bytes from a matching Etype
                                                                  If sectag_insert_mode is set to "Fixed Offset Mode":
                                                                     This field defines the offset in bytes from from the start of the MAC_DA of the packet.
-                                                                    If an 8B prepended header is present, then the CPM will add the 8 to this
-                                                                 field before sending to the BBE. */
+                                                                    If a TX MCS header is present, then the CPM will add the value in the
+                                                                 FIXED_OFFSET_ADJUST register to this field before sending to the BBE.
+                                                                    If there are n 8B prepended headers present, then the CPM will add n*8 to
+                                                                 this field before sending to the BBE. */
         uint64_t sectag_insert_mode    : 1;  /**< [ 14: 14](R/W) Defines how to handle SecTag insertion on egress. 0= SecTag is inserted at
                                                                  SecTag_Offset bytes following an E-Type matching a special E-Type value
                                                                  (Relative Offset Mode).
@@ -26667,9 +26745,7 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_secy_plcy_memx
                                                                  (Fixed Offset Mode). */
         uint64_t pre_sectag_auth_enable : 1; /**< [ 13: 13](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
                                                                  calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+                                                                 clear require the DA+SA to be included in the authentication. */
         uint64_t confidentiality_offset : 7; /**< [ 12:  6](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
         uint64_t cipher                : 4;  /**< [  5:  2](R/W) Defines the cipher suite to use for this SecY
                                                                  This is an enum with the following supported options:
@@ -26697,9 +26773,7 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_secy_plcy_memx
         uint64_t confidentiality_offset : 7; /**< [ 12:  6](R/W) Defines the number of bytes that are unencrypted following the SecTag. */
         uint64_t pre_sectag_auth_enable : 1; /**< [ 13: 13](R/W) When set, the outer DA/SA bytes are included in the authentication GHASH
                                                                  calculation. Both standard MACsec and WAN based MACsec with VLAN tags in the
-                                                                 clear require the DA+SA to be included in the authentication. WAN based MPLS
-                                                                 MACsec would typically have the DA+SA excluded from authentication since these
-                                                                 fields can be modified by the NextHop lookup in MPLS routers. */
+                                                                 clear require the DA+SA to be included in the authentication. */
         uint64_t sectag_insert_mode    : 1;  /**< [ 14: 14](R/W) Defines how to handle SecTag insertion on egress. 0= SecTag is inserted at
                                                                  SecTag_Offset bytes following an E-Type matching a special E-Type value
                                                                  (Relative Offset Mode).
@@ -26710,8 +26784,10 @@ union cavm_mcsx_rs_mcs_cpm_tx_slave_secy_plcy_memx
                                                                     This field defines the offset in bytes from a matching Etype
                                                                  If sectag_insert_mode is set to "Fixed Offset Mode":
                                                                     This field defines the offset in bytes from from the start of the MAC_DA of the packet.
-                                                                    If an 8B prepended header is present, then the CPM will add the 8 to this
-                                                                 field before sending to the BBE. */
+                                                                    If a TX MCS header is present, then the CPM will add the value in the
+                                                                 FIXED_OFFSET_ADJUST register to this field before sending to the BBE.
+                                                                    If there are n 8B prepended headers present, then the CPM will add n*8 to
+                                                                 this field before sending to the BBE. */
         uint64_t sectag_tci            : 6;  /**< [ 27: 22](R/W) Tag Control Information excluding the AN field which originates from the SA
                                                                  Policy table. This field is inserted into the SecTag of the outgoing packet. */
         uint64_t mtu                   : 16; /**< [ 43: 28](R/W) Specifies the outgoing maximum transmission unit (MTU) in bytes for this SecY.
@@ -27017,9 +27093,9 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_ifinunctlbcpktsx
     struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_ifinunctlbcpktsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rx_unctl_pkt_bcast_cnt : 64;/**< [ 63:  0](R/W) Ingress Broadcast packet count value for uncontrolled ports of this SecY. */
+        uint64_t rx_unctl_pkt_bcast_cnt : 64;/**< [ 63:  0](R/W) Ingress Broadcast packet count value for uncontrolled ports of this SecY." */
 #else /* Word 0 - Little Endian */
-        uint64_t rx_unctl_pkt_bcast_cnt : 64;/**< [ 63:  0](R/W) Ingress Broadcast packet count value for uncontrolled ports of this SecY. */
+        uint64_t rx_unctl_pkt_bcast_cnt : 64;/**< [ 63:  0](R/W) Ingress Broadcast packet count value for uncontrolled ports of this SecY." */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_ifinunctlbcpktsx_s cn; */
@@ -27155,7 +27231,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_IFINUNCTLUCPKTSX(uint64
  * Register (RSL) mcs#_rs_mcs_cse_rx_mem_slave_inoctetsscdecrypted#
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inoctetsscdecrypted Register
- * The number of plaintext octets recovered from packets that were integrity protected and encrypted.
+ * The number of plaintext octets recovered from packets that were integrity protected
+ * and encrypted. Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetsscdecryptedx
 {
@@ -27163,9 +27240,11 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetsscdecryptedx
     struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetsscdecryptedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rx_secy_octet_decrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity protected and encrypted. */
+        uint64_t rx_secy_octet_decrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity
+                                                                 protected and encrypted. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t rx_secy_octet_decrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity protected and encrypted. */
+        uint64_t rx_secy_octet_decrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity
+                                                                 protected and encrypted. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetsscdecryptedx_s cn; */
@@ -27192,7 +27271,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INOCTETSSCDECRYPTEDX(ui
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inoctetsscvalidate Register
  * The number of plaintext octets recovered from packets that were integrity protected
- * but not encrypted.
+ * but not encrypted. Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetsscvalidatex
 {
@@ -27201,10 +27280,10 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetsscvalidatex
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_secy_octet_validated_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity
-                                                                 protected but not encrypted. */
+                                                                 protected but not encrypted. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_secy_octet_validated_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity
-                                                                 protected but not encrypted. */
+                                                                 protected but not encrypted. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetsscvalidatex_s cn; */
@@ -27230,7 +27309,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INOCTETSSCVALIDATEX(uin
  * Register (RSL) mcs#_rs_mcs_cse_rx_mem_slave_inoctetssecydecrypted#
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inoctetssecydecrypted Register
- * The number of plaintext octets recovered from packets that were integrity protected and encrypted.
+ * The number of plaintext octets recovered from packets that were integrity protected
+ * and encrypted. Used only in AE18 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetssecydecryptedx
 {
@@ -27238,9 +27318,11 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetssecydecryptedx
     struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetssecydecryptedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rx_secy_octet_decrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity protected and encrypted. */
+        uint64_t rx_secy_octet_decrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity
+                                                                 protected and encrypted. Used only in AE18 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t rx_secy_octet_decrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity protected and encrypted. */
+        uint64_t rx_secy_octet_decrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity
+                                                                 protected and encrypted. Used only in AE18 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetssecydecryptedx_s cn; */
@@ -27267,7 +27349,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INOCTETSSECYDECRYPTEDX(
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inoctetssecyvalidate Register
  * The number of plaintext octets recovered from packets that were integrity protected
- * but not encrypted.
+ * but not encrypted. Used only in AE18 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetssecyvalidatex
 {
@@ -27276,10 +27358,10 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetssecyvalidatex
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_secy_octet_validated_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity
-                                                                 protected but not encrypted. */
+                                                                 protected but not encrypted. Used only in AE18 stats mode. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_secy_octet_validated_cnt : 64;/**< [ 63:  0](R/W) The number of plaintext octets recovered from packets that were integrity
-                                                                 protected but not encrypted. */
+                                                                 protected but not encrypted. Used only in AE18 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inoctetssecyvalidatex_s cn; */
@@ -27454,7 +27536,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSPARSEERRX(uint64_
  * MCS Rs Mcs Cse Rx Mem Slave Inpktssainvalid Register
  * The number of packets, for this SA, that failed validation but could be received
  * because SecY.Validate_Frames was 'CHECK' and the data was not encrypted so the
- * original frame could be recovered.
+ * original frame could be recovered. Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssainvalidx
 {
@@ -27464,11 +27546,11 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssainvalidx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_sc_pkt_invalid_cnt : 64; /**< [ 63:  0](R/W) The number of packets, for this SA, that failed validation but could be received
                                                                  because SecY.Validate_Frames was 'CHECK' and the data was not encrypted so the
-                                                                 original frame could be recovered. */
+                                                                 original frame could be recovered. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_sc_pkt_invalid_cnt : 64; /**< [ 63:  0](R/W) The number of packets, for this SA, that failed validation but could be received
                                                                  because SecY.Validate_Frames was 'CHECK' and the data was not encrypted so the
-                                                                 original frame could be recovered. */
+                                                                 original frame could be recovered. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssainvalidx_s cn; */
@@ -27494,7 +27576,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSSAINVALIDX(uint64
  * Register (RSL) mcs#_rs_mcs_cse_rx_mem_slave_inpktssanotusingsaerror#
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inpktssanotusingsaerror Register
- * The number of received packets discarded because the SA is not in use.
+ * The number of received packets discarded because the SA is not in use. Used only in
+ * AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssanotusingsaerrorx
 {
@@ -27503,10 +27586,10 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssanotusingsaerrorx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_secy_pkt_nosaerror_cnt : 64;/**< [ 63:  0](R/W) The number of received packets with an unused SA when secyValidateFrames is
-                                                                 strict or sectag.tci.c is 1. */
+                                                                 strict or sectag.tci.c is 1. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_secy_pkt_nosaerror_cnt : 64;/**< [ 63:  0](R/W) The number of received packets with an unused SA when secyValidateFrames is
-                                                                 strict or sectag.tci.c is 1. */
+                                                                 strict or sectag.tci.c is 1. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssanotusingsaerrorx_s cn; */
@@ -27534,7 +27617,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSSANOTUSINGSAERROR
  * MCS Rs Mcs Cse Rx Mem Slave Inpktssanotvalid Register
  * The number of packets discarded for this SA because validation failed and
  * SecY.Validate_Frames is 'STRICT' or the data was encrypted so the original frame
- * could not be recovered.
+ * could not be recovered. Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssanotvalidx
 {
@@ -27544,11 +27627,11 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssanotvalidx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_sc_pkt_notvalid_cnt : 64;/**< [ 63:  0](R/W) The number of packets discarded for this SA because validation failed and
                                                                  SecY.Validate_Frames is 'STRICT' or the data was encrypted so the original frame
-                                                                 could not be recovered. */
+                                                                 could not be recovered. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_sc_pkt_notvalid_cnt : 64;/**< [ 63:  0](R/W) The number of packets discarded for this SA because validation failed and
                                                                  SecY.Validate_Frames is 'STRICT' or the data was encrypted so the original frame
-                                                                 could not be recovered. */
+                                                                 could not be recovered. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssanotvalidx_s cn; */
@@ -27574,7 +27657,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSSANOTVALIDX(uint6
  * Register (RSL) mcs#_rs_mcs_cse_rx_mem_slave_inpktssaok#
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inpktssaok Register
- * The number of packets received for this SA successfully validated and within the replay window.
+ * The number of packets received for this SA successfully validated and within the
+ * replay window. Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssaokx
 {
@@ -27582,9 +27666,11 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssaokx
     struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssaokx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rx_sc_pkt_ok_cnt      : 64; /**< [ 63:  0](R/W) The number of packets received for this SA successfully validated and within the replay window. */
+        uint64_t rx_sc_pkt_ok_cnt      : 64; /**< [ 63:  0](R/W) The number of packets received for this SA successfully validated and within the
+                                                                 replay window. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t rx_sc_pkt_ok_cnt      : 64; /**< [ 63:  0](R/W) The number of packets received for this SA successfully validated and within the replay window. */
+        uint64_t rx_sc_pkt_ok_cnt      : 64; /**< [ 63:  0](R/W) The number of packets received for this SA successfully validated and within the
+                                                                 replay window. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssaokx_s cn; */
@@ -27610,7 +27696,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSSAOKX(uint64_t a,
  * Register (RSL) mcs#_rs_mcs_cse_rx_mem_slave_inpktssaunusedsa#
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inpktssaunusedsa Register
- * The number of received packets with an unknown SA
+ * The number of received packets with an unknown SA.  Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssaunusedsax
 {
@@ -27619,10 +27705,10 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssaunusedsax
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_secy_pkt_nosa_cnt  : 64; /**< [ 63:  0](R/W) The number of received packets with an unused SA when secyValidateFrames is not
-                                                                 strict and sectag.tci.c is 0. */
+                                                                 strict and sectag.tci.c is 0. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_secy_pkt_nosa_cnt  : 64; /**< [ 63:  0](R/W) The number of received packets with an unused SA when secyValidateFrames is not
-                                                                 strict and sectag.tci.c is 0. */
+                                                                 strict and sectag.tci.c is 0. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssaunusedsax_s cn; */
@@ -27686,7 +27772,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSSCCAMHITX(uint64_
  * MCS Rs Mcs Cse Rx Mem Slave Inpktsscinvalid Register
  * The number of packets, for this SC, that failed validation but could be received
  * because SecY.Validate_Frames was 'CHECK' and the data was not encrypted so the
- * original frame could be recovered.
+ * original frame could be recovered. Used only in AE18 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktsscinvalidx
 {
@@ -27696,11 +27782,11 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktsscinvalidx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_sc_pkt_invalid_cnt : 64; /**< [ 63:  0](R/W) The number of packets, for this SC, that failed validation but could be received
                                                                  because SecY.Validate_Frames was 'CHECK' and the data was not encrypted so the
-                                                                 original frame could be recovered. */
+                                                                 original frame could be recovered. Used only in AE18 stats mode. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_sc_pkt_invalid_cnt : 64; /**< [ 63:  0](R/W) The number of packets, for this SC, that failed validation but could be received
                                                                  because SecY.Validate_Frames was 'CHECK' and the data was not encrypted so the
-                                                                 original frame could be recovered. */
+                                                                 original frame could be recovered. Used only in AE18 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktsscinvalidx_s cn; */
@@ -27768,7 +27854,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSSCLATEORDELAYEDX(
  * MCS Rs Mcs Cse Rx Mem Slave Inpktsscnotvalid Register
  * The number of packets discarded for this SC because validation failed and
  * SecY.Validate_Frames is 'STRICT' or the data was encrypted so the original frame
- * could not be recovered.
+ * could not be recovered. Used only in AE18 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktsscnotvalidx
 {
@@ -27778,11 +27864,11 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktsscnotvalidx
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_sc_pkt_notvalid_cnt : 64;/**< [ 63:  0](R/W) The number of packets discarded for this SC because validation failed and
                                                                  SecY.Validate_Frames is 'STRICT' or the data was encrypted so the original frame
-                                                                 could not be recovered. */
+                                                                 could not be recovered. Used only in AE18 stats mode. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_sc_pkt_notvalid_cnt : 64;/**< [ 63:  0](R/W) The number of packets discarded for this SC because validation failed and
                                                                  SecY.Validate_Frames is 'STRICT' or the data was encrypted so the original frame
-                                                                 could not be recovered. */
+                                                                 could not be recovered. Used only in AE18 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktsscnotvalidx_s cn; */
@@ -27917,7 +28003,9 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSSECYCTLX(uint64_t
  * Register (RSL) mcs#_rs_mcs_cse_rx_mem_slave_inpktssecynosa#
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inpktssecynosa Register
- * The number of received packets with an unknown SA or an unused SA.
+ * The number of received packets with an unknown SA or an unused SA. This is the AE18
+ * counter name (as seen in the IEEE spec). It is equivalent to the InPktsUnknownSci
+ * from the AE06 stats.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssecynosax
 {
@@ -27926,10 +28014,14 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssecynosax
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_secy_pkt_nosa_cnt  : 64; /**< [ 63:  0](R/W) The number of received packets with an unknown SCI or an unused SA when
-                                                                 secyValidateFrames is not strict and sectag.tci.c is 0. */
+                                                                 secyValidateFrames is not strict and sectag.tci.c is 0. This is the AE18 counter
+                                                                 name (as seen in the IEEE spec). It is equivalent to the InPktsNoSci from the
+                                                                 AE06 stats. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_secy_pkt_nosa_cnt  : 64; /**< [ 63:  0](R/W) The number of received packets with an unknown SCI or an unused SA when
-                                                                 secyValidateFrames is not strict and sectag.tci.c is 0. */
+                                                                 secyValidateFrames is not strict and sectag.tci.c is 0. This is the AE18 counter
+                                                                 name (as seen in the IEEE spec). It is equivalent to the InPktsNoSci from the
+                                                                 AE06 stats. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssecynosax_s cn; */
@@ -27956,7 +28048,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_RX_MEM_SLAVE_INPKTSSECYNOSAX(uint64_
  *
  * MCS Rs Mcs Cse Rx Mem Slave Inpktssecynosaerror Register
  * The number of received packets discarded because the received SCI is unknown on the
- * SA is not in use.
+ * SA is not in use. This is the AE18 counter name (as seen in the IEEE spec). It is
+ * equivalent to the InPktsNoSci from the AE06 stats.
  */
 union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssecynosaerrorx
 {
@@ -27965,10 +28058,14 @@ union cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssecynosaerrorx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t rx_secy_pkt_nosaerror_cnt : 64;/**< [ 63:  0](R/W) The number of received packets with an unknown SCI or an unused SA when
-                                                                 secyValidateFrames is strict or sectag.tci.c is 1. */
+                                                                 secyValidateFrames is strict or sectag.tci.c is 1. This is the AE18 counter name
+                                                                 (as seen in the IEEE spec). It is equivalent to the InPktsUnknownSci from the
+                                                                 AE06 stats. */
 #else /* Word 0 - Little Endian */
         uint64_t rx_secy_pkt_nosaerror_cnt : 64;/**< [ 63:  0](R/W) The number of received packets with an unknown SCI or an unused SA when
-                                                                 secyValidateFrames is strict or sectag.tci.c is 1. */
+                                                                 secyValidateFrames is strict or sectag.tci.c is 1. This is the AE18 counter name
+                                                                 (as seen in the IEEE spec). It is equivalent to the InPktsUnknownSci from the
+                                                                 AE06 stats. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_rx_mem_slave_inpktssecynosaerrorx_s cn; */
@@ -28290,11 +28387,9 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutcommonoctetsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutcommonoctetsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_unctl_octet_cnt    : 64; /**< [ 63:  0](R/W) Ingress Total MSDU and MAC-DA/SA Octets that are permitted by the uncontrolled
-                                                                 port policies of this SecY. */
+        uint64_t tx_unctl_octet_cnt    : 64; /**< [ 63:  0](R/W) Egress Total MSDU and MAC-DA/SA Octets that are permitted by the common port policies of this SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_unctl_octet_cnt    : 64; /**< [ 63:  0](R/W) Ingress Total MSDU and MAC-DA/SA Octets that are permitted by the uncontrolled
-                                                                 port policies of this SecY. */
+        uint64_t tx_unctl_octet_cnt    : 64; /**< [ 63:  0](R/W) Egress Total MSDU and MAC-DA/SA Octets that are permitted by the common port policies of this SecY. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutcommonoctetsx_s cn; */
@@ -28328,9 +28423,9 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlbcpktsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlbcpktsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_ctl_pkt_bcast_cnt  : 64; /**< [ 63:  0](R/W) Ingress Broadcast packet count value for controlled ports of this SecY. */
+        uint64_t tx_ctl_pkt_bcast_cnt  : 64; /**< [ 63:  0](R/W) Egress Broadcast packet count value for controlled ports of this SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_ctl_pkt_bcast_cnt  : 64; /**< [ 63:  0](R/W) Ingress Broadcast packet count value for controlled ports of this SecY. */
+        uint64_t tx_ctl_pkt_bcast_cnt  : 64; /**< [ 63:  0](R/W) Egress Broadcast packet count value for controlled ports of this SecY. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlbcpktsx_s cn; */
@@ -28364,9 +28459,9 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlmcpktsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlmcpktsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_ctl_pkt_mcast_cnt  : 64; /**< [ 63:  0](R/W) Ingress Multicast packet count value for controlled ports of this SecY. */
+        uint64_t tx_ctl_pkt_mcast_cnt  : 64; /**< [ 63:  0](R/W) Egress Multicast packet count value for controlled ports of this SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_ctl_pkt_mcast_cnt  : 64; /**< [ 63:  0](R/W) Ingress Multicast packet count value for controlled ports of this SecY. */
+        uint64_t tx_ctl_pkt_mcast_cnt  : 64; /**< [ 63:  0](R/W) Egress Multicast packet count value for controlled ports of this SecY. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlmcpktsx_s cn; */
@@ -28400,11 +28495,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctloctetsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctloctetsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_ctl_octet_cnt      : 64; /**< [ 63:  0](R/W) Ingress Total MSDU and MAC-DA/SA Octets that are permitted by the controlled
-                                                                 port policies of this SecY. */
+        uint64_t tx_ctl_octet_cnt      : 64; /**< [ 63:  0](R/W) Egress Total MSDU and MAC-DA/SA Octets that are permitted by the controlled port
+                                                                 policies of this SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_ctl_octet_cnt      : 64; /**< [ 63:  0](R/W) Ingress Total MSDU and MAC-DA/SA Octets that are permitted by the controlled
-                                                                 port policies of this SecY. */
+        uint64_t tx_ctl_octet_cnt      : 64; /**< [ 63:  0](R/W) Egress Total MSDU and MAC-DA/SA Octets that are permitted by the controlled port
+                                                                 policies of this SecY. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctloctetsx_s cn; */
@@ -28438,9 +28533,9 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlucpktsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlucpktsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_ctl_pkt_ucast_cnt  : 64; /**< [ 63:  0](R/W) Ingress Unicast packet count value for controlled ports of this SecY. */
+        uint64_t tx_ctl_pkt_ucast_cnt  : 64; /**< [ 63:  0](R/W) Egress Unicast packet count value for controlled ports of this SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_ctl_pkt_ucast_cnt  : 64; /**< [ 63:  0](R/W) Ingress Unicast packet count value for controlled ports of this SecY. */
+        uint64_t tx_ctl_pkt_ucast_cnt  : 64; /**< [ 63:  0](R/W) Egress Unicast packet count value for controlled ports of this SecY. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutctlucpktsx_s cn; */
@@ -28474,9 +28569,9 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlbcpktsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlbcpktsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_unctl_pkt_bcast_cnt : 64;/**< [ 63:  0](R/W) Ingress Broadcast packet count value for uncontrolled ports of this SecY. */
+        uint64_t tx_unctl_pkt_bcast_cnt : 64;/**< [ 63:  0](R/W) Egress Broadcast packet count value for uncontrolled ports of this SecY." */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_unctl_pkt_bcast_cnt : 64;/**< [ 63:  0](R/W) Ingress Broadcast packet count value for uncontrolled ports of this SecY. */
+        uint64_t tx_unctl_pkt_bcast_cnt : 64;/**< [ 63:  0](R/W) Egress Broadcast packet count value for uncontrolled ports of this SecY." */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlbcpktsx_s cn; */
@@ -28510,9 +28605,9 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlmcpktsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlmcpktsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_unctl_pkt_mcast_cnt : 64;/**< [ 63:  0](R/W) Ingress Multicast packet count value for uncontrolled ports of this SecY. */
+        uint64_t tx_unctl_pkt_mcast_cnt : 64;/**< [ 63:  0](R/W) Egress Multicast packet count value for uncontrolled ports of this SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_unctl_pkt_mcast_cnt : 64;/**< [ 63:  0](R/W) Ingress Multicast packet count value for uncontrolled ports of this SecY. */
+        uint64_t tx_unctl_pkt_mcast_cnt : 64;/**< [ 63:  0](R/W) Egress Multicast packet count value for uncontrolled ports of this SecY. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlmcpktsx_s cn; */
@@ -28546,10 +28641,10 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctloctetsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctloctetsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_unctl_octet_cnt    : 64; /**< [ 63:  0](R/W) Ingress Total MSDU and MAC-DA/SA Octets that are permitted by the uncontrolled
+        uint64_t tx_unctl_octet_cnt    : 64; /**< [ 63:  0](R/W) Egress Total MSDU and MAC-DA/SA Octets that are permitted by the uncontrolled
                                                                  port policies of this SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_unctl_octet_cnt    : 64; /**< [ 63:  0](R/W) Ingress Total MSDU and MAC-DA/SA Octets that are permitted by the uncontrolled
+        uint64_t tx_unctl_octet_cnt    : 64; /**< [ 63:  0](R/W) Egress Total MSDU and MAC-DA/SA Octets that are permitted by the uncontrolled
                                                                  port policies of this SecY. */
 #endif /* Word 0 - End */
     } s;
@@ -28584,9 +28679,9 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlucpktsx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlucpktsx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_unctl_pkt_ucast_cnt : 64;/**< [ 63:  0](R/W) Ingress Unicast packet count value for uncontrolled ports of this SecY. */
+        uint64_t tx_unctl_pkt_ucast_cnt : 64;/**< [ 63:  0](R/W) Egress Unicast packet count value for uncontrolled ports of this SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_unctl_pkt_ucast_cnt : 64;/**< [ 63:  0](R/W) Ingress Unicast packet count value for uncontrolled ports of this SecY. */
+        uint64_t tx_unctl_pkt_ucast_cnt : 64;/**< [ 63:  0](R/W) Egress Unicast packet count value for uncontrolled ports of this SecY. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_ifoutunctlucpktsx_s cn; */
@@ -28612,7 +28707,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_IFOUTUNCTLUCPKTSX(uint6
  * Register (RSL) mcs#_rs_mcs_cse_tx_mem_slave_outoctetsscencrypted#
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outoctetsscencrypted Register
- * The number of plain text octets integrity protected and encrypted in transmitted frames.
+ * The number of plain text octets integrity protected and encrypted in transmitted
+ * frames. Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetsscencryptedx
 {
@@ -28620,9 +28716,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetsscencryptedx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetsscencryptedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_secy_octet_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected and encrypted in transmitted frames. */
+        uint64_t tx_secy_octet_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected and encrypted in transmitted
+                                                                 frames. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_secy_octet_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected and encrypted in transmitted frames. */
+        uint64_t tx_secy_octet_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected and encrypted in transmitted
+                                                                 frames. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetsscencryptedx_s cn; */
@@ -28648,7 +28746,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_OUTOCTETSSCENCRYPTEDX(u
  * Register (RSL) mcs#_rs_mcs_cse_tx_mem_slave_outoctetsscprotected#
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outoctetsscprotected Register
- * The number of plain text octets integrity protected but not encrypted in transmitted frames.
+ * The number of plain text octets integrity protected but not encrypted in transmitted
+ * frames. Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetsscprotectedx
 {
@@ -28656,9 +28755,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetsscprotectedx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetsscprotectedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_secy_octet_protected_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected but not encrypted in transmitted frames. */
+        uint64_t tx_secy_octet_protected_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected but not encrypted in
+                                                                 transmitted frames. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_secy_octet_protected_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected but not encrypted in transmitted frames. */
+        uint64_t tx_secy_octet_protected_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected but not encrypted in
+                                                                 transmitted frames. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetsscprotectedx_s cn; */
@@ -28684,7 +28785,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_OUTOCTETSSCPROTECTEDX(u
  * Register (RSL) mcs#_rs_mcs_cse_tx_mem_slave_outoctetssecyencrypted#
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outoctetssecyencrypted Register
- * The number of plain text octets integrity protected and encrypted in transmitted frames.
+ * The number of plain text octets integrity protected and encrypted in transmitted
+ * frames. Used only in AE18 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetssecyencryptedx
 {
@@ -28692,9 +28794,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetssecyencryptedx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetssecyencryptedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_secy_octet_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected and encrypted in transmitted frames. */
+        uint64_t tx_secy_octet_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected and encrypted in transmitted
+                                                                 frames. Used only in AE18 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_secy_octet_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected and encrypted in transmitted frames. */
+        uint64_t tx_secy_octet_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected and encrypted in transmitted
+                                                                 frames. Used only in AE18 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetssecyencryptedx_s cn; */
@@ -28720,7 +28824,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_OUTOCTETSSECYENCRYPTEDX
  * Register (RSL) mcs#_rs_mcs_cse_tx_mem_slave_outoctetssecyprotected#
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outoctetssecyprotected Register
- * The number of plain text octets integrity protected but not encrypted in transmitted frames.
+ * The number of plain text octets integrity protected but not encrypted in transmitted
+ * frames. Used only in AE18 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetssecyprotectedx
 {
@@ -28728,9 +28833,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetssecyprotectedx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetssecyprotectedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_secy_octet_protected_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected but not encrypted in transmitted frames. */
+        uint64_t tx_secy_octet_protected_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected but not encrypted in
+                                                                 transmitted frames. Used only in AE18 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_secy_octet_protected_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected but not encrypted in transmitted frames. */
+        uint64_t tx_secy_octet_protected_cnt : 64;/**< [ 63:  0](R/W) The number of plain text octets integrity protected but not encrypted in
+                                                                 transmitted frames. Used only in AE18 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outoctetssecyprotectedx_s cn; */
@@ -28756,7 +28863,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_OUTOCTETSSECYPROTECTEDX
  * Register (RSL) mcs#_rs_mcs_cse_tx_mem_slave_outpktsctrlportdisabled#
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outpktsctrlportdisabled Register
- * The number of packets received on disabled SecY.
+ * The number of packets transmitted on disabled SecY.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsctrlportdisabledx
 {
@@ -28764,9 +28871,9 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsctrlportdisabledx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsctrlportdisabledx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_secy_pkt_ctrl_port_disabled_cnt : 64;/**< [ 63:  0](R/W) The number of packets received on disabled SecY. */
+        uint64_t tx_secy_pkt_ctrl_port_disabled_cnt : 64;/**< [ 63:  0](R/W) The number of packets transmitted on disabled SecY. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_secy_pkt_ctrl_port_disabled_cnt : 64;/**< [ 63:  0](R/W) The number of packets received on disabled SecY. */
+        uint64_t tx_secy_pkt_ctrl_port_disabled_cnt : 64;/**< [ 63:  0](R/W) The number of packets transmitted on disabled SecY. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsctrlportdisabledx_s cn; */
@@ -28903,7 +29010,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_OUTPKTSPARSEERRX(uint64
  * Register (RSL) mcs#_rs_mcs_cse_tx_mem_slave_outpktssaencrypted#
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outpktssaencrypted Register
- * The number of integrity protected and encrypted packets for this transmit SA.
+ * The number of integrity protected and encrypted packets for this transmit SA. Used
+ * only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktssaencryptedx
 {
@@ -28911,9 +29019,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktssaencryptedx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktssaencryptedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_sc_pkt_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected and encrypted packets for this transmit SA. */
+        uint64_t tx_sc_pkt_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected and encrypted packets for this transmit SA.
+                                                                 Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_sc_pkt_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected and encrypted packets for this transmit SA. */
+        uint64_t tx_sc_pkt_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected and encrypted packets for this transmit SA.
+                                                                 Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktssaencryptedx_s cn; */
@@ -28940,6 +29050,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_OUTPKTSSAENCRYPTEDX(uin
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outpktssaprotected Register
  * The number of integrity protected but not encrypted packets for this transmit SA.
+ * Used only in AE06 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktssaprotectedx
 {
@@ -28947,9 +29058,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktssaprotectedx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktssaprotectedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_sc_pkt_protected_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected but not encrypted packets for this transmit SA. */
+        uint64_t tx_sc_pkt_protected_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected but not encrypted packets for this transmit
+                                                                 SA. Used only in AE06 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_sc_pkt_protected_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected but not encrypted packets for this transmit SA. */
+        uint64_t tx_sc_pkt_protected_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected but not encrypted packets for this transmit
+                                                                 SA. Used only in AE06 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktssaprotectedx_s cn; */
@@ -28975,7 +29088,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_OUTPKTSSAPROTECTEDX(uin
  * Register (RSL) mcs#_rs_mcs_cse_tx_mem_slave_outpktsscencrypted#
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outpktsscencrypted Register
- * The number of integrity protected and encrypted packets for this transmit SC.
+ * The number of integrity protected and encrypted packets for this transmit SC. Used
+ * only in AE18 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsscencryptedx
 {
@@ -28983,9 +29097,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsscencryptedx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsscencryptedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_sc_pkt_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected and encrypted packets for this transmit SC. */
+        uint64_t tx_sc_pkt_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected and encrypted packets for this transmit SC.
+                                                                 Used only in AE18 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_sc_pkt_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected and encrypted packets for this transmit SC. */
+        uint64_t tx_sc_pkt_encrypted_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected and encrypted packets for this transmit SC.
+                                                                 Used only in AE18 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsscencryptedx_s cn; */
@@ -29012,6 +29128,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_CSE_TX_MEM_SLAVE_OUTPKTSSCENCRYPTEDX(uin
  *
  * MCS Rs Mcs Cse Tx Mem Slave Outpktsscprotected Register
  * The number of integrity protected but not encrypted packets for this transmit SC.
+ * Used only in AE18 stats mode.
  */
 union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsscprotectedx
 {
@@ -29019,9 +29136,11 @@ union cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsscprotectedx
     struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsscprotectedx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tx_sc_pkt_protected_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected but not encrypted packets for this transmit SC. */
+        uint64_t tx_sc_pkt_protected_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected but not encrypted packets for this transmit
+                                                                 SC. Used only in AE18 stats mode. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_sc_pkt_protected_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected but not encrypted packets for this transmit SC. */
+        uint64_t tx_sc_pkt_protected_cnt : 64;/**< [ 63:  0](R/W) The number of integrity protected but not encrypted packets for this transmit
+                                                                 SC. Used only in AE18 stats mode. */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_mcsx_rs_mcs_cse_tx_mem_slave_outpktsscprotectedx_s cn; */
@@ -29799,58 +29918,6 @@ static inline uint64_t CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PAB_INT_RAW(uint64_t a)
 #define arguments_CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PAB_INT_RAW(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_rs_mcs_pab_rx_slave_port_cfg#
- *
- * MCS Rs Mcs Pab Rx Slave Port Cfg Register
- * Port specific configuration.
- */
-union cavm_mcsx_rs_mcs_pab_rx_slave_port_cfgx
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_mcs_pab_rx_slave_port_cfgx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t mode                  : 2;  /**< [  1:  0](R/W) Port mode controls how the shared resources (Data FIFO memory, etc.) are
-                                                                 allocated to the active channels.
-                                                                 Note that only port0 can be configured to 100G. Only ports 0 and 2 can be
-                                                                 configured to 50G. Any port can be configured to 25G or less.
-                                                                 2'b00 - 25G or less;
-                                                                 2'b01 - 50G;
-                                                                 2'b10 - 100G;
-                                                                 2'b11 - RESERVED. */
-#else /* Word 0 - Little Endian */
-        uint64_t mode                  : 2;  /**< [  1:  0](R/W) Port mode controls how the shared resources (Data FIFO memory, etc.) are
-                                                                 allocated to the active channels.
-                                                                 Note that only port0 can be configured to 100G. Only ports 0 and 2 can be
-                                                                 configured to 50G. Any port can be configured to 25G or less.
-                                                                 2'b00 - 25G or less;
-                                                                 2'b01 - 50G;
-                                                                 2'b10 - 100G;
-                                                                 2'b11 - RESERVED. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_rs_mcs_pab_rx_slave_port_cfgx_s cn; */
-};
-typedef union cavm_mcsx_rs_mcs_pab_rx_slave_port_cfgx cavm_mcsx_rs_mcs_pab_rx_slave_port_cfgx_t;
-
-static inline uint64_t CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e080001718ll + 0x1000000ll * ((a) & 0x0) + 0x40ll * ((b) & 0x1f);
-    __cavm_csr_fatal("MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX(a,b) cavm_mcsx_rs_mcs_pab_rx_slave_port_cfgx_t
-#define bustype_CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX(a,b) "MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX"
-#define device_bar_CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX(a,b) (a)
-#define arguments_CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_PORT_CFGX(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_rs_mcs_pab_rx_slave_tx_trunc
  *
  * MCS Rs Mcs Pab Rx Slave Tx Trunc Register
@@ -29903,8 +29970,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_PAB_RX_SLAVE_TX_TRUNC(uint64_t a)
  * Register (RSL) mcs#_rs_mcs_pab_rx_slave_word_add_if
  *
  * MCS Rs Mcs Pab Rx Slave Word Add If Register
- * Extra words are allocated to each packet based on potential worst case packet growth
- * in terms of word count.
+ * Extra words are allocated to each packet based on potential worst case packet
+ * growth in terms of word count.
  * For example on egress, a packet can grow by 32B due to addition of a 16B sectag and a 16B ICV.
  * A scheduler ahead of the MCS can not know ahead of time the exact growth of the
  * packet and must assume the worst case growth to avoid potentially overflowing any
@@ -30342,58 +30409,6 @@ static inline uint64_t CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PAB_INT_RAW(uint64_t a)
 #define arguments_CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PAB_INT_RAW(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mcs#_rs_mcs_pab_tx_slave_port_cfg#
- *
- * MCS Rs Mcs Pab Tx Slave Port Cfg Register
- * Port specific configuration.
- */
-union cavm_mcsx_rs_mcs_pab_tx_slave_port_cfgx
-{
-    uint64_t u;
-    struct cavm_mcsx_rs_mcs_pab_tx_slave_port_cfgx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t mode                  : 2;  /**< [  1:  0](R/W) Port mode controls how the shared resources (Data FIFO memory, etc.) are
-                                                                 allocated to the active channels.
-                                                                 Note that only port0 can be configured to 100G. Only ports 0 and 2 can be
-                                                                 configured to 50G. Any port can be configured to 25G or less.
-                                                                 2'b00 - 25G or less;
-                                                                 2'b01 - 50G;
-                                                                 2'b10 - 100G;
-                                                                 2'b11 - RESERVED. */
-#else /* Word 0 - Little Endian */
-        uint64_t mode                  : 2;  /**< [  1:  0](R/W) Port mode controls how the shared resources (Data FIFO memory, etc.) are
-                                                                 allocated to the active channels.
-                                                                 Note that only port0 can be configured to 100G. Only ports 0 and 2 can be
-                                                                 configured to 50G. Any port can be configured to 25G or less.
-                                                                 2'b00 - 25G or less;
-                                                                 2'b01 - 50G;
-                                                                 2'b10 - 100G;
-                                                                 2'b11 - RESERVED. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_mcsx_rs_mcs_pab_tx_slave_port_cfgx_s cn; */
-};
-typedef union cavm_mcsx_rs_mcs_pab_tx_slave_port_cfgx cavm_mcsx_rs_mcs_pab_tx_slave_port_cfgx_t;
-
-static inline uint64_t CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX(uint64_t a, uint64_t b)
-{
-    if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=19)))
-        return 0x87e080002930ll + 0x1000000ll * ((a) & 0x0) + 0x40ll * ((b) & 0x1f);
-    __cavm_csr_fatal("MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX(a,b) cavm_mcsx_rs_mcs_pab_tx_slave_port_cfgx_t
-#define bustype_CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX(a,b) CSR_TYPE_RSL
-#define basename_CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX(a,b) "MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX"
-#define device_bar_CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX(a,b) (a)
-#define arguments_CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_PORT_CFGX(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) mcs#_rs_mcs_pab_tx_slave_tx_trunc
  *
  * MCS Rs Mcs Pab Tx Slave Tx Trunc Register
@@ -30446,8 +30461,8 @@ static inline uint64_t CAVM_MCSX_RS_MCS_PAB_TX_SLAVE_TX_TRUNC(uint64_t a)
  * Register (RSL) mcs#_rs_mcs_pab_tx_slave_word_add_if
  *
  * MCS Rs Mcs Pab Tx Slave Word Add If Register
- * Extra words are allocated to each packet based on potential worst case packet growth
- * in terms of word count.
+ * Extra words are allocated to each packet based on potential worst case packet
+ * growth in terms of word count.
  * For example on egress, a packet can grow by 32B due to addition of a 16B sectag and a 16B ICV.
  * A scheduler ahead of the MCS can not know ahead of time the exact growth of the
  * packet and must assume the worst case growth to avoid potentially overflowing any
@@ -31017,6 +31032,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_PEX_RX_SLAVE_MCS_HEADER_CFG(uint64_t a)
  *
  * MCS Rs Mcs Pex Rx Slave Mpls Cfg Register
  * MPLS stack configuration
+ * This register is only used in CT mode
  */
 union cavm_mcsx_rs_mcs_pex_rx_slave_mpls_cfgx
 {
@@ -31765,6 +31781,7 @@ static inline uint64_t CAVM_MCSX_RS_MCS_PEX_TX_SLAVE_MCS_HEADER_CFG(uint64_t a)
  *
  * MCS Rs Mcs Pex Tx Slave Mpls Cfg Register
  * MPLS stack configuration
+ * This register is only used in CT mode
  */
 union cavm_mcsx_rs_mcs_pex_tx_slave_mpls_cfgx
 {

@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -2968,7 +2968,7 @@ union cavm_cptx_af_constants1
         uint64_t reserved_48_63        : 16;
         uint64_t ae                    : 16; /**< [ 47: 32](RO/H) Number of AEs. In CNXXXX, for CPT returns 0xC, or less if there are fuse-disables. */
         uint64_t ie                    : 16; /**< [ 31: 16](RO/H) Number of IEs. In CNXXXX, for CPT returns 0x24, or less if there are fuse-disables. */
-        uint64_t se                    : 16; /**< [ 15:  0](RO/H) "Number of SEs. In CNXXXX, for CPT returns 0x24, or less if there are fuse-disables.
+        uint64_t se                    : 16; /**< [ 15:  0](RO/H) "Number of SEs. In CNXXXX, for CPT returns 0x18, or less if there are fuse-disables.
 
                                                                  _ #SE along with #IE and #AE specifies the supported engine indices for SE, IE and AE.
 
@@ -2977,7 +2977,7 @@ union cavm_cptx_af_constants1
                                                                    _   #SE   .. #SE+#IE-1     = the IEs.
                                                                    _ #SE+#IE .. #SE+#IE+#AE-1 = the AEs." */
 #else /* Word 0 - Little Endian */
-        uint64_t se                    : 16; /**< [ 15:  0](RO/H) "Number of SEs. In CNXXXX, for CPT returns 0x24, or less if there are fuse-disables.
+        uint64_t se                    : 16; /**< [ 15:  0](RO/H) "Number of SEs. In CNXXXX, for CPT returns 0x18, or less if there are fuse-disables.
 
                                                                  _ #SE along with #IE and #AE specifies the supported engine indices for SE, IE and AE.
 

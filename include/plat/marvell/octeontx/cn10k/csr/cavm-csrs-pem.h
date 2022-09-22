@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1888,18 +1888,18 @@ union cavm_pemx_diag_status
                                                                  0x4 = GEN5.
                                                                  0x5 - 0x7 = Reserved. */
         uint64_t ltssm                 : 6;  /**< [  9:  4](RO/H) Current  smlh_ltssm_state. */
-        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current mac_phy_powerdown state.
-                                                                 0x0 = D0.
-                                                                 0x1 = D1.
-                                                                 0x2 = D2.
-                                                                 0x3 = D3.
+        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current pipe mac_phy_powerdown state.
+                                                                 0x0 = P0.
+                                                                 0x1 = P0s.
+                                                                 0x2 = P1.
+                                                                 0x3 = P2.
                                                                  0x4 - 0x7: Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current mac_phy_powerdown state.
-                                                                 0x0 = D0.
-                                                                 0x1 = D1.
-                                                                 0x2 = D2.
-                                                                 0x3 = D3.
+        uint64_t pwrdwn                : 4;  /**< [  3:  0](RO/H) Current pipe mac_phy_powerdown state.
+                                                                 0x0 = P0.
+                                                                 0x1 = P0s.
+                                                                 0x2 = P1.
+                                                                 0x3 = P2.
                                                                  0x4 - 0x7: Reserved. */
         uint64_t ltssm                 : 6;  /**< [  9:  4](RO/H) Current  smlh_ltssm_state. */
         uint64_t pclk_rate             : 3;  /**< [ 12: 10](RO/H) Current pclk rate.

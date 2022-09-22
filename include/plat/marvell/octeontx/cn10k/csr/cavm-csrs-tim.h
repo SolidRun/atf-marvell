@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -294,11 +294,11 @@ typedef union cavm_tim_af_adjust_gti cavm_tim_af_adjust_gti_t;
 static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TIM_AF_ADJUST_GTI_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX))
         return 0x840090000180ll;
     if (cavm_is_model(OCTEONTX_CNF10KA))
         return 0x840090000180ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS1_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_AX))
         return 0x840090000180ll;
     __cavm_csr_fatal("TIM_AF_ADJUST_GTI", 0, 0, 0, 0, 0, 0, 0);
 }
@@ -1462,11 +1462,11 @@ typedef union cavm_tim_af_offset_gti cavm_tim_af_offset_gti_t;
 static inline uint64_t CAVM_TIM_AF_OFFSET_GTI_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_TIM_AF_OFFSET_GTI_FUNC(void)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX))
         return 0x840090000260ll;
     if (cavm_is_model(OCTEONTX_CN10KB))
         return 0x840090000260ll;
-    if (cavm_is_model(OCTEONTX_CNF10KB_PASS2_X))
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX))
         return 0x840090000260ll;
     __cavm_csr_fatal("TIM_AF_OFFSET_GTI", 0, 0, 0, 0, 0, 0, 0);
 }

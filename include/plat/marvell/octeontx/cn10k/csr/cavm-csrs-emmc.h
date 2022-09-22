@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -6031,7 +6031,7 @@ typedef union cavm_emmcx_intr cavm_emmcx_intr_t;
 static inline uint64_t CAVM_EMMCX_INTR(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && (a==0))
         return 0x824000000718ll + 0x1000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000718ll + 0x1000000ll * ((a) & 0x0);
@@ -6071,7 +6071,7 @@ typedef union cavm_emmcx_intr_ena_w1c cavm_emmcx_intr_ena_w1c_t;
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1C(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && (a==0))
         return 0x824000000728ll + 0x1000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000728ll + 0x1000000ll * ((a) & 0x0);
@@ -6111,7 +6111,7 @@ typedef union cavm_emmcx_intr_ena_w1s cavm_emmcx_intr_ena_w1s_t;
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_ENA_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && (a==0))
         return 0x824000000730ll + 0x1000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000730ll + 0x1000000ll * ((a) & 0x0);
@@ -6151,7 +6151,7 @@ typedef union cavm_emmcx_intr_w1s cavm_emmcx_intr_w1s_t;
 static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_INTR_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && (a==0))
         return 0x824000000720ll + 0x1000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CNF10KA) && (a==0))
         return 0x824000000720ll + 0x1000000ll * ((a) & 0x0);
@@ -6247,9 +6247,9 @@ typedef union cavm_emmcx_msix_vecx_addr cavm_emmcx_msix_vecx_addr_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && ((a==0) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && ((a==0) && (b==0)))
         return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && ((a==0) && (b<=1)))
         return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=1)))
         return 0x824009f00000ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
@@ -6295,9 +6295,9 @@ typedef union cavm_emmcx_msix_vecx_ctl cavm_emmcx_msix_vecx_ctl_t;
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_EMMCX_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && ((a==0) && (b==0)))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && ((a==0) && (b==0)))
         return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x0);
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a==0) && (b<=1)))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && ((a==0) && (b<=1)))
         return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=1)))
         return 0x824009f00008ll + 0x1000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);

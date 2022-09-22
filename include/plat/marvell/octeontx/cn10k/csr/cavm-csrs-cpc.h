@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -596,6 +596,8 @@ static inline uint64_t CAVM_CPC_CONST_FUNC(void)
  * CPC Conditional Coprocessor Clock Counter Register
  * This register counts conditional clocks for power management.
  *
+ * This register is writable for diagnostic use only.
+ *
  * This register is reset on chip reset.
  */
 union cavm_cpc_csclk_active_pc
@@ -899,6 +901,7 @@ static inline uint64_t CAVM_CPC_SCP_BOOT_ROM_LIMIT_FUNC(void)
  * This register contains the common 100 MHz timer register for the XCP cores.
  *
  * This register is only accessible to the requestor(s) permitted with CPC_PERMIT.
+ * This register is writable for diagnostic use only.
  *
  * This register is reset on chip reset.
  */

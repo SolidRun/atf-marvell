@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -5327,7 +5327,7 @@ static inline uint64_t CAVM_PSM_SW_ENQ_ERR_FUNC(void)
  * This register holds the BPHY timestamp value, which consists of
  * a frame count, subframe count, and tick count.  In internal-timer mode,
  * these values can be written, and they are read-only when in
- * BTN mode.  The BPHY time value is used for timestamps in the
+ * BCN mode.  The BPHY time value is used for timestamps in the
  * PSM log entries, WRMSG and WRSTS commands, and for WAIT commands.
  */
 union cavm_psm_timer_bphy_val
@@ -5460,7 +5460,42 @@ union cavm_psm_timer_cfg
         uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
 #endif /* Word 0 - End */
     } cnf10ka;
-    /* struct cavm_psm_timer_cfg_s cnf10kb; */
+    struct cavm_psm_timer_cfg_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
+        uint64_t reserved_58_62        : 5;
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
+                                                                 with N2[23:20], and the tick with N2[19:4].  In this mode,
+                                                                 each timer tick is 16 UTU units. */
+        uint64_t internal_timer_mode   : 1;  /**< [ 56: 56](R/W/H) Enables the timer's internal-timer mode, which drives the
+                                                                 timer logic with BCLK domain signals.  This may be useful
+                                                                 for verification, debug, lab bring-up, production test, etc.
+                                                                 The internal-timer mode should not be disabled until the
+                                                                 BCN block is properly initialized and providing timing
+                                                                 signals to the PSM. */
+        uint64_t reserved_49_55        : 7;
+        uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
+                                                                 message to the MDABs each time a new frame begins. */
+        uint64_t reserved_0_47         : 48;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_47         : 48;
+        uint64_t bcast_mode            : 1;  /**< [ 48: 48](R/W/H) Enables the timer broadcast mode. When set, the PSM will send a
+                                                                 message to the MDABs each time a new frame begins. */
+        uint64_t reserved_49_55        : 7;
+        uint64_t internal_timer_mode   : 1;  /**< [ 56: 56](R/W/H) Enables the timer's internal-timer mode, which drives the
+                                                                 timer logic with BCLK domain signals.  This may be useful
+                                                                 for verification, debug, lab bring-up, production test, etc.
+                                                                 The internal-timer mode should not be disabled until the
+                                                                 BCN block is properly initialized and providing timing
+                                                                 signals to the PSM. */
+        uint64_t utu_mode              : 1;  /**< [ 57: 57](R/W) Enables the timer's UTU mode, which drives the subframe
+                                                                 with N2[23:20], and the tick with N2[19:4].  In this mode,
+                                                                 each timer tick is 16 UTU units. */
+        uint64_t reserved_58_62        : 5;
+        uint64_t ena                   : 1;  /**< [ 63: 63](R/W/H) Timer enable. */
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_psm_timer_cfg cavm_psm_timer_cfg_t;
 

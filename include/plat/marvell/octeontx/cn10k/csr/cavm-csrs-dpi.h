@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (c) 2020 Marvell.
+* Copyright (C) 2020-2022 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -1313,6 +1313,356 @@ union cavm_sdp_sglist_component_s
 };
 
 /**
+ * Register (NCB) dpi#__mbox_pf_vf#_int
+ *
+ * DPI PF to VF Mailbox per queue Interrupt Register
+ * This register contains PF to VF interrupt bits.
+ */
+union cavm_dpix__mbox_pf_vfx_int
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_pf_vfx_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DPI()_PF_VF()_MBOX(0) is written. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DPI()_PF_VF()_MBOX(0) is written. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_pf_vfx_int_s cn; */
+};
+typedef union cavm_dpix__mbox_pf_vfx_int cavm_dpix__mbox_pf_vfx_int_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_PF_VFX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_PF_VFX_INT(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e200003000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f);
+    __cavm_csr_fatal("DPIX__MBOX_PF_VFX_INT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_PF_VFX_INT(a,b) cavm_dpix__mbox_pf_vfx_int_t
+#define bustype_CAVM_DPIX__MBOX_PF_VFX_INT(a,b) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_PF_VFX_INT(a,b) "DPIX__MBOX_PF_VFX_INT"
+#define device_bar_CAVM_DPIX__MBOX_PF_VFX_INT(a,b) 0x0 /* VF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_PF_VFX_INT(a,b) (a)
+#define arguments_CAVM_DPIX__MBOX_PF_VFX_INT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#__mbox_pf_vf#_int_ena_w1c
+ *
+ * DPI PF to VF Mailbox Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_dpix__mbox_pf_vfx_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_pf_vfx_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_MBOX_PF_VF_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_MBOX_PF_VF_INT[MBOX]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_pf_vfx_int_ena_w1c_s cn; */
+};
+typedef union cavm_dpix__mbox_pf_vfx_int_ena_w1c cavm_dpix__mbox_pf_vfx_int_ena_w1c_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1C(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e200003010ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f);
+    __cavm_csr_fatal("DPIX__MBOX_PF_VFX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1C(a,b) cavm_dpix__mbox_pf_vfx_int_ena_w1c_t
+#define bustype_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1C(a,b) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1C(a,b) "DPIX__MBOX_PF_VFX_INT_ENA_W1C"
+#define device_bar_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1C(a,b) 0x0 /* VF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1C(a,b) (a)
+#define arguments_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#__mbox_pf_vf#_int_ena_w1s
+ *
+ * DPI PF to VF Mailbox Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_dpix__mbox_pf_vfx_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_pf_vfx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_MBOX_PF_VF_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_MBOX_PF_VF_INT[MBOX]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_pf_vfx_int_ena_w1s_s cn; */
+};
+typedef union cavm_dpix__mbox_pf_vfx_int_ena_w1s cavm_dpix__mbox_pf_vfx_int_ena_w1s_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1S(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e200003018ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f);
+    __cavm_csr_fatal("DPIX__MBOX_PF_VFX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1S(a,b) cavm_dpix__mbox_pf_vfx_int_ena_w1s_t
+#define bustype_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1S(a,b) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1S(a,b) "DPIX__MBOX_PF_VFX_INT_ENA_W1S"
+#define device_bar_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1S(a,b) 0x0 /* VF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1S(a,b) (a)
+#define arguments_CAVM_DPIX__MBOX_PF_VFX_INT_ENA_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#__mbox_pf_vf#_int_w1s
+ *
+ * DPI PF to VF Mailbox Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_dpix__mbox_pf_vfx_int_w1s
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_pf_vfx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_MBOX_PF_VF_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_MBOX_PF_VF_INT[MBOX]. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_pf_vfx_int_w1s_s cn; */
+};
+typedef union cavm_dpix__mbox_pf_vfx_int_w1s cavm_dpix__mbox_pf_vfx_int_w1s_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_PF_VFX_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_PF_VFX_INT_W1S(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e200003008ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f);
+    __cavm_csr_fatal("DPIX__MBOX_PF_VFX_INT_W1S", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_PF_VFX_INT_W1S(a,b) cavm_dpix__mbox_pf_vfx_int_w1s_t
+#define bustype_CAVM_DPIX__MBOX_PF_VFX_INT_W1S(a,b) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_PF_VFX_INT_W1S(a,b) "DPIX__MBOX_PF_VFX_INT_W1S"
+#define device_bar_CAVM_DPIX__MBOX_PF_VFX_INT_W1S(a,b) 0x0 /* VF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_PF_VFX_INT_W1S(a,b) (a)
+#define arguments_CAVM_DPIX__MBOX_PF_VFX_INT_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#__mbox_vf#_pf_data#
+ *
+ * DPI VF/PF Mailbox Register
+ */
+union cavm_dpix__mbox_vfx_pf_datax
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_vfx_pf_datax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the VF/PF mailbox RAM. Each
+                                                                 corresponding PF may access the same storage using
+                                                                 DPI()_MBOX_PF_VF()_DATA(). DATA(0) is typically used for PF to VF signaling, DATA(1)
+                                                                 for VF to PF. Writing DPI()_MBOX_VF()_PF_DATA(1) (but not
+                                                                 DPI(0)_MBOX_PF_VF()_DATA(1)) will set the corresponding
+                                                                 DPI(0)_PF_MBOX_VF_PF_INT which if appropriately enabled will send an interrupt to the VF. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the VF/PF mailbox RAM. Each
+                                                                 corresponding PF may access the same storage using
+                                                                 DPI()_MBOX_PF_VF()_DATA(). DATA(0) is typically used for PF to VF signaling, DATA(1)
+                                                                 for VF to PF. Writing DPI()_MBOX_VF()_PF_DATA(1) (but not
+                                                                 DPI(0)_MBOX_PF_VF()_DATA(1)) will set the corresponding
+                                                                 DPI(0)_PF_MBOX_VF_PF_INT which if appropriately enabled will send an interrupt to the VF. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_vfx_pf_datax_s cn; */
+};
+typedef union cavm_dpix__mbox_vfx_pf_datax cavm_dpix__mbox_vfx_pf_datax_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_DATAX(uint64_t a, uint64_t b, uint64_t c)
+{
+    if ((a==0) && (b<=127) && (c<=1))
+        return 0x86e200002000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f) + 8ll * ((c) & 0x1);
+    __cavm_csr_fatal("DPIX__MBOX_VFX_PF_DATAX", 3, a, b, c, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_VFX_PF_DATAX(a,b,c) cavm_dpix__mbox_vfx_pf_datax_t
+#define bustype_CAVM_DPIX__MBOX_VFX_PF_DATAX(a,b,c) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_VFX_PF_DATAX(a,b,c) "DPIX__MBOX_VFX_PF_DATAX"
+#define device_bar_CAVM_DPIX__MBOX_VFX_PF_DATAX(a,b,c) 0x0 /* VF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_VFX_PF_DATAX(a,b,c) (a)
+#define arguments_CAVM_DPIX__MBOX_VFX_PF_DATAX(a,b,c) (a),(b),(c),-1
+
+/**
+ * Register (NCB) dpi#__mbox_vf#_pf_int
+ *
+ * DPI VF to PF Mailbox Interrupt Register
+ */
+union cavm_dpix__mbox_vfx_pf_int
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_vfx_pf_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
+                                                                 DPI(0)_MBOX_VF()_PF_DATA(1) is written. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
+                                                                 DPI(0)_MBOX_VF()_PF_DATA(1) is written. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_vfx_pf_int_s cn; */
+};
+typedef union cavm_dpix__mbox_vfx_pf_int cavm_dpix__mbox_vfx_pf_int_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_INT(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e000016300ll + 0x1000000000ll * ((a) & 0x0) + 0ll * ((b) & 0x7f);
+    __cavm_csr_fatal("DPIX__MBOX_VFX_PF_INT", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_VFX_PF_INT(a,b) cavm_dpix__mbox_vfx_pf_int_t
+#define bustype_CAVM_DPIX__MBOX_VFX_PF_INT(a,b) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_VFX_PF_INT(a,b) "DPIX__MBOX_VFX_PF_INT"
+#define device_bar_CAVM_DPIX__MBOX_VFX_PF_INT(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_VFX_PF_INT(a,b) (a)
+#define arguments_CAVM_DPIX__MBOX_VFX_PF_INT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#__mbox_vf#_pf_int_ena_w1c
+ *
+ * DPI VF to PF Mailbox Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+union cavm_dpix__mbox_vfx_pf_int_ena_w1c
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_vfx_pf_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for DPI(0)_MBOX_VF_PF_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for DPI(0)_MBOX_VF_PF_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_vfx_pf_int_ena_w1c_s cn; */
+};
+typedef union cavm_dpix__mbox_vfx_pf_int_ena_w1c cavm_dpix__mbox_vfx_pf_int_ena_w1c_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1C(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e000016310ll + 0x1000000000ll * ((a) & 0x0) + 0ll * ((b) & 0x7f);
+    __cavm_csr_fatal("DPIX__MBOX_VFX_PF_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1C(a,b) cavm_dpix__mbox_vfx_pf_int_ena_w1c_t
+#define bustype_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1C(a,b) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1C(a,b) "DPIX__MBOX_VFX_PF_INT_ENA_W1C"
+#define device_bar_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1C(a,b) (a)
+#define arguments_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#__mbox_vf#_pf_int_ena_w1s
+ *
+ * DPI VF to PF Mailbox Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+union cavm_dpix__mbox_vfx_pf_int_ena_w1s
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_vfx_pf_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for DPI(0)_MBOX_VF_PF_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for DPI(0)_MBOX_VF_PF_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_vfx_pf_int_ena_w1s_s cn; */
+};
+typedef union cavm_dpix__mbox_vfx_pf_int_ena_w1s cavm_dpix__mbox_vfx_pf_int_ena_w1s_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1S(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e000016318ll + 0x1000000000ll * ((a) & 0x0) + 0ll * ((b) & 0x7f);
+    __cavm_csr_fatal("DPIX__MBOX_VFX_PF_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1S(a,b) cavm_dpix__mbox_vfx_pf_int_ena_w1s_t
+#define bustype_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1S(a,b) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1S(a,b) "DPIX__MBOX_VFX_PF_INT_ENA_W1S"
+#define device_bar_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1S(a,b) (a)
+#define arguments_CAVM_DPIX__MBOX_VFX_PF_INT_ENA_W1S(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) dpi#__mbox_vf#_pf_int_w1s
+ *
+ * DPI VF to PF Mailbox Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+union cavm_dpix__mbox_vfx_pf_int_w1s
+{
+    uint64_t u;
+    struct cavm_dpix__mbox_vfx_pf_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets DPI(0)_MBOX_VF_PF_INT[MBOX]. */
+#else /* Word 0 - Little Endian */
+        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets DPI(0)_MBOX_VF_PF_INT[MBOX]. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_dpix__mbox_vfx_pf_int_w1s_s cn; */
+};
+typedef union cavm_dpix__mbox_vfx_pf_int_w1s cavm_dpix__mbox_vfx_pf_int_w1s_t;
+
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_DPIX__MBOX_VFX_PF_INT_W1S(uint64_t a, uint64_t b)
+{
+    if ((a==0) && (b<=127))
+        return 0x86e000016308ll + 0x1000000000ll * ((a) & 0x0) + 0ll * ((b) & 0x7f);
+    __cavm_csr_fatal("DPIX__MBOX_VFX_PF_INT_W1S", 2, a, b, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_DPIX__MBOX_VFX_PF_INT_W1S(a,b) cavm_dpix__mbox_vfx_pf_int_w1s_t
+#define bustype_CAVM_DPIX__MBOX_VFX_PF_INT_W1S(a,b) CSR_TYPE_NCB
+#define basename_CAVM_DPIX__MBOX_VFX_PF_INT_W1S(a,b) "DPIX__MBOX_VFX_PF_INT_W1S"
+#define device_bar_CAVM_DPIX__MBOX_VFX_PF_INT_W1S(a,b) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_DPIX__MBOX_VFX_PF_INT_W1S(a,b) (a)
+#define arguments_CAVM_DPIX__MBOX_VFX_PF_INT_W1S(a,b) (a),(b),-1,-1
+
+/**
  * Register (NCB) dpi#_csclk_active_pc
  *
  * DPI Conditional Coprocessor Clock Counter Register
@@ -2614,7 +2964,7 @@ typedef union cavm_dpix_ebo_wr_arb_ctrl cavm_dpix_ebo_wr_arb_ctrl_t;
 static inline uint64_t CAVM_DPIX_EBO_WR_ARB_CTRL(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_EBO_WR_ARB_CTRL(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a==0))
         return 0x86e000010030ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000010030ll + 0x1000000000ll * ((a) & 0x0);
@@ -3662,356 +4012,6 @@ static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_DATAX(uint64_t a, uint64_t b, uint6
 #define arguments_CAVM_DPIX_MBOX_PF_VFX_DATAX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) dpi#_mbox_pf_vf#_int
- *
- * DPI PF to VF Mailbox per queue Interrupt Register
- * This register contains PF to VF interrupt bits.
- */
-union cavm_dpix_mbox_pf_vfx_int
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_pf_vfx_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DPI()_PF_VF()_MBOX(0) is written. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DPI()_PF_VF()_MBOX(0) is written. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_pf_vfx_int_s cn; */
-};
-typedef union cavm_dpix_mbox_pf_vfx_int cavm_dpix_mbox_pf_vfx_int_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_INT(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=127))
-        return 0x86e200003000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f);
-    __cavm_csr_fatal("DPIX_MBOX_PF_VFX_INT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_PF_VFX_INT(a,b) cavm_dpix_mbox_pf_vfx_int_t
-#define bustype_CAVM_DPIX_MBOX_PF_VFX_INT(a,b) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_PF_VFX_INT(a,b) "DPIX_MBOX_PF_VFX_INT"
-#define device_bar_CAVM_DPIX_MBOX_PF_VFX_INT(a,b) 0x0 /* VF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_PF_VFX_INT(a,b) (a)
-#define arguments_CAVM_DPIX_MBOX_PF_VFX_INT(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_mbox_pf_vf#_int_ena_w1c
- *
- * DPI PF to VF Mailbox Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
- */
-union cavm_dpix_mbox_pf_vfx_int_ena_w1c
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_pf_vfx_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_MBOX_PF_VF_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DPI(0)_MBOX_PF_VF_INT[MBOX]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_pf_vfx_int_ena_w1c_s cn; */
-};
-typedef union cavm_dpix_mbox_pf_vfx_int_ena_w1c cavm_dpix_mbox_pf_vfx_int_ena_w1c_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1C(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=127))
-        return 0x86e200003010ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f);
-    __cavm_csr_fatal("DPIX_MBOX_PF_VFX_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1C(a,b) cavm_dpix_mbox_pf_vfx_int_ena_w1c_t
-#define bustype_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1C(a,b) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1C(a,b) "DPIX_MBOX_PF_VFX_INT_ENA_W1C"
-#define device_bar_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1C(a,b) 0x0 /* VF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1C(a,b) (a)
-#define arguments_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1C(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_mbox_pf_vf#_int_ena_w1s
- *
- * DPI PF to VF Mailbox Interrupt Enable Set Register
- * This register sets interrupt enable bits.
- */
-union cavm_dpix_mbox_pf_vfx_int_ena_w1s
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_pf_vfx_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_MBOX_PF_VF_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DPI(0)_MBOX_PF_VF_INT[MBOX]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_pf_vfx_int_ena_w1s_s cn; */
-};
-typedef union cavm_dpix_mbox_pf_vfx_int_ena_w1s cavm_dpix_mbox_pf_vfx_int_ena_w1s_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1S(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=127))
-        return 0x86e200003018ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f);
-    __cavm_csr_fatal("DPIX_MBOX_PF_VFX_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1S(a,b) cavm_dpix_mbox_pf_vfx_int_ena_w1s_t
-#define bustype_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1S(a,b) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1S(a,b) "DPIX_MBOX_PF_VFX_INT_ENA_W1S"
-#define device_bar_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1S(a,b) 0x0 /* VF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1S(a,b) (a)
-#define arguments_CAVM_DPIX_MBOX_PF_VFX_INT_ENA_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_mbox_pf_vf#_int_w1s
- *
- * DPI PF to VF Mailbox Interrupt Set Register
- * This register sets interrupt bits.
- */
-union cavm_dpix_mbox_pf_vfx_int_w1s
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_pf_vfx_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_MBOX_PF_VF_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DPI(0)_MBOX_PF_VF_INT[MBOX]. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_pf_vfx_int_w1s_s cn; */
-};
-typedef union cavm_dpix_mbox_pf_vfx_int_w1s cavm_dpix_mbox_pf_vfx_int_w1s_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_PF_VFX_INT_W1S(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=127))
-        return 0x86e200003008ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f);
-    __cavm_csr_fatal("DPIX_MBOX_PF_VFX_INT_W1S", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_PF_VFX_INT_W1S(a,b) cavm_dpix_mbox_pf_vfx_int_w1s_t
-#define bustype_CAVM_DPIX_MBOX_PF_VFX_INT_W1S(a,b) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_PF_VFX_INT_W1S(a,b) "DPIX_MBOX_PF_VFX_INT_W1S"
-#define device_bar_CAVM_DPIX_MBOX_PF_VFX_INT_W1S(a,b) 0x0 /* VF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_PF_VFX_INT_W1S(a,b) (a)
-#define arguments_CAVM_DPIX_MBOX_PF_VFX_INT_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_mbox_vf#_pf_data#
- *
- * DPI VF/PF Mailbox Register
- */
-union cavm_dpix_mbox_vfx_pf_datax
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_vfx_pf_datax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the VF/PF mailbox RAM. Each
-                                                                 corresponding PF may access the same storage using
-                                                                 DPI()_MBOX_PF_VF()_DATA(). DATA(0) is typically used for PF to VF signaling, DATA(1)
-                                                                 for VF to PF. Writing DPI()_MBOX_VF()_PF_DATA(1) (but not
-                                                                 DPI(0)_MBOX_PF_VF()_DATA(1)) will set the corresponding
-                                                                 DPI(0)_PF_MBOX_VF_PF_INT which if appropriately enabled will send an interrupt to the VF. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the VF/PF mailbox RAM. Each
-                                                                 corresponding PF may access the same storage using
-                                                                 DPI()_MBOX_PF_VF()_DATA(). DATA(0) is typically used for PF to VF signaling, DATA(1)
-                                                                 for VF to PF. Writing DPI()_MBOX_VF()_PF_DATA(1) (but not
-                                                                 DPI(0)_MBOX_PF_VF()_DATA(1)) will set the corresponding
-                                                                 DPI(0)_PF_MBOX_VF_PF_INT which if appropriately enabled will send an interrupt to the VF. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_vfx_pf_datax_s cn; */
-};
-typedef union cavm_dpix_mbox_vfx_pf_datax cavm_dpix_mbox_vfx_pf_datax_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_DATAX(uint64_t a, uint64_t b, uint64_t c) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_DATAX(uint64_t a, uint64_t b, uint64_t c)
-{
-    if ((a==0) && (b<=127) && (c<=1))
-        return 0x86e200002000ll + 0x1000000000ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x7f) + 8ll * ((c) & 0x1);
-    __cavm_csr_fatal("DPIX_MBOX_VFX_PF_DATAX", 3, a, b, c, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_VFX_PF_DATAX(a,b,c) cavm_dpix_mbox_vfx_pf_datax_t
-#define bustype_CAVM_DPIX_MBOX_VFX_PF_DATAX(a,b,c) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_VFX_PF_DATAX(a,b,c) "DPIX_MBOX_VFX_PF_DATAX"
-#define device_bar_CAVM_DPIX_MBOX_VFX_PF_DATAX(a,b,c) 0x0 /* VF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_VFX_PF_DATAX(a,b,c) (a)
-#define arguments_CAVM_DPIX_MBOX_VFX_PF_DATAX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (NCB) dpi#_mbox_vf#_pf_int
- *
- * DPI VF to PF Mailbox Interrupt Register
- */
-union cavm_dpix_mbox_vfx_pf_int
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_vfx_pf_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 DPI(0)_MBOX_VF()_PF_DATA(1) is written. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 DPI(0)_MBOX_VF()_PF_DATA(1) is written. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_vfx_pf_int_s cn; */
-};
-typedef union cavm_dpix_mbox_vfx_pf_int cavm_dpix_mbox_vfx_pf_int_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_INT(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_INT(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=127))
-        return 0x86e000016300ll + 0x1000000000ll * ((a) & 0x0) + 0ll * ((b) & 0x7f);
-    __cavm_csr_fatal("DPIX_MBOX_VFX_PF_INT", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_VFX_PF_INT(a,b) cavm_dpix_mbox_vfx_pf_int_t
-#define bustype_CAVM_DPIX_MBOX_VFX_PF_INT(a,b) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_VFX_PF_INT(a,b) "DPIX_MBOX_VFX_PF_INT"
-#define device_bar_CAVM_DPIX_MBOX_VFX_PF_INT(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_VFX_PF_INT(a,b) (a)
-#define arguments_CAVM_DPIX_MBOX_VFX_PF_INT(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_mbox_vf#_pf_int_ena_w1c
- *
- * DPI VF to PF Mailbox Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
- */
-union cavm_dpix_mbox_vfx_pf_int_ena_w1c
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_vfx_pf_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for DPI(0)_MBOX_VF_PF_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for DPI(0)_MBOX_VF_PF_INT[MBOX]. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_vfx_pf_int_ena_w1c_s cn; */
-};
-typedef union cavm_dpix_mbox_vfx_pf_int_ena_w1c cavm_dpix_mbox_vfx_pf_int_ena_w1c_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1C(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1C(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=127))
-        return 0x86e000016310ll + 0x1000000000ll * ((a) & 0x0) + 0ll * ((b) & 0x7f);
-    __cavm_csr_fatal("DPIX_MBOX_VFX_PF_INT_ENA_W1C", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1C(a,b) cavm_dpix_mbox_vfx_pf_int_ena_w1c_t
-#define bustype_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1C(a,b) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1C(a,b) "DPIX_MBOX_VFX_PF_INT_ENA_W1C"
-#define device_bar_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1C(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1C(a,b) (a)
-#define arguments_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1C(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_mbox_vf#_pf_int_ena_w1s
- *
- * DPI VF to PF Mailbox Interrupt Enable Set Register
- * This register sets interrupt enable bits.
- */
-union cavm_dpix_mbox_vfx_pf_int_ena_w1s
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_vfx_pf_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for DPI(0)_MBOX_VF_PF_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for DPI(0)_MBOX_VF_PF_INT[MBOX]. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_vfx_pf_int_ena_w1s_s cn; */
-};
-typedef union cavm_dpix_mbox_vfx_pf_int_ena_w1s cavm_dpix_mbox_vfx_pf_int_ena_w1s_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1S(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=127))
-        return 0x86e000016318ll + 0x1000000000ll * ((a) & 0x0) + 0ll * ((b) & 0x7f);
-    __cavm_csr_fatal("DPIX_MBOX_VFX_PF_INT_ENA_W1S", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1S(a,b) cavm_dpix_mbox_vfx_pf_int_ena_w1s_t
-#define bustype_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1S(a,b) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1S(a,b) "DPIX_MBOX_VFX_PF_INT_ENA_W1S"
-#define device_bar_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1S(a,b) (a)
-#define arguments_CAVM_DPIX_MBOX_VFX_PF_INT_ENA_W1S(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) dpi#_mbox_vf#_pf_int_w1s
- *
- * DPI VF to PF Mailbox Interrupt Set Register
- * This register sets interrupt bits.
- */
-union cavm_dpix_mbox_vfx_pf_int_w1s
-{
-    uint64_t u;
-    struct cavm_dpix_mbox_vfx_pf_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets DPI(0)_MBOX_VF_PF_INT[MBOX]. */
-#else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 32; /**< [ 31:  0](R/W1S/H) Reads or sets DPI(0)_MBOX_VF_PF_INT[MBOX]. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_dpix_mbox_vfx_pf_int_w1s_s cn; */
-};
-typedef union cavm_dpix_mbox_vfx_pf_int_w1s cavm_dpix_mbox_vfx_pf_int_w1s_t;
-
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_INT_W1S(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
-static inline uint64_t CAVM_DPIX_MBOX_VFX_PF_INT_W1S(uint64_t a, uint64_t b)
-{
-    if ((a==0) && (b<=127))
-        return 0x86e000016308ll + 0x1000000000ll * ((a) & 0x0) + 0ll * ((b) & 0x7f);
-    __cavm_csr_fatal("DPIX_MBOX_VFX_PF_INT_W1S", 2, a, b, 0, 0, 0, 0);
-}
-
-#define typedef_CAVM_DPIX_MBOX_VFX_PF_INT_W1S(a,b) cavm_dpix_mbox_vfx_pf_int_w1s_t
-#define bustype_CAVM_DPIX_MBOX_VFX_PF_INT_W1S(a,b) CSR_TYPE_NCB
-#define basename_CAVM_DPIX_MBOX_VFX_PF_INT_W1S(a,b) "DPIX_MBOX_VFX_PF_INT_W1S"
-#define device_bar_CAVM_DPIX_MBOX_VFX_PF_INT_W1S(a,b) 0x0 /* PF_BAR0 */
-#define busnum_CAVM_DPIX_MBOX_VFX_PF_INT_W1S(a,b) (a)
-#define arguments_CAVM_DPIX_MBOX_VFX_PF_INT_W1S(a,b) (a),(b),-1,-1
-
-/**
  * Register (NCB) dpi#_ncb#_cfg
  *
  * DPI NCB Configuration Register
@@ -4095,7 +4095,7 @@ typedef union cavm_dpix_ncbo_err_info cavm_dpix_ncbo_err_info_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INFO(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INFO(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a==0))
         return 0x86e000017200ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017200ll + 0x1000000000ll * ((a) & 0x0);
@@ -4134,7 +4134,7 @@ typedef union cavm_dpix_ncbo_err_int cavm_dpix_ncbo_err_int_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a==0))
         return 0x86e000017300ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017300ll + 0x1000000000ll * ((a) & 0x0);
@@ -4174,7 +4174,7 @@ typedef union cavm_dpix_ncbo_err_int_ena_w1c cavm_dpix_ncbo_err_int_ena_w1c_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1C(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a==0))
         return 0x86e000017310ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017310ll + 0x1000000000ll * ((a) & 0x0);
@@ -4214,7 +4214,7 @@ typedef union cavm_dpix_ncbo_err_int_ena_w1s cavm_dpix_ncbo_err_int_ena_w1s_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_ENA_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a==0))
         return 0x86e000017318ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017318ll + 0x1000000000ll * ((a) & 0x0);
@@ -4254,7 +4254,7 @@ typedef union cavm_dpix_ncbo_err_int_w1s cavm_dpix_ncbo_err_int_w1s_t;
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_W1S(uint64_t a) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_NCBO_ERR_INT_W1S(uint64_t a)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && (a==0))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && (a==0))
         return 0x86e000017308ll + 0x1000000000ll * ((a) & 0x0);
     if (cavm_is_model(OCTEONTX_CN10KB) && (a==0))
         return 0x86e000017308ll + 0x1000000000ll * ((a) & 0x0);
@@ -4381,9 +4381,9 @@ typedef union cavm_dpix_pf_msix_vecx_addr cavm_dpix_pf_msix_vecx_addr_t;
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_ADDR(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && ((a==0) && (b<=117)))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && ((a==0) && (b<=117)))
         return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a==0) && (b<=118)))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && ((a==0) && (b<=118)))
         return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=118)))
         return 0x86e100000000ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
@@ -4429,9 +4429,9 @@ typedef union cavm_dpix_pf_msix_vecx_ctl cavm_dpix_pf_msix_vecx_ctl_t;
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b) __attribute__ ((pure, always_inline));
 static inline uint64_t CAVM_DPIX_PF_MSIX_VECX_CTL(uint64_t a, uint64_t b)
 {
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS1_X) && ((a==0) && (b<=117)))
+    if (cavm_is_model(OCTEONTX_CN10KA_AX) && ((a==0) && (b<=117)))
         return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
-    if (cavm_is_model(OCTEONTX_CN10KA_PASS2_X) && ((a==0) && (b<=118)))
+    if (cavm_is_model(OCTEONTX_CN10KA_BX) && ((a==0) && (b<=118)))
         return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
     if (cavm_is_model(OCTEONTX_CN10KB) && ((a==0) && (b<=118)))
         return 0x86e100000008ll + 0x1000000000ll * ((a) & 0x0) + 0x10ll * ((b) & 0x7f);
