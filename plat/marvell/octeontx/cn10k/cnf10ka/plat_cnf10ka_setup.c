@@ -275,8 +275,8 @@ void plat_add_mmio()
 	int i, device_type_count;
 	cavm_tad_cmn_const_t tcc = { .u = CSR_READ(CAVM_TAD_CMN_CONST) };
 
-#if defined(SAVE_FATAL_ERRLOGS) && defined(IMAGE_BL31)
-	map_add_region(WORK_BUFFER_BASE,
+#if defined(IMAGE_BL31)
+	mmap_add_region(WORK_BUFFER_BASE,
 	WORK_BUFFER_BASE,
 	WORK_BUFFER_MAX_SIZE,
 		MT_RW | MT_SECURE | MT_DEVICE);

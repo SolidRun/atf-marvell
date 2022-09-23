@@ -294,19 +294,18 @@ vector_base runtime_exceptions
 	 * ---------------------------------------------------------------------
 	 */
 vector_entry sync_exception_sp_el0
-#ifdef MONITOR_TRAPS
 	stp x29, x30, [sp, #-16]!
 
 	mrs	x30, esr_el3
 	ubfx	x30, x30, #ESR_EC_SHIFT, #ESR_EC_LENGTH
 
+#ifdef MONITOR_TRAPS
 	/* Check for BRK */
 	cmp	x30, #EC_BRK
 	b.eq	brk_handler
 
 	ldp x29, x30, [sp], #16
 #endif /* MONITOR_TRAPS */
-
 	b	plat_check_ras_error
 	/* We don't expect any synchronous exceptions from EL3 */
 	b	report_unhandled_exception
@@ -341,7 +340,7 @@ vector_entry sync_exception_sp_elx
 	 * synchronous exception. There is a high probability that SP_EL3 is
 	 * corrupted.
 	 */
-	b	plat_check_ras_error
+
 	b	report_unhandled_exception
 end_vector_entry sync_exception_sp_elx
 

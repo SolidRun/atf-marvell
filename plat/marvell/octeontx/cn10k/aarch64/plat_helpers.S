@@ -17,7 +17,25 @@
 	.globl	plat_my_core_pos
 	.globl	octeontx_calc_core_pos
 	.globl  plat_panic_handler
+	.globl  plat_check_ras_error
 
+	/* ESR in X30, x29 and x30 from stack */
+func plat_check_ras_error
+	cmp	x30, #EC_DABORT_CUR_EL
+	bne	report_unhandled_exception
+	ldr	x30, =DSS_INJ_FLAG_ADDR
+	ldr	w30, [x30]
+	cmp	w30, #DSS_INJ_FLAG
+	bne	report_unhandled_exception
+
+        /* Return to one instruction after this which cause exception */
+        mrs     x30, elr_el3
+        add     x30, x30, #0x4
+        msr     elr_el3, x30
+
+        ldp x29, x30, [sp], #16
+        eret
+endfunc plat_check_ras_error
 	/* -----------------------------------------------------
 	 * unsigned int plat_my_core_pos(void);
 	 * no clusters

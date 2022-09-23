@@ -134,6 +134,8 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccaddr1_t ecccaddr1;
 
 	addr_xlate_t addr;
+	memset(&addr, 0, sizeof(addr));
+	addr.ch_mask = cn10k_get_ch_mask();
 
 	err_rec = otx2_begin_ghes(&plat_octeontx_bcfg->ras_config,
 				  "dss", &err_ring);
@@ -144,14 +146,22 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 #endif
 	dss = &err_rec->u.dss;
 
-	ecccaddr0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(ch));
-	ecccaddr1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(ch));
+	if (info.dbe) {
+		ecccaddr0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR0(ch));
+		ecccaddr1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUADDR1(ch));
+	} else {
+		ecccaddr0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(ch));
+		ecccaddr1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(ch));
+	}
+
 	addr.rank   = ecccaddr0.s.ecc_corr_rank;
 	addr.row    = ecccaddr0.s.ecc_corr_row;
 	addr.bg     = ecccaddr1.s.ecc_corr_bg;
 	addr.bank   = ecccaddr1.s.ecc_corr_bank;
 	addr.col    = ecccaddr1.s.ecc_corr_col;
 	addr.ch     = ch;
+	debug_ras("DMC%lld,R%d,BG%d,BA%d,r%d,c%d\n",
+			ch, addr.rank, addr.bg, addr.bank, addr.row, addr.col);
 	cn10k_dram_xlate_to_pa(&addr);
 
 	dss->error_status  = eccstat.u;
@@ -183,8 +193,7 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	if (info.dbe) {
 		is_secure = is_secure_address(addr.phys_addr);
 		err_rec->severity = is_secure ?  CPER_SEV_FATAL : CPER_SEV_RECOVERABLE;
-	}
-	else
+	} else
 		err_rec->severity = CPER_SEV_CORRECTED;
 
 	fr = snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
@@ -216,9 +225,9 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 		eccstat.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(ch));
 		eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
 
-		debug_ras("DSS %d error detected INT_W1C: 0x%llx ECCSTAT 0x%x ECCCTL 0x%x\n",
+		debug_ras("DSS %d error detected INT_W1C: 0x%llx ECCSTAT 0x%x ECCCTL 0x%x MPIDR 0x%x\n",
 			(uint8_t) ch, (uint64_t) int_stat.u,
-			eccstat.u, eccctl.u);
+			eccstat.u, eccctl.u, (uint32_t)read_mpidr_el1());
 		if (!int_stat.u) {
 			CSR_WRITE(CAVM_DSSX_INT_W1C(ch), int_stat.u);
 			eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
@@ -248,7 +257,6 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 			eccctl.s.ecc_uncorrected_err_clr = 1;
 			ERROR("DSS Uncorrected error %d is_sbr %d ecc cnt %d eccctl 0x%x\n",
 				dss_err_info.dbe, dss_err_info.is_sbr, dss_err_info.ecc_cnt, eccctl.u);
-			ERROR("System needs to be rebooted\n");
 		} else {
 			dss_err_info.dbe = 0;
 			dss_err_info.is_sbr = eccstat.s.sbr_read_ecc_ce;
@@ -271,8 +279,13 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 		if (int_stat.s.ecc_uncorrected_err_intr)
 			cn10k_fatal_error_handler();
 
-		if (fatal)
+		if (fatal) {
+			ERROR("System needs to be rebooted\n");
 			cn10k_fatal_reboot();
+			/* Should not reach here */
+			while (1)
+				;
+		}
 	}
 	return 0;
 }
@@ -526,8 +539,7 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	if (!is_secure_address(xlate.phys_addr)) {
 		ret = octeontx_mmap_add_dynamic_region_with_sync(address, address,
 			PAGE_SIZE, MT_EXECUTE_NEVER | MT_NS | MT_MEMORY | MT_RW);
-	}
-	else {
+	} else {
 		ret = octeontx_mmap_add_dynamic_region_with_sync(address, address,
 			PAGE_SIZE, MT_EXECUTE_NEVER | MT_MEMORY | MT_RW);
 	}
@@ -614,26 +626,19 @@ int cn10k_inject_dss_error(uint64_t address, uint64_t etype, uint64_t in_bits)
 	debug_ras("%s param1 0x%llx param2 0x%llx param3 0x%llx\n", __func__,
 			address, etype, in_bits);
 
+	*(uint32_t *)DSS_INJ_FLAG_ADDR = DSS_INJ_FLAG;
+
 	int ret = dss_setup_einj_addr(address, etype, in_bits);
 
 	if (ret) {
 		ERROR("%s error %d\n", __func__, ret);
+		*(uint32_t *)DSS_INJ_FLAG_ADDR = 0;
 		return -1;
 	}
 
 	ret = dss_read_poisoned_address(address, etype);
 
+	*(uint32_t *)DSS_INJ_FLAG_ADDR = 0;
+
 	return ret;
-}
-
-void plat_check_ras_error(void)
-{
-	cavm_dssx_int_w1c_t int_stat;
-	uint8_t ch;
-
-	for (ch = 0; ch < get_num_channels(); ch++) {
-		int_stat.u = CSR_READ(CAVM_DSSX_INT_W1C(ch));
-		if (int_stat.s.ecc_uncorrected_err_intr)
-			cn10k_ras_dss_isr(0, 0, 0);
-	}
 }
