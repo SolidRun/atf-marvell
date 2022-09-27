@@ -18,6 +18,9 @@ USE_COHERENT_MEM	:= 0
 
 SAVE_FATAL_ERRLOGS	:= 0
 
+SKIP_REBOOT_ON_RAS_FATAL ?= 0
+$(eval $(call add_define,SKIP_REBOOT_ON_RAS_FATAL))
+
 # System coherency is managed in hardware
 HW_ASSISTED_COHERENCY	:=	1
 

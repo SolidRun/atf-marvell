@@ -800,12 +800,19 @@ void cn10k_print_crashdump_data(void *data, int current)
 
 void cn10k_fatal_reboot(void)
 {
+#if !SKIP_REBOOT_ON_RAS_FATAL
 	extern void octeontx_scp_sys_reboot(void);
 
 	isb();
 	printf("Fatal ERROR: rebooting\n");
 	mdelay(2000);
 	octeontx_scp_sys_reboot();
+#else
+	isb();
+	printf("Fatal Error: Cold reboot is required\n");
+	while (1)
+		wfi();
+#endif
 }
 
 void cn10k_fatal_error_handler(void)
