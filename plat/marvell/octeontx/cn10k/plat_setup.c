@@ -299,7 +299,11 @@ void plat_octeontx_setup(void)
 #if RAS_EXTENSION
 	if (cavm_is_platform(PLATFORM_HW)) {
 		extern int cn10k_ras_init(void);
-		cn10k_ras_init();
+		int ret = cn10k_ras_init();
+
+		if (ret) {
+			WARN("Failed RAS init\n");
+		}
 	}
 #endif
 

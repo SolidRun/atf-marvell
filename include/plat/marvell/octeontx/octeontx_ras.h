@@ -99,6 +99,9 @@ enum {
 	CPER_SEV_INFORMATIONAL,
 };
 
+#define CPER_SEC_VALID_FRU_ID			0x1
+#define CPER_SEC_VALID_FRU_TEXT			0x2
+
 /* cper_sec_mem_err[_old] validation_bits (copied from linux/cper.h) */
 #define CPER_MEM_VALID_ERROR_STATUS		0x0001
 #define CPER_MEM_VALID_PA			0x0002
@@ -214,6 +217,17 @@ struct acpi_hest_generic_data {
 
 #define OTX2_GHES_ERR_REC_FRU_TEXT_LEN 32
 
+enum otx2_ghes_rec_type {
+	REC_MEM = 1,
+	REC_CORE = 2,
+};
+
+struct otx2_ghes_err_mem_rec {
+	struct acpi_hest_generic_status estatus;
+	struct acpi_hest_generic_data   gdata;
+	struct cper_sec_mem_err cper;
+};
+
 /* N.2.4.4 ARM Processor Error Section */
 struct processor_error {
 	struct cper_sec_proc_arm desc;
@@ -238,7 +252,7 @@ struct otx2_ghes_err_record {
 		struct cper_sec_mem_err dss;
 		struct cper_sec_mem_err tad;
 	} u;
-	uint32_t severity; /* CPER_SEV_xxx */
+	uint32_t error_severity; /* CPER_SEV_xxx */
 	char fru_text[OTX2_GHES_ERR_REC_FRU_TEXT_LEN];
 };
 
@@ -248,23 +262,21 @@ struct otx2_ghes_err_ring {
 	uint32_t volatile tail;
 	uint32_t size;       /* ring size */
 	uint32_t sig;        /* set to OTX2_GHES_ERR_RING_SIG if initialized */
-	uint32_t reg;
+	uint32_t res;
 	/* ring of records */
-	struct otx2_ghes_err_record records[1] __aligned(8);
+	struct otx2_ghes_err_record records[0] __aligned(8);
 };
-
 
 struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 			struct otx2_ghes_err_ring **ringp);
 
-void otx2_send_ghes(struct otx2_ghes_err_record *rec,
-			struct otx2_ghes_err_ring *err_ring, int event);
+void otx2_send_ghes(ras_config_t *rc, struct otx2_ghes_err_record *rec, int event, bool bert);
 
 void otx2_map_ghes(ras_config_t *rc);
 
-bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries, bool reinit);
+void err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries);
 
-int otx2_estatus_ghes(ras_config_t *rc, const char *name, struct octeontx_estatus_record **estatus);
+int otx2_acpi_estatus_init(struct fdt_ghes *gh, uint32_t type);
 
 #endif // RAS_EXTENSION
 

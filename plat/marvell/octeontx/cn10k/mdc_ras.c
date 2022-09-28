@@ -121,16 +121,19 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	} else
 		type_tok = "?";
 
+	mdc->error_status  = st.u;
+	mdc->validation_bits |= CPER_MEM_VALID_ERROR_STATUS;
+
 	mdc->row = st.s.row;
 	mdc->validation_bits |= CPER_MEM_VALID_ROW;
-	err_rec->severity |= st.s.dbe ? CPER_SEV_FATAL : CPER_SEV_CORRECTED;
+	err_rec->error_severity |= st.s.dbe ? CPER_SEV_FATAL : CPER_SEV_CORRECTED;
 
 	entry = read_mdc_ras_entry_s(st.s.chain_id, st.s.hub_id, st.s.node_id);
 
 	mdc->validation_bits |= CPER_MEM_VALID_RESPONDER_ID;
 	mdc->responder_id = entry.s.ras_id;
 
-	fr = snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
+	fr = snprintf((char *)err_rec->fru_text, sizeof(err_rec->fru_text),
 			"MDC %s %d.%d.%d ", type_tok, st.s.chain_id, st.s.hub_id,
 			st.s.node_id);
 	err_rec->fru_text[fr] = '\0';
@@ -138,7 +141,7 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	debug_ras("MDC ECC %s chn %d.%d.%d Row:%d\n",
 		type, st.s.chain_id, st.s.hub_id, st.s.node_id, st.s.row);
 
-	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_MDC_EVENT);
+	otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_MDC_EVENT, 0);
 }
 
 int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie)

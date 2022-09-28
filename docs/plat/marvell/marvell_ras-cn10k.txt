@@ -1,119 +1,257 @@
 Mavell CN10K RAS implementation
 ===============================
 
-Marvell CN10K implements the ARMv8 RAS (Reliability, Availability & Serviceability)
-specification.
+Marvell CN10K implements the ARMv8 RAS (Reliability, Availability & Serviceability) specification.
 
-This decouples the tracking of hardware exception events from any outage to
-the data being transferred, allowing a RAS-aware OS to handle the outage
-as it sees fit, by analyzing the context in which the data is being used.
+This decouples the tracking of hardware exception events from any outage
+to the data being transferred, allowing a RAS-aware OS to handle the outage
+as it sees fit by analyzing the context in which the data is being used.
 
-Errors in memory/cache transactions are detected by the hardware and handled
-by the firmware.  These can be correctable (CE), uncorrectable unrecoverable (UEU) or
-uncorrectable recoverable (UER errors and result in a system notification.
-  CE error is single bit ECC error in memory or cache.
-  UEU error is double bit ECC error in secure memory region.
-  UER error is double bit ECC error in non-secure memory region.
-
-Note: Only DSS uncorrected errors(UE) are categorized by firmware as Uncorrected
-Unrecoverable(UEU) and Uncorrected Recoverable(UER) based on secure/non-secure
-attribute of the error address. Uncorrected errors from all other modules are
-treated as fatal in the current firmware implementation.
-
-The firmware enables exceptions in relevant CN10K hardware units
-CORE (ARM processor), DSS (DRAM subsystem, DRAM Controller),
-TAD (Cache Tag And Data), MDC (Memory Diagnostic Controller)
-and performs the following actions:
-
-- Capture hardware description of the error
-- Convert the hardware description of the error to CPER (Common Platform Error Record) format
-- Collect CPER errors per hardware component ring buffer.
-- Make SDEI notification towards kerne driver
-- Kernel driver forwards CPER errors to EDAC framework for processing and logging.
-- BERT support is not supported for the CN10K platform
-
-The Device Tree "sdei-ghes" node describes shared-memory communication with firmware
-
+Errors in memory, cache, and AP cores are detected by the hardware and handled by ATF
+in firmware first mode. Kernel notified via Software Delegated Exception Interface (SDEI).
+RAS error records are exchanged between ATF and kernel via a shared memory buffer.
+The shared memory layout is described under the Device Tree "sdei-ghes" node.
 For layout details of the Device Tree "sdei-ghes" node see the following kernel document:
 Documentation/devicetree/bindings/edac/marvell-sdei-ghes.txt
 
-Device Tree sdei-ghes implementation notes
-==========================================
-ATF and Linux share a common memory block (ring buffer) several CPER format
-error entries can fit into the ring buffer. In current
-firmware first mode error identification interrupt is delivered
-to ATF. ATF writes error record into ring buffer head and triggers SDEI
-event callback. SDEI callback Linux registered at boot time beforehand.
+Uboot-based systems utilize Device Tree for communication and set up EDAC framework
+driver octeontx_edac for RAS error reporting. On the other hand, ACPI-based systems
+do not have access to the Device Tree, and the ACPI table HEST keeps in sync with
+the Device Tree by EDK2 firmware and ACPI driver.
+For that systems, HEST fully describes shared buffer location, error status block,
+and notification type. RAS support for ACPI systems is entirely based
+on Kernel mainline APEI, GHES framework. Mentioned shard memory is managed in
+a circular buffer manner. RAS error records from the buffer support CPER, GHES
+framework layout structure that is maintained by APEI.
+The same structure is supported by the EDAC driver for the system that does not support ACPI
+but supports EDAC. From a firmware perspective, both RAS reporting schemas look identical.
+EDAC driver fulfills the requirement of the framework in the error report, injection,
+and corresponding controls and statistics data. For more details, refer to
+Documentation/devicetree/bindings/edac/marvell-sdei-ghes.txt and corresponding Documentation/edac.txt
+Kernel ACPI-based system works under APEI framework for error report and
+uses external module for error injection in future error injection (EINJ) ACPI table
+should handle error injection.
 
-Configurations to enable RAS Error Reporting
-============================================
+RAS error types
+---------------
+These can be Correctable (CE), Uncorrectable Unrecoverable (UEU) and
+Uncorrectable Recoverable (UER) errors.
+  CE error is a single-bit ECC error in memory or cache.
+  UEU error is a double-bit ECC error in the secure memory region.
+  UER error is a double-bit ECC error in a non-secure memory region.
+
+Note: Only DSS uncorrected errors(UE) are categorized by firmware
+as UEU and UER based on the security attribute of the error address.
+Firmware support compiles time control SKIP_REBOOT_ON_RAS_FATAL for UEU error types behavior.
+Uncorrected errors from all other modules are treated as fatal in the current firmware implementation.
+
+The firmware enables exceptions in relevant CN10K hardware units
+CORE (ARM processor), DSS (DRAM subsystem, DRAM Controller),
+TAD (LLC, Cache Tag And Data), MDC (Memory Diagnostic Controller)
+and performs the following actions:
+- Capture hardware description of the error
+- Convert the hardware description of the error to CPER (Common Platform Error Record) and GHES format
+- Collect error records per hardware component ring buffer.
+- Make SDEI notification to Kerne driver
+- Kernel handles RAS records based on system type ACPI or DT.
+
+
+Configurations to enable RAS Error Reporting for Device Tree base systems
+=========================================================================
 Enable module config:
-EDAC_OCTEONTX=y
 RAS=y
 EDAC=y
 ARM_SDE_INTERFACE=y
+EDAC_OCTEONTX=y
+
+Configurations to enable RAS Error Reporting for ACPI base systems
+==================================================================
+Enable module config:
+CONFIG_ACPI=y
+CONFIG_ACPI_APEI=y
+CONFIG_ACPI_APEI_GHES=y
+MARVELL_CN10K_EINJ=y
+
+
 
 RAS EDAC Error injection DSS
 ============================
 
-EDAC based interface for error injection from sysfs /sys/devices/system/edac/mc/mc0:
+EDAC based interface for error injection from sysfs
+/sys/devices/system/edac/mc/mc0
 
 EDAC SMC based interface for error injection exemple:
--rw-r--r--    1 root     root         65536 Apr 19 20:15 address
--rw-r--r--    1 root     root         65536 Apr 19 20:15 error_type
---w-------    1 root     root         65536 Apr 19 20:17 inject
+	ls -l /sys/devices/system/edac/mc/mc0
+	address              - Physical Address to corrupt
+	ce_count             - CE error counter
+	ce_noinfo_count      - enadle/disable logging for CE
+	error_type           - type of error SEC/DED and position of bit to corrupt
+	                            29   - Set bit 29 for DSS error injection
+	                            0..7 - bit position to corrupt
+	                            8    - error type 0 = DED (double), 1 = SEC (single)
+	inject               - Trigger error injection
+	max_location
+	mc_name              - Memory controller name "dss"
+	power
+	reset_counters       - Reset CE/UE counter to 0
+	seconds_since_reset
+	size_mb              - Unused property currently
+	ue_count             - UE counter
+	ue_noinfo_count      - enadle/disable logging for UE
+	uevent
 
-address - Physical Address to corrupt
-error_type   - type of error SEC/DED and position of bit to corrupt
-	  29   - Set bit 29 for DSS error injection
-          0..7 - bit position to corrupt
-          8    - error type 0 = DED (double), 1 = SEC (single)
-
-Flip one bit at address 0x2fffff000
-===================================
-echo 0x2fffff000 > address
+Example: Flip one bit at address 0x2fffff000
+--------------------------------------------
+echo 0x2ffff0000 > address
 echo 0x20000101 > error_type
 echo 1 > inject
 
-cd /sys/devices/system/edac/mc/mc0/ && echo 0x2fffff000 > address && echo 0x20000101 > error_type && echo 1 > inject
-
 Output example:
-EDAC MC0: 1 CE DMC0,R0,BG2,BA3,r49151,c960 on  (status:0x103 bank:3 row:49151 col:960 bit_pos:3 page:0x2ffff offset:0xf000 grain:1 syndrome:0x0 - single-bit ECC)
 
-1 CE - one correctable error
-DMC0 - DMC or channel 0
-R0 - Rank 0
-BG2 - Bank Group 2
-BA3 - Bank Address
-r49151 - DRAM row 49151
-c960 - DRAM collumn 960
-page:0x2ffff offset:0xf000 - physicall address 0x2fffff000, in current test system page offset 16 bits long.
+EDAC MC0: 1 CE on (single-bit ECC status:0x103 addr: 0x2ffff0000 rank:0 bank:3 row:49151 col:0 bit_pos:3  page:0x2ffff offset:0x0 grain:1 syndrome:0x0 - DMC1,Rank0,BG2)
 
-Flip two bits at address 0x2fffff000
-====================================
+		1 CE         - one correctable error
+		DMC1         - DMC 1 or memory controller channel 1
+		rank:0       - Rank 0
+		BG2          - Bank Group 2
+		bank:3       - Bank Address 3
+		row:49151    - DRAM row 49151
+		col:0        - DRAM collumn 0
+		bit_pos:3    - DRAM bit positionin row
+		page:0x2ffff - Physical page
+		offset:0x0   - page + offset make physicall address 0x2ffff0000, in current test system page offset 16 bits long.
+		status:0x103 - Raw value from register ddrc_ch0_eccstat
+
+Flip two bits at address 0x2ffff0000
+------------------------------------
+Multi-bit errors require DRAM reinitialization to fix errors which is true for cold system reset.
 setenv bootargs 'reboot_mode=cold'
 echo 1 > /sys/module/edac_core/parameters/edac_mc_panic_on_ue
 echo 0x2fffff000 > address
 echo 0x20000001 > error_type
 echo 1 > inject
-
-cd /sys/devices/system/edac/mc/mc0/ && echo 0x2fffff000 > address && echo 0x20000001 > error_type && echo 1 > inject
-
-Require cold reboot after injection.
 module/kernel parameter: edac_mc_panic_on_ue=1
 
 Output example:
-EDAC MC0: 1 UE DMC0,R0,BG2,BA3,r49151,c960 on  (status:0x10003 bank:3 row:49151 col:960 page:0x2ffff offset:0xf000 grain:1 - multi-bit ECC)
+EDAC MC0: 1 UE R,DMC1,R0,BG2 on  (multi-bit ECC status:0x10003 addr: 0x2ffff0000 rank:0 bank:3 row:49151 col:0 bit_pos:0  page:0x2ffff offset:0x0 grain:1)
+		UE R,DMC1,R0,BG2 - UER Recoverable error on DMC1, Rank 0, Bank Grour 2
+		UE U,DMC1,R0,BG2 - UEU Unrecoverable error on DMC1, Rank 0, Bank Grour 2
+
+	cd /sys/devices/system/edac/mc/mc0
+
+	echo 0x2ffff0000 > address && echo 0x20000101 > error_type && echo 1 > inject
+	echo 0x2ffff0000 > address && echo 0x20000001 > error_type && echo 1 > inject
+
+	echo 0x20000 > address && echo 0x20000101 > error_type && echo 1 > inject
+	echo 0x20000 > address && echo 0x20000001 > error_type && echo 1 > inject
+
+	echo 0x3fc008000 > address && echo 0x20000101 > error_type && echo 1 > inject
+	echo 0x3fc008000 > address && echo 0x20000001 > error_type && echo 1 > inject
+
+	echo 0xf00000 > address && echo 0x20000101 > error_type && echo 1 > inject
+	echo 0xf00000 > address && echo 0x20000001 > error_type && echo 1 > inject
+
+	echo 0x5e1fff000 > address && echo 0x20000101 > error_type && echo 1 > inject
+	echo 0x5e1fff000 > address && echo 0x20000001 > error_type && echo 1 > inject
+
+	echo 0x10000000 > address && echo 0x20000101 > error_type && echo 1 > inject
+	echo 0x10000000 > address && echo 0x20000001 > error_type && echo 1 > inject
 
 
 RAS EDAC Interface MDC (Memory Diagnostic Controller)
 =====================================================
 
+EDAC based interface
+
 /sys/devices/system/edac/mdc/
+
+-rw-r--r--    log_ce
+-rw-r--r--    log_ue
+drwxr-xr-x    mdc0
+-rw-r--r--    panic_on_ue
+-rw-r--r--    poll_msec
+/sys/devices/system/edac/mdc/mdc0
+-r--r--r--    ce_count - CE counter
+drwxr-xr-x    mdc0
+-r--r--r--    ue_count - UE counter
 
 
 RAS EDAC Interface TAD (LLC last level cache)
 =============================================
 
+EDAC based interface
+
 /sys/devices/system/edac/llc/
 
+
+RAS EDAC Interface AP core
+==========================
+
+EDAC-based interface for AP cores percent for each CPU core
+
+/sys/devices/system/edac/cpu/
+
+EDAC DEVICE2: UE: core instance: cpu5 block: core0 'UEL1D(0,0,0,0) midr=0x410fd490 mpidr=0x81050000 paddr=0x0 info=0x5'
+
+
+RAS APEI GHES Error injection DSS
+=================================
+
+Currently, we do not support EINJ table and use the custom driver for error injection:
+MARVELL_CN10K_EINJ=y
+
+0xd         - DSS identifier
+0x2ffff0000 - address
+0x101       - error type double bit error injection
+0x1         - error type single bit error injection
+
+echo "0xd,0x2ffff0000,0x101" > /sys/module/cn10k_einj/parameters/smc
+echo "0xd,0x2ffff0000,0x1" > /sys/module/cn10k_einj/parameters/smc
+
+echo "0xd,0x20000,0x101" > /sys/module/cn10k_einj/parameters/smc
+echo "0xd,0x20000,0x1" > /sys/module/cn10k_einj/parameters/smc
+
+echo "0xd,0xf00000,0x101" > /sys/module/cn10k_einj/parameters/smc
+echo "0xd,0xf00000,0x1" > /sys/module/cn10k_einj/parameters/smc
+
+echo "0xd,0x10000000,0x101" > /sys/module/cn10k_einj/parameters/smc
+echo "0xd,0x10000000,0x1" > /sys/module/cn10k_einj/parameters/smc
+
+Output example DSS single bit error injection:
+{1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
+{1}[Hardware Error]: It has been corrected by h/w and requires no further action
+{1}[Hardware Error]: event severity: corrected
+{1}[Hardware Error]:  Error 0, type: corrected
+{1}[Hardware Error]:  fru_text: DMC1,Rank0,BG2
+{1}[Hardware Error]:   section_type: memory error
+{1}[Hardware Error]:   error_status: 0x0000000000000103
+{1}[Hardware Error]:   physical_address: 0x00000002ffff0000
+{1}[Hardware Error]:   rank: 0 bank: 3 row: 49151 column: 0 bit_position: 3
+{1}[Hardware Error]:   error_type: 2, single-bit ECC
+
+Output example DSS double bit error injection:
+{2}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
+{2}[Hardware Error]: event severity: recoverable
+{2}[Hardware Error]:  Error 0, type: recoverable
+{2}[Hardware Error]:  fru_text: DMC0,Rank0,BG0
+{2}[Hardware Error]:   section_type: memory error
+{2}[Hardware Error]:   error_status: 0x0000000000010000
+{2}[Hardware Error]:   physical_address: 0x0000000010000000
+{2}[Hardware Error]:   rank: 0 bank: 0 row: 1024 column: 32 bit_position: 0
+{2}[Hardware Error]:   error_type: 3, multi-bit ECC
+
+Output example AP CORE error:
+{9}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 24
+{9}[Hardware Error]: event severity: fatal
+{9}[Hardware Error]:  Error 0, type: fatal
+{9}[Hardware Error]:  fru_text: UEL1D(0,0,0,0)
+{9}[Hardware Error]:   section_type: ARM processor error
+{9}[Hardware Error]:   MIDR: 0x00000000410fd490
+{9}[Hardware Error]:   Multiprocessor Affinity Register (MPIDR): 0x0000000081150000
+{9}[Hardware Error]:   Error info structure 0:
+{9}[Hardware Error]:   num errors: 1
+{9}[Hardware Error]:    error_type: 0, cache error
+{9}[Hardware Error]:    error_info: 0x0000000000000005
+{9}[Hardware Error]:     transaction type: Instruction
+{9}[Hardware Error]:     cache level: 0
+{9}[Hardware Error]:    physical fault address: 0x0000000000000000

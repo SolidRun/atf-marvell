@@ -148,18 +148,18 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 	cm_el1_sysregs_context_save(NON_SECURE);
 
 	if (erx_status & (ERR_STATUS_UE_MASK << ERR_STATUS_UE_SHIFT))
-		err_rec->severity = CPER_SEV_FATAL;
+		err_rec->error_severity = CPER_SEV_FATAL;
 	else if ((erx_status & (ERR_STATUS_CE_MASK << ERR_STATUS_CE_SHIFT)) &&
 		(erx_status & (ERR_STATUS_OF_MASK << ERR_STATUS_OF_SHIFT)))
-		err_rec->severity = CPER_SEV_CORRECTED;
+		err_rec->error_severity = CPER_SEV_CORRECTED;
 	else if (erx_status & (ERR_STATUS_DE_MASK << ERR_STATUS_DE_SHIFT))
-		err_rec->severity = CPER_SEV_FATAL;
+		err_rec->error_severity = CPER_SEV_FATAL;
 
-	fr = snprintf(err_rec->fru_text, OTX2_GHES_ERR_REC_FRU_TEXT_LEN, "%s",
+	fr = snprintf((char *)err_rec->fru_text, OTX2_GHES_ERR_REC_FRU_TEXT_LEN, "%s",
 			err_type_str_short[err_info->err_type]);
 	if (fr < 0)
 		fr = 0;
-	frs = &err_rec->fru_text[fr];
+	frs = (char *)&err_rec->fru_text[fr];
 	fr = OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr;
 
 	error_info.u = 0;
@@ -204,7 +204,7 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 //		error_info.validation_bit |= 1 << 0;
 		error_info.validation_bit |= 1ull << 2;
 	}
-	error_info.corrected = err_rec->severity == RAS_ERR_CE;
+	error_info.corrected = err_rec->error_severity == RAS_ERR_CE;
 
 	desc = &err_rec->u.core.desc;
 	info = &err_rec->u.core.info;
@@ -222,8 +222,8 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 	info->version          = 0;
 	info->length           = sizeof(*info);
 	info->validation_bits |= CPER_ARM_INFO_VALID_ERR_INFO |
-							CPER_ARM_INFO_VALID_PHYSICAL_ADDR;
-	info->validation_bits &= ~CPER_ARM_INFO_VALID_FLAGS;
+							CPER_ARM_INFO_VALID_PHYSICAL_ADDR |
+							CPER_ARM_INFO_VALID_ERR_INFO;
 
 	if ((erx_status & ERR_STATUS_SERR_MASK & SERR_CACHE_DATA_RAM_ECC_ERR) ||
 		(erx_status & ERR_STATUS_SERR_MASK & SERR_CACHE_TAG_RAM_ECC_ERR) ||
@@ -245,7 +245,7 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 #endif
 		debug_ras("ring: %p, hd/tl/sz %d/%d/%d\n", err_ring, err_ring->head,
 			err_ring->tail, err_ring->size);
-		otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_AP0_EVENT + core);
+		otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_AP0_EVENT + core, 0);
 #ifdef SAVE_FATAL_ERRLOGS
 	}
 	crashdump_add(CRASHDUMP_TYPE_CPER, err_rec, sizeof(struct otx2_ghes_err_record));
@@ -526,10 +526,10 @@ int cn10k_ras_init(void)
 	struct otx2_ghes_err_ring *err_ring;
 	uint32_t ring_len;
 	ras_config_t *cfg;
-	struct octeontx_estatus_record *rec;
 	int i = 0;
 	int idx = 0, irq, core;
 	int ret = 0;
+	enum otx2_ghes_rec_type type;
 
 	for (irq = 0; irq < MDC_SPI_IRQS; irq++) {
 		cn10k_ras_interrupts[idx].intr_number = MDC_SPI_IRQ(irq);
@@ -573,31 +573,25 @@ int cn10k_ras_init(void)
 	plat_ras_intr_init();
 
 	cfg = &plat_octeontx_bcfg->ras_config;
-	for (i = 0; i < ARRAY_SIZE(cfg->fdt_ghes); i++) {
-		err_ring = cfg->fdt_ghes[i].base[GHES_PTR_RING];
-		ring_len = cfg->fdt_ghes[i].size[GHES_PTR_RING];
-		err_ring_init(err_ring, ring_len, 0, 1);
-	}
 
 	for (i = 0; i < ARRAY_SIZE(cfg->fdt_ghes); i++) {
-		ret = otx2_estatus_ghes(cfg, cfg->fdt_ghes[i].name, &rec);
-		if (ret)
+
+		if (!(uint64_t)cfg->fdt_ghes[i].base[GHES_PTR_STAT_ADDR])
 			continue;
 
-		rec->estatus.raw_data_offset = sizeof(struct acpi_hest_generic_status) + sizeof(struct acpi_hest_generic_data);
-		rec->estatus.data_length = sizeof(*rec) - sizeof(struct acpi_hest_generic_status);
-		rec->gdata.revision = 0x201; // ACPI 4.x
-		rec->gdata.validation_bits |= ACPI_HEST_GEN_VALID_FRU_STRING;
-		rec->gdata.error_data_length = sizeof(*rec) - rec->estatus.raw_data_offset;
-
-		if (IS_NOT_MC_SDEI_EVENT(cfg->fdt_ghes[i].id))
-			memcpy((guid_t *)rec->gdata.section_type, &CPER_SEC_PROC_ARM, sizeof(guid_t));
+		err_ring = cfg->fdt_ghes[i].base[GHES_PTR_RING];
+		ring_len = cfg->fdt_ghes[i].size[GHES_PTR_RING];
+		if (!strncmp("core", cfg->fdt_ghes[i].name, 4))
+			type = REC_CORE;
 		else
-			memcpy((guid_t *)rec->gdata.section_type, &CPER_SEC_PLATFORM_MEM, sizeof(guid_t));
-		debug_ras("%s cper init %s\n", __func__, cfg->fdt_ghes[i].name);
+			type = REC_MEM;
+
+		err_ring_init(err_ring, ring_len, 0);
+
+		ret = otx2_acpi_estatus_init(&cfg->fdt_ghes[i], type);
 	}
 
-	return 0;
+	return ret;
 }
 
 #if defined(SAVE_FATAL_ERRLOGS)

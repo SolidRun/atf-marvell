@@ -9,6 +9,22 @@
 
 #if RAS_EXTENSION
 
+extern sdei_ev_map_t *find_event_map(int ev_num);
+extern sdei_entry_t *get_event_entry(sdei_ev_map_t *map);
+bool sdei_event_is_enable(int ev_num)
+{
+	sdei_ev_map_t *map;
+	sdei_entry_t *se;
+
+	map = find_event_map(ev_num);
+	if (map == NULL)
+		return false;
+
+	se = get_event_entry(map);
+
+	return (se->state & (1 << 1));
+}
+
 /*
  * err_ring_init()
  *
@@ -20,36 +36,20 @@
  *   entries:  if non-zero, # of entries to use in ring
  *             if zero, # of entries to use in ring is calculated dynamically
  *   reinit:   force reinitialize buffer accidentally memory can stay in previous state
- *
- * Returns,
- *   false if ring was NOT already initialized
- *   !false if ring WAS already initialized
  */
-bool err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries, bool reinit)
+void err_ring_init(struct otx2_ghes_err_ring *err_ring, int len, int entries)
 {
-	bool init = false;
-
 	if (err_ring && len) {
-		err_ring->reg = 0;
-		init = (err_ring->sig == OTX2_GHES_ERR_RING_SIG);
-		if (!init || reinit) {
-			err_ring->sig = OTX2_GHES_ERR_RING_SIG;
-			err_ring->head = err_ring->tail = 0;
-			err_ring->size = entries ? entries :
-					(len - offsetof(struct otx2_ghes_err_ring, records[0])) /
-						sizeof(err_ring->records[0]);
-		}
-		if (!reinit) {
-			/* BERT buffer must be registered at boot */
-			debug2ras("%s setup reg\n", __func__);
-			err_ring->reg = OTX2_GHES_ERR_RING_SIG;
-		}
+		err_ring->sig = OTX2_GHES_ERR_RING_SIG;
+		err_ring->head = 0;
+		err_ring->tail = 0;
+		err_ring->size = entries ? entries : (len - sizeof(struct otx2_ghes_err_ring)) /
+									(sizeof(struct otx2_ghes_err_record));
+		err_ring->res = 0;
 	}
-
-	return init;
 }
 
-static struct fdt_ghes *otx2_find_ghes(ras_config_t *rc, const char *name)
+struct fdt_ghes *otx2_find_ghes(ras_config_t *rc, const char *name)
 {
 	int i;
 	struct fdt_ghes *fdt_ghes = NULL;
@@ -108,9 +108,9 @@ static struct fdt_ghes *otx2_find_ghes(ras_config_t *rc, const char *name)
 struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 			struct otx2_ghes_err_ring **ringp)
 {
-	struct otx2_ghes_err_record *err_rec;
+	struct otx2_ghes_err_record *err_rec = NULL;
 	struct otx2_ghes_err_ring *err_ring;
-	volatile uint32_t tail = 0, head = 0;
+	volatile uint32_t head = 0;
 	struct fdt_ghes *gh;
 
 	if (ringp)
@@ -127,70 +127,131 @@ struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 	}
 
 	/* if consumer not registered */
-	if (err_ring->reg != OTX2_GHES_ERR_RING_SIG) {
-		debug2ras("%s unset reg\n", __func__);
+	if (strncmp(name, "bert", 4) && !sdei_event_is_enable(gh->id)) {
+		debug_ras("%s sdei 0x%x disabled\n", __func__, gh->id);
 		return NULL;
 	}
 
-	tail = err_ring->tail;
 	head = err_ring->head;
 	dsbsy();
 
-	if (((head + 1) % err_ring->size) != tail) {
-		err_rec = &err_ring->records[head];
-		memset(err_rec, 0, sizeof(*err_rec));
-	} else {
-		debug_ras("GHES error ring '%s' is full\n", name);
-		err_rec = NULL;
-	}
+	debug_ras("sdei [0x%08x] tail=%d, head=%d, size=%d\n",
+			gh->id, err_ring->tail, err_ring->head, err_ring->size);
+
+	err_rec = &err_ring->records[head];
+	memset(err_rec, 0, sizeof(*err_rec));
+
+	head++;
+	head %= err_ring->size;
+	err_ring->head = head;
+	dsbsy();
 
 	if (ringp)
 		*ringp = err_ring;
+
 	return err_rec;
 }
 
-int otx2_estatus_ghes(ras_config_t *rc, const char *name, struct octeontx_estatus_record **estatus)
+int otx2_acpi_estatus_init(struct fdt_ghes *gh, uint32_t type)
 {
 	struct octeontx_estatus_record *rec;
-	struct fdt_ghes *gh;
+	struct acpi_hest_generic_status *estatus;
+	struct acpi_hest_generic_data *gdata;
 
-	gh = otx2_find_ghes(rc, name);
 	if (!gh) {
-		*estatus = NULL;
-		debug_ras("cannot find estatus '%s'\n", name);
+		debug_ras("cannot find estatus '%s'\n", gh->name);
 		return -1;
 	}
+
+	*((uint64_t *)gh->base[GHES_PTR_STAT_ADDR]) = (uint64_t)(uint64_t *)gh->base[GHES_PTR_STATUS];
 
 	rec = gh->base[GHES_PTR_STATUS];
 	if (!rec) {
-		*estatus = NULL;
-		debug_ras("estatus NULL '%s'\n", name);
+		debug_ras("estatus NULL '%s'\n", gh->name);
 		return -1;
 	}
-	memset(rec, 0, sizeof(*rec));
-	*estatus = rec;
+
+	memset(rec, 0, gh->size[GHES_PTR_STATUS]);
+
+	estatus = &rec->estatus;
+	gdata = &rec->gdata;
+
+	estatus->block_status = 0;
+	estatus->raw_data_offset = sizeof(struct acpi_hest_generic_status) + sizeof(struct acpi_hest_generic_data);
+	estatus->data_length = sizeof(struct acpi_hest_generic_data) + ((type == REC_MEM) ? sizeof(struct cper_sec_mem_err) : sizeof(struct processor_error));
+	gdata->error_data_length = (type == REC_MEM) ? sizeof(struct cper_sec_mem_err) : sizeof(struct processor_error);
+	memcpy((guid_t *)gdata->section_type, (type == REC_MEM) ? &CPER_SEC_PLATFORM_MEM : &CPER_SEC_PROC_ARM, sizeof(guid_t));
 
 	return 0;
 }
 
-void otx2_send_ghes(struct otx2_ghes_err_record *rec,
-		    struct otx2_ghes_err_ring *err_ring,
-		    int event)
+static void otx2_acpi_estatus_setup(ras_config_t *rc, struct otx2_ghes_err_record *rec, int event, bool bert)
 {
-	int ret = 0;
-	volatile uint32_t head = err_ring->head;
+	struct otx2_ghes_err_ring *ring = NULL;
+	struct octeontx_estatus_record *estatus = NULL;
+	struct fdt_ghes *fdt_ghes = NULL;
+	int i = 0;
 
-	/* Ensure that error record is written fully prior to advancing
-	 * the head (which indicates availability to consumer).
-	 */
-	dmbsy();
+	for (i = 0; rc && i < rc->nr_ghes; i++)
+		if (event == rc->fdt_ghes[i].id)
+			break;
 
-	if (++head >= err_ring->size)
-		head = 0;
-	err_ring->head = head;
-	dsbsy();
+	if (i == rc->nr_ghes)
+		return;
+
+	fdt_ghes = &rc->fdt_ghes[i];
+
+	estatus = fdt_ghes->base[GHES_PTR_STATUS];
+	ring = fdt_ghes->base[GHES_PTR_RING];
+
+	estatus->estatus.error_severity = rec->error_severity;
+	estatus->estatus.block_status = 1;
+	estatus->gdata.error_severity = rec->error_severity;
+	estatus->gdata.validation_bits = CPER_SEC_VALID_FRU_TEXT;
+	memcpy(estatus->gdata.fru_text, rec->fru_text, sizeof(estatus->gdata.fru_text));
+	memcpy(&estatus->u, &rec->u, sizeof(estatus->u));
+
+	if (bert) {
+		struct otx2_ghes_err_mem_rec *r = NULL;
+
+		fdt_ghes = otx2_find_ghes(rc, "bert");
+		if (!fdt_ghes)
+			return;
+
+		r = fdt_ghes->base[GHES_PTR_STAT_ADDR];
+		ring = fdt_ghes->base[GHES_PTR_RING];
+
+		int head = ring->head;
+		int size = ring->size;
+
+		dsbsy();
+		if (ring->head)
+			r = r + (head-1);
+		else
+			r = r + (size-1);
+
+		r->estatus.block_status = 1;
+		r->estatus.error_severity = rec->error_severity;
+		r->estatus.raw_data_offset = sizeof(struct acpi_hest_generic_status) + sizeof(struct acpi_hest_generic_data);
+		r->estatus.raw_data_length = 0;
+		r->estatus.data_length = sizeof(struct acpi_hest_generic_data) + sizeof(struct cper_sec_mem_err);
+
+		r->gdata.error_data_length = sizeof(struct cper_sec_mem_err);
+		r->gdata.error_severity = rec->error_severity;
+		r->gdata.validation_bits = CPER_SEC_VALID_FRU_TEXT;
+		memcpy((guid_t *)r->gdata.section_type, &CPER_SEC_PLATFORM_MEM, sizeof(guid_t));
+		memcpy(r->gdata.fru_text, rec->fru_text, sizeof(r->gdata.fru_text));
+		memcpy(&r->cper, &rec->u, sizeof(struct cper_sec_mem_err));
+	}
+}
+
+void otx2_send_ghes(ras_config_t *rc, struct otx2_ghes_err_record *rec, int event, bool bert)
+{
+	otx2_acpi_estatus_setup(rc, rec, event, bert);
 
 #if SDEI_SUPPORT
+	int ret = 0;
+
 	debug_ras("RAS SDEI dispatch: 0x%x\n", event);
 	ret = sdei_dispatch_event(event);
 	if (ret != 0) {

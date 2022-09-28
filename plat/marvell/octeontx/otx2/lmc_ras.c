@@ -1731,30 +1731,33 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 		err_rec->u.mcc.bank = bank;
 		err_rec->u.mcc.row = row;
 		err_rec->u.mcc.column = col;
+		if (severity == CPER_SEV_CORRECTED)
+			err_rec->u.mcc.error_type = 2;
+		else
+			err_rec->u.mcc.error_type = 3;
 
-		err_rec->u.mcc.validation_bits |= (CPER_MEM_VALID_PA |
+		err_rec->u.mcc.validation_bits = (CPER_MEM_VALID_PA |
 			CPER_MEM_VALID_CARD | CPER_MEM_VALID_MODULE |
 			CPER_MEM_VALID_BANK | CPER_MEM_VALID_ROW |
+			CPER_MEM_VALID_ERROR_TYPE |
 			CPER_MEM_VALID_COLUMN);
 
-		err_rec->severity = severity;
+		err_rec->error_severity = severity;
 
-		snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
-			 "%sLMC%d: DIMM%d,R%d/%d,BA%d",  (err_rec->severity == CPER_SEV_CORRECTED) ?
-			 "" : ((err_rec->severity == CPER_SEV_FATAL) ? "U," : "R,"), lmc, dimm, prank, lrank, bank);
+		snprintf((char *)err_rec->fru_text, sizeof(err_rec->fru_text),
+			 "%sLMC%d: DIMM%d,R%d/%d",  (err_rec->error_severity == CPER_SEV_CORRECTED) ?
+			 "" : ((err_rec->error_severity == CPER_SEV_FATAL) ? "U," : "R,"), lmc, dimm, prank, lrank);
 
 		/* If fatal error, copy it and update fatal ring */
 		if (fatal && fatal_rec) {
 			if (fatal_rec != err_rec)
 				memcpy(fatal_rec, err_rec, sizeof(*fatal_rec));
-			if (++fatal_ring->head >= fatal_ring->size)
-				fatal_ring->head = 0;
 			/* Ensure ring memory is updated prior to reset */
 			dmbsy();
 			l2c_flush();
 			debug_ras("fatal ring: %p, hd/tl/sz %d/%d/%d\n",
-				  fatal_ring, fatal_ring->head,
-				  fatal_ring->tail, fatal_ring->size);
+					fatal_ring, fatal_ring->head,
+					fatal_ring->tail, fatal_ring->size);
 		}
 
 		/*
@@ -1762,8 +1765,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 		 * If so, do not issue the non-fatal notification.
 		 */
 		if (err_rec != fatal_rec)
-			otx2_send_ghes(err_rec, err_ring,
-				       OCTEONTX_SDEI_RAS_MCC_EVENT);
+			otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_MCC_EVENT, fatal);
 	}
 
 	if (av && !fatal && repair)

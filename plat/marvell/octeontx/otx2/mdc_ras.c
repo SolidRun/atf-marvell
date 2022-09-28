@@ -569,29 +569,25 @@ static int check_cn9xxx_mdc(union cavm_mdc_ecc_status st, int dont_report)
 
 		if (err_rec) {
 			err_rec->u.mdc.row = st.s.row;
+			err_rec->u.mdc.responder_id = re.s.ras_id;
+			err_rec->u.mdc.validation_bits = CPER_MEM_VALID_ROW | CPER_MEM_VALID_RESPONDER_ID;
 
-			err_rec->u.mcc.validation_bits |= CPER_MEM_VALID_ROW;
-
-			err_rec->severity = fatal ? CPER_SEV_FATAL :
-						    CPER_SEV_CORRECTED;
+			err_rec->error_severity = fatal ? CPER_SEV_FATAL : CPER_SEV_CORRECTED;
 
 			snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
-				 "%s %s %d.%d.%d %c%c%c",
+				 "%s %s %c%c%c %d.%d.%d",
 				 type_tok,
 				 blk_type ? blk_type : "-",
-				 cmd.s.chain_id, cmd.s.hub_id, cmd.s.node_id,
 				 "UHRSN---"[re.s.ras_uet],
 				 "pt"[re.s.ras_transient],
-				 "-dc?"[re.s.ras_poison]
+				 "-dc?"[re.s.ras_poison],
+				 cmd.s.chain_id, cmd.s.hub_id, cmd.s.node_id
 				);
 
 			/* If fatal error, copy it and update fatal ring */
 			if (fatal && fatal_rec) {
 				if (fatal_rec != err_rec)
-					memcpy(fatal_rec, err_rec,
-					       sizeof(*fatal_rec));
-				if (++fatal_ring->head >= fatal_ring->size)
-					fatal_ring->head = 0;
+					memcpy(fatal_rec, err_rec, sizeof(*fatal_rec));
 				/* Ensure ring mem is updated prior to reset */
 				dmbsy();
 				l2c_flush();
@@ -605,8 +601,7 @@ static int check_cn9xxx_mdc(union cavm_mdc_ecc_status st, int dont_report)
 			 * If so, do not issue the non-fatal notification.
 			 */
 			if (err_rec != fatal_rec)
-				otx2_send_ghes(err_rec, err_ring,
-					       OCTEONTX_SDEI_RAS_MDC_EVENT);
+				otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_MDC_EVENT, fatal);
 		}
 	}
 

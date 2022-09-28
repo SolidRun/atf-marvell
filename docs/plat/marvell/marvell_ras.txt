@@ -1,123 +1,91 @@
 OcteonTX2 RAS implementation
 ============================
 
-OcteonTX2 implements the ARMv8 RAS (Reliability, Availability & Serviceability)
-specification.
+Marvell OcteonTX2 implements the ARMv8 RAS (Reliability, Availability & Serviceability) specification.
 
-This decouples the tracking of hardware exception events from any outage to
-the data being transferred, allowing a RAS-aware OS (such as Linux 4.18 onward)
-to handle the outage as it sees fit, by analysing the context in which the data
-is being used.
+This decouples the tracking of hardware exception events from any outage
+to the data being transferred, allowing a RAS-aware OS to handle the outage
+as it sees fit by analyzing the context in which the data is being used.
 
-Errors in memory/cache transactions are detected by the hardware and handled
-by the firmware.  These can be correctable (CE), uncorrectable unrecoverable (UEU) or
-uncorrectable recoverable (UER errors and result in a system notification.
-  CE error is single bit ECC error in memory or cache.
-  UEU error is double bit ECC error in secure memory region.
-  UER error is double bit ECC error in non-secure memory region.
+Errors in memory, cache, and AP cores are detected by the hardware and handled by ATF
+in firmware first mode. Kernel notified via Software Delegated Exception Interface (SDEI).
+RAS error records are exchanged between ATF and kernel via a shared memory buffer.
+The shared memory layout is described under the Device Tree "sdei-ghes" node.
+For layout details of the Device Tree "sdei-ghes" node see the following kernel document:
+Documentation/devicetree/bindings/edac/marvell-sdei-ghes.txt
 
-Note: Only MDC uncorrected errors(UE) are categorized by firmware as Uncorrected
-Unrecoverable(UEU) and Uncorrected Recoverable(UER) based on secure/non-secure
-attribute of the error address. Uncorrected errors from all other modules are
-treated as fatal in the current firmware implementation.
+Uboot-based systems utilize Device Tree for communication and set up EDAC framework
+driver octeontx_edac for RAS error reporting. On the other hand, ACPI-based systems
+do not have access to the Device Tree, and the ACPI table HEST keeps in sync with
+the Device Tree by EDK2 firmware and ACPI driver.
+For that systems, HEST fully describes shared buffer location, error status block,
+and notification type. RAS support for ACPI systems is entirely based
+on Kernel mainline APEI, GHES framework. Mentioned shard memory is managed in
+a circular buffer manner. RAS error records from the buffer support CPER, GHES
+framework layout structure that is maintained by APEI.
+The same structure is supported by the EDAC driver for the system that does not support ACPI
+but supports EDAC. From a firmware perspective, both RAS reporting schemas look identical.
+EDAC driver fulfills the requirement of the framework in the error report, injection,
+and corresponding controls and statistics data. For more details, refer to
+Documentation/devicetree/bindings/edac/marvell-sdei-ghes.txt and
+Documentation/admin-guide/ras.rst
+Kernel ACPI-based system works under APEI framework for error report and
+uses external module for error injection in future error injection (EINJ) ACPI table
+should handle error injection.
+
+RAS error types
+---------------
+These can be Correctable (CE), Uncorrectable Unrecoverable (UEU)
+  CE error is a single-bit ECC error in memory or cache.
+  UEU error is a double-bit ECC error in memory or cache.
 
 The uncorrected errors are recorded and are made available to Linux upon subsequent
-boot (via the Boot Error Record Table - BERT).
+boot via the Boot Error Record Table (BERT) for ACPI based systems.
+Device Tree based systems utilize custom driver otx2-ghes-bert.
 
 The firmware enables exceptions in relevant OcteonTX2 hardware units
-(MDC, MCC, LMC) and performs the following actions:
+LMC, MCC (DRAM Local Memory Controller),
+MDC (Memory Diagnostic Controller)
+and performs the following actions:
+- Capture hardware description of the error
+- Convert the hardware description of the error to CPER (Common Platform Error Record) and GHES format
+- Collect error records per hardware component ring buffer.
+- Make SDEI notification to Kerne driver
+- Kernel handles RAS records based on system type ACPI or DT.
 
-- reports errors to serial console
-- logs errors to a standard error-logging framework which is understood by
-  RAS-aware OS software
 
-The error-logging framework consists of:
-  Generic Hardware Error Source (GHES)
-  Hardware Error Source Table (HEST)
-  Boot Error Record Table (BERT)
-
-  Please refer to the ACPI specification for details of these.
-
-The access procedure for GHES is well defined in a UEFI/ACPI platform,
-also OcteonTX2 embedded deployments will use ATF & DeviceTree rather than ACPI.
-
-Custom platform device in linux is provided to derive the GHES location
-from device tree, and forward CPER records, so the error indications flow to the
-standard processing of a kernel built with **MEMORY_FAILURE=y** option, which is
-notified in the standard fashion with an SDEI, and acts to contain uncorrectable
-errors, retire troublesome pages, and abort/restart impacted subsystems.
-
-The full RAS model is not available in kernels before 4.18, so in this case the
-error indications are passed to the processing of the legacy EDAC model.
-
-For details of the Device Tree "sdei-ghes" node describing this shared-memory
-communication area, see the following kernel document:
-  Documentation/devicetree/bindings/edac/marvell-sdei-ghes.txt
-
-To assist in verifying this reporting path, and any customer-developed code
-which continues the processing from the details provided by standard RAS & EDAC
-kernel interfaces, a set of SMC services is defined between kernels and ATF to
-force error injection via the LMC/MCC/MDC memory/cache interfaces, to model the
-response to a genuine outage.
-The API details of this OCTEONTX_EDAC SMC are outlined in ATF's
-  include/plat/marvell/octeontx/otx2/plat_ras.h
-
-The ability to inject multi-bit errors compromises system integrity, so is
-disabled in the regular DEBUG=0 ATF builds.
-
-Device Tree sdei-ghes implementation notes
-==========================================
-ATF and Linux share a common memory block (ring buffer) several CPER format
-error entries can fit into ring buffer (currently 4 records). In current
-firmware first mode error identification interrupt (MDC/MCC/LMC) is delivered
-to ATF. ATF writes error record into ring buffer head and triggers SDEI
-event callback. SDEI callback Linux registered at boot time beforehand.
-sdei-ghes callback move error record from ring buffer tail into Error Status
-Block (estatus) memory area, ESB block allocated for one error entry for HEST.
-Generic GHES driver makes periodic polling on Error Status Block and if ESB
-contains error data handler provide error presence notification and error clear.
-BERT Error Status Block size should correspond to ring buffer size to fit all BED
-Boot Error Data.
-
-ACPI sdei-ghes implementation notes
-===================================
-Setup Linux bootarg acpi=on.
-GHES requires Sdei.asl table to enable SDEI events. Hest.asl describe
-corresponding table layout and initialization values like polling
-interval, Error Status Block address (8byte), actual Error Status Block, and
-Ring buffer memory block. Bert.asl describe memory region for ring buffer and
-ESB memory area which fits all errors from ring to notify at boot time.
-
-Configurations to enable RAS Error Reporting
-============================================
-Enable module config EDAC_OCTEONTX:
-ARCH=arm64 CROSS_COMPILE=aarch64-marvell-linux-gnu- make menuconfig
+Configurations to enable RAS Error Reporting for Device Tree base systems
+=========================================================================
+Enable module config:
 RAS=y
 EDAC=y
 ARM_SDE_INTERFACE=y
-ACPI_APEI_GHES=y 	/// If ACPI is enabled
+EDAC_OCTEONTX=y
+OCTEONTX2_GHES_BERT=y
 
-OcteonTX2 RAS GHES Error injection
-==================================
-
-Enable module config EDAC_OCTEONTX:
-ARCH=arm64 CROSS_COMPILE=aarch64-marvell-linux-gnu- make menuconfig
-RAS=y
-EDAC=y
-ARM_SDE_INTERFACE=y
-ACPI_APEI_GHES=y 	/// If ACPI is enabled
+Configurations to enable RAS Error Reporting for ACPI base systems
+==================================================================
+Enable module config:
+CONFIG_ACPI=y
+CONFIG_ACPI_APEI=y
+CONFIG_ACPI_APEI_GHES=y
 OCTEONTX2_EINJ=y
 
-EDAC based interface for error injection from sysfs /sys/devices/system/edac/mc/mc0:
+
+OcteonTX2 RAS EDAC Error injection LMC/MCC
+==========================================
+
+LMC EDAC based interface
+cd /sys/devices/system/edac/mc/mc0
 
 EDAC SMC based interface for error injection exemple:
 -rw-r--r--    1 root     root         65536 Apr 19 20:15 address
 -rw-r--r--    1 root     root         65536 Apr 19 20:15 error_type
 --w-------    1 root     root         65536 Apr 19 20:17 inject
 
-echo 0x800000 > address
-echo 0x40000300    > error_type
-echo 0x1 > inject
+echo 0x800000   > address
+echo 0x40000300 > error_type
+echo 0x1        > inject
 
 address - identify 'physical address' inject error at specified address
 			Recommended to use addresses from ASC0 secure region
@@ -152,16 +120,6 @@ error_type   - parameter describe control flags
 	echo 0x800000 > address
 	echo 0x40000200 > error_type
 
-
-	Inject D1 Cache Single Bit Error (SBE) error at address 0x800000:
-	echo 0x40000310 > error_type
-
-	Inject D1 Cache Double Bit Error (DBE) error at address 0x800000:
-	echo 0x40000318 > error_type
-
-	Inject I1 Cache Single Bit Error (SBE) error at address 0x800000:
-	echo 0x40000390 > error_type
-
 	Inject DRAM data SBE error at linux kernel predefined virtual address
 	echo 1 > address
 	echo 0x40000002 > error_type
@@ -177,3 +135,161 @@ error_type   - parameter describe control flags
 	Inject DRAM data SBE error at EL3 predefined address
 	echo 7 > address
 	echo 0x40000002 > error_type
+
+cd /sys/devices/system/edac/mc/mc0/
+echo 0x800000 > address && echo 0x40000300 > error_type && echo 1 > inject
+echo 1 > address && echo 0x40000002 > error_type && echo 1 > inject
+echo 2 > address && echo 0x40000002 > error_type && echo 1 > inject
+echo 3 > address && echo 0x40000002 > error_type && echo 1 > inject
+echo 7 > address && echo 0x40000002 > error_type && echo 1 > inject
+
+EDAC MC0: 1 CE LMC2: DIMM0,R0/0 on  (single-bit ECC addr: 0x800000 card:2 module:0 bank:0 row:32 col:0  page:0x80 offset:0x0 grain:1 syndrome:0x0)
+
+		1 CE - one CE error detected
+		single-bit ECC - error type description
+		addr: 0x800000 - affected physical address
+		card:0 - LMC index
+		module:0 - dimm index
+		bank:0 - Bank index
+		row:64 - row index
+		col:0 - Column number
+		page:0x80 - Physical page number
+		offset:0x0 - Offset in page
+		syndrome:0x0 - Unuset currently
+		LMC0: DIMM0,R/0) - FRU topology DIMM 0 and Rank left 0, Rank right 0
+
+
+OcteonTX2 RAS EDAC Error injection MDC
+======================================
+
+MDC EDAC based interface
+cd /sys/devices/system/edac/mdc/
+
+echo 0x800000 > address && echo 0x10000310 > error_type && echo 1 > inject
+
+	Inject D1 Cache Single Bit Error (SBE) error at address 0x800000:
+	echo 0x800000 > address
+	echo 0x10000310 > error_type
+	echo 0x1 > inject
+
+	Inject D1 Cache Double Bit Error (DBE) error at address 0x800000:
+	echo 0x800000 > address
+	echo 0x10000318 > error_type
+	echo 0x1 > inject
+
+	Inject I1 Cache Single Bit Error (SBE) error at address 0x800000:
+	echo 0x800000 > address
+	echo 0x10000390 > error_type
+	echo 0x1 > inject
+
+Example:
+
+EDAC DEVICE1: CE: mdc instance: mdc0 block: mdc0 'S SRAM Rtd 1.15.4 row:28 responderID: 0xbd626f08'
+		S - Single-bit error
+		D - Double-bit error
+		SRAM - Hardware component
+		Rtd - Details from firmware
+				R: UHRSN
+					U - Uncorrected error, uncontainable error (UC)
+					H - Uncorrected error, unrecoverable error (UEU)
+					R - Uncorrected error, Latent or restartable error (UEO)
+					S - Uncorrected error, Signaled or recoverable error (UER)
+					N - The RAM cannot generate uncorrectable errors
+				t: pt
+					p - Persistent if a soft error occurs in this memory, multiple soft errors may be seen
+					t - Transient if a soft error occurs in this memory, it will generally be seen only once
+						Software never needs to take any action
+				d: dc
+					d - Deferred if a DBE occurs in this memory, the block sends out poison to the
+						consumer and does not otherwise consume the data
+					c - Consumed this memory is reporting it received a poison and is propagating it
+		1.15.4 - chaine 1 hub 15 node 4
+		row:28 - row 28
+		responderID: 0xbd626f08 - RAS ID identifier Software typically uses this
+									to indicate in an error record which memory
+									is reporting the error
+
+
+OcteonTX2 RAS EDAC LMC BERT report
+==================================
+
+cd /sys/devices/system/edac/mc/mc0/
+echo 0x800000 > address && echo 0x40000308 > error_type && echo 1 > inject
+
+EDAC MC0: 1 UE U,LMC2: DIMM0,R0/0 on  (multi-bit ECC addr: 0x800000 card:2 module:0 bank:0 row:32 col:0  page:0x80 offset:0x0 grain:1)
+EDAC DEVICE1: UE: mdc instance: mdc0 block: mdc0 'D+ SRAM Rtd 1.5.6 row:16 responderID: 0xbd626f08 '
+
+
+
+OcteonTX2 RAS APEI GHES Error injection LMC/MCC
+===============================================
+
+Injection example from external module otx2-einj:
+
+echo 0x3,0x800000,0x300 > /sys/module/otx2_einj/parameters/smc_params
+echo "3,1,2" >/sys/module/otx2_einj/parameters/smc_params
+echo "3,2,2" >/sys/module/otx2_einj/parameters/smc_params
+echo "3,3,2" >/sys/module/otx2_einj/parameters/smc_params
+echo "3,7,2" >/sys/module/otx2_einj/parameters/smc_params
+
+Output example:
+
+EDAC MC0: 1 CE Single-bit ECC on unknown label (card:2 module:0 bank:7 row:54 col:368 page:0xd9 offset:0x7700 grain:1 syndrome:0x0)
+{1}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
+{1}[Hardware Error]: It has been corrected by h/w and requires no further action
+{1}[Hardware Error]:  Error 0, type: corrected
+{1}[Hardware Error]:  fru_text: LMC2: DIMM0,R0/0
+{1}[Hardware Error]:   section_type: memory error
+{1}[Hardware Error]:   physical_address: 0x0000000000d97700
+{1}[Hardware Error]:   card: 2 module: 0 bank: 7 row: 54 column: 368
+{1}[Hardware Error]:   error_type: 2, single-bit ECC
+Decoding details as in EDAC description.
+
+OcteonTX2 RAS APEI GHES Error injection MDC
+===========================================
+
+Injection example from external module otx2-einj:
+
+echo 0x3,0x800000,0x310 > /sys/module/otx2_einj/parameters/smc_params
+
+Output example:
+
+{12}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 0
+{12}[Hardware Error]: It has been corrected by h/w and requires no further action
+{12}[Hardware Error]: event severity: corrected
+{12}[Hardware Error]:  Error 0, type: corrected
+{12}[Hardware Error]:  fru_text: S SRAM Rtd 1.5.4
+{12}[Hardware Error]:   section_type: memory error
+{12}[Hardware Error]:   row: 0 responder_id: 0x00000000bd626f08
+Decoding details as in EDAC description.
+
+
+OcteonTX2 RAS APEI GHES BERT report
+===================================
+
+Multi-bit errors require DRAM reinitialization to fix errors, that is true for cold system reset.
+Injection example from external module otx2-einj:
+
+echo 0x3,0x800000,0x308 > /sys/module/otx2_einj/parameters/smc_params
+
+Output example:
+
+{13}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 1
+{13}[Hardware Error]: event severity: fatal
+{13}[Hardware Error]:  Error 0, type: fatal
+{13}[Hardware Error]:  fru_text: LMC2: DIMM0,R0/0
+{13}[Hardware Error]:   section_type: memory error
+{13}[Hardware Error]:   physical_address: 0x0000000000800000
+{13}[Hardware Error]:   card: 2 module: 0 bank: 0 row: 32 column: 0
+{13}[Hardware Error]:   error_type: 3, multi-bit ECC
+Kernel panic - not syncing: Fatal hardware error!
+
+reboot...
+
+[Hardware Error]: event severity: fatal
+[Hardware Error]:  Error 0, type: fatal
+[Hardware Error]:  fru_text: U,LMC2: DIMM0,R0/0
+[Hardware Error]:   section_type: memory error
+[Hardware Error]:   physical_address: 0x0000000000800000
+[Hardware Error]:   card: 2 module: 0 bank: 0 row: 32 column: 0
+[Hardware Error]:   error_type: 3, multi-bit ECC

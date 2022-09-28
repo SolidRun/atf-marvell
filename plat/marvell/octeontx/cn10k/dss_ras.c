@@ -167,11 +167,11 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	dss->error_status  = eccstat.u;
 	dss->physical_addr = addr.phys_addr;
 	dss->physical_addr_mask = 0;
+	dss->rank          = addr.rank;
 	dss->node          = 0;
 	dss->card          = 0;
 	dss->module        = 0;
 	dss->bank          = addr.bank;
-	dss->device        = ch;
 	dss->row           = addr.row;
 	dss->column        = addr.col;
 	dss->bit_pos       = info.ecc_bit;
@@ -187,23 +187,26 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 			CPER_MEM_VALID_BANK |
 			CPER_MEM_VALID_ROW |
 			CPER_MEM_VALID_COLUMN |
+			CPER_MEM_VALID_BIT_POSITION |
+			CPER_MEM_VALID_RANK_NUMBER |
 			CPER_MEM_VALID_ERROR_TYPE);
 	dss->validation_bits |= !info.dbe ? CPER_MEM_VALID_BIT_POSITION : 0;
 
 	if (info.dbe) {
 		is_secure = is_secure_address(addr.phys_addr);
-		err_rec->severity = is_secure ?  CPER_SEV_FATAL : CPER_SEV_RECOVERABLE;
+		err_rec->error_severity = is_secure ?  CPER_SEV_FATAL : CPER_SEV_RECOVERABLE;
 	} else
-		err_rec->severity = CPER_SEV_CORRECTED;
+		err_rec->error_severity = CPER_SEV_CORRECTED;
 
-	fr = snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
-		      "%sDMC%lld,R%d,BG%d", (err_rec->severity == CPER_SEV_CORRECTED) ? "" : ((err_rec->severity == CPER_SEV_FATAL) ? "U," : "R,"),
+	fr = snprintf((char *)err_rec->fru_text, sizeof(err_rec->fru_text),
+			"%sDMC%lld,R%d,BG%d", (err_rec->error_severity == CPER_SEV_CORRECTED) ?
+			"" : ((err_rec->error_severity == CPER_SEV_FATAL) ? "U," : "R,"),
 			ch, addr.rank, addr.bg);
 	err_rec->fru_text[fr] = '\0';
 
-	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_DSS_EVENT);
+	otx2_send_ghes(&plat_octeontx_bcfg->ras_config, err_rec, OCTEONTX_SDEI_RAS_DSS_EVENT, 0);
 
-	return err_rec->severity == CPER_SEV_FATAL;
+	return err_rec->error_severity == CPER_SEV_FATAL;
 }
 
 int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
