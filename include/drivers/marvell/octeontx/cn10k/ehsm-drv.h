@@ -13,12 +13,14 @@
 enum smc_reg
 {
 	/* Request input registers */
-	BOOTROM_STATUS		= (0x1),
-	ROOT_TRUST_STATUS,
-	CHAIN_OF_TRUST_STATUS,
-	UUID0,
-	UUID1,
-	UUID2,
+	BOOTROM_STATUS			= 0x1,
+	ROOT_TRUST_STATUS		= 0x2,
+	CHAIN_OF_TRUST_STATUS	= 0x3,
+	UUID0					= 0x4,
+	UUID1					= 0x5,
+	UUID2					= 0x6,
+	KEY_REVOC_STATUS		= 0x7,
+	FW_SEC_VER				= 0x8,
 };
 
 struct ehsm_handle;

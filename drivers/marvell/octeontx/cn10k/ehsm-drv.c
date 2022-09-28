@@ -631,6 +631,22 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 		*reg_val = uuid[2];
 	}
 	break;
+	case KEY_REVOC_STATUS:
+	{
+		struct ehsm_key_revocation_status_reg revoc_status;
+
+		ret = ehsm_get_key_revocation_status(&ehandle, &revoc_status);
+		*reg_val = revoc_status.u.r;
+	}
+	break;
+	case FW_SEC_VER:
+	{
+		struct ehsm_fw_security_version_reg fw_sec_ver;
+
+		ret = ehsm_get_fw_security_version(&ehandle, &fw_sec_ver);
+		*reg_val = fw_sec_ver.u.r;
+	}
+	break;
 	default:
 		ERROR("Invalid Register offset 0x%x\n", reg_off);
 		return -EINVAL;
