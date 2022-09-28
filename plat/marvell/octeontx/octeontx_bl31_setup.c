@@ -73,6 +73,10 @@
 
 #include "cavm-csrs-uaa.h"
 
+#if defined(PLAT_OTX2_FAMILY)
+#include "cavm-sw-csrs.h"
+#endif
+
 static entry_point_info_t bl33_image_ep_info, bl32_image_ep_info;
 
 #if ENABLE_ATTESTATION_SERVICE
@@ -293,6 +297,10 @@ WEAK void otx2_map_ghes(ras_config_t *rc)
 
 void bl31_plat_runtime_setup(void)
 {
+#if defined(PLAT_OTX2_FAMILY)
+	union cavm_rst_cold_data2_sw boot_info;
+#endif
+
 #if defined(PLAT_XLAT_TABLES_DYNAMIC)
 	uintptr_t ns_dma_memory_base =
 			octeontx_dram_size() - NS_DMA_MEMORY_SIZE;
@@ -319,6 +327,14 @@ void bl31_plat_runtime_setup(void)
 #if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 	console_unregister(&fwlog_buf);
 #endif
+#endif
+
+#if defined(PLAT_OTX2_FAMILY)
+	/* ATF bl31 boot successfully */
+	boot_info.u = CSR_READ(CAVM_RST_COLD_DATAX(2));
+	boot_info.s.atf_bl31_boot_status = BOOT_SUCCESS;
+	boot_info.s.atf_bl31_boot_error = BOOT_NEXT_STAGE_SUCCESS;
+	CSR_WRITE(CAVM_RST_COLD_DATAX(2), boot_info.u);
 #endif
 }
 

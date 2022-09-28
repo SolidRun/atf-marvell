@@ -68,6 +68,7 @@
 #include "cavm-csrs-fusf.h"
 #include "cavm-csrs-gpio.h"
 #include "cavm-csrs-pem.h"
+#include "cavm-sw-csrs.h"
 #include <plat_fuse.h>
 
 #ifdef ENABLE_RECORD_FWLOG
@@ -1200,9 +1201,17 @@ void plat_el3_arch_setup(void)
 #endif
 }
 
-#ifdef ENABLE_RECORD_FWLOG
 void bl2_el3_plat_prepare_exit(void)
 {
+	union cavm_rst_cold_data2_sw boot_info;
+
+#ifdef ENABLE_RECORD_FWLOG
 	flush_dcache_range(FWLOG_SEC_BASE, FWLOG_SEC_SIZE);
-}
 #endif
+
+	/* ATF bl2 boot successfully with no error */
+	boot_info.u = CSR_READ(CAVM_RST_COLD_DATAX(2));
+	boot_info.s.atf_bl2_boot_status = BOOT_SUCCESS;
+	boot_info.s.atf_bl2_boot_error = BOOT_NEXT_STAGE_SUCCESS;
+	CSR_WRITE(CAVM_RST_COLD_DATAX(2), boot_info.u);
+}
