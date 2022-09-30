@@ -15,6 +15,17 @@
 #include <tools_share/uuid.h>
 #include <bphy.h>
 
+int marvell_cust_sec_update(uint64_t addr, uint64_t size)
+	__attribute__((weak));
+
+int marvell_cust_sec_update(uint64_t addr, uint64_t size)
+{
+	ERROR("marvell_cust_sec_update not implemented, addr: 0x%llx, size: 0x%llx\n",
+		addr,
+		size);
+	return 0;
+}
+
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
 			       u_register_t x1,
 			       u_register_t x2,
@@ -48,6 +59,10 @@ uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
 		for (i = 0; i < BPHY_PSM_IRQS_NUMBER; i++)
 			ret |= (uint64_t)(!plat_is_irq_ns(BPHY_PSM_IRQ(i))) << i;
 		SMC_RET1(handle, ret);
+		break;
+
+	case PLAT_OCTEON_SW_UPDATE:
+		SMC_RET1(handle, marvell_cust_sec_update(x1, x2));
 		break;
 
 	default:
