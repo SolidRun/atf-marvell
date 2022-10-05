@@ -3026,6 +3026,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	size_t size;
 	bool old_tim0_saved = false;
 	bool tim0_updated = false;
+	bool use_full_async = true;
 
 	debug_fw_update("%s(%llx, %llx, 0x%x, 0x%x)\n",
 			__func__, desc->image_addr,
@@ -3036,14 +3037,21 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	tim0_size = 0;
 	zeromem(tim0_buffer, sizeof(tim0_buffer));
 
-	if (desc->async_operation) {
-		UINFO("Async update called\n");
+	if (desc->retcode == 0)
+		use_full_async = false;
+
+	desc->retcode = 0;
+
+	if (desc->async_operation && use_full_async) {
+		UINFO("Full async update\n");
 		memset(&aupdate_data, 0x00, sizeof(aupdate_data));
 		aupdate_data.desc = desc;
 		aupdate_data.state = AUPDATE_VERIF_IMAGE;
 		spi_async_init_delayed();
 		spi_async_start(async_update_callback, &aupdate_data);
 		return UPDATE_OK;
+	} else if (desc->async_operation && !use_full_async) {
+		UINFO("Limited async update \n");
 	}
 
 	gti_wdog_pet();
@@ -3343,6 +3351,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		*uret = octeontx_cn10k_update_fw(&update_desc, &uParams, async_operation);
 	else
 		*uret = octeontx_cn10k_update_fw(update_desc_async_ptr, &uParams, async_operation);
+
 	if (*uret != UPDATE_OK) {
 		ERROR("Firmware update failed\n");
 		err = -EINVAL;
@@ -3356,6 +3365,13 @@ error:
 		if (base_addr && ns_map_size)
 			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 								      ns_map_size);
+		/* In async case - make sure everything is unmapped */
+		if (async_operation) {
+			update_desc_async_ptr->retcode = *uret;
+			done_callback(&uParams);
+			return *uret;
+		}
+
 	} else if (!async_operation) {
 		media_done(&io_handle);
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
