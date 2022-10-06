@@ -114,6 +114,8 @@ void cn10k_fill_portm_tx_eq_info(int portm_idx, cn10k_portm_modes_t portm_mode)
 		if (tx_tuning.tx_post == -1) {
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-POST not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_post = default_tx_tuning.tx_post;
+		} else {
+			tx_tuning.tx_post = -tx_tuning.tx_post;
 		}
 		/* Get Tx Pre1 */
 		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRE1.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
@@ -121,6 +123,8 @@ void cn10k_fill_portm_tx_eq_info(int portm_idx, cn10k_portm_modes_t portm_mode)
 		if (tx_tuning.tx_pre1 == -1) {
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE1 not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_pre1 = default_tx_tuning.tx_pre1;
+		} else {
+			tx_tuning.tx_pre1 = -tx_tuning.tx_pre1;
 		}
 		/* Get Tx Pre2 */
 		snprintf(prop, sizeof(prop), "PORTM-LANE-TX-PRE2.%s.P%d.LANE%d", portm_mode_str, portm_idx, lane);
@@ -128,6 +132,8 @@ void cn10k_fill_portm_tx_eq_info(int portm_idx, cn10k_portm_modes_t portm_mode)
 		if (tx_tuning.tx_pre2 == -1) {
 			debug_dts("%s: PORTM%d.L%d: PORTM-LANE-TX-PRE2 not defined. Using default setting\n", __func__, portm_idx, lane);
 			tx_tuning.tx_pre2 = default_tx_tuning.tx_pre2;
+		} else {
+			tx_tuning.tx_pre2 = -tx_tuning.tx_pre2;
 		}
 		/* Check that the Tx eq settings are valid */
 		tx_tuning.portm_mode = portm_mode;

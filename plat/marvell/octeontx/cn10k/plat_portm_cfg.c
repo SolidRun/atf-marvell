@@ -137,10 +137,10 @@ static const portm_tx_tuning_t portm_default_tx_tuning_list[] = {
 	{PORTM_MODE_2500BASE_X,      63,  0,  0,  0 },
 	{PORTM_MODE_5000BASE_X,      63,  0,  0,  0 },
 	{PORTM_MODE_XFI,             63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_SFI,             52, 10,  1,  0 },
+	{PORTM_MODE_SFI,             52, -10,  -1,  0 },
 	{PORTM_MODE_10GBASE_KR,      63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_25GAUI_C2C,      63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_25GAUI_C2M,      56,  3,  4,  0 },
+	{PORTM_MODE_25GAUI_C2M,      56,  -3,  -4,  0 },
 	{PORTM_MODE_25GBASE_CR,      63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_25GBASE_KR,      63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_25GBASE_CR_C,    63,  0,  0,  0 }, /* Set via LT */
@@ -150,11 +150,11 @@ static const portm_tx_tuning_t portm_default_tx_tuning_list[] = {
 	{PORTM_MODE_40GBASE_CR4,     63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_40GBASE_KR4,     63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_LAUI_2_C2C,      63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_LAUI_2_C2M,      56,  2,  5,  0 },
+	{PORTM_MODE_LAUI_2_C2M,      56,  -2,  -5,  0 },
 	{PORTM_MODE_50GBASE_CR2_C,   63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_50GBASE_KR2_C,   63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_50GAUI_1_C2C,    63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_50GAUI_1_C2M,    56,  2,  5,  0 },
+	{PORTM_MODE_50GAUI_1_C2M,    56,  -2,  -5,  0 },
 	{PORTM_MODE_50GBASE_USR,     63,  0,  0,  0 }, /* Set via firmware */
 	{PORTM_MODE_50GBASE_CR,      63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_50GBASE_KR,      63,  0,  0,  0 }, /* Set via LT */
@@ -1681,9 +1681,11 @@ int cn10k_portm_get_default_tx_eq(portm_tx_tuning_t *tx_tuning)
  */
 int cn10k_portm_tx_tuning_valid(int portm_idx, int index, portm_tx_tuning_t *tx_tuning)
 {
+#define ABS(_a) ((_a) < 0 ? (-_a) : (_a))
+
 	int valid = 1;
-	int tx_sum = tx_tuning->tx_post + tx_tuning->tx_main +
-		tx_tuning->tx_pre1 + tx_tuning->tx_pre2;
+	int tx_sum = ABS(tx_tuning->tx_post) + tx_tuning->tx_main +
+		ABS(tx_tuning->tx_pre1) + ABS(tx_tuning->tx_pre2);
 
 	/* Check the the Tx settings are valid */
 	if ((tx_tuning->tx_pre2 < TXEQ_PRE2_MIN) || (tx_tuning->tx_pre2 > TXEQ_PRE2_MAX)) {

@@ -1769,10 +1769,10 @@ int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 	}
 
 	tx_tuning.portm_mode = cfg->portm_mode;
-	tx_tuning.tx_main = params->s.main;
-	tx_tuning.tx_post = params->s.post;
-	tx_tuning.tx_pre1 = params->s.pre1;
-	tx_tuning.tx_pre2 = params->s.pre2;
+	tx_tuning.tx_main = (int16_t)params->s.main;
+	tx_tuning.tx_post = (int16_t)params->s.post;
+	tx_tuning.tx_pre1 = (int16_t)params->s.pre1;
+	tx_tuning.tx_pre2 = (int16_t)params->s.pre2;
 
 	/* Check if the new set of parameters is valid */
 	if (!cn10k_portm_tx_tuning_valid(portm_idx, lane_idx, &tx_tuning)) {
@@ -1791,14 +1791,14 @@ int gserm_tx_eq_params_set(int portm_idx, int lane_idx,
 		ret = API_N5XC56GP5X4_SetTxEqParam(&gserm_cfg.mcesd_handle,
 				gserm_lane,
 				convert_to_txeq_param(param_idx),
-				params->array[param_idx]);
+				(int16_t)params->array[param_idx]);
 
 		if (ret == MCESD_FAIL)
 			return -1;
 
 		debug_gserm("%s: %d:%d set tx_eq_param[%d]=%d OK\n",
 			__func__, portm_idx, lane_idx,
-			param_idx, params->array[param_idx]);
+			param_idx, (int16_t)params->array[param_idx]);
 	}
 
 	if (_mask_to_tx_polarity(mask)) {
