@@ -2817,6 +2817,34 @@ static void otx2_parse_spi_config(const void *fdt)
 	uint32_t addr;
 	int node, bus = 0, cs = 0, parent_node[MAX_SPI_BUS] = { 0 };
 
+	/* Check for secure SPI property in bus */
+	node = fdt_node_offset_by_compatible(fdt, -1, "cavium,thunderx-spi");
+	while (node > 0) {
+		reg = fdt_getprop(fdt, node, "reg", NULL);
+		if (reg) {
+			addr = fdt32_to_cpu(*reg);
+		} else {
+			WARN("Missing reg field for SPI bus\n");
+			continue;
+		}
+
+		if (addr == SPI_CTRL0_ADDR)
+			bus = 0;
+		else if (addr == SPI_CTRL1_ADDR)
+			bus = 1;
+		else {
+			WARN("Invalid SPI bus address 0x%x\n", addr);
+			continue;
+		}
+
+		if (fdt_getprop(fdt, node, "secure-spi", NULL)) {
+			debug_dts("SPI_%d Marked Secure\n", bus);
+			plat_octeontx_bcfg->spi_cfg[bus].is_secure = 1;
+			parent_node[bus] = node;
+		}
+		node = fdt_node_offset_by_compatible(fdt, node, "cavium,thunderx-spi");
+	}
+
 
 	/* Parse for secure-spi config */
 	node = fdt_node_offset_by_compatible(fdt, -1, "spi-flash");
