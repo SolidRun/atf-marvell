@@ -806,6 +806,7 @@ int sfp_get_an_capability(int portm_idx)
 	case SFP_TRANS_TYPE_100G_CR4:
 	case SFP_TRANS_TYPE_MULTI_RATE_40G_100G_CR:
 	case SFP_TRANS_TYPE_200G_CR4:
+	case SFP_TRANS_TYPE_50G_CR:
 		an = 1;	/* AN supported */
 		break;
 	default:
