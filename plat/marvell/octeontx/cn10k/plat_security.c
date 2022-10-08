@@ -586,8 +586,10 @@ static void octeontx_configure_pem_iobn(int pem, uint32_t streamid, int secure)
 	bus_idx = STREAM_BUS_IDX(streamid);
 	dev_idx = STREAM_DEV_IDX(streamid);
 
+#if 0
 	VERBOSE("pem %d stream 0x%x dom %d bus %d sec %d\n",
 		pem, streamid, domain_idx, bus_idx, secure);
+#endif
 
 	set_iobn_stream_security(domain_idx, bus_idx, dev_idx, strm_ns,
 				phys_ns);
@@ -625,6 +627,8 @@ void octeontx_configure_pem_ep_security(int pem)
 			/* If stream id is xFFFF, Configure all the stream IDs */
 			if ((streamid & PEM_ALL_STREAM_IDS) == PEM_ALL_STREAM_IDS) {
 				startid = CAVM_PCC_DEV_CON_E_PCIERCX(0) | (pem << STREAM_DMN_SHIFT);
+				VERBOSE("Programing PEM stream ids %d..%d as secure\n",
+					startid, streamid);
 				for (id = startid; id <= streamid; id++)
 					octeontx_configure_pem_iobn(pem, id, secure);
 				break;
