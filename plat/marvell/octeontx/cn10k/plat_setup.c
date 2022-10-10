@@ -84,6 +84,7 @@
 #include "cavm-csrs-dss.h"
 #include "cavm-csrs-cst_shrd_funnel.h"
 #include "cavm-csrs-rst.h"
+#include "cavm-csrs-ncb.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -218,6 +219,21 @@ static void plat_cn10k_apply_workaround(void)
 	for (i = 0; i < plat_octeontx_get_iobn_count(); i++) {
 		for (j = 0; j <= 3; j++)
 			CSR_WRITE(CAVM_IOBNX_RPERF_CNTRX(i, j), iobn_rperf_cntr.u);
+	}
+
+	/*
+	 * cnf10k: Disable strict ordering for dsp to partial
+	 * cacheline write to llc/ddr
+	 */
+	if (cavm_is_model(OCTEONTX_CNF10KA) || cavm_is_model(OCTEONTX_CNF10KB)) {
+		cavm_ncbx_arbidx_ctl_t ncb_ctl;
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(5, 0));
+		ncb_ctl.s.pr_iova_dis = 1;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(5, 0), ncb_ctl.u);
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(6, 0));
+		ncb_ctl.s.pr_iova_dis = 1;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(6, 0), ncb_ctl.u);
 	}
 }
 
