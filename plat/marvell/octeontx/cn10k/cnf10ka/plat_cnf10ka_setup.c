@@ -61,6 +61,9 @@
 #define CAVM_BPHY_BUS_NUM		7
 #define CAVM_BPHY_DEV_NUM		0
 #define CAVM_BPHY_FUN_NUM		0
+
+#define NCB_COUNT			7
+
 /*
  * List of SPI IRQs to convert to Non-Secure
  */
@@ -404,6 +407,9 @@ void plat_add_mmio()
 		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR0(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR0_SIZE, attr);
 		add_map_record(CAVM_IOBN_BAR_E_IOBNX_PF_BAR4(i), CAVM_IOBN_BAR_E_IOBNX_PF_BAR4_SIZE, attr);
 	}
+
+	for (i = 0; i < NCB_COUNT; ++i)
+		add_map_record(CAVM_NCB_BAR_E_NCBX_PF_BAR0(i), CAVM_NCB_BAR_E_NCBX_PF_BAR0_SIZE, attr);
 
 	add_map_record(CAVM_RVU_BAR_E_RVU_PFX_BAR0(0), CAVM_RVU_BAR_E_RVU_PFX_BAR0_SIZE, attr);
 	device_type_count = plat_octeontx_get_rvu_count();
