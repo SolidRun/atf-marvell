@@ -219,21 +219,6 @@ static void plat_cn10k_apply_workaround(void)
 		for (j = 0; j <= 3; j++)
 			CSR_WRITE(CAVM_IOBNX_RPERF_CNTRX(i, j), iobn_rperf_cntr.u);
 	}
-
-	/*
-	 * cnf10k: Disable strict ordering for dsp to partial
-	 * cacheline write to llc/ddr
-	 */
-	if (cavm_is_model(OCTEONTX_CNF10KA) || cavm_is_model(OCTEONTX_CNF10KB)) {
-		cavm_ncbx_arbidx_ctl_t ncb_ctl;
-
-		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(5, 0));
-		ncb_ctl.s.pr_iov_dis = 1;
-		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(5, 0), ncb_ctl.u);
-		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(6, 0));
-		ncb_ctl.s.pr_iov_dis = 1;
-		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(6, 0), ncb_ctl.u);
-	}
 }
 
 #ifdef ENABLE_RECORD_FWLOG
