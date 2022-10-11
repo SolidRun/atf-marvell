@@ -111,7 +111,6 @@ enum CPU_ID {
 #define AP807_PWRC_LDO_CR0_MASK			\
 			(0xff << AP807_PWRC_LDO_CR0_OFFSET)
 #define AP807_PWRC_LDO_CR0_VAL			0xfc
-
 /*
  * Power down CPU:
  * Used to reduce power consumption, and avoid SoC unnecessary temperature rise.
@@ -814,6 +813,8 @@ static void __dead2 a8k_system_off(void)
 	/* Call the platform specific system power off function */
 	system_power_off();
 
+	NOTICE("%s: board does not support full power down - entering WFI now...\n", __func__);
+	wfi();
 	/* board doesn't have a system off implementation */
 	ERROR("%s:  needs to be implemented\n", __func__);
 	panic();
