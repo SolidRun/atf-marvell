@@ -1215,6 +1215,7 @@ static int rpm_ecp_req_mode_change_to_cpri(int portm_idx, int rpm_id, int lmac_i
 {
 	uint64_t init_time, link_timeout;
 	int ret, status = 0, sig_detect = 0;
+	int max_pll_rdy_retries = 5;
 
 	ret = ecp_send_link_req(portm_idx, rpm_id, lmac_id, ECP_LINK_REQ_MODE_CHANGE, lmac_ctx);
 	if (ret == -1) {
@@ -1224,6 +1225,7 @@ static int rpm_ecp_req_mode_change_to_cpri(int portm_idx, int rpm_id, int lmac_i
 		return -1;
 	}
 
+pll_rdy:
 	init_time = clock_get_count(GSER_CLOCK_TIME);
 	link_timeout = init_time + ECP_MODE_CHANGE_WAIT_STATUS *
 		clock_get_rate(GSER_CLOCK_TIME)/1000000;
@@ -1236,9 +1238,20 @@ static int rpm_ecp_req_mode_change_to_cpri(int portm_idx, int rpm_id, int lmac_i
 		mdelay(5);
 	}
 
-	if (status != ETH_LINK_STATE_NO_STATE) {
-		debug_rpm_intf("%s: PORTM%d Request not sent\n",
+	if (status == ETH_LINK_STATE_PLL_RDY && max_pll_rdy_retries) {
+		max_pll_rdy_retries--;
+		debug_rpm_intf("%s PORTM%d timed out waiting for PLL RDY, retrying...\n",
 			__func__, portm_idx);
+		goto pll_rdy;
+	}
+
+	if (status != ETH_LINK_STATE_NO_STATE) {
+		if (!max_pll_rdy_retries)
+			ERROR("%s: PORTM%d exceeded maximum PLL RDY time\n",
+				__func__, portm_idx);
+		else
+			ERROR("%s: PORTM%d Request not sent\n",
+				__func__, portm_idx);
 		return -1;
 	}
 
