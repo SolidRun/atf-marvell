@@ -284,7 +284,7 @@ struct verification_data {
 #define VDATA_SRC 0
 #define VDATA_DST 1
 #define VDATA_INTANCES 2
-static struct verification_data verif_data[VDATA_INTANCES];
+static struct verification_data verif_data[VDATA_INTANCES] = {0};
 static struct async_clone_data async_clone_internal;
 static struct async_update_data aupdate_data;
 
@@ -1783,16 +1783,18 @@ media_error:
 /**
  * Called after all I/O operations are finished
  */
-static enum update_ret media_done(struct io_handle *io_handle)
+static enum update_ret media_done(struct io_handle *io_h)
 {
 	debug_fw_update("%s: Closing device handles\n", __func__);
-	if (*io_handle->io_handle != (uintptr_t)NULL) {
-		io_close(*io_handle->io_handle);
-		*io_handle->io_handle = (uintptr_t)NULL;
+	if (io_h->io_handle != NULL && *io_h->io_handle != (uintptr_t)NULL) {
+		io_close(*io_h->io_handle);
+		*io_h->io_handle = (uintptr_t)NULL;
+		io_h->io_handle = NULL;
 	}
-	if (*io_handle->dev_handle != (uintptr_t)NULL) {
-		io_dev_close(*io_handle->dev_handle);
-		*io_handle->dev_handle = (uintptr_t)NULL;
+	if (io_h->dev_handle != NULL && *io_h->dev_handle != (uintptr_t)NULL) {
+		io_dev_close(*io_h->dev_handle);
+		*io_h->dev_handle = (uintptr_t)NULL;
+		io_h->dev_handle = NULL;
 	}
 	return UPDATE_OK;
 }
@@ -2607,6 +2609,9 @@ enum spi_dc_ret done_callback(void *p)
 {
 	struct unmap_params *param = (struct unmap_params *)p;
 	int i;
+
+	media_done(&verif_data[0].io);
+	media_done(&verif_data[1].io);
 
 	//make sure update log is cleared, and null terminated
 	if (update_log) {
@@ -4224,7 +4229,6 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 		vdata->io.dev_handle = &vdata->media_dev_handle;
 		vdata->io.io_handle = &vdata->media_handle;
 		vdata->io.spec = &vdata->media_spec;
-
 	} else {
 		vdata->io.dev_handle = &media_dev_handle;
 		vdata->io.io_handle = &media_handle;
