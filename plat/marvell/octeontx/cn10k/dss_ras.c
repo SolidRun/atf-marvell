@@ -197,8 +197,8 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 		err_rec->severity = CPER_SEV_CORRECTED;
 
 	fr = snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
-			"DMC%lld,R%d,BG%d,BA%d,r%d,c%d",
-			ch, addr.rank, addr.bg, addr.bank, addr.row, addr.col);
+		      "%sDMC%lld,R%d,BG%d", (err_rec->severity == CPER_SEV_CORRECTED) ? "" : ((err_rec->severity == CPER_SEV_FATAL) ? "U," : "R,"),
+			ch, addr.rank, addr.bg);
 	err_rec->fru_text[fr] = '\0';
 
 	otx2_send_ghes(err_rec, err_ring, OCTEONTX_SDEI_RAS_DSS_EVENT);

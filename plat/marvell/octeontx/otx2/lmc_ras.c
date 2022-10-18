@@ -1740,8 +1740,8 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 		err_rec->severity = severity;
 
 		snprintf(err_rec->fru_text, sizeof(err_rec->fru_text),
-			 "LMC%d: DIMM%d,Rank%d/%d,Bank%02d", lmc, dimm, prank,
-			 lrank, bank);
+			 "%sLMC%d: DIMM%d,R%d/%d,BA%d",  (err_rec->severity == CPER_SEV_CORRECTED) ?
+			 "" : ((err_rec->severity == CPER_SEV_FATAL) ? "U," : "R,"), lmc, dimm, prank, lrank, bank);
 
 		/* If fatal error, copy it and update fatal ring */
 		if (fatal && fatal_rec) {
