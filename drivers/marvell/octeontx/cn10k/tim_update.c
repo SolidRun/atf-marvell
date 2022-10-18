@@ -4190,8 +4190,11 @@ static int init_hash_verification(void *ptr) {
 
 	if (err)
 		return SPI_OP_CALLBACK_ERROR;
-	else
+
+	if (data->vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH)
 		return SPI_OP_CALLBACK_CONTINUE;
+	else
+		return SPI_OP_CALLBACK_FINISHED;
 }
 
 static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_data *vdata)
