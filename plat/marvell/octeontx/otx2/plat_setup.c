@@ -1066,6 +1066,7 @@ bool plat_ras_feature_supported(void)
 	uint64_t midr;
 #ifdef IMAGE_BL2
 	bool ret = false;
+	(void)midr;
 #else
 	static int ret = -1;
 
