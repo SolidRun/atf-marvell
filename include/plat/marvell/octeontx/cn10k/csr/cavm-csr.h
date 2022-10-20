@@ -4,6 +4,8 @@
 * https://spdx.org/licenses
 ***********************license end**************************************/
 
+#define CST_APX_PMU_PMCFGR(a) (0x87a081020e00ll + 0x2000000ll * a)
+
 /**
  * @file
  *
@@ -118,6 +120,37 @@ static inline uint64_t cavm_csr_read(cavm_node_t node, cavm_csr_type_t type, int
         case CSR_TYPE_RVU_PF_BAR2:
         case CSR_TYPE_RVU_PFVF_BAR2:
         case CSR_TYPE_RVU_VF_BAR2:
+
+            /*
+             * CAVM_CST_APX_PMU_PMCFGR
+             *
+             * Bits	Name	Access	Reset	Typical	Description
+             * 16	ex	    RO	    0	    --	    Export supported.
+             *
+             * The PMCFGR[EX] field incorrectly reports the value 0x1, indicating
+             * exporting of events in a PMU event export bus is enabled.
+             * The expected value is 0x0, since there is no PMU event export bus.
+             */
+            if (address == CST_APX_PMU_PMCFGR(busnum))
+            {
+                uint64_t reg_val;
+
+                address |= (uint64_t)(node&3) << 44;
+                /* Note: This code assume a 1:1 mapping of all of address space.
+                   It is designed to run with the MMU disabled */
+                switch (size)
+                {
+                    case 4:
+                        reg_val = cavm_le32_to_cpu(*(volatile uint32_t *)address);
+                    default:
+                        reg_val = cavm_le64_to_cpu(*(volatile uint64_t *)address);
+                }
+
+                reg_val &= (~(1 << 16));
+
+                return reg_val;
+            }
+
             address |= (uint64_t)(node&3) << 44;
             /* Note: This code assume a 1:1 mapping of all of address space.
                It is designed to run with the MMU disabled */
