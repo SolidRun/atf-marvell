@@ -29,7 +29,7 @@ typedef struct {
 
 extern int cn10k_get_ch_mask(void);
 extern void cn10k_dram_xlate_to_pa(addr_xlate_t *xlate);
-extern void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate);
+extern int cn10k_dram_xlate_from_pa(addr_xlate_t *xlate);
 
 /* These routines are based on Table 13-2 in the DWC Databook
  *

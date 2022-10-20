@@ -669,7 +669,7 @@ static const uint64_t DMC_HASH[4] = {
 //    offset
 //    row,rank,bg,bank,col
 //
-void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
+int cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 {
 	int i, j, limit;
 	uint64_t a, b, hash;
@@ -682,7 +682,7 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	region = find_region_for_pa(xlate);
 	if (region < 0) { // FAILED!!!
 		printf("%s: ASC_REGION holding PA (0x%llx) NOT FOUND!!!\n", __func__, xlate->phys_addr);
-		return;
+		return -1;
 	}
 
 	// use the (possibly) updated ch_mask from the region the PA is in!!!
@@ -746,7 +746,7 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	if (!(xlate->ch_mask & (1 << xlate->ch))) {
 		printf("%s: ASC_REGION %d holding PA (0x%llx) does not map channel %d!!!\n",
 			   __func__, region, xlate->phys_addr, xlate->ch);
-		return; // FIXME???
+		return -1; // FIXME???
 	}
 
 	// NOTE: contains *all* the low-order 7 bits from the PA, including
@@ -768,6 +768,8 @@ void cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	debug_ras("FROM_PA: DMC%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%llx/0x%llx]\n",
 			  xlate->ch, xlate->rank, xlate->bg, xlate->bank, xlate->row,
 			  xlate->col, xlate->phys_addr, xlate->offset);
+
+	return 0;
 }
 
 /////////////////////////////////////////////////////

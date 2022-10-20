@@ -329,7 +329,7 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 	cavm_dssx_ddrctl_regb_arb_port0_sbrctl_t reg_SBRCTL;
 	cavm_dssx_ddrctl_regb_arb_port0_sbrstat_t reg_SBRSTAT;
 	static uint32_t sbr_state;
-
+	int ret;
 	int time_out;
 	uint64_t aligned_address = address & ~BLM;
 	int byte_offset = (address & BLM);
@@ -338,7 +338,9 @@ static int dss_setup_einj_addr(uint64_t address, int etype, int in_bits)
 
 	xlate.phys_addr = aligned_address;
 	xlate.ch_mask = cn10k_get_ch_mask();
-	cn10k_dram_xlate_from_pa(&xlate);
+	ret = cn10k_dram_xlate_from_pa(&xlate);
+	if (ret)
+		return ret;
 
 	reg_ECCCFG0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCFG0(xlate.ch));
 	if (reg_ECCCFG0.s.ecc_mode == 0) {
@@ -534,7 +536,9 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 
 	xlate.phys_addr = aligned_address;
 	xlate.ch_mask = cn10k_get_ch_mask();
-	cn10k_dram_xlate_from_pa(&xlate);
+	ret = cn10k_dram_xlate_from_pa(&xlate);
+	if (ret)
+		return ret;
 
 	if (!is_secure_address(xlate.phys_addr)) {
 		ret = octeontx_mmap_add_dynamic_region_with_sync(address, address,
