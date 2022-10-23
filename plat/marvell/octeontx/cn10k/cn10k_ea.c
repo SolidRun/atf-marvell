@@ -33,6 +33,7 @@ void plat_ea_handler(unsigned int ea_reason, uint64_t syndrome, void *cookie,
 		VERBOSE("RAS errors notified from EA handler on 0x%lx\n", read_mpidr_el1());
 #endif
 
+	VERBOSE("In %s: syndrome = 0x%llx\n", __func__, syndrome);
 #ifdef EL3_PANIC_ON_LOWER_EL_EA
 	if ((read_id_aa64mmfr2_el1() >> ID_AA64MMFR2_EL1_IESB_SHIFT) &
 		ID_AA64MMFR2_EL1_IESB_MASK) {
