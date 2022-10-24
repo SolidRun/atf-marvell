@@ -917,6 +917,8 @@ static int rpm_obtain_mode_and_group(cn10k_portm_modes_t portm_mode, int *mode, 
 			portm_mode = PORTM_MODE_100GAUI_2_C2C;
 		else if (portm_mode == PORTM_MODE_50GBASE_USR)
 			portm_mode = PORTM_MODE_50GAUI_1_C2C;
+		else if (portm_mode == PORTM_MODE_25GBASE_USR)
+			portm_mode = PORTM_MODE_25GAUI_C2C;
 
 		if (portm_mode >= ARRAY_SIZE(rpm_speed_mode_map)) {
 			ERROR("%s Ethernet group: unsupported portm_mode %d\n",
@@ -1037,6 +1039,8 @@ static void rpm_set_link_mode(int rpm_id, int lmac_id, int portm_mode)
 		portm_mode = PORTM_MODE_100GAUI_2_C2C;
 	else if (portm_mode == PORTM_MODE_50GBASE_USR)
 		portm_mode = PORTM_MODE_50GAUI_1_C2C;
+	else if (portm_mode == PORTM_MODE_25GBASE_USR)
+		portm_mode = PORTM_MODE_25GAUI_C2C;
 
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	bitmask = rpm_speed_mode_map[portm_mode].mode_bitmask;

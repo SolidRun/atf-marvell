@@ -99,7 +99,15 @@ static const struct gserm_mode_strmap_s gsermmode_strmap[] = {
 	{CAVM_RPM_LMAC_TYPES_E_USXGMII, 10312, "10G_DXGMII", "usxgmii"},
 	{CAVM_RPM_LMAC_TYPES_E_USXGMII, 10312, "10G_QXGMII", "usxgmii"}, /* 53 */
 	{CAVM_RPM_LMAC_TYPES_E_USGMII, 5000, "Q_USGMII", "usgmii"}, /* 54 */
-	{CAVM_RPM_LMAC_TYPES_E_USGMII, 10000, "O_USGMII", "usgmii"} /* 55 */
+	{CAVM_RPM_LMAC_TYPES_E_USGMII, 10000, "O_USGMII", "usgmii"}, /* 55 */
+	{-1, 0, NULL, NULL}, /* 56 - CPRI TEST modes */
+	{-1, 0, NULL, NULL},
+	{-1, 0, NULL, NULL},
+	{-1, 0, NULL, NULL},
+	{-1, 0, NULL, NULL},
+	{-1, 0, NULL, NULL},
+	{-1, 0, NULL, NULL},
+	{CAVM_RPM_LMAC_TYPES_E_TWENTYFIVEG_R, 25781, "25GBASE_USR", "25g"}, /* 63 */
 };
 
 int gserm_get_mode_from_string(const char *str)

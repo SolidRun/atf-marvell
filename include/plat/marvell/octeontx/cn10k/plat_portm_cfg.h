@@ -29,6 +29,7 @@ typedef enum {
 	PORTM_MODE_10GBASE_KR     = 9,   /* 10GBASE-KR, Serdes Speed: 10.3125G, Data Speed: 1*10G */
 	PORTM_MODE_25GAUI_C2C     = 10,  /* 25GAUI_C2C, Serdes Speed: 25.78125G, Data Speed: 1*25G */
 	PORTM_MODE_25GAUI_C2M     = 11,  /* 25GAUI_C2M, Serdes Speed: 25.78125G, Data Speed: 1*25G */
+	PORTM_MODE_25GBASE_USR    = 63,  /* 25GBASE_USR, Serdes Speed: 25.78125G, Data Speed: 1*25G */
 	PORTM_MODE_25GBASE_CR     = 12,  /* 25GBASE-CR, Serdes Speed: 25.78125G, Data Speed: 1*25G */
 	PORTM_MODE_25GBASE_KR     = 13,  /* 25GBASE-KR, Serdes Speed: 25.78125G, Data Speed: 1*25G */
 	PORTM_MODE_25GBASE_CR_C   = 14,  /* 25GBASE-CR Consortium, Serdes Speed: 25.78125G, Data Speed: 1*25G */
@@ -87,7 +88,7 @@ typedef enum {
 	PORTM_MODE_JESD204C_16_2G = 46,  /* JESD204C, Serdes speed: 16.22016G */
 	PORTM_MODE_JESD204C_24_3G = 47,  /* JESD204C, Serdes speed: 24.33024G */
 
-	PORTM_MODE_LAST           = 63,  /* Always has to be the largest number */
+	PORTM_MODE_LAST           = 64,  /* Always has to be the largest number */
 } cn10k_portm_modes_t;
 
 typedef struct portm_tx_tuning {

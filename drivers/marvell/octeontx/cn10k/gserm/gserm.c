@@ -429,6 +429,7 @@ static const gserm_portm_programming_t gserm_portm_programming_list[] = {
 	{PORTM_MODE_25GBASE_KR,      N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_25GBASE_CR_C,    N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_25GBASE_KR_C,    N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
+	{PORTM_MODE_25GBASE_USR,     N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_SERDES_25P7812G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_XLAUI,           N5XC56GP5X4_SERDES_10P3125G,  N5XC56GP5X4_SERDES_10P3125G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_XLAUI_C2M,       N5XC56GP5X4_SERDES_10P3125G,  N5XC56GP5X4_SERDES_10P3125G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
 	{PORTM_MODE_40GBASE_CR4,     N5XC56GP5X4_SERDES_10P3125G,  N5XC56GP5X4_SERDES_10P3125G,  N5XC56GP5X4_GRAY_DISABLE, N5XC56GP5X4_GRAY_DISABLE,  0x0, 0x0 },
@@ -943,11 +944,12 @@ static int set_gserm_rx_tx_config(int portm_idx, int portm_lidx, struct gserm_co
 	}
 
 	/* Configure SERDES Tx/Rx for Ultra Short Reach */
-	if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
-	    && ((gserm_cfg->gserm_idx == 0) && (gser_lane <= 2))) {
+	if (((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+	    && ((gserm_cfg->gserm_idx == 0) && (gser_lane <= 2)))  ||
+		(cavm_is_model(OCTEONTX_CNF10KA) && portm_mode == PORTM_MODE_25GBASE_USR))
 		CSR_MODIFY(c, CAVM_GSERMX_PIN_RESERVED_INPUT_RXX(gserm, gser_lane),
 			   c.s.pin_reserved_input_rx |= 1ull << GSERM_USR_BIT);
-	} else
+	else
 		CSR_MODIFY(c, CAVM_GSERMX_PIN_RESERVED_INPUT_RXX(gserm, gser_lane),
 			   c.s.pin_reserved_input_rx &= ~(1ull << GSERM_USR_BIT));
 
@@ -1578,6 +1580,14 @@ void gserm_reset_init(void)
 					tx_params.s.main = 63;
 					tx_params.s.post = 0;
 				}
+			} else if (cavm_is_model(OCTEONTX_CNF10KA) &&
+				   portm->portm_mode == PORTM_MODE_25GBASE_USR) {
+				debug_gserm("%s: GSERM%d.%d: Configured in USR mode. Tx eq set to optimized values.\n",
+					    __func__, cfg.gserm_idx, gser_lane);
+				tx_params.s.pre2 = 0;
+				tx_params.s.pre1 = 0;
+				tx_params.s.main = 35;
+				tx_params.s.post = 0;
 			} else {
 				tx_params.s.pre2 = portm->tx_pre2[portm_lane];
 				tx_params.s.pre1 = portm->tx_pre1[portm_lane];
