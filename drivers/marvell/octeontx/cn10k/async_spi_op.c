@@ -7,12 +7,15 @@
 #include <spi.h>
 #include <timers.h>
 #include <drivers/delay_timer.h>
+#include <octeontx_semaphore.h>
+
 
 #define SPI_PAGE_ALIGN (0x111ll)
 #define SPI_ERASE_SIZE (0x1000)
 #define SPI_OP_SLEEP_TIME_MS 10
 
 extern uint64_t get_usecs(void);
+extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
 
 struct async_perf_counter {
 	uint64_t time_min;
@@ -187,6 +190,21 @@ static int async_tim_handler(int tim)
 	uint64_t async_handler_time_total = 0;
 
 	enum spi_op_result res = SPI_OP_OK;
+	uint32_t bus = (uint32_t)spi_ops[spi_op_cnt].op_config.bus;
+
+	//In error case try to lock bus later
+	if (spi_dev_lock(bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		timer_start(timer_hd);
+		return 0;
+	}
+
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, bus);
+		spi_dev_unlock(bus);
+		timer_start(timer_hd);
+		return 0;
+	}
 
 	switch (spi_ops[spi_op_cnt].type) {
 	case SPI_OP_ERASE:
@@ -244,6 +262,9 @@ static int async_tim_handler(int tim)
 						     async_handler_time_total);
 	aperf_counter.time_count++;
 	aperf_counter.total_time += async_handler_time_total;
+
+	spi_dev_unlock(bus);
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 
 	return 0;
 }

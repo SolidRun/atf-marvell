@@ -871,62 +871,15 @@ int cdns_xspi_auto_memop(uint64_t spi_addr, uint32_t len, void* buf,
 	return cdns_xspi_wait_for_auto_complete(spi_con, timeout);
 }
 
-static uint32_t spi_acquire_flash(void)
-{
-	int timeout = 0xFF;
-
-	if (!cavm_is_platform(PLATFORM_HW))
-		return 0;
-
-	CSR_INIT(boot_owner, CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB));
-
-	//Request flash
-	boot_owner.s.boot_req = 1;
-	CSR_WRITE(CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB), boot_owner.u);
-
-	//Wait for req
-	do {
-		boot_owner.u = CSR_READ(CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB));
-		if (boot_owner.s.boot_wait)
-			timeout--;
-	} while (boot_owner.s.boot_wait != 0 && (timeout != 0));
-
-
-	//Check for timeout occurred
-	if (timeout <= 0) {
-		ERROR("Flash arbitration failed\n");
-		boot_owner.s.boot_req = 0;
-		CSR_WRITE(CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB), boot_owner.u);
-		return 1;
-	}
-
-	return 0;
-}
-
-static void spi_free_flash(void)
-{
-	if (!cavm_is_platform(PLATFORM_HW))
-		return;
-
-	CSR_INIT(boot_owner, CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB));
-
-	boot_owner.s.boot_req = 0;
-	CSR_WRITE(CAVM_CPC_BOOT_OWNERX(BOOTROM_AP_SECURE_ARB), boot_owner.u);
-}
-
 uint32_t spi_dev_lock(int spi_con)
 {
 	uint32_t val = 0;
 	int timeout = 0xFF;
 
-	//Arbitrate flash
-	if (spi_acquire_flash())
-		return 1;
-
 
 	while (timeout-- >= 0) {
 		val = *spi_lock[spi_con];
-		if (!val) {
+		if (val == 0 || val == ATF_OWN) {
 			*spi_lock[spi_con] = ATF_OWN;
 			break;
 		}
@@ -949,7 +902,7 @@ uint32_t spi_dev_lock(int spi_con)
 	return 0;
 
 fail:
-	spi_free_flash();
+	ERROR("%s: SPI_%d: Flash lock failed: 0x%x!\n", __func__, spi_con, val);
 	return val;
 }
 
@@ -959,8 +912,6 @@ uint32_t spi_dev_unlock(int spi_con)
 		return *spi_lock[spi_con];
 
 	*spi_lock[spi_con] = 0;
-
-	spi_free_flash();
 
 	return 0;
 }

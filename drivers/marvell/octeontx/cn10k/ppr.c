@@ -126,18 +126,18 @@ Which represents the following:
 -	cmd_mrr_data[7:0] is relevant for DRAM0
 
 3.	If working with 4 devices by 8 with ECC, then the needs to configure the mrr_grp_sel to 0x0(group0),
-Then do ì1î and after configure the mrr_grp_sel to 0x1(group1), which represents the following:
+Then do ‚Äú1‚Äù and after configure the mrr_grp_sel to 0x1(group1), which represents the following:
 -	cmd_mrr_data[31:24] is relevant for DRAM3 (GRP0)
 -	cmd_mrr_data[23:16] is relevant for DRAM2(GRP0)
 -	cmd_mrr_data[15:8] is relevant for DRAM1(GRP0)
 -	cmd_mrr_data[7:0] is relevant for DRAM0(GRP0)
--	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) ñ ECC byte
+-	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) ‚Äì ECC byte
 
 4.	If working with 2 devices by 16 with ECC, then the needs to configure the mrr_grp_sel to 0x0(group0),
-Then do ì1î and after configure the mrr_grp_sel to 0x1(group1), which represents the following:
+Then do ‚Äú1‚Äù and after configure the mrr_grp_sel to 0x1(group1), which represents the following:
 -	cmd_mrr_data[15:8] is relevant for DRAM1(GRP0)
 -	cmd_mrr_data[7:0] is relevant for DRAM0(GRP0)
--	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) ñ ECC byte
+-	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) ‚Äì ECC byte
 */
 
 #define printh() \
@@ -642,6 +642,11 @@ static void print_stat(void)
 	if (!(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR))
 		return;
 
+	if (spi_dev_lock(bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		return;
+	}
+
 	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0)
 		goto err;
 
@@ -657,6 +662,7 @@ static void print_stat(void)
 
 err:
 	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+	spi_dev_unlock(bus);
 }
 
 #if 0
@@ -839,6 +845,11 @@ static int ppr_timer_cb(int hd)
 
 	struct mrr mr;
 	uint32_t rec = 0;
+
+	if (spi_dev_lock(bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		return -1;
+	}
 
 	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
 		ERROR("%s Failed to get lock\n", __func__);
@@ -1031,6 +1042,7 @@ static int ppr_timer_cb(int hd)
 err1:
 	debug("%s exit\n", __func__);
 	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+	spi_dev_unlock(bus);
 
 	return ret;
 }

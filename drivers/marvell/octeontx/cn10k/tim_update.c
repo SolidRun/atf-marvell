@@ -3153,13 +3153,14 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	struct smc_update_descriptor update_desc;
 	struct smc_update_descriptor *update_desc_async_ptr;
 	uintptr_t addr = 0, size = 0;
-	uint32_t bus, cs;
+	uint32_t bus = 0, cs;
 	uint64_t base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
 	struct io_handle io_handle;
 	uintptr_t console_base_addr = 0;
 	size_t console_map_size = 0;
+	bool spi_unlock = false;
 
 	assert(uret);
 	prepare_mapping_storage(&uParams);
@@ -3337,6 +3338,13 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	io_handle.io_handle = &media_handle;
 	io_handle.spec = &media_spec;
 
+	if (spi_dev_lock(bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		*uret = UPDATE_INVALID_MEDIA;
+		goto error;
+	}
+	spi_unlock = true;
+
 	err = setup_media(&io_handle, &update_desc);
 	if (err) {
 		*uret = err;
@@ -3390,6 +3398,10 @@ error:
 		log_bytes_used = 0;
 		log_size_bytes = 0;
 	}
+
+	if (spi_unlock)
+		spi_dev_unlock(bus);
+
 	return err;
 }
 
@@ -4500,7 +4512,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		       uint64_t dram_end, int *uret)
 {
 	int err = 0, ns_map_size;
-	struct smc_version_info *vinfo;
+	struct smc_version_info *vinfo = NULL;
 	uint64_t base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
@@ -4541,6 +4553,13 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 	}
 	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
 		WARN("Descriptor exceeds maximum number of objects\n");
+		*uret = -SPI_BAD_PARAMETER;
+		err = -EINVAL;
+		goto error;
+	}
+
+	if (spi_dev_lock(vinfo->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, vinfo->bus);
 		*uret = -SPI_BAD_PARAMETER;
 		err = -EINVAL;
 		goto error;
@@ -4599,6 +4618,9 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		}
 	}
 error:
+	if (vinfo != NULL)
+		spi_dev_unlock(vinfo->bus);
+
 	if (!async_operation || err) {
 		if (base_addr && ns_map_size)
 			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,

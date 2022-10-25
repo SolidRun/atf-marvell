@@ -102,7 +102,7 @@ int cn10k_spi_dev_read_aligned(uintptr_t user_buffer, size_t size,
 	CHECK_AND_CONFIG_SPI(bus, cs)
 
 	if (spi_dev_lock(bus)) {
-		WARN("SPI: Lock SPI%d failed\n", bus);
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
 	}
 
@@ -113,7 +113,7 @@ int cn10k_spi_dev_read_aligned(uintptr_t user_buffer, size_t size,
 	}
 
 	if (spi_dev_unlock(bus)) {
-		WARN("SPI: Unlock SPI%d failed\n", bus);
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
 		return -1;
 	}
 	return ret;
@@ -126,9 +126,19 @@ static int load_and_verify_image(uint32_t addr, int bus, int cs,
 {
 	int err;
 
+	if (spi_dev_lock(bus)) {
+		WARN("%s: SPI_%d: Lock failed\n", __func__, bus);
+		return -1;
+	}
+
 	if (spi_nor_read((uint8_t *)img_addr, tim_info->image_length, addr,
 			 get_spi_mode(addr), bus, cs))
 		return -EIO;
+
+	if (spi_dev_unlock(bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
+		return -1;
+	}
 
 	err = ehsm_verify_image((const void *)img_addr, tim_info, NULL, NULL);
 	if (err) {
@@ -166,6 +176,11 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 	/* Init Secure SPI */
 	/* FIXME */
 	/* Need to parse FDT to config SPI */
+	if (spi_dev_lock(bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		return -1;
+	}
+
 	if (spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, bus, cs)) {
 		debug_spi_nor("SPI: Config flash failed\n");
 		err = -SPI_CONFIG_ERR;
@@ -175,6 +190,9 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 	err = parse_fw_address_size(file, &addr, &map_size);
 	if (err) {
 		debug_spi_nor("File %s not found in device tree\n", file);
+		if (spi_dev_unlock(bus))
+			WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
+
 		return err;
 	}
 	debug_spi_nor("%s %s %x %x\n", __func__, file, addr, map_size);
@@ -252,6 +270,9 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 
 	*size = tim_info->image_length;
 err:
+	if (spi_dev_unlock(bus))
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
+
 	octeontx_free(tim_block_buf);
 	memset(handle, 0, sizeof(*handle));
 	memset(hinfo, 0, sizeof(*hinfo));
@@ -329,7 +350,7 @@ int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
 	CHECK_AND_CONFIG_SPI(bus, cs)
 
 	if (spi_dev_lock(bus)) {
-		WARN("SPI: Lock SPI%d failed\n", bus);
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
 	}
 
@@ -372,7 +393,7 @@ int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
 	}
 
 	if (ret == -1)
-		return ret;
+		goto fail;
 
 	/* Verify data */
 	offset = loc;
@@ -399,8 +420,9 @@ int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
 		size -= xfer_len;
 	}
 
+fail:
 	if (spi_dev_unlock(bus)) {
-		WARN("SPI: Unlock SPI%d failed\n", bus);
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
 		return -1;
 	}
 
@@ -425,7 +447,7 @@ int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 	CHECK_AND_CONFIG_SPI(bus, cs)
 
 	if (spi_dev_lock(bus)) {
-		WARN("SPI: Lock SPI%d failed\n", bus);
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
 	}
 
@@ -465,7 +487,7 @@ int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 	}
 
 	if (spi_dev_unlock(bus)) {
-		WARN("SPI: Unlock SPI%d failed\n", bus);
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
 		return -1;
 	}
 
@@ -491,7 +513,7 @@ unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 	CHECK_AND_CONFIG_SPI(bus, cs)
 
 	if (spi_dev_lock(bus)) {
-		WARN("SPI: Lock SPI%d failed\n", bus);
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
 	}
 
@@ -511,7 +533,7 @@ unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 	}
 
 	if (spi_dev_unlock(bus)) {
-		WARN("SPI: unlock SPI%d failed\n", bus);
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
 		return -1;
 	}
 
