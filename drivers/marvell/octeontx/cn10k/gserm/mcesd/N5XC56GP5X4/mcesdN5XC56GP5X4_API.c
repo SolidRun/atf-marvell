@@ -3268,9 +3268,9 @@ MCESD_STATUS API_N5XC56GP5X4_EOMConvertWidthHeight
     IN MCESD_U16 width,
     IN MCESD_U16 heightUpper,
     IN MCESD_U16 heightLower,
-    OUT MCESD_U16 *widthmUI,
-    OUT MCESD_U16 *height100uVUpper,
-    OUT MCESD_U16 *height100uVLower
+    OUT MCESD_U32 *widthmUI,
+    OUT MCESD_U32 *height100uVUpper,
+    OUT MCESD_U32 *height100uVLower
 )
 {
     MCESD_U16 phaseStepCount, voltageStepCount;
