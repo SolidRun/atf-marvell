@@ -1039,6 +1039,12 @@ retry_read_eeprom:
 			case 0x12:
 				debug_sfp_mgmt("%s: CXP-28 inserted\n", __func__);
 				break;
+			case 0x18:
+				debug_sfp_mgmt("%s: QSFP-DD inserted\n", __func__);
+				qsfp_get_info(cgx_id, lmac_id);
+				sff_id = ETH_MODULE_SFF_8024;
+				ret = cap_info->trans_type;
+				break;
 			default:
 				ERROR("%s: %d:%d unknown transceiver type inserted\n", __func__,
 									cgx_id, lmac_id);
