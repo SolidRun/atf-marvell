@@ -58,7 +58,8 @@ typedef enum {
 	ETH_MODULE_SFF_8079,
 	ETH_MODULE_SFF_8472,
 	ETH_MODULE_SFF_8636,
-	ETH_MODULE_SFF_8436
+	ETH_MODULE_SFF_8436,
+	ETH_MODULE_SFF_8024
 } sff_id_e;
 
 typedef struct gpio_compat {
