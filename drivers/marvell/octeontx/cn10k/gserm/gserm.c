@@ -2275,12 +2275,45 @@ int gserm_rx_eq_params_set(int portm_idx, int lane_idx,
 	return 0;
 }
 
+static int _get_cdr_lock_status(portm_config_t *cfg, int gserm_lane)
+{
+	uint64_t timeout, timeout_ms = 5;
+
+	/* Select the GSERM lane */
+	CSR_MODIFY(c, CAVM_GSERMX_SYSTEM(cfg->gserm),
+		   c.s.lane_sel = gserm_lane);
+
+	/* Initiate CDR lock check */
+	CSR_MODIFY(c, CAVM_GSERMX_PH_OS_BOUNDARY(cfg->gserm),
+		   c.s.cdr_lock_detect_interface_lane = 0xff);
+
+	udelay(100);
+
+	timeout = clock_get_count(GSER_CLOCK_TIME) + timeout_ms *
+		clock_get_rate(GSER_CLOCK_TIME)/1000;
+
+	do {
+		cavm_gsermx_ph_os_boundary_t ph_os_boundary;
+		uint8_t cdr_lock_status;
+
+		ph_os_boundary.u = CSR_READ(CAVM_GSERMX_PH_OS_BOUNDARY(cfg->gserm));
+		cdr_lock_status = ph_os_boundary.s.cdr_lock_detect_interface_lane;
+
+		if (cdr_lock_status != 0xff)
+			return cdr_lock_status;
+
+		udelay(100);
+	} while (clock_get_count(GSER_CLOCK_TIME) < timeout);
+
+	return -1;
+}
+
 int gserm_rx_training_start(int portm_idx, int lane_idx)
 {
 	int gserm_lane;
 	portm_config_t *cfg;
 	struct gserm_config gserm_cfg = {0};
-	int rx_init_done;
+	int rx_init_done, cdr_lock_status;
 	MCESD_STATUS ret;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -2317,6 +2350,23 @@ int gserm_rx_training_start(int portm_idx, int lane_idx)
 
 	debug_gserm("%s: %d:%d Rx init complete\n",
 		__func__, portm_idx, lane_idx);
+
+	cdr_lock_status = _get_cdr_lock_status(cfg, gserm_lane);
+
+	switch (cdr_lock_status) {
+	case 1:
+		debug_gserm("%s: PORTM%d:%d CDR locked\n",
+			__func__, portm_idx, lane_idx);
+		break;
+	case -1:
+		ERROR("%s: PORTM%d:%d Timeout waiting for CDR lock status\n",
+			__func__, portm_idx, lane_idx);
+		return -1;
+	default:
+		ERROR("%s: PORTM%d:%d CDR not locked (status=0x%x)\n",
+			__func__, portm_idx, lane_idx, cdr_lock_status);
+		return -1;
+	}
 
 	ret = API_N5XC56GP5X4_StartTraining(&gserm_cfg.mcesd_handle,
 			gserm_lane,
@@ -2356,6 +2406,29 @@ int gserm_rx_training_check(int portm_idx, int lane_idx,
 
 	if (ret == MCESD_FAIL)
 		return -1;
+
+	if (compl && !status) {
+		int cdr_lock_status;
+
+		cdr_lock_status = _get_cdr_lock_status(cfg, gserm_lane);
+
+		switch (cdr_lock_status) {
+		case 1:
+			debug_gserm("%s: PORTM%d:%d CDR locked after training\n",
+				__func__, portm_idx, lane_idx);
+			break;
+		case -1:
+			ERROR("%s: PORTM%d:%d Timeout waiting for CDR lock status\n",
+				__func__, portm_idx, lane_idx);
+			status = 1;
+			break;
+		default:
+			ERROR("%s: PORTM%d:%d CDR not locked after training (status=0x%x)\n",
+				__func__, portm_idx, lane_idx, cdr_lock_status);
+			status = 1;
+			break;
+		}
+	}
 
 	*completed = compl;
 	*res = status;
