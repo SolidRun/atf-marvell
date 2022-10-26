@@ -61,8 +61,24 @@ static int ecam_probe_rpm(unsigned long long arg)
 
 	if (rpm->enable)
 		return 1;
-	else
-		return 0;
+	else {
+		/* For PORTMs connected to RFOE, check if PORTM is enabled and enable the RPM device */
+		if (!rpm->is_rfoe)
+			return 0;
+		for (int portm_idx = 0; portm_idx < plat_octeontx_scfg->portm_count; portm_idx++) {
+			portm_config_t *portm =
+				&(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+			int rpm_temp = cn10k_portm_get_rpm_num(portm_idx);
+
+			if (rpm_temp != rpm_idx)
+				continue;
+			if (!portm->port_enable)
+				continue;
+			else
+				return 1;
+		}
+	}
+	return 0;
 }
 
 struct ecam_probe_callback probe_callbacks[] = {
