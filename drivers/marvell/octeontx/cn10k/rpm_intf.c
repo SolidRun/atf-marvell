@@ -1855,9 +1855,9 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 			ret = rpm_set_serdes_tx_tune(
 				 scratchx1.s.gser_tune.portm_idx,
 				 scratchx1.s.gser_tune.tx_main,
-				 scratchx1.s.gser_tune.tx_pre,
-				 scratchx1.s.gser_tune.tx_pre2,
-				 scratchx1.s.gser_tune.tx_post,
+				 (int8_t)scratchx1.s.gser_tune.tx_pre,
+				 (int8_t)scratchx1.s.gser_tune.tx_pre2,
+				 (int8_t)scratchx1.s.gser_tune.tx_post,
 						     lmac_ctx);
 			break;
 
