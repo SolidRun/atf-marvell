@@ -888,6 +888,12 @@ const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 	break;
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RX_TRAIN_WAIT);
 	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCK_UPDATE_FIRST);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCK_UPDATE_SECOND);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCK_UPDATE_IN_PROGRESS);
+	break;
 
 	default:
 		WARN("%s: unrecognized ECP link state %d\n", __func__, link_state);
