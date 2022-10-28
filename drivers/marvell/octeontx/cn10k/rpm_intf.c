@@ -762,9 +762,18 @@ static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int t
 
 	tx_tuning.portm_mode = portm->portm_mode;
 	tx_tuning.tx_main = tx_main;
+
+	/*
+	 * Regardless if user provides a signed value or not
+	 * pre2/pre1/post will be treated as negative
+	 */
+	tx_post = (tx_post < 0) ? tx_post : -tx_post;
+	tx_pre1 = (tx_pre1 < 0) ? tx_pre1 : -tx_pre1;
+	tx_pre2 = (tx_pre2 < 0) ? tx_pre2 : -tx_pre2;
 	tx_tuning.tx_post = tx_post;
 	tx_tuning.tx_pre1 = tx_pre1;
 	tx_tuning.tx_pre2 = tx_pre2;
+
 	if (!cn10k_portm_tx_tuning_valid(portm_idx, 0, &tx_tuning)) {
 		ERROR("PORTM%d: Invalid Tx equalization settings provided.\n",
 		      portm_idx);
