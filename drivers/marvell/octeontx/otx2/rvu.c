@@ -370,7 +370,7 @@ static void rvu_provision_pfs_for_sw_devs(int top_eth_pf,
 	}
 
 	/* Provision RVU PFs for SDP. */
-	for (i = SW_RVU_SDP_NUM_PF - 1; (int)i >= 0; i--) {
+	for (i = 0; i < SW_RVU_SDP_NUM_PF; i++) {
 		int pem = 0;
 		if (IS_OCTEONTX_PASS(read_midr(), T98PARTNUM, 1, 0))
 			continue;
