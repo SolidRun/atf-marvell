@@ -297,7 +297,7 @@ uint64_t cavm_fuse_read_range(cavm_node_t node, int fuse, int width)
 	int last;
 	uint64_t dat;
 
-#if defined(PLAT_OTX_FAMILY)
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY))
 	if (cavm_is_model(OCTEONTX_CN8XXX)) {
 		WARN("%s: Not implemented for CN8XXX\n", __func__);
 		return 0xff;
@@ -365,8 +365,14 @@ int32_t plat_get_soc_version(void)
 {
 	uint32_t version;
 	uint64_t chip_id;
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY))
+	uint64_t midr = read_midr();
 
+	chip_id = MIDR_PARTNUM(midr);
+#else
 	chip_id = CSR_READ(CAVM_FUS_CACHEX(0x0));
+#endif
+
 	version = ((MRVL_SOC_IDEN_CODE << MRVL_SOC_IDEN_SHIFT) |
 		   (MRVL_SOC_CONT_CODE << MRVL_SOC_CONT_SHIFT) |
 		   (uint32_t)chip_id);
@@ -377,7 +383,19 @@ int32_t plat_get_soc_version(void)
 /* Get SOC revision */
 int32_t plat_get_soc_revision(void)
 {
-	return (uint32_t)CSR_READ(CAVM_FUS_CACHEX(0x8));
+	uint32_t rev;
+#if !(defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY))
+	uint64_t midr = read_midr();
+
+	/* program minor pass */
+	rev = MIDR_REVISION(midr) & 0x3;
+	/* program major pass */
+	rev |= (MIDR_VARIANT(midr) & 0x3) << 2;
+#else
+	rev = (uint32_t)CSR_READ(CAVM_FUS_CACHEX(0x8));
+#endif
+
+	return rev;
 }
 
 #ifdef MRVL_TF_LOG_MODULE
