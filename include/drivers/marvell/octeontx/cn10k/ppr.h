@@ -14,6 +14,7 @@
 #define FLASH_ERASE_MARK	0xFFFFFFFF
 #define SIGNATURE			0xCAFEBABA
 
+#define REPAIRED 0x8000
 
 #if defined(MRVL_TF_LOG_MODULE)
 #  undef MRVL_TF_LOG_MODULE
@@ -40,7 +41,8 @@ union record_t {
 } __packed;
 
 struct mrr {
-	uint32_t EpRC;	//Error per Row Counter
+	uint16_t EpRC;	//Error per Row Counter
+	uint16_t cycle;
 	union {
 		uint32_t record;
 		union record_t mrr;

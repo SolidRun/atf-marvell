@@ -141,7 +141,7 @@ Then do “1” and after configure the mrr_grp_sel to 0x1(group1), which repres
 */
 
 #define printh() \
-		VERBOSE("hPPR SIG\t%08x\nMRRid\t%d\tPPRid\t%d\nMRRc\t%d\tPPRc\t%d\nmaxEpRC\t%d\thPPRnxt\t%d\n",\
+		VERBOSE("hPPR SIG\t%08x\nMRRid\t%u\tPPRid\t%u\nMRRc\t%u\tPPRc\t%u\nmaxEpRC\t%u\thPPRnxt\t%u\n",\
 		ppr_mrr.signature, \
 		ppr_mrr.head_mrr, \
 		ppr_mrr.head_ppr, \
@@ -290,9 +290,9 @@ static uint32_t ppr_ddrc_ddr5_read_failure_row(uint32_t ch)
 #if 0
 			// Simulate injection:
 			if (ch == 0 && r == 0) {
-				mr16_val = 0b00010110 << 0; //dev0, row 22
-				mr18_val = 0b00000100 << 0; //dev0, BG0, BA1
-				mr19_val = 0b00001000 << 0; //dev0, EpRC8
+				mr16_val = 0; //dev0, row 0
+				mr18_val = 0b00000000000000000000000000000000 << 0; //dev0, BG0, BA0
+				mr19_val = 0b00001000000010000000100000001000 << 0; //dev0, EpRC8
 			}
 #endif
 
@@ -549,7 +549,7 @@ static int32_t ppr_write_record(ppr_t *record, uint32_t number)
 
 	offset = PPR_OFFSET(ppr_mrr.head_ppr);
 
-	debug("%ss %d at index %d offset 0x%x\n", __func__, number, ppr_mrr.head_ppr, offset);
+	debug("%ss %u at index %u offset 0x%x\n", __func__, number, ppr_mrr.head_ppr, offset);
 
 	if (offset + length > PPR_REGION_END) {
 		ERROR("%s Failed PPR region not fit records\n", __func__);
@@ -616,21 +616,23 @@ __attribute__((unused))
 static void print_ppr(void)
 {
 	struct ppr *ppr_p;
-	int i = 0;
+	uint32_t i = 0;
 
 	memset(buf_p, 0, ERASE_SIZE);
 
-	debug_ppr("%s 0x%x - 0x%x\n", __func__, PPR_OFFSET(0), PPR_OFFSET(ppr_mrr.head_ppr));
+	debug_ppr("%s [%u - %u] 0x%x - 0x%x\n", __func__, 0,
+			ppr_mrr.head_ppr, PPR_OFFSET(0), PPR_OFFSET(ppr_mrr.head_ppr));
 	for (i = 0; i < ppr_mrr.head_ppr; i++) {
 
 		if (i % PPR_REC_PER_BLK == 0)
 			ppr_read_record(buf_p, i, PPR_REC_PER_BLK);
-		ppr_p = (struct ppr *)&buf_p[i];
+		ppr_p = (struct ppr *)&buf_p[i % PPR_REC_PER_BLK];
 
-		debug_ppr("[%d %d %d %d %d %d] EpRCacc %d cases %d cycle %d\n",
+		debug_ppr("[%u %u %u %u %u %u] EpRCacc %u cases %u cycle %u %s\n",
 			  ppr_p->mrr.channel,  ppr_p->mrr.rank, ppr_p->mrr.device,
 			  ppr_p->mrr.bank_gr, ppr_p->mrr.bank_addr, ppr_p->mrr.row_num,
-			  ppr_p->EpRCacc, ppr_p->cases, ppr_p->cycle);
+			  ppr_p->EpRCacc, ppr_p->cases, (ppr_p->cycle & ~REPAIRED) & 0xFFFF,
+			  (ppr_p->cycle & REPAIRED) ? "<- repaired":"");
 	}
 }
 
@@ -658,86 +660,18 @@ static void print_stat(void)
 	if (ret < 0)
 		goto err;
 
+	if (ppr_mrr.signature     != SIGNATURE ||
+			ppr_mrr.head_mrr  == FLASH_ERASE_MARK ||
+			ppr_mrr.head_ppr  == FLASH_ERASE_MARK)
+		goto err;
+
 	print_ppr();
 
 err:
+
 	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 	spi_dev_unlock(bus);
 }
-
-#if 0
-/*
- * loop_last_ppr_cycle
- * Find most failed row (highest  EpRC) in bank group for hPPR
- * do it per channel and save results.
- * Only one row per bank group can be repaired
- */
-
-__attribute__((unused))
-static void loop_last_ppr_cycle(ppr_t *buf, int len)
-{
-	struct ppr *ppr_p1;
-	struct ppr *ppr_p2;
-	ppr_t max_rec;
-	uint32_t cnt = 0;
-
-	static unsigned int row_num[2][8];
-	static unsigned int ba_num[2][8];
-	static unsigned int bg_num[2][8];
-
-	for (int ch = 0; ch < MAX_CHANNELS; ch++) {
-
-		memset(bg_num, 0xFFFFFFFF, sizeof(bg_num));
-		memset(ba_num, 0xFFFFFFFF, sizeof(ba_num));
-		memset(row_num, 0xFFFFFFFF, sizeof(row_num));
-		cnt = 0;
-
-		for (int i = 0; i < len; i++) {
-			max_rec = buf[i];
-			ppr_p1 = (struct ppr *)&max_rec;
-			if (ppr_p1->mrr.channel != ch)
-				continue;
-			if (ppr_p1->EpRCacc == 0)
-				continue;
-
-			//find maximum EpRC for each BG in current channel
-			for (int j = i + 1; j < len; j++) {
-				ppr_p2 = (struct ppr *)&buf[j];
-
-				if (ppr_p1->mrr.channel == ppr_p2->mrr.channel &&
-						ppr_p1->mrr.rank == ppr_p2->mrr.rank &&
-						ppr_p1->mrr.device == ppr_p2->mrr.device &&
-						ppr_p1->mrr.bank_gr == ppr_p2->mrr.bank_gr &&
-						(ppr_p1->mrr.bank_addr != ppr_p2->mrr.bank_addr ||
-						 ppr_p1->mrr.row_num != ppr_p2->mrr.row_num)) {
-
-					if (ppr_p1->EpRCacc < ppr_p2->EpRCacc) {
-						*ppr_p1 = *ppr_p2;
-						ppr_p2->EpRCacc = 0;
-					}
-				}
-			}
-			// Proceed hPPR procedure only for record EpRC exceed threshold
-			if (ppr_p1->EpRCacc > EpRC_THRESHOLD) {
-				bg_num[ppr_p1->mrr.rank][ppr_p1->mrr.device] = ppr_p1->mrr.bank_gr;
-				ba_num[ppr_p1->mrr.rank][ppr_p1->mrr.device] = ppr_p1->mrr.bank_addr;
-				row_num[ppr_p1->mrr.rank][ppr_p1->mrr.device] = ppr_p1->mrr.row_num;
-				cnt++;
-				printf("ch%d start %d [%d %d %d %d %d %d] EpRC %d cases %d cycle %d\n", ch,
-					   ppr_mrr.head_ppr_start,
-					   ppr_p1->mrr.channel,  ppr_p1->mrr.rank, ppr_p1->mrr.device,
-					   ppr_p1->mrr.bank_gr, ppr_p1->mrr.bank_addr, ppr_p1->mrr.row_num,
-					   ppr_p1->EpRCacc, ppr_p1->cases, ppr_p1->cycle);
-			}
-		}
-
-		if (cnt)
-			printf("%s execute hPPR [%d - %d] channel %d %d records\n", __func__,
-				   ppr_mrr.head_ppr_start, ppr_mrr.head_ppr_start + len - 1, ch, cnt);
-
-	}
-}
-#endif
 
 static int32_t ppr_mrr_clear_flash(void)
 {
@@ -768,7 +702,8 @@ static int32_t ppr_make_statistic(void)
 	uint32_t j = 0;
 	uint32_t k = 0;
 
-	uint32_t eprc = 0;
+	uint16_t eprc = 0;
+	uint16_t cycle = 0;
 	union record_t row;
 	uint32_t cntr = 0;
 
@@ -794,7 +729,8 @@ static int32_t ppr_make_statistic(void)
 		if (buf_m[i] == 0)
 			continue;
 
-		eprc = buf_m[i] & 0xFFFFFFFF;
+		eprc = buf_m[i] & 0xFFFF;
+		cycle = (buf_m[i] >> 16) & 0xFFFF;
 		cntr = 1;
 		row.u  = (uint32_t)(buf_m[i] >> 32);
 
@@ -803,18 +739,18 @@ static int32_t ppr_make_statistic(void)
 		// calculate all records from previous find
 		for (j = i + 1; j < ppr_mrr.head_mrr; j++) {
 			if (row.u == (uint32_t)(buf_m[j] >> 32)) {
-				eprc += (buf_m[j] & 0xFFFFFFFF);
+				eprc += (buf_m[j] & 0xFFFF);
 				cntr++;
 				buf_m[j] = 0;
 			}
 		}
 
-		ppr_rec.cycle  = ppr_mrr.ppr_cycle;
-		ppr_rec.EpRCacc   = eprc > 0xFF ? 0xFF:eprc;
-		ppr_rec.cases  = cntr > 0xFF ? 0xFF:cntr;
-		ppr_rec.mrr.u = row.u;
+		ppr_rec.cycle   = cycle;
+		ppr_rec.EpRCacc = eprc > 0xFF ? 0xFF:eprc;
+		ppr_rec.cases   = cntr > 0xFF ? 0xFF:cntr;
+		ppr_rec.mrr.u   = row.u;
 
-		VERBOSE("%s row %08x [%d %d %d %d %d %d] EpRCacc %d cases %d cycle %d\n", __func__,
+		VERBOSE("%s row %08x [%u %u %u %u %u %u] EpRCacc %u cases %u cycle %u\n", __func__,
 			  ppr_rec.mrr.u,
 			  ppr_rec.mrr.channel,  ppr_rec.mrr.rank, ppr_rec.mrr.device,
 			  ppr_rec.mrr.bank_gr, ppr_rec.mrr.bank_addr, ppr_rec.mrr.row_num,
@@ -955,6 +891,7 @@ static int ppr_timer_cb(int hd)
 									   ((dramx_mr17[r][g][d] & 0xFF) << MR17_OFFS) |
 									   (dramx_mr16[r][g][d] & 0xFF);
 					mr.EpRC          = dramx_mr19[r][g][d] & MR_REC_MASK;
+					mr.cycle          = ppr_mrr.ppr_cycle;
 
 					if (rec >= ARRAY_SIZE(mrx)) {
 						ERROR("%s mrr record buffer overflow %d\n", __func__, rec);
@@ -965,7 +902,7 @@ static int ppr_timer_cb(int hd)
 					memcpy(mrx + rec, &mr, sizeof(mr));
 					rec++;
 
-					VERBOSE("[%d %d %d %d %d %d] EpRC %d\n",
+					VERBOSE("[%u %u %u %u %u %u] EpRC %u\n",
 							mr.mrr.channel,  mr.mrr.rank, mr.mrr.device,
 							mr.mrr.bank_gr, mr.mrr.bank_addr, mr.mrr.row_num, mr.EpRC);
 				}
@@ -984,6 +921,8 @@ static int ppr_timer_cb(int hd)
 	}
 
 	ppr_mrr.mrr_cycle++;
+	ppr_mrr.ppr_cycle++;
+	ppr_mrr.ppr_cycle %= 0x3FFF;
 
 #ifdef PPR_DEBUG
 	print_mrr();
@@ -1006,7 +945,6 @@ static int ppr_timer_cb(int hd)
 #endif
 
 		ppr_mrr.mrr_cycle = 0;
-		ppr_mrr.ppr_cycle++;
 		ppr_mrr.mrr_max_EpRC = 0;
 	}
 
@@ -1014,30 +952,6 @@ static int ppr_timer_cb(int hd)
 	if (ret < 0) {
 		ERROR("Failed update PPR MRR header\n");
 	}
-
-#if 0
-	ppr_mrr_read_header();
-
-	if (ppr_mrr.signature     != SIGNATURE ||
-			ppr_mrr.head_mrr  == FLASH_ERASE_MARK ||
-			ppr_mrr.head_ppr  == FLASH_ERASE_MARK ||
-			ppr_mrr.mrr_cycle == FLASH_ERASE_MARK ||
-			ppr_mrr.ppr_cycle == FLASH_ERASE_MARK ||
-			ppr_mrr.head_ppr  == 0) {
-		debug("hPPR signature check failed\n");
-	} else
-		while (ppr_mrr.head_ppr > ppr_mrr.head_ppr_start) {
-			int start = ppr_mrr.head_ppr_start;
-			int len = ppr_mrr.head_ppr - ppr_mrr.head_ppr_start;
-
-			len = (len <= PPR_REC_PER_BLK) ? len : PPR_REC_PER_BLK;
-			memset(buf_p, 0, sizeof(buf_p));
-			ppr_read_record(buf_p, start, len);
-			loop_last_ppr_cycle(buf_p, len);
-			ppr_mrr.head_ppr_start += len;
-		}
-	ppr_mrr_update_header();
-#endif
 
 err1:
 	debug("%s exit\n", __func__);
