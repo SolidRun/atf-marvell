@@ -230,6 +230,8 @@ const char *cn10k_portm_fec_type_to_str(cn10k_portm_fec_t fec_type)
 	break;
 
 	default:
+		WARN("%s: invalid FEC type %d\n", __func__, fec_type);
+		str = "INVALID_PORTM_FEC_VALUE";
 		break;
 	}
 	return str;
@@ -1134,6 +1136,7 @@ const char *cn10k_portm_mode_to_cfg_str(cn10k_portm_modes_t mode)
 	MODE_CASE(PORTM_MODE_JESD204C_24_3G);
 
 	default:
+		WARN("%s: invalid PORTM mode %d\n", __func__, mode);
 		str = "INVALID_PORTM_MODE_VALUE";
 		break;
 	}
@@ -1159,6 +1162,7 @@ const char *cn10k_portm_mac_type_to_cfg_str(cn10k_portm_mac_type_t mac_type)
 	MAC_CASE(PORTM_JESD);
 	MAC_CASE(PORTM_CPRI);
 	default:
+		WARN("%s: invalid MAC type %d\n", __func__, mac_type);
 		str = "INVALID_MAC_TYPE_VALUE";
 		break;
 	}

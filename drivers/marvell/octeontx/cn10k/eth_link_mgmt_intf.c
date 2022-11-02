@@ -773,7 +773,7 @@ unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
  */
 const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 {
-	const char *str = "UNKNOWN";
+	const char *str;
 
 #define ETH_LINK_STATE_CASE(m) case m: str = ((const char *)#m)+15
 
@@ -890,6 +890,8 @@ const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 	break;
 
 	default:
+		WARN("%s: unrecognized ECP link state %d\n", __func__, link_state);
+		str = "UNKNOWN_ETH_LINK_STATE_VALUE";
 		break;
 	}
 	return str;
@@ -1006,6 +1008,8 @@ const char *cn10k_link_error_to_str(link_err_type_t link_error)
 	break;
 
 	default:
+		WARN("%s: unrecognized ECP link_error %d\n", __func__, link_error);
+		str = "UNKNOWN_LINK_ERR_VALUE";
 		break;
 	}
 	return str;
@@ -1019,7 +1023,7 @@ const char *cn10k_link_error_to_str(link_err_type_t link_error)
  */
 const char *cn10k_ecp_link_req_to_str(ecp_link_req_id_t link_req)
 {
-	const char *str = "UNKNOWN";
+	const char *str;
 
 #define LINK_REQ_CASE(m) case m: str = ((const char *)#m)+9
 
@@ -1044,6 +1048,8 @@ const char *cn10k_ecp_link_req_to_str(ecp_link_req_id_t link_req)
 	break;
 
 	default:
+		WARN("%s: unrecognized ECP link request %d\n", __func__, link_req);
+		str = "UNKNOWN_ECP_LINK_REQ_VALUE";
 		break;
 	}
 	return str;
