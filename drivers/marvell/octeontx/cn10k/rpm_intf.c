@@ -1189,8 +1189,10 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 		__func__, portm_idx, rpm_id, lmac_id);
 
 	init_time = clock_get_count(GSER_CLOCK_TIME);
-	/* Wait for 100 ms */
-	link_timeout = init_time + RPM_LINK_BRINGUP_WAIT_STATUS *
+	/* Wait for 200 ms, additional time of 100 ms for link configuration as during mode
+	 * change before the new mode is brought up, current mode has to be brought down
+	 */
+	link_timeout = init_time + RPM_MODE_CHANGE_WAIT_STATUS *
 			clock_get_rate(GSER_CLOCK_TIME)/1000000;
 	/* Save the mode change time in us */
 	bringup_ctx->link_bringup_init_time = (init_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME));
@@ -1209,14 +1211,16 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 		mdelay(5);
 	}
 
-	/* If the link is not UP, then update the link state as below */
-	if (!sig_detect) {
+	/* If the link is not UP, then update the link state as below.
+	 * In case of ASIM, ignore checking for the signal detect
+	 */
+	if (!cavm_is_platform(PLATFORM_ASIM) && (!sig_detect)) {
 		debug_rpm_intf("%s: %d:%d FAILED to detect a signal\n", __func__,
 			rpm_id, lmac_id);
 		bringup_ctx->link_bringup_status = LINK_BRINGUP_DONE;
 	} else
 		bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
-	bringup_ctx->link_bringup_time = RPM_LINK_BRINGUP_WAIT_STATUS; /* elapsed time */
+	bringup_ctx->link_bringup_time = RPM_MODE_CHANGE_WAIT_STATUS; /* elapsed time */
 	debug_rpm_intf("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %lld\n", __func__,
 						rpm_id, lmac_id, bringup_ctx->link_bringup_status,
 						bringup_ctx->link_bringup_time);

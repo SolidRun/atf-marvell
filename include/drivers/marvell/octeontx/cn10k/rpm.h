@@ -45,6 +45,7 @@
 /* Timeouts for RPM poll status */
 #define RPM_POLL_LINK_BRINGUP_STATUS	4000000		/* 4 seconds */
 #define RPM_LINK_BRINGUP_WAIT_STATUS	100000		/* 100 ms */
+#define RPM_MODE_CHANGE_WAIT_STATUS	200000		/* 200 ms */
 #define ECP_MODE_CHANGE_WAIT_STATUS	60000		/* 60 ms */
 #define RPM_POLL_LINK_BRINGDOWN_STATUS	500000		/* 500 ms */
 #define RPM_POLL_LINK_FECCHANGE_STATUS	4000000		/* 4 second */
