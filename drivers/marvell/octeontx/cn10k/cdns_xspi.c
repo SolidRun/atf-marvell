@@ -91,7 +91,9 @@ uint32_t spi_mode;
 static file_state_t spi_state_data[SPI_MAX_STATES];
 
 /* Global lock to sync between ATF and OS */
-uint32_t *spi_lock[] = {NULL, NULL};
+#define SPI_0_LOCK_BYTE (uint32_t *)0x80400000208c
+#define SPI_1_LOCK_BYTE (uint32_t *)0x80500000208c
+static uint32_t *spi_lock[] = {SPI_0_LOCK_BYTE, SPI_1_LOCK_BYTE};
 #define ATF_OWN		0x01
 
 /** Needed for block writes to temporarily store data */
@@ -876,7 +878,6 @@ uint32_t spi_dev_lock(int spi_con)
 	uint32_t val = 0;
 	int timeout = 0xFF;
 
-
 	while (timeout-- >= 0) {
 		val = *spi_lock[spi_con];
 		if (val == 0 || val == ATF_OWN) {
@@ -922,9 +923,6 @@ int spi_config(uint64_t spi_clk, uint32_t mode, int cpol, int cpha,
 	bool safemode = false;
 
 	handle_gpio_as_spi(spi_con);
-
-	spi_lock[0] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(0);
-	spi_lock[1] = (uint32_t *)CAVM_SPIX_PHY_CTB_RFILE_PHY_GPIO_CTRL_1(1);
 
 	if (mode != 0)
 		safemode = true;
