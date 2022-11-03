@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***********************************
-* Copyright (C) 2020-2022 Marvell
+* Copyright (C) 2018 Marvell
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
@@ -30567,25 +30567,29 @@ union cavm_gsermx_dfe_control_3
                                                                  internal */
         uint32_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
                                                                  internal */
-        uint32_t reserved_7            : 1;
+        uint32_t final_gaintrain_lane  : 1;  /**< [  7:  7](R/W/H) Final GainTrain Control Enable
+                                                                 internal */
         uint32_t rx_tracking_enable_ini_lane : 1;/**< [  6:  6](R/W/H) Rx Tracking Enable Initial
                                                                  internal */
         uint32_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
                                                                  internal */
         uint32_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
-        uint32_t reserved_1_2          : 2;
+        uint32_t tx_preset_index_pam2_lane : 2;/**< [  2:  1](R/W/H) Tx Preset Index For PAM2 10G Lane control
+                                                                 internal */
         uint32_t final_gain_adjust_en_lane : 1;/**< [  0:  0](R/W/H) Enable Final Gain Adjust
                                                                  internal */
 #else /* Word 0 - Little Endian */
         uint32_t final_gain_adjust_en_lane : 1;/**< [  0:  0](R/W/H) Enable Final Gain Adjust
                                                                  internal */
-        uint32_t reserved_1_2          : 2;
+        uint32_t tx_preset_index_pam2_lane : 2;/**< [  2:  1](R/W/H) Tx Preset Index For PAM2 10G Lane control
+                                                                 internal */
         uint32_t tx_train_p2p_hold_lane : 1; /**< [  3:  3](R/W/H) TX Train Peak To Peak Hold Enable */
         uint32_t train_ph_control_mode_lane : 2;/**< [  5:  4](R/W/H) Train Phase Control Mode.
                                                                  internal */
         uint32_t rx_tracking_enable_ini_lane : 1;/**< [  6:  6](R/W/H) Rx Tracking Enable Initial
                                                                  internal */
-        uint32_t reserved_7            : 1;
+        uint32_t final_gaintrain_lane  : 1;  /**< [  7:  7](R/W/H) Final GainTrain Control Enable
+                                                                 internal */
         uint32_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
                                                                  internal */
         uint32_t cal_phase_lane        : 8;  /**< [ 23: 16](R/W/H) Align90_Ref Calibration Save For Current PLL Rate.
@@ -78581,9 +78585,11 @@ union cavm_gsermx_ph_os_boundary
         uint32_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
         uint32_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
         uint32_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface */
-        uint32_t reserved_0_7          : 8;
+        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [  7:  4](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [  3:  0](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_7          : 8;
+        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [  3:  0](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
+        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [  7:  4](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
         uint32_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface */
         uint32_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
         uint32_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
