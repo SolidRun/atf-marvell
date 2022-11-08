@@ -574,5 +574,29 @@ PLAT_OCTEONTX_MEM_TEST_CONFIG
     This SMC call sets or gets memory POST settings.
   * Supported platforms: CN10K
 
+PLAT_OCTEONTX_EHSM_READ_CSR
+  * SMC FID: 0xc2000b16
+  * Input registers values:
+    x0: SMC FID
+    x1: eHSM register offset, Following enum defines the register offset
+        enum smc_reg
+        {
+            /* Request input registers */
+            BOOTROM_STATUS          = 0x1,
+            ROOT_TRUST_STATUS       = 0x2,
+            CHAIN_OF_TRUST_STATUS   = 0x3,
+            UUID0                   = 0x4,
+            UUID1                   = 0x5,
+            UUID2                   = 0x6,
+            KEY_REVOC_STATUS        = 0x7,
+            FW_SEC_VER              = 0x8,
+        };
+  * Return value:
+    a0: Return 0 on success or error code on failure
+    a1: 32 bit eHSM register value
+  * Description:
+    This SMC call can be used to read specific eHSM CSRs.
+  * Supported platforms: CN10K
+
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf
 [SMCCC]:   http://infocenter.arm.com/help/topic/com.arm.doc.den0028b/ARM_DEN0028B_SMC_Calling_Convention.pdf
