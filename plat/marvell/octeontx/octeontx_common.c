@@ -360,6 +360,13 @@ int32_t plat_is_smccc_feature_available(u_register_t fid)
 #define MRVL_SOC_CONT_SHIFT	U(24)
 #define MRVL_SOC_IDEN_SHIFT	U(16)
 
+
+/* OcteonTx Fuse related */
+#define CHIP_ID_MASK	U(0xFF)
+#define CHIP_ID_SHIFT	U(0)
+#define CHIP_REV_MASK	U(0xFF00)
+#define CHIP_REV_SHIFT	U(8)
+
 /* Get SOC version */
 int32_t plat_get_soc_version(void)
 {
@@ -375,7 +382,7 @@ int32_t plat_get_soc_version(void)
 
 	version = ((MRVL_SOC_IDEN_CODE << MRVL_SOC_IDEN_SHIFT) |
 		   (MRVL_SOC_CONT_CODE << MRVL_SOC_CONT_SHIFT) |
-		   (uint32_t)chip_id);
+		   ((chip_id & CHIP_ID_MASK) >> CHIP_ID_SHIFT));
 
 	return version;
 }
@@ -392,7 +399,8 @@ int32_t plat_get_soc_revision(void)
 	/* program major pass */
 	rev |= (MIDR_VARIANT(midr) & 0x3) << 2;
 #else
-	rev = (uint32_t)CSR_READ(CAVM_FUS_CACHEX(0x8));
+	rev = (uint32_t)CSR_READ(CAVM_FUS_CACHEX(0x0));
+	rev = (rev & CHIP_REV_MASK) >> CHIP_REV_SHIFT;
 #endif
 
 	return rev;
