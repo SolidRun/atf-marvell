@@ -1599,8 +1599,8 @@ void gserm_reset_init(void)
 				    __func__, cfg.gserm_idx, gser_lane);
 			debug_gserm("%s: GSERM%d.%d: tx_pre2:%d, tx_pre1:%d, tx_main:%d, tx_post:%d\n",
 				    __func__, cfg.gserm_idx, gser_lane,
-				    tx_params.s.pre2, tx_params.s.pre1,
-				    tx_params.s.main, tx_params.s.post);
+				    (int16_t)tx_params.s.pre2, (int16_t)tx_params.s.pre1,
+				    tx_params.s.main, (int16_t)tx_params.s.post);
 
 			if (gserm_tx_eq_params_set(portm_idx, portm_lane,
 							mask, &tx_params))
