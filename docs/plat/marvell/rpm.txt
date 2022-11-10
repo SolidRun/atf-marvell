@@ -991,16 +991,17 @@ parameter passed via LINK_BRINGUP command.
 3.2.4.15 SerDes Tx Tuning
 """""""""""""""""""""""""
 This command ETH_CMD_TUNE_SERDES is used to tune SerDes TX parameters (tx_pre2, tx_pre, tx_main and tx_post). The tx tuning parameters are applied to all lanes in the specified portm_idx.
+Non-zero values provided for tx_pre2, tx_pre or tx_post will be threated as negative as only negative or zero values are valid as pre2, pre and post Tx Eq settings.
 
 Following are the parameters expected:
 
 .. code-block:: c
 
   /* command argument to be passed for cmd ID - ``ETH_CMD_TUNE_SERDES`` (38) */
-  struct eth_get_port_mode_args {
+  struct eth_gser_tune {
        uint64_t reserved1:2;
        uint64_t id:6;			/* = 38 (ETH_CMD_TUNE_SERDES) */
-       uint64_t portm_idx:6;
+       uint64_t portm_idx:8;
        uint64_t tx_main:8;
        uint64_t tx_pre:8;
        uint64_t tx_post:8;
