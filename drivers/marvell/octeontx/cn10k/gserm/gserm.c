@@ -851,11 +851,10 @@ static int get_portm_mode_gserm_settings(gserm_portm_programming_t *portm_progra
  * @param gserm       GSERM to configure
  * @param gser_lane   GSERM lane to configure
  * @param mac_type    Type of MAC (e.g Ethernet, CPRI, JESD)
- * @param sync_e_map  If Ethernet MAC, specifies if SYNC-E clk enabled
  *
  */
 static void set_gserm_refclk_config(int gserm, int gser_lane,
-				   int mac_type, uint16_t sync_e_map)
+				   int mac_type)
 {
 
 	/* (6) Select the reference clock input:
@@ -895,20 +894,8 @@ static void set_gserm_refclk_config(int gserm, int gser_lane,
 				   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_122MHZ);
 			break;
 		case PORTM_ETH: /* Selects 156.25 MHz clock */
-			if (cavm_is_model(OCTEONTX_CNF10KB) && (gserm <= 1)) {
-				if (sync_e_map & (0xf << (gser_lane * 4))) {  /* Select Sync-Ethernet(1) on GSERM(0..1) */
-					CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-						   c.s.refclk_sel |= 1ull << gser_lane);
-					debug_gserm("%s: GSERM%d.%d Selecting Sync-Ethernet\n", __func__, gserm, gser_lane);
-				} else {  /* Select Std-Ethernet(0) on GSERM(0..1) */
-					CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-						   c.s.refclk_sel &= ~(1ull << gser_lane));
-				}
-			} else {
-				CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
-					   c.s.refclk_sel &= ~(1ull << gser_lane));
-			}
-			debug_gserm("%s: GSERM%d.%d sync_e_map: 0x%x\n", __func__, gserm, gser_lane, sync_e_map);
+			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm),
+				   c.s.refclk_sel &= ~(1ull << gser_lane));
 			CSR_MODIFY(c, CAVM_GSERMX_LANEX_CONTROL_BCFG(gserm, gser_lane),
 				   c.s.ref_fref_sel = N5XC56GP5X4_REFFREQ_156MHZ);
 			break;
@@ -1201,13 +1188,6 @@ void gserm_reset_init(void)
 
 			mlane += mode_lanes;
 		}
-
-		/* Program Synce REFCLK (only for CNF10KB) */
-		if (cavm_is_model(OCTEONTX_CNF10KB)) {
-			debug_gserm("%s: GSERM%d: Programming SYNCe REFCLK\n", __func__, gserm_idx);
-			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
-				   c.s.refclk_sel_ext = gserm->sync_e_map ? 0 : 1);
-		}
 	}
 	/*
 	 * (7) Select reference clock source:
@@ -1246,7 +1226,7 @@ void gserm_reset_init(void)
 			debug_gserm("%s: GSERM%d.%d: Programming REFCLK config\n",
 				    __func__, gserm_num, gser_lane);
 			set_gserm_refclk_config(gserm_num, gser_lane,
-						mac_type, gserm->sync_e_map);
+						mac_type);
 		}
 		CSR_INIT(common_phy_ctrl_bcfg, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_num));
 		debug_gserm("%s: GSERM%d: refclk_sel_ext:%d refclk_sel_en:0x%x refclk_sel:0x%x\n",
@@ -1393,6 +1373,19 @@ void gserm_reset_init(void)
 			}
 			if (!valid)
 				ERROR("GSERM%d: MCU failed to initialize\n", gserm_idx);
+		}
+	}
+
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		gserm = &(plat_octeontx_bcfg->gserm_plat_cfg[gserm_idx]);
+
+		/* Enable Synce Mode (applicable for CNF10KA and CNF10KB) */
+		if ((cavm_is_model(OCTEONTX_CNF10KA) || cavm_is_model(OCTEONTX_CNF10KB)) &&
+			gserm->synce_mode) {
+
+			debug_gserm("%s: GSERM%d: Enabling SYNCe mode\n", __func__, gserm_idx);
+			CSR_MODIFY(c, CAVM_GSERMX_COMMON_CONFIG_UPDATE_DONE(gserm_idx),
+				   c.cn.serdes_pll_25g_15625mhz_synce_mode_en_cmn = 1);
 		}
 	}
 

@@ -2518,7 +2518,7 @@ static void cn10k_fill_gserm_details(void *fdt)
 	int offset;
 	int gser_lane, portm_first;
 	char prop[64];
-	int mac_ser_lane_map, refclk_stde, gserm_idx, refclk_term, rx_cal;
+	int mac_ser_lane_map, gserm_idx, refclk_term, rx_cal;
 	uint8_t lane_mask;
 	gserm_plat_config_t *gserm;
 
@@ -2573,36 +2573,16 @@ static void cn10k_fill_gserm_details(void *fdt)
 			cn10k_fill_default_mac_to_serdes_map(gserm_idx, portm_first);
 		}
 
-		if (cavm_is_model(OCTEONTX_CNF10KB)) {
-			bool gserm_synce_found = false;
+		if (cavm_is_model(OCTEONTX_CNF10KA) || cavm_is_model(OCTEONTX_CNF10KB)) {
+			int gserm_synce;
 
-			snprintf(prop, sizeof(prop), "REFCLK-SYNCE-SEL.GSER%d", gserm_idx);  // Search GSERM
-			refclk_stde = cn10k_fdtebf_get_num(fdt, prop, 10);
-			if (refclk_stde == -1) {
-				debug_dts("%s: No REFCLK-SYNCE-SEL found for GSERM%d. Using non-synce REFCLK.\n", __func__, gserm_idx);
-				refclk_stde = 1;
-			} else {
-				gserm_synce_found = true;
+			snprintf(prop, sizeof(prop), "SYNCE-MODE.GSER%d", gserm_idx);  // Search GSERM
+			gserm_synce = cn10k_fdtebf_get_num(fdt, prop, 10);
+			if (gserm_synce == -1) {
+				debug_dts("%s: No SYNCE-MODE setting found for GSERM%d. Using default (enabled).\n", __func__, gserm_idx);
+				gserm_synce = 1;
 			}
-			gserm->sync_e_map = refclk_stde ? 0x0 : 0xffff;
-
-			for (int mlane = 0; mlane < plat_octeontx_scfg->qlm_max_lane_num[gserm_idx]; mlane++) {
-				snprintf(prop, sizeof(prop), "REFCLK-SYNCE-SEL.GSER%d.LANE%d", gserm_idx, mlane);  // Search GSERM Lane
-				refclk_stde = cn10k_fdtebf_get_num(fdt, prop, 10);
-				if (refclk_stde == -1) {
-					if (gserm_synce_found) {
-						continue;
-					}
-					debug_dts("%s: No REFCLK-SYNCE-SEL found for GSERM%d.LANE%d. Using non-synce REFCLK.\n", __func__, gserm_idx, mlane);
-					refclk_stde = 1;
-				}
-				if (refclk_stde) {
-					gserm->sync_e_map &= ~(0xf << (mlane * 4));
-				} else {
-					gserm->sync_e_map |= (0xf << (mlane * 4));
-				}
-			}
-			debug_dts("GSERM%d: sync_e_map: 0x%x\n", gserm_idx, gserm->sync_e_map);
+			gserm->synce_mode = gserm_synce ? 1 : 0;
 		}
 
 		if (cavm_is_model(OCTEONTX_CNF10KA)) {
