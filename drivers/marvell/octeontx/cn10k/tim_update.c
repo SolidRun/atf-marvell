@@ -2820,7 +2820,10 @@ enum spi_dc_ret async_clone_callback(void *p)
 		INFO("Check source data stage\n");
 		if (source_check_async(param) != UPDATE_OK) {
 			ERROR("Source check verification fail\n");
-			param->state = ACLONE_CLEANUP;
+			if (param->vinfo_source->version_flags & SMC_VERSION_SKIP_FAIL_CHECK)
+				param->state++;
+			else
+				param->state = ACLONE_CLEANUP;
 		} else {
 			param->state++;
 		}
@@ -3830,9 +3833,11 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	for (i = 0; i < vinfo->num_objects; i++) {
 		ventry = &vinfo->objects[i];
 		if (ventry->retcode != RET_OK) {
-			INFO("Error backing up: Object %s failed verification\n",
-			     ventry->name);
-			return BACKUP_SRC_FAILED_VALIDATION;
+			ERROR("Error backing up: Object %s failed verification\n",
+				ventry->name);
+			ventry->perform_clone = 0;
+			if (!(vinfo->version_flags & SMC_VERSION_SKIP_FAIL_CHECK))
+				return BACKUP_SRC_FAILED_VALIDATION;
 		}
 	}
 	/* Verify groups */
