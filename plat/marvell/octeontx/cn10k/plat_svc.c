@@ -972,7 +972,7 @@ err4:
 			/* Check if NS user_buf is a valid DRAM address */
 			if (NULL == (void *)user_buf) {
 				ret = -1;
-				goto err;
+				goto err5;
 			}
 
 			if ((user_buf < NS_IMAGE_BASE) ||
