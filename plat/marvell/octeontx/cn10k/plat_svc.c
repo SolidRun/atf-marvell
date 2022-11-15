@@ -27,6 +27,7 @@
 #include <octeontx_semaphore.h>
 #include <rnm.h>
 #include <ehsm-drv.h>
+#include <ehsm-pie.h>
 
 #include "cavm-csrs-gpio.h"
 
@@ -1069,6 +1070,39 @@ err5:
 
 		ret = ehsm_csr_read(reg_off, &reg_val);
 		SMC_RET2(handle, ret, reg_val);
+	}
+	break;
+
+	case PLAT_OCTEONTX_EHSM_SESSION_KEY:
+	{
+		user_buf = x1;
+		size = sizeof(struct pie_session_key);
+
+		/* Check if NS user_buf is a valid DRAM address */
+		if (NULL == (void *)user_buf) {
+			ret = -1;
+			goto err6;
+		}
+
+		dram_end = octeontx_dram_size();
+		/*
+		 * Sanity check
+		 *
+		 * NOTE: the size check may need to change for future
+		 * versions
+		 */
+		if ((user_buf < NS_IMAGE_BASE) ||
+		    (user_buf > (dram_end - 1)) ||
+		    ((user_buf + size) > (dram_end - 1))
+		   ) {
+			ERROR("Invalid descriptor address or size\n");
+			ret = -1;
+			goto err6;
+		}
+
+		ret = ehsm_pie_get_session_key(user_buf, NSEC_BUF, size);
+err6:
+		SMC_RET1(handle, ret);
 	}
 	break;
 

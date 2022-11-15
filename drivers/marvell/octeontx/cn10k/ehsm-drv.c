@@ -25,6 +25,7 @@
 #include <ehsm-drv.h>
 #include <octeontx_security.h>
 #include <plat_mem_alloc.h>
+#include <octeontx_mmap_utils.h>
 
 #undef DEBUG_ATF_EHSM
 
@@ -39,6 +40,10 @@
 #endif
 
 #define NONSECURE_BLOCK_SIZE	0x1000
+#define EHSM_MMAP_ERR		2
+
+#define MMAP_IMAGE_BUF_EN	((uint32_t)1 << 31)
+#define MMAP_ATTR(attr)		((uint32_t)attr & (MMAP_IMAGE_BUF_EN - 1))
 
 __aligned(32) static uint8_t ehsm_buffer[NONSECURE_BLOCK_SIZE];
 
@@ -658,4 +663,90 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 	}
 
 	return 0;
+}
+
+/**
+ * eHSM PIE get encrypted session key
+ *
+ * @param[in]	user_buf DRAM address of structure (struct pie_session_key)
+ * @param[in]	nsec	 boolean Non-secure or Secure
+ * @param[in]	size	 size of structure (struct pie_session_key)
+ *
+ * @return  0 for success, -EIO for eHSM errors
+ */
+int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size)
+{
+	struct pie_session_key *session_key = NULL;
+	struct ehsm_handle ehandle;
+	enum sec_return ret;
+	uint32_t attr, map_required;
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+	int err = 0, ns_map_size;
+	uint64_t base_addr = 0;
+
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+
+        if (nsec)
+                attr = MMAP_IMAGE_BUF_EN | MT_RW | MT_NS;
+        else
+                attr = 0;
+
+	map_required = MMAP_IMAGE_BUF_EN & attr;
+
+	if (map_required) {
+
+		/* Round up to page size */
+		ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+
+		/* Map non-secure memory buffer */
+		/* Note that this needs to be page aligned */
+		base_addr = user_buf & mask;
+		/* If user_buf crosses a page boundary, allocate another page */
+		if ((user_buf + size) > (base_addr + ns_map_size)) {
+			ns_map_size += PAGE_SIZE;
+		}
+
+		/* Map Non-secure memory buffer */
+		err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+				ns_map_size, MMAP_ATTR(attr));
+		if (err) {
+			ERROR("eHSM PIE: mmap failed (%d)\n", err);
+			return -EHSM_MMAP_ERR;
+		}
+	}
+
+	session_key = (struct pie_session_key *)user_buf;
+
+	ret = ehsm_initialize(&ehandle);
+	if (ret != SEC_NO_ERROR) {
+		ERROR("Error initializing eHSM (%d)\n", ret);
+		err = -EIO;
+		goto error;
+	}
+
+	ret = ehsm_oaep_rsa_encrypt_session_key(&ehandle,
+					session_key->pkcs_alg,
+					session_key->session_key_len_bit,
+					session_key->pubkey,
+					session_key->label,
+					session_key->label_len_byte,
+					NULL,
+					session_key->encrypt_session_key,
+					session_key->token);
+
+	if (ret != SEC_NO_ERROR) {
+		WARN("Error in getting eHSM encrypted session key (%d)\n", ret);
+		err = -EIO;
+		goto error;
+	}
+
+error:
+	/* unmap non-secure memory buffer */
+	if (map_required && base_addr && ns_map_size)
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
+
+	return err;
 }

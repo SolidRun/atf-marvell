@@ -9,6 +9,8 @@
 #define __EHSM_DRV_H__
 
 #include <libtim.h>
+#include <ehsm.h>
+#include <ehsm-oaep.h>
 
 enum smc_reg
 {
@@ -24,6 +26,25 @@ enum smc_reg
 };
 
 struct ehsm_handle;
+
+#define PIE_MAX_SESSION_KEY_LEN32	128	/* 128*32=4096 bit */
+#define LABEL_MAX_LEN32			8	/* 8*4 = 32 byte */
+
+struct pie_session_key
+{
+	enum ehsm_oaep_pkcs_alg pkcs_alg;
+	uint32_t session_key_len_bit;
+	/** RSA max 4k = mod 512 byte + exp 512 byte */
+	/* MOD and EXP length determinied by key_len_bit */
+	uint32_t pubkey[EHSM_MAX_ZMODP_BIG_NUM_LEN32 + EHSM_MAX_FIELD_NUM_COEF];
+	uint32_t label[LABEL_MAX_LEN32];
+	uint32_t label_len_byte;
+	/** RSA max 4k = 512 byte */
+	uint32_t encrypt_session_key[PIE_MAX_SESSION_KEY_LEN32];
+	/** Tokem Max size = 256 bits */
+	uint32_t token[TIM_MAX_TOKEN_SIZE_WORDS];
+	uint32_t token_len_byte;
+};
 
 /**
  * Verifies an image against the hash stored in the TIM
@@ -104,5 +125,16 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
  *		for invalid register offset
  */
 int ehsm_csr_read(int reg_off, uint32_t *reg_val);
+
+/**
+ * eHSM PIE get encrypted session key
+ *
+ * @param[in]	user_buf DRAM address of structure (struct pie_session_key)
+ * @param[in]	nsec	 boolean Non-secure or Secure
+ * @param[in]	size	 size of structure (struct pie_session_key)
+ *
+ * @return  0 for success, -EIO for eHSM errors
+ */
+int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size);
 
 #endif /* __EHSM_H__ */

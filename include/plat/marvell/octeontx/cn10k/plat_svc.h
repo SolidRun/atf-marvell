@@ -632,8 +632,19 @@
  */
 #define PLAT_OCTEONTX_EHSM_READ_CSR		0xc2000b16
 
+/*
+ * x1 - DRAM address of structure (struct pie_session_key)
+ *
+ * Return:
+ *	x0:
+ *	    0 -- Success
+ *	    -5 -- EIO
+ *	    other values are error codes
+ */
+#define PLAT_OCTEONTX_EHSM_SESSION_KEY		0xc2000b17
+
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			24
+#define OTX3_NUM_SMC_CALLS			25
 
 
 /* API that allows to define platform specific SMC CALLS */
