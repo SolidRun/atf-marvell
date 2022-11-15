@@ -750,3 +750,91 @@ error:
 
 	return err;
 }
+
+/**
+ * eHSM PIE Root-Key-Encryption-Key (RKEK) protected provision
+ *
+ * @param[in]	user_buf DRAM address of structure (struct pie_rkek)
+ * @param[in]	nsec	 boolean Non-secure or Secure
+ * @param[in]	size	 size of structure (struct pie_rkek)
+ *
+ * @return  0 for success, -EIO for eHSM errors
+ */
+int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t size)
+{
+	struct pie_rkek *rkek_key = NULL;
+	struct ehsm_handle ehandle;
+	enum sec_return ret;
+	uint32_t attr, map_required;
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+	int err = 0, ns_map_size;
+	uint64_t base_addr = 0;
+
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+
+        if (nsec)
+                attr = MMAP_IMAGE_BUF_EN | MT_RW | MT_NS;
+        else
+                attr = 0;
+
+	map_required = MMAP_IMAGE_BUF_EN & attr;
+
+	if (map_required) {
+
+		/* Round up to page size */
+		ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+
+		/* Map non-secure memory buffer */
+		/* Note that this needs to be page aligned */
+		base_addr = user_buf & mask;
+		/* If user_buf crosses a page boundary, allocate another page */
+		if ((user_buf + size) > (base_addr + ns_map_size)) {
+			ns_map_size += PAGE_SIZE;
+		}
+
+		/* Map Non-secure memory buffer */
+		err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+				ns_map_size, MMAP_ATTR(attr));
+		if (err) {
+			ERROR("eHSM PIE: mmap failed (%d)\n", err);
+			return -EHSM_MMAP_ERR;
+		}
+	}
+
+	rkek_key = (struct pie_rkek *)user_buf;
+
+	ret = ehsm_initialize(&ehandle);
+	if (ret != SEC_NO_ERROR) {
+		ERROR("Error initializing eHSM (%d)\n", ret);
+		err = -EIO;
+		goto error;
+	}
+
+	ret = ehsm_rkek_protected_provision(&ehandle,
+					rkek_key->session_key_len_bit,
+					rkek_key->aes_mode,
+					rkek_key->rkek_key_len_bit,
+					rkek_key->iv,
+					rkek_key->iv_len_byte,
+					rkek_key->aad_len_byte,
+					rkek_key->tag_len_byte,
+					rkek_key->token,
+					rkek_key->rkek_enc,
+					rkek_key->provision_opt);
+
+	if (ret != SEC_NO_ERROR) {
+		WARN("Error in getting eHSM encrypted session key (%d)\n", ret);
+		err = -EIO;
+		goto error;
+	}
+
+error:
+	/* unmap non-secure memory buffer */
+	if (map_required && base_addr && ns_map_size)
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
+
+	return err;
+}

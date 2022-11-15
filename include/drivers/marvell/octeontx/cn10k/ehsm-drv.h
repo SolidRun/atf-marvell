@@ -30,6 +30,13 @@ struct ehsm_handle;
 #define PIE_MAX_SESSION_KEY_LEN32	128	/* 128*32=4096 bit */
 #define LABEL_MAX_LEN32			8	/* 8*4 = 32 byte */
 
+/* max(IV) is 16 bytes, max(AAD) is 32 bytes,
+ * max(CIPHERTEXT) is 32 bytes, max(TAG) is 16 bytes
+ * 16 + 32 + 32 + 16 = 96 bytes
+ * */
+#define IV_MAX_LEN32		8	/* 8*4 = 32 bytes */
+#define RKEK_MAX_LEN32		28	/* 28*4 = 112 bytes */
+
 struct pie_session_key
 {
 	enum ehsm_oaep_pkcs_alg pkcs_alg;
@@ -44,6 +51,21 @@ struct pie_session_key
 	/** Tokem Max size = 256 bits */
 	uint32_t token[TIM_MAX_TOKEN_SIZE_WORDS];
 	uint32_t token_len_byte;
+};
+
+struct pie_rkek
+{
+	uint32_t session_key_len_bit;
+	enum ehsm_oaep_aes_mode aes_mode;
+	uint32_t rkek_key_len_bit;
+	uint32_t iv[IV_MAX_LEN32];
+	uint32_t iv_len_byte;
+	uint32_t aad_len_byte;
+	uint32_t tag_len_byte;
+	uint32_t token[TIM_MAX_TOKEN_SIZE_WORDS];
+	uint32_t token_len_byte;
+	uint32_t rkek_enc[RKEK_MAX_LEN32];
+	enum ehsm_rkek_key_provision_option provision_opt;
 };
 
 /**
@@ -136,5 +158,16 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val);
  * @return  0 for success, -EIO for eHSM errors
  */
 int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size);
+
+/**
+ * eHSM PIE Root-Key-Encryption-Key (RKEK) protected provision
+ *
+ * @param[in]  user_buf DRAM address of structure (struct pie_rkek)
+ * @param[in]  nsec     boolean Non-secure or Secure
+ * @param[in]  size     size of structure (struct pie_rkek)
+ *
+ * @return  0 for success, -EIO for eHSM errors
+ */
+int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t size);
 
 #endif /* __EHSM_H__ */

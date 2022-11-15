@@ -643,8 +643,19 @@
  */
 #define PLAT_OCTEONTX_EHSM_SESSION_KEY		0xc2000b17
 
+/*
+ * x1 - DRAM address of structure (struct pie_rkek)
+ *
+ * Return:
+ *	x0:
+ *	    0 -- Success
+ *	    -5 -- EIO
+ *	    other values are error codes
+ */
+#define PLAT_OCTEONTX_EHSM_RKEK_PROVISION	0xc2000b18
+
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			25
+#define OTX3_NUM_SMC_CALLS			26
 
 
 /* API that allows to define platform specific SMC CALLS */
