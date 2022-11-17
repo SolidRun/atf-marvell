@@ -645,6 +645,10 @@ For Cortex-A510, the following errata build flags are defined :
    Cortex-A510 CPU. This needs to applied for revisions r0p0, r0p1, r0p2,
    r0p3, r1p0, r1p1. It is fixed in r1p2.
 
+-  ``ERRATA_N2_2779511``: This applies errata 2779511 workaround to Neoverse-N2
+   CPU. This needs to be enabled for revision r0p0 - r1p2 of the CPU and is
+   still open.
+
 DSU Errata Workarounds
 ----------------------
 
