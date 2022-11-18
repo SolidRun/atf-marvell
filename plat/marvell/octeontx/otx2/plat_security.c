@@ -1,8 +1,6 @@
 /*
  * Copyright (c) 2016 Marvell.
- * This program is provided "as is" without any warranty of any kind,
- * and is distributed under the applicable Marvell proprietary limited use
- * license agreement.
+ * SPDX-License-Identifier: BSD-3-Clause
  */
 
 #include <stdio.h>
