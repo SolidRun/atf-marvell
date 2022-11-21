@@ -298,6 +298,10 @@ struct smc_version_info_entry {
  */
 #define SMC_VERSION_SKIP_FAIL_CHECK		BIT(9)
 
+/**
+ * Set this to skip failed images, instead of faili whole clone operation
+ */
+#define SMC_VERSION_ERASE_EBF_CONFIG	BIT(10)
 
 /**
  * Maximum number of objects that can return the version info
@@ -400,6 +404,7 @@ enum async_clone_operations {
 	ACLONE_CHECK_DESTINATION,
 	ACLONE_MARK_COPY,
 	ACLONE_ERASE_TIM0_DEST,
+	ACLONE_ERASE_EBF_CONFIG,
 	ACLONE_COPY_IMAGES,
 	ACLONE_CLEANUP,
 };

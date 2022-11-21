@@ -2797,6 +2797,18 @@ enum update_ret tim0_async_erase(struct async_clone_data *param)
 	return uret;
 }
 
+enum update_ret ebf_config_async_erase(int bus, int cs)
+{
+	uint64_t offset;
+
+	if (cavm_is_model(OCTEONTX_CNF10KB))
+		offset = EBF_CONFIG_OFFSET_CNF10KB;
+	else
+		offset = EBF_CONFIG_OFFSET;
+
+	return spi_nor_erase(offset, 0, bus, cs);
+}
+
 enum update_ret source_check_async(struct async_clone_data *param)
 {
 	struct smc_version_info *src = param->vinfo_source;
@@ -2850,6 +2862,22 @@ enum spi_dc_ret async_clone_callback(void *p)
 			ERROR("Fail during TIM0 erase\n");
 			param->state = ACLONE_CLEANUP;
 		} else {
+			param->state++;
+		}
+		ret = DC_RET_CONTINUE;
+	case ACLONE_ERASE_EBF_CONFIG:
+		if (param->vinfo_source->version_flags & SMC_VERSION_ERASE_EBF_CONFIG) {
+			INFO("Erase EBF config stage\n");
+			if (ebf_config_async_erase(param->vinfo_destination->bus,
+						   param->vinfo_destination->cs)
+				!= UPDATE_OK) {
+				ERROR("Fail during ebf config erase\n");
+				param->state = ACLONE_CLEANUP;
+			} else {
+				param->state++;
+			}
+		} else {
+			INFO("Skipping EBF config erase\n");
 			param->state++;
 		}
 		ret = DC_RET_CONTINUE;
@@ -3901,6 +3929,16 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 		err = uret;
 		vinfo->retcode = BACKUP_IO_DST_ERROR;
 		goto dest_io_error;
+	}
+
+	if (vinfo->version_flags & SMC_VERSION_ERASE_EBF_CONFIG) {
+		uret = erase_ebf_config_data(&dst_desc);
+		if (uret != UPDATE_OK) {
+			ERROR("Could not erase destination media ebf config\n");
+			err = uret;
+			vinfo->retcode = BACKUP_IO_DST_ERROR;
+			goto dest_io_error;
+		}
 	}
 
 	/* Copy entries */
