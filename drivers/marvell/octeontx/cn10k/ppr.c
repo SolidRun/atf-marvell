@@ -48,6 +48,7 @@
 #include <cavm-csrs-dss.h>
 #include <plat_cn10k_configuration.h>
 #include <octeontx_semaphore.h>
+#include <drivers/delay_timer.h>
 
 #undef PPR_DEBUG
 #ifdef PPR_DEBUG
@@ -235,6 +236,27 @@ static void ddrc_ddr5_read_mr_ppr(uint32_t ch, uint32_t rank_num,
 	else
 		*mr_val = 0;
 }
+void ddrc_ddr5_mrr_prepare(bool disable, int ch, int rank_num)
+{
+	union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl8 reg_PASCTL8;
+
+	if (disable) {
+		debug_ppr("Disable ECS Ch: %d\n", ch);
+		reg_PASCTL8.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(ch));
+		reg_PASCTL8.s.rank_blk6_en = 0x0;
+		if (rank_num == 1)
+			reg_PASCTL8.s.rank_blk14_en = 0x0;
+		udelay(1);
+	} else {
+		debug_ppr("Enable ECS Ch: %d\n", ch);
+		reg_PASCTL8.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(ch));
+		reg_PASCTL8.s.rank_blk6_en = 0x1;
+		if (rank_num == 1)
+			reg_PASCTL8.s.rank_blk14_en = 0x1;
+		CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(ch), reg_PASCTL8.u);
+	}
+}
+
 
 static uint32_t ppr_ddrc_ddr5_read_failure_row(uint32_t ch)
 {
@@ -280,12 +302,13 @@ static uint32_t ppr_ddrc_ddr5_read_failure_row(uint32_t ch)
 			mr18_val = 0;
 			mr19_val = 0;
 			mr20_val = 0;
-
+			ddrc_ddr5_mrr_prepare(1, ch, r);
 			ddrc_ddr5_read_mr_ppr(ch, r, 16, 0, &mr16_val);
 			ddrc_ddr5_read_mr_ppr(ch, r, 17, 0, &mr17_val);
 			ddrc_ddr5_read_mr_ppr(ch, r, 18, 0, &mr18_val);
 			ddrc_ddr5_read_mr_ppr(ch, r, 19, 0, &mr19_val);
 			ddrc_ddr5_read_mr_ppr(ch, r, 20, 0, &mr20_val);
+			ddrc_ddr5_mrr_prepare(0, ch, r);
 
 #if 0
 			// Simulate injection:
