@@ -147,6 +147,8 @@ void phy_marvell_1780_config(int eth_id, int lmac_id)
 	phy_1780_priv_t *priv;
 	MAD_STATUS ret;
 	MAD_LPORT lport;
+	MAD_U32 mode;
+	MAD_BOOL an_enable;
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 	priv = (phy_1780_priv_t *)phy->priv;
@@ -161,13 +163,36 @@ void phy_marvell_1780_config(int eth_id, int lmac_id)
 		return;
 	}
 
-	ret = mdCopperSetAutoNeg(&priv->mdev, lport, MAD_TRUE,
-		MAD_AUTO_AD_100FDX |
-		MAD_AUTO_AD_100HDX |
-		MAD_AUTO_AD_10FDX |
-		MAD_AUTO_AD_10HDX |
-		MAD_AUTO_AD_1000FDX |
-		MAD_AUTO_AD_1000HDX);
+	if (phy->req_an) {
+		an_enable = MAD_TRUE;
+		mode =
+			MAD_AUTO_AD_100FDX |
+			MAD_AUTO_AD_100HDX |
+			MAD_AUTO_AD_10FDX |
+			MAD_AUTO_AD_10HDX |
+			MAD_AUTO_AD_1000FDX |
+			MAD_AUTO_AD_1000HDX;
+
+	} else {
+		an_enable = MAD_FALSE;
+
+		switch (phy->req_speed) {
+		case ETH_LINK_10M:
+			mode = (!phy->duplex) ? MAD_PHY_10FDX : MAD_PHY_10HDX;
+			break;
+
+		case ETH_LINK_100M:
+			mode = (!phy->duplex) ? MAD_PHY_100FDX : MAD_PHY_100HDX;
+			break;
+
+		case ETH_LINK_1G:
+		default:
+			mode = (!phy->duplex) ? MAD_PHY_1000FDX : MAD_PHY_1000HDX;
+			break;
+		}
+	}
+
+	ret = mdCopperSetAutoNeg(&priv->mdev, lport, an_enable, mode);
 
 	if (ret != MAD_OK) {
 		ERROR("%s: %d:%d CopperSetAutoNeg failed\n",
@@ -269,6 +294,7 @@ void phy_marvell_1780_supported_modes(int eth_id, int lmac_id)
 	phy->supported_link_modes =
 				(1 << ETH_MODE_SGMII_BIT) |
 				(1 << ETH_MODE_1000_BASEX_BIT);
+				/* FIXME: Add (1 << ETH_MODE_USGMII_BIT) when available */
 }
 
 phy_drv_t marvell_1780_drv = {
