@@ -520,6 +520,24 @@ int marvell_cust_verify_fw_update_image(struct smc_update_descriptor *desc)
 }
 
 /**
+ * Customer defined function to perform image verification asynchronously
+ *
+ * @param[in,out]	desc	Descriptor as passed from U-Boot, Linux, etc.
+ * @param[in]		count	Counter of this function call (starts with 0)
+ *
+ * @return		ASYNC_CHECK_CONTINUE if verification still in progress
+ * 				ASYNC_CHECK_DONE if verification is completed with success
+ * 				ASYNC_CHECK_ERROR if verification is not done or fails
+ */
+enum async_file_check_ret marvell_cust_verify_fw_update_image_async(struct smc_update_descriptor *desc, uint32_t count)
+	__attribute__((weak));
+
+enum async_file_check_ret marvell_cust_verify_fw_update_image_async(struct smc_update_descriptor *desc, uint32_t count)
+{
+	return ASYNC_CHECK_DONE;
+}
+
+/**
  * Extract location and maximum size for object in the firmware-layout
  *
  * @param[in]	name		Name of object to search for
@@ -2919,13 +2937,16 @@ enum spi_dc_ret async_update_callback(void *p)
 	switch (param->state) {
 	case AUPDATE_VERIF_IMAGE:
 		UINFO("Image verification state\n");
-		if (marvell_cust_verify_fw_update_image(desc)) {
-			UERROR("Customer verification failed\n");
+		file_check_ret = marvell_cust_verify_fw_update_image_async(desc,param->cust_verify_count);
+		if (file_check_ret == ASYNC_CHECK_DONE) {
+			param->state++;
+			param->cust_verify_count=0;
+		} else if (file_check_ret == ASYNC_CHECK_ERROR) {
 			desc->retcode = UPDATE_AUTH_ERROR;
 			param->state = AUPDATE_CLEANUP;
-			break;
-		}
-		param->state++;
+			param->cust_verify_count=0;
+		} else
+			param->cust_verify_count++;
 		break;
 	case AUPDATE_INIT_UPDATE:
 		UINFO("Init update stage\n");
@@ -3084,6 +3105,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 		memset(&aupdate_data, 0x00, sizeof(aupdate_data));
 		aupdate_data.desc = desc;
 		aupdate_data.state = AUPDATE_VERIF_IMAGE;
+		aupdate_data.cust_verify_count = 0;
 		spi_async_init_delayed();
 		spi_async_start(async_update_callback, &aupdate_data);
 		return UPDATE_OK;

@@ -460,5 +460,6 @@ struct async_update_data {
 	bool tim0_updated;
 	bool update_all;
 	bool init_variables;
+	uint32_t cust_verify_count;
 };
 #endif	/* __TIM_UPDATE_H__ */
