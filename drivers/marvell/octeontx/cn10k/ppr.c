@@ -99,8 +99,6 @@ __aligned(8) static uint8_t wr_buffer[ERASE_SIZE] = {0};
 static mrr_t buf_m[MRR_REGION_SIZE / sizeof(mrr_t)];
 static ppr_t buf_p[PPR_REC_PER_BLK];
 
-static int skip_2_first_cycles = 2;
-
 #define MR_REC_MASK		0x3F
 #define MR_BG_MASK		0x07
 #define MR_BG_SHIFT		4
@@ -134,13 +132,13 @@ Then do “1” and after configure the mrr_grp_sel to 0x1(group1), which repres
 -	cmd_mrr_data[23:16] is relevant for DRAM2(GRP0)
 -	cmd_mrr_data[15:8] is relevant for DRAM1(GRP0)
 -	cmd_mrr_data[7:0] is relevant for DRAM0(GRP0)
--	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) - ECC byte
+-	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) – ECC byte
 
 4.	If working with 2 devices by 16 with ECC, then the needs to configure the mrr_grp_sel to 0x0(group0),
 Then do “1” and after configure the mrr_grp_sel to 0x1(group1), which represents the following:
 -	cmd_mrr_data[15:8] is relevant for DRAM1(GRP0)
 -	cmd_mrr_data[7:0] is relevant for DRAM0(GRP0)
--	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) - ECC byte
+-	cmd_mrr_data[7:0] is relevant for DRAM4(GRP1) – ECC byte
 */
 
 #define printh() \
@@ -887,9 +885,6 @@ static int ppr_timer_cb(int hd)
 
 	for (ch = 0; ch < MAX_CHANNELS; ch++) {
 
-		if (skip_2_first_cycles)
-			continue;
-
 		ret = ppr_ddrc_ddr5_read_failure_row(ch);
 		if (!ret)
 			continue;
@@ -948,7 +943,6 @@ static int ppr_timer_cb(int hd)
 		}
 	}
 
-	skip_2_first_cycles ? skip_2_first_cycles-- : (void)skip_2_first_cycles;
 	ppr_mrr.mrr_cycle++;
 	ppr_mrr.ppr_cycle++;
 	ppr_mrr.ppr_cycle %= 0x3FFF;
