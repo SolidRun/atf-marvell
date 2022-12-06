@@ -44,7 +44,9 @@
 #define SPINOR_OP_BE_64K_4B     0xDC
 #define SPINOR_OP_PP_4B	        0x12
 #define SPINOR_OP_PP_1_4_4_4B	0x3e
+#define SPINOR_OP_PP_1_1_4_4B	0x34
 #define SPINOR_OP_READ_4B       0x13
+#define SPINOR_OP_READ_1_1_4_4B	0x6c
 #define SPINOR_OP_READ_1_4_4_4B	0xec
 
 
@@ -53,8 +55,10 @@
 #define SPINOR_OP_BE_64K        0xD8
 #define SPINOR_OP_PP	        0x02
 #define SPINOR_OP_READ          0x03
+#define SPINOR_OP_READ_1_1_4	0x6b
 #define SPINOR_OP_READ_1_4_4	0xeb
 #define SPINOR_OP_PP_1_4_4	0x38
+#define SPINOR_OP_PP_1_1_4	0x32
 
 #define ADDR_LIMIT_3B 0x1000000
 
@@ -530,7 +534,7 @@ static void print_jedecid(int spi_id, int cs) {
 				JEDEC_ID[3],JEDEC_ID[4],JEDEC_ID[5]);
 }
 
-static void update_spi_op_read_params(int spi_con, int mode,
+static void update_spi_op_read_params(int spi_con, int mode, int cs,
 				      enum xspi_addressing addressing_mode)
 {
 	/* Discovery Debug */
@@ -558,15 +562,28 @@ static void update_spi_op_read_params(int spi_con, int mode,
 		read_seq_1.s.read_seq_p1_cmd_ext_en = 0;
 	} else {
 		//set addr and data to x4, use quad fast read cmd, 4-byte addr
-		read_seq_0.s.read_seq_p1_cmd_ios = 0; // 0 = x1
-		read_seq_0.s.read_seq_p1_addr_ios = 2; // 2 = x4
-		read_seq_0.s.read_seq_p1_data_ios = 2; // 2 = x4
-		if (addressing_mode == XSPI_ADDRESSING_4B) {
-			read_seq_0.s.read_seq_p1_addr_cnt = 4;
-			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4_4B;
+		if (plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_op_type == SPI_MEM_OP_1_4_4) {
+			read_seq_0.s.read_seq_p1_cmd_ios = 0; // 0 = x1
+			read_seq_0.s.read_seq_p1_addr_ios = 2; // 2 = x4
+			read_seq_0.s.read_seq_p1_data_ios = 2; // 2 = x4
+			if (addressing_mode == XSPI_ADDRESSING_4B) {
+				read_seq_0.s.read_seq_p1_addr_cnt = 4;
+				read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4_4B;
+			} else {
+				read_seq_0.s.read_seq_p1_addr_cnt = 3;
+				read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4;
+			}
 		} else {
-			read_seq_0.s.read_seq_p1_addr_cnt = 3;
-			read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_4_4;
+			read_seq_0.s.read_seq_p1_cmd_ios = 0; // 0 = x1
+			read_seq_0.s.read_seq_p1_addr_ios = 0; // 0 = x1
+			read_seq_0.s.read_seq_p1_data_ios = 2; // 2 = x4
+			if (addressing_mode == XSPI_ADDRESSING_4B) {
+				read_seq_0.s.read_seq_p1_addr_cnt = 4;
+				read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_1_4_4B;
+			} else {
+				read_seq_0.s.read_seq_p1_addr_cnt = 3;
+				read_seq_0.s.read_seq_p1_cmd_val = SPINOR_OP_READ_1_1_4;
+			}
 		}
 	}
 
@@ -574,7 +591,7 @@ static void update_spi_op_read_params(int spi_con, int mode,
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_1(spi_con), read_seq_1.u);
 }
 
-static void update_spi_op_prog_params(int spi_con, int mode,
+static void update_spi_op_prog_params(int spi_con, int mode, int cs,
 				      enum xspi_addressing addressing_mode)
 {
 	/* Discovery Debug */
@@ -599,15 +616,28 @@ static void update_spi_op_prog_params(int spi_con, int mode,
 		/* disable dummy bits, disable command extension */
 		prog_seq_1.s.prog_seq_p1_cmd_ext_en = 0;
 	} else {
-		prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
-		prog_seq_0.s.prog_seq_p1_addr_ios = 2;
-		prog_seq_0.s.prog_seq_p1_data_ios = 2;
-		if (addressing_mode == XSPI_ADDRESSING_4B) {
-			prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
-			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4_4B;
+		if (plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].program_op_type == SPI_MEM_OP_1_4_4) {
+			prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
+			prog_seq_0.s.prog_seq_p1_addr_ios = 2;
+			prog_seq_0.s.prog_seq_p1_data_ios = 2;
+			if (addressing_mode == XSPI_ADDRESSING_4B) {
+				prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
+				prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4_4B;
+			} else {
+				prog_seq_0.s.prog_seq_p1_addr_cnt = 3;
+				prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4;
+			}
 		} else {
-			prog_seq_0.s.prog_seq_p1_addr_cnt = 3;
-			prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_4_4;
+			prog_seq_0.s.prog_seq_p1_cmd_ios = 0;
+			prog_seq_0.s.prog_seq_p1_addr_ios = 0;
+			prog_seq_0.s.prog_seq_p1_data_ios = 2;
+			if (addressing_mode == XSPI_ADDRESSING_4B) {
+				prog_seq_0.s.prog_seq_p1_addr_cnt = 4;
+				prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_1_4_4B;
+			} else {
+				prog_seq_0.s.prog_seq_p1_addr_cnt = 3;
+				prog_seq_0.s.prog_seq_p1_cmd_val = SPINOR_OP_PP_1_1_4;
+			}
 		}
 	}
 
@@ -631,20 +661,40 @@ static void update_spi_op_erase_params(int spi_con,
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con), erase_ctrl.u);
 }
 
-static bool verify_discovery_opcmd(int spi_con)
+/* Check and store opcomands type*/
+static bool verify_discovery_opcmd(int spi_con, int cs)
 {
+	bool ret = true;
 	CSR_INIT(read_seq_0, CAVM_SPIX_DEV_SEQ_REGS_READ_SEQ_CFG_0(spi_con));
 	CSR_INIT(prog_seq_0, CAVM_SPIX_DEV_SEQ_REGS_PROG_SEQ_CFG_0(spi_con));
 
-	if (read_seq_0.s.read_seq_p1_cmd_val != SPINOR_OP_READ_1_4_4_4B &&
-	    read_seq_0.s.read_seq_p1_cmd_val != SPINOR_OP_READ_1_4_4)
-		return false;
 
-	if (prog_seq_0.s.prog_seq_p1_cmd_val != SPINOR_OP_PP_1_4_4_4B &&
-	    prog_seq_0.s.prog_seq_p1_cmd_val != SPINOR_OP_PP_1_4_4)
-		return false;
+	if (read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_1_4_4_4B ||
+	    read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_1_4_4) {
+		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_op_type = SPI_MEM_OP_1_4_4;
+	} else if (read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_1_1_4_4B ||
+		   read_seq_0.s.read_seq_p1_cmd_val == SPINOR_OP_READ_1_1_4) {
+		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_op_type = SPI_MEM_OP_1_1_4;
+	} else {
+		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_op_type = SPI_MEM_OP_1_1_1;
+		ret = false;
+	}
 
-	return true;
+	if (prog_seq_0.s.prog_seq_p1_cmd_val == SPINOR_OP_PP_1_4_4_4B ||
+	    prog_seq_0.s.prog_seq_p1_cmd_val == SPINOR_OP_PP_1_4_4) {
+		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].program_op_type = SPI_MEM_OP_1_4_4;
+	} else if (prog_seq_0.s.prog_seq_p1_cmd_val == SPINOR_OP_PP_1_1_4_4B ||
+		   prog_seq_0.s.prog_seq_p1_cmd_val == SPINOR_OP_PP_1_1_4) {
+		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].program_op_type = SPI_MEM_OP_1_1_4;
+	} else {
+		plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].program_op_type = SPI_MEM_OP_1_1_1;
+		ret = false;
+	}
+
+	INFO("Read opcmd: 0x%x, type: 0x%x\n", read_seq_0.s.read_seq_p1_cmd_val, plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].read_op_type);
+	INFO("Program opcmd: 0x%x, type: 0x%x\n", prog_seq_0.s.prog_seq_p1_cmd_val, plat_octeontx_bcfg->spi_cfg[spi_con].cs_configuration[spi_con][cs].program_op_type);
+
+	return ret;
 }
 
 static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
@@ -701,7 +751,8 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
 	/* Verify if DD found corrext opcode
 	 * SPINOR_OP_READ_1_4_4 or SPINOR_OP_READ_1_4_4_4B
 	 */
-	if (!verify_discovery_opcmd(spi_con)) {
+
+	if (!verify_discovery_opcmd(spi_con, cs)) {
 		INFO("%s: SPI_%d: Incorrect params after DD, fallback to safemode", __func__, spi_con);
 		safemode = 1;
 	}
@@ -721,15 +772,9 @@ static int cdns_xspi_config(int spi_con, int cs, bool phy_training,
 		jedec_displayed = true;
 	}
 
-	if (mode == XSPI_ADDRESSING_3B) {
-		update_spi_op_read_params(spi_con, safemode, XSPI_ADDRESSING_3B);
-		update_spi_op_prog_params(spi_con, safemode, XSPI_ADDRESSING_3B);
-		update_spi_op_erase_params(spi_con, XSPI_ADDRESSING_3B);
-	} else {
-		update_spi_op_read_params(spi_con, safemode, XSPI_ADDRESSING_4B);
-		update_spi_op_prog_params(spi_con, safemode, XSPI_ADDRESSING_4B);
-		update_spi_op_erase_params(spi_con, XSPI_ADDRESSING_4B);
-	}
+	update_spi_op_read_params(spi_con, safemode, cs, mode);
+	update_spi_op_prog_params(spi_con, safemode, cs, mode);
+	update_spi_op_erase_params(spi_con, mode);
 
 	/* Finish config */
 	direct_config.u = CSR_READ(CAVM_SPIX_CMN_SEQ_REGS_DIRECT_ACCESS_CFG(spi_con));

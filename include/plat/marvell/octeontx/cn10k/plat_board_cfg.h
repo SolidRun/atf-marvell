@@ -195,9 +195,18 @@ typedef struct rpm_config {
 	nix_block_t nix_block;
 } rpm_config_t;
 
+typedef enum {
+	SPI_MEM_OP_UNKNOWN = 0,
+	SPI_MEM_OP_1_1_1 = 1,
+	SPI_MEM_OP_1_1_4 = 2,
+	SPI_MEM_OP_1_4_4 = 3
+} spi_mem_op_type_t;
+
 struct xspi_cs_config {
 	bool config_valid;
 	bool safemode_triggered;
+	spi_mem_op_type_t read_op_type;
+	spi_mem_op_type_t program_op_type;
 	uint32_t read_seq_0;
 	uint32_t read_seq_1;
 	uint32_t read_seq_2;
