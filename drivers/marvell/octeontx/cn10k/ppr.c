@@ -805,6 +805,10 @@ static int ppr_timer_cb(int hd)
 	struct mrr mr;
 	uint32_t rec = 0;
 
+    union cavm_dssx_ddrctl_regb_ddrc_ch0_mstr0 reg_MSTR0;
+    reg_MSTR0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0(ch));
+    int dev_width = (reg_MSTR0.s.device_config == 1) ? 8 : 16;/*need to chenge that for odyseey for X4 devices*/
+
 	if (spi_dev_lock(bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
@@ -908,7 +912,11 @@ static int ppr_timer_cb(int hd)
 					mr.mrr.channel   = ch;
 					mr.mrr.rank      = r;
 					mr.mrr.device    = d + (g * MAX_DRAM);
-					mr.mrr.bank_gr   = (dramx_mr18[r][g][d] >> MR_BG_SHIFT) & MR_BG_MASK;
+
+                    mr.mrr.bank_gr   = (dramx_mr18[r][g][d] >> MR_BG_SHIFT) & MR_BG_MASK;
+                    if (mr.mrr.bank_gr > 3)
+                        mr.mrr.bank_gr = (dev_width == 16) ? (mr.mrr.bank_gr - 4) : mr.mrr.bank_gr;
+
 					mr.mrr.bank_addr = (dramx_mr18[r][g][d] >> MR_BA_SHIFT) & MR_BA_MASK;
 					mr.mrr.row_num   = ((dramx_mr18[r][g][d] & MR_R17_MASK) << MR18_OFFS) |
 									   ((dramx_mr17[r][g][d] & 0xFF) << MR17_OFFS) |
