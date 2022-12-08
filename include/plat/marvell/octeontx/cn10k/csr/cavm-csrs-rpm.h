@@ -110,8 +110,19 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_0
         uint64_t reserved_16_63        : 48;
         uint64_t rg_eee_xnp_sel_s      : 1;  /**< [ 15: 15](R/W) 0 = Select IEEE XNP register bit 31:16 from 7.001A.
                                                                  1 = Select IEEE XNP register bit 31:16 from 7.003C. */
-        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state;if override_ctrl_s[0] = 0, this field gives the status of the
-                                                                 internal AP Aneg state machine,;else, the last written value */
+        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state. If override_ctrl_s[0] = 0, this field gives the status of the
+                                                                 internal AP Aneg state machine; else, the last written value.
+                                                                 0x001 = AN_ENABLE
+                                                                 0x002 = TX_DISABLE
+                                                                 0x004 = LINK_STAT_CK
+                                                                 0x008 = PARALLEL_FLT
+                                                                 0x010 = ABILITY_DET
+                                                                 0x020 = ACK_DETECT
+                                                                 0x040 = COMPLETE_ACK
+                                                                 0x080 = NP_WAIT
+                                                                 0x100 = AN_GOOD_CK
+                                                                 0x200 = AN_GOOD
+                                                                 0x400 = SERDES_WAIT */
         uint64_t ap_aneg_bp_reached_s  : 1;  /**< [  3:  3](RO) AP Aneg state break point reached.;If override_ctrl_s[1] = 1 and internal state
                                                                  reaches the value of bit [14:4], this bit is set. */
         uint64_t ap_aneg_amdisam_s     : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint
@@ -125,8 +136,19 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_0
                                                                  Self clearing bit. */
         uint64_t ap_aneg_bp_reached_s  : 1;  /**< [  3:  3](RO) AP Aneg state break point reached.;If override_ctrl_s[1] = 1 and internal state
                                                                  reaches the value of bit [14:4], this bit is set. */
-        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state;if override_ctrl_s[0] = 0, this field gives the status of the
-                                                                 internal AP Aneg state machine,;else, the last written value */
+        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state. If override_ctrl_s[0] = 0, this field gives the status of the
+                                                                 internal AP Aneg state machine; else, the last written value.
+                                                                 0x001 = AN_ENABLE
+                                                                 0x002 = TX_DISABLE
+                                                                 0x004 = LINK_STAT_CK
+                                                                 0x008 = PARALLEL_FLT
+                                                                 0x010 = ABILITY_DET
+                                                                 0x020 = ACK_DETECT
+                                                                 0x040 = COMPLETE_ACK
+                                                                 0x080 = NP_WAIT
+                                                                 0x100 = AN_GOOD_CK
+                                                                 0x200 = AN_GOOD
+                                                                 0x400 = SERDES_WAIT */
         uint64_t rg_eee_xnp_sel_s      : 1;  /**< [ 15: 15](R/W) 0 = Select IEEE XNP register bit 31:16 from 7.001A.
                                                                  1 = Select IEEE XNP register bit 31:16 from 7.003C. */
         uint64_t reserved_16_63        : 48;
@@ -139,8 +161,19 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_0
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
         uint64_t rg_eee_xnp_sel_s      : 1;  /**< [ 15: 15](R/W) 0: Select IEEE XNP register bit 31:16 from 7.001A;1: Select IEEE XNP register bit 31:16 from 7.003C */
-        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state;if override_ctrl_s[0] = 0, this field gives the status of the
-                                                                 internal AP Aneg state machine,;else, the last written value */
+        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state. If override_ctrl_s[0] = 0, this field gives the status of the
+                                                                 internal AP Aneg state machine; else, the last written value.
+                                                                 0x001 = AN_ENABLE
+                                                                 0x002 = TX_DISABLE
+                                                                 0x004 = LINK_STAT_CK
+                                                                 0x008 = PARALLEL_FLT
+                                                                 0x010 = ABILITY_DET
+                                                                 0x020 = ACK_DETECT
+                                                                 0x040 = COMPLETE_ACK
+                                                                 0x080 = NP_WAIT
+                                                                 0x100 = AN_GOOD_CK
+                                                                 0x200 = AN_GOOD
+                                                                 0x400 = SERDES_WAIT */
         uint64_t ap_aneg_bp_reached_s  : 1;  /**< [  3:  3](RO) AP Aneg state break point reached.;If override_ctrl_s[1] = 1 and internal state
                                                                  reaches the value of bit [14:4], this bit is set. */
         uint64_t ap_aneg_amdisam_s     : 1;  /**< [  2:  2](R/W/H) 0 = arm/disarm done;1 = arm/disarm breakpoint
@@ -154,8 +187,19 @@ union cavm_rpmx_anx_aneg_lane_0_control_register_0
                                                                  Self clearing bit. */
         uint64_t ap_aneg_bp_reached_s  : 1;  /**< [  3:  3](RO) AP Aneg state break point reached.;If override_ctrl_s[1] = 1 and internal state
                                                                  reaches the value of bit [14:4], this bit is set. */
-        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state;if override_ctrl_s[0] = 0, this field gives the status of the
-                                                                 internal AP Aneg state machine,;else, the last written value */
+        uint64_t ap_aneg_state_s10_0   : 11; /**< [ 14:  4](R/W) AP Aneg state. If override_ctrl_s[0] = 0, this field gives the status of the
+                                                                 internal AP Aneg state machine; else, the last written value.
+                                                                 0x001 = AN_ENABLE
+                                                                 0x002 = TX_DISABLE
+                                                                 0x004 = LINK_STAT_CK
+                                                                 0x008 = PARALLEL_FLT
+                                                                 0x010 = ABILITY_DET
+                                                                 0x020 = ACK_DETECT
+                                                                 0x040 = COMPLETE_ACK
+                                                                 0x080 = NP_WAIT
+                                                                 0x100 = AN_GOOD_CK
+                                                                 0x200 = AN_GOOD
+                                                                 0x400 = SERDES_WAIT */
         uint64_t rg_eee_xnp_sel_s      : 1;  /**< [ 15: 15](R/W) 0: Select IEEE XNP register bit 31:16 from 7.001A;1: Select IEEE XNP register bit 31:16 from 7.003C */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
@@ -12535,17 +12579,17 @@ union cavm_rpmx_cmrx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -12557,13 +12601,13 @@ union cavm_rpmx_cmrx_int_ena_w1c
         uint64_t reserved_5_63         : 59;
         uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
         uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
         uint64_t reserved_5_63         : 59;
@@ -12573,17 +12617,17 @@ union cavm_rpmx_cmrx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
@@ -12591,17 +12635,17 @@ union cavm_rpmx_cmrx_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -12642,17 +12686,17 @@ union cavm_rpmx_cmrx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -12664,13 +12708,13 @@ union cavm_rpmx_cmrx_int_ena_w1s
         uint64_t reserved_5_63         : 59;
         uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
         uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
         uint64_t reserved_5_63         : 59;
@@ -12680,17 +12724,17 @@ union cavm_rpmx_cmrx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..3)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
@@ -12698,17 +12742,17 @@ union cavm_rpmx_cmrx_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -12749,17 +12793,17 @@ union cavm_rpmx_cmrx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
@@ -12771,13 +12815,13 @@ union cavm_rpmx_cmrx_int_w1s
         uint64_t reserved_5_63         : 59;
         uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIX0_NXC]. */
         uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..2)_CMR(0..7)_INT[P2X_NIX1_NXC]. */
         uint64_t reserved_5_63         : 59;
@@ -12787,17 +12831,17 @@ union cavm_rpmx_cmrx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..3)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10ka;
@@ -12805,17 +12849,17 @@ union cavm_rpmx_cmrx_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
         uint64_t reserved_0            : 1;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0            : 1;
         uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[OVERFLW]. */
-        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIC_NXC]. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1S/H) Reserved. */
         uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX0_NXC]. */
-        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reads or sets RPM(0..8)_CMR(0..3)_INT[P2X_NIX1_NXC]. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1S/H) Reserved. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -15774,7 +15818,7 @@ union cavm_rpmx_cmr_global_int_ena_w1c
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
         uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR]. */
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reserved. */
         uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
         uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
         uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
@@ -15792,7 +15836,7 @@ union cavm_rpmx_cmr_global_int_ena_w1c
         uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
         uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
         uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reserved. */
         uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR]. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
@@ -15803,7 +15847,7 @@ union cavm_rpmx_cmr_global_int_ena_w1c
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reserved. */
         uint64_t reserved_4_7          : 4;
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
         uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
@@ -15815,7 +15859,7 @@ union cavm_rpmx_cmr_global_int_ena_w1c
         uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
         uint64_t reserved_4_7          : 4;
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for RPM(0..8)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1C/H) Reserved. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -15853,7 +15897,7 @@ union cavm_rpmx_cmr_global_int_ena_w1s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
         uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR]. */
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
         uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
         uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
         uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
@@ -15871,7 +15915,7 @@ union cavm_rpmx_cmr_global_int_ena_w1s
         uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
         uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
         uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
         uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR]. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
@@ -15882,7 +15926,7 @@ union cavm_rpmx_cmr_global_int_ena_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
         uint64_t reserved_4_7          : 4;
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
         uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
@@ -15894,7 +15938,7 @@ union cavm_rpmx_cmr_global_int_ena_w1s
         uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
         uint64_t reserved_4_7          : 4;
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for RPM(0..8)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cnf10kb;
@@ -15932,7 +15976,7 @@ union cavm_rpmx_cmr_global_int_w1s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_10_63        : 54;
         uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR]. */
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
         uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
         uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
         uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
@@ -15950,7 +15994,7 @@ union cavm_rpmx_cmr_global_int_w1s
         uint64_t infifo_5_overfl       : 1;  /**< [  5:  5](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_5_OVERFL]. */
         uint64_t infifo_6_overfl       : 1;  /**< [  6:  6](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_6_OVERFL]. */
         uint64_t infifo_7_overfl       : 1;  /**< [  7:  7](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[INFIFO_7_OVERFL]. */
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
         uint64_t rsl_nxc_lmac_err      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets RPM(0..2)_CMR_GLOBAL_INT[RSL_NXC_LMAC_ERR]. */
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
@@ -15961,7 +16005,7 @@ union cavm_rpmx_cmr_global_int_w1s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..8)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
         uint64_t reserved_4_7          : 4;
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
         uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
@@ -15973,7 +16017,7 @@ union cavm_rpmx_cmr_global_int_w1s
         uint64_t infifo_2_overfl       : 1;  /**< [  2:  2](R/W1S/H) Reads or sets RPM(0..8)_CMR_GLOBAL_INT[INFIFO_2_OVERFL]. */
         uint64_t infifo_3_overfl       : 1;  /**< [  3:  3](R/W1S/H) Reads or sets RPM(0..8)_CMR_GLOBAL_INT[INFIFO_3_OVERFL]. */
         uint64_t reserved_4_7          : 4;
-        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reads or sets RPM(0..8)_CMR_GLOBAL_INT[TS_BU_SYNC_FIFO_OF]. */
+        uint64_t ts_bu_sync_fifo_of    : 1;  /**< [  8:  8](R/W1S/H) Reserved. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cnf10kb;

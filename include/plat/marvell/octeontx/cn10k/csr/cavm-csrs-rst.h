@@ -296,6 +296,46 @@ union cavm_rst_boot_stat_s
         uint64_t reserved_56_59        : 4;
         uint64_t s_error_module        : 8;  /**< [ 55: 48] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
                                                                  Software Reference Manual. */
+        uint64_t s_local_error_code    : 16; /**< [ 47: 32] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software
+                                                                 Trusted Image Module (TIM) Guide. */
+        uint64_t p_image_partition     : 1;  /**< [ 31: 31] Indicates if primary or secondary flash location was used on the boot media.
+                                                                 When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
+        uint64_t p_boot_method         : 3;  /**< [ 30: 28] BootStrap value of boot path. See RST_BOOT_METHOD_E */
+        uint64_t reserved_24_27        : 4;
+        uint64_t p_error_module        : 8;  /**< [ 23: 16] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
+                                                                 Software Trusted Image Module (TIM) Guide. */
+        uint64_t p_local_error_code    : 16; /**< [ 15:  0] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software
+                                                                 Trusted Image Module (TIM) Guide. */
+#else /* Word 0 - Little Endian */
+        uint64_t p_local_error_code    : 16; /**< [ 15:  0] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software
+                                                                 Trusted Image Module (TIM) Guide. */
+        uint64_t p_error_module        : 8;  /**< [ 23: 16] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
+                                                                 Software Trusted Image Module (TIM) Guide. */
+        uint64_t reserved_24_27        : 4;
+        uint64_t p_boot_method         : 3;  /**< [ 30: 28] BootStrap value of boot path. See RST_BOOT_METHOD_E */
+        uint64_t p_image_partition     : 1;  /**< [ 31: 31] Indicates if primary or secondary flash location was used on the boot media.
+                                                                 When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
+        uint64_t s_local_error_code    : 16; /**< [ 47: 32] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software
+                                                                 Trusted Image Module (TIM) Guide. */
+        uint64_t s_error_module        : 8;  /**< [ 55: 48] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
+                                                                 Software Reference Manual. */
+        uint64_t reserved_56_59        : 4;
+        uint64_t s_boot_method         : 3;  /**< [ 62: 60] BootStrap value of boot path. See RST_BOOT_METHOD_E */
+        uint64_t s_image_partition     : 1;  /**< [ 63: 63] Indicates if primary or secondary flash location was used on the boot media.
+                                                                 When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_rst_boot_stat_s_s cn10; */
+    /* struct cavm_rst_boot_stat_s_s cn10ka_p1_0; */
+    struct cavm_rst_boot_stat_s_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t s_image_partition     : 1;  /**< [ 63: 63] Indicates if primary or secondary flash location was used on the boot media.
+                                                                 When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
+        uint64_t s_boot_method         : 3;  /**< [ 62: 60] BootStrap value of boot path. See RST_BOOT_METHOD_E */
+        uint64_t reserved_56_59        : 4;
+        uint64_t s_error_module        : 8;  /**< [ 55: 48] Subsystem within the BL0 ROM where error occurred, reference the Marvell Boot
+                                                                 Software Reference Manual. */
         uint64_t s_local_error_code    : 16; /**< [ 47: 32] Subsystem specific BL0 ROM error code, reference the Marvell Boot Software Reference Manual. */
         uint64_t p_image_partition     : 1;  /**< [ 31: 31] Indicates if primary or secondary flash location was used on the boot media.
                                                                  When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
@@ -320,8 +360,11 @@ union cavm_rst_boot_stat_s
         uint64_t s_image_partition     : 1;  /**< [ 63: 63] Indicates if primary or secondary flash location was used on the boot media.
                                                                  When read as 0, indicates that booting from 0x10000 and read as 1, means booting from 0x02010000. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rst_boot_stat_s_s cn; */
+    } cn10ka_p1_1;
+    /* struct cavm_rst_boot_stat_s_cn10ka_p1_1 cn10ka_p2; */
+    /* struct cavm_rst_boot_stat_s_s cn10kb; */
+    /* struct cavm_rst_boot_stat_s_s cnf10ka; */
+    /* struct cavm_rst_boot_stat_s_s cnf10kb; */
 };
 
 /**
@@ -1733,6 +1776,10 @@ static inline uint64_t CAVM_RST_LBOOT_FUNC(void)
  * the RST_PLL()[NEXT_MAN] field is set.  Indexed by RST_PLL_E.
  * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
+ * The logic associated with the PLL functions can only process one operation at a time.
+ * Writes to this register should only occur when both the RST_PLL(x)[NEXT_PGM] and
+ * RST_PLL(x)[NEXT_SWITCH] fields are zero.
+ *
  * This register is always reset on a chip domain reset.
  */
 union cavm_rst_man_pllx
@@ -2486,6 +2533,11 @@ static inline uint64_t CAVM_RST_MSIX_VECX_CTL(uint64_t a)
  * typical programming operations and is supplemented with the RST_MAN_PLL()
  * register when selected.  Indexed by RST_PLL_E.
  *
+ * The logic associated with the PLL functions can only process one operation at a time.
+ * Writes to this register and to both RST_MAN_PLL(x) and RST_TEST_PLL(x) of the same
+ * index should only occur when both the NEXT_PGM and NEXT_SWITCH fields are zero.
+ * It is typically necessary to poll this register to confirm this.
+ *
  * The register fields are returned to reset values on a chip domain reset unless
  * specifically noted.
  */
@@ -3118,6 +3170,13 @@ static inline uint64_t CAVM_RST_SW_W1S_FUNC(void)
  * Register (RSL) rst_test_pll#
  *
  * RST Manual PLL Control Register
+ * These registers control manual ARO programming and Test features.
+ *
+ * The logic associated with the PLL functions can only process one operation at a time.
+ * Writes to this register should only occur when both the RST_PLL(x)[NEXT_PGM] and
+ * RST_PLL(x)[NEXT_SWITCH] fields are zero.  Additionally a read operation should occur
+ * between writes to this register to allow time for the test setting to be transmitted
+ * successfully before new setting are applied.
  */
 union cavm_rst_test_pllx
 {

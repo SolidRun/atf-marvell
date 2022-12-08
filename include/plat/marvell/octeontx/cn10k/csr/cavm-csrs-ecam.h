@@ -137,19 +137,19 @@ union cavm_ecamx_domx_busx_permit
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_5_6          : 2;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable.Disable any accesses initiated by XCP2. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2 */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable.Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable.Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2 */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable.Disable any accesses initiated by XCP2. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access
@@ -247,19 +247,19 @@ union cavm_ecamx_domx_devx_permit
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_5_6          : 2;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable.Disable any accesses initiated by XCP2. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2 */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable.Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable.Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2 */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable.Disable any accesses initiated by XCP2. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access
@@ -324,19 +324,19 @@ union cavm_ecamx_domx_rslx_permit
                                                                  set until warm chip reset.  If set, no access
                                                                  allowed by any initiator. */
         uint64_t reserved_5_6          : 2;
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable.Disable any accesses initiated by XCP2. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2 */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable.Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
 #else /* Word 0 - Little Endian */
-        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable.Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
+        uint64_t sec_dis               : 1;  /**< [  0:  0](SR/W) Secure disable. Disable secure acceses from devices except for teh ones from XCP0/XCP1/XCP2. */
         uint64_t nsec_dis              : 1;  /**< [  1:  1](SR/W) Nonsecure disable. Disable any non secure acceses by devices except for the ones
                                                                  from XCP0/XCP1/XCP2 */
         uint64_t xcp0_dis              : 1;  /**< [  2:  2](SR/W) XCP0 disable. Disable any accesses initiated by XCP0 (SCP). */
         uint64_t xcp1_dis              : 1;  /**< [  3:  3](SR/W) XCP1 disable. Disable any accesses initiated by XCP1 (MCP). */
-        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable.Disable any accesses initiated by XCP2. */
+        uint64_t xcp2_dis              : 1;  /**< [  4:  4](SR/W) XCP2 disable. Disable any accesses initiated by XCP2. */
         uint64_t reserved_5_6          : 2;
         uint64_t kill                  : 1;  /**< [  7:  7](SR/W1S) Kill the device. Once written with one, stays
                                                                  set until warm chip reset.  If set, no access

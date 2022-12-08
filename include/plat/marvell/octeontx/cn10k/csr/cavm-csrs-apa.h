@@ -2062,6 +2062,10 @@ static inline uint64_t CAVM_APAX_LSAX_DIAG_STATUS(uint64_t a, uint64_t b)
  * the APA_PLL[NEXT_MAN] field is set.  Indexed by APA_PLL_E.
  * These register is not accessible through ROM scripts; see SCR_WRITE32_S[ADDR].
  *
+ * The logic associated with the PLL functions can only process one operation at a time.
+ * Writes to this register should only occur when both the APA_PLL[NEXT_PGM] and
+ * APA_PLL[NEXT_SWITCH] fields are zero.
+ *
  * This register is always reset on a chip domain reset.
  */
 union cavm_apax_man_pll
@@ -2586,6 +2590,11 @@ static inline uint64_t CAVM_APAX_PFCX(uint64_t a, uint64_t b)
  * typical programming operations and is supplemented with the APA_MAN_PLL
  * register when selected.  Indexed by APA_PLL_E.
  *
+ * The logic associated with the PLL functions can only process one operation at a time.
+ * Writes to this register and to both APA_MAN_PLL and APA_TEST_PLL should only occur
+ * when both the NEXT_PGM and NEXT_SWITCH fields are zero.  It is typically necessary
+ * to poll this register to confirm this.
+ *
  * The register fields are returned to reset values on a chip domain reset unless
  * specifically noted.
  */
@@ -2915,6 +2924,13 @@ static inline uint64_t CAVM_APAX_RVBARADDR(uint64_t a)
  * Register (RSL) apa#_test_pll
  *
  * APA PLL Test Register
+ * This register controls manual ARO programming and Test features.
+ *
+ * The logic associated with the PLL functions can only process one operation at a time.
+ * Writes to this register should only occur when both the APA_PLL[NEXT_PGM] and
+ * APA_PLL[NEXT_SWITCH] fields are zero.  Additionally a read operation should occur
+ * between writes to this register to allow time for the test setting to be transmitted
+ * successfully before new setting are applied.
  */
 union cavm_apax_test_pll
 {

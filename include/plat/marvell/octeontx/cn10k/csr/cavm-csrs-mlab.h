@@ -1126,7 +1126,10 @@ union cavm_mlabx_job_timer_cfg
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_43_63        : 21;
-        uint64_t toth                  : 42; /**< [ 42:  1](R/W) Determines when a job's timer is started.
+        uint64_t toth                  : 42; /**< [ 42:  1](R/W) Job timeout threshold in number of sclk cycles. Hardware detects a job timeout
+                                                                 when the job's timer (MLAB_STG()_STATUS[ELAPSED_TICKS]) reaches this value.
+                                                                 The timer is disabled when TOTH = 0x0. */
+        uint64_t start_on_run          : 1;  /**< [  0:  0](R/W) Determines when a job's timer is started.
                                                                  0 = Start a job's timer in the fetch stage when hardware writes the job command
                                                                  to MLAB_STG(0)_JCMD().
                                                                  1 = Start a job's timer when the job is moved to the run stage, i.e. when
@@ -1134,14 +1137,8 @@ union cavm_mlabx_job_timer_cfg
                                                                  If [START_ON_RUN] is set, firmware may write to this register to modify a job's
                                                                  timeout value before moving the job to the run stage by setting
                                                                  MLAB_STG_CONTROL[FETCH_TO_RUN]. */
-        uint64_t start_on_run          : 1;  /**< [  0:  0](R/W) Job timeout threshold in number of sclk cycles. Hardware detects a job timeout
-                                                                 when the job's timer (MLAB_STG()_STATUS[ELAPSED_TICKS]) reaches this value.
-                                                                  The timer is disabled when TOTH = 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t start_on_run          : 1;  /**< [  0:  0](R/W) Job timeout threshold in number of sclk cycles. Hardware detects a job timeout
-                                                                 when the job's timer (MLAB_STG()_STATUS[ELAPSED_TICKS]) reaches this value.
-                                                                  The timer is disabled when TOTH = 0x0. */
-        uint64_t toth                  : 42; /**< [ 42:  1](R/W) Determines when a job's timer is started.
+        uint64_t start_on_run          : 1;  /**< [  0:  0](R/W) Determines when a job's timer is started.
                                                                  0 = Start a job's timer in the fetch stage when hardware writes the job command
                                                                  to MLAB_STG(0)_JCMD().
                                                                  1 = Start a job's timer when the job is moved to the run stage, i.e. when
@@ -1149,6 +1146,9 @@ union cavm_mlabx_job_timer_cfg
                                                                  If [START_ON_RUN] is set, firmware may write to this register to modify a job's
                                                                  timeout value before moving the job to the run stage by setting
                                                                  MLAB_STG_CONTROL[FETCH_TO_RUN]. */
+        uint64_t toth                  : 42; /**< [ 42:  1](R/W) Job timeout threshold in number of sclk cycles. Hardware detects a job timeout
+                                                                 when the job's timer (MLAB_STG()_STATUS[ELAPSED_TICKS]) reaches this value.
+                                                                 The timer is disabled when TOTH = 0x0. */
         uint64_t reserved_43_63        : 21;
 #endif /* Word 0 - End */
     } s;

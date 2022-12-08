@@ -4342,7 +4342,7 @@ union cavm_npa_lf_err_int_ena_w1c
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t reserved_4_11         : 8;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[RMT_REQ_OOR]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reserved. */
         uint64_t reserved_2            : 1;
         uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_DIS]. */
@@ -4350,7 +4350,7 @@ union cavm_npa_lf_err_int_ena_w1c
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_DIS]. */
         uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[RMT_REQ_OOR]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1C/H) Reserved. */
         uint64_t reserved_4_11         : 8;
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NPA_LF_ERR_INT[POOL_FAULT]. */
@@ -4397,7 +4397,7 @@ union cavm_npa_lf_err_int_ena_w1s
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t reserved_4_11         : 8;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[RMT_REQ_OOR]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reserved. */
         uint64_t reserved_2            : 1;
         uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_DIS]. */
@@ -4405,7 +4405,7 @@ union cavm_npa_lf_err_int_ena_w1s
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_DIS]. */
         uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[RMT_REQ_OOR]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reserved. */
         uint64_t reserved_4_11         : 8;
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NPA_LF_ERR_INT[POOL_FAULT]. */
@@ -4452,7 +4452,7 @@ union cavm_npa_lf_err_int_w1s
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NPA_LF_ERR_INT[POOL_FAULT]. */
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t reserved_4_11         : 8;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NPA_LF_ERR_INT[RMT_REQ_OOR]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reserved. */
         uint64_t reserved_2            : 1;
         uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_DIS]. */
@@ -4460,7 +4460,7 @@ union cavm_npa_lf_err_int_w1s
         uint64_t aura_dis              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_DIS]. */
         uint64_t aura_oor              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_OOR]. */
         uint64_t reserved_2            : 1;
-        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NPA_LF_ERR_INT[RMT_REQ_OOR]. */
+        uint64_t rmt_req_oor           : 1;  /**< [  3:  3](R/W1S/H) Reserved. */
         uint64_t reserved_4_11         : 8;
         uint64_t aura_fault            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NPA_LF_ERR_INT[AURA_FAULT]. */
         uint64_t pool_fault            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NPA_LF_ERR_INT[POOL_FAULT]. */

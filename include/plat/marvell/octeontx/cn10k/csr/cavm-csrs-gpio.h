@@ -269,6 +269,7 @@
 #define CAVM_GPIO_STRAP_PIN_E_BOOT_METHOD4 (0xc)
 #define CAVM_GPIO_STRAP_PIN_E_BOOT_METHOD5 (0xd)
 #define CAVM_GPIO_STRAP_PIN_E_PCIE0_EP_MODE (0xf)
+#define CAVM_GPIO_STRAP_PIN_E_REF_CLK_TERMINATION (0xb)
 
 /**
  * Register (NCB) gpio_bit_cfg#

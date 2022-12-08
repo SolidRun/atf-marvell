@@ -27638,7 +27638,120 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_s cn10; */
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_s cn10ka; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_s cn10ka_p1_0; */
+    struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_cn10ka_p1_1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t fgr_mode              : 3;  /**< [ 10:  8](R/W) Fine Granularity Refresh Mode
+                                                                 DDR4:
+                                                                  - 000 - Fixed 1x (Normal mode)
+                                                                  - 001 - Fixed 2x
+                                                                  - 010 - Fixed 4x
+                                                                  - 101 - Enable on the fly 2x (not supported)
+                                                                  - 110 - Enable on the fly 4x (not supported)
+                                                                  - Everything else - reserved
+
+                                                                 DDR5:
+                                                                  - 000 - Fixed 1x (Normal mode)
+                                                                  - 001 - Fixed 2x
+                                                                  - Everything else - reserved
+
+                                                                 Note:
+                                                                 Only Fixed 1x mode is supported if RFSHCTL0.dis_auto_refresh = 1.
+                                                                 The on-the-fly modes are not supported in this version of the DDRCTL.
+                                                                 This must be set up while the Controller is in reset or while the Controller is
+                                                                 in self-refresh mode. Changing this during normal operation is not allowed.
+                                                                 Making this a dynamic register will be supported in future version of the
+                                                                 DDRCTL.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t reserved_7            : 1;
+        uint32_t tcr_refab_thr         : 3;  /**< [  6:  4](R/W) Refresh rate threshold to allow all-bank refresh (REFab) only when same bank
+                                                                 refresh mode is mixed mode (RFSHMOD1.same_bank_refresh == 2). In case of high
+                                                                 refresh rate, REFsb may not be efficient. The controller can schedule REFab only
+                                                                 even in mixed mode when current refresh rate is greater than the threshold.
+
+                                                                 This is valid in mixed mode only, and if this is programmed to 3'b111, the
+                                                                 controller always schedules both REFab and REFsb in mixed mode.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t reserved_2_3          : 2;
+        uint32_t same_bank_refresh     : 2;  /**< [  1:  0](R/W) Same bank refresh mode in DDR5.
+                                                                   0x0 = All bank refresh only.
+                                                                   0x1 = Same bank refresh only.
+                                                                   0x2 = Mixed mode.
+
+                                                                 Same bank refresh command is allowed in FGR mode only; therefore setting this to
+                                                                 1 or 2 is not allowed when DSS()_DDRCTL_REGB_DDRC_CH0_RFSHMOD1[FGR_MODE]==0.
+
+                                                                 When automatic refresh control is disabled
+                                                                 (DSS()_DDRCTL_REGB_DDRC_CH0_RFSHCTL0[DIS_AUTO_REFRESH] = 1),
+                                                                 a direct refresh request results in all bank refresh command regardless of this
+                                                                 mode.
+
+                                                                 Note: Same bank refresh only mode cannot be used if it is impossible for all
+                                                                 logical ranks in a physical rank to send same bank refresh commands to all banks
+                                                                 within tREFI.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t same_bank_refresh     : 2;  /**< [  1:  0](R/W) Same bank refresh mode in DDR5.
+                                                                   0x0 = All bank refresh only.
+                                                                   0x1 = Same bank refresh only.
+                                                                   0x2 = Mixed mode.
+
+                                                                 Same bank refresh command is allowed in FGR mode only; therefore setting this to
+                                                                 1 or 2 is not allowed when DSS()_DDRCTL_REGB_DDRC_CH0_RFSHMOD1[FGR_MODE]==0.
+
+                                                                 When automatic refresh control is disabled
+                                                                 (DSS()_DDRCTL_REGB_DDRC_CH0_RFSHCTL0[DIS_AUTO_REFRESH] = 1),
+                                                                 a direct refresh request results in all bank refresh command regardless of this
+                                                                 mode.
+
+                                                                 Note: Same bank refresh only mode cannot be used if it is impossible for all
+                                                                 logical ranks in a physical rank to send same bank refresh commands to all banks
+                                                                 within tREFI.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t reserved_2_3          : 2;
+        uint32_t tcr_refab_thr         : 3;  /**< [  6:  4](R/W) Refresh rate threshold to allow all-bank refresh (REFab) only when same bank
+                                                                 refresh mode is mixed mode (RFSHMOD1.same_bank_refresh == 2). In case of high
+                                                                 refresh rate, REFsb may not be efficient. The controller can schedule REFab only
+                                                                 even in mixed mode when current refresh rate is greater than the threshold.
+
+                                                                 This is valid in mixed mode only, and if this is programmed to 3'b111, the
+                                                                 controller always schedules both REFab and REFsb in mixed mode.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t reserved_7            : 1;
+        uint32_t fgr_mode              : 3;  /**< [ 10:  8](R/W) Fine Granularity Refresh Mode
+                                                                 DDR4:
+                                                                  - 000 - Fixed 1x (Normal mode)
+                                                                  - 001 - Fixed 2x
+                                                                  - 010 - Fixed 4x
+                                                                  - 101 - Enable on the fly 2x (not supported)
+                                                                  - 110 - Enable on the fly 4x (not supported)
+                                                                  - Everything else - reserved
+
+                                                                 DDR5:
+                                                                  - 000 - Fixed 1x (Normal mode)
+                                                                  - 001 - Fixed 2x
+                                                                  - Everything else - reserved
+
+                                                                 Note:
+                                                                 Only Fixed 1x mode is supported if RFSHCTL0.dis_auto_refresh = 1.
+                                                                 The on-the-fly modes are not supported in this version of the DDRCTL.
+                                                                 This must be set up while the Controller is in reset or while the Controller is
+                                                                 in self-refresh mode. Changing this during normal operation is not allowed.
+                                                                 Making this a dynamic register will be supported in future version of the
+                                                                 DDRCTL.
+
+                                                                 Programming Mode: Quasi-dynamic Group 2. */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -27745,7 +27858,8 @@ union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } cn10kb;
-    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_s cnf10ka; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_s cnf10ka_p1_0; */
+    /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_cn10ka_p1_1 cnf10ka_p1_1; */
     /* struct cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_s cnf10kb; */
 };
 typedef union cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1 cavm_dssx_ddrctl_regb_ddrc_ch0_rfshmod1_t;
@@ -41165,15 +41279,15 @@ union cavm_dssx_int_ena_w1c
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
         uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reserved. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
@@ -41185,12 +41299,12 @@ union cavm_dssx_int_ena_w1c
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
@@ -41204,12 +41318,12 @@ union cavm_dssx_int_ena_w1c
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
@@ -41221,15 +41335,15 @@ union cavm_dssx_int_ena_w1c
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reserved. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
         uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
@@ -41245,7 +41359,141 @@ union cavm_dssx_int_ena_w1c
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_int_ena_w1c_s cn10; */
-    struct cavm_dssx_int_ena_w1c_cn10ka
+    struct cavm_dssx_int_ena_w1c_cn10ka_p1_0
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cn10ka_p1_0;
+    struct cavm_dssx_int_ena_w1c_cn10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -41378,7 +41626,8 @@ union cavm_dssx_int_ena_w1c
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_int_ena_w1c_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_int_ena_w1c_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -41407,15 +41656,15 @@ union cavm_dssx_int_ena_w1c
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reserved. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
@@ -41427,12 +41676,12 @@ union cavm_dssx_int_ena_w1c
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
@@ -41446,12 +41695,12 @@ union cavm_dssx_int_ena_w1c
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
@@ -41463,15 +41712,15 @@ union cavm_dssx_int_ena_w1c
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1C/H) Reserved. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
@@ -41499,7 +41748,141 @@ union cavm_dssx_int_ena_w1c
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn10kb;
-    struct cavm_dssx_int_ena_w1c_cnf10ka
+    struct cavm_dssx_int_ena_w1c_cnf10ka_p1_0
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1C/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1C/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1C/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1C/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1C/H) Reserved. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1C/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1C/H) Reserved. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1C/H) Reads or clears enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cnf10ka_p1_0;
+    struct cavm_dssx_int_ena_w1c_cnf10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -41632,8 +42015,8 @@ union cavm_dssx_int_ena_w1c
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cnf10ka;
-    /* struct cavm_dssx_int_ena_w1c_cnf10ka cnf10kb; */
+    } cnf10ka_p1_1;
+    /* struct cavm_dssx_int_ena_w1c_cnf10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_int_ena_w1c cavm_dssx_int_ena_w1c_t;
 
@@ -41682,15 +42065,15 @@ union cavm_dssx_int_ena_w1s
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
         uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reserved. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
@@ -41702,12 +42085,12 @@ union cavm_dssx_int_ena_w1s
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
@@ -41721,12 +42104,12 @@ union cavm_dssx_int_ena_w1s
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
@@ -41738,15 +42121,15 @@ union cavm_dssx_int_ena_w1s
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reserved. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
         uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
@@ -41762,7 +42145,141 @@ union cavm_dssx_int_ena_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_int_ena_w1s_s cn10; */
-    struct cavm_dssx_int_ena_w1s_cn10ka
+    struct cavm_dssx_int_ena_w1s_cn10ka_p1_0
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cn10ka_p1_0;
+    struct cavm_dssx_int_ena_w1s_cn10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -41895,7 +42412,8 @@ union cavm_dssx_int_ena_w1s
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_int_ena_w1s_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_int_ena_w1s_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -41924,15 +42442,15 @@ union cavm_dssx_int_ena_w1s
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reserved. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
@@ -41944,12 +42462,12 @@ union cavm_dssx_int_ena_w1s
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
@@ -41963,12 +42481,12 @@ union cavm_dssx_int_ena_w1s
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
@@ -41980,15 +42498,15 @@ union cavm_dssx_int_ena_w1s
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reserved. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
@@ -42016,7 +42534,141 @@ union cavm_dssx_int_ena_w1s
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn10kb;
-    struct cavm_dssx_int_ena_w1s_cnf10ka
+    struct cavm_dssx_int_ena_w1s_cnf10ka_p1_0
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets enable for DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cnf10ka_p1_0;
+    struct cavm_dssx_int_ena_w1s_cnf10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -42149,8 +42801,8 @@ union cavm_dssx_int_ena_w1s
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cnf10ka;
-    /* struct cavm_dssx_int_ena_w1s_cnf10ka cnf10kb; */
+    } cnf10ka_p1_1;
+    /* struct cavm_dssx_int_ena_w1s_cnf10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_int_ena_w1s cavm_dssx_int_ena_w1s_t;
 
@@ -42763,15 +43415,15 @@ union cavm_dssx_int_w1s
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
         uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reserved. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
@@ -42783,12 +43435,12 @@ union cavm_dssx_int_w1s
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
@@ -42802,12 +43454,12 @@ union cavm_dssx_int_w1s
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
@@ -42819,15 +43471,15 @@ union cavm_dssx_int_w1s
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reserved. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
         uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
@@ -42843,7 +43495,141 @@ union cavm_dssx_int_w1s
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_dssx_int_w1s_s cn10; */
-    struct cavm_dssx_int_w1s_cn10ka
+    struct cavm_dssx_int_w1s_cn10ka_p1_0
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..5)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cn10ka_p1_0;
+    struct cavm_dssx_int_w1s_cn10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -42976,7 +43762,8 @@ union cavm_dssx_int_w1s
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn10ka;
+    } cn10ka_p1_1;
+    /* struct cavm_dssx_int_w1s_cn10ka_p1_1 cn10ka_p2; */
     struct cavm_dssx_int_w1s_cn10kb
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -43005,15 +43792,15 @@ union cavm_dssx_int_w1s
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reserved. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
@@ -43025,12 +43812,12 @@ union cavm_dssx_int_w1s
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
@@ -43044,12 +43831,12 @@ union cavm_dssx_int_w1s
         uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
         uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
         uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[LCCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_ERR_MAX_REACHED_INTR]. */
-        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RD_CRC_ERR_MAX_REACHED_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
         uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[SWCMD_ERR_INTR]. */
-        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_ERR_INTR]. */
-        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CAPAR_ERR_MAX_REACHED_INTR]. */
-        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[CAPAR_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
         uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RFM_ALERT_INTR]. */
         uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_MCT_ERROR_INTR]. */
         uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
@@ -43061,15 +43848,15 @@ union cavm_dssx_int_w1s
         uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
         uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
         uint64_t rd_retry_limit_intr   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[RD_RETRY_LIMIT_INTR]. */
-        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[WR_CRC_RETRY_LIMIT_INTR]. */
+        uint64_t wr_crc_retry_limit_intr : 1;/**< [ 23: 23](R/W1S/H) Reserved. */
         uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[SBR_DONE_INTR]. */
         uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MPAM_NS_ERR_INTR]. */
         uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[MPAM_S_ERR_INTR]. */
         uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DWC_DDRPHY_INT]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_LO_ECC_DBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
-        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_DBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
         uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
         uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
         uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..1)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
@@ -43097,7 +43884,141 @@ union cavm_dssx_int_w1s
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn10kb;
-    struct cavm_dssx_int_w1s_cnf10ka
+    struct cavm_dssx_int_w1s_cnf10ka_p1_0
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_40           : 1;
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t reserved_23           : 1;
+        uint64_t reserved_22           : 1;
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[CTRLUPD_ERR_INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ctrlupd_err_intr      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[CTRLUPD_ERR_INTR]. */
+        uint64_t derate_temp_limit_intr : 1; /**< [  1:  1](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DERATE_TEMP_LIMIT_INTR]. */
+        uint64_t ducmd_err_intr        : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DUCMD_ERR_INTR]. */
+        uint64_t ecc_corrected_err_intr : 1; /**< [  3:  3](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[ECC_CORRECTED_ERR_INTR]. */
+        uint64_t ecc_uncorrected_err_intr : 1;/**< [  4:  4](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[ECC_UNCORRECTED_ERR_INTR]. */
+        uint64_t lccmd_err_intr        : 1;  /**< [  5:  5](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[LCCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_max_reached_intr : 1;/**< [  6:  6](R/W1S/H) Reserved. */
+        uint64_t rd_crc_err_max_reached_intr : 1;/**< [  7:  7](R/W1S/H) Reserved. */
+        uint64_t swcmd_err_intr        : 1;  /**< [  8:  8](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[SWCMD_ERR_INTR]. */
+        uint64_t wr_crc_err_intr       : 1;  /**< [  9:  9](R/W1S/H) Reserved. */
+        uint64_t capar_err_max_reached_intr : 1;/**< [ 10: 10](R/W1S/H) Reserved. */
+        uint64_t capar_err_intr        : 1;  /**< [ 11: 11](R/W1S/H) Reserved. */
+        uint64_t rfm_alert_intr        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[RFM_ALERT_INTR]. */
+        uint64_t dss_mct_error_intr    : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_MCT_ERROR_INTR]. */
+        uint64_t mct_not_config_rd_addr_intr : 1;/**< [ 14: 14](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_RD_ADDR_INTR]. */
+        uint64_t mct_not_config_wr_addr_intr : 1;/**< [ 15: 15](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_NOT_CONFIG_WR_ADDR_INTR]. */
+        uint64_t mct_rd_multi_hits_intr : 1; /**< [ 16: 16](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_RD_MULTI_HITS_INTR]. */
+        uint64_t mct_rd_fifo_ovrflw_intr : 1;/**< [ 17: 17](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_RD_FIFO_OVRFLW_INTR]. */
+        uint64_t mct_wr_multi_hits_intr : 1; /**< [ 18: 18](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_WR_MULTI_HITS_INTR]. */
+        uint64_t mct_wr_data_fifo_ovrflw_intr : 1;/**< [ 19: 19](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MCT_WR_DATA_FIFO_OVRFLW_INTR]. */
+        uint64_t msh_dss_dat_chk_error_intr : 1;/**< [ 20: 20](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MSH_DSS_DAT_CHK_ERROR_INTR]. */
+        uint64_t msh_dss_req_chk_error_intr : 1;/**< [ 21: 21](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MSH_DSS_REQ_CHK_ERROR_INTR]. */
+        uint64_t reserved_22           : 1;
+        uint64_t reserved_23           : 1;
+        uint64_t sbr_done_intr         : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[SBR_DONE_INTR]. */
+        uint64_t mpam_ns_err_intr      : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MPAM_NS_ERR_INTR]. */
+        uint64_t mpam_s_err_intr       : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[MPAM_S_ERR_INTR]. */
+        uint64_t dwc_ddrphy_int        : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DWC_DDRPHY_INT]. */
+        uint64_t dss_wr_crc_ret_lo_ecc_sbe_intr : 1;/**< [ 28: 28](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_lo_ecc_dbe_intr : 1;/**< [ 29: 29](R/W1S/H) Reserved. */
+        uint64_t dss_wr_crc_ret_hi_ecc_sbe_intr : 1;/**< [ 30: 30](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_WR_CRC_RET_HI_ECC_SBE_INTR]. */
+        uint64_t dss_wr_crc_ret_hi_ecc_dbe_intr : 1;/**< [ 31: 31](R/W1S/H) Reserved. */
+        uint64_t dss_chb_rt_ecc_sbe_intr : 1;/**< [ 32: 32](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_SBE_INTR]. */
+        uint64_t dss_chb_rt_ecc_dbe_intr : 1;/**< [ 33: 33](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_RT_ECC_DBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_sbe_intr : 1;/**< [ 34: 34](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_SBE_INTR]. */
+        uint64_t dss_wdata_ram_ecc_dbe_intr : 1;/**< [ 35: 35](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_WDATA_RAM_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_sbe_intr : 1;/**< [ 36: 36](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_sbe_intr : 1;/**< [ 37: 37](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_SBE_INTR]. */
+        uint64_t dss_chb_wrb_lo_ecc_dbe_intr : 1;/**< [ 38: 38](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_WRB_LO_ECC_DBE_INTR]. */
+        uint64_t dss_chb_wrb_hi_ecc_dbe_intr : 1;/**< [ 39: 39](R/W1S/H) Reads or sets DSS(0..3)_INT_W1C[DSS_CHB_WRB_HI_ECC_DBE_INTR]. */
+        uint64_t reserved_40           : 1;
+        uint64_t reserved_41           : 1;
+        uint64_t reserved_42           : 1;
+        uint64_t reserved_43           : 1;
+        uint64_t reserved_44           : 1;
+        uint64_t reserved_45           : 1;
+        uint64_t reserved_46           : 1;
+        uint64_t reserved_47           : 1;
+        uint64_t reserved_48           : 1;
+        uint64_t reserved_49           : 1;
+        uint64_t reserved_50           : 1;
+        uint64_t reserved_51           : 1;
+        uint64_t reserved_52           : 1;
+        uint64_t reserved_53           : 1;
+        uint64_t reserved_54           : 1;
+        uint64_t reserved_55           : 1;
+        uint64_t reserved_56           : 1;
+        uint64_t reserved_57           : 1;
+        uint64_t reserved_58           : 1;
+        uint64_t reserved_59           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_62           : 1;
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cnf10ka_p1_0;
+    struct cavm_dssx_int_w1s_cnf10ka_p1_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -43230,8 +44151,8 @@ union cavm_dssx_int_w1s
         uint64_t reserved_62           : 1;
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cnf10ka;
-    /* struct cavm_dssx_int_w1s_cnf10ka cnf10kb; */
+    } cnf10ka_p1_1;
+    /* struct cavm_dssx_int_w1s_cnf10ka_p1_1 cnf10kb; */
 };
 typedef union cavm_dssx_int_w1s cavm_dssx_int_w1s_t;
 

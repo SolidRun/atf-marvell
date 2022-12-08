@@ -765,9 +765,9 @@ union cavm_spix_ctrl_cfg_common_discovery_control
                                                                  0xE = 1 line for legacy SPI NAND.
                                                                  Other values are reserved.
                                                                  This field is updated after initialization process. */
-        uint32_t discovery_abnum       : 1;  /**< [ 11: 11](R/W) Discovery 4-bit addressing enable.
-                                                                 0 = 3-bit addressing.
-                                                                 1 = 4-bit addressing.
+        uint32_t discovery_abnum       : 1;  /**< [ 11: 11](R/W) Discovery 4-byte addressing enable.
+                                                                 0 = 3-byte addressing.
+                                                                 1 = 4-byte addressing.
                                                                  This field is updated after initialization process. */
         uint32_t discovery_dummy_cnt   : 1;  /**< [ 10: 10](R/W) Discovery number of dummy clock cycles.
                                                                  0 = 8 dummy clock cycles.
@@ -836,9 +836,9 @@ union cavm_spix_ctrl_cfg_common_discovery_control
                                                                  0 = 8 dummy clock cycles.
                                                                  1 = 20 dummy clock cycles.
                                                                  This field is updated after initialization process. */
-        uint32_t discovery_abnum       : 1;  /**< [ 11: 11](R/W) Discovery 4-bit addressing enable.
-                                                                 0 = 3-bit addressing.
-                                                                 1 = 4-bit addressing.
+        uint32_t discovery_abnum       : 1;  /**< [ 11: 11](R/W) Discovery 4-byte addressing enable.
+                                                                 0 = 3-byte addressing.
+                                                                 1 = 4-byte addressing.
                                                                  This field is updated after initialization process. */
         uint32_t discovery_num_lines   : 4;  /**< [ 15: 12](R/W) Discovery mode. This is a 4-bit value. Writing a value selects number of xSPI I/Os used by device
                                                                  discovery.

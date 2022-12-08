@@ -98989,6 +98989,116 @@ static inline uint64_t CAVM_GSERMX_RL2_CONTROL_1(uint64_t a)
 #define arguments_CAVM_GSERMX_RL2_CONTROL_1(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL32b) gserm#_rl2_temp_table0
+ *
+ * INTERNAL: GSERM Phy
+ */
+union cavm_gsermx_rl2_temp_table0
+{
+    uint32_t u;
+    struct cavm_gsermx_rl2_temp_table0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rl2_tune_temp_tb3     : 8;  /**< [ 31: 24](R/W/H) RL2_TUNE Temperature Table3
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb2     : 8;  /**< [ 23: 16](R/W/H) RL2_TUNE Temperature Table2
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb1     : 8;  /**< [ 15:  8](R/W/H) RL2_TUNE Temperature Table1
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb0     : 8;  /**< [  7:  0](R/W/H) RL2_TUNE Temperature Table0
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint32_t rl2_tune_temp_tb0     : 8;  /**< [  7:  0](R/W/H) RL2_TUNE Temperature Table0
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb1     : 8;  /**< [ 15:  8](R/W/H) RL2_TUNE Temperature Table1
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb2     : 8;  /**< [ 23: 16](R/W/H) RL2_TUNE Temperature Table2
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb3     : 8;  /**< [ 31: 24](R/W/H) RL2_TUNE Temperature Table3
+                                                                 internal */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_rl2_temp_table0_s cn; */
+};
+typedef union cavm_gsermx_rl2_temp_table0 cavm_gsermx_rl2_temp_table0_t;
+
+static inline uint64_t CAVM_GSERMX_RL2_TEMP_TABLE0(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_RL2_TEMP_TABLE0(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a001cef0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) || (a==15)))
+        return 0x87e0a001cef0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a001cef0ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a001cef0ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_RL2_TEMP_TABLE0", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_RL2_TEMP_TABLE0(a) cavm_gsermx_rl2_temp_table0_t
+#define bustype_CAVM_GSERMX_RL2_TEMP_TABLE0(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_RL2_TEMP_TABLE0(a) "GSERMX_RL2_TEMP_TABLE0"
+#define device_bar_CAVM_GSERMX_RL2_TEMP_TABLE0(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_RL2_TEMP_TABLE0(a) (a)
+#define arguments_CAVM_GSERMX_RL2_TEMP_TABLE0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) gserm#_rl2_temp_table1
+ *
+ * INTERNAL: GSERM Phy
+ */
+union cavm_gsermx_rl2_temp_table1
+{
+    uint32_t u;
+    struct cavm_gsermx_rl2_temp_table1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t rl2_tune_temp_tb7     : 8;  /**< [ 31: 24](R/W/H) RL2_TUNE Temperature Table7
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb6     : 8;  /**< [ 23: 16](R/W/H) RL2_TUNE Temperature Table6
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb5     : 8;  /**< [ 15:  8](R/W/H) RL2_TUNE Temperature Table5
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb4     : 8;  /**< [  7:  0](R/W/H) RL2_TUNE Temperature Table4
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint32_t rl2_tune_temp_tb4     : 8;  /**< [  7:  0](R/W/H) RL2_TUNE Temperature Table4
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb5     : 8;  /**< [ 15:  8](R/W/H) RL2_TUNE Temperature Table5
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb6     : 8;  /**< [ 23: 16](R/W/H) RL2_TUNE Temperature Table6
+                                                                 internal */
+        uint32_t rl2_tune_temp_tb7     : 8;  /**< [ 31: 24](R/W/H) RL2_TUNE Temperature Table7
+                                                                 internal */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_rl2_temp_table1_s cn; */
+};
+typedef union cavm_gsermx_rl2_temp_table1 cavm_gsermx_rl2_temp_table1_t;
+
+static inline uint64_t CAVM_GSERMX_RL2_TEMP_TABLE1(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_GSERMX_RL2_TEMP_TABLE1(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && ((a<=2) || (a==15)))
+        return 0x87e0a001cef8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CN10KB) && ((a<=2) || (a==15)))
+        return 0x87e0a001cef8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && ((a<=6) || (a==15)))
+        return 0x87e0a001cef8ll + 0x1000000ll * ((a) & 0xf);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && ((a<=5) || (a==15)))
+        return 0x87e0a001cef8ll + 0x1000000ll * ((a) & 0xf);
+    __cavm_csr_fatal("GSERMX_RL2_TEMP_TABLE1", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_GSERMX_RL2_TEMP_TABLE1(a) cavm_gsermx_rl2_temp_table1_t
+#define bustype_CAVM_GSERMX_RL2_TEMP_TABLE1(a) CSR_TYPE_RSL32b
+#define basename_CAVM_GSERMX_RL2_TEMP_TABLE1(a) "GSERMX_RL2_TEMP_TABLE1"
+#define device_bar_CAVM_GSERMX_RL2_TEMP_TABLE1(a) 0x0 /* PF_BAR0 */
+#define busnum_CAVM_GSERMX_RL2_TEMP_TABLE1(a) (a)
+#define arguments_CAVM_GSERMX_RL2_TEMP_TABLE1(a) (a),-1,-1,-1
+
+/**
  * Register (RSL32b) gserm#_rpta_config_0
  *
  * INTERNAL: GSERM Phy

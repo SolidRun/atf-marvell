@@ -474,11 +474,11 @@ union cavm_avs_cfg
                                                                  [CLKDIV]  = 100 MHz reference clock / (2 * AVS_CLK). */
         uint64_t reserved_1_15         : 15;
         uint64_t enable                : 1;  /**< [  0:  0](R/W) AVS enable.
-                                                                 0 = Pins are tristated.
+                                                                 0 = Pins are low.
                                                                  1 = Pins are driven. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) AVS enable.
-                                                                 0 = Pins are tristated.
+                                                                 0 = Pins are low.
                                                                  1 = Pins are driven. */
         uint64_t reserved_1_15         : 15;
         uint64_t clkdiv                : 13; /**< [ 28: 16](R/W) Clock divisor. Value 0x0 disables the AVS_CLK pin.
