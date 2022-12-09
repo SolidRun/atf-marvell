@@ -251,28 +251,32 @@ int handle_gpio_switch(int spi_bus, enum spi_gpio_dir dir)
 static int memtest_config_smc_handler(u_register_t x1, u_register_t x2,
 				      u_register_t x3, u_register_t x4,
 				      uint32_t *reboot, uint32_t *power_on,
-				      uint32_t *mem_len)
+				      uint32_t *reboot_mem_len,
+				      uint32_t *poweron_mem_len)
 {
 	static struct {
-		uint32_t memory_length;  /* Value expressed in megabytes */
+		uint32_t reboot_memory_len;  /* Value expressed in megabytes */
 		uint32_t reboot;
 		uint32_t power_on;
+		uint32_t poweron_memory_len;  /* Value expressed in megabytes */
 	} config __aligned(8);
 	uint64_t sz = sizeof(config);
 	int r;
 
-	if (x1 > 1 || !reboot || !power_on || !mem_len)
+	if (x1 > 1 || !reboot || !power_on || !reboot_mem_len || !poweron_mem_len)
 		return -22; /* Return EINVAL */
 
 	if (!x1) { /* This is get operation */
 		r = spi_read_memtest_persistent_data((uintptr_t)&config, &sz);
 		if (r >=  0) { /* Read has been successful */
-			*mem_len = config.memory_length;
+			*reboot_mem_len = config.reboot_memory_len;
+			*poweron_mem_len = config.poweron_memory_len;
 			*reboot = config.reboot;
 			*power_on = config.power_on;
 		}
 	} else { /* This is set operation */
-		config.memory_length = x4;
+		config.reboot_memory_len = x4 & 0xffffffff;
+		config.poweron_memory_len = (x4 >> 32) & 0xffffffff;
 		config.reboot = x2;
 		config.power_on = x3;
 		r = spi_write_memtest_persistent_data((uintptr_t)&config, sz);
@@ -1045,21 +1049,28 @@ err5:
 
 	case PLAT_OCTEONTX_MEM_TEST_CONFIG:
 	{
-		uint32_t next, power_on, mem_len;
+		uint32_t next, power_on, reboot_mem_len, poweron_mem_len;
+		uint64_t ret_x3 = 0;
 
 		next = 0;
 		power_on = 0;
-		mem_len = 0;
+		reboot_mem_len = 0;
+		poweron_mem_len = 0;
 		if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
 			ret = -16; /* Set result to busy */
 		} else {
 			/* Perform actual work */
 			ret = memtest_config_smc_handler(x1, x2, x3, x4,
 							 &next, &power_on,
-							 &mem_len);
+							 &reboot_mem_len,
+							 &poweron_mem_len);
 		}
+		ret_x3 = poweron_mem_len;
+		ret_x3 <<= 32;
+		ret_x3 |= reboot_mem_len;
+
 		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
-		SMC_RET4(handle, ret, next, power_on, mem_len);
+		SMC_RET4(handle, ret, next, power_on, ret_x3);
 	}
 	break;
 
