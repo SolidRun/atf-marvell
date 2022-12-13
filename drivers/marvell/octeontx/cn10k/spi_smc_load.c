@@ -100,12 +100,12 @@ int cn10k_spi_dev_read_aligned(uintptr_t user_buffer, size_t size,
 	int mode = get_spi_mode(loc);
 	int ret = 0;
 
-	CHECK_AND_CONFIG_SPI(bus, cs)
-
 	if (spi_dev_lock(bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
 	}
+
+	CHECK_AND_CONFIG_SPI(bus, cs)
 
 	if (spi_nor_read((uint8_t *) user_buffer, size, offset,
 			 mode, bus, cs) < 0) {
@@ -348,12 +348,12 @@ int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
 	memset(wr_buffer, 0, BUF_SIZE);
 	memset(rd_buffer, 0, BUF_SIZE);
 
-	CHECK_AND_CONFIG_SPI(bus, cs)
-
 	if (spi_dev_lock(bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
 	}
+
+	CHECK_AND_CONFIG_SPI(bus, cs)
 
 	/* Update data */
 	while (size > 0) {
@@ -445,12 +445,12 @@ int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 	memset(wr_buffer, 0, BUF_SIZE);
 	memset(rd_buffer, 0, BUF_SIZE);
 
-	CHECK_AND_CONFIG_SPI(bus, cs)
-
 	if (spi_dev_lock(bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
 	}
+
+	CHECK_AND_CONFIG_SPI(bus, cs)
 
 	while (size > 0) {
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
@@ -511,12 +511,12 @@ unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 
 	memset(rd_buffer, 0, BUF_SIZE);
 
-	CHECK_AND_CONFIG_SPI(bus, cs)
-
 	if (spi_dev_lock(bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		return -1;
 	}
+
+	CHECK_AND_CONFIG_SPI(bus, cs)
 
 	while (size > 0) {
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
