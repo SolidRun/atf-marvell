@@ -1365,6 +1365,7 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 	/* Update the PORTM config struct */
 	portm->portm_mode = portm_mode;
 	portm->gser_numlanes = 1;
+	portm->an_lt_ena = 0;
 	cn10k_fill_portm_tx_eq_info(portm_idx, portm_mode);
 	cn10k_fill_portm_mac_info(portm_idx, portm_mode);
 	cn10k_fill_portms_used(portm_idx, portm_mode);
