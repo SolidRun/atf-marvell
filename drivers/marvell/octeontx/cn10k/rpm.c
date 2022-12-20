@@ -466,6 +466,7 @@ int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx)
 			init_time = clock_get_count(GSER_CLOCK_TIME);
 			link_timeout = init_time + RPM_POLL_LINK_BRINGDOWN_STATUS *
 					clock_get_rate(GSER_CLOCK_TIME)/1000000;
+			status = ETH_LINK_STATE_NO_STATE;
 			while (clock_get_count(GSER_CLOCK_TIME)
 					< link_timeout) {
 				status = ecp_get_link_state(lmac->portm_idx, lmac_id, &link_state, &sig_detect);

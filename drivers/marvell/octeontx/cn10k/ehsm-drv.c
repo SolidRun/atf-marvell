@@ -681,7 +681,7 @@ int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size)
 	enum sec_return ret;
 	uint32_t attr, map_required;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
-	int err = 0, ns_map_size;
+	int err = 0, ns_map_size = 0;
 	uint64_t base_addr = 0;
 
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
@@ -767,7 +767,7 @@ int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t s
 	enum sec_return ret;
 	uint32_t attr, map_required;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
-	int err = 0, ns_map_size;
+	int err = 0, ns_map_size = 0;
 	uint64_t base_addr = 0;
 
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
