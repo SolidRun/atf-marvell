@@ -24,8 +24,7 @@ PLAT_BL_COMMON_SOURCES	+=	plat/marvell/octeontx/otx2/t96/plat_t96_setup.c		\
 
 BL2_SOURCES		+=	plat/marvell/octeontx/otx2/t96/plat_t96_ecam.c		\
 
-BL31_SOURCES		+=	drivers/marvell/octeontx/otx2/spi_smc_load.c		\
-				plat/marvell/octeontx/otx2/t96/plat_t96_svc.c	\
+BL31_SOURCES		+=	plat/marvell/octeontx/otx2/t96/plat_t96_svc.c	\
 
 ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
 BL31_SOURCES		+=	drivers/marvell/octeontx/otx2/serdes_diagnostics.c

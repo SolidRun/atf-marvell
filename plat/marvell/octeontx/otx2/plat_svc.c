@@ -20,6 +20,7 @@
 #include <phy_mgmt.h>
 #include <sh_fwdata.h>
 #include <octeontx_dram.h>
+#include <spi_ops.h>
 
 extern void *scmi_handle;
 
@@ -34,6 +35,72 @@ WEAK uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
 {
 	WARN("Unimplemented OcteonTX Service Call: 0x%x\n", smc_fid);
 	SMC_RET1(handle, SMC_UNK);
+}
+
+/*
+ * SMC handler to update memory self test configuration.
+ * x1 - type of operation, 0 is get, 1 is set
+ *
+ * Depending on the operation, arguments are used in following way
+ *
+ * for x1 = 0 (Get operation),
+ *   x2, x3 and x4 are ignored. The value for x2, x3 and x4 should be 0.
+ *   Values are returned in output parameters
+ *   reboot - uint32_t, type of test executed at reboot
+ *   power_on - uint32_t, type of test executed at power_on
+ *   reboot_mem_len - uint32_t, amount of memory under test for reboot
+ *   poweron_mem_len - uint32_t, amount of memory under test for power_on
+ *
+ * for x1 - 1 (Set operation),
+ *   x2 - uint32_t, type of test executed at reboot (warm boot)
+ *   x3 - uint32_t, type of test executed at power on (cold boot)
+ *   x4 - uint64_t, memory length ought to be tested, unit is megabytes.
+ *   reboot_memory_len - lower 32 bits of x4
+ *   poweron_memory_len - upper 32 bits of x4
+ *
+ *   output parameters are ignored:
+ *   reboot, power_on, poweron_mem_len and reboot_mem_len
+ *   should be != NULL, with value of 0.
+ *
+ * return value:
+ *   r - 0 for success, error otherwise
+ *
+ */
+static int memtest_config_smc_handler(u_register_t x1, u_register_t x2,
+				      u_register_t x3, u_register_t x4,
+				      uint32_t *reboot, uint32_t *power_on,
+				      uint32_t *reboot_mem_len,
+				      uint32_t *poweron_mem_len)
+{
+	static struct {
+		uint32_t reboot_memory_len;  /* Value expressed in megabytes */
+		uint32_t reboot;
+		uint32_t power_on;
+		uint32_t poweron_memory_len;  /* Value expressed in megabytes */
+	} config __aligned(8);
+	uint64_t sz = sizeof(config);
+	int r;
+
+	if (x1 > 1 || !reboot || !power_on || !reboot_mem_len || !poweron_mem_len)
+		return -22; /* Return EINVAL */
+
+	if (!x1) { /* This is get operation */
+		r = spi_read_memtest_persistent_data((uintptr_t)&config, &sz);
+		if (r >=  0) { /* Read has been successful */
+			*reboot_mem_len = config.reboot_memory_len;
+			*poweron_mem_len = config.poweron_memory_len;
+			*reboot = config.reboot;
+			*power_on = config.power_on;
+		}
+	} else { /* This is set operation */
+		config.reboot_memory_len = x4 & 0xffffffff;
+		config.poweron_memory_len = (x4 >> 32) & 0xffffffff;
+		config.reboot = x2;
+		config.power_on = x3;
+		r = spi_write_memtest_persistent_data((uintptr_t)&config, sz);
+	}
+
+	return r;
 }
 
 uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
@@ -331,6 +398,31 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET1(handle, ret);
 	} break;
 #endif
+
+	case PLAT_OCTEONTX_MEM_TEST_CONFIG:
+	{
+		uint32_t next, power_on, reboot_mem_len, poweron_mem_len;
+		uint64_t ret_x3 = 0;
+
+		next = 0;
+		power_on = 0;
+		reboot_mem_len = 0;
+		poweron_mem_len = 0;
+
+		/* Perform actual work */
+		ret = memtest_config_smc_handler(x1, x2, x3, x4,
+						 &next, &power_on,
+						 &reboot_mem_len,
+						 &poweron_mem_len);
+
+		ret_x3 = poweron_mem_len;
+		ret_x3 <<= 32;
+		ret_x3 |= reboot_mem_len;
+
+		SMC_RET4(handle, ret, next, power_on, ret_x3);
+	}
+	break;
+
 	default:
 		return otx2_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

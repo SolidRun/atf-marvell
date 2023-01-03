@@ -26,6 +26,18 @@
 #define debug_spi_nor(...) ((void) (0))
 #endif
 
+/*
+ * Start Offset	End Offset	Data Structure
+ * 0		0FFF		lmac_params
+ * 1000		1FFF		Memory POST
+ */
+
+#define PERSIST_LMAC_PARAM_OFFSET		0x0000
+#define PERSIST_LMAC_PARAM_LEN			0x1000
+
+#define PERSIST_MEMTEST_DATA_OFFSET		0x1000
+#define PERSIST_MEMTEST_DATA_LEN		0x1000
+
 #define MAX_EFI_VAR_SIZE	0x4000
 
 #if defined(PLAT_CN10K_FAMILY)
@@ -388,19 +400,52 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 
 	while (size > 0) {
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
-		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
-		   mode, bus, cs) < 0) {
+		if (spi_nor_read(rd_buffer, xfer_len, offset,
+				 mode, bus, cs) < 0) {
 			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
 				offset);
 			ret = -1;
 			break;
 		}
+		memcpy((void *)user_buffer, (const void *)rd_buffer, xfer_len);
 		offset += xfer_len;
 		user_buffer += xfer_len;
 		size -= xfer_len;
 	}
 
 	return ret;
+}
+
+static void *otx2_persistent_data_base(void)
+{
+	if (!plat_octeontx_bcfg->persist_cfg.valid)
+		return NULL;
+	else
+		return &plat_octeontx_bcfg->persist_cfg;
+}
+
+int spi_read_memtest_persistent_data(uintptr_t buf, uint64_t *sz)
+{
+	persist_data_cfg_t *cfg = otx2_persistent_data_base();
+	uint64_t offset;
+
+	if (cfg == NULL)
+		return -2;
+
+	offset = PERSIST_MEMTEST_DATA_OFFSET + cfg->offset;
+	return spi_smc_read(buf, sz, offset, cfg->bus, cfg->cs);
+}
+
+int spi_write_memtest_persistent_data(uintptr_t buf, uint64_t sz)
+{
+	persist_data_cfg_t *cfg = otx2_persistent_data_base();
+	uint64_t offset;
+
+	if (cfg == NULL)
+		return -2;
+
+	offset = PERSIST_MEMTEST_DATA_OFFSET + cfg->offset;
+	return spi_smc_write(buf, sz, offset, cfg->bus, cfg->cs);
 }
 
 /* Gather info about all secure busses and chip selects */

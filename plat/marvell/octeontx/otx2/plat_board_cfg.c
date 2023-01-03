@@ -2942,6 +2942,45 @@ static void octeontx2_fill_timer_ms(const void *fdt)
 		debug_dts("%s: Not able to find cgx_poll_timer node, using 1sec as default\n", __func__);
 }
 
+#define PERSIST_DATA_ADDR       0xFD0000
+#define PERSIST_DATA_SPI_BUS    0
+#define PERSIST_DATA_SPI_CS     0
+
+void fdt_get_spi_bus_cs(const void *fdt, int *bus, int *cs);
+void fdt_get_persist_offset(const void *fdt, int *offset);
+
+static void otx2_get_persist_data_config(const void *fdt)
+{
+	int spi_con, cs, offset = 0;;
+
+	/* initialize with default values */
+	plat_octeontx_bcfg->persist_cfg.offset = PERSIST_DATA_ADDR;
+	plat_octeontx_bcfg->persist_cfg.bus = PERSIST_DATA_SPI_BUS;
+	plat_octeontx_bcfg->persist_cfg.cs = PERSIST_DATA_SPI_CS;
+	plat_octeontx_bcfg->persist_cfg.valid = 1;
+
+	if (!fdt)
+		return;
+
+	/*
+	 * override the default persist data config if the
+	 * entry 'spi-flash' is in fdt
+	 */
+
+	fdt_get_spi_bus_cs(fdt, &spi_con, &cs);
+	if (spi_con != -1)
+		plat_octeontx_bcfg->persist_cfg.bus = spi_con;
+
+	if (cs != -1)
+		plat_octeontx_bcfg->persist_cfg.cs = cs;
+
+
+	fdt_get_persist_offset(fdt, &offset);
+
+	if (offset)
+		plat_octeontx_bcfg->persist_cfg.offset = offset;
+}
+
 int plat_octeontx_fill_board_details(void)
 {
 	void *fdt = fdt_ptr;
@@ -2978,6 +3017,8 @@ int plat_octeontx_fill_board_details(void)
 
 	/* Parse SPI configuration */
 	otx2_parse_spi_config(fdt);
+
+	otx2_get_persist_data_config(fdt);
 
 	return 0;
 }

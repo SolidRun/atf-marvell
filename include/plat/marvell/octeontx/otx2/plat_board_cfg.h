@@ -213,6 +213,14 @@ typedef struct spi_config {
 	bool is_secure;
 } spi_config_t;
 
+typedef struct persist_data_config {
+	uint64_t offset;
+	uint8_t bus;
+	uint8_t cs;
+	uint8_t valid;
+	uint8_t rsvd0;
+} persist_data_cfg_t;
+
 typedef struct plat_octeontx_board_cfg {
 	board_cfg_t bcfg;
 	rvu_config_t rvu_config;
@@ -231,6 +239,7 @@ typedef struct plat_octeontx_board_cfg {
 	} bert_area; /* Boot Error Data area parameters */
 	spi_config_t spi_cfg[MAX_SPI_BUS];
 	int reserved_os_memory_size;
+	persist_data_cfg_t persist_cfg;
 } plat_octeontx_board_cfg_t;
 
 extern plat_octeontx_board_cfg_t * const plat_octeontx_bcfg;

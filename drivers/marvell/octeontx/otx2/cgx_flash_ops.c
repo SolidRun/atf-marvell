@@ -42,9 +42,8 @@ enum cmd_param {
 
 extern uint32_t spi_mode;
 
-static void cgx_fdt_get_spi_bus_cs(int *bus, int *cs)
+void fdt_get_spi_bus_cs(const void *fdt, int *bus, int *cs)
 {
-	const void *fdt = fdt_ptr;
 	const uint32_t *reg, *preg;
 	int node, addr;
 
@@ -64,9 +63,9 @@ static void cgx_fdt_get_spi_bus_cs(int *bus, int *cs)
 				if (preg) {
 					addr = fdt32_to_cpu(*preg);
 					/* SPI node will have PCI addr, so map it */
-					if (addr == 0x3000)
+					if (addr == SPI_CTRL0_ADDR)
 						*bus = 0;
-					if (addr == 0x3800)
+					if (addr == SPI_CTRL1_ADDR)
 						*bus = 1;
 				}
 				debug_cgx_flash("\n Env SPI [bus:cs] [%d:%d]\n",
@@ -78,9 +77,8 @@ static void cgx_fdt_get_spi_bus_cs(int *bus, int *cs)
 	}
 }
 
-static void cgx_fdt_get_persist_offset(int *offset)
+void fdt_get_persist_offset(const void *fdt, int *offset)
 {
-	const void *fdt = fdt_ptr;
 	const uint32_t *prop;
 	int node;
 	int poff = 0;
@@ -114,7 +112,7 @@ static int cgx_read_flash_lmac_params(uint8_t *buf, int buflen)
 	int err = 0, spi_con, cs;
 	int offset = SPI_NVDATA_OFFSET, mode = SPI_ADDRESSING_24BIT;
 
-	cgx_fdt_get_spi_bus_cs(&spi_con, &cs);
+	fdt_get_spi_bus_cs(fdt_ptr, &spi_con, &cs);
 	if (spi_con == -1 || cs == -1)
 		return -1;
 	err = spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, spi_con, cs);
@@ -124,7 +122,7 @@ static int cgx_read_flash_lmac_params(uint8_t *buf, int buflen)
 	}
 	spi_mode |= SPI_FORCE_X1_READ;
 
-	cgx_fdt_get_persist_offset(&offset);
+	fdt_get_persist_offset(fdt_ptr, &offset);
 	if (offset > 0xFFFFFF) {
 		mode = SPI_ADDRESSING_32BIT;
 		spi_mode |= SPI_FORCE_4B_OPCODE;
@@ -238,7 +236,7 @@ static int cgx_update_flash_lmac_params(int cgx_id, int lmac_id, int cmd,
 
 	cgx = &(plat_octeontx_bcfg->cgx_cfg[cgx_id]);
 	lmac = &cgx->lmac_cfg[lmac_id];
-	cgx_fdt_get_spi_bus_cs(&spi_con, &cs);
+	fdt_get_spi_bus_cs(fdt_ptr, &spi_con, &cs);
 	if (spi_con == -1 || cs == -1)
 		return -1;
 
@@ -301,7 +299,7 @@ static int cgx_update_flash_lmac_params(int cgx_id, int lmac_id, int cmd,
 	debug_cgx_flash("%s fec invalid %d type%x mod invalid %d type%x\n",
 			__func__, ptr->s.fec_invalid, ptr->s.fec_type,
 			ptr->s.mod_invalid, ptr->s.mod_type);
-	cgx_fdt_get_persist_offset(&offset);
+	fdt_get_persist_offset(fdt_ptr, &offset);
 	if (offset > 0xFFFFFF) {
 		mode = SPI_ADDRESSING_32BIT;
 		spi_mode |= SPI_FORCE_4B_OPCODE;

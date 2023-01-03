@@ -564,15 +564,17 @@ PLAT_OCTEONTX_MEM_TEST_CONFIG
     x1: operation
     x2: 32 bit value for mem_test_settings, reboot
     x3: 32 bit value for mem_test_settings, power_on
-    x4: 32 bit value for memory length under test, memory_length
+    x4: 64 bit value for memory length under test
+		poweron_mem_len (upper 32 bit) | reboot_mem_len (lower 32 bit)
   * Return value:
     a0: Return 0 on success or error code on failure
     a1: 32 bit value for mem_test_settings, reboot
     a2: 32 bit value for mem_test_settings, power_on
-    a3: 32 bit value for memory length under test, memory_length
+    a3: 64 bit value for memory length under test
+		poweron_mem_len (upper 32 bit) | reboot_mem_len (lower 32 bit)
   * Description:
     This SMC call sets or gets memory POST settings.
-  * Supported platforms: CN10K
+  * Supported platforms: T9x, CN10K
 
 PLAT_OCTEONTX_EHSM_READ_CSR
   * SMC FID: 0xc2000b16

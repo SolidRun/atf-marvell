@@ -235,14 +235,19 @@ int handle_gpio_switch(int spi_bus, enum spi_gpio_dir dir)
  *   Values are returned in output parameters
  *   reboot - uint32_t, type of test executed at reboot
  *   power_on - uint32_t, type of test executed at power_on
- *   mem_len - uint32_t, amount of memory under test
+ *   reboot_mem_len - uint32_t, amount of memory under test for reboot
+ *   poweron_mem_len - uint32_t, amount of memory under test for power_on
  *
  * for x1 - 1 (Set operation),
  *   x2 - uint32_t, type of test executed at reboot (warm boot)
  *   x3 - uint32_t, type of test executed at power on (cold boot)
- *   x4 - uint32_t, memory length ought to be tested, unit is megabytes.
+ *   x4 - uint64_t, memory length ought to be tested, unit is megabytes.
+ *   reboot_memory_len - lower 32 bits of x4
+ *   poweron_memory_len - upper 32 bits of x4
+ *
  *   output parameters are ignored:
- *   reboot, power_on and mem_len should be != NULL, with value of 0.
+ *   reboot, power_on, poweron_mem_len and reboot_mem_len
+ *   should be != NULL, with value of 0.
  *
  * return value:
  *   r - 0 for success, error otherwise

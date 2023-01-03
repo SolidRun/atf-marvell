@@ -346,6 +346,20 @@
 #define PLAT_OCTEONTX_GET_SFP_INFO_OFFSET 0xc2000b13
 
 /*
+ * x1 - operation
+ * x2 - 32 bit value for mem_test_settings, next
+ * x3 - 32 bit value for mem_test_settings, power_on
+ *
+ * Return:
+ *       x0 - Status field:
+ *           0 - Success
+ *           other values are error codes
+ *       x1 - 32bit value for mem_test_settings, next
+ *       x2 - 32 bit value for mem_test_settings, power_on
+ */
+#define PLAT_OCTEONTX_MEM_TEST_CONFIG	0xc2000b15
+
+/*
  * SMC Call ID
  * x0 - PLAT_OCTEONTX_PHY_ADVANCE_CMDS
  *
@@ -363,7 +377,7 @@
 #define PLAT_OCTEON_SW_UPDATE  0xc2000b0b
 
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			20
+#define OTX2_NUM_SMC_CALLS			21
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,

@@ -80,6 +80,7 @@ BL31_SOURCES		+=	plat/marvell/octeontx/otx2/plat_topology.c		\
 				plat/marvell/octeontx/otx2/plat_npc_mcam_profile.c	\
 				plat/marvell/octeontx/otx2/plat_legacy_pm_ops.c		\
 				plat/marvell/octeontx/otx2/plat_svc.c		\
+				drivers/marvell/octeontx/otx2/spi_smc_load.c		\
 
 ifeq (${RAS_EXTENSION},1)
 BL31_SOURCES		+=	plat/marvell/octeontx/otx2/smc_ras.c
