@@ -9,7 +9,12 @@ include plat/marvell/octeontx/platform.mk
 PLAT_XLAT_TABLES_DYNAMIC := 1
 $(eval $(call add_define,PLAT_XLAT_TABLES_DYNAMIC))
 
+GCCVER = $(shell expr `${CROSS_COMPILE}gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 110300)
+
 TF_CFLAGS               +=      -mno-outline-atomics
+ifeq "$(GCCVER)" "1"
+TF_CFLAGS		+=	--param min-pagesize=0
+endif
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx			\
 				-Iplat/marvell/octeontx/otx/t83/include		\
 

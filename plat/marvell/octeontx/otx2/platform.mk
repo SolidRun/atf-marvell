@@ -30,6 +30,12 @@ ifdef SCMI_WITH_LEGACY_PM
     $(eval $(call add_define,SCMI_WITH_LEGACY_PM))
 endif
 
+GCCVER = $(shell expr `${CROSS_COMPILE}gcc -dumpversion | sed -e 's/\.\([0-9][0-9]\)/\1/g' -e 's/\.\([0-9]\)/0\1/g' -e 's/^[0-9]\{3,4\}$$/&00/'` \>= 110300)
+
+ifeq "$(GCCVER)" "1"
+TF_CFLAGS_aarch64 += --param min-pagesize=0
+endif
+
 PLAT_INCLUDES		+=	-Iinclude/plat/marvell/octeontx/otx2			\
 				-Iinclude/drivers/marvell/octeontx/otx2			\
 
