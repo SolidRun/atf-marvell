@@ -120,6 +120,11 @@ error_type   - parameter describe control flags
 	echo 0x800000 > address
 	echo 0x40000200 > error_type
 
+	Injecting DRAM/LMC Single Bit Error (SBE) ECC at non secure physical address 0x1fc000000
+	and read-back poisoned content immediately:
+	echo 0x1fc000000 > address
+	echo 0x40000300 > error_type
+
 	Inject DRAM data SBE error at linux kernel predefined virtual address
 	echo 1 > address
 	echo 0x40000002 > error_type
@@ -157,6 +162,11 @@ EDAC MC0: 1 CE LMC2: DIMM0,R0/0 on  (single-bit ECC addr: 0x800000 card:2 module
 		offset:0x0 - Offset in page
 		syndrome:0x0 - Unuset currently
 		LMC0: DIMM0,R/0) - FRU topology DIMM 0 and Rank left 0, Rank right 0
+
+
+Non secure address record:
+LMC2: DRAM ECC single (DIMM0,Rank0/0,Bank00,Row 0x07f00,Col 0x0000,FIDX=0,SYN=0xd6)?0x1fc000000? (NS)
+EDAC MC0: 1 CE LMC2: DIMM0,R0/0 on any memory ( page:0x1fc00 offset:0x0 grain:1 syndrome:0x0 - single-bit ECC addr: 0x1fc000000 card:2 module:0 bank:0 row:32512 col:0 )
 
 
 OcteonTX2 RAS EDAC Error injection MDC
@@ -230,6 +240,7 @@ echo 0x3,0x800000,0x300 > /sys/module/otx2_einj/parameters/smc_params
 echo "3,1,2" >/sys/module/otx2_einj/parameters/smc_params
 echo "3,2,2" >/sys/module/otx2_einj/parameters/smc_params
 echo "3,3,2" >/sys/module/otx2_einj/parameters/smc_params
+echo "3,5,2" >/sys/module/otx2_einj/parameters/smc_params
 echo "3,7,2" >/sys/module/otx2_einj/parameters/smc_params
 
 Output example:

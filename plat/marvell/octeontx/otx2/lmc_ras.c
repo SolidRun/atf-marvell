@@ -1326,6 +1326,30 @@ static int pa_to_lmc(uint64_t pa)
 	return -1;
 }
 
+static bool is_secure_address(uint64_t addr)
+{
+	int r;
+	union cavm_ccs_asc_regionx_start r_start;
+	union cavm_ccs_asc_regionx_attr r_attr;
+	union cavm_ccs_asc_regionx_end r_end;
+	uint64_t a_start = 0, a_end = 0;
+
+	for (r = 0; r < 4; r++) {
+		r_attr.u = CSR_READ(CAVM_CCS_ASC_REGIONX_ATTR(r));
+		if (r_attr.s.ns_en && !(r_attr.s.s_en))
+			continue;
+		r_start.u = CSR_READ(CAVM_CCS_ASC_REGIONX_START(r));
+		r_end.u = CSR_READ(CAVM_CCS_ASC_REGIONX_START(r+1));
+		a_start = r_start.s.addr << 24;
+		a_end = r_end.s.addr << 24;
+
+		if (addr >= a_start && addr <= a_end && r_attr.s.s_en)
+			return true;
+	}
+
+	return false;
+}
+
 struct elx_map {
 	uint64_t scr_el3;
 	uint64_t sctlr_el3;
@@ -1342,7 +1366,12 @@ struct elx_map {
 
 static void *map_elx_addr(uint64_t address, struct elx_map *m, int is_phys, int el3m)
 {
-	int attr = MT_EXECUTE_NEVER | MT_MEMORY | MT_RW | MT_SECURE;
+	int attr = MT_EXECUTE_NEVER | MT_MEMORY | MT_RW;
+
+	if (is_secure_address(address))
+		attr |= MT_SECURE;
+	else
+		attr |= MT_NS;
 
 	/* Non-secure address translation requires SCR_EL3.NS set */
 	m->scr_el3 = read_scr_el3();
@@ -1460,30 +1489,6 @@ void ras_rewrite_cacheline(uint64_t physaddr, int secure)
 	}
 
 	unmap_elx_addr(&m);
-}
-
-static bool is_secure_address(uint64_t addr)
-{
-	int r;
-	union cavm_ccs_asc_regionx_start r_start;
-	union cavm_ccs_asc_regionx_attr r_attr;
-	union cavm_ccs_asc_regionx_end r_end;
-	uint64_t a_start, a_end;
-
-	for (r = 0; r < 4; r++) {
-		r_attr.u = CSR_READ(CAVM_CCS_ASC_REGIONX_ATTR(r));
-		if (r_attr.s.ns_en)
-			continue;
-		r_start.u = CSR_READ(CAVM_CCS_ASC_REGIONX_START(r));
-		r_end.u = CSR_READ(CAVM_CCS_ASC_REGIONX_START(r+1));
-		a_start = r_start.s.addr << 24;
-		a_end = r_end.s.addr << 24;
-
-		if (addr >= a_start && addr <= a_end)
-			return true;
-	}
-
-	return false;
 }
 
 int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
@@ -1778,6 +1783,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	CSR_WRITE(CAVM_LMCX_CHAR_MASK0(lmc), 0);
 	CSR_WRITE(CAVM_LMCX_CHAR_MASK2(lmc), 0);
 	CSR_WRITE(CAVM_LMCX_ECC_PARITY_TEST(lmc), 0);
+	CSR_READ(CAVM_LMCX_ECC_PARITY_TEST(lmc));
 
 	return severity == CPER_SEV_FATAL;
 }
@@ -2053,9 +2059,12 @@ static int dram_inject_error(struct elx_map *m, int bit, int flags)
 	__asm__ volatile ("sys #0,c11,c1,#2, %0" : : "r"(m->pa) : "memory");
 	dmbsy();
 
-	/* Disable error injection immediately for physical addr*/
-	if (m->va == m->pa)
-		dram_set_poison(m->lmcx, m->mapped, bit, false);
+	/* Flush cache to guaranty error propagation to dram*/
+	flush_dcache_all(DCCSW);
+	isb();
+
+	/* Disable error injection at the end */
+	dram_set_poison(m->lmcx, m->mapped, bit, false);
 
 	if (m->mapped) {
 		dcivac((uint64_t)m->mapped);
