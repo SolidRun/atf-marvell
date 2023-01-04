@@ -409,8 +409,9 @@ void phy_marvell_7121_config(int cgx_id, int lmac_id)
 
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 
-	debug_phy_driver("%s: %d:%d fec %d line fec %d\n", __func__, cgx_id, lmac_id,
-			lmac_cfg->fec, lmac_cfg->line_fec);
+	debug_phy_driver("%s: %d:%d mode %d fec %d line fec %d autoneg %d use_training %d\n",
+			__func__, cgx_id, lmac_id, lmac_cfg->mode_idx,
+		lmac_cfg->fec, lmac_cfg->line_fec, lmac_cfg->autoneg_dis, lmac_cfg->use_training);
 
 	phy = &lmac_cfg->phy_config;
 
@@ -546,18 +547,57 @@ void phy_marvell_7121_config(int cgx_id, int lmac_id)
 			break;
 		}
 		break;
+
 	case QLM_MODE_CAUI_4_C2C:
 	case QLM_MODE_CAUI_4_C2M:
 		if (phy->mod_type == PHY_MOD_TYPE_PAM4) {
 			line_mode = MZD_P100UP1; /* 100GBASE-R2, RS-FEC, no AN */
 		} else {
+			debug_phy_driver("%s QLM_MODE_CAUI_4_C2C/C2M lmac_cfg->line_fec %d\n",
+							__func__, lmac_cfg->line_fec);
 			switch (lmac_cfg->line_fec) {
 			case CGX_FEC_RS:
 				line_mode = MZD_P100LR;
 				break;
 			case CGX_FEC_BASE_R:
-				ERROR("%s: %d:%d line side FEC_BASE_R %d is not supported\n", __func__,
-					cgx_id, lmac_id, lmac_cfg->mode_idx);
+				line_mode = MZD_P100CR;
+				break;
+			case CGX_FEC_NONE:
+			default:
+				line_mode = MZD_P100LN;
+				break;
+			}
+		}
+
+		switch (lmac_cfg->fec) {
+		case CGX_FEC_BASE_R:
+			ERROR("%s: %d:%d host side FEC_BASE_R %d is not supported\n",
+				__func__, cgx_id, lmac_id, lmac_cfg->mode_idx);
+			return;
+		case CGX_FEC_RS:
+			host_mode = MZD_P100LR;
+			break;
+		case CGX_FEC_NONE:
+		default:
+			host_mode = MZD_P100LN;
+			break;
+		}
+		break;
+
+	case QLM_MODE_100G_CR4:
+	case QLM_MODE_100G_KR4:
+		if (phy->mod_type == PHY_MOD_TYPE_PAM4) {
+			line_mode = MZD_P100UP1; /* 100GBASE-R2, RS-FEC, no AN */
+		} else {
+			debug_phy_driver("%s QLM_MODE_CAUI_4_CR4/KR4 lmac_cfg->line_fec %d\n",
+							__func__, lmac_cfg->line_fec);
+			switch (lmac_cfg->line_fec) {
+			case CGX_FEC_RS:
+				line_mode = MZD_P100CR;
+				break;
+			case CGX_FEC_BASE_R:
+				ERROR("%s: %d:%d line side FEC_BASE_R %d is not supported\n",
+					__func__, cgx_id, lmac_id, lmac_cfg->mode_idx);
 				return;
 			case CGX_FEC_NONE:
 			default:
@@ -571,9 +611,8 @@ void phy_marvell_7121_config(int cgx_id, int lmac_id)
 			ERROR("%s: %d:%d host side FEC_BASE_R %d is not supported\n", __func__,
 				cgx_id, lmac_id, lmac_cfg->mode_idx);
 			return;
-			break;
 		case CGX_FEC_RS:
-			host_mode = MZD_P100LR;
+			host_mode = MZD_P100KR;
 			break;
 		case CGX_FEC_NONE:
 		default:
@@ -588,7 +627,7 @@ void phy_marvell_7121_config(int cgx_id, int lmac_id)
 		return;
 	}
 
-	debug_phy_driver("%s: %d:%d phy->addr %d lane %d host_mode %d line_mode %d \n",
+	debug_phy_driver("%s: %d:%d phy->addr %d lane %d host_mode %d line_mode %d\n",
 			 __func__, cgx_id, lmac_id, phy->addr, lane, host_mode, line_mode);
 
  	mzdMemSet(&mode_option, 0, (sizeof(MZD_MODE_OPTION_STRUCT)));
@@ -717,6 +756,8 @@ void phy_marvell_7121_get_link_status(int cgx_id, int lmac_id,
 		link->s.speed = ETH_LINK_100G;
 		link->s.fec = CGX_FEC_NONE;
 		break;
+	case MZD_P100CR:
+	case MZD_P100KR:
 	case MZD_P100LR:
 	case MZD_P100UP1:
 		link->s.speed = ETH_LINK_100G;
@@ -892,7 +933,9 @@ void phy_marvell_7121_supported_modes(int cgx_id, int lmac_id)
 			(1 << ETH_MODE_50G_C2C_BIT) |
 			(1 << ETH_MODE_50G_C2M_BIT) |
 			(1 << ETH_MODE_100G_C2C_BIT) |
-			(1 << ETH_MODE_100G_C2M_BIT));
+			(1 << ETH_MODE_100G_C2M_BIT) |
+			(1 << ETH_MODE_100G_CR4_BIT) |
+			(1 << ETH_MODE_100G_KR4_BIT));
 }
 
 #ifdef ATF_ENABLE_MAC_ADV_CMDS
