@@ -115,6 +115,7 @@ enum eth_cmd_id {
 	ETH_CMD_LINK_TIMEOUT,
 	ETH_CMD_GET_PORT_MODE,	/* Only supported for cn10k */
 	ETH_CMD_ECP_DUMP_STATE, /* Only supported for cn10k */  /* = 45 */
+	ETH_CMD_STOP_TIMERS, /* For UEFI SystemReady test */
 };
 
 /* async event ids */

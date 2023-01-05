@@ -1837,8 +1837,16 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 		(request_id == ETH_CMD_GET_FW_VER) ||
 		(request_id == ETH_CMD_MODE_CHANGE) ||
 		(request_id == ETH_CMD_GET_PORT_MODE) ||
-		(request_id == ETH_CMD_ECP_DUMP_STATE)) {
+		(request_id == ETH_CMD_ECP_DUMP_STATE) ||
+		(request_id == ETH_CMD_STOP_TIMERS)) {
 		switch (request_id) {
+		/* This command stops timers so core can enter WFI */
+		/* This is used for UEFI SystemReady test */
+		case ETH_CMD_STOP_TIMERS:
+			for (val = 0; val < MAX_RPM_TIMERS; val++) {
+				timer_stop(rpm_timers[val]);
+			}
+			return 0;
 		case ETH_CMD_INTF_SHUTDOWN:
 			rpm_fw_intf_shutdown();
 			/* in case of shutdown, clear all other

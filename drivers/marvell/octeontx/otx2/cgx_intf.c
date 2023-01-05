@@ -1961,8 +1961,16 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 		(request_id == ETH_CMD_TUNE_SERDES) ||
 		(request_id == ETH_CMD_LEQ_ADAPT_SERDES) ||
 		(request_id == ETH_CMD_DFE_ADAPT_SERDES) ||
-		(request_id == ETH_CMD_GET_FW_VER)) {
+		(request_id == ETH_CMD_GET_FW_VER) ||
+		(request_id == ETH_CMD_STOP_TIMERS)) {
 		switch (request_id) {
+		/* This command stops timers so core can enter WFI */
+		/* This is needed for UEFI SystemReady test */
+		case ETH_CMD_STOP_TIMERS:
+			for (val = 0; val < MAX_CGX_TIMERS; val++) {
+				timer_stop(cgx_timers[val]);
+			}
+			return 0;
 		case ETH_CMD_INTF_SHUTDOWN:
 			cgx_fw_intf_shutdown();
 			/* in case of shutdown, clear all other
