@@ -3377,6 +3377,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 	spi_unlock = true;
 
+	/* Store io_handle for callback cleanup */
+	memcpy(&verif_data[0].io, &io_handle, sizeof(struct io_handle));
 	err = setup_media(&io_handle, &update_desc);
 	if (err) {
 		*uret = err;
