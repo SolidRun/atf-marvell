@@ -310,7 +310,7 @@ link_failure:
 	lnk_sts->s.link_up = 0;
 	lnk_sts->s.full_duplex = 0;
 	lnk_sts->s.speed = 0;
-	lnk_sts->s.fec = 0;
+	lnk_sts->s.fec = link_state.s.fec;
 	return -1;
 }
 
