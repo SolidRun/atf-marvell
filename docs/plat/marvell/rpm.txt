@@ -1009,6 +1009,15 @@ Following are the parameters expected:
        uint64_t reserved2:16;
   };
 
+3.2.4.16 STOP ETH LINK TIMERS
+"""""""""""""""""""""""""""""
+
+This command is used to stop the periodic timers that check link status. It is used before running SystemReady test in UEFI.
+
+Parameters to be sent:
+
+* REQUEST ID – ``ETH_CMD_STOP_TIMERS`` (46)
+
 3.2.5 Interface from ATF to U-Boot/Kernel
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
