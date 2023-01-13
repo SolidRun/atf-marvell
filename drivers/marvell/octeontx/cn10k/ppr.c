@@ -1026,7 +1026,7 @@ void ppr_fw_init(void)
 
 	print_stat();
 
-	if (!plat_octeontx_bcfg->ppr_config.is_enabled)
+	if (!plat_octeontx_bcfg->ppr_config.stat_enable)
 		return;
 
 	debug("%s Setup PPR timer\n", __func__);

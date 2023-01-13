@@ -21,7 +21,8 @@ each DRAM device. If DRAM device has available resources for PPR, driver
 decides to perform Fail Row repairing.
 
 The core of the PPR is Error Check and Scrub (ECS inernal DRAM) DDR5 mode with an
-error counting scheme. EBF firmware enables ECS after training is done.
+error counting scheme. EBF firmware enables ECS after training is done and
+DRAM devs in sync with ECC DRAM dev.
 ECS is running at the background manual mode. The memory controller uCODE triggers ECS
 execution periodically.
 
@@ -44,8 +45,8 @@ struct record_t {
 } __attribute__((packed));
 
 and writes at non-volatile memory into dedicated MRR region.
-After 30 days ATF scans the MRR region and count `struct mrr` and EpRC for
-each Device/BG/BA/Row. That records and counters values should be written into
+After 30 days (or after urgent PPR) ATF scans the MRR region and count `struct mrr` and accumulate EpRC for
+each rows that were selected by ECS. That records and counters values should be written into
 the non-volatile memory PPR region. PPR region records layout is `struct ppr`:
 
 struct ppr {
@@ -60,20 +61,20 @@ struct ppr {
 
 PPR keep row record
 record    - failed raw layout coming from MR16-MR20 registers
-cases     - number of occurrences of Failed Row (BG,BA) in last PPR cycle (30 days)
+cases     - number of occurrences of Failed Row (BG,BA) in last PPR cycle (30 days/Urgent PPR)
 EpRCacc   - total number of errors MR19 (accumulated in prr cycle)
             JEST79-5 (4.36.3 ECS Error Tracking) saturated to 0xFF
-cycle     - counter for ECS periods
+cycle     - index of first MMR cycle whan row mentioned by ECS (default days counter)
 
 Records should be kept at a head (index head_ppr) of the PPR region.
 
 Later, when there's a reboot, EBF detects that ppr region has valid
 data for hPPR, then EBF scans the PPR region to fetch addresses of
-failed rows, then it performs hardware PPR on those failed rows with
+failed rows, then it performs hard PPR on those failed rows with
 EpRCacc greater than EpRC_THRESHOLD (2).
 For multiple failed row in same BA select one with maximum EpRCacc.
 
-PPR on demand supported in case of EpRC exceeded error threshold value.
+Urgent PPR supported in case of EpRC exceeded error threshold value.
 EBF can provide PPR procedure after threshold reached and not wait for 30 days.
 Header update mrr_max_EpRC after each ECS cycle completed.
 If mrr_max_EpRC reached threshold MAX_EpRC_THRESHOLD (128) value.
@@ -124,7 +125,7 @@ configurable range [0-256] by default refer to JESD79-5.
 	+---------------+
 
 SIGNATURE - does the PPR flash region valid, if it does not match we
-erase the PPR flash region and init from the beginning.
+erase the PPR flash region as invalid and init from the beginning.
 
 Header contains mrr/ppr index (starting from '0') of the last free record at
 corresponding region.
@@ -200,3 +201,46 @@ H) EBF_CONFIG_DDR5_PPR_BA  (0x0)  (0x0)  (0x0)
 I) EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0x40000)
 
 Row 0x40000 - disable PPR on-demand
+
+PPR on-demand activation procedure is:
+E) DDR Post Package Repair enable (0)
+	Disable PPR when due
+I) EBF_CONFIG_DDR5_PPR_ROW  (0x20)  (0x20)  (0x20)
+	Setup valid row number < 0x40000
+
+For debug purposes disable row repair and test idle on-demand row repair
+I) DDR Post Package Repair repair rows off (1)
+
+After verification return option back and do PPR on-demand
+I) DDR Post Package Repair repair rows off (0)
+
+
+Typical use cases
+=================
+
+By default we keep statistics collection by ATF even if PPR disabled
+
+E) DDR Post Package Repair enable (0)
+	PPR disabled by default and EBF in reboot cycle skip hPPR
+
+I) DDR Post Package Repair repair rows off (1)
+	Disable rows repairing by default, additional option provided to protect rows from repair.
+	This safety option allow enable hPPR to check algorithm but do not do actual rows repair.
+
+The valid options are:
+E) DDR Post Package Repair enable (0)
+I) DDR Post Package Repair repair rows off (1)
+	Disable all
+
+E) DDR Post Package Repair enable (1)
+I) DDR Post Package Repair repair rows off (1)
+	Debug what hPPR will do but do not utilize resources.
+
+E) DDR Post Package Repair enable (1)
+I) DDR Post Package Repair repair rows off (0)
+	Allow automatic hPPR for all available statistics collected
+	MRRid   0       PPRid   15   <--- Lastly added record id is 14 (15 first available)
+	MRRc    0       PPRc    5
+	maxEpRC 0       hPPRnxt 10   <--- At boot start to check records from index 10 (hPPRnxt)
+	hPPR has next records to check: 10,11,12,13,14 - totaly 5 recodrs between head and tail [hPPRnxt - PPRid)
+	In case of PPRid == hPPRnxt nothing for hPPR consideration
