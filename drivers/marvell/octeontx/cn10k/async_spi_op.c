@@ -15,6 +15,58 @@
 #define SPI_ERASE_SIZE (0x1000)
 #define SPI_OP_SLEEP_TIME_MS 10
 
+#define SPI_OP_CRITICAL_DURATION_US 40000
+#define SPI_OP_MAX_DURATION_US 20000
+
+/**
+ * Log update information to update buffer if present
+ */
+/** Pointer to update log buffer */
+extern char *update_log;
+/** Number of bytes used in buffer */
+extern size_t log_bytes_used;
+/** Size of update log buffer */
+extern size_t log_size_bytes;
+
+#define ULOG(...)	\
+	do {								\
+		size_t __size;						\
+		size_t __free_size = log_size_bytes - log_bytes_used;	\
+		char *__lptr = update_log + log_bytes_used;		\
+		if (update_log != NULL && __free_size > 0) {		\
+			__size = snprintf(__lptr, __free_size,		\
+					  __VA_ARGS__);			\
+			log_bytes_used += __size;			\
+		}							\
+	} while (0)
+
+/**
+ * INFO that also updates update log
+ */
+#define UINFO(...)				\
+	do {					\
+		INFO(__VA_ARGS__);		\
+		ULOG(__VA_ARGS__);		\
+	} while (0)
+
+/**
+ * WARN that also updates update log
+ */
+#define UWARN(...)				\
+	do {					\
+		WARN(__VA_ARGS__);		\
+		ULOG("WARNING: " __VA_ARGS__);	\
+	} while (0)
+
+/**
+ * ERROR that also updates update log
+ */
+#define UERROR(...)				\
+	do {					\
+		ERROR(__VA_ARGS__);		\
+		ULOG("ERROR: " __VA_ARGS__);	\
+	} while (0)
+
 extern uint64_t get_usecs(void);
 extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
 
@@ -47,6 +99,47 @@ uint64_t delayed_spi_in_progress;
 
 static uint32_t timer_hd;
 static uint32_t tim_initialized;
+
+#define CALC_MOVING_AVERAGE(avg, count, val) \
+	(((avg)*(count)) + (val)) / ((count + 1))
+
+void spi_async_display_time_stats(void)
+{
+	if (aperf_counter.total_time != 0) {
+		INFO("%s: Block chain status\n", __func__);
+		UINFO("Block chain stats:\nTime MIN: %" PRId64 "us\n"
+		"Time MAX: %" PRId64 "us\nTime AVG: %" PRId64 "us\n"
+		"Total: %" PRId64 "us\n",
+			aperf_counter.time_min,
+			aperf_counter.time_max,
+			aperf_counter.time_avg,
+			aperf_counter.total_time);
+	}
+}
+
+void spi_async_clear_time_stats(void)
+{
+	aperf_counter.time_min = 0xFFFFFFFFFFFFFFFF;
+	aperf_counter.time_max = 0;
+	aperf_counter.time_avg = 0;
+	aperf_counter.time_count = 0;
+	aperf_counter.total_time = 0;
+}
+
+static void spi_async_update_time_stats(uint64_t additional_time)
+{
+	if (additional_time > aperf_counter.time_max)
+		aperf_counter.time_max = additional_time;
+
+	if (additional_time < aperf_counter.time_min)
+		aperf_counter.time_min = additional_time;
+
+	aperf_counter.time_avg = CALC_MOVING_AVERAGE(aperf_counter.time_avg,
+						     aperf_counter.time_count,
+						     additional_time);
+	aperf_counter.time_count++;
+	aperf_counter.total_time += additional_time;
+}
 
 static void spi_async_block_completed(bool start);
 
@@ -171,7 +264,7 @@ static int op_callback(int *op_counter)
 			} else {
 				*op_counter = SPI_OP_COUNT;
 				res = SPI_OP_FAIL;
-				ERROR("%s: Error during callback\n", __func__);
+				UERROR("%s: Error during callback\n", __func__);
 				break;
 			}
 		}
@@ -182,9 +275,6 @@ static int op_callback(int *op_counter)
 	return res;
 }
 
-#define CALC_MOVING_AVERAGE(avg, count, val) \
-	(((avg)*(count)) + (val)) / ((count + 1))
-
 static int async_tim_handler(int tim)
 {
 	uint64_t async_handler_start = get_usecs();
@@ -193,15 +283,18 @@ static int async_tim_handler(int tim)
 	enum spi_op_result res = SPI_OP_OK;
 	uint32_t bus = (uint32_t)spi_ops[spi_op_cnt].op_config.bus;
 
+	int spi_op_cnt_saved = spi_op_cnt;
+	enum delayed_spi_op_type type_saved = spi_ops[spi_op_cnt].type;
+
 	//In error case try to lock bus later
 	if (spi_dev_lock(bus)) {
-		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		UERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		timer_start(timer_hd);
 		return 0;
 	}
 
 	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
-		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, bus);
+		UERROR("%s: SPI_%d: Sem Lock failed\n", __func__, bus);
 		spi_dev_unlock(bus);
 		timer_start(timer_hd);
 		return 0;
@@ -239,8 +332,10 @@ static int async_tim_handler(int tim)
 
 	//Skip current vlock in case of failure?
 	if (res != SPI_OP_OK) {
-		ERROR("Fail during SPI async operation SPI_%" PRId64 ":%" PRId64 "\n", spi_ops[spi_op_cnt].op_config.bus, spi_ops[spi_op_cnt].op_config.cs);
-		ERROR("Operation: %d, block: %d, type: %d\n", spi_op_cnt, block_op_cnt, spi_ops[spi_op_cnt].type);
+		UERROR("Fail during SPI async operation SPI_%" PRId64 ":%" PRId64 "\n",
+		       spi_ops[spi_op_cnt].op_config.bus, spi_ops[spi_op_cnt].op_config.cs);
+		UERROR("Operation: %d, block: %d, type: %d\n", spi_op_cnt, block_op_cnt,
+		       spi_ops[spi_op_cnt].type);
 	}
 
 	if (spi_op_cnt < SPI_OP_COUNT) {
@@ -252,17 +347,18 @@ static int async_tim_handler(int tim)
 
 	async_handler_time_total = get_usecs() - async_handler_start;
 
-	if (async_handler_time_total > aperf_counter.time_max)
-		aperf_counter.time_max = async_handler_time_total;
+	UINFO("%s: SPI async op[%d]: type %d - duration %" PRId64 "us\n", __func__,
+	      spi_op_cnt_saved, type_saved, async_handler_time_total);
 
-	if (async_handler_time_total < aperf_counter.time_min)
-		aperf_counter.time_min = async_handler_time_total;
+	if (async_handler_time_total > SPI_OP_CRITICAL_DURATION_US) {
+		UERROR("This handler operation (op[%d] type %d) takes too much time %" PRId64 "us\n",
+		       spi_op_cnt_saved, type_saved, async_handler_time_total);
+	} else if (async_handler_time_total > SPI_OP_MAX_DURATION_US) {
+		UWARN("This handler operation (op[%d] type %d) takes more than %dus: %" PRId64 "us\n",
+		      spi_op_cnt_saved, type_saved, SPI_OP_MAX_DURATION_US, async_handler_time_total);
+	}
 
-	aperf_counter.time_avg = CALC_MOVING_AVERAGE(aperf_counter.time_avg,
-						     aperf_counter.time_count,
-						     async_handler_time_total);
-	aperf_counter.time_count++;
-	aperf_counter.total_time += async_handler_time_total;
+	spi_async_update_time_stats(async_handler_time_total);
 
 	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 	spi_dev_unlock(bus);
@@ -277,7 +373,7 @@ static void tim_init(void)
 		tim_initialized = 1;
 	}
 	if ((int)timer_hd < 0) {
-		ERROR("%s: async SPI can't create new timer\n", __func__);
+		UERROR("%s: async SPI can't create new timer\n", __func__);
 	} else {
 		INFO("%s: async SPI using timeout timer: %d\n", __func__, timer_hd);
 		timer_start(timer_hd);
@@ -448,7 +544,7 @@ static void spi_async_block_completed(bool start)
 	}
 
 	if (!start) {
-		INFO("%s: Block: %d completed.\n", __func__, block_op_cnt);
+		UINFO("%s: Block: %d completed.\n", __func__, block_op_cnt);
 		block_op_cnt++;
 		block_ops[block_op_cnt].status = BLOCK_STATUS_PROCESSING;
 	} else {
@@ -509,7 +605,7 @@ static void spi_async_block_completed(bool start)
 
 	if (cb_ret) {
 		/* Error condition ignore callback_ret value */
-		ERROR("%s: Stopping due to callback error\n", __func__);
+		UERROR("%s: Stopping due to callback error\n", __func__);
 		if (delayed_callback != NULL)
 			delayed_callback(callback_params);
 
@@ -530,8 +626,8 @@ static void spi_async_block_completed(bool start)
 				delayed_callback = NULL;
 				delayed_spi_in_progress = 0;
 
-				INFO("%s: Block chain completed\n", __func__);
-				INFO("Block chain stats:\nTime MIN: %" PRId64 "us\n"
+				UINFO("%s: Block chain completed\n", __func__);
+				UINFO("Block chain stats:\nTime MIN: %" PRId64 "us\n"
 				"Time MAX: %" PRId64 "us\nTime AVG: %" PRId64 "us\n"
 				"Total: %" PRId64 "us\n",
 					aperf_counter.time_min,
@@ -544,6 +640,7 @@ static void spi_async_block_completed(bool start)
 		}
 	}
 }
+
 /**
  * Create callback descriptor for async SPI operations
  *
@@ -727,7 +824,7 @@ void spi_async_add_block_update(int bus, int cs, uint64_t spi_addr, void *mem_ad
 	block_ops[block_op_cnt].param.cs = cs;
 	block_op_cnt++;
 
-	INFO("%s: Adding spi%d:%d update block: %d: from: %" PRIx64 ", spiaddr: %" PRIx64 ", size: %" PRIx64 "\n",
+	UINFO("%s: Adding spi%d:%d update block: %d: from: %" PRIx64 ", spiaddr: %" PRIx64 ", size: %" PRIx64 "\n",
 								__func__,
 								bus, cs,
 								(block_op_cnt-1),
@@ -765,17 +862,31 @@ int spi_async_init_delayed(void)
  */
 void spi_async_start(enum spi_dc_ret (*block_callback)(void *), void *params)
 {
-	INFO("%s: Starting delayed spi\n", __func__);
-	aperf_counter.time_min = 0xFFFFFFFFFFFFFFFF;
-	aperf_counter.time_max = 0;
-	aperf_counter.time_avg = 0;
-	aperf_counter.time_count = 0;
-	aperf_counter.total_time = 0;
+	UINFO("%s: Starting delayed spi\n", __func__);
+
+	uint64_t async_start_start = get_usecs();
+	uint64_t async_start_time_total = 0;
+
+	spi_async_display_time_stats();
 
 	block_op_cnt = 0;
 	delayed_callback = block_callback;
 	callback_params = params;
 	spi_async_block_completed(true);
+
+	async_start_time_total = get_usecs() - async_start_start;
+
+	UINFO("%s: duration %" PRId64 "us\n", __func__, async_start_time_total);
+
+	if (async_start_time_total > SPI_OP_CRITICAL_DURATION_US) {
+		UWARN("This start operation takes too much time %" PRId64 "us\n",
+		      async_start_time_total);
+	} else if (async_start_time_total > SPI_OP_MAX_DURATION_US) {
+		UWARN("This start operation takes more than %dus: %" PRId64 "us\n",
+		      SPI_OP_MAX_DURATION_US, async_start_time_total);
+	}
+
+	spi_async_update_time_stats(async_start_time_total);
 }
 
 bool spi_async_working(void)

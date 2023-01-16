@@ -159,11 +159,11 @@ static uint64_t tim0_offset;
 static struct smc_version_info clone_destination;
 
 /** Pointer to update log buffer */
-static char *update_log = NULL;
+char *update_log;
 /** Number of bytes used in buffer */
-static size_t log_bytes_used = 0;
+size_t log_bytes_used;
 /** Size of update log buffer */
-static size_t log_size_bytes = 0;
+size_t log_size_bytes;
 
 #define MAX_PARAM_SET_COUNT 5
 
@@ -606,14 +606,14 @@ static int get_object_info_from_fdt(const char *name,
 	node = fdt_node_offset_by_prop_value(fdt_ptr, fnode, "description",
 					     name, strlen(name) + 1);
 	if (node < 0) {
-		WARN("Could not find %s in firmware-layout\n", name);
+		UWARN("Could not find %s in firmware-layout\n", name);
 		return -ENODEV;
 	}
 
 	if (is_root_tim != NULL) {
 		type = (const char *)fdt_getprop(fdt_ptr, node, "type", &len);
 		if (!type || len < 0) {
-			ERROR("Missing type found in firmware layout device tree for %s, fdt error: %d\n",
+			UERROR("Missing type found in firmware layout device tree for %s, fdt error: %d\n",
 			      name, len);
 			return -EINVAL;
 		}
@@ -629,7 +629,7 @@ static int get_object_info_from_fdt(const char *name,
 
 	addr_size = fdt_getprop(fdt_ptr, node, "reg", &len);
 	if (!addr_size || len != 8) {
-		ERROR("Missing or invalid reg field in firmware-layout for %s\n",
+		UERROR("Missing or invalid reg field in firmware-layout for %s\n",
 		      name);
 		return -EINVAL;
 	}
@@ -668,18 +668,18 @@ int __marvell_cust_check_version(const struct smc_update_descriptor *desc,
 				 struct tim_opaque_data_version_info *vinfo)
 {
 	if (desc->update_flags & UPDATE_FLAG_IGNORE_VERSION) {
-		INFO("Ignoring version information for %s\n",
+		UINFO("Ignoring version information for %s\n",
 		     object->tim_file->filename);
 		return 0;
 	}
 	if (!vinfo || object->no_version)
 		return 0;
 	if (!memcmp(vinfo, &object->version, sizeof(*vinfo))) {
-		INFO("TIM %s version matches flash, skipping\n",
+		UINFO("TIM %s version matches flash, skipping\n",
 		     object->tim_file->filename);
 		return 1;
 	}
-	INFO("Versions differ for %s\n", object->tim_file->filename);
+	UINFO("Versions differ for %s\n", object->tim_file->filename);
 	return 0;
 }
 
@@ -703,7 +703,7 @@ static int decode_hex(int num_digits, const char *data, uint64_t *value)
 		} else if ((*data | 0x20) >= 'a' && (*data | 0x20) <= 'f') {
 			*value |= (*data | 0x20) - 'a' + 10;
 		} else {
-			ERROR("CPIO: Unexpected character '%c' in data digit %d\n",
+			UERROR("CPIO: Unexpected character '%c' in data digit %d\n",
 			      *data, i);
 			return -1;
 		}
@@ -722,12 +722,12 @@ static int decode_hex(int num_digits, const char *data, uint64_t *value)
 #define NEXT_HDR(h, e, ret)						\
 	do {								\
 		if ((ret) < 0) {					\
-			ERROR("%s:%d: ret: %d\n", __func__, __LINE__, ret);\
+			UERROR("%s:%d: ret: %d\n", __func__, __LINE__, ret);\
 			goto error;					\
 		}							\
 		(h) += (ret);						\
 		if ((h) >= (char *)(e)) {				\
-			ERROR("%s: header %p extends past end %p\n",	\
+			UERROR("%s: header %p extends past end %p\n",	\
 			      __func__, h, e);				\
 			goto error;					\
 		}							\
@@ -763,7 +763,7 @@ static const void *decode_cpio_header(const void *header, const void *end,
 
 	chdr->magic = v;
 	if (chdr->magic != 0x070701 && chdr->magic != 0x070702) {
-		ERROR("CPIO: Bad magic header!\n");
+		UERROR("CPIO: Bad magic header!\n");
 		goto error;
 	}
 
@@ -815,7 +815,7 @@ static const void *decode_cpio_header(const void *header, const void *end,
 	NEXT_HDR(h, end, ret);
 	chdr->namesize = v;
 	if (chdr->namesize > MAX_NAME_LEN) {
-		ERROR("CPIO: Name size 0x%x is too large! Must be <= 0x%x\n",
+		UERROR("CPIO: Name size 0x%x is too large! Must be <= 0x%x\n",
 		      chdr->namesize, MAX_NAME_LEN);
 		goto error;
 	}
@@ -847,7 +847,7 @@ static const void *decode_cpio_header(const void *header, const void *end,
 	return h;
 
 error:
-	ERROR("CPIO: start: %p, end: %p, h: %p\n", header, end, h);
+	UERROR("CPIO: start: %p, end: %p, h: %p\n", header, end, h);
 	*uret = UPDATE_CPIO_ERROR;
 	return NULL;
 }
@@ -989,29 +989,29 @@ static enum update_ret firm_update_init(const void *data, size_t size)
 
 	init_lists();
 
-	ULOG("Decoding CPIO update file\n");
+	UINFO("Decoding CPIO update file\n");
 
 	/* Iterate through all of the files */
 	do {
 		next_hdr = decode_cpio_header(cur_hdr, end, &chdr, &data,
 					      &filename, &ret);
 		if (ret != UPDATE_OK) {
-			WARN("Error decoding CPIO file\n");
+			UWARN("Error decoding CPIO file\n");
 			return ret;
 		}
 		if (!data || !next_hdr)
 			break;
 		if ((unsigned long)data % sizeof(uint32_t)) {
-			WARN("Invalid alignment of CPIO data in %s\n",
+			UWARN("Invalid alignment of CPIO data in %s\n",
 			     filename);
 			return UPDATE_BAD_ALIGNMENT;
 		}
 		debug_fw_update("%s: Found %s in update file\n", __func__,
 				filename);
-		ULOG("Found %s in update file\n", filename);
+		UINFO("Found %s in update file\n", filename);
 		fentry = alloc_file(filename, cur_hdr, chdr.filesize, data);
 		if (!fentry) {
-			WARN("Too many files in firmware image\n");
+			UWARN("Too many files in firmware image\n");
 			return UPDATE_NO_MEM;
 		}
 		cur_hdr = next_hdr;
@@ -1039,7 +1039,7 @@ static enum update_ret update_process_tims(void)
 	bool is_root_tim = false;
 	bool no_load_info = false;
 
-	ULOG("Processing TIMs\n");
+	UINFO("Processing TIMs\n");
 	debug_fw_update("%s: Processing TIMs\n", __func__);
 	for_each_file(fentry) {
 		int offset;
@@ -1052,10 +1052,10 @@ static enum update_ret update_process_tims(void)
 		debug_fw_update("%s: file: %s, update filename ext offset: 0x%x\n",
 				__func__, fentry->filename, offset);
 		if (!strcmp(fentry->filename + offset, tim_ext)) {
-			ULOG("Allocating object for %s\n", fentry->filename);
+			UINFO("Allocating object for %s\n", fentry->filename);
 			oentry = alloc_object();
 			if (!oentry) {
-				WARN("Out of objects!!!\n");
+				UWARN("Out of objects!!!\n");
 				return UPDATE_NO_MEM;
 			}
 			oentry->tim_file = fentry;
@@ -1067,7 +1067,7 @@ static enum update_ret update_process_tims(void)
 			 * We don't know the source address from which the
 			 * TIM is loaded so we use the DATO location field
 			 */
-			ULOG("Parsing TIM@%p\n", hdr);
+			UINFO("Parsing TIM@%p\n", hdr);
 			tret = tim_load(hdr, TIM_SRC_ADDRESS_UNKNOWN, thandle);
 			if (tret != TIM_NO_ERROR) {
 				UWARN("Error %d processing TIM %s\n",
@@ -1082,7 +1082,7 @@ static enum update_ret update_process_tims(void)
 				return UPDATE_TIM_ERROR;
 			}
 			debug_fw_update("Verifying signature\n");
-			ULOG("Verifying digital signature\n");
+			UINFO("Verifying digital signature\n");
 			err = ehsm_verify_tim_digital_signature(thandle,
 								&hinfo,
 								(uint8_t *)hdr);
@@ -1092,7 +1092,7 @@ static enum update_ret update_process_tims(void)
 				return UPDATE_AUTH_ERROR;
 			}
 
-			ULOG("TIM digital signature check passed\n");
+			UINFO("TIM digital signature check passed\n");
 			debug_fw_update("Getting TIM load info\n");
 			err = tim_get_load_info(thandle, &oentry->li);
 			no_load_info = (err == TIM_NO_LOAD_INFO);
@@ -1121,7 +1121,7 @@ static enum update_ret update_process_tims(void)
 						li->src_address, li->load_address,
 						li->tim_src_address);
 				if (!strcmp(li->data_filename, TIM0_FDT_NAME)) {
-					ULOG("Found tim0.timb, processing root TIM\n");
+					UINFO("Found tim0.timb, processing root TIM\n");
 					err = get_object_info_from_fdt(TIM0_FDT_NAME,
 								       NULL,
 								       NULL,
@@ -1130,12 +1130,12 @@ static enum update_ret update_process_tims(void)
 					if (err)
 						UWARN("tim0 not detected as root TIM in firmware layout\n");
 					dfile = find_file(root_obj_name);
-					ULOG("%s %s associated with %s in update file\n",
+					UINFO("%s %s associated with %s in update file\n",
 					     dfile ? "Found" : "Did not find",
 					     root_obj_name, TIM0_FDT_NAME);
 				} else {
 					dfile = find_file(li->data_filename);
-					ULOG("%s %s in update file\n",
+					UINFO("%s %s in update file\n",
 					     dfile ? "Found" : "Did not find",
 					     li->data_filename);
 				}
@@ -1209,7 +1209,7 @@ static int check_group(const struct object_group_entry *group)
 	bool complete = true;
 	bool none = true;
 
-	ULOG("Verifying all files are present in available groups\n");
+	UINFO("Verifying all files are present in available groups\n");
 	for (gentry = group; gentry->tim_filename || gentry->data_filename;
 	     gentry++) {
 		debug_fw_update("%s: Checking %s, %s\n", __func__,
@@ -1219,7 +1219,7 @@ static int check_group(const struct object_group_entry *group)
 			fentry = find_file(gentry->tim_filename);
 			if (!fentry) {
 				if (!gentry->optional) {
-					INFO("Update file not complete, missing required TIM file %s\n",
+					UINFO("Update file not complete, missing required TIM file %s\n",
 					     gentry->tim_filename);
 					complete = false;
 				}
@@ -1234,7 +1234,7 @@ static int check_group(const struct object_group_entry *group)
 			fentry = find_file(gentry->data_filename);
 			if (!fentry) {
 				if (!gentry->optional) {
-					INFO("Update file not complete, missing required data file %s\n",
+					UINFO("Update file not complete, missing required data file %s\n",
 					     gentry->data_filename);
 					complete = false;
 				}
@@ -1247,14 +1247,14 @@ static int check_group(const struct object_group_entry *group)
 		}
 	}
 	if (complete) {
-		ULOG("Group containing %s is complete.\n",
+		UINFO("Group containing %s is complete.\n",
 		     group[0].data_filename);
 		debug_fw_update("Group containing %s is complete.\n",
 				group[0].data_filename);
 		return 1;
 	}
 	if (none) {
-		ULOG("Group containing %s is missing (OK)\n",
+		UINFO("Group containing %s is missing (OK)\n",
 		     group[0].data_filename);
 		debug_fw_update("Group containing %s is missing (OK)\n",
 				group[0].data_filename);
@@ -1281,7 +1281,7 @@ static int check_groups(void)
 	bool none_found = true;
 	int found, num_found = 0;
 
-	ULOG("Verifying all groups are complete\n");
+	UINFO("Verifying all groups are complete\n");
 	for (group = plat_groups; group->entry != NULL; group++) {
 		debug_fw_update("Checking group %s/%s\n",
 				group->entry->tim_filename ?
@@ -1294,11 +1294,11 @@ static int check_groups(void)
 			return UPDATE_GROUP_ERROR;
 		if (!found) {
 			if (!group->optional) {
-				INFO("Group containing TIM %s not found\n",
+				UINFO("Group containing TIM %s not found\n",
 				     group->entry->tim_filename);
 				all_found = false;
 			} else {
-				INFO("Optional group containing TIM %s not found\n",
+				UINFO("Optional group containing TIM %s not found\n",
 				     group->entry->tim_filename);
 			}
 		} else {
@@ -1313,10 +1313,10 @@ static int check_groups(void)
 	}
 	if (all_found) {
 		debug_fw_update("All file groups found\n");
-		ULOG("All file groups found\n");
+		UINFO("All file groups found\n");
 	} else {
 		debug_fw_update("Found %d object groups\n", num_found);
-		ULOG("Found %d object groups\n", num_found);
+		UINFO("Found %d object groups\n", num_found);
 	}
 	return all_found ? 1 : 0;
 }
@@ -1637,7 +1637,7 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 	bool update_all = false;
 	enum update_ret ret;
 
-	ULOG("Checking files in flash\n");
+	UINFO("Checking files in flash\n");
 	for_each_object(obj) {
 		if (obj->data_file != NULL) {
 			ret = check_flash_object(desc, obj);
@@ -1673,7 +1673,7 @@ check_flash_files_async(struct async_update_data *data)
 	struct smc_update_descriptor *desc = data->desc;
 	enum update_ret ret;
 
-	ULOG("Checking files in flash async\n");
+	UINFO("Checking files in flash async\n");
 	while (data->obj) {
 		if (data->obj->data_file != NULL) {
 			ret = check_flash_object(desc, data->obj);
@@ -1716,7 +1716,7 @@ static enum update_ret check_files(void)
 	struct object_entry *obj;
 	int err;
 
-	ULOG("Verifying files in update file\n");
+	UINFO("Verifying files in update file\n");
 	for_each_object(obj) {
 		gti_wdog_pet();
 		err = check_file_loc_size(obj->tim_file);
@@ -1769,7 +1769,7 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 	 * open the device
 	 */
 	if (is_mmc) {
-		ULOG("Setiting up eMMC media\n");
+		UINFO("Setting up eMMC media\n");
 		debug_fw_update("%s: Setting up eMMC media\n", __func__);
 		if (emmc_dev_con == NULL) {
 			debug_fw_update("Registering eMMC IO device connector\n");
@@ -1784,7 +1784,7 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 		}
 		conn = emmc_dev_con;
 	} else {
-		ULOG("Setting up SPI media\n");
+		UINFO("Setting up SPI media\n");
 		debug_fw_update("%s: Setting up SPI media\n", __func__);
 		if (spi_dev_con == NULL) {
 			debug_fw_update("%s: Registering SPI IO device connector\n", __func__);
@@ -1826,6 +1826,8 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 
 	if (!is_mmc) {
 		/* Set controller and chip select for SPI */
+		UINFO("Configuring SPI_%u CS: %u\n",
+			      desc->bus, desc->cs);
 		ret = spi_block_config(*(io_handle->io_handle),
 				       desc->bus, desc->cs);
 		if (ret != 0) {
@@ -2192,7 +2194,7 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	zeromem(buffer, max_size);
 	ret = octeontx_read_data(desc, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
-		ERROR("Failed to read TIM from address 0x%" PRIx64 " (%d)\n",
+		UERROR("Failed to read TIM from address 0x%" PRIx64 " (%d)\n",
 		      offset, ret);
 		goto done;
 	}
@@ -2278,7 +2280,7 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 	zeromem(buffer, max_size);
 	ret = octeontx_io_data_read(io, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
-		ERROR("Failed to read TIM from address 0x%" PRIx64 " (%d)\n",
+		UERROR("Failed to read TIM from address 0x%" PRIx64 " (%d)\n",
 		      offset, ret);
 		goto done;
 	}
@@ -2357,7 +2359,7 @@ static enum update_ret get_tim0_from_update(void)
 	struct object_entry *oentry;
 	enum update_ret uret = UPDATE_TIM_MISSING;
 
-	ULOG("Looking for tim0 in update objects\n");
+	UINFO("Looking for tim0 in update objects\n");
 	for_each_object(oentry) {
 		if (oentry->tim_file != NULL) {
 			fentry = oentry->tim_file;
@@ -2401,7 +2403,7 @@ static enum update_ret get_tim0_address_size(uint64_t *address, size_t *size)
 				*address = fdt32_to_cpu(addr_size[0]);
 			if (size)
 				*size = fdt32_to_cpu(addr_size[1]);
-			ULOG("Found tim0 in firmware layout at 0x%x\n",
+			UINFO("Found tim0 in firmware layout at 0x%x\n",
 			     fdt32_to_cpu(addr_size[0]));
 			return UPDATE_OK;
 		}
@@ -2449,11 +2451,11 @@ static enum update_ret save_tim0(const struct smc_update_descriptor *desc)
 
 	uret = get_tim0_address_size(&offset, &size);
 	if (uret != UPDATE_OK) {
-		ULOG("Could not find root TIM (tim0) in firmware-layout\n");
+		UINFO("Could not find root TIM (tim0) in firmware-layout\n");
 		return uret;
 	}
 
-	ULOG("Saving TIM0 from offset 0x%" PRIx64 "\n", offset);
+	UINFO("Saving TIM0 from offset 0x%" PRIx64 " size 0x%" PRIx64 "\n", offset, size);
 	uret = octeontx_read_tim(desc, offset, sizeof(tim0_buffer),
 				 tim0_buffer, thdl, &size);
 	tim0_size = size;
@@ -2562,7 +2564,7 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 				ret =  octeontx_read_data(desc, offset, xfer_len,
 							  rd_buffer);
 				if (ret != UPDATE_OK) {
-					WARN("Read flash failed for offset: 0x%" PRIx64 ", file: %s\n",
+					UWARN("Read flash failed for offset: 0x%" PRIx64 ", file: %s\n",
 					     offset, fentry->filename);
 					break;
 				}
@@ -2677,6 +2679,8 @@ enum spi_dc_ret done_callback(void *p)
 	media_done(&verif_data[0].io);
 	media_done(&verif_data[1].io);
 
+	spi_async_display_time_stats();
+
 	//make sure update log is cleared, and null terminated
 	if (update_log) {
 		update_log[log_size_bytes - 1] = '\0';
@@ -2757,7 +2761,7 @@ int async_prepare_copy_operation(void *p)
 	clone_cfg->copy_params.src_object_size = clone_cfg->vinfo_source->objects[obj_id].object_size;
 	clone_cfg->copy_params.src_tim_size = clone_cfg->vinfo_source->objects[obj_id].tim_size;
 
-	INFO("Name: %s, obj 0x%" PRIx64 ":0x%" PRIx64 ", tim: 0x%" PRIx64 ":0x%" PRIx64 " SRC:%d:%d DST:%d:%d\n",
+	UINFO("Name: %s, obj 0x%" PRIx64 ":0x%" PRIx64 ", tim: 0x%" PRIx64 ":0x%" PRIx64 " SRC:%d:%d DST:%d:%d\n",
 			clone_cfg->vinfo_source->objects[obj_id].name,
 			clone_cfg->copy_params.src_object_addr,
 			clone_cfg->copy_params.src_object_size,
@@ -2838,8 +2842,9 @@ void async_copy_images(struct async_clone_data *param) {
 	}
 
 	param->clone_counter = 0;
-	if (restart_async)
+	if (restart_async) {
 		spi_async_start(async_clone_callback, &async_clone_internal);
+	}
 }
 
 /* Erase only part of TIM0 to mark clone operation*/
@@ -2898,9 +2903,9 @@ enum spi_dc_ret async_clone_callback(void *p)
 
 	switch (param->state) {
 	case ACLONE_CHECK_SOURCE:
-		INFO("Check source data stage\n");
+		UINFO("Check source data stage\n");
 		if (source_check_async(param) != UPDATE_OK) {
-			ERROR("Source check verification fail\n");
+			UERROR("Source check verification fail\n");
 			if (param->vinfo_source->version_flags & SMC_VERSION_SKIP_FAIL_CHECK)
 				param->state++;
 			else
@@ -2911,13 +2916,13 @@ enum spi_dc_ret async_clone_callback(void *p)
 		ret = DC_RET_CONTINUE;
 		break;
 	case ACLONE_CHECK_DESTINATION:
-		INFO("Check destination stage\n");
+		UINFO("Check destination stage\n");
 		flash_smc_get_versions(param->vinfo_destination, &verif_data[VDATA_DST]);
 		param->state++;
 		ret = DC_RET_CONTINUE;
 		break;
 	case ACLONE_MARK_COPY:
-		INFO("Mark copy stage\n");
+		UINFO("Mark copy stage\n");
 		async_mark_copy_images(param);
 		if (param->clone_needed)
 			param->state++;
@@ -2926,9 +2931,9 @@ enum spi_dc_ret async_clone_callback(void *p)
 		ret = DC_RET_CONTINUE;
 		break;
 	case ACLONE_ERASE_TIM0_DEST:
-		INFO("Erase TIM0 stage\n");
+		UINFO("Erase TIM0 stage\n");
 		if (tim0_async_erase(param) != UPDATE_OK) {
-			ERROR("Fail during TIM0 erase\n");
+			UERROR("Fail during TIM0 erase\n");
 			param->state = ACLONE_CLEANUP;
 		} else {
 			param->state++;
@@ -2936,29 +2941,29 @@ enum spi_dc_ret async_clone_callback(void *p)
 		ret = DC_RET_CONTINUE;
 	case ACLONE_ERASE_EBF_CONFIG:
 		if (param->vinfo_source->version_flags & SMC_VERSION_ERASE_EBF_CONFIG) {
-			INFO("Erase EBF config stage\n");
+			UINFO("Erase EBF config stage\n");
 			if (ebf_config_async_erase(param->vinfo_destination->bus,
 						   param->vinfo_destination->cs)
 				!= UPDATE_OK) {
-				ERROR("Fail during ebf config erase\n");
+				UERROR("Fail during ebf config erase\n");
 				param->state = ACLONE_CLEANUP;
 			} else {
 				param->state++;
 			}
 		} else {
-			INFO("Skipping EBF config erase\n");
+			UINFO("Skipping EBF config erase\n");
 			param->state++;
 		}
 		ret = DC_RET_CONTINUE;
 	case ACLONE_COPY_IMAGES:
-		INFO("Copy images\n");
+		UINFO("Copy images\n");
 		param->clone_counter = 0;
 		async_copy_images(param);
 		param->state++;
 		ret = DC_RET_CONTINUE;
 		break;
 	case ACLONE_CLEANUP:
-		INFO("Cleanup stage");
+		UINFO("Cleanup stage\n");
 		media_done(&verif_data[0].io);
 		media_done(&verif_data[1].io);
 		done_callback(&uParams);
@@ -3010,7 +3015,7 @@ enum spi_dc_ret async_update_callback(void *p)
 		param->state++;
 		break;
 	case AUPDATE_PROCESS_TIMS:
-		UINFO("Priocess tims stage\n");
+		UINFO("Process tims stage\n");
 		update_ret = update_process_tims();
 		if (update_ret) {
 			UERROR("Error parsing TIMs\n");
@@ -3157,6 +3162,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 		aupdate_data.state = AUPDATE_VERIF_IMAGE;
 		aupdate_data.cust_verify_count = 0;
 		spi_async_init_delayed();
+		spi_async_clear_time_stats();
 		spi_async_start(async_update_callback, &aupdate_data);
 		return UPDATE_OK;
 	} else if (desc->async_operation && !use_full_async) {
@@ -3242,8 +3248,10 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 		goto error;
 	}
 
-	if (async_operation)
+	if (async_operation) {
+		spi_async_clear_time_stats();
 		spi_async_start(done_callback, p);
+	}
 
 	UINFO("Firmware update done.\n");
 error:
@@ -3285,7 +3293,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 	/* Do one final check */
 	if (base_addr + ns_map_size >= dram_end) {
-		WARN("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
+		UWARN("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
 		     base_addr, ns_map_size);
 		err = -SPI_MMAP_ERR;
 		goto error;
@@ -3296,7 +3304,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 							 ns_map_size,
 							 MT_RW | MT_NS);
 	if (err) {
-		ERROR("FW Update: descriptor mmap failed (%d)\n", err);
+		UERROR("FW Update: descriptor mmap failed (%d)\n", err);
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
@@ -3322,7 +3330,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	/* Sanity checks */
 	err = SMC_UNK;
 	if (update_desc.magic != UPDATE_MAGIC) {
-		ERROR("Invalid magic value in descriptor\n");
+		UERROR("Invalid magic value in descriptor\n");
 		*uret = UPDATE_BAD_DESC_MAGIC;
 		goto error;
 	}
@@ -3332,7 +3340,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	 * backwards compatibility, etc.
 	 */
 	if (update_desc.version < UPDATE_MIN_VERSION) {
-		ERROR("Unsupported descriptor version 0x%x\n",
+		UERROR("Unsupported descriptor version 0x%x\n",
 		     update_desc.version);
 		*uret = UPDATE_BAD_DESC_VERSION;
 		goto error;
@@ -3348,7 +3356,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 								 console_map_size,
 								 MT_RW | MT_NS);
 		if (err) {
-			ERROR("FW Update: console mmap failed (%d)\n", err);
+			UERROR("FW Update: console mmap failed (%d)\n", err);
 			err = -SPI_MMAP_ERR;
 			goto error;
 		}
@@ -3372,22 +3380,21 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		async_operation = true;
 
 	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
-		ULOG("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
-		ERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
+		UERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
 		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
 	}
 
 	if ((addr < NS_IMAGE_BASE) || (addr > (dram_end - 1)) ||
 	    (addr % sizeof(uint64_t)) || ((addr + size) > (dram_end - 1))) {
-		ERROR("Invalid image address 0x%lx or size 0x%lx\n",
+		UERROR("Invalid image address 0x%lx or size 0x%lx\n",
 		     addr, size);
 		*uret = UPDATE_BAD_ALIGNMENT;
 		goto error;
 	}
 
 	if (plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1) {
-		ERROR("SPI BUS 0x%x chip select 0x%x is unavailable\n",
+		UERROR("SPI BUS 0x%x chip select 0x%x is unavailable\n",
 		     bus, cs);
 		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
@@ -3402,7 +3409,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		ns_map_size += PAGE_SIZE;
 	/* Do one final check */
 	if (base_addr + ns_map_size >= dram_end) {
-		WARN("Invalid image address 0x%lx or size 0x%lx\n", addr, size);
+		UWARN("Invalid image address 0x%lx or size 0x%lx\n", addr, size);
 		*uret = UPDATE_MMAP_ERROR;
 		return -SPI_MMAP_ERR;
 	}
@@ -3412,7 +3419,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 							 ns_map_size,
 							 MT_RO | MT_NS);
 	if (err) {
-		WARN("FW Update: Image mmap failed (%d)\n", err);
+		UWARN("FW Update: Image mmap failed (%d)\n", err);
 		*uret = UPDATE_MMAP_ERROR;
 		err = -SPI_MMAP_ERR;
 		base_addr = 0;
@@ -3421,7 +3428,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 
 	if (fdt_check_header(fdt_ptr)) {
-		ERROR("Invalid device tree\n");
+		UERROR("Invalid device tree\n");
 		*uret = UPDATE_DT_ERROR;
 		err = -EINVAL;
 		goto error;
@@ -3429,7 +3436,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 
 	fnode = fdt_path_offset(fdt_ptr, "/cavium,bdk/firmware-layout");
 	if (fnode < 0) {
-		ERROR("Error %d trying to access firmware layout in device tree\n",
+		UERROR("Error %d trying to access firmware layout in device tree\n",
 		      fnode);
 		*uret = UPDATE_DT_ERROR;
 		err = -EINVAL;
@@ -3443,7 +3450,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	io_handle.spec = &media_spec;
 
 	if (spi_dev_lock(bus)) {
-		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		UERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		*uret = UPDATE_INVALID_MEDIA;
 		goto error;
 	}
@@ -3460,7 +3467,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	if (update_desc.update_flags & UPDATE_FLAG_ERASE_CONFIG) {
 		*uret = erase_ebf_config_data(&update_desc);
 		if (*uret != UPDATE_OK) {
-			ERROR("Erasing EBF configuration failed\n");
+			UERROR("Erasing EBF configuration failed\n");
 			err = -EINVAL;
 			goto error;
 		}
@@ -3472,7 +3479,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		*uret = octeontx_cn10k_update_fw(update_desc_async_ptr, &uParams, async_operation);
 
 	if (*uret != UPDATE_OK) {
-		ERROR("Firmware update failed\n");
+		UERROR("Firmware update failed\n");
 		err = -EINVAL;
 		goto error;
 	}
@@ -3535,8 +3542,10 @@ static int cn10k_read_flash(struct smc_read_flash_descriptor *desc,
 	gti_wdog_pet();
 	spi_async_add_block_read(desc->bus, desc->cs, desc->offset, buffer, size, NULL, NULL);
 	gti_wdog_pet();
-	if (async_operation)
+	if (async_operation) {
+		spi_async_clear_time_stats();
 		spi_async_start(done_callback, p);
+	}
 
 	INFO("Done.\n");
 	return err;
@@ -3573,7 +3582,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 							 ns_map_size,
 							 MT_RO | MT_NS);
 	if (err) {
-		ERROR("Read Flash: descriptor mmap failed (%d)\n", err);
+		UERROR("Read Flash: descriptor mmap failed (%d)\n", err);
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
@@ -3594,12 +3603,12 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 		async_operation = true;
 
 	if ((bus > MAX_SPI_BUS) || (cs > MAX_SPI_CS)) {
-		ERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
+		UERROR("Invalid bus 0x%x or chip select 0x%x\n", bus, cs);
 		goto error;
 	}
 
 	if (plat_octeontx_bcfg->spi_cfg[bus].cs[cs] != 1) {
-		ERROR("SPI BUS 0x%x chip select 0x%x is unavailable\n",
+		UERROR("SPI BUS 0x%x chip select 0x%x is unavailable\n",
 		     bus, cs);
 		goto error;
 	}
@@ -3617,7 +3626,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 							 ns_map_size,
 							 MT_RW | MT_NS);
 	if (err) {
-		WARN("Read Flash: Image mmap failed (%d)\n", err);
+		UWARN("Read Flash: Image mmap failed (%d)\n", err);
 		return -SPI_MMAP_ERR;
 	}
 
@@ -3627,7 +3636,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 
 	err = cn10k_read_flash(&read_desc, &uParams, async_operation);
 	if (err != 0) {
-		ERROR("Read Flash Data failed\n");
+		UERROR("Read Flash Data failed\n");
 		goto error;
 	}
 
@@ -3688,11 +3697,13 @@ static int check_get_version(struct smc_version_info *vinfo,
 	if (uret == UPDATE_MISSING_TIM) {
 		ventry->retcode = RET_NOT_FOUND;
 		VLOG(ventry, "TIM not found.");
+		UWARN("TIM not found at %" PRIx64 "\n", flash_addr);
 		return RET_NOT_FOUND;
 	}
 	if (uret != UPDATE_OK) {
 		ventry->retcode = RET_TIM_INVALID;
-		WARN("Invalid TIM found for object at %" PRIx64 "\n", flash_addr);
+		VLOG(ventry, "Invalid TIM found for object at %" PRIx64 "", flash_addr);
+		UWARN("Invalid TIM found for object at %" PRIx64 "\n", flash_addr);
 		return RET_TIM_INVALID;
 	}
 	if (tim_size)
@@ -3709,6 +3720,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 		if (tret != TIM_NO_ERROR) {
 			VLOG(ventry, "%s is missing version information in the TIM",
 			     ventry->name);
+			UWARN("%s is missing version information in the TIM\n",
+			     ventry->name);
 			ventry->retcode = RET_TIM_NO_VERSION;
 			return RET_TIM_NO_VERSION;
 		}
@@ -3717,6 +3730,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 		ventry->retcode = RET_TIM_INVALID;
 		VLOG(ventry, "The TIM for %s is missing the load information",
 		     ventry->name);
+		UWARN("The TIM for %s is missing the load information\n",
+		     ventry->name);
 		return RET_TIM_INVALID;
 	} else {
 		if (size && tli->image_length > size) {
@@ -3724,6 +3739,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 			ventry->object_size = tli->image_length;
 			VLOG(ventry,
 			     "Reported TIM size 0x%x for %s is larger than maximum size 0x%lx",
+			     tli->image_length, ventry->name, size);
+			UWARN("Reported TIM size 0x%x for %s is larger than maximum size 0x%lx\n",
 			     tli->image_length, ventry->name, size);
 			return RET_IMAGE_TOO_BIG;
 		}
@@ -3734,6 +3751,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 	if (tret != TIM_NO_ERROR) {
 		VLOG(ventry, "%s is missing version information in the TIM",
 		     ventry->name);
+		UWARN("%s is missing version information in the TIM\n",
+		     ventry->name);
 		ventry->retcode = RET_TIM_NO_VERSION;
 		return RET_TIM_NO_VERSION;
 	}
@@ -3743,6 +3762,8 @@ static int check_get_version(struct smc_version_info *vinfo,
 		if (strcmp(ventry->name, tli->data_filename)) {
 			VLOG(ventry,
 			     "TIM name %s does not match passed name %s",
+			     ventry->name, tli->data_filename);
+			UWARN("TIM name %s does not match passed name %s\n",
 			     ventry->name, tli->data_filename);
 			ventry->retcode = RET_NAME_MISMATCH;
 			strlcpy(ventry->name, tli->data_filename,
@@ -3758,15 +3779,16 @@ static int check_get_version(struct smc_version_info *vinfo,
 	} else {
 		VLOG(ventry, "No hash found in TIM");
 		ventry->retcode = RET_TIM_NO_HASH;
-		WARN("No hash found in TIM for %s\n", tli->data_filename);
+		UWARN("No hash found in TIM for %s\n", tli->data_filename);
 	}
 
 	if (vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH) {
-		INFO("Validating hash for %s at  offset 0x%" PRIx64 "\n",
+		UINFO("Validating hash for %s at  offset 0x%" PRIx64 "\n",
 		     ventry->name, ventry->object_address);
 		if (!tli->hshi_parsed) {
 			ventry->retcode = RET_TIM_NO_HASH;
 			VLOG(ventry, "Hash not present in TIM");
+			UWARN("Hash not present in TIM\n");
 			return RET_TIM_NO_HASH;
 		}
 		zeromem(digest, sizeof(digest));
@@ -3775,10 +3797,13 @@ static int check_get_version(struct smc_version_info *vinfo,
 		if (ret == -EAUTH) {
 			VLOG(ventry, "%s hash in TIM does not match object",
 			     ventry->name);
+			UWARN("%s hash in TIM does not match object\n",
+			     ventry->name);
 			ventry->retcode = RET_HASH_NO_MATCH;
 			return RET_HASH_NO_MATCH;
 		} else if (ret < 0) {
 			VLOG(ventry, "eHSM hash engine error %d", ret);
+			UWARN("eHSM hash engine error %d\n", ret);
 			ventry->retcode = RET_HASH_NO_MATCH;
 			return RET_HASH_ENGINE_ERROR;
 		}
@@ -3819,14 +3844,14 @@ flash_copy_object(struct io_handle *src_handle, struct io_handle *dst_handle,
 		ret = octeontx_io_data_read(src_handle, offset,
 					    read_size, tim_buffer);
 		if (ret) {
-			INFO("I/O error reading TIM object at offset 0x%lx\n",
+			UWARN("I/O error reading TIM object at offset 0x%lx\n",
 			     offset);
 			return BACKUP_IO_SRC_ERROR;
 		}
 		ret = octeontx_io_data_write(dst_handle, offset, read_size,
 					     tim_buffer);
 		if (ret) {
-			INFO("I/O error writing 0x%lx bytes to object at offset 0x%lx\n",
+			UWARN("I/O error writing 0x%lx bytes to object at offset 0x%lx\n",
 			     read_size, offset);
 			return BACKUP_IO_DST_ERROR;
 		}
@@ -3843,14 +3868,14 @@ flash_copy_object(struct io_handle *src_handle, struct io_handle *dst_handle,
 		ret = octeontx_io_data_read(src_handle, offset,
 					 read_size, tim_buffer);
 		if (ret) {
-			INFO("I/O error reading TIM at offset 0x%lx\n",
+			UWARN("I/O error reading TIM at offset 0x%lx\n",
 			     offset);
 			return BACKUP_IO_SRC_ERROR;
 		}
 		ret = octeontx_io_data_write(dst_handle, offset, read_size,
 					     tim_buffer);
 		if (ret) {
-			INFO("I/O error writing 0x%lx bytes to TIM at offset 0x%lx\n",
+			UWARN("I/O error writing 0x%lx bytes to TIM at offset 0x%lx\n",
 			     read_size, offset);
 			return BACKUP_IO_DST_ERROR;
 		}
@@ -3893,7 +3918,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 		return 0;
 
 	if (!(vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH)) {
-		INFO("Error: source not verified!\n");
+		UWARN("Error: source not verified!\n");
 		vinfo->retcode = BACKUP_SRC_NOT_VALIDATED;
 		return -1;
 	}
@@ -3905,7 +3930,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	    (vinfo->bus == vinfo->target_bus) &&
 	    (!!(vinfo->version_flags & VERSION_FLAG_EMMC) ==
 		!!(vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_EMMC))) {
-		INFO("Error: source and destination are the same for backup\n");
+		UWARN("Error: source and destination are the same for backup\n");
 		return BACKUP_SRC_AND_DEST_ARE_SAME;
 	}
 
@@ -3916,7 +3941,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	src_desc.cs = vinfo->cs;
 
 	if (vinfo->version_flags & VERSION_FLAG_BACKUP) {
-		INFO("Source is from backup offset\n");
+		UINFO("Source is from backup offset\n");
 		src_desc.update_flags |= UPDATE_FLAG_BACKUP;
 	}
 	if (vinfo->version_flags & VERSION_FLAG_EMMC)
@@ -3928,7 +3953,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_EMMC)
 		dst_desc.update_flags |= UPDATE_FLAG_EMMC;
 	if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_OFFSET) {
-		INFO("Destination is to backup offset\n");
+		UINFO("Destination is to backup offset\n");
 		dst_desc.update_flags |= UPDATE_FLAG_BACKUP;
 	}
 
@@ -3942,7 +3967,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 					continue;
 				}
 			}
-			ERROR("Error backing up: Object %s failed verification\n",
+			UERROR("Error backing up: Object %s failed verification\n",
 				ventry->name);
 			ventry->perform_clone = 0;
 			if (!(vinfo->version_flags & SMC_VERSION_SKIP_FAIL_CHECK))
@@ -3952,7 +3977,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	/* Verify groups */
 	/* TODO  */
 
-	VERBOSE("Copying objects from %s%s %u:%u to %s%s %u:%u\n",
+	UINFO("Copying objects from %s%s %u:%u to %s%s %u:%u\n",
 		src_desc.update_flags & UPDATE_FLAG_BACKUP ? "backup " : "",
 		src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI",
 		src_desc.bus, src_desc.cs,
@@ -3998,7 +4023,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	/* Save source TIM0 */
 	uret = save_tim0(&src_desc);
 	if (uret != UPDATE_OK) {
-		ERROR("Could not save tim0 from source media\n");
+		UERROR("Could not save tim0 from source media\n");
 		err = uret;
 		vinfo->retcode = BACKUP_IO_SRC_ERROR;
 		goto src_io_error;
@@ -4006,7 +4031,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	/* Always erase the destination tim0 first */
 	uret = erase_tim0(&dst_desc);
 	if (uret != UPDATE_OK) {
-		ERROR("Could not erase destination media tim0\n");
+		UERROR("Could not erase destination media tim0\n");
 		err = uret;
 		vinfo->retcode = BACKUP_IO_DST_ERROR;
 		goto dest_io_error;
@@ -4015,7 +4040,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	if (vinfo->version_flags & SMC_VERSION_ERASE_EBF_CONFIG) {
 		uret = erase_ebf_config_data(&dst_desc);
 		if (uret != UPDATE_OK) {
-			ERROR("Could not erase destination media ebf config\n");
+			UERROR("Could not erase destination media ebf config\n");
 			err = uret;
 			vinfo->retcode = BACKUP_IO_DST_ERROR;
 			goto dest_io_error;
@@ -4030,13 +4055,13 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 		 * If any image is marked to update, tim0 must be updated too
 		 */
 		if (!ventry->perform_clone && strcmp(ventry->name, TIM0_FDT_NAME)) {
-			VERBOSE("Skipping image: %s\n", ventry->name);
+			UINFO("Skipping image: %s\n", ventry->name);
 			continue;
 		}
 
 		/* Skip writing TIM0 (object OK) for now. */
 		if (strcmp(ventry->name, TIM0_FDT_NAME)) {
-			VERBOSE("Copying %s from %s %u:%u TIM offset 0x%" PRIx64 ", offset 0x%" PRIx64 " to %s %u:%u TIM offset 0x%" PRIx64 ", offset 0x%" PRIx64 "\n",
+			UINFO("Copying %s from %s %u:%u TIM offset 0x%" PRIx64 ", offset 0x%" PRIx64 " to %s %u:%u TIM offset 0x%" PRIx64 ", offset 0x%" PRIx64 "\n",
 				ventry->name,
 				src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 				src_desc.bus, src_desc.cs,
@@ -4056,7 +4081,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 			 * For tim0 we only copy the data object.  The TIM
 			 * will be copied last.
 			 */
-			VERBOSE("Copying %s from %s %u:%u, offset 0x%" PRIx64 " to %s %u:%u, offset 0x%" PRIx64 "\n",
+			UINFO("Copying %s from %s %u:%u, offset 0x%" PRIx64 " to %s %u:%u, offset 0x%" PRIx64 "\n",
 				ventry->name,
 				src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 				src_desc.bus, src_desc.cs,
@@ -4072,7 +4097,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 						0);
 		}
 		if (err) {
-			INFO("Error copying object %s to backup storage\n",
+			UWARN("Error copying object %s to backup storage\n",
 			     ventry->name);
 			ventry->retcode = RET_BACKUP_IO_ERROR;
 			vinfo->retcode = err;
@@ -4081,7 +4106,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	}
 
 	if (tim0_ventry) {
-		VERBOSE("Copying %s from %s %u:%u TIM0 offset 0x%" PRIx64 " to %s %u:%u TIM0 offset 0x%" PRIx64 "\n",
+		UINFO("Copying %s from %s %u:%u TIM0 offset 0x%" PRIx64 " to %s %u:%u TIM0 offset 0x%" PRIx64 "\n",
 			tim0_ventry->name,
 			src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 			src_desc.bus, src_desc.cs,
@@ -4094,7 +4119,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 				tim0_ventry->tim_address,
 				tim0_ventry->tim_size);
 		if (err) {
-			INFO("Error copying %s to backup storage\n",
+			UWARN("Error copying %s to backup storage\n",
 			     ventry->name);
 			tim0_ventry->retcode = RET_BACKUP_IO_ERROR;
 			vinfo->retcode = err;
@@ -4104,7 +4129,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	}
 	if (uret != UPDATE_OK) {
 		err = uret;
-		ERROR("Could not write tim0 to destination\n");
+		UERROR("Could not write tim0 to destination\n");
 		vinfo->retcode = BACKUP_IO_DST_ERROR;
 	} else {
 		vinfo->retcode = RET_OK;
@@ -4118,7 +4143,7 @@ dest_io_error:
 	if (err == BACKUP_IO_DST_ERROR || err == BACKUP_IO_ERASE_ERROR) {
 		for (i = 0; i < vinfo->num_objects; i++) {
 			ventry = &vinfo->objects[i];
-			INFO("Erasing backup target TIM %s at offset 0x%" PRIx64 "\n",
+			UWARN("Erasing backup target TIM %s at offset 0x%" PRIx64 "\n",
 			     ventry->name, ventry->tim_address);
 			octeontx_erase_data(&dst_desc,
 					    ventry->tim_address,
@@ -4322,11 +4347,13 @@ static int check_tim(struct smc_version_info *vinfo,
 	if (uret == UPDATE_MISSING_TIM) {
 		ventry->retcode = RET_NOT_FOUND;
 		VLOG(ventry, "TIM not found.");
+		UWARN("TIM not found at %" PRIx64 "\n", flash_addr);
 		return RET_NOT_FOUND;
 	}
 	if (uret != UPDATE_OK) {
 		ventry->retcode = RET_TIM_INVALID;
-		WARN("Invalid TIM found for object at %" PRIx64 "\n", flash_addr);
+		VLOG(ventry, "Invalid TIM found for object at %" PRIx64 "", flash_addr);
+		UWARN("Invalid TIM found for object at %" PRIx64 "\n", flash_addr);
 		return RET_TIM_INVALID;
 	}
 	if (tim_size)
@@ -4343,6 +4370,8 @@ static int check_tim(struct smc_version_info *vinfo,
 		if (tret != TIM_NO_ERROR) {
 			VLOG(ventry, "%s is missing version information in the TIM",
 			     ventry->name);
+			UWARN("%s is missing version information in the TIM\n",
+			     ventry->name);
 			ventry->retcode = RET_TIM_NO_VERSION;
 			return RET_TIM_NO_VERSION;
 		}
@@ -4351,6 +4380,8 @@ static int check_tim(struct smc_version_info *vinfo,
 		ventry->retcode = RET_TIM_INVALID;
 		VLOG(ventry, "The TIM for %s is missing the load information",
 		     ventry->name);
+		UWARN("The TIM for %s is missing the load information\n",
+		     ventry->name);
 		return RET_TIM_INVALID;
 	} else {
 		if (size && tli->image_length > size) {
@@ -4358,6 +4389,8 @@ static int check_tim(struct smc_version_info *vinfo,
 			ventry->object_size = tli->image_length;
 			VLOG(ventry,
 			     "Reported TIM size 0x%x for %s is larger than maximum size 0x%lx",
+			     tli->image_length, ventry->name, size);
+			UWARN("Reported TIM size 0x%x for %s is larger than maximum size 0x%lx\n",
 			     tli->image_length, ventry->name, size);
 			return RET_IMAGE_TOO_BIG;
 		}
@@ -4368,6 +4401,8 @@ static int check_tim(struct smc_version_info *vinfo,
 	if (tret != TIM_NO_ERROR) {
 		VLOG(ventry, "%s is missing version information in the TIM",
 		     ventry->name);
+		UWARN("%s is missing version information in the TIM\n",
+		     ventry->name);
 		ventry->retcode = RET_TIM_NO_VERSION;
 		return RET_TIM_NO_VERSION;
 	}
@@ -4377,6 +4412,8 @@ static int check_tim(struct smc_version_info *vinfo,
 		if (strcmp(ventry->name, tli->data_filename)) {
 			VLOG(ventry,
 			     "TIM name %s does not match passed name %s",
+			     ventry->name, tli->data_filename);
+			UWARN("TIM name %s does not match passed name %s\n",
 			     ventry->name, tli->data_filename);
 			ventry->retcode = RET_NAME_MISMATCH;
 			strlcpy(ventry->name, tli->data_filename,
@@ -4392,7 +4429,7 @@ static int check_tim(struct smc_version_info *vinfo,
 	} else {
 		VLOG(ventry, "No hash found in TIM");
 		ventry->retcode = RET_TIM_NO_HASH;
-		WARN("No hash found in TIM for %s\n", tli->data_filename);
+		UWARN("No hash found in TIM for %s\n", tli->data_filename);
 		return RET_TIM_NO_HASH;
 	}
 
@@ -4579,9 +4616,10 @@ static int init_hash_verification(void *ptr) {
 	if (err)
 		return SPI_OP_CALLBACK_ERROR;
 
-	if (data->vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH)
+	if (data->vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH) {
+		UINFO("Validating hash for %s\n", ventry->name);
 		return SPI_OP_CALLBACK_CONTINUE;
-	else
+	} else
 		return SPI_OP_CALLBACK_FINISHED;
 }
 
@@ -4670,7 +4708,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 			type = fdt_getprop(fdt_ptr, node, "type", NULL);
 			if (!type) {
 				name = fdt_get_name(fdt_ptr, node, NULL);
-				WARN("Missing type for FDT node %s\n",
+				UWARN("Missing type for FDT node %s\n",
 				     name ? name : "UNKNOWN");
 			}
 			if (!strcmp(type, "root-tim")) {
@@ -4683,7 +4721,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 			name = fdt_getprop(fdt_ptr, node, "description", &len);
 			if (!name || len < 0) {
 				name = fdt_get_name(fdt_ptr, node, NULL);
-				WARN("Missing description field for FDT node %s\n",
+				UWARN("Missing description field for FDT node %s\n",
 				     name ? name : "UNKNOWN");
 				continue;
 			}
@@ -4695,7 +4733,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 			ventry->name[sizeof(ventry->name) - 1] = '\0';
 			addr_size = fdt_getprop(fdt_ptr, node, "reg", &len);
 			if (!addr_size || len != 8) {
-				ERROR("Missing reg for field %s in firmware-layout\n",
+				UERROR("Missing reg for field %s in firmware-layout\n",
 				      name);
 				VLOG(ventry,
 				     "Missing reg field for %s in the firmware-layout device tree",
@@ -4758,6 +4796,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 						timeout*ms_to_us);
 		}
 		vdata->ventry_counter = 0;
+		spi_async_clear_time_stats();
 		if (vinfo->version_flags & SMC_VERSION_COPY_TO_BACKUP_FLASH)
 			spi_async_start(async_clone_callback, &async_clone_internal);
 		else
@@ -4783,16 +4822,16 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo, struct verific
 {
 	INFO("Obtaining object version information\n");
 	if (vinfo->magic_number != VERSION_MAGIC) {
-		ERROR("Invalid descriptor, bad magic number!\n");
+		UERROR("Invalid descriptor, bad magic number!\n");
 		return -1;
 	}
 
 	if (vinfo->version > VERSION_INFO_VERSION) {
-		ERROR("Version 0x%x not supported\n", vinfo->version);
+		UERROR("Version 0x%x not supported\n", vinfo->version);
 		return -1;
 	}
 	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
-		WARN("Object count exceeds maximum\n");
+		UWARN("Object count exceeds maximum\n");
 		vinfo->retcode = TOO_MANY_OBJECTS;
 		vinfo->num_objects = SMC_MAX_VERSION_ENTRIES;
 		return -1;
@@ -4800,7 +4839,7 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo, struct verific
 
 	fnode = fdt_path_offset(fdt_ptr, "/cavium,bdk/firmware-layout");
 	if (fnode < 0) {
-		ERROR("Error %d trying to access firmware layout in device tree\n",
+		UERROR("Error %d trying to access firmware layout in device tree\n",
 		      fnode);
 		vinfo->retcode = INVALID_DEVICE_TREE;
 		return -1;
@@ -4908,7 +4947,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		ns_map_size += PAGE_SIZE;
 
 	if (base_addr + ns_map_size > dram_end) {
-		WARN("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
+		UWARN("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
 		     base_addr, ns_map_size);
 		*uret = -SPI_MMAP_ERR;
 		err = -EFAULT;
@@ -4918,7 +4957,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 							 ns_map_size,
 							 MT_RW | MT_NS);
 	if (err) {
-		WARN("Version check descriptor mmap failed (%d)\n", err);
+		UWARN("Version check descriptor mmap failed (%d)\n", err);
 		*uret = -SPI_MMAP_ERR;
 		err = -EFAULT;
 		goto error;
@@ -4929,21 +4968,21 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 	uParams.p[0].base_addr = base_addr;
 	vinfo = (struct smc_version_info *)desc_buf;
 	if (vinfo->magic_number != VERSION_MAGIC) {
-		WARN("Bad magic number 0x%x in version descriptor\n",
+		UWARN("Bad magic number 0x%x in version descriptor\n",
 		     vinfo->magic_number);
 		*uret = -SPI_BAD_MAGIC_NUMBER;
 		err = -EINVAL;
 		goto error;
 	}
 	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
-		WARN("Descriptor exceeds maximum number of objects\n");
+		UWARN("Descriptor exceeds maximum number of objects\n");
 		*uret = -SPI_BAD_PARAMETER;
 		err = -EINVAL;
 		goto error;
 	}
 
 	if (spi_dev_lock(vinfo->bus)) {
-		ERROR("%s: SPI_%d: Lock failed\n", __func__, vinfo->bus);
+		UERROR("%s: SPI_%d: Lock failed\n", __func__, vinfo->bus);
 		*uret = -SPI_BAD_PARAMETER;
 		err = -EINVAL;
 		goto error;
@@ -4995,7 +5034,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 				else
 					err = 0;
 			} else {
-				INFO("Skipping flash clone\n");
+				UINFO("Skipping flash clone\n");
 			}
 		} else {
 			debug_fw_update("Not backing up flash\n");
