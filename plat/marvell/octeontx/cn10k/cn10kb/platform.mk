@@ -21,3 +21,12 @@ ifdef MARVELL_PHY_1780
     BL31_SOURCES      +=	drivers/marvell/octeontx/cn10k/phy/phy_marvell_1780.c
 endif
 
+MARVELL_PHY_2540 := 1
+ifdef MARVELL_PHY_2540
+    TF_CFLAGS_aarch64 += -DMARVELL_PHY_2540
+    PLAT_INCLUDES     +=	-Ilib/libphy/marvell_88x2540/include
+
+    BL31_LIBS         +=	lib/libphy/libphy_88x2540.a
+    BL31_SOURCES      +=	drivers/marvell/octeontx/cn10k/phy/phy_marvell_2540.c
+endif
+

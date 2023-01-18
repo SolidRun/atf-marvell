@@ -38,6 +38,9 @@ phy_drv_check_type_t marvell_drv[] = {
 #ifdef MARVELL_PHY_1780
 	marvell_1780_check_type,
 #endif /* MARVELL_PHY_1780 */
+#ifdef MARVELL_PHY_2540
+	marvell_2540_check_type,
+#endif /* MARVELL_PHY_2540 */
 };
 
 phy_drv_t *phy_marvell_drv_lookup(int type)

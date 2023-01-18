@@ -42,5 +42,8 @@ phy_drv_t *marvell_7121_check_type(int type);
 #ifdef MARVELL_PHY_1780
 phy_drv_t *marvell_1780_check_type(int type);
 #endif /* MARVELL_PHY_1780 */
+#ifdef MARVELL_PHY_2540
+phy_drv_t *marvell_2540_check_type(int type);
+#endif /* MARVELL_PHY_2540 */
 
 #endif /* __PHY_MARVELL_H__ */
