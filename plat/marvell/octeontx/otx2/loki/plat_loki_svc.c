@@ -61,7 +61,7 @@ uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
 		SMC_RET1(handle, ret);
 		break;
 
-	case PLAT_OCTEON_SW_UPDATE:
+	case PLAT_OCTEON_GENERIC_SW_UPDATE:
 		SMC_RET1(handle, marvell_cust_sec_update(x1, x2));
 		break;
 

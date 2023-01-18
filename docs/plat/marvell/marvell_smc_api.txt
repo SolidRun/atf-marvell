@@ -328,6 +328,17 @@ OCTEONTX_LOAD_SWITCH_FW
     This call can be used to load switch firmware from flash.
   * Supported platforms: CN10K
 
+OCTEONTX_SPI_GENERIC_UPDATE
+  * SMC FID: 0xc2000b19
+  * Input registers values:
+    x0: SMC FID
+    x1: Firmware blob adress
+  * Return value:
+    x0: SMC_OK on success or negative value on failure.
+  * Description:
+    This call can be user to update firmware with single firmware blob
+  * Supported platforms: T9x
+
 OCTEONTX_SPI_SECURE_UPDATE
   * SMC FID: 0xc2000b05
   * Input registers values:

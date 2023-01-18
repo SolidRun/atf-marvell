@@ -654,6 +654,19 @@
  */
 #define PLAT_OCTEONTX_EHSM_RKEK_PROVISION	0xc2000b18
 
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEON_GENERIC_SW_UPDATE
+ *
+ * x1 - Firmware blob adress
+ *
+ * Returns:
+ *      x0
+ *              0 -- Success
+ *             -1 -- failure (invalid input or command failed)
+ */
+#define PLAT_OCTEON_GENERIC_SW_UPDATE		0xc2000b19
+
  /* Number of family specific SMCs */
 #define OTX3_NUM_SMC_CALLS			26
 
