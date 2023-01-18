@@ -334,6 +334,7 @@ static int cgx_check_sfp_mod_stat(int cgx_id, int lmac_id)
 		if ((mod_status == SFP_MOD_STATE_PRESENT) ||
 			(mod_status == SFP_MOD_STATE_EEPROM_UPDATED)) {
 			/* User has unplug and plug the module.
+			 * or user has brought down the link and brought up
 			 * In this case, read the EEPROM capabilities
 			 * and configure CGX accordingly if there is
 			 * a change in capabilities.
@@ -880,6 +881,7 @@ static int cgx_link_bringdown(int cgx_id, int lmac_id)
 	lmac_ctx->s.rx_link_up = 0;
 	lmac_ctx->s.link_enable = 0;
 	lmac_ctx->s.init_link = 0;
+	lmac_ctx->s.mod_stats = 0;
 
 	return 0;
 
