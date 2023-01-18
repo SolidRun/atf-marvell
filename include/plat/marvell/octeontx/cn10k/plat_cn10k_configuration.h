@@ -10,6 +10,7 @@
 
 #define CN10KAS_PKG  0
 #define CN10KA_PKG  1
+#define CN10KB_PKG  1
 
 /* Used to initialize individual device IOBN security settings */
 struct cn10k_stream_security_setting {
