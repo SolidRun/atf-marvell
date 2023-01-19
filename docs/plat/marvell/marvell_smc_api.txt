@@ -611,5 +611,207 @@ PLAT_OCTEONTX_EHSM_READ_CSR
     This SMC call can be used to read specific eHSM CSRs.
   * Supported platforms: CN10K
 
+PLAT_OCTEONTX_PHY_DBG_PRBS
+  * SMC FID: 0xc2000e00
+  * Input registers values:
+    x1 - cmd
+	1 - PHY_PRBS_START_CMD - start phy prbs with config (x2)
+					for phy @eth(x3),lmac(x4)
+	2 - PHY_PRBS_STOP_CMD  - stop phy prbs with config (x2)
+					for phy @eth(x3),lmac(x4)
+	3 - PHY_PRBS_GET_DATA_CMD - get prbs error counters with config(x2)
+                                   for phy @eth(x3),lmac(x4)
+    x2 - config, fields are:
+	- x2[4:3] is pattern selector, options are:
+		0x00 - PRBS_7
+		0x01 - PRBS_23
+		0x10 - PRBS_31
+		0x11 - PRBS_1010
+	- x2[2:1] is the mode
+		1 - Generator
+		2 - Checker
+		3 - Generator & Checker
+	- x2[0] is denoting host or line side:
+		1 - host side
+		0 - line side
+    x3 - eth
+    x4 - lmac
+  * Return value:
+	x0: 0 (Success) or -1 (Fail)
+			or
+		prbs error count for host/line side
+			(PHY_PRBS_GET_DATA_CMD only)
+  * Description:
+     This SMC call handles various PRBS operations on a PHY device, provided the selected PHY device HW supports them
+     Currently supports only Marvell 88x7121 PHY
+  * Supported platforms: T9x, CN10K
+
+PLAT_OCTEONTX_PHY_LOOPBACK
+  * SMC FID: 0xc2000e01
+  * Input registers values:
+    x1 - cmd
+	1 - PHY_LOOPBACK_START_CMD - start phy loopback with config (x2)
+					for phy @eth(x3),lmac(x4)
+	2 - PHY_LOOPBACK_STOP_CMD  - stop phy loopback with config (x2)
+					for phy @eth(x3),lmac(x4)
+    x2 - config, fields are:
+	- x2[3:2] is loopback selector, options are:
+		0x00 - PCS_SHALLOW
+		0x01 - PCS_DEEP
+		0x10 - PMA_DEEP
+	- x2[1:0] is denoting host or line side:
+		1 - host side
+		0 - line side
+    x3 - eth
+    x4 - lmac
+  * Return Value:
+	x0: 0 (Success) or -1 (Fail)
+  * Description:
+     This SMC call handles various loopback operations on a PHY device, provided the selected PHY device HW supports them
+     Currently supports only Marvell 88x7121 PHY
+  * Supported platforms: T9x, CN10K
+
+PLAT_OCTEONTX_PHY_GET_TEMP
+  * SMC FID: 0xc2000e02
+  * Input registers values:
+    x1 - eth
+    x2 - lmac
+  * Return Value:
+	x0: 0 (Success) or -1 (Fail)
+	x1: Avaraged temperature sensor reading of phy @eth(x1), lmac(x2)
+  * Description:
+     This SMC call provides the temperature at the PHY device, provided the selected PHY device HW supports it
+  * Supported platforms: T9x, CN10K
+
+PLAT_OCTEONTX_PHY_SERDES_CFG
+  * SMC FID: 0xc2000e03
+  * Input registers values:
+   x1 - cmd
+	0 - PHY_GET_SERDES_CFG
+	1 - PHY_SET_SERDES_CFG
+   x2 - phy's SERDES config (only Tx amplitude supported):
+	x2[2:0] SGMII VOD level (Tx ampl.), one of:
+		000 = 14mV
+		001 = 112mV
+		010 = 210mV
+		011 = 308mV
+		100 = 406mV
+		101 = 504mV
+		110 = 602mV
+		111 = 700mV
+   x3 - eth
+   x4 - lmac
+  * Return Value:
+	x0: 0 (Success) or -1 (Fail)
+	x1: config in the same format as in x2
+		(PHY_GET_SERDES_CFG cmd only)
+  * Description:
+     This SMC call handles the PHY device serdes configuration, provided the selected PHY device HW supports it
+  * Supported platforms: T9x, CN10K
+
+PLAT_OCTEONTX_PHY_MDIO
+  * SMC FID: 0xc2000e03
+  * Input registers values:
+   x1 - cmd, clause and device addr:
+	x1[0]: command
+		0 - Read PHY register
+		1 - Write PHY register
+	x1[1]: MDIO clause
+		0 - clause22
+		1 - clause45
+
+	x1[6:2]: device addr (clause45)
+			or
+		page nr (paged access in clause22)
+
+
+   x2 - register address and/or value
+	x2[15:0]: register address
+	x2[31:16]: register value (only in case of Write cmd)
+
+   x3 - eth
+   x4 - lmac
+
+ * Return Value:
+	x0: 0 (Success) or -1 (Fail)
+	x1: register value (only in case of Read cmd)
+ * Description:
+     This SMC call handles the PHY device register read/write commands
+  * Supported platforms: T9x, CN10K
+
+PLAT_OCTEONTX_PHY_EYE_CAPTURE
+  * SMC FID: 0xc2000e03
+  * Input registers values:
+    x1[0] is denoting host or line side:
+		1 - host side
+		0 - line side
+
+    x2[0] - Eye capture type:
+		0 - Eye measure
+		1 - Eye Plot
+
+    x3 - eth
+    x4 - lmac
+
+  * Return Value:
+	x0: 0 (Success) or -1 (Fail)
+	x1: register value (only in case of Read cmd)
+ * Description:
+     This SMC call handles the PHY device eye capture, provided the PHY HW supports it
+     Currently supports only Marvell 88x7121 PHY
+  * Supported platforms: T9x, CN10K
+
+PLAT_OCTEONTX_PHY_PKT_GEN
+  * SMC FID: 0xc2000e06
+  * Input registers values:
+    x1 - cmd, (mode or type)
+	x1[15:8]: command
+		1 - Start
+		2 - Stop
+		3 - Set
+		4 - Get
+	x1[7:0]: mode - if cmd == start | stop
+		0 - Generator
+		1 - Checker
+		2 - Generator & Checker
+	x1[7:0]: type - if cmd == Set
+		0 - SFD
+		1 - Pattern Control
+		2 - Generate CRC
+		3 - Initial Payload
+		4 - Frame length control
+		5 - Num of packets
+		6 - Random IPG
+		7 - IPG Duration
+		8 - Get Config
+    x2 - If cmd == (start | stop) then is denoting host or line side:
+		1 - host side
+		0 - line side
+	If (cmd == set) then denoting the value for the set command
+    x3 - eth
+    x4 - lmac
+  * Return Value:
+	x0: 0 (Success) or -1 (Fail)
+	x1: register value (only in case of Read cmd)
+ * Description:
+     This SMC call handles the PHY device packet generator, provided the PHY HW supports it
+     Currently supports only Marvell 88x7121 PHY
+  * Supported platforms: T9x, CN10K
+
+PLAT_OCTEONTX_PHY_ADVANCE_CMDS
+  * SMC FID: 0xc2000e07
+  * Input registers values:
+    x1 - descriptor address
+    x2 - descriptor size
+  * Return Value:
+      x0
+              0 -- Success
+            -1 -- failure (invalid input or command failed)
+ * Description:
+     This SMC call handles the PHY device advance features like PTP and MACSEC, provided the PHY HW supports it
+     Currently supports only Marvell 88x7121 PHY
+  * Supported platforms: T9x, CN10K
+
+
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf
 [SMCCC]:   http://infocenter.arm.com/help/topic/com.arm.doc.den0028b/ARM_DEN0028B_SMC_Calling_Convention.pdf

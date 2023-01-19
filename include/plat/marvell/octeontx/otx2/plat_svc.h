@@ -297,6 +297,19 @@
  */
 #define PLAT_OCTEONTX_PHY_PKT_GEN		0xc2000e06
 
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEONTX_PHY_ADVANCE_CMDS
+ *
+ * x1 - descriptor address
+ * x2 - descriptor size
+ *
+ * Returns:
+ *      x0
+ *              0 -- Success
+ *             -1 -- failure (invalid input or command failed)
+ */
+#define PLAT_OCTEONTX_PHY_ADVANCE_CMDS                0xc2000e07
 
 /*
  * x1 - user_buffer
@@ -361,20 +374,6 @@
 
 /*
  * SMC Call ID
- * x0 - PLAT_OCTEONTX_PHY_ADVANCE_CMDS
- *
- * x1 - descriptor address
- * x2 - descriptor size
- *
- * Returns:
- *      x0
- *              0 -- Success
- *             -1 -- failure (invalid input or command failed)
- */
-#define PLAT_OCTEONTX_PHY_ADVANCE_CMDS                0xc2000b0b
-
-/*
- * SMC Call ID
  * x0 - PLAT_OCTEON_GENERIC_SW_UPDATE
  *
  * x1 - Firmware blob adress
@@ -387,7 +386,7 @@
 #define PLAT_OCTEON_GENERIC_SW_UPDATE  0xc2000b19
 
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			21
+#define OTX2_NUM_SMC_CALLS			26
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
