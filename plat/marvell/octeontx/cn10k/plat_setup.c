@@ -386,15 +386,6 @@ unsigned int is_pem_in_ep_mode(int pem)
 }
 
 /*
- * Program REVID for PCIe CPT device.
- */
-unsigned int plat_configure_cpt_rid(void)
-{
-	/* program CPT revision id */
-	return 4;
-}
-
-/*
  * Program REVID for PCIe devices.
  * Bits 0..1: minor pass
  * Bits 3..2: major pass

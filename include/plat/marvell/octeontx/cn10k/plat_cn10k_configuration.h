@@ -36,7 +36,6 @@ unsigned int is_pem_in_ep_mode(int pem);
 unsigned int is_pem_in_rc_mode(int pem);
 unsigned int is_pem_hotplug(int pem);
 unsigned int plat_configure_rid(void);
-unsigned int plat_configure_cpt_rid(void);
 struct cn10k_stream_security_setting *plat_get_cn10k_stream_security(int *count);
 void plat_cn10k_set_secondary_cpu_jump_addr(int core_id, uint64_t entrypoint_addr);
 int plat_octeontx_get_nix_count(void);
