@@ -3616,21 +3616,21 @@ union cavm_pciercx_gen4_lane_margining_1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
-        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver (Not supported). */
+        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver. */
         uint32_t reserved_23           : 1;
         uint32_t nvs                   : 7;  /**< [ 22: 16](R/W) Num voltage steps for lane margining at the receiver. */
         uint32_t reserved_14_15        : 2;
         uint32_t mto                   : 6;  /**< [ 13:  8](R/W) Max timing offset for lane margining at the receiver. */
         uint32_t reserved_6_7          : 2;
-        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver (Not supported). */
+        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver. */
 #else /* Word 0 - Little Endian */
-        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver (Not supported). */
+        uint32_t nts                   : 6;  /**< [  5:  0](R/W) Num timing steps for lane margining at the receiver. */
         uint32_t reserved_6_7          : 2;
         uint32_t mto                   : 6;  /**< [ 13:  8](R/W) Max timing offset for lane margining at the receiver. */
         uint32_t reserved_14_15        : 2;
         uint32_t nvs                   : 7;  /**< [ 22: 16](R/W) Num voltage steps for lane margining at the receiver. */
         uint32_t reserved_23           : 1;
-        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver (Not supported). */
+        uint32_t mvo                   : 6;  /**< [ 29: 24](R/W) Max voltage offset for lane margining at the receiver. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
@@ -3670,13 +3670,13 @@ union cavm_pciercx_gen4_lane_margining_2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
-        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver (Not supported). */
-        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver (Not supported). */
-        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver (not supported). */
-        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver (Not supported). */
-        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver (Not supported). */
+        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver. */
+        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver. */
+        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver. */
+        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver. */
+        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver. */
         uint32_t reserved_21_23        : 3;
-        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes for lane margining at the receiver. */
+        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes (minus 1) for lane margining at the receiver. */
         uint32_t reserved_14_15        : 2;
         uint32_t srt                   : 6;  /**< [ 13:  8](R/W) Sample rate timing for lane margining at the receiver. */
         uint32_t reserved_6_7          : 2;
@@ -3686,13 +3686,13 @@ union cavm_pciercx_gen4_lane_margining_2
         uint32_t reserved_6_7          : 2;
         uint32_t srt                   : 6;  /**< [ 13:  8](R/W) Sample rate timing for lane margining at the receiver. */
         uint32_t reserved_14_15        : 2;
-        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes for lane margining at the receiver. */
+        uint32_t max_lanes             : 5;  /**< [ 20: 16](R/W) Max lanes (minus 1) for lane margining at the receiver. */
         uint32_t reserved_21_23        : 3;
-        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver (Not supported). */
-        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver (Not supported). */
-        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver (not supported). */
-        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver (Not supported). */
-        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver (Not supported). */
+        uint32_t volt_sup              : 1;  /**< [ 24: 24](R/W) Voltage supported for lane margining at the receiver. */
+        uint32_t iudv                  : 1;  /**< [ 25: 25](R/W) Ind up down voltage for lane margining at the receiver. */
+        uint32_t ilrt                  : 1;  /**< [ 26: 26](R/W) Ind left right timing for lane margining at the receiver. */
+        uint32_t srm                   : 1;  /**< [ 27: 27](R/W) Sample reporting method for lane margining at the receiver. */
+        uint32_t ies                   : 1;  /**< [ 28: 28](R/W) Ind error sampler for lane margining at the receiver. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
@@ -9270,6 +9270,50 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_HDR(uint64_t a)
 #define arguments_CAVM_PCIERCX_PTM_RES_HDR(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_latency_sel
+ *
+ * PCIe RC PTM Responder Latency Register Select Register
+ */
+union cavm_pciercx_ptm_res_latency_sel
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_latency_sel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t lat_reg_sel           : 4;  /**< [  3:  0](R/W) Selects the PTM Responder Tx/Rx Latency Register to be
+                                                                 read/written. */
+#else /* Word 0 - Little Endian */
+        uint32_t lat_reg_sel           : 4;  /**< [  3:  0](R/W) Selects the PTM Responder Tx/Rx Latency Register to be
+                                                                 read/written. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_latency_sel_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_latency_sel cavm_pciercx_ptm_res_latency_sel_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_LATENCY_SEL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_LATENCY_SEL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3e4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3e4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3e4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x3e4 + 0 * ((a) & 0x1);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_LATENCY_SEL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) cavm_pciercx_ptm_res_latency_sel_t
+#define bustype_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) "PCIERCX_PTM_RES_LATENCY_SEL"
+#define busnum_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_LATENCY_SEL(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGRC) pcierc#_ptm_res_local_lsb
  *
  * PCIe RC PTM Responder Local Clock LSB Register
@@ -9350,6 +9394,52 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_LOCAL_MSB(uint64_t a)
 #define arguments_CAVM_PCIERCX_PTM_RES_LOCAL_MSB(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_nom_clk_t
+ *
+ * PCIe RC PTM Responder Nominal Clock Period Register
+ */
+union cavm_pciercx_ptm_res_nom_clk_t
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_nom_clk_t_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t clk_t_int             : 8;  /**< [ 23: 16](RO/H) PTM responder Nominal Clock Period Integral (in ns). */
+        uint32_t clk_t_frac            : 16; /**< [ 15:  0](RO/H) PTM responder Nominal Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+#else /* Word 0 - Little Endian */
+        uint32_t clk_t_frac            : 16; /**< [ 15:  0](RO/H) PTM responder Nominal Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+        uint32_t clk_t_int             : 8;  /**< [ 23: 16](RO/H) PTM responder Nominal Clock Period Integral (in ns). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_nom_clk_t_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_nom_clk_t cavm_pciercx_ptm_res_nom_clk_t_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_NOM_CLK_T(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_NOM_CLK_T(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3dc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3dc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3dc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x3dc + 0 * ((a) & 0x1);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_NOM_CLK_T", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) cavm_pciercx_ptm_res_nom_clk_t_t
+#define bustype_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) "PCIERCX_PTM_RES_NOM_CLK_T"
+#define busnum_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_NOM_CLK_T(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGRC) pcierc#_ptm_res_rx_latency
  *
  * PCIe RC PTM Responder RX Latency Register
@@ -9361,9 +9451,15 @@ union cavm_pciercx_ptm_res_rx_latency
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
-        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency. */
+        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustement
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIERC_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
 #else /* Word 0 - Little Endian */
-        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency. */
+        uint32_t rx_lat                : 12; /**< [ 11:  0](R/W) PTM responder RX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustement
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIERC_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -9390,6 +9486,56 @@ static inline uint64_t CAVM_PCIERCX_PTM_RES_RX_LATENCY(uint64_t a)
 #define basename_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) "PCIERCX_PTM_RES_RX_LATENCY"
 #define busnum_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) (a)
 #define arguments_CAVM_PCIERCX_PTM_RES_RX_LATENCY(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_ptm_res_scaled_clk_t
+ *
+ * PCIe RC PTM Responder Scaled Clock Period Register
+ */
+union cavm_pciercx_ptm_res_scaled_clk_t
+{
+    uint32_t u;
+    struct cavm_pciercx_ptm_res_scaled_clk_t_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sclk_t_en             : 1;  /**< [ 31: 31](R/W) PTM Responder Scaled Clock Period Enable.
+                                                                 Use the programmed scaled PTM clock period rather then the nominal value. */
+        uint32_t reserved_24_30        : 7;
+        uint32_t sclk_t_int            : 8;  /**< [ 23: 16](R/W) PTM Responder Scaled Clock Period Integral (in ns). */
+        uint32_t sclk_t_frac           : 16; /**< [ 15:  0](R/W) PTM Responder Scaled Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+#else /* Word 0 - Little Endian */
+        uint32_t sclk_t_frac           : 16; /**< [ 15:  0](R/W) PTM Responder Scaled Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+        uint32_t sclk_t_int            : 8;  /**< [ 23: 16](R/W) PTM Responder Scaled Clock Period Integral (in ns). */
+        uint32_t reserved_24_30        : 7;
+        uint32_t sclk_t_en             : 1;  /**< [ 31: 31](R/W) PTM Responder Scaled Clock Period Enable.
+                                                                 Use the programmed scaled PTM clock period rather then the nominal value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pciercx_ptm_res_scaled_clk_t_s cn; */
+};
+typedef union cavm_pciercx_ptm_res_scaled_clk_t cavm_pciercx_ptm_res_scaled_clk_t_t;
+
+static inline uint64_t CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3e0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3e0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3e0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x3e0 + 0 * ((a) & 0x1);
+    __cavm_csr_fatal("PCIERCX_PTM_RES_SCALED_CLK_T", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) cavm_pciercx_ptm_res_scaled_clk_t_t
+#define bustype_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) CSR_TYPE_PCICONFIGRC
+#define basename_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) "PCIERCX_PTM_RES_SCALED_CLK_T"
+#define busnum_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) (a)
+#define arguments_CAVM_PCIERCX_PTM_RES_SCALED_CLK_T(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_ptm_res_status
@@ -9767,9 +9913,15 @@ union cavm_pciercx_ptm_res_tx_latency
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
-        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM responder TX latency. */
+        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM Responder TX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustement
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIERC_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
 #else /* Word 0 - Little Endian */
-        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM responder TX latency. */
+        uint32_t tx_lat                : 12; /**< [ 11:  0](R/W) PTM Responder TX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustement
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIERC_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;

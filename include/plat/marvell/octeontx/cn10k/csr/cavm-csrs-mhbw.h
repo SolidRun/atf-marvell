@@ -387,7 +387,7 @@ union cavm_mhbw_jd_hdr_word_0_s
                                                                  and must be less or equal to 62. The total size of the JCE section is 3 x N. */
         uint64_t reserved_61_62        : 2;
         uint64_t toth                  : 4;  /**< [ 60: 57] Job timeout threshold. The timeout timer starts counting when the job
-                                                                 gets started on a HAB. The timer increments by one each SCLK cycle,
+                                                                 gets started on a HAB. The timer increments by one each BCLK cycle,
                                                                  and a timeout occurs when the timer reaches the threshold specified
                                                                  as:
 
@@ -445,7 +445,7 @@ union cavm_mhbw_jd_hdr_word_0_s
         uint64_t toth_tick             : 4;  /**< [ 56: 53] Timeout threshold tick count. See MHBW_JD_HDR_WORD_0_S[TOTH] for
                                                                  details. */
         uint64_t toth                  : 4;  /**< [ 60: 57] Job timeout threshold. The timeout timer starts counting when the job
-                                                                 gets started on a HAB. The timer increments by one each SCLK cycle,
+                                                                 gets started on a HAB. The timer increments by one each BCLK cycle,
                                                                  and a timeout occurs when the timer reaches the threshold specified
                                                                  as:
 
@@ -1668,10 +1668,9 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(uint64_t a, uint64_t
  * (MHBW). Note that registers only exist for the number of HABs and
  * slots in each specific MHAB.
  *
- * Fatal errors include:
+ * Nonfatal errors include:
  * * ECC single-bit errors on SMEM accesses.
- * * ECC single-bit errors in internal HAB memories.
- * * HAB-specific fatal errors.
+ * * HAB-specific nonfatal errors.
  *
  * When an error occurs, the job tag is recorded in one of the following
  * registers:
@@ -1682,7 +1681,7 @@ static inline uint64_t CAVM_MHBWX_ABX_SLTX_NFAT_ERR_ENA_W1S(uint64_t a, uint64_t
  *
  * _ Other nonfatal errors: MHBW()_AB()_SLT()_CP_NFAT_JTAG
  *
- * When an error occurs, the MHAB sends a fatal error message to PSM which then
+ * When an error occurs, the MHAB sends a nonfatal error message to PSM which then
  * triggers an interrupt, if enabled. In addition, the MHBW sends the command
  * specified by \<MHBW()_NON_FATAL_ERROR_JCE_W1,MHBW()_NON_FATAL_ERROR_JCE_W0\>
  * to the PSM.

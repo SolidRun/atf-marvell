@@ -8099,6 +8099,90 @@ static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CAP_HDR(uint64_t a)
 #define arguments_CAVM_PCIEEPX_PTM_REQ_CAP_HDR(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGEP) pcieep#_ptm_req_clk_cor_lsb
+ *
+ * PCIe EP PF PTM Requester Clock Correction LSB Register
+ */
+union cavm_pcieepx_ptm_req_clk_cor_lsb
+{
+    uint32_t u;
+    struct cavm_pcieepx_ptm_req_clk_cor_lsb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ccor_lsb              : 32; /**< [ 31:  0](RO) Lower 32 bits of amount by which PTM Requester Local Clock
+                                                                 has been corrected. */
+#else /* Word 0 - Little Endian */
+        uint32_t ccor_lsb              : 32; /**< [ 31:  0](RO) Lower 32 bits of amount by which PTM Requester Local Clock
+                                                                 has been corrected. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pcieepx_ptm_req_clk_cor_lsb_s cn; */
+};
+typedef union cavm_pcieepx_ptm_req_clk_cor_lsb cavm_pcieepx_ptm_req_clk_cor_lsb_t;
+
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CLK_COR_LSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CLK_COR_LSB(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3f0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3f0 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3f0 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x3f0 + 0 * ((a) & 0x1);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_CLK_COR_LSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIEEPX_PTM_REQ_CLK_COR_LSB(a) cavm_pcieepx_ptm_req_clk_cor_lsb_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_CLK_COR_LSB(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_CLK_COR_LSB(a) "PCIEEPX_PTM_REQ_CLK_COR_LSB"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_CLK_COR_LSB(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_CLK_COR_LSB(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_ptm_req_clk_cor_msb
+ *
+ * PCIe EP PF PTM Requester Clock Correction MSB Register
+ */
+union cavm_pcieepx_ptm_req_clk_cor_msb
+{
+    uint32_t u;
+    struct cavm_pcieepx_ptm_req_clk_cor_msb_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ccor_msb              : 32; /**< [ 31:  0](RO) Upper 32 bits of amount by which PTM Requester Local Clock
+                                                                 has been corrected. */
+#else /* Word 0 - Little Endian */
+        uint32_t ccor_msb              : 32; /**< [ 31:  0](RO) Upper 32 bits of amount by which PTM Requester Local Clock
+                                                                 has been corrected. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pcieepx_ptm_req_clk_cor_msb_s cn; */
+};
+typedef union cavm_pcieepx_ptm_req_clk_cor_msb cavm_pcieepx_ptm_req_clk_cor_msb_t;
+
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CLK_COR_MSB(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_CLK_COR_MSB(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3f4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3f4 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3f4 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x3f4 + 0 * ((a) & 0x1);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_CLK_COR_MSB", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIEEPX_PTM_REQ_CLK_COR_MSB(a) cavm_pcieepx_ptm_req_clk_cor_msb_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_CLK_COR_MSB(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_CLK_COR_MSB(a) "PCIEEPX_PTM_REQ_CLK_COR_MSB"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_CLK_COR_MSB(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_CLK_COR_MSB(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGEP) pcieep#_ptm_req_ctl
  *
  * PCIe EP PF PTM Requester Vendor Specific Control Register
@@ -8229,6 +8313,50 @@ static inline uint64_t CAVM_PCIEEPX_PTM_REQ_HDR(uint64_t a)
 #define basename_CAVM_PCIEEPX_PTM_REQ_HDR(a) "PCIEEPX_PTM_REQ_HDR"
 #define busnum_CAVM_PCIEEPX_PTM_REQ_HDR(a) (a)
 #define arguments_CAVM_PCIEEPX_PTM_REQ_HDR(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_ptm_req_latency_sel
+ *
+ * PCIe EP PF PTM Requester Latency Register Select Register
+ */
+union cavm_pcieepx_ptm_req_latency_sel
+{
+    uint32_t u;
+    struct cavm_pcieepx_ptm_req_latency_sel_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t lat_reg_sel           : 4;  /**< [  3:  0](R/W) Selects the PTM Requester Tx/Rx Latency Register to be
+                                                                 read/written. */
+#else /* Word 0 - Little Endian */
+        uint32_t lat_reg_sel           : 4;  /**< [  3:  0](R/W) Selects the PTM Requester Tx/Rx Latency Register to be
+                                                                 read/written. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pcieepx_ptm_req_latency_sel_s cn; */
+};
+typedef union cavm_pcieepx_ptm_req_latency_sel cavm_pcieepx_ptm_req_latency_sel_t;
+
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LATENCY_SEL(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_LATENCY_SEL(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x400 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x400 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x400 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x400 + 0 * ((a) & 0x1);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_LATENCY_SEL", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIEEPX_PTM_REQ_LATENCY_SEL(a) cavm_pcieepx_ptm_req_latency_sel_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_LATENCY_SEL(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_LATENCY_SEL(a) "PCIEEPX_PTM_REQ_LATENCY_SEL"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_LATENCY_SEL(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_LATENCY_SEL(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieep#_ptm_req_locall
@@ -8471,6 +8599,52 @@ static inline uint64_t CAVM_PCIEEPX_PTM_REQ_MASM(uint64_t a)
 #define arguments_CAVM_PCIEEPX_PTM_REQ_MASM(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGEP) pcieep#_ptm_req_nom_clk_t
+ *
+ * PCIe EP PF PTM Requester Nominal Clock Period Register
+ */
+union cavm_pcieepx_ptm_req_nom_clk_t
+{
+    uint32_t u;
+    struct cavm_pcieepx_ptm_req_nom_clk_t_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t clk_t_int             : 8;  /**< [ 23: 16](RO/H) PTM Requester Nominal Clock Period Integral (in ns). */
+        uint32_t clk_t_frac            : 16; /**< [ 15:  0](RO/H) PTM Requester Nominal Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+#else /* Word 0 - Little Endian */
+        uint32_t clk_t_frac            : 16; /**< [ 15:  0](RO/H) PTM Requester Nominal Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+        uint32_t clk_t_int             : 8;  /**< [ 23: 16](RO/H) PTM Requester Nominal Clock Period Integral (in ns). */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pcieepx_ptm_req_nom_clk_t_s cn; */
+};
+typedef union cavm_pcieepx_ptm_req_nom_clk_t cavm_pcieepx_ptm_req_nom_clk_t_t;
+
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_NOM_CLK_T(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_NOM_CLK_T(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3f8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3f8 + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3f8 + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x3f8 + 0 * ((a) & 0x1);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_NOM_CLK_T", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIEEPX_PTM_REQ_NOM_CLK_T(a) cavm_pcieepx_ptm_req_nom_clk_t_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_NOM_CLK_T(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_NOM_CLK_T(a) "PCIEEPX_PTM_REQ_NOM_CLK_T"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_NOM_CLK_T(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_NOM_CLK_T(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGEP) pcieep#_ptm_req_pdly
  *
  * PCIe EP PF PTM Requester Propagation Delay Register
@@ -8522,9 +8696,15 @@ union cavm_pcieepx_ptm_req_rlat
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
-        uint32_t rrl                   : 12; /**< [ 11:  0](R/W) PTM requester RX latency. */
+        uint32_t rrl                   : 12; /**< [ 11:  0](R/W) PTM requester RX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustement
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIEEP_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
 #else /* Word 0 - Little Endian */
-        uint32_t rrl                   : 12; /**< [ 11:  0](R/W) PTM requester RX latency. */
+        uint32_t rrl                   : 12; /**< [ 11:  0](R/W) PTM requester RX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustement
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIEEP_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
@@ -8551,6 +8731,56 @@ static inline uint64_t CAVM_PCIEEPX_PTM_REQ_RLAT(uint64_t a)
 #define basename_CAVM_PCIEEPX_PTM_REQ_RLAT(a) "PCIEEPX_PTM_REQ_RLAT"
 #define busnum_CAVM_PCIEEPX_PTM_REQ_RLAT(a) (a)
 #define arguments_CAVM_PCIEEPX_PTM_REQ_RLAT(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieep#_ptm_req_scaled_clk_t
+ *
+ * PCIe EP PF PTM Requestor Scaled Clock Period Register
+ */
+union cavm_pcieepx_ptm_req_scaled_clk_t
+{
+    uint32_t u;
+    struct cavm_pcieepx_ptm_req_scaled_clk_t_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t sclk_t_en             : 1;  /**< [ 31: 31](R/W) PTM Requester Scaled Clock Period Enable.
+                                                                 Use the programmed scaled PTM clock period rather then the nominal value. */
+        uint32_t reserved_24_30        : 7;
+        uint32_t sclk_t_int            : 8;  /**< [ 23: 16](R/W) PTM Requester Scaled Clock Period Integral (in ns). */
+        uint32_t sclk_t_frac           : 16; /**< [ 15:  0](R/W) PTM Requester Scaled Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+#else /* Word 0 - Little Endian */
+        uint32_t sclk_t_frac           : 16; /**< [ 15:  0](R/W) PTM Requester Scaled Clock Period Fractional.
+                                                                 LSB is 1/(2^16) ns. */
+        uint32_t sclk_t_int            : 8;  /**< [ 23: 16](R/W) PTM Requester Scaled Clock Period Integral (in ns). */
+        uint32_t reserved_24_30        : 7;
+        uint32_t sclk_t_en             : 1;  /**< [ 31: 31](R/W) PTM Requester Scaled Clock Period Enable.
+                                                                 Use the programmed scaled PTM clock period rather then the nominal value. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_pcieepx_ptm_req_scaled_clk_t_s cn; */
+};
+typedef union cavm_pcieepx_ptm_req_scaled_clk_t cavm_pcieepx_ptm_req_scaled_clk_t_t;
+
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_SCALED_CLK_T(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PCIEEPX_PTM_REQ_SCALED_CLK_T(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CN10KA) && (a<=5))
+        return 0x3fc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CN10KB) && (a<=5))
+        return 0x3fc + 0 * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KA) && (a<=1))
+        return 0x3fc + 0 * ((a) & 0x1);
+    if (cavm_is_model(OCTEONTX_CNF10KB) && (a<=1))
+        return 0x3fc + 0 * ((a) & 0x1);
+    __cavm_csr_fatal("PCIEEPX_PTM_REQ_SCALED_CLK_T", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PCIEEPX_PTM_REQ_SCALED_CLK_T(a) cavm_pcieepx_ptm_req_scaled_clk_t_t
+#define bustype_CAVM_PCIEEPX_PTM_REQ_SCALED_CLK_T(a) CSR_TYPE_PCICONFIGEP
+#define basename_CAVM_PCIEEPX_PTM_REQ_SCALED_CLK_T(a) "PCIEEPX_PTM_REQ_SCALED_CLK_T"
+#define busnum_CAVM_PCIEEPX_PTM_REQ_SCALED_CLK_T(a) (a)
+#define arguments_CAVM_PCIEEPX_PTM_REQ_SCALED_CLK_T(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieep#_ptm_req_stat
@@ -8930,9 +9160,15 @@ union cavm_pcieepx_ptm_req_tlat
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
-        uint32_t rtl                   : 12; /**< [ 11:  0](R/W) PTM requester TX latency. */
+        uint32_t rtl                   : 12; /**< [ 11:  0](R/W) PTM requester TX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustement
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIEEP_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
 #else /* Word 0 - Little Endian */
-        uint32_t rtl                   : 12; /**< [ 11:  0](R/W) PTM requester TX latency. */
+        uint32_t rtl                   : 12; /**< [ 11:  0](R/W) PTM requester TX latency.
+                                                                 There is a register provided for each link speed, and the value used for timestamp adjustement
+                                                                 is automatically selected based on the current link speed.
+                                                                 The PCIEEP_PTM_RES_LATENCY_SEL.LAT_REG_SEL specifies the register to be read/written. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;

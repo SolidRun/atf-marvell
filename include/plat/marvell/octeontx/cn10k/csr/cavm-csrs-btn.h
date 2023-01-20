@@ -486,8 +486,10 @@ union cavm_btn_cfg
                                                                  SOSF and incorrect subframe and tick values. */
         uint64_t internal_rfp_mode     : 1;  /**< [ 26: 26](R/W) Enables the timer internal RFP mode.  When set, the BTN will
                                                                  ignore the RFP signal and instead generate a SOF
-                                                                 (start of frame) when the frame counter reaches the value
-                                                                 specified by [FRAME_MAX]. */
+                                                                 (start of frame) when the frame cycle counter reaches the value
+                                                                 specified by [FRAME_MAX].  The BFN input signal will also be
+                                                                 ignored, and the frame number will be incremented from the
+                                                                 current value. */
         uint64_t rfp_pol               : 1;  /**< [ 25: 25](R/W) Polarity of the radio frame pulse:
                                                                  0 = RFP detected on a falling edge.
                                                                  1 = RFP detected on a rising edge. */
@@ -515,8 +517,10 @@ union cavm_btn_cfg
                                                                  1 = RFP detected on a rising edge. */
         uint64_t internal_rfp_mode     : 1;  /**< [ 26: 26](R/W) Enables the timer internal RFP mode.  When set, the BTN will
                                                                  ignore the RFP signal and instead generate a SOF
-                                                                 (start of frame) when the frame counter reaches the value
-                                                                 specified by [FRAME_MAX]. */
+                                                                 (start of frame) when the frame cycle counter reaches the value
+                                                                 specified by [FRAME_MAX].  The BFN input signal will also be
+                                                                 ignored, and the frame number will be incremented from the
+                                                                 current value. */
         uint64_t safe_late_rfp         : 1;  /**< [ 27: 27](R/W) When set to 1, this will suppress subframe handling when a late-RFP
                                                                  condition occurs.  Without this, a late-RFP may result in an extra
                                                                  SOSF and incorrect subframe and tick values. */

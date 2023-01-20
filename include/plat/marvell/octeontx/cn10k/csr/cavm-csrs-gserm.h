@@ -26943,6 +26943,396 @@ union cavm_gsermx_common_phy_ctrl_bcfg
         uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
                                                                  Bit i of this field controls lane i.
                                                                  This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
+                                                                 0x0 = Reference clock comes from REF_CLK2.
+                                                                 0x1 = Reference clock comes from REF_CLK3.
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
+                                                                   0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
+                                                                   0x1 = 1 TRX has 2 PLL, TX and RX use same PLL, the other PLL is not used.
+                                                                   0x2 = 2 TRX has 2 PLL, each TRX uses separate PLL.
+                                                                   0x3 = 2 TRX has 2 PLL, both TRX use the same PLL, the other PLL is not used.
+                                                                   0x4 = 4 TRX has 2 PLL, TRX 0 and TRX 1 use the same PLL, TRX 2 and TRX 3 use the other PLL.
+                                                                   0x5 = 4 TRX has 2 PLL, all 4 TRX use the same PLL, the other PLL is not used.
+                                                                   Others: Reserved. */
+        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF interface or PHY PRAM interface selection.
+                                                                 0 = GSERM PRAM interface is selected for GSERM to read SRAM or ROM data.
+                                                                 1 = APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
+        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct access enable.
+                                                                   0 = PHY register write and read control functions run at PIN_MCU_CLK.
+                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
+                                                                   1 = PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
+                                                                        Registers can also be accessed all the time. */
+        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY firmware is downloaded by SoC.
+                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
+                                                                 PRAM_SOC_EN must be 0 when this bit is set.
+                                                                   0 = Firmware not ready.
+                                                                   1 = Firmware ready. */
+        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on current and voltage reference.
+                                                                   0 = Power off.
+                                                                   1 = Power on. */
+        uint64_t reserved_1_5          : 5;
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
+        uint64_t reserved_1_5          : 5;
+        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on current and voltage reference.
+                                                                   0 = Power off.
+                                                                   1 = Power on. */
+        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY firmware is downloaded by SoC.
+                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
+                                                                 PRAM_SOC_EN must be 0 when this bit is set.
+                                                                   0 = Firmware not ready.
+                                                                   1 = Firmware ready. */
+        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct access enable.
+                                                                   0 = PHY register write and read control functions run at PIN_MCU_CLK.
+                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
+                                                                   1 = PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
+                                                                        Registers can also be accessed all the time. */
+        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF interface or PHY PRAM interface selection.
+                                                                 0 = GSERM PRAM interface is selected for GSERM to read SRAM or ROM data.
+                                                                 1 = APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
+        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
+                                                                   0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
+                                                                   0x1 = 1 TRX has 2 PLL, TX and RX use same PLL, the other PLL is not used.
+                                                                   0x2 = 2 TRX has 2 PLL, each TRX uses separate PLL.
+                                                                   0x3 = 2 TRX has 2 PLL, both TRX use the same PLL, the other PLL is not used.
+                                                                   0x4 = 4 TRX has 2 PLL, TRX 0 and TRX 1 use the same PLL, TRX 2 and TRX 3 use the other PLL.
+                                                                   0x5 = 4 TRX has 2 PLL, all 4 TRX use the same PLL, the other PLL is not used.
+                                                                   Others: Reserved. */
+        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
+                                                                 Bit i of this field controls lane i.
+                                                                 This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
+                                                                 0x0 = Reference clock comes from REF_CLK2.
+                                                                 0x1 = Reference clock comes from REF_CLK3.
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
+                                                                 Bit i of this field controls lane i.
+                                                                 0x0 = Reference clock is selected by tied value.
+                                                                 0x1 = Reference clock comes from [REFCLK_SEL].
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t reserved_41_42        : 2;
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
+        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
+                                                                 addresses that are not documented in this csr file. This provides a mechanism to
+                                                                 allow RSL access to APB registers that may exist in the phy IP, but which
+                                                                 are not documented in the IP's IPXACT register description file which
+                                                                 was imported to form the APB subblock of this csr file. */
+        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
+                                                                   0 = APB bus reset deasserted.
+                                                                   1 = APB bus reset asserted. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
+        uint64_t refclk_sel_ext        : 1;  /**< [ 47: 47](R/W) External refclk mux select for selection between REF_CLK2 (Std-Ethernet) and
+                                                                 REF_CLK4(Sync-Ethernet).
+                                                                   0 = REF_CLK4 (Sync-Ethernet) is selected.
+                                                                   1 = REF_CLK2 (Std-Ethernet) is selected. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_gsermx_common_phy_ctrl_bcfg_s cn10; */
+    struct cavm_gsermx_common_phy_ctrl_bcfg_cn10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_47_63        : 17;
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
+        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
+                                                                   0 = APB bus reset deasserted.
+                                                                   1 = APB bus reset asserted. */
+        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
+                                                                 addresses that are not documented in this csr file. This provides a mechanism to
+                                                                 allow RSL access to APB registers that may exist in the phy IP, but which
+                                                                 are not documented in the IP's IPXACT register description file which
+                                                                 was imported to form the APB subblock of this csr file. */
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
+        uint64_t reserved_41_42        : 2;
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
+        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
+                                                                 Bit i of this field controls lane i.
+                                                                 0x0 = Reference clock is selected by tied value.
+                                                                 0x1 = Reference clock comes from [REFCLK_SEL].
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
+                                                                 Bit i of this field controls lane i.
+                                                                 This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
+                                                                 0x0 = Reference clock comes from REF_CLK2.
+                                                                 0x1 = Reference clock comes from REF_CLK3.
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
+                                                                   0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
+                                                                   0x1 = 1 TRX has 2 PLL, TX and RX use same PLL, the other PLL is not used.
+                                                                   0x2 = 2 TRX has 2 PLL, each TRX uses separate PLL.
+                                                                   0x3 = 2 TRX has 2 PLL, both TRX use the same PLL, the other PLL is not used.
+                                                                   0x4 = 4 TRX has 2 PLL, TRX 0 and TRX 1 use the same PLL, TRX 2 and TRX 3 use the other PLL.
+                                                                   0x5 = 4 TRX has 2 PLL, all 4 TRX use the same PLL, the other PLL is not used.
+                                                                   Others: Reserved. */
+        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF interface or PHY PRAM interface selection.
+                                                                 0 = GSERM PRAM interface is selected for GSERM to read SRAM or ROM data.
+                                                                 1 = APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
+        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct access enable.
+                                                                   0 = PHY register write and read control functions run at PIN_MCU_CLK.
+                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
+                                                                   1 = PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
+                                                                        Registers can also be accessed all the time. */
+        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY firmware is downloaded by SoC.
+                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
+                                                                 PRAM_SOC_EN must be 0 when this bit is set.
+                                                                   0 = Firmware not ready.
+                                                                   1 = Firmware ready. */
+        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on current and voltage reference.
+                                                                   0 = Power off.
+                                                                   1 = Power on. */
+        uint64_t reserved_1_5          : 5;
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
+        uint64_t reserved_1_5          : 5;
+        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on current and voltage reference.
+                                                                   0 = Power off.
+                                                                   1 = Power on. */
+        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY firmware is downloaded by SoC.
+                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
+                                                                 PRAM_SOC_EN must be 0 when this bit is set.
+                                                                   0 = Firmware not ready.
+                                                                   1 = Firmware ready. */
+        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct access enable.
+                                                                   0 = PHY register write and read control functions run at PIN_MCU_CLK.
+                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
+                                                                   1 = PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
+                                                                        Registers can also be accessed all the time. */
+        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF interface or PHY PRAM interface selection.
+                                                                 0 = GSERM PRAM interface is selected for GSERM to read SRAM or ROM data.
+                                                                 1 = APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
+        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
+                                                                   0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
+                                                                   0x1 = 1 TRX has 2 PLL, TX and RX use same PLL, the other PLL is not used.
+                                                                   0x2 = 2 TRX has 2 PLL, each TRX uses separate PLL.
+                                                                   0x3 = 2 TRX has 2 PLL, both TRX use the same PLL, the other PLL is not used.
+                                                                   0x4 = 4 TRX has 2 PLL, TRX 0 and TRX 1 use the same PLL, TRX 2 and TRX 3 use the other PLL.
+                                                                   0x5 = 4 TRX has 2 PLL, all 4 TRX use the same PLL, the other PLL is not used.
+                                                                   Others: Reserved. */
+        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
+                                                                 Bit i of this field controls lane i.
+                                                                 This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
+                                                                 0x0 = Reference clock comes from REF_CLK2.
+                                                                 0x1 = Reference clock comes from REF_CLK3.
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
+                                                                 Bit i of this field controls lane i.
+                                                                 0x0 = Reference clock is selected by tied value.
+                                                                 0x1 = Reference clock comes from [REFCLK_SEL].
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t reserved_41_42        : 2;
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
+        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
+                                                                 addresses that are not documented in this csr file. This provides a mechanism to
+                                                                 allow RSL access to APB registers that may exist in the phy IP, but which
+                                                                 are not documented in the IP's IPXACT register description file which
+                                                                 was imported to form the APB subblock of this csr file. */
+        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
+                                                                   0 = APB bus reset deasserted.
+                                                                   1 = APB bus reset asserted. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
+        uint64_t reserved_47_63        : 17;
+#endif /* Word 0 - End */
+    } cn10ka;
+    /* struct cavm_gsermx_common_phy_ctrl_bcfg_cn10ka cn10kb; */
+    struct cavm_gsermx_common_phy_ctrl_bcfg_cnf10ka
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_47_63        : 17;
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
+        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
+                                                                   0 = APB bus reset deasserted.
+                                                                   1 = APB bus reset asserted. */
+        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
+                                                                 addresses that are not documented in this csr file. This provides a mechanism to
+                                                                 allow RSL access to APB registers that may exist in the phy IP, but which
+                                                                 are not documented in the IP's IPXACT register description file which
+                                                                 was imported to form the APB subblock of this csr file. */
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
+        uint64_t reserved_41_42        : 2;
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
+        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
+                                                                 Bit i of this field controls lane i.
+                                                                 0x0 = Reference clock is selected by tied value.
+                                                                 0x1 = Reference clock comes from [REFCLK_SEL].
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
+                                                                 Bit i of this field controls lane i.
+                                                                 This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
+                                                                 This bit is used by GSERM(2..6). For GSERM0/1 it is always REF_CLK2.
+                                                                 0x0 = For all GSERM's Reference clock comes from REF_CLK2.
+                                                                 0x1 = For GSERM(2..6) Reference clock comes from TOFC_DEVICE_CLK.
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
+                                                                   0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
+                                                                   0x1 = 1 TRX has 2 PLL, TX and RX use same PLL, the other PLL is not used.
+                                                                   0x2 = 2 TRX has 2 PLL, each TRX uses separate PLL.
+                                                                   0x3 = 2 TRX has 2 PLL, both TRX use the same PLL, the other PLL is not used.
+                                                                   0x4 = 4 TRX has 2 PLL, TRX 0 and TRX 1 use the same PLL, TRX 2 and TRX 3 use the other PLL.
+                                                                   0x5 = 4 TRX has 2 PLL, all 4 TRX use the same PLL, the other PLL is not used.
+                                                                   Others: Reserved. */
+        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF interface or PHY PRAM interface selection.
+                                                                 0 = GSERM PRAM interface is selected for GSERM to read SRAM or ROM data.
+                                                                 1 = APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
+        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct access enable.
+                                                                   0 = PHY register write and read control functions run at PIN_MCU_CLK.
+                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
+                                                                   1 = PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
+                                                                        Registers can also be accessed all the time. */
+        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY firmware is downloaded by SoC.
+                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
+                                                                 PRAM_SOC_EN must be 0 when this bit is set.
+                                                                   0 = Firmware not ready.
+                                                                   1 = Firmware ready. */
+        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on current and voltage reference.
+                                                                   0 = Power off.
+                                                                   1 = Power on. */
+        uint64_t reserved_1_5          : 5;
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
+        uint64_t reserved_1_5          : 5;
+        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on current and voltage reference.
+                                                                   0 = Power off.
+                                                                   1 = Power on. */
+        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY firmware is downloaded by SoC.
+                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
+                                                                 PRAM_SOC_EN must be 0 when this bit is set.
+                                                                   0 = Firmware not ready.
+                                                                   1 = Firmware ready. */
+        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct access enable.
+                                                                   0 = PHY register write and read control functions run at PIN_MCU_CLK.
+                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
+                                                                   1 = PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
+                                                                        Registers can also be accessed all the time. */
+        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF interface or PHY PRAM interface selection.
+                                                                 0 = GSERM PRAM interface is selected for GSERM to read SRAM or ROM data.
+                                                                 1 = APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
+        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
+                                                                   0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
+                                                                   0x1 = 1 TRX has 2 PLL, TX and RX use same PLL, the other PLL is not used.
+                                                                   0x2 = 2 TRX has 2 PLL, each TRX uses separate PLL.
+                                                                   0x3 = 2 TRX has 2 PLL, both TRX use the same PLL, the other PLL is not used.
+                                                                   0x4 = 4 TRX has 2 PLL, TRX 0 and TRX 1 use the same PLL, TRX 2 and TRX 3 use the other PLL.
+                                                                   0x5 = 4 TRX has 2 PLL, all 4 TRX use the same PLL, the other PLL is not used.
+                                                                   Others: Reserved. */
+        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
+                                                                 Bit i of this field controls lane i.
+                                                                 This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
+                                                                 This bit is used by GSERM(2..6). For GSERM0/1 it is always REF_CLK2.
+                                                                 0x0 = For all GSERM's Reference clock comes from REF_CLK2.
+                                                                 0x1 = For GSERM(2..6) Reference clock comes from TOFC_DEVICE_CLK.
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
+                                                                 Bit i of this field controls lane i.
+                                                                 0x0 = Reference clock is selected by tied value.
+                                                                 0x1 = Reference clock comes from [REFCLK_SEL].
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t reserved_41_42        : 2;
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
+        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
+                                                                 addresses that are not documented in this csr file. This provides a mechanism to
+                                                                 allow RSL access to APB registers that may exist in the phy IP, but which
+                                                                 are not documented in the IP's IPXACT register description file which
+                                                                 was imported to form the APB subblock of this csr file. */
+        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
+                                                                   0 = APB bus reset deasserted.
+                                                                   1 = APB bus reset asserted. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
+        uint64_t reserved_47_63        : 17;
+#endif /* Word 0 - End */
+    } cnf10ka;
+    struct cavm_gsermx_common_phy_ctrl_bcfg_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t refclk_sel_ext        : 1;  /**< [ 47: 47](R/W) External refclk mux select for selection between REF_CLK2 (Std-Ethernet) and
+                                                                 REF_CLK4(Sync-Ethernet).
+                                                                   0 = REF_CLK4 (Sync-Ethernet) is selected.
+                                                                   1 = REF_CLK2 (Std-Ethernet) is selected. */
+        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
+        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
+                                                                   0 = APB bus reset deasserted.
+                                                                   1 = APB bus reset asserted. */
+        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
+                                                                 addresses that are not documented in this csr file. This provides a mechanism to
+                                                                 allow RSL access to APB registers that may exist in the phy IP, but which
+                                                                 are not documented in the IP's IPXACT register description file which
+                                                                 was imported to form the APB subblock of this csr file. */
+        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
+        uint64_t reserved_41_42        : 2;
+        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
+        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
+        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
+        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
+        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
+        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
+        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
+        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
+        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
+        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
+                                                                 Bit i of this field controls lane i.
+                                                                 0x0 = Reference clock is selected by tied value.
+                                                                 0x1 = Reference clock comes from [REFCLK_SEL].
+                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
+        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
+                                                                 Bit i of this field controls lane i.
+                                                                 This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
                                                                  0x0 = For GSERM0/1 Reference clock comes from REF_CLK2 and for other GSERM
                                                                  instances Reference clock comes from REF_CLK2/REF_CLK4 based on
                                                                  [REFCLK_SEL_EXT].
@@ -27044,143 +27434,7 @@ union cavm_gsermx_common_phy_ctrl_bcfg
                                                                    1 = REF_CLK2 (Std-Ethernet) is selected. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct cavm_gsermx_common_phy_ctrl_bcfg_s cn10; */
-    struct cavm_gsermx_common_phy_ctrl_bcfg_cn10ka
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_47_63        : 17;
-        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
-        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
-                                                                   0 = APB bus reset deasserted.
-                                                                   1 = APB bus reset asserted. */
-        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
-                                                                 addresses that are not documented in this csr file. This provides a mechanism to
-                                                                 allow RSL access to APB registers that may exist in the phy IP, but which
-                                                                 are not documented in the IP's IPXACT register description file which
-                                                                 was imported to form the APB subblock of this csr file. */
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
-        uint64_t reserved_41_42        : 2;
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
-        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
-        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
-        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
-        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
-                                                                 Bit i of this field controls lane i.
-                                                                 0x0 = Reference clock is selected by tied value.
-                                                                 0x1 = Reference clock comes from [REFCLK_SEL].
-                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
-        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
-                                                                 Bit i of this field controls lane i.
-                                                                 This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
-                                                                 0x0 = For GSERM0/1 Reference clock comes from REF_CLK2 and for other GSERM
-                                                                 instances Reference clock comes from REF_CLK2/REF_CLK4 based on
-                                                                 [REFCLK_SEL_EXT].
-                                                                 0x1 = For GSERM0/1 Reference clock comes from REF_CLK4 and for other GSERM
-                                                                 instances Reference clock comes from REF_CLK3.
-                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
-        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
-                                                                   0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
-                                                                   0x1 = 1 TRX has 2 PLL, TX and RX use same PLL, the other PLL is not used.
-                                                                   0x2 = 2 TRX has 2 PLL, each TRX uses separate PLL.
-                                                                   0x3 = 2 TRX has 2 PLL, both TRX use the same PLL, the other PLL is not used.
-                                                                   0x4 = 4 TRX has 2 PLL, TRX 0 and TRX 1 use the same PLL, TRX 2 and TRX 3 use the other PLL.
-                                                                   0x5 = 4 TRX has 2 PLL, all 4 TRX use the same PLL, the other PLL is not used.
-                                                                   Others: Reserved. */
-        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF interface or PHY PRAM interface selection.
-                                                                 0 = GSERM PRAM interface is selected for GSERM to read SRAM or ROM data.
-                                                                 1 = APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
-        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct access enable.
-                                                                   0 = PHY register write and read control functions run at PIN_MCU_CLK.
-                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
-                                                                   1 = PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
-                                                                        Registers can also be accessed all the time. */
-        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY firmware is downloaded by SoC.
-                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
-                                                                 PRAM_SOC_EN must be 0 when this bit is set.
-                                                                   0 = Firmware not ready.
-                                                                   1 = Firmware ready. */
-        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on current and voltage reference.
-                                                                   0 = Power off.
-                                                                   1 = Power on. */
-        uint64_t reserved_1_5          : 5;
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
-#else /* Word 0 - Little Endian */
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W) Power on reset signal, active high. */
-        uint64_t reserved_1_5          : 5;
-        uint64_t pu_ivref              : 1;  /**< [  6:  6](R/W) Power-on current and voltage reference.
-                                                                   0 = Power off.
-                                                                   1 = Power on. */
-        uint64_t fw_ready              : 1;  /**< [  7:  7](R/W) PHY firmware is downloaded by SoC.
-                                                                 After SoC download PHY firmware and speed table, SoC should set FW_READY = 1.
-                                                                 PRAM_SOC_EN must be 0 when this bit is set.
-                                                                   0 = Firmware not ready.
-                                                                   1 = Firmware ready. */
-        uint64_t direct_access_en      : 1;  /**< [  8:  8](R/W) Direct access enable.
-                                                                   0 = PHY register write and read control functions run at PIN_MCU_CLK.
-                                                                        Registers can be accessed when PHY MCUs are disabled or MCUs are not in IDLE or STOP mode.
-                                                                   1 = PHY register write and read control functions run at PIN_PCLK or PIN_SIF_CLK.
-                                                                        Registers can also be accessed all the time. */
-        uint64_t pram_soc_en           : 1;  /**< [  9:  9](R/W) APB3 or SIF interface or PHY PRAM interface selection.
-                                                                 0 = GSERM PRAM interface is selected for GSERM to read SRAM or ROM data.
-                                                                 1 = APB3 or SIF interface is selected for SoC to download firmware to SRAM. */
-        uint64_t spd_cfg               : 4;  /**< [ 13: 10](R/W) Speed Configuration.
-                                                                   0x0 = 1 TRX has 2 PLL, TX and RX use separate PLL.
-                                                                   0x1 = 1 TRX has 2 PLL, TX and RX use same PLL, the other PLL is not used.
-                                                                   0x2 = 2 TRX has 2 PLL, each TRX uses separate PLL.
-                                                                   0x3 = 2 TRX has 2 PLL, both TRX use the same PLL, the other PLL is not used.
-                                                                   0x4 = 4 TRX has 2 PLL, TRX 0 and TRX 1 use the same PLL, TRX 2 and TRX 3 use the other PLL.
-                                                                   0x5 = 4 TRX has 2 PLL, all 4 TRX use the same PLL, the other PLL is not used.
-                                                                   Others: Reserved. */
-        uint64_t refclk_sel            : 4;  /**< [ 17: 14](R/W) Reference clock select.
-                                                                 Bit i of this field controls lane i.
-                                                                 This bit has effect only when corresponding bit of [REFCLK_SEL_EN] is set.
-                                                                 0x0 = For GSERM0/1 Reference clock comes from REF_CLK2 and for other GSERM
-                                                                 instances Reference clock comes from REF_CLK2/REF_CLK4 based on
-                                                                 [REFCLK_SEL_EXT].
-                                                                 0x1 = For GSERM0/1 Reference clock comes from REF_CLK4 and for other GSERM
-                                                                 instances Reference clock comes from REF_CLK3.
-                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
-        uint64_t refclk_sel_en         : 4;  /**< [ 21: 18](R/W) Reference clock select enable.
-                                                                 Bit i of this field controls lane i.
-                                                                 0x0 = Reference clock is selected by tied value.
-                                                                 0x1 = Reference clock comes from [REFCLK_SEL].
-                                                                 This needs to be programmed correctly before releasing GSERM_COMMON_PHY_CTRL_BCFG[RESET]. */
-        uint64_t cpu_reset             : 1;  /**< [ 22: 22](R/W) Reserved. */
-        uint64_t refclk_input_sel      : 3;  /**< [ 25: 23](R/W) Reserved. */
-        uint64_t refclk_left_output_sel : 4; /**< [ 29: 26](R/W/H) Reserved. */
-        uint64_t refclk_right_output_sel : 4;/**< [ 33: 30](R/W/H) Reserved. */
-        uint64_t refclk_hiz_ena        : 1;  /**< [ 34: 34](R/W) Reserved. */
-        uint64_t refclk_pad_ena        : 1;  /**< [ 35: 35](R/W) Reserved. */
-        uint64_t refclk_b_oe_r         : 1;  /**< [ 36: 36](R/W/H) Reserved. */
-        uint64_t refclk_a_oe_r         : 1;  /**< [ 37: 37](R/W/H) Reserved. */
-        uint64_t refclk_b_oe_l         : 1;  /**< [ 38: 38](R/W/H) Reserved. */
-        uint64_t refclk_a_oe_l         : 1;  /**< [ 39: 39](R/W/H) Reserved. */
-        uint64_t phy_rext_master       : 1;  /**< [ 40: 40](R/W/H) Reserved. */
-        uint64_t reserved_41_42        : 2;
-        uint64_t pmem_wr_prot          : 1;  /**< [ 43: 43](R/W) Reserved. */
-        uint64_t dis_apb_csr_addr_filter : 1;/**< [ 44: 44](R/W) Set to 1 to disable the address filter that nomally blocks APB accesses for
-                                                                 addresses that are not documented in this csr file. This provides a mechanism to
-                                                                 allow RSL access to APB registers that may exist in the phy IP, but which
-                                                                 are not documented in the IP's IPXACT register description file which
-                                                                 was imported to form the APB subblock of this csr file. */
-        uint64_t apb_reset             : 1;  /**< [ 45: 45](R/W) Reset for CPU's APB bus. Must be set to zero prior to accessing APB bus via JTAG or RSL.
-                                                                   0 = APB bus reset deasserted.
-                                                                   1 = APB bus reset asserted. */
-        uint64_t refclk_override       : 1;  /**< [ 46: 46](R/W) Reserved. */
-        uint64_t reserved_47_63        : 17;
-#endif /* Word 0 - End */
-    } cn10ka;
-    /* struct cavm_gsermx_common_phy_ctrl_bcfg_cn10ka cn10kb; */
-    /* struct cavm_gsermx_common_phy_ctrl_bcfg_cn10ka cnf10ka; */
-    /* struct cavm_gsermx_common_phy_ctrl_bcfg_s cnf10kb; */
+    } cnf10kb;
 };
 typedef union cavm_gsermx_common_phy_ctrl_bcfg cavm_gsermx_common_phy_ctrl_bcfg_t;
 

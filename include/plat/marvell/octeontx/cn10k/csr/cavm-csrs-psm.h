@@ -2377,6 +2377,166 @@ static inline uint64_t CAVM_PSM_LOG_CFG_FUNC(void)
 #define arguments_CAVM_PSM_LOG_CFG -1,-1,-1,-1
 
 /**
+ * Register (NCB) psm_log_filter#_cfg
+ *
+ * PHY Scheduler Log Filter Configuration Registers
+ * These registers, along with PSM_LOG_FILTER()_OPCODE, will
+ * configure a set of log filters that block commands from being
+ * written into the PSM command log.  If a command matches any of
+ * the log filters, it will not be logged.
+ * Each filter has an opcode bitmap, programmed by software in
+ * PSM_LOG_FILTER()_OPCODE, which selects command opcodes for which
+ * the filter will be active.  The filter also has a [MASK], [VALUE],
+ * and [OFFSET], which specify a portion of the command to be
+ * compared.  The comparison match can also be inverted by the
+ * [INVERT] bit.
+ * Any command which is selected by the opcode bitmap and results
+ * in a successful match will not be logged.
+ */
+union cavm_psm_log_filterx_cfg
+{
+    uint64_t u;
+    struct cavm_psm_log_filterx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t invert                : 1;  /**< [ 63: 63](R/W) When 1, inverts the comparison match. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t offset                : 4;  /**< [ 59: 56](R/W) Byte offset into the command for the [MASK] and [VALUE]
+                                                                 comparison. */
+        uint64_t reserved_48_55        : 8;
+        uint64_t mask                  : 24; /**< [ 47: 24](R/W) Mask bits for the comparison.  A mask bit value of 1 will allow
+                                                                 the command bit to be compared, and a mask bit value of 0 will
+                                                                 ignore the command bit. */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Bits to be compared against the command. */
+#else /* Word 0 - Little Endian */
+        uint64_t value                 : 24; /**< [ 23:  0](R/W) Bits to be compared against the command. */
+        uint64_t mask                  : 24; /**< [ 47: 24](R/W) Mask bits for the comparison.  A mask bit value of 1 will allow
+                                                                 the command bit to be compared, and a mask bit value of 0 will
+                                                                 ignore the command bit. */
+        uint64_t reserved_48_55        : 8;
+        uint64_t offset                : 4;  /**< [ 59: 56](R/W) Byte offset into the command for the [MASK] and [VALUE]
+                                                                 comparison. */
+        uint64_t reserved_60_62        : 3;
+        uint64_t invert                : 1;  /**< [ 63: 63](R/W) When 1, inverts the comparison match. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_log_filterx_cfg_s cn; */
+};
+typedef union cavm_psm_log_filterx_cfg cavm_psm_log_filterx_cfg_t;
+
+static inline uint64_t CAVM_PSM_LOG_FILTERX_CFG(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_LOG_FILTERX_CFG(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA_A1) && (a<=7))
+        return 0x8600010f4200ll + 0x10ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX) && (a<=7))
+        return 0x8600010f4200ll + 0x10ll * ((a) & 0x7);
+    __cavm_csr_fatal("PSM_LOG_FILTERX_CFG", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_LOG_FILTERX_CFG(a) cavm_psm_log_filterx_cfg_t
+#define bustype_CAVM_PSM_LOG_FILTERX_CFG(a) CSR_TYPE_NCB
+#define basename_CAVM_PSM_LOG_FILTERX_CFG(a) "PSM_LOG_FILTERX_CFG"
+#define busnum_CAVM_PSM_LOG_FILTERX_CFG(a) (a)
+#define arguments_CAVM_PSM_LOG_FILTERX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) psm_log_filter#_opcode
+ *
+ * PHY Scheduler Log Filter Opcode Registers
+ * Log filter opcode bitmap.  See PSM_LOG_FILTER()_CFG for
+ * more details.
+ */
+union cavm_psm_log_filterx_opcode
+{
+    uint64_t u;
+    struct cavm_psm_log_filterx_opcode_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t opc_bitmap            : 40; /**< [ 39:  0](R/W) Selects the command opcodes to which the log filter will
+                                                                 apply.  The default value of 0x0 will not match any command
+                                                                 opcodes, and so the filter will not be active by default.
+
+                                                                 The bit assignments are as follows:
+                                                                  0 = PSM_OP_ADDJOB (set0)   opc=0x01.
+                                                                  1 = PSM_OP_CONTJOB (set0)   opc=0x02.
+                                                                  2 = PSM_OP_ADDJOB (set1)   opc=0x41.
+                                                                  3 = PSM_OP_CONTJOB (set1)   opc=0x42.
+                                                                  4 = PSM_OP_ADDJOB (set2)   opc=0x81.
+                                                                  5 = PSM_OP_CONTJOB (set2)   opc=0x82.
+                                                                  6,7 = Reserved.
+                                                                  8 = PSM_OP_RSP (set0)   opc=0x3F.
+                                                                  9 = PSM_OP_RSP (set1)   opc=0x3F.
+                                                                  10 = PSM_OP_RSP (set2)   opc=0x3F.
+                                                                  11-15 = Reserved.
+                                                                  16 = PSM_OP_DJCNT   opc=0x10.
+                                                                  17 = PSM_OP_GPINT   opc=0x11.
+                                                                  18 = Reserved.
+                                                                  19 = PSM_OP_ADDWORK   opc=0x13.
+                                                                  20 = PSM_OP_FREE   opc=0x14.
+                                                                  21 = PSM_OP_WRSTS   opc=0x15.
+                                                                  22 = PSM_OP_WRMSG   opc=0x16.
+                                                                  23 = PSM_OP_ADDNOTIF   opc=0x17.
+                                                                  24-31 = Reserved.
+                                                                  32 = PSM_OP_QRST   opc=0x20.
+                                                                  33 = PSM_OP_QBLK   opc=0x21.
+                                                                  34 = PSM_OP_QRUN   opc=0x22.
+                                                                  35-39 = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t opc_bitmap            : 40; /**< [ 39:  0](R/W) Selects the command opcodes to which the log filter will
+                                                                 apply.  The default value of 0x0 will not match any command
+                                                                 opcodes, and so the filter will not be active by default.
+
+                                                                 The bit assignments are as follows:
+                                                                  0 = PSM_OP_ADDJOB (set0)   opc=0x01.
+                                                                  1 = PSM_OP_CONTJOB (set0)   opc=0x02.
+                                                                  2 = PSM_OP_ADDJOB (set1)   opc=0x41.
+                                                                  3 = PSM_OP_CONTJOB (set1)   opc=0x42.
+                                                                  4 = PSM_OP_ADDJOB (set2)   opc=0x81.
+                                                                  5 = PSM_OP_CONTJOB (set2)   opc=0x82.
+                                                                  6,7 = Reserved.
+                                                                  8 = PSM_OP_RSP (set0)   opc=0x3F.
+                                                                  9 = PSM_OP_RSP (set1)   opc=0x3F.
+                                                                  10 = PSM_OP_RSP (set2)   opc=0x3F.
+                                                                  11-15 = Reserved.
+                                                                  16 = PSM_OP_DJCNT   opc=0x10.
+                                                                  17 = PSM_OP_GPINT   opc=0x11.
+                                                                  18 = Reserved.
+                                                                  19 = PSM_OP_ADDWORK   opc=0x13.
+                                                                  20 = PSM_OP_FREE   opc=0x14.
+                                                                  21 = PSM_OP_WRSTS   opc=0x15.
+                                                                  22 = PSM_OP_WRMSG   opc=0x16.
+                                                                  23 = PSM_OP_ADDNOTIF   opc=0x17.
+                                                                  24-31 = Reserved.
+                                                                  32 = PSM_OP_QRST   opc=0x20.
+                                                                  33 = PSM_OP_QBLK   opc=0x21.
+                                                                  34 = PSM_OP_QRUN   opc=0x22.
+                                                                  35-39 = Reserved. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct cavm_psm_log_filterx_opcode_s cn; */
+};
+typedef union cavm_psm_log_filterx_opcode cavm_psm_log_filterx_opcode_t;
+
+static inline uint64_t CAVM_PSM_LOG_FILTERX_OPCODE(uint64_t a) __attribute__ ((pure, always_inline));
+static inline uint64_t CAVM_PSM_LOG_FILTERX_OPCODE(uint64_t a)
+{
+    if (cavm_is_model(OCTEONTX_CNF10KA_A1) && (a<=7))
+        return 0x8600010f4300ll + 0x10ll * ((a) & 0x7);
+    if (cavm_is_model(OCTEONTX_CNF10KB_BX) && (a<=7))
+        return 0x8600010f4300ll + 0x10ll * ((a) & 0x7);
+    __cavm_csr_fatal("PSM_LOG_FILTERX_OPCODE", 1, a, 0, 0, 0, 0, 0);
+}
+
+#define typedef_CAVM_PSM_LOG_FILTERX_OPCODE(a) cavm_psm_log_filterx_opcode_t
+#define bustype_CAVM_PSM_LOG_FILTERX_OPCODE(a) CSR_TYPE_NCB
+#define basename_CAVM_PSM_LOG_FILTERX_OPCODE(a) "PSM_LOG_FILTERX_OPCODE"
+#define busnum_CAVM_PSM_LOG_FILTERX_OPCODE(a) (a)
+#define arguments_CAVM_PSM_LOG_FILTERX_OPCODE(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) psm_log_ptr
  *
  * PHY Scheduler Log Pointer Register
