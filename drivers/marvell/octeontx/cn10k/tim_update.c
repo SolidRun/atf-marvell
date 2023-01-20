@@ -1608,6 +1608,8 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 				UERROR("Flash inconsistencies found.  A complete update image is required\n");
 				return -EINVAL;
 			}
+			UINFO("TIM %s and Object %s OK\n", obj->data_file->filename,
+			      obj->data_file->filename);
 		}
 	}
 
@@ -1632,7 +1634,6 @@ check_flash_files_async(struct async_update_data *data)
 	struct smc_update_descriptor *desc = data->desc;
 	enum update_ret ret;
 
-	UINFO("Checking files in flash async\n");
 	while (data->obj) {
 		if (data->obj->data_file != NULL) {
 			ret = check_flash_object(desc, data->obj);
@@ -1643,11 +1644,13 @@ check_flash_files_async(struct async_update_data *data)
 			if (data->obj->update_all)
 				data->update_all = true;
 			if (data->update_all && !data->all_present) {
-				desc->retcode = ret;
+				desc->retcode = -EINVAL;
 				UERROR("Flash inconsistencies found."
 				       "A complete update image is required\n");
-				return -EINVAL;
+				return ASYNC_CHECK_ERROR;
 			}
+			UINFO("TIM %s and Object %s OK\n", data->obj->data_file->filename,
+			      data->obj->data_file->filename);
 		}
 		data->obj = data->obj->next;
 		return ASYNC_CHECK_CONTINUE;
@@ -1690,10 +1693,43 @@ static enum update_ret check_files(void)
 			err = validate_hash(obj);
 			if (err)
 				return err;
-			INFO("Object %s OK\n", obj->data_file->filename);
+			UINFO("Object %s OK\n", obj->data_file->filename);
 		}
 	}
 	return UPDATE_OK;
+}
+
+static enum async_file_check_ret check_files_async(struct async_update_data *data)
+{
+	struct smc_update_descriptor *desc = data->desc;
+	int err;
+
+	while (data->obj) {
+		gti_wdog_pet();
+		err = check_file_loc_size(data->obj->tim_file);
+		if (err) {
+			desc->retcode = UPDATE_LOCATION_ERROR;
+			return ASYNC_CHECK_ERROR;
+		}
+		UINFO("TIM %s OK\n", data->obj->tim_file->filename);
+		if (data->obj->data_file) {
+			err = check_file_loc_size(data->obj->data_file);
+			if (err) {
+				desc->retcode = UPDATE_LOCATION_ERROR;
+				return ASYNC_CHECK_ERROR;
+			}
+
+			err = validate_hash(data->obj);
+			if (err) {
+				desc->retcode = err;
+				return ASYNC_CHECK_ERROR;
+			}
+			UINFO("Object %s OK\n", data->obj->data_file->filename);
+		}
+		data->obj = data->obj->next;
+		return ASYNC_CHECK_CONTINUE;
+	}
+	return ASYNC_CHECK_DONE;
 }
 
 static inline int get_spi_mode(uint64_t offset)
@@ -2994,19 +3030,17 @@ enum spi_dc_ret async_update_callback(void *p)
 			break;
 		}
 		param->all_present = (update_ret == 1);
+		param->init_variables = false; /* Reinit *obj pointer */
 		param->state++;
 		break;
 	case AUPDATE_CHECK_FILES:
 		UINFO("Check files stage\n");
-		update_ret = check_files();
-		if (update_ret) {
-			UERROR("Error parsing files\n");
-			desc->retcode = update_ret;
+		file_check_ret = check_files_async(param);
+		if (file_check_ret == ASYNC_CHECK_DONE) {
+			param->state++;
+			param->init_variables = false; /* Reinit *obj pointer */
+		} else if (file_check_ret == ASYNC_CHECK_ERROR)
 			param->state = AUPDATE_CLEANUP;
-			break;
-		}
-		param->init_variables = false;
-		param->state++;
 		break;
 	case AUPDATE_CHECK_FLASH_FILES:
 		UINFO("Check flash files stage\n");
