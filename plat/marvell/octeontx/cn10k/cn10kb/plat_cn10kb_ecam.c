@@ -308,6 +308,10 @@ static void init_xspi(uint64_t config_base, uint64_t config_size)
 			vector_base += 8;
 		}
 	}
+
+	CSR_MODIFY(c, CAVM_SPIX_CLK_CTRL(spi_id),
+			c.s.spi_sclk_force = 1;
+			c.s.spi_imsc_shadow = 1);
 }
 
 struct ecam_init_callback plat_init_callbacks[] = {
