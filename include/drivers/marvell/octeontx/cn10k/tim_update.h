@@ -132,6 +132,8 @@ struct smc_update_obj_info {
 #define UPDATE_FLAG_ERASE_CONFIG	BIT(5)
 /** Log update progress */
 #define UPDATE_FLAG_LOG_PROGRESS	BIT(6)
+/** Don't perform hash verification */
+#define UPDATE_FLAG_IGNORE_HASH		BIT(7)
 /** Debug */
 #define UPDATE_FLAG_DEBUG			BIT(8)
 /** Set when user parameters are passed */

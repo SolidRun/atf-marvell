@@ -1673,7 +1673,7 @@ check_flash_groups_async(struct async_update_data *data)
 /**
  * Check all files in the update file
  */
-static enum update_ret check_files(void)
+static enum update_ret check_files(const struct smc_update_descriptor *desc)
 {
 	struct object_entry *obj;
 	int err;
@@ -1690,9 +1690,11 @@ static enum update_ret check_files(void)
 			if (err)
 				return UPDATE_LOCATION_ERROR;
 
-			err = validate_hash(obj);
-			if (err)
-				return err;
+			if (!(desc->update_flags & UPDATE_FLAG_IGNORE_HASH)) {
+				err = validate_hash(obj);
+				if (err)
+					return err;
+			}
 			UINFO("Object %s OK\n", obj->data_file->filename);
 		}
 	}
@@ -1719,10 +1721,12 @@ static enum async_file_check_ret check_files_async(struct async_update_data *dat
 				return ASYNC_CHECK_ERROR;
 			}
 
-			err = validate_hash(data->obj);
-			if (err) {
-				desc->retcode = err;
-				return ASYNC_CHECK_ERROR;
+			if (!(desc->update_flags & UPDATE_FLAG_IGNORE_HASH)) {
+				err = validate_hash(data->obj);
+				if (err) {
+					desc->retcode = err;
+					return ASYNC_CHECK_ERROR;
+				}
 			}
 			UINFO("Object %s OK\n", data->obj->data_file->filename);
 		}
@@ -3201,7 +3205,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 
 	gti_wdog_pet();
 	UINFO("Validating objects...\n");
-	ret = check_files();
+	ret = check_files(desc);
 	if (ret != UPDATE_OK)
 		goto error;
 
