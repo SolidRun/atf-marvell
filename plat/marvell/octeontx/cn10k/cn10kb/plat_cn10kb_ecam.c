@@ -300,10 +300,6 @@ static void init_xspi(uint64_t config_base, uint64_t config_size)
 	else
 		spi_id = 0;
 
-	if (!cavm_is_model(OCTEONTX_CN10KB)) {
-		CSR_WRITE(CAVM_SPIX_INTR(spi_id), ~0ULL);
-		CSR_WRITE(CAVM_SPIX_INTR_ENA_W1C(spi_id), ~0ULL);
-	}
 	vsec_sctl.s.msix_sec_en = 0;
 	vsec_sctl.s.msix_sec_phys = 0;
 	vsec_sctl.s.msix_phys = 1;
@@ -321,8 +317,6 @@ static void init_xspi(uint64_t config_base, uint64_t config_size)
 			vector_base += 8;
 		}
 	}
-	if (!cavm_is_model(OCTEONTX_CN10KB))
-		CSR_WRITE(CAVM_SPIX_INTR_ENA_W1S(spi_id), 1ULL);
 }
 
 struct ecam_init_callback plat_init_callbacks[] = {
