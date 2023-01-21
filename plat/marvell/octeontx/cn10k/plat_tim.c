@@ -11,6 +11,7 @@
 #include <libfdt.h>
 #include <octeontx_io_storage.h>
 #include <plat_tim.h>
+#include <ehsm-drv.h>
 #include "libtim.h"
 #include "cavm-platform.h"
 
@@ -182,7 +183,14 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		ret = -ENOENT;
 		goto done;
 	}
-
+	VERBOSE("Verifying TIM digital signature...\n");
+	ret = ehsm_verify_tim_digital_signature(handle, hinfo, tim_buffer);
+	if (ret != TIM_NO_ERROR) {
+		ERROR("TIM digital signature verification failed!\n");
+		ret = -EAUTH;
+		goto done;
+	}
+	VERBOSE("Verification passed.\n");
 	ret = tim_get_load_info(handle, &tspec->tim_info);
 	if (ret != TIM_NO_ERROR) {
 		ERROR("Error %d getting TIM file information\n", ret);
