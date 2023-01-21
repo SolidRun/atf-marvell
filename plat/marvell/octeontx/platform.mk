@@ -55,25 +55,25 @@ include lib/xlat_tables_v2/xlat_tables.mk
 include drivers/arm/gic/v3/gicv3.mk
 
 MARVELL_GIC_SOURCES	:=	${GICV3_SOURCES}	\
-				plat/common/plat_gicv3.c	\
+				plat/common/plat_gicv3.c		\
 				drivers/marvell/octeontx/gicv3_setup.c	\
 
 PLAT_BL_COMMON_SOURCES	:=	drivers/arm/pl011/aarch64/pl011_console.S	\
-				drivers/marvell/octeontx/mmc.c		\
+				drivers/marvell/octeontx/mmc.c			\
 				drivers/marvell/octeontx/twsi_core.c		\
-				drivers/marvell/octeontx/twsi.c		\
+				drivers/marvell/octeontx/twsi.c			\
 				drivers/delay_timer/delay_timer.c		\
-				drivers/marvell/octeontx/timers_octeontx.c		\
+				drivers/marvell/octeontx/timers_octeontx.c	\
 				${LIBFDT_DIR}/fdt.c				\
 				${LIBFDT_DIR}/fdt_ro.c				\
 				${LIBFDT_DIR}/fdt_rw.c				\
 				${LIBFDT_DIR}/fdt_wip.c				\
 				plat/marvell/octeontx/octeontx_common.c		\
-				plat/marvell/octeontx/octeontx_dram.c			\
+				plat/marvell/octeontx/octeontx_dram.c		\
 				plat/marvell/octeontx/dlmalloc.c		\
 				plat/marvell/octeontx/plat_mem_alloc.c		\
-				plat/marvell/octeontx/aarch64/octeontx_report_exception.S	\
-				plat/marvell/octeontx/aarch64/octeontx_helpers.S 	\
+				plat/marvell/octeontx/aarch64/octeontx_report_exception.S \
+				plat/marvell/octeontx/aarch64/octeontx_helpers.S \
 				${XLAT_TABLES_LIB_SRCS}				\
 				${LIBC_SRCS}
 
@@ -82,31 +82,31 @@ $(eval $(call add_define,ENABLE_RECORD_FWLOG))
 PLAT_BL_COMMON_SOURCES	+=	drivers/marvell/octeontx/mem_console.S
 endif
 
-BL2_SOURCES +=			drivers/io/io_memmap.c				\
-				drivers/io/io_storage.c				\
-				drivers/io/io_dummy.c				\
+BL2_SOURCES +=			drivers/io/io_memmap.c					\
+				drivers/io/io_storage.c					\
+				drivers/io/io_dummy.c					\
 				plat/marvell/octeontx/octeontx_bl2_setup.c		\
 				plat/marvell/octeontx/octeontx_ecam.c			\
 				plat/marvell/octeontx/octeontx_board_cfg_setup.c	\
 				plat/marvell/octeontx/octeontx_scfg_setup.c		\
 				plat/marvell/octeontx/aarch64/octeontx_reset_handler.S	\
 				common/desc_image_load.c				\
-				plat/marvell/octeontx/aarch64/octeontx_bl2_mem_params_desc.c	\
+				plat/marvell/octeontx/aarch64/octeontx_bl2_mem_params_desc.c \
 				plat/marvell/octeontx/octeontx_image_load.c
 
 BL31_SOURCES		+=	${MARVELL_GIC_SOURCES}		\
-				lib/timers/timers.c				\
+				lib/timers/timers.c					\
 				drivers/marvell/octeontx/gpio_octeontx.c		\
-				drivers/marvell/octeontx/gti_watchdog.c                  \
-				plat/marvell/octeontx/octeontx_bl31_setup.c			\
-				plat/marvell/octeontx/octeontx_ehf.c		\
-				plat/marvell/octeontx/octeontx_legacy_pm.c			\
+				drivers/marvell/octeontx/gti_watchdog.c                 \
+				plat/marvell/octeontx/octeontx_bl31_setup.c		\
+				plat/marvell/octeontx/octeontx_ehf.c			\
+				plat/marvell/octeontx/octeontx_legacy_pm.c		\
 				plat/marvell/octeontx/octeontx_legacy_pwrc.c		\
-				plat/marvell/octeontx/octeontx_mmap_utils.c	\
-				plat/marvell/octeontx/octeontx_svc.c				\
-				plat/common/plat_psci_common.c			\
-				plat/marvell/octeontx/aarch64/octeontx_bl31_exceptions.S	\
-				plat/marvell/octeontx/octeontx_ras.c	\
+				plat/marvell/octeontx/octeontx_mmap_utils.c		\
+				plat/marvell/octeontx/octeontx_svc.c			\
+				plat/common/plat_psci_common.c				\
+				plat/marvell/octeontx/aarch64/octeontx_bl31_exceptions.S \
+				plat/marvell/octeontx/octeontx_ras.c
 
 # Add xSPI or MPI support based on platform
 ifeq (${BUILD_XSPI}, 1)

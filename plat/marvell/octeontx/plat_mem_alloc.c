@@ -36,13 +36,15 @@ void *octeontx_alloc_heap_block(intptr_t increment)
 
 int octeontx_init_heap(void)
 {
-#if defined(PLAT_XLAT_TABLES_DYNAMIC)
+#if defined(IMAGE_BL31)
+# if defined(PLAT_XLAT_TABLES_DYNAMIC)
 	octeontx_mmap_add_dynamic_region_with_sync(HEAP_BASE, HEAP_BASE,
 						   HEAP_MAX_SIZE,
 						   MT_DEVICE | MT_RW  | MT_SECURE);
-#else
+# else
 	mmap_add_region(HEAP_BASE, HEAP_BASE, HEAP_MAX_SIZE,
 			MT_DEVICE | MT_RW | MT_SECURE);
+# endif
 #endif
 	current_ptr = heap_start;
 

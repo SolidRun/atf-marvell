@@ -55,6 +55,7 @@
 #include <libtim.h>
 #include <plat_board_cfg.h>
 #include <gserm.h>
+#include <plat_mem_alloc.h>
 #endif
 
 #if defined(ENABLE_RECORD_FWLOG)
@@ -615,6 +616,7 @@ void bl2_platform_setup(void)
 	octeontx_io_setup();
 
 #if defined(PLAT_CN10K_FAMILY)
+	octeontx_init_heap();
 	gserm_reset_init();
 #endif
 
