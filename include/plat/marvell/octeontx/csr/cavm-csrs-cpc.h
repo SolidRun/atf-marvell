@@ -29,6 +29,17 @@
 #define CAVM_CPC_BAR_E_CPC_PF_BAR0_SIZE 0x100000ull
 
 /**
+ * Enumeration cpc_dvfs_mode_e
+ *
+ * CPC Power Control Mode Enumeration
+ * Enumerates major modes of the power control firmware.
+ */
+#define CAVM_CPC_DVFS_MODE_E_EFFICIENT_OPERATION (3)
+#define CAVM_CPC_DVFS_MODE_E_MANUAL_CONTROL (4)
+#define CAVM_CPC_DVFS_MODE_E_POWER_CAPPED (1)
+#define CAVM_CPC_DVFS_MODE_E_THERMAL_BUDGET (2)
+
+/**
  * Enumeration cpc_permit_e
  *
  * CPC Permit Enumeration

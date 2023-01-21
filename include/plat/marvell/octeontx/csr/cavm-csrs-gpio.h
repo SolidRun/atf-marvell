@@ -3804,25 +3804,14 @@ union cavm_gpio_pkg_ver
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
         uint64_t pkg_ver               : 3;  /**< [  2:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A = for CNF95XXN. */
+                                                                 0x0 = SKU package A = for LOKI. */
 #else /* Word 0 - Little Endian */
         uint64_t pkg_ver               : 3;  /**< [  2:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A = for CNF95XXN. */
+                                                                 0x0 = SKU package A = for LOKI. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } f95o;
-    struct cavm_gpio_pkg_ver_loki
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t pkg_ver               : 3;  /**< [  2:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A = for LOKI. */
-#else /* Word 0 - Little Endian */
-        uint64_t pkg_ver               : 3;  /**< [  2:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A = for LOKI. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } loki;
+    /* struct cavm_gpio_pkg_ver_f95o loki; */
 };
 typedef union cavm_gpio_pkg_ver cavm_gpio_pkg_ver_t;
 

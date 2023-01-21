@@ -67,6 +67,8 @@ static inline uint64_t CAVM_NCBW_CFG_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF95XX))
         return 0x87e040000000ll;
+    if (cavm_is_model(OCTEONTX_F95MM))
+        return 0x87e040000000ll;
     __cavm_csr_fatal("NCBW_CFG", 0, 0, 0, 0, 0, 0, 0);
 }
 
@@ -117,6 +119,8 @@ static inline uint64_t CAVM_NCBW_STATUS_FUNC(void) __attribute__ ((pure, always_
 static inline uint64_t CAVM_NCBW_STATUS_FUNC(void)
 {
     if (cavm_is_model(OCTEONTX_CNF95XX))
+        return 0x87e040000008ll;
+    if (cavm_is_model(OCTEONTX_F95MM))
         return 0x87e040000008ll;
     __cavm_csr_fatal("NCBW_STATUS", 0, 0, 0, 0, 0, 0, 0);
 }

@@ -204,7 +204,8 @@ union cavm_mdbw_jd_dma_cfg_word_0_s
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_mdbw_jd_dma_cfg_word_0_s_cn
+    /* struct cavm_mdbw_jd_dma_cfg_word_0_s_s cn9; */
+    struct cavm_mdbw_jd_dma_cfg_word_0_s_cnf95xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
@@ -239,7 +240,52 @@ union cavm_mdbw_jd_dma_cfg_word_0_s
         uint64_t reserved_56_59        : 4;
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
-    } cn;
+    } cnf95xx;
+    struct cavm_mdbw_jd_dma_cfg_word_0_s_f95mm
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t reserved_56_59        : 4;
+        uint64_t reserved_54_55        : 2;
+        uint64_t reserved_48_53        : 6;
+        uint64_t block_size            : 16; /**< [ 47: 32] Defines the DMA block size in 32-bit words for all transfers.
+                                                                 A multiple of 4 must be used for the 128-bit MDBW interfaces. */
+        uint64_t reserved_16_31        : 16;
+        uint64_t reserved_9_15         : 7;
+        uint64_t cmd_type              : 2;  /**< [  8:  7] DMA command type for LLC/DRAM access. The read and write operations are
+                                                                 enumerated with MDBW_PNB_RD_CMD_E and MDBW_PNB_WR_CMD_E respectively.
+
+                                                                 Note that DMA to/from BPHY SMEM ignores this field. */
+        uint64_t dswap                 : 3;  /**< [  6:  4] The byte swapper enables PNB to swap bytes on a 64-bit boundary. The swap operations are
+                                                                 enumerated in MDBW_PNB_DSWAP_E. Swaps are only applied on DMA to/from
+                                                                 LLC/DRAM.
+
+                                                                 Note that DMA to/from BPHY SMEM ignores this field. */
+        uint64_t target_mem            : 1;  /**< [  3:  3] Defines the target memory for the operation as enumerated in MDBW_TMEM_SEL_E. */
+        uint64_t dma_mode              : 3;  /**< [  2:  0] Selects the DMA mode, enumerated by MDBW_DMA_MODE_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t dma_mode              : 3;  /**< [  2:  0] Selects the DMA mode, enumerated by MDBW_DMA_MODE_E. */
+        uint64_t target_mem            : 1;  /**< [  3:  3] Defines the target memory for the operation as enumerated in MDBW_TMEM_SEL_E. */
+        uint64_t dswap                 : 3;  /**< [  6:  4] The byte swapper enables PNB to swap bytes on a 64-bit boundary. The swap operations are
+                                                                 enumerated in MDBW_PNB_DSWAP_E. Swaps are only applied on DMA to/from
+                                                                 LLC/DRAM.
+
+                                                                 Note that DMA to/from BPHY SMEM ignores this field. */
+        uint64_t cmd_type              : 2;  /**< [  8:  7] DMA command type for LLC/DRAM access. The read and write operations are
+                                                                 enumerated with MDBW_PNB_RD_CMD_E and MDBW_PNB_WR_CMD_E respectively.
+
+                                                                 Note that DMA to/from BPHY SMEM ignores this field. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t reserved_16_31        : 16;
+        uint64_t block_size            : 16; /**< [ 47: 32] Defines the DMA block size in 32-bit words for all transfers.
+                                                                 A multiple of 4 must be used for the 128-bit MDBW interfaces. */
+        uint64_t reserved_48_53        : 6;
+        uint64_t reserved_54_55        : 2;
+        uint64_t reserved_56_59        : 4;
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } f95mm;
+    /* struct cavm_mdbw_jd_dma_cfg_word_0_s_cnf95xx f95o; */
 };
 
 /**

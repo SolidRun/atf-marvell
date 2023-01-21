@@ -200,36 +200,6 @@ union cavm_rst_boot_stat_s
 };
 
 /**
- * Structure rst_cold_data2_s
- *
- * RST Cold Data 2 Field Structure
- * This structure specifies the bit flags used for communication between SCP BL1 and BDK software.
- */
-union cavm_rst_cold_data2_s
-{
-    uint64_t u;
-    struct cavm_rst_cold_data2_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t cust                  : 8;  /**< [ 11:  4] For customer use. */
-        uint64_t bdk_to_scp_vrm_problem : 1; /**< [  3:  3] BDK sets to tell SCP to not proceed if the PMBus configuration failed. */
-        uint64_t scp_to_bdk_vrm_problem : 1; /**< [  2:  2] SCP sets to tell BDK to not proceed if the AVS bus is not working. */
-        uint64_t reserved_1            : 1;
-        uint64_t fail_safe_boot_delaying : 1;/**< [  0:  0] Check if firmware has a delay for interaction with user or other valid reasons. */
-#else /* Word 0 - Little Endian */
-        uint64_t fail_safe_boot_delaying : 1;/**< [  0:  0] Check if firmware has a delay for interaction with user or other valid reasons. */
-        uint64_t reserved_1            : 1;
-        uint64_t scp_to_bdk_vrm_problem : 1; /**< [  2:  2] SCP sets to tell BDK to not proceed if the AVS bus is not working. */
-        uint64_t bdk_to_scp_vrm_problem : 1; /**< [  3:  3] BDK sets to tell SCP to not proceed if the PMBus configuration failed. */
-        uint64_t cust                  : 8;  /**< [ 11:  4] For customer use. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct cavm_rst_cold_data2_s_s cn; */
-};
-
-/**
  * Register (RSL) rst_ap#_affinity_const
  *
  * RST Virtual AP Affinity Map Register
