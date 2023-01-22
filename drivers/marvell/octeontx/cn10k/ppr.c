@@ -223,6 +223,7 @@ static void ddrc_ddr5_read_mr_ppr(uint32_t ch, uint32_t rank_num,
 	reg_CMDCTL.u = 0;
 
 	CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL(ch), 0); //TODO: CSR_WRITE -> CSR_READ
+	reg_CMDCTL.u = 0;
 	reg_CMDCTL.s.cmd_ctrl = mr | (phy_snoop_en << 18) | (rank_num << 20);
 	reg_CMDCTL.s.cmd_code = 0x1; //MRR
 	reg_CMDCTL.s.cmd_seq_last = 0x1;
