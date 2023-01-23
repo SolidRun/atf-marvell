@@ -1,9 +1,15 @@
-# Copyright (c) 2019 Marvell.
+# Copyright (c) 2023 Marvell.
 #
 # SPDX-License-Identifier:     BSD-3-Clause
 # https://spdx.org/licenses
 
 include plat/marvell/octeontx/otx2/platform.mk
+
+# Define ATF_ENABLE_MAC_ADV_CMDS to enable MAC ADV functions i.e. MACsec
+ATF_ENABLE_MAC_ADV_CMDS				:=	1
+ifdef ATF_ENABLE_MAC_ADV_CMDS
+    $(eval $(call add_define,ATF_ENABLE_MAC_ADV_CMDS))
+endif
 
 ENABLE_BACKTRACE 	:=	1
 
@@ -13,6 +19,10 @@ ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
     $(eval $(call add_define,DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS))
 endif
 
+DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS		:=	1
+ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+    $(eval $(call add_define,DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS))
+endif
 PLAT_INCLUDES		+=	-Iplat/marvell/octeontx/otx2/loki/include		\
 				-Ilib/libphy/marvell_88x5113/include			\
 				-Ilib/libphy/marvell_88x5113/serdes/src/include		\
@@ -37,7 +47,42 @@ ifdef MARVELL_PHY_7121
                                 -Ilib/libphy/marvell_88x7121/serdes      \
                                 -Ilib/libphy/marvell_88x7121    \
 
+ifdef ATF_ENABLE_MAC_ADV_CMDS
+    PLAT_INCLUDES     +=        -Ilib/libphy/marvell_88x7121/macsec \
+				-Ilib/libphy/marvell_88x7121/macsec/Integration/Adapter_EIP163/incl \
+				-Ilib/libphy/marvell_88x7121/macsec/Integration/Adapter_EIP164/incl \
+				-Ilib/libphy/marvell_88x7121/macsec/Kit/SABuilder_MACsec/incl \
+				-Ilib/libphy/marvell_88x7121/macsec/Integration/Adapter_EIP163/src \
+				-Ilib/libphy/marvell_88x7121/macsec/Kit/EIP163/incl \
+				-Ilib/libphy/marvell_88x7121/macsec/Kit/DriverFramework/Device_API/incl \
+				-Ilib/libphy/marvell_88x7121/macsec/Examples/Driver_EIP164/build \
+				-Ilib/libphy/marvell_88x7121/macsec/Examples/Driver_EIP164/build/FPGA \
+				-Ilib/libphy/marvell_88x7121/macsec/Kit/List/incl \
+				-Ilib/libphy/marvell_88x7121/macsec/Integration/Adapter_EIP164/src \
+				-Ilib/libphy/marvell_88x7121/macsec/Integration/Adapter_EIP164/src/um \
+				-Ilib/libphy/marvell_88x7121/macsec/OSPlatformSpecific \
+				-Ilib/libphy/marvell_88x7121/macsec/Examples/DemoApp_EIP164/src \
+				-Ilib/libphy/marvell_88x7121/macsec/Examples/DemoApp_EIP164/build \
+				-Ilib/libphy/marvell_88x7121/macsec/Kit/DriverFramework/Basic_Defs_API/incl \
+				-Ilib/libphy/marvell_88x7121/macsec/Examples/DemoApp_EIP164/build/FPGA \
+				-Ilib/libphy/marvell_88x7121/macsec/Kit/DriverFramework/CLib_Abstraction_API/incl \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/DriverFramework/Device_API/incl \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/EIP163/incl \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/EIP164/incl \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/EIP201/docs \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/EIP201/incl \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/List/incl \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/Log/incl \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/Log/src/printf \
+                                -Ilib/libphy/marvell_88x7121/macsec/Kit/SABuilder_MACsec/incl \
+                                -Ilib/libphy/marvell_88x7121/macsec/Integration/Adapter_EIP164/src \
+                                -Ilib/libphy/marvell_88x7121/macsec/Integration/Adapter_EIP164/src/um \
+				-Ilib/libphy/marvell_88x7121/macsec/Integration/Adapter_PktIO/incl
+endif
     BL31_LIBS         += lib/libphy/libphy_88x7121.a
     BL31_SOURCES      += drivers/marvell/octeontx/otx2/phy/phy_marvell_7121.c
+ifdef ATF_ENABLE_MAC_ADV_CMDS
+    BL31_SOURCES      += drivers/marvell/octeontx/otx2/phy/macsec/phy_marvell_7121_macsec.c \
+                         drivers/marvell/octeontx/otx2/phy/macsec/phy_marvell_7121_macsec_api.c
 endif
-
+endif
