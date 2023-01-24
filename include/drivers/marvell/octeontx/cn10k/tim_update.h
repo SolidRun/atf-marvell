@@ -304,6 +304,11 @@ struct smc_version_info_entry {
 #define SMC_VERSION_ERASE_EBF_CONFIG	BIT(10)
 
 /**
+ * Set this to store log progress in buffer
+ */
+#define SMC_VERSION_LOG_PROGRESS		BIT(11)
+
+/**
  * Maximum number of objects that can return the version info
  */
 #define SMC_MAX_VERSION_ENTRIES			32
@@ -340,10 +345,13 @@ enum smc_version_ret {
 };
 
 #define VERSION_MAGIC		0x4e535256	/** VRSN */
-#define VERSION_INFO_VERSION	0x0102		/** 1.1 */
+#define VERSION_INFO_VERSION	0x0103		/** 1.3 */
 
+#define VERSION_MIN_VERSION	 0x0100
 /** Minimum version that includes force clone support */
 #define VERSION_FORCE_CLONE_MIN_VERSION	 0x0102
+/** Minimum version that includes log support */
+#define VERSION_LOG_MIN_VERSION	 0x0103
 
 struct smc_version_info {
 	uint32_t	magic_number;	/** VRSN */
@@ -373,7 +381,10 @@ struct smc_version_info {
 	uint32_t	num_objects;
 	uint32_t	timeout;	/** Timeout in ms */
 	uint32_t	reserved32;	/** Pad to 64 bits */
-	uint64_t	reserved[4];	/** Reserved for future growth */
+	uintptr_t	output_console;	/** Text output console */
+	uint32_t	output_console_size;/** Console buffer size in bytes */
+	uint32_t	output_console_end;/** Not used yet */
+	uint64_t	reserved[2];	/** Reserved for future growth */
 	/** Array of objects to verify */
 	struct smc_version_info_entry objects[SMC_MAX_VERSION_ENTRIES];
 };

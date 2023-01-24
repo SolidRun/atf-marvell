@@ -3339,6 +3339,10 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	 * NOTE: A lot more can be done to handle multiple versions for
 	 * backwards compatibility, etc.
 	 */
+	if (update_desc.version != UPDATE_VERSION) {
+		UWARN("Version 0x%x mistmatch (expected 0x%x). Some features could be not available",
+		      update_desc.version, UPDATE_VERSION);
+	}
 	if (update_desc.version < UPDATE_MIN_VERSION) {
 		UERROR("Unsupported descriptor version 0x%x\n",
 		     update_desc.version);
@@ -3358,6 +3362,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		if (err) {
 			UERROR("FW Update: console mmap failed (%d)\n", err);
 			err = -SPI_MMAP_ERR;
+			console_base_addr = 0;
+			console_map_size = 0;
 			goto error;
 		}
 		if (update_desc.async_operation) {
@@ -4826,10 +4832,16 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo, struct verific
 		return -1;
 	}
 
-	if (vinfo->version > VERSION_INFO_VERSION) {
+	if (vinfo->version != VERSION_INFO_VERSION) {
+		UWARN("Version 0x%x mistmatch (expected 0x%x). Some features could be not available",
+		      vinfo->version, VERSION_INFO_VERSION);
+	}
+
+	if (vinfo->version < VERSION_MIN_VERSION) {
 		UERROR("Version 0x%x not supported\n", vinfo->version);
 		return -1;
 	}
+
 	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
 		UWARN("Object count exceeds maximum\n");
 		vinfo->retcode = TOO_MANY_OBJECTS;
@@ -4939,6 +4951,8 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 	uint64_t base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
+	uintptr_t console_base_addr = 0;
+	size_t console_map_size = 0;
 
 	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
 	base_addr = desc_buf & mask;
@@ -4974,6 +4988,38 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		err = -EINVAL;
 		goto error;
 	}
+
+	if (vinfo->version >= VERSION_LOG_MIN_VERSION &&
+	    vinfo->output_console != 0 &&
+	    vinfo->output_console_size > 0 &&
+	    vinfo->version_flags & SMC_VERSION_LOG_PROGRESS) {
+		console_base_addr = vinfo->output_console & mask;
+		console_map_size = (vinfo->output_console_size + PAGE_SIZE - 1) & mask;
+		err = octeontx_mmap_add_dynamic_region_with_sync(console_base_addr,
+								 console_base_addr,
+								 console_map_size,
+								 MT_RW | MT_NS);
+		if (err) {
+			UERROR("FW Update: console mmap failed (%d)\n", err);
+			err = -SPI_MMAP_ERR;
+			console_base_addr = 0;
+			console_map_size = 0;
+			goto error;
+		}
+		if (vinfo->version_flags & SMC_VERSION_ASYNC_OPERATION) {
+			add_mapped_region(&uParams, console_base_addr, console_map_size);
+		}
+		update_log = (char *)vinfo->output_console;
+		log_bytes_used = 0;
+		log_size_bytes = vinfo->output_console_size;
+		zeromem(update_log, log_size_bytes);
+	} else {
+		update_log = NULL;
+		log_size_bytes = 0;
+		log_bytes_used = 0;
+	}
+
+
 	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
 		UWARN("Descriptor exceeds maximum number of objects\n");
 		*uret = -SPI_BAD_PARAMETER;
@@ -5048,6 +5094,14 @@ error:
 		if (base_addr && ns_map_size)
 			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 								ns_map_size);
+		if (console_base_addr != 0 && console_map_size != 0) {
+			update_log[log_size_bytes - 1] = '\0';
+			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
+							      console_map_size);
+		}
+		update_log = NULL;
+		log_bytes_used = 0;
+		log_size_bytes = 0;
 	}
 
 	return err;
