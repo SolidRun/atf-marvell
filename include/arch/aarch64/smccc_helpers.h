@@ -98,7 +98,7 @@
 
 typedef struct {
 	uint64_t _regs[SMC_ARGS_END >> 3];
-} __aligned(CACHE_WRITEBACK_GRANULE) smc_args_t;
+} smc_args_t;
 
 /*
  * Ensure that the assembler's view of the size of the tsp_args is the
