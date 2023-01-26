@@ -1615,7 +1615,7 @@ unsigned char _BitScanReverse(unsigned long *index, unsigned long mask);
 #define CHUNK_ALIGN_MASK    (MALLOC_ALIGNMENT - SIZE_T_ONE)
 
 /* True if address a has acceptable alignment */
-#define is_aligned(A)       (((size_t)((A)) & (CHUNK_ALIGN_MASK)) == 0)
+#define is_mem_aligned(A)       (((size_t)((A)) & (CHUNK_ALIGN_MASK)) == 0)
 
 /* the number of bytes to offset an address to align it */
 #define align_offset(A)\
@@ -3214,7 +3214,7 @@ static int change_mparam(int param_number, int value) {
 
 /* Check properties of any chunk, whether free, inuse, mmapped etc  */
 static void do_check_any_chunk(mstate m, mchunkptr p) {
-  assert((is_aligned(chunk2mem(p))) || (p->head == FENCEPOST_HEAD));
+  assert((is_mem_aligned(chunk2mem(p))) || (p->head == FENCEPOST_HEAD));
   assert(ok_address(m, p));
 }
 
@@ -3223,7 +3223,7 @@ static void do_check_top_chunk(mstate m, mchunkptr p) {
   msegmentptr sp = segment_holding(m, (char*)p);
   size_t  sz = p->head & ~INUSE_BITS; /* third-lowest bit can be set! */
   assert(sp != 0);
-  assert((is_aligned(chunk2mem(p))) || (p->head == FENCEPOST_HEAD));
+  assert((is_mem_aligned(chunk2mem(p))) || (p->head == FENCEPOST_HEAD));
   assert(ok_address(m, p));
   assert(sz == m->topsize);
   assert(sz > 0);
@@ -3238,7 +3238,7 @@ static void do_check_mmapped_chunk(mstate m, mchunkptr p) {
   size_t len = (sz + (p->prev_foot) + MMAP_FOOT_PAD);
   assert(is_mmapped(p));
   assert(use_mmap(m));
-  assert((is_aligned(chunk2mem(p))) || (p->head == FENCEPOST_HEAD));
+  assert((is_mem_aligned(chunk2mem(p))) || (p->head == FENCEPOST_HEAD));
   assert(ok_address(m, p));
   assert(!is_small(sz));
   assert((len & (mparams.page_size-SIZE_T_ONE)) == 0);
@@ -3268,7 +3268,7 @@ static void do_check_free_chunk(mstate m, mchunkptr p) {
   if (p != m->dv && p != m->top) {
     if (sz >= MIN_CHUNK_SIZE) {
       assert((sz & CHUNK_ALIGN_MASK) == 0);
-      assert(is_aligned(chunk2mem(p)));
+      assert(is_mem_aligned(chunk2mem(p)));
       assert(next->prev_foot == sz);
       assert(pinuse(p));
       assert (next == m->top || is_inuse(next));
@@ -3843,7 +3843,7 @@ static void* mmap_alloc(mstate m, size_t nb) {
         m->least_addr = mm;
       if ((m->footprint += mmsize) > m->max_footprint)
         m->max_footprint = m->footprint;
-      assert(is_aligned(chunk2mem(p)));
+      assert(is_mem_aligned(chunk2mem(p)));
       check_mmapped_chunk(m, p);
       return chunk2mem(p);
     }
@@ -3996,7 +3996,7 @@ static void add_segment(mstate m, char* tbase, size_t tsize, flag_t mmapped) {
   init_top(m, (mchunkptr)tbase, tsize - TOP_FOOT_SIZE);
 
   /* Set up segment record */
-  assert(is_aligned(ss));
+  assert(is_mem_aligned(ss));
   set_size_and_pinuse_of_inuse_chunk(m, sp, ssize);
   *ss = m->seg; /* Push current record */
   m->seg.base = tbase;

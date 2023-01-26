@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <assert.h>
+#include <inttypes.h>
 #include <platform_def.h>
 #include <octeontx_common.h>
 #include <string.h>
@@ -71,7 +72,7 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new
 	}
 
 	if ((size > RESERVED_MEM_SIZE_LIMIT)) {
-		ERROR("%s: Memory reservation exceeds limit %x Requested size %llx\n",
+		ERROR("%s: Memory reservation exceeds limit %x Requested size %" PRIx64 "\n",
 		      __func__, RESERVED_MEM_SIZE_LIMIT, size);
 		return 0;
 	}
@@ -83,7 +84,7 @@ uint64_t octeontx_dram_reserve(uint64_t size, ccs_region_index_t index, int *new
 	}
 
 	if (adjust_asc_region_next_avail(size, new_index, &new_base)) {
-		ERROR("%s: Failed to adjust asc region %d for size %llx\n",
+		ERROR("%s: Failed to adjust asc region %d for size %" PRIx64 "\n",
 		      __func__, index, size);
 		return 0;
 	}
@@ -108,7 +109,7 @@ uint64_t octeontx_dram_cut_region_tail(uint64_t size, ccs_region_index_t index)
 	if ((size > RESERVED_MEM_SIZE_LIMIT) ||
 		(plat_octeontx_bcfg->reserved_os_memory_size + size > RESERVED_MEM_SIZE_LIMIT)) {
 		ERROR("%s: Memory reservation exceeds limit %x "
-				"Reserved memory size = %x, Requested size %llx\n",
+				"Reserved memory size = %x, Requested size %" PRIx64 "\n",
 				__func__, RESERVED_MEM_SIZE_LIMIT,
 				plat_octeontx_bcfg->reserved_os_memory_size, size);
 		return 0;

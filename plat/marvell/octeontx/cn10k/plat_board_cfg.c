@@ -37,6 +37,7 @@
 #include <libfdt.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <inttypes.h>
 #include <plat_board_cfg.h>
 #include <octeontx_common.h>
 #include <octeontx_board_cfg_setup.h>
@@ -57,7 +58,9 @@
 #include "cavm-csrs-tad.h"
 
 /* for LEGACY logging, define DEBUG_ATF_DTS to enable debug logs */
-#undef DEBUG_ATF_DTS
+#if !defined(MRVL_TF_LOG_MODULE)
+#define DEBUG_ATF_DTS	1
+#endif
 
 #if defined(MRVL_TF_LOG_MODULE)
 #  undef MRVL_TF_LOG_MODULE
@@ -650,8 +653,8 @@ int cn10k_fdt_update_mailbox_memory_range(uint64_t address, uint64_t size)
 	}
 
 	/* Parse ECAM2 node to fix RVU mailbox ranges property */
-	snprintf(node_name, sizeof(node_name), "pci@%llx",
-		 (ECAM_PF_BAR2(0) | (2 << 28)));
+	snprintf(node_name, sizeof(node_name), "pci@%" PRIx64 "",
+		 (uint64_t) (ECAM_PF_BAR2(0) | (2 << 28)));
 	offset = fdt_subnode_offset(fdt, soc_offset, node_name);
 	if (offset < 0) {
 		ERROR("%s: RVU: Unable to find ecam2 node %s, error %d\n",
@@ -798,7 +801,7 @@ static int cn10k_fdt_get_bus(const void *fdt, int offset,
 			return -1;
 		}
 
-		debug_dts("%s: mdio 0x%llx bus %d\n",
+		debug_dts("%s: mdio 0x%" PRIx64 " bus %d\n",
 			dbg_prefix, mdio, bus);
 	} else if (nodename && !strncmp(nodename, "i2c", 3)) {
 		debug_dts("%s: I2C node\n", dbg_prefix);
@@ -1441,8 +1444,8 @@ static void cn10k_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	}
 
 	/* Parse all subnodes of ECAM0, Domain2 */
-	snprintf(node_name, sizeof(node_name), "pci@%llx",
-		(ECAM_PF_BAR2(0) | (2 << 28)));
+	snprintf(node_name, sizeof(node_name), "pci@%" PRIx64 "",
+		(uint64_t) (ECAM_PF_BAR2(0) | (2 << 28)));
 	offset = fdt_subnode_offset(fdt, soc_offset, node_name);
 	if (offset < 0) {
 		ERROR("RVU: Unable to find ecam2 node: %s\n", node_name);

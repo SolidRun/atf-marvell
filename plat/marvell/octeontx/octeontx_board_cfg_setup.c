@@ -37,6 +37,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include <ctype.h>
 #include <plat_board_cfg.h>
 #include <octeontx_board_cfg_setup.h>
@@ -73,9 +74,9 @@ static void print_board_variables()
 	board_info("GPIO Shutdown pin OUT = 0x%x\n",
 		plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_out);
 #if TRUSTED_BOARD_BOOT
-	board_info("TRUST-ROT-ADDR = 0x%llx\n",
+	board_info("TRUST-ROT-ADDR = 0x%" PRIx64 "\n",
 		plat_octeontx_bcfg->bcfg.trust_rot_addr);
-	board_info("TRUST-BSSK-ADDR = 0x%llx\n",
+	board_info("TRUST-BSSK-ADDR = 0x%" PRIx64 "\n",
 		plat_octeontx_bcfg->bcfg.trust_key_addr);
 #endif
 	board_info("======================\n");
@@ -292,7 +293,7 @@ static int parse_fdt_ras(const void *fdt, int offset,
 		r->abs <<= 32;
 		r->abs |= (uint64_t)fdt32_to_cpu(foff[3]);
 		r->size = fdt32_to_cpu(foff[3 + fdt_size_cells]);
-		board_info("%s r%d %llx %llx %x\n",
+		board_info("%s r%d %" PRIx64 " %llx %x\n",
 			__func__, i, r->rel, r->abs, r->size);
 	}
 
@@ -339,7 +340,7 @@ static int parse_fdt_ras(const void *fdt, int offset,
 			/* check against parent range */
 			if (base + g->size[i] > r->rel + r->size ||
 						    base < r->rel) {
-				board_info("%s(%s) r%d %x@%llx outside %x@%llx\n",
+				board_info("%s(%s) r%d %x@%" PRIx64 " outside %x@%llx\n",
 					__func__, g->name, i,
 					g->size[i], base,
 					r->size, r->rel);
@@ -347,7 +348,7 @@ static int parse_fdt_ras(const void *fdt, int offset,
 				g->size[i] = 0;
 			} else {
 				base += r->abs - r->rel;
-				board_info("%s (%s) id:%x %x@%llx\n", __func__,
+				board_info("%s (%s) id:%x %x@%" PRIx64 "\n", __func__,
 					g->name, g->id, g->size[i], base);
 				g->base[i] = (void *)base;
 			}

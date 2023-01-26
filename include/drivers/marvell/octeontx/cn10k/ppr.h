@@ -21,6 +21,8 @@
 #  define MRVL_TF_LOG_MODULE MRVL_TF_LOG_MODULE_PPR
 #  define debug_ppr(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR) ? \
 			  tf_log(LOG_MARKER_VERBOSE __VA_ARGS__) : (void)0
+#else
+#define debug_ppr(...) ((void) (0))
 #endif
 
 

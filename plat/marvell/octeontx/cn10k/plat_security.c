@@ -33,6 +33,7 @@
  */
 
 #include <stdio.h>
+#include "inttypes.h"
 #include <debug.h>
 #include <arch.h>
 #include <platform_def.h>
@@ -116,7 +117,7 @@ void dump_ccs_region_config(void)
 		region = &ccs_map[index];
 		if (!region->free) {
 			VERBOSE("ASC region %d Free %d\n", index, region->free);
-			VERBOSE("Start 0x%llx End 0x%llx Reserved MemSz 0x%llx\n",
+			VERBOSE("Start 0x%" PRIx64 " End 0x%" PRIx64 " Reserved MemSz 0x%" PRIx64 "\n",
 				region->start, region->end, region->rsvd_memsz);
 			VERBOSE("Secure %d Fixed %d Mandatory %d\n",
 				region->attr & CCS_ATTR_SEC_BIT_MASK,
@@ -129,32 +130,32 @@ void dump_ccs_region_config(void)
 			switch (index) {
 			case SECURE_NONPRESERVE:
 				NOTICE("Secure Non Preserve Memory Region: "
-				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
 			case NSECURE_NONPRESERVE:
 				NOTICE("Non-Secure Non Preserve Memory Region: "
-				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
 			case NSEC_LMT_REGION:
 				NOTICE("LMT Memory Region: "
-				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
 			case NSEC_PRESERVE_REGION_0:
 				NOTICE("Non-Secure Preserve Memory Region: "
-				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
 			case USER_PRESERVE_REGION_0:
 				NOTICE("User Non-Secure Preserved Memory Region: "
-				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
 			case NSECURE_NONPRESERVE_1:
 				NOTICE("Non-Secure Non Preserve Memory Region 1: "
-				"0x%llx to 0x%llx (%lldMB)\n", start, end,
+				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;
 			}
@@ -260,7 +261,7 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 
 	/* Size must be in multiple of 16M */
 	if (size & ASC_DEF_SIZE_MASK) {
-		ERROR("%s: SAM: Requested size (%llx) not 16M aligned\n",
+		ERROR("%s: SAM: Requested size (%" PRIx64 ") not 16M aligned\n",
 		      __func__, size);
 		return -1;
 	}
@@ -273,7 +274,7 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 
 	if (size > (reg_end - reg_start + 1)) {
 		ERROR("%s: SAM: Invalid request to reduce memory from index %d "
-		      "Tatal size = %llx, Requested Size = %llx\n", __func__,
+		      "Tatal size = %" PRIx64 ", Requested Size = %" PRIx64 "\n", __func__,
 		      index, (reg_end - reg_start + 1), size);
 		return -1;
 	}
@@ -432,7 +433,7 @@ void llc_flush(void)
 	ccf.s.flush_type = TAD_FLUSH_TYPE_CLEAN_SHARED;
 	ccf.s.start      = 1;
 
-	VERBOSE("Flushing the LLC (0x%llx)\n", ccf.u);
+	VERBOSE("Flushing the LLC (0x%" PRIx64 ")\n", ccf.u);
 	CSR_WRITE(CAVM_TAD_CMN_CACHE_FLUSH, ccf.u);
 	while (tad_mask) {
 		for (i = 0; i < num_tads; i++) {

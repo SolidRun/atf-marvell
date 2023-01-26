@@ -6,6 +6,7 @@
 /* BPHY driver for F95 */
 
 #include <arch_helpers.h>
+#include <inttypes.h>
 #include <assert.h>
 #include <debug.h>
 #include <lib/psci/psci.h>
@@ -158,7 +159,7 @@ uint64_t bphy_psm_irq_handler(uint32_t id, uint32_t flags, void *cookie)
 
 	/* For all mis-routed interrupts, clear interrupt and exit. */
 	if ((mapped_counter < 1) || (mapped_cpu != cpu)) {
-		ERROR("Mis-routed BPHY PSM interrupt id 0x%x mapped cpu=%d but got intr on cpu=%lld\n",
+		ERROR("Mis-routed BPHY PSM interrupt id 0x%x mapped cpu=%d but got intr on cpu=%" PRId64 "\n",
 		      id, mapped_cpu, cpu);
 		return 0;
 	}
@@ -313,16 +314,16 @@ int bphy_psm_install_irq(uint64_t irq_num, uint64_t sp, uint64_t  cpu,
 		bphy_ints[irq_num].ttbr0 = 0;
 		bphy_ints[irq_num].ttbr1 = 0;
 		bphy_ints[irq_num].el_mode = 0;
-		ERROR("Can't install irq handler for bphy psm:%llu cpu:%llu\n",
+		ERROR("Can't install irq handler for bphy psm:%" PRIu64 " cpu:%" PRIu64 "\n",
 		       irq_num, cpu);
 		__atomic_thread_fence(__ATOMIC_SEQ_CST);
 		/* Failure, this IRQ is free to be configured. */
 		__atomic_fetch_sub(&bphy_ints[irq_num].in_use, 1,
 				   __ATOMIC_SEQ_CST);
 	} else {
-		INFO("Installed irq handler for bphy psm:%llu ttrb0:%llx\n"
-		       "\tttrb1:%llx sp:%llx isr_base:%llx cpu:%llu\n"
-		       "\ttcr:%llx el_mode:%llx\n",
+		INFO("Installed irq handler for bphy psm:%" PRIu64 " ttrb0:%" PRIx64 "\n"
+		       "\tttrb1:%" PRIx64 " sp:%" PRIx64 " isr_base:%" PRIx64 " cpu:%" PRIu64 "\n"
+		       "\ttcr:%" PRIx64 " el_mode:%" PRIx64 "\n",
 		       irq_num, bphy_ints[irq_num].ttbr0,
 		       bphy_ints[irq_num].ttbr1,
 		       bphy_ints[irq_num].sp,
@@ -389,7 +390,7 @@ void bphy_psm_clear_irq(uint64_t irq_num)
 				   __ATOMIC_SEQ_CST);
 	/* Unlock */
 	__atomic_fetch_sub(&bphy_ints[irq_num].lock, 1, __ATOMIC_SEQ_CST);
-	INFO("Removed irq handler for bphy psm:%llu\n", irq_num);
+	INFO("Removed irq handler for bphy psm:%" PRIu64 "\n", irq_num);
 }
 
 int cavm_register_bphy_intr_handlers(void)

@@ -234,7 +234,7 @@ void octeontx_gic_redistif_probe(uintptr_t *rdistif_addrs,
 				__func__, proc_num, typer_val, rdistif_base_addrs[proc_num]);
 #endif
 		}
-		rdistif_base += (1U << GICR_PCPUBASE_SHIFT);
+		rdistif_base += (1U << GICR_V4_PCPUBASE_SHIFT);
 	} while ((typer_val & TYPER_LAST_BIT) == 0U);
 }
 

@@ -34,6 +34,7 @@
 
 #include <arch.h>
 #include <stdio.h>
+#include <inttypes.h>
 #include <debug.h>
 #include <string.h>
 #include <assert.h>
@@ -979,7 +980,7 @@ void plat_initialize_ghes_hest_area(void)
 		ghes_ranges[idx].parent_addr = fdt64_to_cpu(ghes_range_base);
 		ghes_range_base += fdt32p_to_cpu(freg32);
 
-		INFO("%s range %d: 0x%016llx 0x%016llx 0x%08x\n",
+		INFO("%s range %d: 0x%016" PRIx64 " 0x%016" PRIx64 " 0x%08x\n",
 		     sdei_ghes_dev_name, idx,
 		     fdt64_to_cpu(ghes_ranges[idx].child_addr),
 		     fdt64_to_cpu(ghes_ranges[idx].parent_addr),

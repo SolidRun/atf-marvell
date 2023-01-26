@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include <spi.h>
 #include <octeontx_common.h>
 #include <assert.h>
@@ -254,7 +255,7 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 		goto err;
 	}
 
-	debug_spi_nor("%s %s %llx %x\n", __func__, file, tim_info.src_address,
+	debug_spi_nor("%s %s %" PRIx64 " %x\n", __func__, file, tim_info.src_address,
 		      tim_info.image_length);
 
 	debug_spi_nor("Verifying digital signature\n");
@@ -340,7 +341,7 @@ int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
 	int mode = SPI_ADDRESSING_24BIT, ret = 0;
 	const void *user_buffer = (void *)buf;
 
-	debug_spi_nor("%s buf %lx len %llx loc %x bus %d cs %d\n",
+	debug_spi_nor("%s buf %lx len %" PRIx64 " loc %x bus %d cs %d\n",
 		      __func__, buf, buf_size, loc, bus, cs);
 	memset(rd_buffer64, 0, BUF_SIZE_64K);
 
@@ -362,11 +363,11 @@ int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
 		if (sector_offset + xfer_len > BUF_SIZE_64K)
 			xfer_len = BUF_SIZE_64K - sector_offset;
 
-		debug_spi_nor("%s sect addr %llx offset %llx xferlen %llx\n",
+		debug_spi_nor("%s sect addr %" PRIx64 " offset %llx xferlen %llx\n",
 			      __func__, sector_addr, sector_offset, xfer_len);
 		if (spi_nor_read(rd_buffer64, BUF_SIZE_64K, sector_addr,
 				 mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
@@ -375,14 +376,14 @@ int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
 		       (const void *)user_buffer, xfer_len);
 
 		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
-			WARN("SPI: Erase flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
 		}
 		if (spi_nor_write(rd_buffer64, BUF_SIZE_64K, sector_addr,
 				  mode, bus, cs) < 0) {
-			WARN("SPI: Write flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Write flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
@@ -405,7 +406,7 @@ int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
 
 		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
 				 mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
@@ -456,7 +457,7 @@ int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
 
 		if (spi_nor_erase(offset, mode, bus, cs)) {
-			WARN("SPI: Erase flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
@@ -464,14 +465,14 @@ int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 
 		if (spi_nor_write(wr_buffer, BUF_SIZE, offset,
 				  mode, bus, cs) < 0) {
-			WARN("SPI: Write flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Write flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
 		}
 		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
 				 mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
@@ -521,7 +522,7 @@ unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
 		if (spi_nor_read(rd_buffer, xfer_len, offset,
 		   mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 				offset);
 			ret = -1;
 			break;

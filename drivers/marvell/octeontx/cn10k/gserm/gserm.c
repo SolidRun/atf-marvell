@@ -523,7 +523,9 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	uint32_t *user_buffer = (uint32_t *)data;
 	int index;
 	cavm_gsermx_pmemx_t pmem;
+#if debug_gserm
 	comphy_firmware_info_t firmware_info;
+#endif
 	bool update_firmware = 0;
 
 	if (!data || !size) {
@@ -576,10 +578,12 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	CSR_MODIFY(r, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(cfg->gserm_idx),
 		   r.s.fw_ready = 1);
 
+#if debug_gserm
 	firmware_info.u32 = user_buffer[COMPHY_FIRMWARE_BUFF_INDEX];
 	debug_gserm("GSERM Firmware Version: %d.%d.%d.%d\n",
 		    firmware_info.s.major, firmware_info.s.minor,
 		    firmware_info.s.patch, firmware_info.s.build);
+#endif
 
 	return 0;
 }
@@ -1228,12 +1232,14 @@ void gserm_reset_init(void)
 			set_gserm_refclk_config(gserm_num, gser_lane,
 						mac_type);
 		}
+#if debug_gserm
 		CSR_INIT(common_phy_ctrl_bcfg, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_num));
 		debug_gserm("%s: GSERM%d: refclk_sel_ext:%d refclk_sel_en:0x%x refclk_sel:0x%x\n",
 			    __func__, gserm_num,
 			    common_phy_ctrl_bcfg.s.refclk_sel_ext,
 			    common_phy_ctrl_bcfg.s.refclk_sel_en,
 			    common_phy_ctrl_bcfg.s.refclk_sel);
+#endif
 		portm_idx += portm->portms_used;
 	}
 	/*

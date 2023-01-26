@@ -318,8 +318,10 @@ int rpm_debug_log_state(void)
 {
 	int debug_state = 0;
 
+#ifdef MRVL_TF_LOG_MODULE
 	if (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE)
 		debug_state = 1;
+#endif
 
 #ifdef DEBUG_ATF_RPM
 	debug_state = 1;

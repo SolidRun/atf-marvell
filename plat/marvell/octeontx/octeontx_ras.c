@@ -5,6 +5,7 @@
  * https://spdx.org/licenses
  */
 
+#include <inttypes.h>
 #include <octeontx_ras.h>
 
 #if RAS_EXTENSION
@@ -290,7 +291,7 @@ void otx2_map_ghes(ras_config_t *rc)
 				lo = (uint64_t) g->base[j];
 			if (hi < (uint64_t) g->base[j] + g->size[j])
 				hi = (uint64_t) g->base[j] + g->size[j];
-			debug_ras("range %llx..%llx\n", lo, hi);
+			debug_ras("range %" PRIx64 "..%" PRIx64 "\n", lo, hi);
 		}
 	}
 
@@ -299,7 +300,7 @@ void otx2_map_ghes(ras_config_t *rc)
 		hi += PAGE_SIZE_MASK;
 		hi &= ~(uint64_t)PAGE_SIZE_MASK;
 		hi--;
-		debug_ras("%s map %llx..%llx\n", __func__, lo, hi + 1 - lo);
+		debug_ras("%s map %" PRIx64 "..%" PRIx64 "\n", __func__, lo, hi + 1 - lo);
 		mmap_add_region(lo, lo, hi + 1 - lo,
 			MT_MEMORY | MT_RW | MT_NS);
 	}
@@ -320,7 +321,7 @@ void otx2_map_ghes(ras_config_t *rc)
 			lo = (uint64_t) g->base[j];
 		if (hi < (uint64_t) g->base[j] + g->size[j])
 			hi = (uint64_t) g->base[j] + g->size[j];
-		debug_ras("range %llx..%llx\n", lo, hi);
+		debug_ras("range %" PRIx64 "..%" PRIx64 "\n", lo, hi);
 	}
 
 	if (lo < hi) {
@@ -328,7 +329,7 @@ void otx2_map_ghes(ras_config_t *rc)
 		hi += PAGE_SIZE_MASK;
 		hi &= ~(uint64_t)PAGE_SIZE_MASK;
 		hi--;
-		debug_ras("%s map %llx..%llx\n", __func__, lo, hi + 1 - lo);
+		debug_ras("%s map %" PRIx64 "..%" PRIx64 "\n", __func__, lo, hi + 1 - lo);
 		mmap_add_region(lo, lo, hi + 1 - lo,
 			MT_MEMORY | MT_RW | MT_NS);
 	}

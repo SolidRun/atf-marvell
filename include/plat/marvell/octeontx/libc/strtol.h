@@ -8,6 +8,6 @@
 #ifndef STRTOL_H
 #define STRTOL_H
 
-long strtol(const char *nptr, char **endptr, int base);
+//long strtol(const char *nptr, char **endptr, int base);
 
 #endif /* STRTOL_H */

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <debug.h>
+#include <inttypes.h>
 
 #include <platform_def.h>
 #include <spi.h>
@@ -238,7 +239,7 @@ static int async_tim_handler(int tim)
 
 	//Skip current vlock in case of failure?
 	if (res != SPI_OP_OK) {
-		ERROR("Fail during SPI async operation SPI_%lld:%lld\n", spi_ops[spi_op_cnt].op_config.bus, spi_ops[spi_op_cnt].op_config.cs);
+		ERROR("Fail during SPI async operation SPI_%" PRId64 ":%" PRId64 "\n", spi_ops[spi_op_cnt].op_config.bus, spi_ops[spi_op_cnt].op_config.cs);
 		ERROR("Operation: %d, block: %d, type: %d\n", spi_op_cnt, block_op_cnt, spi_ops[spi_op_cnt].type);
 	}
 
@@ -530,9 +531,9 @@ static void spi_async_block_completed(bool start)
 				delayed_spi_in_progress = 0;
 
 				INFO("%s: Block chain completed\n", __func__);
-				INFO("Block chain stats:\nTime MIN: %lldus\n"
-				"Time MAX: %lldus\nTime AVG: %lldus\n"
-				"Total: %lldus\n",
+				INFO("Block chain stats:\nTime MIN: %" PRId64 "us\n"
+				"Time MAX: %" PRId64 "us\nTime AVG: %" PRId64 "us\n"
+				"Total: %" PRId64 "us\n",
 					aperf_counter.time_min,
 					aperf_counter.time_max,
 					aperf_counter.time_avg,
@@ -638,7 +639,7 @@ void spi_async_add_block_write(int bus, int cs, uint64_t spi_addr, void *mem_add
 	block_ops[block_op_cnt].param.cs = cs;
 	block_op_cnt++;
 
-	INFO("%s: Adding spi%d:%d write block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
+	INFO("%s: Adding spi%d:%d write block: %d: from: %" PRIx64 ", spiaddr: %" PRIx64 ", size: %" PRIx64 "\n",
 								__func__,
 								bus, cs,
 								(block_op_cnt-1),
@@ -682,7 +683,7 @@ void spi_async_add_block_read(int bus, int cs, uint64_t spi_addr, void *mem_addr
 	block_ops[block_op_cnt].param.cs = cs;
 	block_op_cnt++;
 
-	INFO("%s: Adding spi%d:%d read block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
+	INFO("%s: Adding spi%d:%d read block: %d: from: %" PRIx64 ", spiaddr: %" PRIx64 ", size: %" PRIx64 "\n",
 								__func__,
 								bus, cs,
 								(block_op_cnt-1),
@@ -726,7 +727,7 @@ void spi_async_add_block_update(int bus, int cs, uint64_t spi_addr, void *mem_ad
 	block_ops[block_op_cnt].param.cs = cs;
 	block_op_cnt++;
 
-	INFO("%s: Adding spi%d:%d update block: %d: from: %llx, spiaddr: %llx, size: %llx\n",
+	INFO("%s: Adding spi%d:%d update block: %d: from: %" PRIx64 ", spiaddr: %" PRIx64 ", size: %" PRIx64 "\n",
 								__func__,
 								bus, cs,
 								(block_op_cnt-1),

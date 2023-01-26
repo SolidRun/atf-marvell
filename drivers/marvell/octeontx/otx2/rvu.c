@@ -6,6 +6,8 @@
 /* RVU driver for OcteonTX2/TX3 */
 
 #include <stdio.h>
+#include <inttypes.h>
+
 #include <arch.h>
 #include <platform_def.h>
 #include <octeontx_common.h>
@@ -948,11 +950,11 @@ static void config_lmt_map_table(void)
 		/* TODO for cn10ka: remove hard-coded values */
 		val |= 0x1ull << 20 | 0x6ull << 16;
 		pf_lmt_addr.u = CSR_READ(CAVM_RVU_AF_PFX_LMTLINE_ADDR(pf));
-		debug_rvu("RVU: PF%u LMT entry @ %p, LMTLINE_ADDR 0x%016llx\n",
-			  pf, (void *)lmt_ent_addr, (long long)pf_lmt_addr.u);
+		debug_rvu("RVU: PF%u LMT entry @ %p, LMTLINE_ADDR 0x%" PRIx64 "\n",
+			  pf, (void *)lmt_ent_addr, pf_lmt_addr.u);
 		octeontx_write64(lmt_ent_addr, pf_lmt_addr.u);
-		debug_rvu("RVU: PF%u LMT entry @ %p, val 0x%016llx\n", pf,
-			  (void *)lmt_ent_addr + 0x8, (long long)val);
+		debug_rvu("RVU: PF%u LMT entry @ %p, val 0x%016" PRIx64 "\n", pf,
+			  (void *)lmt_ent_addr + 0x8, val);
 		octeontx_write64((lmt_ent_addr + 0x8), val);
 		if (rvu_dev[pf].num_vfs) {
 			vf_bar4_addr.u = CSR_READ(CAVM_RVU_AF_PFX_VF_BAR4_ADDR(pf));
@@ -960,12 +962,12 @@ static void config_lmt_map_table(void)
 			for (vf = 0; vf < rvu_dev[pf].num_vfs; vf++) {
 				lmt_ent_addr = lmt_ent_base_addr + ((vf + 1) * RVU_LMT_MAPTBL_ENTRY_SIZE);
 				octeontx_write64(lmt_ent_addr, vf_lmt_addr);
-				debug_rvu("RVU: PF%u  VF%u LMT entry @ %p, LMTLINE_ADDR 0x%016llx\n",
-					  pf, vf, (void *)lmt_ent_addr, (long long)vf_lmt_addr);
+				debug_rvu("RVU: PF%u  VF%u LMT entry @ %p, LMTLINE_ADDR 0x%016" PRIx64 "\n",
+					  pf, vf, (void *)lmt_ent_addr, vf_lmt_addr);
 				octeontx_write64((lmt_ent_addr + 0x8), val);
-				debug_rvu("RVU: VF%u LMT entry @ %p, val 0x%016llx\n", vf,
+				debug_rvu("RVU: VF%u LMT entry @ %p, val 0x%016" PRIx64 "\n", vf,
 					  (void *)lmt_ent_addr + 0x8,
-					  (long long)val);
+					  val);
 				vf_lmt_addr += RVU_PF_LMT_LMTLINE_SIZE;
 			}
 		}
@@ -1030,12 +1032,12 @@ void cn10k_reserve_mbox_lmtline_memory(uint64_t *mem_base, uint64_t *mem_size)
 
 	base = octeontx_dram_reserve(rsize, NSECURE_NONPRESERVE, &lmt_asc_idx);
 	if (base == 0) {
-		ERROR("%s: RVU: Mbox/LMTLine memory allocation fails(%llx)\n",
+		ERROR("%s: RVU: Mbox/LMTLine memory allocation fails(%" PRIx64 ")\n",
 		      __func__, rsize);
 		panic();
 	}
 	if (cn10k_fdt_update_mailbox_memory_range(base, rsize)) {
-		ERROR("%s: RVU: Mbox/LMTLine device tree update fail(%llx)\n",
+		ERROR("%s: RVU: Mbox/LMTLine device tree update fail(%" PRIx64 ")\n",
 		      __func__, rsize);
 		panic();
 	}

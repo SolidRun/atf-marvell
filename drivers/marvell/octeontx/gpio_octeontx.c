@@ -11,6 +11,7 @@
 #include <arch_helpers.h>
 #include <assert.h>
 #include <debug.h>
+#include <inttypes.h>
 #include <lib/psci/psci.h>
 #include <errno.h>
 #include <drivers/arm/gic_common.h>
@@ -161,7 +162,7 @@ uint64_t gpio_irq_handler(uint32_t id, uint32_t flags, void *cookie)
 
 	/* For all mis-routed interrupts, clear interrupt and exit. */
 	if ((mapped_counter < 1) || (mapped_cpu != cpu)) {
-		ERROR("Mis-routed GPIO interrupt id 0x%x mapped cpu=%d but got intr on cpu=%lld\n",
+		ERROR("Mis-routed GPIO interrupt id 0x%x mapped cpu=%d but got intr on cpu=%" PRId64 "\n",
 		      id, mapped_cpu, cpu);
 		return 0;
 	}
@@ -332,16 +333,16 @@ int gpio_install_irq(uint64_t gpio_num, uint64_t sp, uint64_t  cpu,
 		gpio_ints[gpio_num].ttbr0 = 0;
 		gpio_ints[gpio_num].ttbr1 = 0;
 		gpio_ints[gpio_num].el_mode = 0;
-		ERROR("Can't install irq handlerfor gpio:%llu cpu:%llu\n",
+		ERROR("Can't install irq handlerfor gpio:%" PRIu64 " cpu:%" PRIu64 "\n",
 		       gpio_num, cpu);
 		__atomic_thread_fence(__ATOMIC_SEQ_CST);
 		/* Failure, this GPIO is free to be configured. */
 		__atomic_fetch_sub(&gpio_ints[gpio_num].in_use, 1,
 				   __ATOMIC_SEQ_CST);
 	} else {
-		INFO("Installed irq handler for gpio:%llu ttrb0:%llx\n"
-		       "\tttrb1:%llx sp:%llx isr_base:%llx cpu:%llu\n"
-		       "\ttcr:%llx el_mode:%llx\n",
+		INFO("Installed irq handler for gpio:%" PRIu64 " ttrb0:%" PRIx64 "\n"
+		       "\tttrb1:%" PRIx64 " sp:%" PRIx64 " isr_base:%" PRIx64 " cpu:%" PRIu64 "\n"
+		       "\ttcr:%" PRIx64 " el_mode:%" PRIx64 "\n",
 		       gpio_num, gpio_ints[gpio_num].ttbr0,
 		       gpio_ints[gpio_num].ttbr1,
 		       gpio_ints[gpio_num].sp,
@@ -404,7 +405,7 @@ void gpio_clear_irq(uint64_t gpio_num)
 				   __ATOMIC_SEQ_CST);
 	/* Unlock */
 	__atomic_fetch_sub(&gpio_ints[gpio_num].lock, 1, __ATOMIC_SEQ_CST);
-	INFO("Removed irq handler for gpio:%llu\n", gpio_num);
+	INFO("Removed irq handler for gpio:%" PRIu64 "\n", gpio_num);
 }
 
 int octeontx_register_gpio_handlers(void)

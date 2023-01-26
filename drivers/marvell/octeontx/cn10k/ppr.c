@@ -220,6 +220,8 @@ static void ddrc_ddr5_read_mr_ppr(uint32_t ch, uint32_t rank_num,
 	int32_t ret;
 	union cavm_dssx_ddrctl_regb_ddrc_ch0_cmdctl reg_CMDCTL;
 
+	reg_CMDCTL.u = 0;
+
 	CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_CMDCTL(ch), 0); //TODO: CSR_WRITE -> CSR_READ
 	reg_CMDCTL.s.cmd_ctrl = mr | (phy_snoop_en << 18) | (rank_num << 20);
 	reg_CMDCTL.s.cmd_code = 0x1; //MRR
@@ -241,14 +243,18 @@ void ddrc_ddr5_mrr_prepare(bool disable, int ch, int rank_num)
 	union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl8 reg_PASCTL8;
 
 	if (disable) {
+#ifdef PPR_DEBUG
 		debug_ppr("Disable ECS Ch: %d\n", ch);
+#endif
 		reg_PASCTL8.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(ch));
 		reg_PASCTL8.s.rank_blk6_en = 0x0;
 		if (rank_num == 1)
 			reg_PASCTL8.s.rank_blk14_en = 0x0;
 		udelay(1);
 	} else {
+#ifdef PPR_DEBUG
 		debug_ppr("Enable ECS Ch: %d\n", ch);
+#endif
 		reg_PASCTL8.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(ch));
 		reg_PASCTL8.s.rank_blk6_en = 0x1;
 		if (rank_num == 1)
@@ -619,6 +625,7 @@ static int32_t mrr_clear_region(void)
 	return 0;
 }
 
+#ifdef PPR_DEBUG
 __attribute__((unused))
 static void print_mrr(void)
 {
@@ -658,14 +665,17 @@ static void print_ppr(void)
 			  (ppr_p->cycle & REPAIRED) ? "<- repaired":"");
 	}
 }
+#endif
 
 __attribute__((unused))
 static void print_stat(void)
 {
 	int ret = 0;
 
+#ifdef PPR_DEBUG
 	if (!(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR))
 		return;
+#endif
 
 	if (spi_dev_lock(bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
@@ -688,7 +698,9 @@ static void print_stat(void)
 			ppr_mrr.head_ppr  == FLASH_ERASE_MARK)
 		goto err;
 
+#ifdef PPR_DEBUG
 	print_ppr();
+#endif
 
 err:
 

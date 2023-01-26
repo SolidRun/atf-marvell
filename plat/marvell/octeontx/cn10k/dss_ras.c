@@ -5,6 +5,7 @@
  * https://spdx.org/licenses
  */
 
+#include <inttypes.h>
 #include <debug.h>
 #include <lib/extensions/ras.h>
 #include <octeontx_common.h>
@@ -95,7 +96,7 @@ extern int cn10k_get_ch_size(void);
 		int_enable.s.ecc_corrected_err_intr = 1;
 		int_enable.s.ecc_uncorrected_err_intr = 1;
 		CSR_WRITE(CAVM_DSSX_INT_ENA_W1S(ch), int_enable.u);
-		VERBOSE("DSS Int ENA 0x%llx ECC CTL 0x%llx\n", CSR_READ(CAVM_DSSX_INT_ENA_W1S(ch)),
+		VERBOSE("DSS Int ENA 0x%" PRIx64 " ECC CTL 0x%" PRIx64 "\n", CSR_READ(CAVM_DSSX_INT_ENA_W1S(ch)),
 			CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch)));
 	}
 
@@ -160,7 +161,7 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	addr.bank   = ecccaddr1.s.ecc_corr_bank;
 	addr.col    = ecccaddr1.s.ecc_corr_col;
 	addr.ch     = ch;
-	debug_ras("DMC%lld,R%d,BG%d,BA%d,r%d,c%d\n",
+	debug_ras("DMC%" PRId64 ",R%d,BG%d,BA%d,r%d,c%d\n",
 			ch, addr.rank, addr.bg, addr.bank, addr.row, addr.col);
 	cn10k_dram_xlate_to_pa(&addr);
 
@@ -199,7 +200,7 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 		err_rec->error_severity = CPER_SEV_CORRECTED;
 
 	fr = snprintf((char *)err_rec->fru_text, sizeof(err_rec->fru_text),
-			"%sDMC%lld,R%d,BG%d", (err_rec->error_severity == CPER_SEV_CORRECTED) ?
+			"%sDMC%" PRId64 ",R%d,BG%d", (err_rec->error_severity == CPER_SEV_CORRECTED) ?
 			"" : ((err_rec->error_severity == CPER_SEV_FATAL) ? "U," : "R,"),
 			ch, addr.rank, addr.bg);
 	err_rec->fru_text[fr] = '\0';
@@ -228,14 +229,14 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 		eccstat.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCSTAT(ch));
 		eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
 
-		debug_ras("DSS %d error detected INT_W1C: 0x%llx ECCSTAT 0x%x ECCCTL 0x%x MPIDR 0x%x\n",
+		debug_ras("DSS %d error detected INT_W1C: 0x%" PRIx64 " ECCSTAT 0x%x ECCCTL 0x%x MPIDR 0x%x\n",
 			(uint8_t) ch, (uint64_t) int_stat.u,
 			eccstat.u, eccctl.u, (uint32_t)read_mpidr_el1());
 		if (!int_stat.u) {
 			CSR_WRITE(CAVM_DSSX_INT_W1C(ch), int_stat.u);
 			eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
 			CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch), eccctl.u);
-			debug_ras("DSS %d int status 0x%llx\n", ch, int_stat.u);
+			debug_ras("DSS %d int status 0x%" PRIx64 "\n", ch, int_stat.u);
 			continue;
 		}
 
@@ -244,7 +245,7 @@ int cn10k_ras_dss_isr(uint32_t id, uint32_t flags, void *cookie)
 			CSR_WRITE(CAVM_DSSX_INT_W1C(ch), int_stat.u);
 			eccctl.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch));
 			CSR_WRITE(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCTL(ch), eccctl.u);
-			debug_ras("DSS %d int status 0x%llx\n", ch, int_stat.u);
+			debug_ras("DSS %d int status 0x%" PRIx64 "\n", ch, int_stat.u);
 			continue;
 		}
 		eccerrcnt.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCERRCNT(ch));
@@ -562,7 +563,7 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 				reg_ECCCFG0.s.ecc_type);
 	}
 
-	INFO("INJECT: Injecting ECC %s at DSS%d (Rank%d,BG%1d,Bank%1d,Row 0x%05x,Col 0x%04x)[0x%llx/0x%llx]\n",
+	INFO("INJECT: Injecting ECC %s at DSS%d (Rank%d,BG%1d,Bank%1d,Row 0x%05x,Col 0x%04x)[0x%" PRIx64 "/0x%" PRIx64 "]\n",
 			(!etype) ? "double" : "single", xlate.ch, xlate.rank, xlate.bg,
 			xlate.bank, xlate.row, xlate.col, xlate.phys_addr, xlate.offset);
 
@@ -579,7 +580,7 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	dmbsy();
 	udelay(1000);
 
-	debug_ras("Poison original value 0x%llx: %x\n", aligned_address, before);
+	debug_ras("Poison original value 0x%" PRIx64 ": %x\n", aligned_address, before);
 
 	dmbsy();
 #if DATA_LANE_BITS == 2
@@ -593,7 +594,7 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	udelay(1000);
 
 	dss_disable_einj(xlate.ch);
-	debug_ras("Trigger ECC for 0x%llx\n", aligned_address);
+	debug_ras("Trigger ECC for 0x%" PRIx64 "\n", aligned_address);
 
 	dmbsy();
 #if DATA_LANE_BITS == 2
@@ -604,7 +605,7 @@ static int dss_read_poisoned_address(uint64_t address, uint64_t etype)
 	dmbsy();
 
 	if (after != before) {
-		debug_ras("INJECT: before and after data not the same: XOR 0x%llx\n",
+		debug_ras("INJECT: before and after data not the same: XOR 0x%" PRIx64 "\n",
 				(uint64_t) (before ^ after));
 		dmbsy();
 #if DATA_LANE_BITS == 2
@@ -630,7 +631,7 @@ err:
 
 int cn10k_inject_dss_error(uint64_t address, uint64_t etype, uint64_t in_bits)
 {
-	debug_ras("%s param1 0x%llx param2 0x%llx param3 0x%llx\n", __func__,
+	debug_ras("%s param1 0x%" PRIx64 " param2 0x%" PRIx64 " param3 0x%" PRIx64 "\n", __func__,
 			address, etype, in_bits);
 
 	*(uint32_t *)DSS_INJ_FLAG_ADDR = DSS_INJ_FLAG;

@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <debug.h>
 #include <string.h>
+#include <inttypes.h>
 #include <utils.h>
 #include <errno.h>
 #include <platform_def.h>
@@ -578,7 +579,7 @@ static int get_object_info_from_fdt(const char *name,
 		*offset = loffset;
 	if (max_size)
 		*max_size = lmax_size;
-	debug_fw_update("Found %s in firmware layout at address 0x%llx, max size: 0x%lx\n",
+	debug_fw_update("Found %s in firmware layout at address 0x%" PRIx64 ", max size: 0x%lx\n",
 			name, loffset, lmax_size);
 	return 0;
 }
@@ -1055,7 +1056,7 @@ static enum update_ret update_process_tims(void)
 				}
 				debug_fw_update("%s: TIM associated with %s\n",
 						__func__, li->data_filename);
-				debug_fw_update("%s: img len: 0x%x, src addr: 0x%llx, load addr: 0x%llx, tim src addr: 0x%llx\n",
+				debug_fw_update("%s: img len: 0x%x, src addr: 0x%" PRIx64 ", load addr: 0x%" PRIx64 ", tim src addr: 0x%" PRIx64 "\n",
 						__func__, li->image_length,
 						li->src_address, li->load_address,
 						li->tim_src_address);
@@ -1098,7 +1099,7 @@ static enum update_ret update_process_tims(void)
 				oentry->data_file = dfile;
 				oentry->no_data_file = 0;
 				dfile->object = oentry;
-				debug_fw_update("%s: %s starts at 0x%llx, %s starts at 0x%llx\n",
+				debug_fw_update("%s: %s starts at 0x%" PRIx64 ", %s starts at 0x%" PRIx64 "\n",
 						__func__,
 						fentry->filename, fentry->file_loc,
 						dfile->filename, dfile->file_loc);
@@ -1122,7 +1123,7 @@ static enum update_ret update_process_tims(void)
 								 &src_addr);
 				fentry->file_loc = src_addr;
 				if (tret == TIM_NO_ERROR)
-					debug_fw_update("%s: Tim address 0x%llx\n",
+					debug_fw_update("%s: Tim address 0x%" PRIx64 "\n",
 							__func__, src_addr);
 				else
 					UWARN("%s: Tim address unknown for %s!\n",
@@ -1282,7 +1283,7 @@ static int check_file_loc_size(const struct file_entry *entry)
 			UERROR("File %s address overlaps %s\n",
 			       entry->filename,
 			       file->filename);
-			UERROR("%s start: 0x%llx, size: 0x%lx, %s start: 0x%llx, size: 0x%lx\n",
+			UERROR("%s start: 0x%" PRIx64 ", size: 0x%lx, %s start: 0x%" PRIx64 ", size: 0x%lx\n",
 			       entry->filename, entry->file_loc,
 			       entry->file_size, file->filename,
 			       file->file_loc, file->file_size);
@@ -1341,7 +1342,7 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
 		return UPDATE_EHSM_ERROR;
 	}
 
-	debug_fw_update("Verifying 0x%lx bytes starting at offset 0x%llx\n",
+	debug_fw_update("Verifying 0x%lx bytes starting at offset 0x%" PRIx64 "\n",
 			size, offset);
 	blk_size = sizeof(tim_buffer);
 	while (size > blk_size) {
@@ -1427,7 +1428,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	uret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, fl_hdl,
 				 NULL);
 	if (uret == UPDATE_MISSING_TIM) {
-		UINFO("%sTIM for %s missing in flash at offset 0x%llx\n",
+		UINFO("%sTIM for %s missing in flash at offset 0x%" PRIx64 "\n",
 		      is_root_tim ? "Root " : "",
 		      object->data_file->filename, offset);
 		object->update_all = true;
@@ -1818,7 +1819,7 @@ octeontx_io_data_read(struct io_handle *io_handle, uint64_t offset,
 
 	gti_wdog_pet();
 
-	debug_fw_update("%s: Reading 0x%lx bytes from media offset 0x%llx\n",
+	debug_fw_update("%s: Reading 0x%lx bytes from media offset 0x%" PRIx64 "\n",
 			__func__, size, offset);
 	if (*io_handle->io_handle == (uintptr_t)NULL) {
 		UWARN("%s: Media block device not initialized\n", __func__);
@@ -1826,13 +1827,13 @@ octeontx_io_data_read(struct io_handle *io_handle, uint64_t offset,
 	}
 	ret = io_seek(*io_handle->io_handle, IO_SEEK_SET, offset);
 	if (ret != 0) {
-		UWARN("Media seek to offset 0x%llx failed: %d\n", offset, ret);
+		UWARN("Media seek to offset 0x%" PRIx64 " failed: %d\n", offset, ret);
 		return UPDATE_IO_ERROR;
 	}
 	ret = io_read(*io_handle->io_handle, (uintptr_t)buffer, size,
 		      &bytes_read);
 	if (ret != 0) {
-		UWARN("IO error reading 0x%lx bytes from offset 0x%llx (%d)\n",
+		UWARN("IO error reading 0x%lx bytes from offset 0x%" PRIx64 " (%d)\n",
 		      size, offset, ret);
 		return UPDATE_IO_ERROR;
 	}
@@ -1887,7 +1888,7 @@ octeontx_io_data_write(struct io_handle *io_handle, uint64_t offset,
 
 	gti_wdog_pet();
 
-	debug_fw_update("%s: Writing 0x%lx bytes to media offset 0x%llx\n",
+	debug_fw_update("%s: Writing 0x%lx bytes to media offset 0x%" PRIx64 "\n",
 			__func__, size, offset);
 	if (*io_handle->io_handle == (uintptr_t)NULL) {
 		UWARN("Media block device not initialized\n");
@@ -1895,13 +1896,13 @@ octeontx_io_data_write(struct io_handle *io_handle, uint64_t offset,
 	}
 	ret = io_seek(*io_handle->io_handle, IO_SEEK_SET, offset);
 	if (ret != 0) {
-		UWARN("Media seek to offset 0x%llx failed: %d\n", offset, ret);
+		UWARN("Media seek to offset 0x%" PRIx64 " failed: %d\n", offset, ret);
 		return UPDATE_IO_ERROR;
 	}
 	ret = io_write(*io_handle->io_handle, (uintptr_t)buffer, size,
 		       &bytes_written);
 	if (ret != 0) {
-		UWARN("Media IO writing 0x%lx bytes to offset 0x%llx (%d)\n",
+		UWARN("Media IO writing 0x%lx bytes to offset 0x%" PRIx64 " (%d)\n",
 		      size, offset, ret);
 		return UPDATE_IO_ERROR;
 	}
@@ -1985,7 +1986,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 			uret = octeontx_write_data(desc, offset, start_size,
 						   wr_buffer);
 			if (uret != UPDATE_OK) {
-				UWARN("Error erasing 0x%x bytes at offset 0x%llx\n",
+				UWARN("Error erasing 0x%x bytes at offset 0x%" PRIx64 "\n",
 				      start_size, offset + erase_adj);
 				return uret;
 			}
@@ -2003,7 +2004,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 			uret = octeontx_write_data(desc, offset, wr_size,
 						   wr_buffer);
 			if (uret != UPDATE_OK) {
-				UWARN("Error erasing 0x%x bytes at offset 0x%llx\n",
+				UWARN("Error erasing 0x%x bytes at offset 0x%" PRIx64 "\n",
 				      wr_size, offset + erase_adj);
 				return uret;
 			}
@@ -2026,7 +2027,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 			uret = octeontx_write_data(desc, offset, start_size,
 						   wr_buffer);
 			if (uret != UPDATE_OK) {
-				UWARN("Error erasing 0x%x bytes at offset 0x%llx\n",
+				UWARN("Error erasing 0x%x bytes at offset 0x%" PRIx64 "\n",
 				      start_size, offset + erase_adj);
 				return uret;
 			}
@@ -2039,7 +2040,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 		ret = spi_nor_erase(offset + erase_adj, erase_blk_cnt,
 				    desc->bus, desc->cs);
 		if (ret != 0) {
-			UWARN("Error erasing SPI block at offset 0x%llx\n",
+			UWARN("Error erasing SPI block at offset 0x%" PRIx64 "\n",
 			      offset + erase_adj);
 			return UPDATE_IO_ERROR;
 		}
@@ -2052,7 +2053,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 			uret = octeontx_write_data(desc, offset, size,
 						   wr_buffer);
 			if (uret != UPDATE_OK) {
-				UWARN("Error erasing 0x%x bytes at offset 0x%llx\n",
+				UWARN("Error erasing 0x%x bytes at offset 0x%" PRIx64 "\n",
 				      size, offset);
 				return uret;
 			}
@@ -2124,11 +2125,11 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	struct tim_header_info hinfo;
 	int i;
 
-	UINFO("Reading TIM header from offset 0x%llx\n", offset);
+	UINFO("Reading TIM header from offset 0x%" PRIx64 "\n", offset);
 	zeromem(buffer, max_size);
 	ret = octeontx_read_data(desc, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
-		ERROR("Failed to read TIM from address 0x%llx (%d)\n",
+		ERROR("Failed to read TIM from address 0x%" PRIx64 " (%d)\n",
 		      offset, ret);
 		goto done;
 	}
@@ -2149,18 +2150,18 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 			}
 		}
 		if (ret != UPDATE_MISSING_TIM) {
-			UWARN("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n",
+			UWARN("Could not parse TIM header at offset 0x%" PRIx64 " (%d) ret (%d)\n",
 			      offset, tret, ret);
 			UWARN("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
 		} else {
-			UINFO("TIM not found at offset 0x%llx, tret: %d\n",
+			UINFO("TIM not found at offset 0x%" PRIx64 ", tret: %d\n",
 			      offset, tret);
 		}
 		goto done;
 	}
 
 	if (hinfo.signed_tim_size > max_size) {
-		UERROR("TIM at offset 0x%llx is too large\n", offset);
+		UERROR("TIM at offset 0x%" PRIx64 " is too large\n", offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
@@ -2177,13 +2178,13 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	/* Validate TIM */
 	tret = tim_load(hdr, offset, handle);
 	if (tret != TIM_NO_ERROR) {
-		UERROR("Error %d parsing TIM at 0x%llx\n", ret, offset);
+		UERROR("Error %d parsing TIM at 0x%" PRIx64 "\n", ret, offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
 	ret = ehsm_verify_tim_digital_signature(handle, &hinfo, (uint8_t *)hdr);
 	if (ret != 0) {
-		UERROR("TIM signature verification failed for TIM at offset 0x%llx\n",
+		UERROR("TIM signature verification failed for TIM at offset 0x%" PRIx64 "\n",
 		       offset);
 		ret = UPDATE_AUTH_ERROR;
 		goto done;
@@ -2210,11 +2211,11 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 	const struct smc_update_descriptor *desc = io->desc;
 	int i;
 
-	UINFO("Reading TIM header from offset 0x%llx\n", offset);
+	UINFO("Reading TIM header from offset 0x%" PRIx64 "\n", offset);
 	zeromem(buffer, max_size);
 	ret = octeontx_io_data_read(io, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
-		ERROR("Failed to read TIM from address 0x%llx (%d)\n",
+		ERROR("Failed to read TIM from address 0x%" PRIx64 " (%d)\n",
 		      offset, ret);
 		goto done;
 	}
@@ -2235,18 +2236,18 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 			}
 		}
 		if (ret != UPDATE_MISSING_TIM) {
-			UWARN("Could not parse TIM header at offset 0x%llx (%d) ret (%d)\n",
+			UWARN("Could not parse TIM header at offset 0x%" PRIx64 " (%d) ret (%d)\n",
 			      offset, tret, ret);
 			UWARN("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
 		} else {
-			UINFO("TIM not found at offset 0x%llx, tret: %d\n",
+			UINFO("TIM not found at offset 0x%" PRIx64 ", tret: %d\n",
 			      offset, tret);
 		}
 		goto done;
 	}
 
 	if (hinfo.signed_tim_size > max_size) {
-		UERROR("TIM at offset 0x%llx is too large\n", offset);
+		UERROR("TIM at offset 0x%" PRIx64 " is too large\n", offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
@@ -2263,13 +2264,13 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 	/* Validate TIM */
 	tret = tim_load(hdr, offset, handle);
 	if (tret != TIM_NO_ERROR) {
-		UERROR("Error %d parsing TIM at 0x%llx\n", ret, offset);
+		UERROR("Error %d parsing TIM at 0x%" PRIx64 "\n", ret, offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
 	ret = ehsm_verify_tim_digital_signature(handle, &hinfo, (uint8_t *)hdr);
 	if (ret != 0) {
-		UERROR("TIM signature verification failed for TIM at offset 0x%llx\n",
+		UERROR("TIM signature verification failed for TIM at offset 0x%" PRIx64 "\n",
 		       offset);
 		ret = UPDATE_AUTH_ERROR;
 		goto done;
@@ -2389,13 +2390,13 @@ static enum update_ret save_tim0(const struct smc_update_descriptor *desc)
 		return uret;
 	}
 
-	ULOG("Saving TIM0 from offset 0x%llx\n", offset);
+	ULOG("Saving TIM0 from offset 0x%" PRIx64 "\n", offset);
 	uret = octeontx_read_tim(desc, offset, sizeof(tim0_buffer),
 				 tim0_buffer, thdl, &size);
 	tim0_size = size;
 	tim0_offset = offset;
 	if (uret != UPDATE_OK) {
-		UWARN("Reading TIM0 failed with %d at offset 0x%llx, not erasing\n",
+		UWARN("Reading TIM0 failed with %d at offset 0x%" PRIx64 ", not erasing\n",
 		       uret, offset);
 		tim0_offset = 0;
 		tim0_size = 0;
@@ -2498,7 +2499,7 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 				ret =  octeontx_read_data(desc, offset, xfer_len,
 							  rd_buffer);
 				if (ret != UPDATE_OK) {
-					WARN("Read flash failed for offset: 0x%llx, file: %s\n",
+					WARN("Read flash failed for offset: 0x%" PRIx64 ", file: %s\n",
 					     offset, fentry->filename);
 					break;
 				}
@@ -2515,7 +2516,7 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 			/* Write new data */
 			ret = octeontx_write_data(desc, offset, xfer_len, wr_buffer);
 			if (ret != UPDATE_OK) {
-				UWARN(" Write flash failed for offset: 0x%llx, file: %s\n",
+				UWARN(" Write flash failed for offset: 0x%" PRIx64 ", file: %s\n",
 				offset, fentry->filename);
 				break;
 			}
@@ -2523,18 +2524,18 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 			/* Read it back and compare it */
 			ret = octeontx_read_data(desc, offset, xfer_len, rd_buffer);
 			if (ret != UPDATE_OK) {
-				UWARN("Read flash failed for offset: 0x%llx, file: %s\n",
+				UWARN("Read flash failed for offset: 0x%" PRIx64 ", file: %s\n",
 				offset, fentry->filename);
 				break;
 			}
 			if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
 				int i;
-				UWARN("Compare data failed for file: %s at offset 0x%llx, compare len: 0x%llx\n",
+				UWARN("Compare data failed for file: %s at offset 0x%" PRIx64 ", compare len: 0x%" PRIx64 "\n",
 				     fentry->filename, offset, xfer_len);
 				ret = UPDATE_IO_ERROR;
 				for (i = 0; i < xfer_len; i++)
 					if (wr_buffer[i] != rd_buffer[i])
-						UWARN("offset 0x%llx: w 0x%02x != r 0x%02x\n",
+						UWARN("offset 0x%" PRIx64 ": w 0x%02x != r 0x%02x\n",
 						      offset + i,
 						      wr_buffer[i],
 						      rd_buffer[i]);
@@ -2570,7 +2571,7 @@ octeontx_write_files(const struct smc_update_descriptor *desc,
 		    !fentry->object->skip_install) {
 			if (strcmp(fentry->filename, TIM0_FILENAME) ||
 			    tim0_size == 0) {
-				UINFO("Writing file %s: location: 0x%llx, size: 0x%lx\n",
+				UINFO("Writing file %s: location: 0x%" PRIx64 ", size: 0x%lx\n",
 				      fentry->filename, fentry->file_loc,
 				      fentry->file_size);
 				ret = octeontx_update_fw_file(desc, fentry,
@@ -2597,7 +2598,7 @@ void add_mapped_region(struct unmap_params *param, uint64_t base_addr, int map_s
 {
 	int param_cnt = param->count;
 
-	UINFO("Saving mapping: id: %d, base_addr: 0x%llx, size: 0x%x\n",
+	UINFO("Saving mapping: id: %d, base_addr: 0x%" PRIx64 ", size: 0x%x\n",
 		param_cnt, base_addr, map_size);
 
 	param->p[param_cnt].base_addr = base_addr;
@@ -2623,7 +2624,7 @@ enum spi_dc_ret done_callback(void *p)
 
 	for (i = 0; i < param->count; i++) {
 		if (param->p[i].base_addr && param->p[i].ns_map_size) {
-			INFO("Unmapping: id: %d, base_addr: 0x%llx, size: 0x%x\n",
+			INFO("Unmapping: id: %d, base_addr: 0x%" PRIx64 ", size: 0x%x\n",
 				i, param->p[i].base_addr, param->p[i].ns_map_size);
 			octeontx_mmap_remove_dynamic_region_with_sync(param->p[i].base_addr,
 								param->p[i].ns_map_size);
@@ -2665,7 +2666,7 @@ void async_mark_copy_images(struct async_clone_data *param) {
 				}
 			}
 		}
-		INFO("File: %s, clone status: %lld\n", src->objects[i].name, src->objects[i].perform_clone);
+		INFO("File: %s, clone status: %" PRId64 "\n", src->objects[i].name, src->objects[i].perform_clone);
 	}
 
 	/* Check if we can skip clone - if not mark tim0 for update */
@@ -2693,7 +2694,7 @@ int async_prepare_copy_operation(void *p)
 	clone_cfg->copy_params.src_object_size = clone_cfg->vinfo_source->objects[obj_id].object_size;
 	clone_cfg->copy_params.src_tim_size = clone_cfg->vinfo_source->objects[obj_id].tim_size;
 
-	INFO("Name: %s, obj 0x%llx:0x%llx, tim: 0x%llx:0x%llx SRC:%d:%d DST:%d:%d\n",
+	INFO("Name: %s, obj 0x%" PRIx64 ":0x%" PRIx64 ", tim: 0x%" PRIx64 ":0x%" PRIx64 " SRC:%d:%d DST:%d:%d\n",
 			clone_cfg->vinfo_source->objects[obj_id].name,
 			clone_cfg->copy_params.src_object_addr,
 			clone_cfg->copy_params.src_object_size,
@@ -3064,7 +3065,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	bool tim0_updated = false;
 	bool use_full_async = true;
 
-	debug_fw_update("%s(%llx, %llx, 0x%x, 0x%x)\n",
+	debug_fw_update("%s(%" PRIx64 ", %" PRIx64 ", 0x%x, 0x%x)\n",
 			__func__, desc->image_addr,
 			desc->image_size, desc->bus, desc->cs);
 	debug_fw_update("%s: Updating %s flash\n", __func__,
@@ -3195,7 +3196,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 
 	assert(uret);
 	prepare_mapping_storage(&uParams);
-	debug_fw_update("desc: 0x%lx, desc size: 0x%llx, dram size: 0x%llx\n",
+	debug_fw_update("desc: 0x%lx, desc size: 0x%" PRIx64 ", dram size: 0x%" PRIx64 "\n",
 			desc_buf, desc_size, dram_end);
 	/* Round up to page size */
 	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
@@ -3205,19 +3206,19 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	base_addr = desc_buf & mask;
 	/* If descriptor crosses a page boundary, allocate another page */
 	if ((desc_buf + desc_size) > (base_addr + ns_map_size)) {
-		debug_fw_update("0x%llx > 0x%llx, increasing map size by 0x%lx\n",
+		debug_fw_update("0x%" PRIx64 " > 0x%" PRIx64 ", increasing map size by 0x%lx\n",
 				desc_buf + desc_size, base_addr + ns_map_size,
 				PAGE_SIZE);
 		ns_map_size += PAGE_SIZE;
 	}
 	/* Do one final check */
 	if (base_addr + ns_map_size >= dram_end) {
-		WARN("Invalid descriptor address 0x%llx or size 0x%x\n",
+		WARN("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
 		     base_addr, ns_map_size);
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
-	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
+	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%" PRIx64 ", map size: 0x%x\n",
 			desc_buf, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
@@ -3333,7 +3334,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		*uret = UPDATE_MMAP_ERROR;
 		return -SPI_MMAP_ERR;
 	}
-	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
+	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%" PRIx64 ", map size: 0x%x\n",
 			addr, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
@@ -3447,7 +3448,7 @@ static int cn10k_read_flash(struct smc_read_flash_descriptor *desc,
 	void *buffer;
 	size_t size;
 
-	debug_fw_update("%s(%llx, %llx, %llx, 0x%x, 0x%x)\n",
+	debug_fw_update("%s(%" PRIx64 ", %" PRIx64 ", %" PRIx64 ", 0x%x, 0x%x)\n",
 			__func__, desc->addr,
 			desc->length, desc->offset, desc->bus, desc->cs);
 	buffer = (void *)desc->addr;
@@ -3477,7 +3478,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
 
-	debug_fw_update("desc: 0x%lx, desc size: 0x%llx\n",
+	debug_fw_update("desc: 0x%lx, desc size: 0x%" PRIx64 "\n",
 			desc_buf, desc_size);
 	/* Round up to page size */
 	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
@@ -3487,12 +3488,12 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	base_addr = desc_buf & mask;
 	/* If descriptor crosses a page boundary, allocate another page */
 	if ((desc_buf + desc_size) > (base_addr + ns_map_size)) {
-		debug_fw_update("0x%llx > 0x%llx, increasing map size by 0x%lx\n",
+		debug_fw_update("0x%" PRIx64 " > 0x%" PRIx64 ", increasing map size by 0x%lx\n",
 				desc_buf + desc_size, base_addr + ns_map_size,
 				PAGE_SIZE);
 		ns_map_size += PAGE_SIZE;
 	}
-	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
+	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%" PRIx64 ", map size: 0x%x\n",
 			desc_buf, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
@@ -3536,7 +3537,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	/* Add an extra page if this now exceeds the map size */
 	if ((addr + size) > (base_addr + ns_map_size))
 		ns_map_size += PAGE_SIZE;
-	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%llx, map size: 0x%x\n",
+	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%" PRIx64 ", map size: 0x%x\n",
 			addr, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
@@ -3617,7 +3618,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 	}
 	if (uret != UPDATE_OK) {
 		ventry->retcode = RET_TIM_INVALID;
-		WARN("Invalid TIM found for object at %llx\n", flash_addr);
+		WARN("Invalid TIM found for object at %" PRIx64 "\n", flash_addr);
 		return RET_TIM_INVALID;
 	}
 	if (tim_size)
@@ -3687,7 +3688,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 	}
 
 	if (vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH) {
-		INFO("Validating hash for %s at  offset 0x%llx\n",
+		INFO("Validating hash for %s at  offset 0x%" PRIx64 "\n",
 		     ventry->name, ventry->object_address);
 		if (!tli->hshi_parsed) {
 			ventry->retcode = RET_TIM_NO_HASH;
@@ -3955,7 +3956,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 
 		/* Skip writing TIM0 (object OK) for now. */
 		if (strcmp(ventry->name, TIM0_FDT_NAME)) {
-			VERBOSE("Copying %s from %s %u:%u TIM offset 0x%llx, offset 0x%llx to %s %u:%u TIM offset 0x%llx, offset 0x%llx\n",
+			VERBOSE("Copying %s from %s %u:%u TIM offset 0x%" PRIx64 ", offset 0x%" PRIx64 " to %s %u:%u TIM offset 0x%" PRIx64 ", offset 0x%" PRIx64 "\n",
 				ventry->name,
 				src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 				src_desc.bus, src_desc.cs,
@@ -3975,7 +3976,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 			 * For tim0 we only copy the data object.  The TIM
 			 * will be copied last.
 			 */
-			VERBOSE("Copying %s from %s %u:%u, offset 0x%llx to %s %u:%u, offset 0x%llx\n",
+			VERBOSE("Copying %s from %s %u:%u, offset 0x%" PRIx64 " to %s %u:%u, offset 0x%" PRIx64 "\n",
 				ventry->name,
 				src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 				src_desc.bus, src_desc.cs,
@@ -4000,7 +4001,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	}
 
 	if (tim0_ventry) {
-		VERBOSE("Copying %s from %s %u:%u TIM0 offset 0x%llx to %s %u:%u TIM0 offset 0x%llx\n",
+		VERBOSE("Copying %s from %s %u:%u TIM0 offset 0x%" PRIx64 " to %s %u:%u TIM0 offset 0x%" PRIx64 "\n",
 			tim0_ventry->name,
 			src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 			src_desc.bus, src_desc.cs,
@@ -4037,7 +4038,7 @@ dest_io_error:
 	if (err == BACKUP_IO_DST_ERROR || err == BACKUP_IO_ERASE_ERROR) {
 		for (i = 0; i < vinfo->num_objects; i++) {
 			ventry = &vinfo->objects[i];
-			INFO("Erasing backup target TIM %s at offset 0x%llx\n",
+			INFO("Erasing backup target TIM %s at offset 0x%" PRIx64 "\n",
 			     ventry->name, ventry->tim_address);
 			octeontx_erase_data(&dst_desc,
 					    ventry->tim_address,
@@ -4097,7 +4098,7 @@ static int check_tim(struct smc_version_info *vinfo,
 	}
 	if (uret != UPDATE_OK) {
 		ventry->retcode = RET_TIM_INVALID;
-		WARN("Invalid TIM found for object at %llx\n", flash_addr);
+		WARN("Invalid TIM found for object at %" PRIx64 "\n", flash_addr);
 		return RET_TIM_INVALID;
 	}
 	if (tim_size)
@@ -4315,7 +4316,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 			if (err == -ENODEV) {
 				ventry->retcode = RET_NOT_FOUND;
 				VLOG(ventry,
-				     "Could not find %s at address %llx",
+				     "Could not find %s at address %" PRIx64 "",
 				     ventry->name, ventry->tim_address);
 				continue;
 			} else if (err != 0) {
@@ -4380,7 +4381,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 			ventry->max_size = osize;
 			if (err == -ENODEV) {
 				ventry->retcode = RET_NOT_FOUND;
-				VLOG(ventry, "Could not find %s at address %llx",
+				VLOG(ventry, "Could not find %s at address %" PRIx64 "",
 				ventry->name, ventry->tim_address);
 				return 0;
 			} else if (err != 0) {
@@ -4531,7 +4532,7 @@ static int flash_smc_mark_copy(struct smc_version_info *clone_config)
 		if (clone_config->objects[i].perform_clone == 1)
 			reflash_needed = 1;
 
-		INFO("image: %s version: %d.%d reflash: %lld\n",
+		INFO("image: %s version: %d.%d reflash: %" PRId64 "\n",
 				clone_config->objects[i].name,
 				clone_config->objects[i].version.major_version,
 				clone_config->objects[i].version.minor_version,
@@ -4567,7 +4568,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		ns_map_size += PAGE_SIZE;
 
 	if (base_addr + ns_map_size > dram_end) {
-		WARN("Invalid descriptor address 0x%llx or size 0x%x\n",
+		WARN("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
 		     base_addr, ns_map_size);
 		*uret = -SPI_MMAP_ERR;
 		err = -EFAULT;

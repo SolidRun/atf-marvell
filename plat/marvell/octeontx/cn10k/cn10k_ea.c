@@ -5,6 +5,7 @@
  * https://spdx.org/licenses
  */
 
+#include <inttypes.h>
 #include <common/bl_common.h>
 #include <common/debug.h>
 #include <arch_helpers.h>
@@ -33,7 +34,7 @@ void plat_ea_handler(unsigned int ea_reason, uint64_t syndrome, void *cookie,
 		VERBOSE("RAS errors notified from EA handler on 0x%lx\n", read_mpidr_el1());
 #endif
 
-	VERBOSE("In %s: syndrome = 0x%llx\n", __func__, syndrome);
+	VERBOSE("In %s: syndrome = 0x%" PRIx64 "\n", __func__, syndrome);
 #ifdef EL3_PANIC_ON_LOWER_EL_EA
 	if ((read_id_aa64mmfr2_el1() >> ID_AA64MMFR2_EL1_IESB_SHIFT) &
 		ID_AA64MMFR2_EL1_IESB_MASK) {
@@ -45,7 +46,7 @@ void plat_ea_handler(unsigned int ea_reason, uint64_t syndrome, void *cookie,
 	if (syndrome != CN10K_SERROR_SYNDROME) {
 		ERROR("Unhandled External Abort received on 0x%lx at EL3!\n",
 			read_mpidr_el1());
-		ERROR(" exception reason=%u syndrome=0x%llx\n", ea_reason,
+		ERROR(" exception reason=%u syndrome=0x%" PRIx64 "\n", ea_reason,
 				syndrome);
 		panic();
 	}

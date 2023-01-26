@@ -1000,7 +1000,9 @@ static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask, int mode
 {
 	const speed_mode_map_s *map = rpm_speed_mode_map;
 	size_t len = ARRAY_SIZE(rpm_speed_mode_map);
+#if debug_rpm_intf
 	const char *group = "rpm";
+#endif
 	bool try_cpri_test_modes = true;
 	int mode_offset = 0;
 
@@ -1008,7 +1010,9 @@ static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask, int mode
 		map = cpri_speed_mode_map;
 		len = ARRAY_SIZE(cpri_speed_mode_map);
 		mode_offset = PORTM_MODE_CPRI_2_4G;
+#if debug_rpm_intf
 		group = "cpri";
+#endif
 	}
 
 retry:
@@ -1027,7 +1031,9 @@ retry:
 		map = cpri_test_speed_mode_map;
 		len = ARRAY_SIZE(cpri_test_speed_mode_map);
 		mode_offset = PORTM_MODE_CPRI_2_4G_TEST;
+#if debug_rpm_intf
 		group = "cpri_test";
+#endif
 		goto retry;
 	}
 
@@ -1411,7 +1417,10 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	rpm_lmac_context_t *lmac_ctx;
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
-	int req_speed, req_duplex;
+	int req_speed;
+#if debug_rpm_intf
+	int req_duplex;
+#endif
 	int invalid_req = 0, portm_mode = 0, mode_group;
 	uint64_t req_mode = 0;
 	int ret = 0;
@@ -1419,7 +1428,10 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	int rpm_id, lmac_id;
 	portm_config_t *portm;
 	int numlanes;
-	cn10k_portm_fec_t fec, fec_orig;
+#if debug_rpm_intf
+	cn10k_portm_fec_t fec_orig;
+#endif
+	cn10k_portm_fec_t fec;
 	int switch_from_cpri = 0;
 	int current_lc, new_lc;
 	rpm_lmac_bringup_context_t *bringup_ctx;
@@ -1448,7 +1460,9 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	 */
 	req_mode = args->mode;
 	mode_group = args->mode_group_idx;
+#if debug_rpm_intf
 	req_duplex = args->duplex;
+#endif
 
 	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%llx\n",
 				__func__, portm_idx, lmac_ctx->s.speed,
@@ -1516,7 +1530,10 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	/* Check if fec type was specified and is supported by the
 	 * requested mode. If not, then set to lowest supported FEC.
 	 */
-	fec_orig = fec = portm->fec;
+#if debug_rpm_intf
+	fec_orig = portm->fec;
+#endif
+	fec = portm->fec;
 	ret = cn10k_portm_fec_valid(portm_mode, &fec);
 	if (!ret)
 		debug_rpm_intf("PORTM%d: FEC %s not supported by mode %s, using FEC %s\n",

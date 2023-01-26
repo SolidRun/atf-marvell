@@ -347,7 +347,9 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int coun
 				int portm_idx, const char *msg)
 {
 	int idx, num = 0;
+#if debug_ecp_sm_hist
 	uint64_t first_time = 0;
+#endif
 
 	debug_ecp_sm_hist("[PORTM%d]: Last ECP state transitions:\n\t(Reason: %s)\n", portm_idx, msg);
 
@@ -357,7 +359,9 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int coun
 
 		/* Only print entries with the same lmac_id */
 		if (lmac_id == log_entry->lmac_id) {
+#if debug_ecp_sm_hist
 			first_time = log_entry->timestamp;
+#endif
 			break;
 		}
 	}

@@ -48,7 +48,9 @@
 #include <strtol.h>
 
 /* for LEGACY logging, define DEBUG_ATF_DTS to enable debug logs */
-#undef DEBUG_ATF_DTS
+#if !defined(MRVL_TF_LOG_MODULE)
+#define DEBUG_ATF_DTS	1
+#endif
 
 #if defined(MRVL_TF_LOG_MODULE)
 #  undef MRVL_TF_LOG_MODULE

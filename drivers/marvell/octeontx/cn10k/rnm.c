@@ -36,6 +36,7 @@
 #include <arch.h>
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include <debug.h>
 #include <drivers/delay_timer.h>
 #include <platform_def.h>
@@ -84,7 +85,7 @@ int cn10k_rng_reset_health(void)
 
 	if (ebg_health.s.st_err) {
 		ERROR("cn10k_rng: Entropy failure occurred during startup"
-		      " (EBG_HEALTH=0x%llx)\n", ebg_health.u);
+		      " (EBG_HEALTH=0x%" PRIx64 ")\n", ebg_health.u);
 		return -1;
 	}
 

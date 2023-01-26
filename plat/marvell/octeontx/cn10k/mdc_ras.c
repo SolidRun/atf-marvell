@@ -5,6 +5,7 @@
  * https://spdx.org/licenses
  */
 
+#include <inttypes.h>
 #include <debug.h>
 #include <lib/extensions/ras.h>
 #include <octeontx_common.h>
@@ -34,18 +35,18 @@ static union cavm_mdc_ras_entry_s read_mdc_ras_entry_s(int cid, int hid, int nid
 
 	if (!entry.u) {
 		if (!once) {
-			ERROR("Unsupported MDC_RAS_ROM version %llx\n", entry.u);
+			ERROR("Unsupported MDC_RAS_ROM version %" PRIx64 "\n", entry.u);
 			once = 1;
 		}
 		return entry;
 	}
 
 	entry.u = read_mdc_ras_romx(cid + 1);
-	debug_ras("RAS_ROM[cid:%d] hbase %llx\n", cid + 1, entry.u);
+	debug_ras("RAS_ROM[cid:%d] hbase %" PRIx64 "\n", cid + 1, entry.u);
 	entry.u = read_mdc_ras_romx(entry.u + hid);
-	debug_ras("RAS_ROM[hid:%d] nbase %llx\n", hid, entry.u);
+	debug_ras("RAS_ROM[hid:%d] nbase %" PRIx64 "\n", hid, entry.u);
 	entry.u = read_mdc_ras_romx(entry.u + nid);
-	debug_ras("RAS_ROM[nid=%d] leaf %llx, ras_id %x, ras_serr %x\n",
+	debug_ras("RAS_ROM[nid=%d] leaf %" PRIx64 ", ras_id %x, ras_serr %x\n",
 			nid, entry.u, entry.s.ras_id, entry.s.ras_serr);
 
 	return entry;
@@ -66,7 +67,7 @@ int cn10k_ras_enable_mdc(void)
 	vecctl = irq;
 	vecaddr = CAVM_GICD_SETSPI_SR | 1;
 
-	debug_ras("MDC RAS Vec 0x%llx@0x%llx\n", vecctl, vecaddr);
+	debug_ras("MDC RAS Vec 0x%" PRIx64 "@0x%" PRIx64 "\n", vecctl, vecaddr);
 	/* Configure MSIx vector address and irq number */
 	octeontx_write64(vecaddr_reg, vecaddr);
 	octeontx_write64(vecctl_reg, vecctl);
@@ -95,7 +96,9 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	struct otx2_ghes_err_ring *err_ring;
 	struct cper_sec_mem_err *mdc;
 	const char *type_tok = NULL;
+#if DEBUG
 	const char *type = NULL;
+#endif
 	union cavm_mdc_ras_entry_s entry;
 	int fr = 0;
 
@@ -109,12 +112,16 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	mdc = &err_rec->u.mdc;
 
 	if (st.s.dbe) {
+#if DEBUG
 		type = "double";
+#endif
 		type_tok = "D";
 		if (st.s.dbe_plus)
 			type_tok = "D+";
 	} else if (st.s.sbe) {
+#if DEBUG
 		type = "single";
+#endif
 		type_tok = "S";
 		if (st.s.sbe_plus)
 			type_tok = "S+";

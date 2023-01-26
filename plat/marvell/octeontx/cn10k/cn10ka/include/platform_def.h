@@ -7,7 +7,6 @@
 
 #ifndef __PLATFORM_DEF_H__
 #define __PLATFORM_DEF_H__
-
 #include <plat_cn10k_def.h>
 
 #define PLATFORM_CORE_PER_CLUSTER	24

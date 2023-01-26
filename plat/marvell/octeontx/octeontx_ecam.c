@@ -9,6 +9,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <assert.h>
+#include <inttypes.h>
+
 #include <octeontx_common.h>
 #include <plat_board_cfg.h>
 #include <octeontx_ecam.h>
@@ -209,7 +211,7 @@ static void init_smmu(uint64_t config_base, uint64_t config_size)
 	int i;
 	int smmunr = ((config_base >> 36) & 0xff) - 0x48;
 
-	debug_io("SMMU(%d) init called config_base:%llx size:%llx\n",
+	debug_io("SMMU(%d) init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 		 smmunr, config_base, config_size);
 	print_config_space(pconfig);
 
@@ -236,7 +238,7 @@ static void init_smmu(uint64_t config_base, uint64_t config_size)
 	if (table_size) {
 		debug_io("table_size :%x bir:%1x \n", table_size, bir);
 		vector_base = get_bar_val(pconfig, bir);
-		debug_io("MSI-X vector base:%llx\n", vector_base);
+		debug_io("MSI-X vector base:%" PRIx64 "\n", vector_base);
 
 		/* configure interrupt vectors first */
 		for (i = 0; i < table_size; i++) {
@@ -282,8 +284,8 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	cmd.s.me = 1;
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_CMD, cmd.u);
 
-	debug_io("UAA(%d) init called config_base:%llx size:%llx\n",
-		 vsec_ctl.s.inst_num, config_base, config_size);
+	debug_io("UAA(%d) init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
+		       vsec_ctl.s.inst_num, config_base, config_size);
 	print_config_space(pconfig);
 	enable_msix(config_base, cap_pointer, &table_size, &bir);
 	/* initialise MSI-X Vector table */
@@ -291,7 +293,7 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 	if (table_size) {
 		debug_io("table_size :%x bir:%1x \n", table_size, bir);
 		vector_base = get_bar_val(pconfig, bir);
-		debug_io("MSI-X vector base:%llx\n", vector_base);
+		debug_io("MSI-X vector base:%" PRIx64 "\n", vector_base);
 
 		/* configure interrupt vectors first */
 		for (i = 0; i < table_size; i++) {
@@ -300,7 +302,7 @@ static void init_uaa(uint64_t config_base, uint64_t config_size)
 			printf("\r"); /* Need to revisit and remove this workaround */
 			octeontx_write64(vector_base, uaa_irq);
 			vector_base += 8;
-			debug_io("UAA(%d): Vector:%d address :%llx irq:%d\n",
+			debug_io("UAA(%d): Vector:%d address :%" PRIx64 " irq:%d\n",
 				 vsec_ctl.s.inst_num, i,
 				 ((i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR),
 				 uaa_irq);
@@ -322,7 +324,7 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
 
-	debug_io("PEM(%d) init called config_base:%llx size:%llx\n",
+	debug_io("PEM(%d) init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 		 vsec_ctl.s.inst_num, config_base, config_size);
 	print_config_space(pconfig);
 	enable_msix(config_base, cap_pointer, &table_size, &bir);
@@ -331,7 +333,7 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 	if (table_size) {
 		debug_io("table_size :%x bir:%1x \n", table_size, bir);
 		vector_base = get_bar_val(pconfig, bir);
-		debug_io("MSI-X vector base:%llx\n", vector_base);
+		debug_io("MSI-X vector base:%" PRIx64 "\n", vector_base);
 
 		/* configure interrupt vectors first */
 		for (i = 0; i < table_size; i++) {
@@ -387,7 +389,7 @@ static void init_pem(uint64_t config_base, uint64_t config_size)
 			octeontx_write64(vector_base, msg);
 			vector_base += 8;
 			debug_io
-			    ("PEM(%d): Vector:%d address :%llx irq:%llu\n",
+			    ("PEM(%d): Vector:%d address :%" PRIx64 " irq:%" PRIu64 "\n",
 			     vsec_ctl.s.inst_num, i, addr, msg);
 		}
 	}
@@ -422,7 +424,7 @@ static void init_gti(uint64_t config_base, uint64_t config_size)
 	volatile uint32_t *sctl = (uint32_t *)
 			 (config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 
-	debug_io("GTI init called config_base:%llx size:%llx\n",
+	debug_io("GTI init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 		 config_base, config_size);
 	cap_pointer = pconfig->cap_pointer;
 	print_config_space(pconfig);
@@ -433,7 +435,7 @@ static void init_gti(uint64_t config_base, uint64_t config_size)
 	if (table_size) {
 		vector_base = get_bar_val(pconfig, bir);
 		debug_io("table_size :%x bir:%1x \n", table_size, bir);
-		debug_io("MSI-X vector base:%llx\n", vector_base);
+		debug_io("MSI-X vector base:%" PRIx64 "\n", vector_base);
 	}
 
 	/* configure interrupt vectors */
@@ -452,7 +454,7 @@ static void init_gti(uint64_t config_base, uint64_t config_size)
 		}
 		octeontx_write64(vector_base, msg);
 		vector_base += 8;
-		debug_io("GTI: Vector:%d address :%llx irq:%llu\n", i,
+		debug_io("GTI: Vector:%d address :%" PRIx64 " irq:%" PRIu64 "\n", i,
 			(i % 2 && i < CAVM_GTI_INT_VEC_E_TX_TIMESTAMP) ?
 				CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR,
 			msg);
@@ -469,7 +471,7 @@ static void init_iobn(uint64_t config_base, uint64_t config_size)
 	/* avoid 'unused' warning if IO debugging is not enabled */
 	(void)vsec_ctl;
 
-	debug_io("IOBN(%d) init called config_base:%llx size:%llx\n",
+	debug_io("IOBN(%d) init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 		vsec_ctl.s.inst_num, config_base, config_size);
 
 	print_config_space(pconfig);
@@ -535,7 +537,7 @@ static int octeontx_call_probe(uint64_t pconfig)
 	for (i = 0; probe_callbacks[i].devid != ECAM_INVALID_DEV_ID; i++) {
 		if (probe_callbacks[i].devid == pccpf_id.s.devid
 		    && probe_callbacks[i].vendor_id == pccpf_id.s.vendid) {
-			debug_io("'calling io_probe ... %llx\n",
+			debug_io("'calling io_probe ... %" PRIx64 "\n",
 				 (uint64_t) probe_callbacks[i].io_probe);
 			rc = probe_callbacks[i].io_probe(probe_callbacks[i].call_count);
 			probe_callbacks[i].call_count++;
@@ -560,7 +562,7 @@ static void octeontx_call_init(uint64_t pconfig)
 	for (i = 0; init_callbacks[i].devid != ECAM_INVALID_DEV_ID; i++) {
 		if (init_callbacks[i].devid == pccpf_id.s.devid
 		    && init_callbacks[i].vendor_id == pccpf_id.s.vendid) {
-			debug_io("'calling io_init ... %llx\n",
+			debug_io("'calling io_init ... %" PRIx64 "\n",
 				 (uint64_t) init_callbacks[i].io_init);
 			init_callbacks[i].io_init(pconfig,
 						  sizeof(struct pcie_config));
@@ -576,7 +578,7 @@ static void octeontx_call_init(uint64_t pconfig)
 	for (i = 0; plat_init_callbacks[i].devid != ECAM_INVALID_DEV_ID; i++) {
 		if (plat_init_callbacks[i].devid == pccpf_id.s.devid
 		    && plat_init_callbacks[i].vendor_id == pccpf_id.s.vendid) {
-			debug_io("'calling plat_io_init ... %llx\n",
+			debug_io("'calling plat_io_init ... %" PRIx64 "\n",
 				 (uint64_t) plat_init_callbacks[i].io_init);
 			plat_init_callbacks[i].io_init(pconfig,
 						sizeof(struct pcie_config));
@@ -672,7 +674,7 @@ static void octeontx_ecam_dev_enumerate(struct ecam_device *device)
 	octeontx_call_init(pconfig);
 
 	debug_io("%s: E%u:DOM%u:B%u:D%u:FUN%u\n"
-		 "pconfig: 0x%llx, secure:%u, scp:%u, mcp:%u\n",
+		 "pconfig: 0x%" PRIx64 ", secure:%u, scp:%u, mcp:%u\n",
 		 __func__, device->ecam, device->domain,
 		 device->bus, device->dev, device->func, pconfig,
 		 device->config.s.is_secure, device->config.s.is_scp_secure,
@@ -702,7 +704,7 @@ static void octeontx_ecam_dev_enumerate(struct ecam_device *device)
 		plat_ops.program_ssid(device, pconfig);
 	}
 
-	debug_io("%s: pconfig: 0x%llx, value: 0x%x\n", __func__, pconfig,
+	debug_io("%s: pconfig: 0x%" PRIx64 ", value: 0x%x\n", __func__, pconfig,
 		octeontx_read32(pconfig));
 
 	if (octeontx_dev_is_bridge(pconfig)) {

@@ -5,6 +5,7 @@
  * https://spdx.org/licenses
  */
 
+#include <inttypes.h>
 #include <lib/psci/psci.h>
 #include <debug.h>
 #include <octeontx_utils.h>
@@ -88,7 +89,7 @@ void plat_pcie_switch_reset(void)
 	sw_bar2 &= (~0xFULL);
 	sw_bar2_lo = (uint32_t)(sw_bar2 & REG32_MASK);
 	sw_bar2_hi = (uint32_t)((sw_bar2 >> SHIFT32) & REG32_MASK);
-	INFO("BAR0 0x%llx BAR2 0x%llx\n", sw_bar0, sw_bar2);
+	INFO("BAR0 0x%" PRIx64 " BAR2 0x%" PRIx64 "\n", sw_bar0, sw_bar2);
 	INFO("BAR2 lo 0x%x hi 0x%x\n", sw_bar2_lo, sw_bar2_hi);
 
 	/* Map Switch memory space */

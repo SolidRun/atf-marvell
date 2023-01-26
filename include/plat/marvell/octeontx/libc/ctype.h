@@ -42,7 +42,6 @@
 #ifndef _SYS_CTYPE_H_
 #define	_SYS_CTYPE_H_
 
-#define isspace(c)	((c) == ' ' || ((c) >= '\t' && (c) <= '\r'))
 #define isascii(c)	(((c) & ~0x7f) == 0)
 #define isupper(c)	((c) >= 'A' && (c) <= 'Z')
 #define islower(c)	((c) >= 'a' && (c) <= 'z')

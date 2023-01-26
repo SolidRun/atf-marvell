@@ -182,9 +182,9 @@ ifeq (${TRUSTED_BOARD_BOOT},1)
     include ${IMG_PARSER_LIB_MK}
 endif
 
-ifeq (${USE_MRVL_TF_LOGGING},1)
+ifeq (${USE_MRVL_TF_LOGGING}, 0)
 DEF_LOG_MODULES ?= DUMMY_bl?_common_drivers_lib_plat_services_libtim
-MRVL_OTX_DEBUG_H ?= octeontx_debug.h
+MRVL_OTX_DEBUG_H ?= ./include/plat/marvell/octeontx
 # MRVL_TF_LOG_DEF constructs cmd-line options for ATF Runtime Logging feature
 #
 #   $(1) = source file (%.c)

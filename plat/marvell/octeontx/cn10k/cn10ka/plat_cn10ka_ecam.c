@@ -8,6 +8,7 @@
 #include <platform_def.h>
 #include <platform_setup.h>
 #include <octeontx_common.h>
+#include <inttypes.h>
 
 #include <stdio.h>
 #include <stdint.h>
@@ -45,12 +46,12 @@
 extern int disable_devmem_ns_access(struct ecam_device *dev);
 extern uint64_t get_dev_config(struct ecam_device *dev);
 
-static int ecam_probe_rpm(unsigned long long arg)
+static int ecam_probe_rpm(uint64_t arg)
 {
 	int rpm_idx;
 	rpm_config_t *rpm;
 
-	debug_plat_ecam("%s arg %lld\n", __func__, arg);
+	debug_plat_ecam("%s arg %" PRId64 "\n", __func__, (uint64_t)arg);
 
 	rpm_idx = arg;
 
@@ -65,10 +66,10 @@ static int ecam_probe_rpm(unsigned long long arg)
 		return 0;
 }
 
-static int ecam_probe_usb(unsigned long long arg)
+static int ecam_probe_usb(uint64_t arg)
 {
 	if (arg >= MAX_USB_BUS) {
-		ERROR("Invalid USB bus 0x%llx\n", arg);
+		ERROR("Invalid USB bus 0x%" PRIx64 "\n", (uint64_t) arg);
 		return 0;
 	}
 	if (plat_octeontx_bcfg->usb_cfg[arg].is_enabled)
@@ -93,7 +94,7 @@ static void init_emmc(uint64_t config_base, uint64_t config_size)
 	uint8_t bir = 0, i = 0;
 	uint64_t vector_base;
 
-	VERBOSE("EMMC init called config_base:%llx size:%llx\n",
+	VERBOSE("EMMC init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 			config_base, config_size);
 
 	/* Block can have mix of secure and non-secure MSI-X interrupts */
@@ -112,10 +113,10 @@ static void init_emmc(uint64_t config_base, uint64_t config_size)
 		vector_base = get_bar_val(pconfig, bir);
 		for (i = 0; i < table_size; i++) {
 			octeontx_write64(vector_base, (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
-			VERBOSE("EMMC vector_base%d 0x%lx 0x%lx\n", i, (long) vector_base, (long)octeontx_read64(vector_base));
+			VERBOSE("EMMC vector_base%d 0x%" PRIx64 " 0x%" PRIx64 "\n", i, vector_base, octeontx_read64(vector_base));
 			vector_base += 8;
 			octeontx_write64(vector_base, EMMC_SPI_IRQ(0));
-			VERBOSE("EMMC vector_base%d 0x%lx 0x%lx\n", i, (long) vector_base, (long)octeontx_read64(vector_base));
+			VERBOSE("EMMC vector_base%d 0x%" PRIx64 " 0x%" PRIx64 "\n", i, vector_base, octeontx_read64(vector_base));
 			vector_base += 8;
 		}
 	}
@@ -126,7 +127,7 @@ static void init_gpio(uint64_t config_base, uint64_t config_size)
 {
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
 
-	debug_plat_ecam("GPIO init called config_base:%llx size:%llx\n",
+	debug_plat_ecam("GPIO init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 			config_base, config_size);
 
 	/* Block can have mix of secure and non-secure MSI-X interrupts */
@@ -173,7 +174,7 @@ static void init_rpm(uint64_t config_base, uint64_t config_size)
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
 	rpm_id = vsec_ctl.s.inst_num;
 
-	debug_plat_ecam("RPM(%d): init config_base:%llx size:%llx\n",
+	debug_plat_ecam("RPM(%d): init config_base:%" PRIx64 " size:%" PRIx64 "\n",
 		vsec_ctl.s.inst_num, config_base, config_size);
 
 	rpm_init(rpm_id);
@@ -192,7 +193,7 @@ static void init_apa(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR,
 			 msix_cap_hdr.u);
 
-	debug_plat_ecam("APA MSIx init config_base:%llx size:%llx 0x%x\n",
+	debug_plat_ecam("APA MSIx init config_base:%" PRIx64 " size:%" PRIx64 " 0x%x\n",
 			config_base, config_size,
 			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
 
@@ -217,7 +218,7 @@ static void init_dss(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR,
 			 msix_cap_hdr.u);
 
-	debug_plat_ecam("DSS MSIx init config_base:%llx size:%llx 0x%x\n",
+	debug_plat_ecam("DSS MSIx init config_base:%" PRIx64 " size:%" PRIx64 " 0x%x\n",
 			config_base, config_size,
 			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
 
@@ -242,7 +243,7 @@ static void init_tad(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR,
 			 msix_cap_hdr.u);
 
-	debug_plat_ecam("TAD MSIx init config_base:%llx size:%llx 0x%x\n",
+	debug_plat_ecam("TAD MSIx init config_base:%" PRIx64 " size:%" PRIx64 " 0x%x\n",
 			config_base, config_size,
 			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
 
@@ -267,7 +268,7 @@ static void init_mdc(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR,
 			 msix_cap_hdr.u);
 
-	debug_plat_ecam("MDC MSIx init config_base:%llx size:%llx 0x%x\n",
+	debug_plat_ecam("MDC MSIx init config_base:%" PRIx64 " size:%" PRIx64 " 0x%x\n",
 			config_base, config_size,
 			octeontx_read32(config_base + CAVM_PCCPF_XXX_MSIX_CAP_HDR));
 
@@ -291,7 +292,7 @@ static void init_xspi(uint64_t config_base, uint64_t config_size)
 	uint8_t bir = 0, i = 0, spi_id;
 	uint64_t vector_base;
 
-	VERBOSE("xSPI init called config_base:%llx size:%llx\n",
+	VERBOSE("xSPI init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 			config_base, config_size);
 
 	/* Block can have mix of secure and non-secure MSI-X interrupts */

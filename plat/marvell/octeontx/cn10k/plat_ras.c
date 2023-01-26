@@ -32,6 +32,7 @@ uint8_t cn10k_crash_buf[2048];
 static cn10k_cpu_context_t cn10k_ctx __aligned(16);
 #endif
 
+#if DEBUG
 static char *core_err_src[] = {
 	"DSU_RAM",
 	"CORE_RAM",
@@ -53,6 +54,7 @@ static char *err_type_str[] = {
 	"Deferred Error (DE)",
 	"Uncorrected Error (UE)",
 };
+#endif
 
 static char *err_type_str_short[] = {"NO", "CE", "DE", "UE"};
 
@@ -255,7 +257,7 @@ static void cn10k_core_ras_notify(cn10k_core_err_info_t *err_info, uint64_t erx_
 static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 	int probe_data, const struct err_handler_data *const data)
 {
-	uint64_t erx_status, erx_mis0, msix_status;
+	uint64_t erx_status, msix_status;
 	uint32_t intr = data->interrupt;
 	int err_type = 0, notify_os = 1;
 	int core = plat_my_core_pos();
@@ -276,9 +278,8 @@ static int cn10k_core_ras_ext_handler(const struct err_record_info *info,
 
 	erx_status = read_erxstatus_el1();
 	if (erx_status & (ERR_STATUS_V_MASK << ERR_STATUS_V_SHIFT)) {
-		erx_mis0 = read_erxmisc0_el1();
-		debug_ras("RAS: CPU Error: ERX_STATUS 0x%lx ERX_MISC0 0x%lx\n",
-				(unsigned long)erx_status, (unsigned long) erx_mis0);
+		debug_ras("RAS: CPU Error: ERX_STATUS 0x%lx\n",
+				(unsigned long)erx_status);
 		if (erx_status & (ERR_STATUS_UE_MASK << ERR_STATUS_UE_SHIFT))
 			err_type = RAS_ERR_UE;
 		else if (erx_status & (ERR_STATUS_CE_MASK << ERR_STATUS_CE_SHIFT)) {

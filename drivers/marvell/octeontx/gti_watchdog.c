@@ -9,6 +9,7 @@
 
 #include <arch_helpers.h>
 #include <assert.h>
+#include <inttypes.h>
 #include <debug.h>
 #include <lib/psci/psci.h>
 #include <errno.h>
@@ -245,7 +246,7 @@ static void gti_watchdog_set(uint64_t timeout_ms, uint64_t cores)
 		gti_cwd_ena.s.core = cores;
 		CSR_WRITE(CAVM_GTI_CWD_INT_ENA_SET, gti_cwd_ena.u);
 
-		debug_gti_watchdog("Watchdog: gti ena set = 0x%llx\n",
+		debug_gti_watchdog("Watchdog: gti ena set = 0x%" PRIx64 "\n",
 			CSR_READ(CAVM_GTI_CWD_INT_ENA_SET));
 
 		/* configure interrupt vectors */
@@ -277,7 +278,7 @@ intr_hndlrs_already_registered:
 
 		plat_gti_access_secure_memory_setup(1);
 
-		debug_gti_watchdog("Watchdog: Set to expire %llu SCLK cycles\n",
+		debug_gti_watchdog("Watchdog: Set to expire %" PRIu64 " SCLK cycles\n",
 					timeout_wdog << 18);
 
 		wdog.u = 0;
@@ -388,7 +389,7 @@ static int gti_wdog_map_info_page(uint64_t phys_addr)
 	int ret = -1;
 	int i;
 
-	debug_gti_watchdog("GTI: MAP physical address = %llx\n", phys_addr);
+	debug_gti_watchdog("GTI: MAP physical address = %" PRIx64 "\n", phys_addr);
 
 	/* Check if page already mapped */
 	for (i = 0; i < GTI_MAX_PAGES; i++) {
@@ -404,7 +405,7 @@ static int gti_wdog_map_info_page(uint64_t phys_addr)
 	ret = mmap_add_dynamic_region(align_addr, align_addr, PAGE_SIZE,
 				      MT_MEMORY | MT_RW | MT_NS);
 	if (ret) {
-		ERROR("Watchdog: Failed to map NS region %llx, %d\n",
+		ERROR("Watchdog: Failed to map NS region %" PRIx64 ", %d\n",
 		      align_addr, ret);
 		return ret;
 	}
@@ -422,17 +423,17 @@ int gti_wdog_install_handler(uint64_t core, uint64_t gti_elr, uint64_t gti_spsr,
 
 	g_kernel_hyp_mode = kernel_in_hyp_mode ? 1 : 0;
 
-	debug_gti_watchdog("Watchdog: core = %lld, mpidr = 0x%llx\n",
+	debug_gti_watchdog("Watchdog: core = %" PRId64 ", mpidr = 0x%" PRIx64 "\n",
 			 core, read_mpidr());
 
 	retval = gti_wdog_map_info_page(gti_elr);
 	if (retval) {
-		ERROR("Watchdog: Failed to map elr=%llx page\n", gti_elr);
+		ERROR("Watchdog: Failed to map elr=%" PRIx64 " page\n", gti_elr);
 		return 0;
 	}
 	retval = gti_wdog_map_info_page(gti_spsr);
 	if (retval) {
-		ERROR("Watchdog: Failed to map spsr=%llx page\n", gti_spsr);
+		ERROR("Watchdog: Failed to map spsr=%" PRIx64 " page\n", gti_spsr);
 		return 0;
 	}
 
@@ -449,10 +450,10 @@ int gti_wdog_start(uint64_t el0_kernel_wdog_callback,
 		   uint64_t el1_kernel_wdog_callback,
 		   uint64_t watchdog_timeout_ms, uint64_t cores)
 {
-	debug_gti_watchdog("timeout_ms = %lld, ",
+	debug_gti_watchdog("timeout_ms = %" PRId64 ", ",
 			 watchdog_timeout_ms);
 
-	debug_gti_watchdog("cores = 0x%llx\n", cores);
+	debug_gti_watchdog("cores = 0x%" PRIx64 "\n", cores);
 
 	g_kernel_cback_el0 = el0_kernel_wdog_callback;
 	g_kernel_cback_el1 = el1_kernel_wdog_callback;
