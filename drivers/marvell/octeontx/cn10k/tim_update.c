@@ -2720,24 +2720,37 @@ void async_mark_copy_images(struct async_clone_data *param) {
 			param->clone_needed = true;
 		} else {
 			for (j = 0 ; j < dst->num_objects ; j++) {
-				if (!strncmp(src->objects[i].name,
-					dst->objects[j].name,
-					VER_MAX_NAME_LENGTH)) {
-					if (memcmp(&src->objects[i].version,
-						   &dst->objects[j].version,
-						   sizeof(struct tim_opaque_data_version_info))) {
+				if (!strncmp(src->objects[i].name, dst->objects[j].name, VER_MAX_NAME_LENGTH)) {
+					if (dst->objects[j].retcode != RET_OK) {
+						UINFO("%s perform clone: TIM error\n", dst->objects[j].name);
+						src->objects[i].perform_clone = 1;
+						param->clone_needed = true;
+					} else if (memcmp(&dst->objects[j].version, &src->objects[i].version, sizeof(struct tim_opaque_data_version_info))) {
+						UINFO("%s perform clone: version mismatch\n", dst->objects[j].name);
+						src->objects[i].perform_clone = 1;
+						param->clone_needed = true;
+					} else if (dst->objects[j].hash_size != src->objects[i].hash_size) {
+						UINFO("%s perform clone: hash size mismatch\n", dst->objects[j].name);
+						src->objects[i].perform_clone = 1;
+						param->clone_needed = true;
+					} else if (memcmp(&dst->objects[j].tim_hash, &src->objects[i].tim_hash, dst->objects[j].hash_size)) {
+						UINFO("%s perform clone: tim hash mismatch\n", dst->objects[j].name);
+						src->objects[i].perform_clone = 1;
+						param->clone_needed = true;
+					} else if (memcmp(&dst->objects[j].obj_hash, &src->objects[i].obj_hash, dst->objects[j].hash_size)) {
+						UINFO("%s perform clone: obj hash mismatch\n", dst->objects[j].name);
 						src->objects[i].perform_clone = 1;
 						param->clone_needed = true;
 					}
 				}
 			}
 		}
-		INFO("File: %s, clone status: %" PRId64 "\n", src->objects[i].name, src->objects[i].perform_clone);
+		UINFO("File: %s, clone status: %" PRId64 "\n", src->objects[i].name, src->objects[i].perform_clone);
 	}
 
 	/* Check if we can skip clone - if not mark tim0 for update */
 	if (!param->clone_needed)
-		INFO("Skipping clone operation\n");
+		UINFO("Skipping clone operation\n");
 	else
 		if (tim0_id != -1)
 			src->objects[tim0_id].perform_clone = 1;
@@ -3851,14 +3864,14 @@ static int check_get_version(struct smc_version_info *vinfo,
 		zeromem(digest, sizeof(digest));
 		ret = verify_hash(udesc, tli, digest, &hash_size);
 		memcpy(ventry->obj_hash, digest, hash_size);
-		if (ret == -EAUTH) {
+		if (ret == UPDATE_AUTH_ERROR) {
 			VLOG(ventry, "%s hash in TIM does not match object",
 			     ventry->name);
 			UWARN("%s hash in TIM does not match object\n",
 			     ventry->name);
 			ventry->retcode = RET_HASH_NO_MATCH;
 			return RET_HASH_NO_MATCH;
-		} else if (ret < 0) {
+		} else if (ret != UPDATE_OK) {
 			VLOG(ventry, "eHSM hash engine error %d", ret);
 			UWARN("eHSM hash engine error %d\n", ret);
 			ventry->retcode = RET_HASH_NO_MATCH;
@@ -4531,11 +4544,15 @@ static int verify_hash_block(void *ptr)
 	memcpy(data->ventry->obj_hash, data->digest, data->hash_size);
 
 	if (data->hashret == -EAUTH) {
-		UERROR("Detected corrupt flash image for %s\n",
-		      linfo->data_filename);
+		VLOG(data->ventry, "%s hash in TIM does not match object",
+		     data->ventry->name);
+		UWARN("%s hash in TIM does not match object\n",
+		     data->ventry->name);
+		data->ventry->retcode = RET_HASH_NO_MATCH;
 	} else if (data->hashret != 0) {
-		UERROR("ADSD %d finalizing verification for %s\n",
-		       ret, linfo->data_filename);
+		VLOG(data->ventry, "eHSM hash engine error %d", ret);
+		UWARN("eHSM hash engine error %d\n", ret);
+		data->ventry->retcode = RET_HASH_NO_MATCH;
 	}
 
 	return SPI_OP_CALLBACK_FINISHED;
@@ -4930,10 +4947,24 @@ static void flash_smc_verify_backup_image(struct smc_version_info_entry *image_t
 		}
 	}
 
-	if ((!src_image_found) ||
-	    (memcmp(&image_to_verify->version, &image_src->version, sizeof(struct tim_opaque_data_version_info))))
+	if (!src_image_found)
+		UWARN("Cannot find source image with name %s\n", image_to_verify->name);
+	else if (image_to_verify->retcode != RET_OK) {
+		UINFO("%s perform clone: TIM error\n", image_to_verify->name);
 		image_src->perform_clone = 1;
-	else
+	} else if (memcmp(&image_to_verify->version, &image_src->version, sizeof(struct tim_opaque_data_version_info))) {
+		UINFO("%s perform clone: version mismatch\n", image_to_verify->name);
+		image_src->perform_clone = 1;
+	} else if (image_to_verify->hash_size != image_src->hash_size) {
+		UINFO("%s perform clone: hash size mismatch\n", image_to_verify->name);
+		image_src->perform_clone = 1;
+	} else if (memcmp(&image_to_verify->tim_hash, &image_src->tim_hash, image_to_verify->hash_size)) {
+		UINFO("%s perform clone: tim hash mismatch\n", image_to_verify->name);
+		image_src->perform_clone = 1;
+	} else if (memcmp(&image_to_verify->obj_hash, &image_src->obj_hash, image_to_verify->hash_size)) {
+		UINFO("%s perform clone: obj hash mismatch\n", image_to_verify->name);
+		image_src->perform_clone = 1;
+	} else
 		image_src->perform_clone = 0;
 }
 
@@ -4950,9 +4981,6 @@ static int flash_smc_mark_copy(struct smc_version_info *clone_config)
 	clone_destination.bus = clone_config->target_bus;
 	clone_destination.cs = clone_config->target_cs;
 	clone_destination.num_objects = 32;
-
-	/* There is no need to validate hash on cloned image */
-	clone_destination.version_flags &= ~SMC_VERSION_CHECK_VALIDATE_HASH;
 
 	flash_smc_get_versions(&clone_destination, &verif_data[VDATA_DST]);
 
