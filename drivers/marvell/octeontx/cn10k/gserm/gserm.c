@@ -1193,6 +1193,12 @@ void gserm_reset_init(void)
 
 			mlane += mode_lanes;
 		}
+		/* Program Synce REFCLK (only for CNF10KB) */
+		if(cavm_is_model(OCTEONTX_CNF10KB) && (gserm_idx >= 2)) {
+			debug_gserm("%s: GSERM%d: Programming REF_CLK2\n", __func__, gserm_idx);
+			CSR_MODIFY(c, CAVM_GSERMX_COMMON_PHY_CTRL_BCFG(gserm_idx),
+				   c.s.refclk_sel_ext = 1);
+		}
 	}
 	/*
 	 * (7) Select reference clock source:
