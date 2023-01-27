@@ -4,6 +4,6 @@
 # Copyright (c) 2018 Marvell.
 #
 # commit id of base tag for this branch
-#e2c509a39c6cc4dda8734e6509cdbe6e3603cdfc (atf-v2.4) Opensource
-f6b41d33ac5a09019240addf574aea568317a4cf
-Merge "Makefile: Update the minor version to indicate 2.4 release" into integration
+# Upstream version v2.8 release
+9881bb93a3bc0a3ea37e9f093e09ab4b360a9e48
+Merge "docs(spm): update threat model" into integration
