@@ -758,8 +758,10 @@ endif
 
 # For RAS_EXTENSION, require that EAs are handled in EL3 first
 ifeq ($(RAS_EXTENSION),1)
-    ifneq ($(HANDLE_EA_EL3_FIRST_NS),1)
-        $(error For RAS_EXTENSION, HANDLE_EA_EL3_FIRST_NS must also be 1)
+    ifneq ($(OVERRIDE_EA_AT_EL3_FIRST),1)
+          ifneq ($(HANDLE_EA_EL3_FIRST_NS),1)
+                $(error For RAS_EXTENSION, HANDLE_EA_EL3_FIRST_NS must also be 1)
+          endif
     endif
 endif
 

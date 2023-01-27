@@ -10,7 +10,7 @@ WORKAROUND_CVE_2018_3639	:=	1
 DYNAMIC_WORKAROUND_CVE_2018_3639	:=	1
 
 RAS_EXTENSION		:=       1
-HANDLE_EA_EL3_FIRST	:=       1
+HANDLE_EA_EL3_FIRST_NS	:=       1
 
 ifeq (${NEED_BL32},yes)
     $(eval $(call add_define,INCLUDE_OPTEE))
