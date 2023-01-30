@@ -9,6 +9,7 @@
 #include <timers.h>
 #include <drivers/delay_timer.h>
 #include <octeontx_semaphore.h>
+#include <tim_log.h>
 
 
 #define SPI_PAGE_ALIGN (0x111ll)
@@ -17,55 +18,6 @@
 
 #define SPI_OP_CRITICAL_DURATION_US 40000
 #define SPI_OP_MAX_DURATION_US 20000
-
-/**
- * Log update information to update buffer if present
- */
-/** Pointer to update log buffer */
-extern char *update_log;
-/** Number of bytes used in buffer */
-extern size_t log_bytes_used;
-/** Size of update log buffer */
-extern size_t log_size_bytes;
-
-#define ULOG(...)	\
-	do {								\
-		size_t __size;						\
-		size_t __free_size = log_size_bytes - log_bytes_used;	\
-		char *__lptr = update_log + log_bytes_used;		\
-		if (update_log != NULL && __free_size > 0) {		\
-			__size = snprintf(__lptr, __free_size,		\
-					  __VA_ARGS__);			\
-			log_bytes_used += __size;			\
-		}							\
-	} while (0)
-
-/**
- * INFO that also updates update log
- */
-#define UINFO(...)				\
-	do {					\
-		INFO(__VA_ARGS__);		\
-		ULOG(__VA_ARGS__);		\
-	} while (0)
-
-/**
- * WARN that also updates update log
- */
-#define UWARN(...)				\
-	do {					\
-		WARN(__VA_ARGS__);		\
-		ULOG("WARNING: " __VA_ARGS__);	\
-	} while (0)
-
-/**
- * ERROR that also updates update log
- */
-#define UERROR(...)				\
-	do {					\
-		ERROR(__VA_ARGS__);		\
-		ULOG("ERROR: " __VA_ARGS__);	\
-	} while (0)
 
 extern uint64_t get_usecs(void);
 extern octeontx_ctr_sem_t octeontx_smc_spi_lock;

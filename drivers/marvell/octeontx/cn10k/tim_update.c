@@ -23,6 +23,7 @@
 #include <octeontx_common.h>
 #include <octeontx_mmap_utils.h>
 #include <tim_update.h>
+#include <tim_log.h>
 #include <drivers/io/io_storage.h>
 #include <drivers/io/io_driver.h>
 #include <libtim.h>
@@ -49,48 +50,6 @@
 #define VLOG(ventry, ...)	snprintf((char *)(ventry->log),	\
 					 VERIFY_LOG_SIZE,	\
 					 __VA_ARGS__)
-
-/**
- * Log update information to update buffer if present
- */
-#define ULOG(...)	\
-	do {								\
-		size_t __size;						\
-		size_t __free_size = log_size_bytes - log_bytes_used;	\
-		char *__lptr = update_log + log_bytes_used;		\
-		if (update_log != NULL && __free_size > 0) {		\
-			__size = snprintf(__lptr, __free_size,		\
-					  __VA_ARGS__);			\
-			log_bytes_used += __size;			\
-		}							\
-	} while (0)
-
-/**
- * INFO that also updates update log
- */
-#define UINFO(...)				\
-	do {					\
-		INFO(__VA_ARGS__);		\
-		ULOG(__VA_ARGS__);		\
-	} while (0)
-
-/**
- * WARN that also updates update log
- */
-#define UWARN(...)				\
-	do {					\
-		WARN(__VA_ARGS__);		\
-		ULOG("WARNING: " __VA_ARGS__);	\
-	} while (0)
-
-/**
- * ERROR that also updates update log
- */
-#define UERROR(...)				\
-	do {					\
-		ERROR(__VA_ARGS__);		\
-		ULOG("ERROR: " __VA_ARGS__);	\
-	} while (0)
 
 #if defined(MRVL_TF_LOG_MODULE)
 #  undef MRVL_TF_LOG_MODULE
@@ -158,12 +117,7 @@ static size_t tim0_size;
 static uint64_t tim0_offset;
 static struct smc_version_info clone_destination;
 
-/** Pointer to update log buffer */
-char *update_log;
-/** Number of bytes used in buffer */
-size_t log_bytes_used;
-/** Size of update log buffer */
-size_t log_size_bytes;
+log_info_t log_info = {(void *)0, 0, 0};
 
 #define MAX_PARAM_SET_COUNT 5
 
@@ -2682,11 +2636,11 @@ enum spi_dc_ret done_callback(void *p)
 	spi_async_display_time_stats();
 
 	//make sure update log is cleared, and null terminated
-	if (update_log) {
-		update_log[log_size_bytes - 1] = '\0';
-		update_log = NULL;
-		log_bytes_used = 0;
-		log_size_bytes = 0;
+	if (log_info.update_log) {
+		log_info.update_log[log_info.log_size_bytes - 1] = '\0';
+		log_info.update_log = NULL;
+		log_info.log_bytes_used = 0;
+		log_info.log_size_bytes = 0;
 	}
 
 	for (i = 0; i < param->count; i++) {
@@ -3369,14 +3323,14 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		if (update_desc.async_operation) {
 			add_mapped_region(&uParams, console_base_addr, console_map_size);
 		}
-		update_log = (char *)update_desc.output_console;
-		log_bytes_used = 0;
-		log_size_bytes = update_desc.output_console_size;
-		zeromem(update_log, log_size_bytes);
+		log_info.update_log = (char *)update_desc.output_console;
+		log_info.log_bytes_used = 0;
+		log_info.log_size_bytes = update_desc.output_console_size;
+		zeromem(log_info.update_log, log_info.log_size_bytes);
 	} else {
-		update_log = NULL;
-		log_size_bytes = 0;
-		log_bytes_used = 0;
+		log_info.update_log = NULL;
+		log_info.log_size_bytes = 0;
+		log_info.log_bytes_used = 0;
 	}
 	addr = update_desc.image_addr;
 	size = update_desc.image_size;
@@ -3509,13 +3463,13 @@ error:
 		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 							      ns_map_size);
 		if (console_base_addr != 0 && console_map_size != 0) {
-			update_log[log_size_bytes - 1] = '\0';
+			log_info.update_log[log_info.log_size_bytes - 1] = '\0';
 			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
 							      console_map_size);
 		}
-		update_log = NULL;
-		log_bytes_used = 0;
-		log_size_bytes = 0;
+		log_info.update_log = NULL;
+		log_info.log_bytes_used = 0;
+		log_info.log_size_bytes = 0;
 	}
 
 	if (spi_unlock)
@@ -5009,14 +4963,14 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		if (vinfo->version_flags & SMC_VERSION_ASYNC_OPERATION) {
 			add_mapped_region(&uParams, console_base_addr, console_map_size);
 		}
-		update_log = (char *)vinfo->output_console;
-		log_bytes_used = 0;
-		log_size_bytes = vinfo->output_console_size;
-		zeromem(update_log, log_size_bytes);
+		log_info.update_log = (char *)vinfo->output_console;
+		log_info.log_bytes_used = 0;
+		log_info.log_size_bytes = vinfo->output_console_size;
+		zeromem(log_info.update_log, log_info.log_size_bytes);
 	} else {
-		update_log = NULL;
-		log_size_bytes = 0;
-		log_bytes_used = 0;
+		log_info.update_log = NULL;
+		log_info.log_size_bytes = 0;
+		log_info.log_bytes_used = 0;
 	}
 
 
@@ -5095,13 +5049,13 @@ error:
 			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 								ns_map_size);
 		if (console_base_addr != 0 && console_map_size != 0) {
-			update_log[log_size_bytes - 1] = '\0';
+			log_info.update_log[log_info.log_size_bytes - 1] = '\0';
 			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
 							      console_map_size);
 		}
-		update_log = NULL;
-		log_bytes_used = 0;
-		log_size_bytes = 0;
+		log_info.update_log = NULL;
+		log_info.log_bytes_used = 0;
+		log_info.log_size_bytes = 0;
 	}
 
 	return err;
