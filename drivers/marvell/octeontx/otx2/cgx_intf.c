@@ -352,10 +352,7 @@ static int cgx_check_sfp_mod_stat(int cgx_id, int lmac_id)
 			sh_fwdata_clear_eeprom_data(cgx_id, lmac_id, 0);
 			return 0;
 		}
-	} else if ((mod_status == SFP_MOD_STATE_PRESENT) ||
-			(mod_status == SFP_MOD_STATE_EEPROM_UPDATED))
-		return 1;
-
+	}
 	/* MCP updates EEPROM buffer every 5s if the user
 	 * hasn't un-plugged/plugged the transceiver. In this
 	 * case, where there is no change in module status, just
