@@ -34,6 +34,8 @@
 extern void *scmi_handle;
 extern int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize);
 
+extern int setup_printf_buffer(char *buffer, unsigned long size);
+extern void free_printf_buffer(void);
 typedef struct {
 	uint64_t user_def_preserve_size : 62;
 	uint64_t not_modified : 1;
@@ -1152,6 +1154,22 @@ err6:
 		ret = ehsm_pie_rkek_protected_provision(user_buf, NSEC_BUF, size);
 err7:
 		SMC_RET1(handle, ret);
+	}
+	break;
+
+	case PLAT_OCTEON_SET_FIRMWARE_LOGGING:
+	{
+		user_buf = x1;
+		size = x2;
+		ret = setup_printf_buffer((char *)user_buf, size);
+		SMC_RET1(handle, ret);
+	}
+	break;
+
+	case PLAT_OCTEON_CLEAR_FIRMWARE_LOGGING:
+	{
+		free_printf_buffer();
+		SMC_RET1(handle, 0);
 	}
 	break;
 

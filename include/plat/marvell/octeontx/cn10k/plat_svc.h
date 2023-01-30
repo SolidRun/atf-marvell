@@ -667,8 +667,40 @@
  */
 #define PLAT_OCTEON_GENERIC_SW_UPDATE		0xc2000b19
 
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEON_SET_FIRMWARE_LOGGING
+ * x1 - buffer address
+ * x2 - buffer size
+ *
+ *
+ * Returns:
+ *      x0
+ *              0 -- Success
+ *             -1 -- failure (invalid input or command failed)
+ *
+ *	x1
+ *		Firmware features
+ */
+#define PLAT_OCTEON_SET_FIRMWARE_LOGGING	0xc2000b1b
+
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEON_CLEAR_FIRMWARE_LOGGING
+ *
+ *
+ * Returns:
+ *      x0
+ *              0 -- Success
+ *             -1 -- failure (invalid input or command failed)
+ *
+ *	x1
+ *		Firmware features
+ */
+#define PLAT_OCTEON_CLEAR_FIRMWARE_LOGGING	0xc2000b1c
+
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			26
+#define OTX3_NUM_SMC_CALLS			28
 
 
 /* API that allows to define platform specific SMC CALLS */

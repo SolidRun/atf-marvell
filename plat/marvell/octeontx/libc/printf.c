@@ -11,6 +11,77 @@
 
 #include <common/debug.h>
 
+#include <octeontx_mmap_utils.h>
+#include <octeontx_common.h>
+
+
+#if (defined(PLAT_CN10K_FAMILY))
+/* Save logs into buffer*/
+static char *log_buffer;
+static unsigned long log_buffer_size;
+static unsigned long currentchar;
+
+void free_printf_buffer(void)
+{
+	unsigned long desc_buf = (unsigned long) log_buffer;
+
+	if (!desc_buf)
+		return;
+
+	octeontx_mmap_remove_dynamic_region_with_sync(desc_buf, log_buffer_size);
+	log_buffer = NULL;
+	log_buffer_size = 0;
+}
+
+int setup_printf_buffer(char *buffer, unsigned long size)
+{
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+	unsigned long desc_buf = (unsigned long) buffer;
+	uint64_t base_addr = 0;
+	int err = 0, ns_map_size;
+
+	/* Cleanup if buffer wasn't freed */
+	if (log_buffer != NULL)
+		free_printf_buffer();
+
+	/* Round up to page size */
+	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+
+	/* Map non-secure memory buffer */
+	/* Note that this needs to be page aligned */
+	base_addr = (unsigned long) buffer & mask;
+
+	/* If descriptor crosses a page boundary, allocate another page */
+	if ((desc_buf + size) > (base_addr + ns_map_size))
+		ns_map_size += PAGE_SIZE;
+
+	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+							 ns_map_size,
+							 MT_RW | MT_NS);
+	if (err) {
+		ERROR("Log: descriptor mmap failed (%d)\n", err);
+		return err;
+	}
+
+	log_buffer = buffer;
+	log_buffer_size = size;
+	currentchar = 0;
+
+	return 0;
+}
+
+void char_into_buffer(char c)
+{
+	if (!log_buffer)
+		return;
+
+	if (currentchar == log_buffer_size)
+		currentchar = 0;
+
+	log_buffer[currentchar++] = c;
+}
+#endif
+
 #define get_num_va_args(_args, _lcount)				\
 	(((_lcount) > 1)  ? va_arg(_args, long long int) :	\
 	(((_lcount) == 1) ? va_arg(_args, long int) :		\
@@ -25,6 +96,21 @@
 #define MODE_STRN	1
 #define MODE_STR	2
 
+#if (defined(PLAT_CN10K_FAMILY))
+#define PUTCH(c, mode, s, n, count)					\
+	do {								\
+		char_into_buffer(c);					\
+		if ((mode) == MODE_PUTCH) {				\
+			(void)putchar(c);				\
+			(count)++;					\
+		} else if ((mode) == MODE_STR ||			\
+			   ((mode) == MODE_STRN && (n) > 1)) {		\
+			*(s)++ = c;					\
+			(n)--;						\
+			(count)++;					\
+		}							\
+	} while (0)
+#else
 #define PUTCH(c, mode, s, n, count)					\
 	do {								\
 		if ((mode) == MODE_PUTCH) {				\
@@ -36,7 +122,8 @@
 			(n)--;						\
 			(count)++;					\
 		}							\
-	} while(0)
+	} while (0)
+#endif
 
 static int string_print(char **s, size_t *n, int mode, const char *str,
 			int left_align, char padc, int padn)
