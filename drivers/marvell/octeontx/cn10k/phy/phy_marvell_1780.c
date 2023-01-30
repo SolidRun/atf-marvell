@@ -105,7 +105,7 @@ static MAD_SYS_CONFIG mad_sys_cfg = {
 };
 
 /* One time initialization for the PHY if required */
-void phy_marvell_1780_probe(int eth_id, int lmac_id)
+static void phy_marvell_1780_probe(int eth_id, int lmac_id)
 {
 	phy_1780_priv_t *priv;
 	phy_config_t *phy;
@@ -140,14 +140,46 @@ void phy_marvell_1780_probe(int eth_id, int lmac_id)
 	priv->initialized = 1;
 }
 
+static void _phy_get_an_cfg(phy_config_t *phy, MAD_BOOL *an_enable, MAD_U32 *speed)
+{
+	if (phy->req_an) {
+		*an_enable = MAD_TRUE;
+		*speed =
+			MAD_AUTO_AD_100FDX |
+			MAD_AUTO_AD_100HDX |
+			MAD_AUTO_AD_10FDX |
+			MAD_AUTO_AD_10HDX |
+			MAD_AUTO_AD_1000FDX |
+			MAD_AUTO_AD_1000HDX;
+
+	} else {
+		*an_enable = MAD_FALSE;
+
+		switch (phy->req_speed) {
+		case ETH_LINK_10M:
+			*speed = (!phy->duplex) ? MAD_PHY_10FDX : MAD_PHY_10HDX;
+			break;
+
+		case ETH_LINK_100M:
+			*speed = (!phy->duplex) ? MAD_PHY_100FDX : MAD_PHY_100HDX;
+			break;
+
+		case ETH_LINK_1G:
+		default:
+			*speed = (!phy->duplex) ? MAD_PHY_1000FDX : MAD_PHY_1000HDX;
+			break;
+		}
+	}
+}
+
 /* To set the operating mode of the PHY if required */
-void phy_marvell_1780_config(int eth_id, int lmac_id)
+static void phy_marvell_1780_config(int eth_id, int lmac_id)
 {
 	phy_config_t *phy;
 	phy_1780_priv_t *priv;
 	MAD_STATUS ret;
 	MAD_LPORT lport;
-	MAD_U32 mode;
+	MAD_U32 speed;
 	MAD_BOOL an_enable;
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
@@ -163,36 +195,8 @@ void phy_marvell_1780_config(int eth_id, int lmac_id)
 		return;
 	}
 
-	if (phy->req_an) {
-		an_enable = MAD_TRUE;
-		mode =
-			MAD_AUTO_AD_100FDX |
-			MAD_AUTO_AD_100HDX |
-			MAD_AUTO_AD_10FDX |
-			MAD_AUTO_AD_10HDX |
-			MAD_AUTO_AD_1000FDX |
-			MAD_AUTO_AD_1000HDX;
-
-	} else {
-		an_enable = MAD_FALSE;
-
-		switch (phy->req_speed) {
-		case ETH_LINK_10M:
-			mode = (!phy->duplex) ? MAD_PHY_10FDX : MAD_PHY_10HDX;
-			break;
-
-		case ETH_LINK_100M:
-			mode = (!phy->duplex) ? MAD_PHY_100FDX : MAD_PHY_100HDX;
-			break;
-
-		case ETH_LINK_1G:
-		default:
-			mode = (!phy->duplex) ? MAD_PHY_1000FDX : MAD_PHY_1000HDX;
-			break;
-		}
-	}
-
-	ret = mdCopperSetAutoNeg(&priv->mdev, lport, an_enable, mode);
+	_phy_get_an_cfg(phy, &an_enable, &speed);
+	ret = mdCopperSetAutoNeg(&priv->mdev, lport, an_enable, speed);
 
 	if (ret != MAD_OK) {
 		ERROR("%s: %d:%d CopperSetAutoNeg failed\n",
@@ -202,13 +206,13 @@ void phy_marvell_1780_config(int eth_id, int lmac_id)
 }
 
 /* To enable/disable AN */
-void phy_marvell_1780_set_an(int eth_id, int lmac_id)
+static void phy_marvell_1780_set_an(int eth_id, int lmac_id)
 {
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 }
 
 /* To obtain the link status */
-void phy_marvell_1780_get_link_status(int eth_id, int lmac_id,
+static void phy_marvell_1780_get_link_status(int eth_id, int lmac_id,
 					link_state_t *link)
 {
 	phy_config_t *phy;
@@ -284,7 +288,7 @@ void phy_marvell_1780_get_link_status(int eth_id, int lmac_id,
 	}
 }
 
-void phy_marvell_1780_supported_modes(int eth_id, int lmac_id)
+static void phy_marvell_1780_supported_modes(int eth_id, int lmac_id)
 {
 	phy_config_t *phy;
 
@@ -297,6 +301,196 @@ void phy_marvell_1780_supported_modes(int eth_id, int lmac_id)
 				/* FIXME: Add (1 << ETH_MODE_USGMII_BIT) when available */
 }
 
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+
+enum host_lpbk_e {
+	HOST_LPBK_SERDES,
+	HOST_LPBK_PCS,
+};
+
+static int phy_marvell_1780_set_loopback(int eth_id, int lmac_id, int host_side, int lbk_type, int enable)
+{
+	phy_config_t *phy;
+	phy_1780_priv_t *priv;
+	MAD_LPORT lport;
+	MAD_STATUS ret;
+	MAD_BOOL en = enable ? MAD_TRUE : MAD_FALSE;
+
+	debug_phy_driver("%s: %d:%d host_side %d, lbk_type %d, en %d\n",
+			 __func__, eth_id, lmac_id, host_side, lbk_type, enable);
+
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	priv = (phy_1780_priv_t *)phy->priv;
+	lport = phy->port;
+
+	if (!host_side) {
+		/* Line-side Loopback */
+		ret = mdDiagSetLineLoopback(&priv->mdev, lport, en);
+	} else {
+		/* Host-side Loopback */
+		MAD_MAC_LOOPBACK_MODE mode;
+
+		switch (lbk_type) {
+		case HOST_LPBK_SERDES:
+			mode = MAD_MAC_LOOPBACK_MODE_SYNC_SERDES_10;
+			break;
+
+		case HOST_LPBK_PCS:
+			mode = MAD_MAC_LOOPBACK_MODE_SYS;
+			break;
+
+		default:
+			/* Others are not supported */
+			return -1;
+		}
+
+		ret = mdDiagSetMACIfLoopback(&priv->mdev, lport, en, mode, MAD_SPEED_1000M);
+
+		/* Restore the previous config on loopback disable */
+		if (!en) {
+			MAD_BOOL an_enable;
+			MAD_U32 speed;
+
+			_phy_get_an_cfg(phy, &an_enable, &speed);
+			ret = mdCopperSetAutoNeg(&priv->mdev, lport, an_enable, speed);
+		}
+	}
+
+	return (ret == MAD_OK) ? 0 : -1;
+}
+
+enum prbs_pattern_e {
+	PRBS_7,
+	PRBS_23,
+	PRBS_31,
+	PRBS_1010
+};
+
+enum prbs_dir_e {
+	PRBS_GEN = 1,
+	PRBS_CHECK,
+	PRBS_BOTH
+};
+
+#define PRBS_GENERATOR (1 << 0)
+#define PRBS_CHECKER (1 << 1)
+
+static int phy_marvell_1780_enable_prbs(int eth_id, int lmac_id, int host_side, int prbs, int dir)
+{
+	phy_config_t *phy;
+	phy_1780_priv_t *priv;
+	MAD_LPORT lport;
+	MAD_STATUS ret;
+	MAD_PRBS_GEN_CONFIG prbs_cfg = {0};
+
+	debug_phy_driver("%s: %d:%d host_side %d prbs %d gen_check %d\n",
+			 __func__, eth_id, lmac_id, host_side, prbs, dir);
+
+	if (!host_side) {
+		ERROR("%s: Host-side PRBS supported only\n", __func__);
+		return -1;
+	}
+
+	switch (prbs) {
+	case PRBS_7:
+		prbs_cfg.patternSel = MAD_PAT_SEL_PRBS_7;
+		break;
+
+	case PRBS_23:
+		prbs_cfg.patternSel = MAD_PAT_SEL_PRBS_23;
+		break;
+
+	case PRBS_31:
+		prbs_cfg.patternSel = MAD_PAT_SEL_PRBS_31;
+		break;
+
+	case PRBS_1010:
+		prbs_cfg.patternSel = MAD_PAT_SEL_101010;
+		break;
+
+	default:
+		ERROR("%s: PRBS %d is not supported\n", __func__, prbs);
+		return -1;
+	}
+
+	if (!dir) {
+		ERROR("%s: invalid gen_check (%d) provided\n", __func__, dir);
+		return -1;
+	}
+
+	if (dir & PRBS_GENERATOR)
+		prbs_cfg.genEn = 1;
+
+	if (dir & PRBS_CHECKER) {
+		prbs_cfg.countEn = 1;
+		prbs_cfg.counterLock = 0;
+	}
+
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	priv = (phy_1780_priv_t *)phy->priv;
+	lport = phy->port;
+
+	ret = madPatCtrlSetPRBS(&priv->mdev, lport, &prbs_cfg);
+	return (ret == MAD_OK) ? 0 : -1;
+}
+
+static int phy_marvell_1780_disable_prbs(int eth_id, int lmac_id, int host_side, int prbs)
+{
+	phy_config_t *phy;
+	phy_1780_priv_t *priv;
+	MAD_LPORT lport;
+	MAD_STATUS ret;
+	MAD_PRBS_GEN_CONFIG prbs_cfg = {0};
+
+	debug_phy_driver("%s: %d:%d host_side %d\n",
+			 __func__, eth_id, lmac_id, host_side);
+
+	if (!host_side) {
+		ERROR("%s: Host-side PRBS supported only\n", __func__);
+		return -1;
+	}
+
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	priv = (phy_1780_priv_t *)phy->priv;
+	lport = phy->port;
+
+	ret = madPatCtrlSetPRBS(&priv->mdev, lport, &prbs_cfg);
+	return (ret == MAD_OK) ? 0 : -1;
+}
+
+static uint64_t phy_marvell_1780_get_prbs_errors(int eth_id, int lmac_id, int host_side, int clear, int prbs)
+{
+	phy_config_t *phy;
+	phy_1780_priv_t *priv;
+	MAD_LPORT lport;
+	MAD_STATUS ret;
+	MAD_PRBS_GEN_CONFIG prbs_cfg = {0};
+	uint64_t err_cnt;
+
+	debug_phy_driver("%s: %d:%d host_side %d clear %d\n",
+			 __func__, eth_id, lmac_id, host_side, clear);
+
+	if (!host_side) {
+		ERROR("%s: Host-side PRBS supported only\n", __func__);
+		return (uint64_t)-1;
+	}
+
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	priv = (phy_1780_priv_t *)phy->priv;
+	lport = phy->port;
+
+	ret = madPatCtrlGetPRBS(&priv->mdev, lport, &prbs_cfg);
+	if (ret != MAD_OK) {
+		ERROR("%s: GetPRBS failed\n", __func__);
+		return (uint64_t)-1;
+	}
+
+	err_cnt = prbs_cfg.errCounter;
+	return err_cnt;
+}
+
+#endif
+
 phy_drv_t marvell_1780_drv = {
 		.drv_name		= "MARVELL-88X1780",
 		.drv_type		= PHY_MARVELL_1780,
@@ -308,6 +502,13 @@ phy_drv_t marvell_1780_drv = {
 		.get_link_status	= phy_marvell_1780_get_link_status,
 		.set_supported_modes	= phy_marvell_1780_supported_modes,
 		.shutdown		= phy_generic_shutdown,
+
+#ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
+		.set_loopback		= phy_marvell_1780_set_loopback,
+		.enable_prbs		= phy_marvell_1780_enable_prbs,
+		.disable_prbs		= phy_marvell_1780_disable_prbs,
+		.get_prbs_errors	= phy_marvell_1780_get_prbs_errors,
+#endif
 };
 
 phy_drv_t *marvell_1780_check_type(int type)
