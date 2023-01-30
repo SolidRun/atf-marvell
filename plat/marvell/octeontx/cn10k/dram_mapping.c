@@ -766,7 +766,7 @@ int cn10k_dram_xlate_from_pa(addr_xlate_t *xlate)
 	// to finish, translate the offset into the geometry setting
 	from_pa_offset_to_geometry(xlate);
 
-	debug_ras("FROM_PA: DMC%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%" PRIx64 "/0x%llx]\n",
+	debug_ras("FROM_PA: DMC%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%" PRIx64 "/0x%" PRIx64 "]\n",
 			  xlate->ch, xlate->rank, xlate->bg, xlate->bank, xlate->row,
 			  xlate->col, xlate->phys_addr, xlate->offset);
 
@@ -947,7 +947,7 @@ static uint64_t get_offset_from_region_pa(int region, uint64_t pa, int ch)
 
 	ret &= off_mask;
 
-	debug_ras("DEBUG: TO_PA helper %s: region %d PA 0x%" PRIx64 " BECAME offset 0x%llx\n", __func__, region, pa, ret);
+	debug_ras("DEBUG: TO_PA helper %s: region %d PA 0x%" PRIx64 " BECAME offset 0x%" PRIx64 "\n", __func__, region, pa, ret);
 
 	return ret;
 }
@@ -983,14 +983,14 @@ static int find_region_for_ch_offset(addr_xlate_t *xlate)
 
 				debug_ras("DEBUG: TO_PA helper %s: Found region %d with mask 0x%02x using DMC %d\n",
 						  __func__, region, reg_attr.s.dmc_mask, xlate->ch);
-				debug_ras("DEBUG: TO_PA helper %s: region %d START_PA 0x%" PRIx64 ", END_PA 0x%llx\n",
+				debug_ras("DEBUG: TO_PA helper %s: region %d START_PA 0x%" PRIx64 ", END_PA 0x%" PRIx64 "\n",
 						  __func__, region, reg_start.u, reg_end.u);
-				debug_ras("DEBUG: TO_PA helper %s: region %d START_OFFSET 0x%" PRIx64 ", END_OFFSET 0x%llx\n",
+				debug_ras("DEBUG: TO_PA helper %s: region %d START_OFFSET 0x%" PRIx64 ", END_OFFSET 0x%" PRIx64 "\n",
 						  __func__, region, start_offset, end_offset);
 
 				if ((xlate->offset >= start_offset) && (xlate->offset <= end_offset)) {
 
-					debug_ras("DEBUG: TO_PA helper %s: region %d offset 0x%" PRIx64 " IS INSIDE [0x%llx, 0x%llx]\n",
+					debug_ras("DEBUG: TO_PA helper %s: region %d offset 0x%" PRIx64 " IS INSIDE [0x%" PRIx64 ", 0x%" PRIx64 "]\n",
 							  __func__, region, xlate->offset, start_offset, end_offset);
 					xlate->ch_mask = reg_attr.s.dmc_mask; // return this update!!!
 					return region;
@@ -1075,7 +1075,7 @@ static int from_ch_offset_to_pa(addr_xlate_t *xlate)
 		CSR_INIT(reg_start, CAVM_SAM_ASC_REGIONX_START(region));
 		uint64_t start_offset = get_offset_from_region_pa(region, reg_start.u, xlate->ch);
 
-		debug_ras("DEBUG: TO_PA helper %s: ch %d ADJUSTING offset 0x%" PRIx64 " DOWN BY start offset 0x%llx\n",
+		debug_ras("DEBUG: TO_PA helper %s: ch %d ADJUSTING offset 0x%" PRIx64 " DOWN BY start offset 0x%" PRIx64 "\n",
 				  __func__, xlate->ch, xlate->offset, start_offset);
 
 		working_offset -= start_offset; // adjust offset to relative to the start of the region
@@ -1104,7 +1104,7 @@ static int from_ch_offset_to_pa(addr_xlate_t *xlate)
 
 	xlate->phys_addr = (pa_dmchashed & 0xFFFFFFFF87FUL) | (pa_10_7 << 7);
 
-	debug_ras("DEBUG: TO_PA helper %s: region %d offset 0x%" PRIx64 " working_offset 0x%llx PA 0x%llx\n",
+	debug_ras("DEBUG: TO_PA helper %s: region %d offset 0x%" PRIx64 " working_offset 0x%" PRIx64 " PA 0x%" PRIx64 "\n",
 			  __func__, region, xlate->offset, working_offset, xlate->phys_addr);
 
 	// find the region with matching mask and lowest START in which this channel and relative offset fall
@@ -1119,7 +1119,7 @@ static int from_ch_offset_to_pa(addr_xlate_t *xlate)
 	CSR_INIT(reg_start, CAVM_SAM_ASC_REGIONX_START(min_region));
 	xlate->phys_addr += reg_start.u;
 
-	debug_ras("DEBUG: TO_PA helper %s: min_region %d start 0x%" PRIx64 " PA 0x%llx\n",
+	debug_ras("DEBUG: TO_PA helper %s: min_region %d start 0x%" PRIx64 " PA 0x%" PRIx64 "\n",
 			  __func__, region, reg_start.u, xlate->phys_addr);
 
 	return 0;
@@ -1194,7 +1194,7 @@ void cn10k_dram_xlate_to_pa(addr_xlate_t *xlate)
 
 	from_ch_offset_to_pa(xlate);
 
-	debug_ras("TO_PA: DMC%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%" PRIx64 "/0x%llx]\n",
+	debug_ras("TO_PA: DMC%d (Rank%d,BG%d,BANK%d,ROW 0x%05x,COL 0x%04x)[PA 0x%" PRIx64 "/0x%" PRIx64 "]\n",
 			  xlate->ch, xlate->rank, xlate->bg, xlate->bank, xlate->row,
 			  xlate->col, xlate->phys_addr, xlate->offset);
 }

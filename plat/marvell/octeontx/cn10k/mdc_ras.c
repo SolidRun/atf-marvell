@@ -96,9 +96,7 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	struct otx2_ghes_err_ring *err_ring;
 	struct cper_sec_mem_err *mdc;
 	const char *type_tok = NULL;
-#if DEBUG
 	const char *type = NULL;
-#endif
 	union cavm_mdc_ras_entry_s entry;
 	int fr = 0;
 
@@ -112,16 +110,12 @@ void cn10k_ras_mdc_notify(cavm_mdc_ecc_status_t st)
 	mdc = &err_rec->u.mdc;
 
 	if (st.s.dbe) {
-#if DEBUG
 		type = "double";
-#endif
 		type_tok = "D";
 		if (st.s.dbe_plus)
 			type_tok = "D+";
 	} else if (st.s.sbe) {
-#if DEBUG
 		type = "single";
-#endif
 		type_tok = "S";
 		if (st.s.sbe_plus)
 			type_tok = "S+";

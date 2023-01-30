@@ -32,6 +32,7 @@
  */
 
 #include <stdlib.h>
+#include <inttypes.h>
 #include <arch.h>
 #include <debug.h>
 #include <platform_def.h>
@@ -3153,7 +3154,7 @@ int gserm_prbs_show(int portm_idx, int lane_idx,
 		return -1;
 
 	debug_gserm("%s: %d:%d (%d:%d) "
-		"total_bits=%llu, error_bits=%llu, lock=%d\n",
+		"total_bits=%" PRIu64 ", error_bits=%" PRIu64 ", lock=%d\n",
 		__func__, portm_idx, lane_idx, cfg->gserm, gserm_lane,
 		statistics.totalBits, statistics.totalErrorBits,
 		statistics.lock);

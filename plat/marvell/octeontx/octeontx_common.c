@@ -405,7 +405,7 @@ int32_t plat_get_soc_revision(void)
 }
 
 #ifdef MRVL_TF_LOG_MODULE
-unsigned int mrvl_tf_log_modules;
+unsigned long mrvl_tf_log_modules;
 
 /*
  * initialize_tf_logging()

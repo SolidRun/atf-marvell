@@ -34,6 +34,7 @@
 /* RPM driver for CN10K */
 
 #include <arch.h>
+#include <inttypes.h>
 #include <cassert.h>
 #include <stdio.h>
 #include <debug.h>
@@ -382,7 +383,7 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 	link_check_status_time = (current_time * 1000000)/(clock_get_rate(GSER_CLOCK_TIME)) - (bringup_ctx->link_bringup_init_time);
 	bringup_ctx->link_bringup_time = link_check_status_time;
 
-	debug_rpm_intf("%s %d:%d Bring up time %lld bringup_ctx->link_timeout %lld bringup_ctx->link_bringup_init_time %lld\n",
+	debug_rpm_intf("%s %d:%d Bring up time %" PRId64 " bringup_ctx->link_timeout %" PRId64 " bringup_ctx->link_bringup_init_time %" PRId64 "\n",
 			__func__, rpm_id, lmac_id, bringup_ctx->link_bringup_time, bringup_ctx->link_timeout,
 			bringup_ctx->link_bringup_init_time);
 
@@ -1000,9 +1001,7 @@ static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask, int mode
 {
 	const speed_mode_map_s *map = rpm_speed_mode_map;
 	size_t len = ARRAY_SIZE(rpm_speed_mode_map);
-#if debug_rpm_intf
 	const char *group = "rpm";
-#endif
 	bool try_cpri_test_modes = true;
 	int mode_offset = 0;
 
@@ -1010,14 +1009,12 @@ static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask, int mode
 		map = cpri_speed_mode_map;
 		len = ARRAY_SIZE(cpri_speed_mode_map);
 		mode_offset = PORTM_MODE_CPRI_2_4G;
-#if debug_rpm_intf
 		group = "cpri";
-#endif
 	}
 
 retry:
 	for (int i = 0; i < len; i++) {
-		debug_rpm_intf("%s: i %d mode_bitmask 0x%llx %s_speed_mode_map[i].mode_bitmask 0x%llx\n", __func__,
+		debug_rpm_intf("%s: i %d mode_bitmask 0x%" PRIx64 " %s_speed_mode_map[i].mode_bitmask 0x%" PRIx64 "\n", __func__,
 				i, mode_bitmask,
 				group,
 				map[i].mode_bitmask);
@@ -1031,9 +1028,7 @@ retry:
 		map = cpri_test_speed_mode_map;
 		len = ARRAY_SIZE(cpri_test_speed_mode_map);
 		mode_offset = PORTM_MODE_CPRI_2_4G_TEST;
-#if debug_rpm_intf
 		group = "cpri_test";
-#endif
 		goto retry;
 	}
 
@@ -1149,7 +1144,7 @@ static int rpm_check_mode_change_allowed(rpm_lmac_config_t *lmac_cfg,
 {
 	/* Check if mode is in the supported link modes */
 	if (!(mode_bitmask & lmac_cfg->supported_link_modes)) {
-		debug_rpm_intf("%s: Not supported link mode bitmask 0x%llx link_mode 0x%llx\n",
+		debug_rpm_intf("%s: Not supported link mode bitmask 0x%" PRIx64 " link_mode 0x%" PRIx64 "\n",
 			__func__, mode_bitmask,
 			lmac_cfg->supported_link_modes);
 		return -1;
@@ -1227,7 +1222,7 @@ static int rpm_ecp_req_mode_change(int portm_idx, int rpm_id, int lmac_id,
 	} else
 		bringup_ctx->link_bringup_status = LINK_BRINGUP_IN_PROGRESS;
 	bringup_ctx->link_bringup_time = RPM_MODE_CHANGE_WAIT_STATUS; /* elapsed time */
-	debug_rpm_intf("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %lld\n", __func__,
+	debug_rpm_intf("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %" PRId64 "\n", __func__,
 						rpm_id, lmac_id, bringup_ctx->link_bringup_status,
 						bringup_ctx->link_bringup_time);
 	return 0;
@@ -1292,13 +1287,13 @@ static int rpm_get_validated_portm_mode(int portm_idx, uint64_t req_mode,
 	/* Get PORTM mode for requested mode */
 	portm_mode = rpm_obtain_portm_mode(req_mode, mode_group);
 	if (portm_mode == PORTM_MODE_INVALID) {
-		debug_rpm_intf("%s: PORTM%d: No valid PORTM mode for requested mode : 0x%llx (mode group: %d)\n",
+		debug_rpm_intf("%s: PORTM%d: No valid PORTM mode for requested mode : 0x%" PRIx64 " (mode group: %d)\n",
 				__func__,
 				portm_idx,
 				req_mode, mode_group);
 		return -1;
 	}
-	debug_rpm_intf("%s: req_mode 0x%llx (mode group: %d) portm_mode %d\n",
+	debug_rpm_intf("%s: req_mode 0x%" PRIx64 " (mode group: %d) portm_mode %d\n",
 		__func__, req_mode, mode_group, portm_mode);
 
 	/* If portm_mode is non-zero, validate if it is one of
@@ -1418,9 +1413,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
 	int req_speed;
-#if debug_rpm_intf
 	int req_duplex;
-#endif
 	int invalid_req = 0, portm_mode = 0, mode_group;
 	uint64_t req_mode = 0;
 	int ret = 0;
@@ -1428,9 +1421,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	int rpm_id, lmac_id;
 	portm_config_t *portm;
 	int numlanes;
-#if debug_rpm_intf
 	cn10k_portm_fec_t fec_orig;
-#endif
 	cn10k_portm_fec_t fec;
 	int switch_from_cpri = 0;
 	int current_lc, new_lc;
@@ -1460,11 +1451,9 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	 */
 	req_mode = args->mode;
 	mode_group = args->mode_group_idx;
-#if debug_rpm_intf
 	req_duplex = args->duplex;
-#endif
 
-	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%llx\n",
+	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%" PRIx64 "\n",
 				__func__, portm_idx, lmac_ctx->s.speed,
 					req_speed, req_duplex, req_mode);
 
@@ -1530,9 +1519,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	/* Check if fec type was specified and is supported by the
 	 * requested mode. If not, then set to lowest supported FEC.
 	 */
-#if debug_rpm_intf
 	fec_orig = portm->fec;
-#endif
 	fec = portm->fec;
 	ret = cn10k_portm_fec_valid(portm_mode, &fec);
 	if (!ret)
@@ -1930,7 +1917,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 					lmac_timeout = RPM_POLL_LINK_BRINGUP_STATUS; /* Save in us */
 				else
 					lmac_timeout = scratchx1.s.lnk_bringup.timeout * 1000; /* Save in us */
-				debug_rpm_intf("%s: %d:%d: lmac_timeout = %lld\n", __func__, rpm_id, lmac_id, lmac_timeout);
+				debug_rpm_intf("%s: %d:%d: lmac_timeout = %" PRId64 "\n", __func__, rpm_id, lmac_id, lmac_timeout);
 				ret = rpm_link_bringup(rpm_id, lmac_id, lmac_timeout);
 				break;
 			case ETH_CMD_LINK_BRING_DOWN:
@@ -1944,7 +1931,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 				else if (lmac_lnk_timeout > RPM_POLL_LINK_BRINGUP_STATUS/1000)
 					lmac_lnk_timeout = RPM_POLL_LINK_BRINGUP_STATUS/1000;
 				bringup_ctx->link_timeout = lmac_lnk_timeout * 1000; /* Save in us */
-				debug_rpm_intf("%d:%d: link_timeout = %lld\n", rpm_id, lmac_id, lmac_lnk_timeout);
+				debug_rpm_intf("%d:%d: link_timeout = %" PRId64 "\n", rpm_id, lmac_id, lmac_lnk_timeout);
 				break;
 			case ETH_CMD_GET_LINK_STS:
 				CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(

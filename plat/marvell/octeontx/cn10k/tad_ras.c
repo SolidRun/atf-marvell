@@ -5,6 +5,7 @@
  * https://spdx.org/licenses
  */
 
+#include <inttypes.h>
 #include <debug.h>
 #include <lib/extensions/ras.h>
 #include <octeontx_common.h>
@@ -60,7 +61,7 @@ int cn10k_ras_enable_tad(void)
 		vecaddr_reg = CAVM_TADX_MSIX_VECX_ADDR(tad, 0);
 		vecctl_reg = CAVM_TADX_MSIX_VECX_CTL(tad, 0);
 
-		debug_ras("TAD %d 0x%llx@0x%llx\n", tad, vecctl, vecaddr);
+		debug_ras("TAD %d 0x%" PRIx64 "@0x%" PRIx64 "\n", tad, vecctl, vecaddr);
 
 		/* Configure MSIx vector address and irq number */
 		octeontx_write64(vecaddr_reg, vecaddr);
@@ -221,7 +222,7 @@ int cn10k_ras_tad_isr(uint32_t id, uint32_t flags, void *cookie)
 		/* Check TAD Errors */
 		tad_int.u = CSR_READ(CAVM_TADX_INT_W1C(tad));
 		if (tad_int.u) {
-			debug_ras("TAD %d error detected 0x%llx\n", (uint8_t) tad, (uint64_t) tad_int.u);
+			debug_ras("TAD %d error detected 0x%" PRIx64 "\n", (uint8_t) tad, (uint64_t) tad_int.u);
 			if (tad_int.u & TAD_ERROR_MASK)
 				cn10k_ras_tad_notify(tad, tad_int);
 			CSR_WRITE(CAVM_TADX_INT_W1C(tad), tad_int.u);

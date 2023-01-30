@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <debug.h>
 #include <string.h>
+#include <inttypes.h>
 #include <platform_def.h>
 #include <timers.h>
 #include <octeontx_common.h>
@@ -110,7 +111,7 @@ int ecp_wait_for_lock(int portm_idx, int timeout_ms)
 	}
 
 	if (ret == 0)
-		debug_eth_link_intf("%s: PORTM%d Lock available, time: %lld ms\n",
+		debug_eth_link_intf("%s: PORTM%d Lock available, time: %" PRId64 " ms\n",
 				    __func__, portm_idx,
 				    (clock_get_count(GSER_CLOCK_TIME) - init_time) *
 				    1000 / clock_get_rate(GSER_CLOCK_TIME));
@@ -154,7 +155,7 @@ int ecp_wait_for_cmd_ack_to_clr(int portm_idx, int timeout_ms)
 	}
 
 	if (ret == 0)
-		debug_eth_link_intf("%s: PORTM%d ACK cleared, time: %lld ms\n",
+		debug_eth_link_intf("%s: PORTM%d ACK cleared, time: %" PRId64 " ms\n",
 				    __func__, portm_idx,
 				    (clock_get_count(GSER_CLOCK_TIME) - init_time) *
 				    1000 / clock_get_rate(GSER_CLOCK_TIME));
@@ -347,9 +348,7 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int coun
 				int portm_idx, const char *msg)
 {
 	int idx, num = 0;
-#if debug_ecp_sm_hist
 	uint64_t first_time = 0;
-#endif
 
 	debug_ecp_sm_hist("[PORTM%d]: Last ECP state transitions:\n\t(Reason: %s)\n", portm_idx, msg);
 
@@ -359,9 +358,7 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int coun
 
 		/* Only print entries with the same lmac_id */
 		if (lmac_id == log_entry->lmac_id) {
-#if debug_ecp_sm_hist
 			first_time = log_entry->timestamp;
-#endif
 			break;
 		}
 	}
@@ -380,7 +377,7 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int coun
 		if (lmac_id != log_entry->lmac_id)
 			continue;
 
-		debug_ecp_sm_hist("%-2d  %-11llu  %-8s  %-4d  %-25s  %-15s  %-11s  %-10u  %-7u  %-6u  %-5u\n",
+		debug_ecp_sm_hist("%-2d  %-11" PRIu64 "  %-8s  %-4d  %-25s  %-15s  %-11s  %-10u  %-7u  %-6u  %-5u\n",
 				  num,
 				  (num == 0) ? 0 : log_entry->timestamp - first_time,
 				  cn10k_portm_mac_type_to_cfg_str(log_entry->mac_type),
@@ -410,7 +407,7 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int coun
 		if (lmac_id != log_entry->lmac_id)
 			continue;
 
-		debug_ecp_sm_hist("%-2d  %-11llu  %-8s  %-4u  %-25s  %-15s  %-25s  %-10u  %-14u  %-13u\n",
+		debug_ecp_sm_hist("%-2d  %-11" PRIu64 "  %-8s  %-4u  %-25s  %-15s  %-25s  %-10u  %-14u  %-13u\n",
 				  num,
 				  (num == 0) ? 0 : log_entry->timestamp - first_time,
 				  cn10k_portm_mac_type_to_cfg_str(log_entry->mac_type),
@@ -439,7 +436,7 @@ static void _dump_state_history(ecp_state_log_t *ecp_logs, int lmac_id, int coun
 		if (lmac_id != log_entry->lmac_id)
 			continue;
 
-		debug_ecp_sm_hist("%-2d  %-11llu  %-8s  %-4u  %-25s  %-21s  %-8u  %-7u  %-8u  %-6u  %-7u  %-7u\n",
+		debug_ecp_sm_hist("%-2d  %-11" PRIu64 "  %-8s  %-4u  %-25s  %-21s  %-8u  %-7u  %-8u  %-6u  %-7u  %-7u\n",
 				  num,
 				  (num == 0) ? 0 : log_entry->timestamp - first_time,
 				  cn10k_portm_mac_type_to_cfg_str(log_entry->mac_type),

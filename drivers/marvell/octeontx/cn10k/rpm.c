@@ -36,6 +36,7 @@
 #include <arch.h>
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include <debug.h>
 #include <drivers/delay_timer.h>
 #include <platform_def.h>
@@ -78,7 +79,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	bringup_ctx->link_bringup_status = LINK_BRINGUP_INIT;
 
-	debug_rpm("%s %d:%d bringup_ctx->link_timeout %lld\n", __func__, rpm_id, lmac_id,
+	debug_rpm("%s %d:%d bringup_ctx->link_timeout %" PRId64 "\n", __func__, rpm_id, lmac_id,
 			bringup_ctx->link_timeout);
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
@@ -140,7 +141,7 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 
 		bringup_ctx->link_bringup_time = ltimeout; /* elapsed time */
 
-		debug_rpm("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %lld\n", __func__,
+		debug_rpm("%s: %d:%d bringup_ctx->link_bringup_status %d bringup_ctx->link_bringup_time %" PRId64 "\n", __func__,
 						rpm_id, lmac_id, bringup_ctx->link_bringup_status,
 						bringup_ctx->link_bringup_time);
 		return 0;
@@ -230,7 +231,7 @@ int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, 
 					bringup_ctx->link_timeout = RPM_POLL_LINK_BRINGUP_STATUS;
 				}
 
-				debug_rpm("%s: %d:%d ltimeout %lld bringup_ctx->link_timeout %lld\n", __func__,
+				debug_rpm("%s: %d:%d ltimeout %" PRId64 " bringup_ctx->link_timeout %" PRId64 "\n", __func__,
 						rpm_id, lmac_id, ltimeout, bringup_ctx->link_timeout);
 
 				link_timeout = init_time + ltimeout * clock_get_rate(GSER_CLOCK_TIME)/1000000;

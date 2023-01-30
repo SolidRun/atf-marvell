@@ -5,6 +5,7 @@
  * https://spdx.org/licenses
  */
 
+#include <inttypes.h>
 #include <debug.h>
 #include <arch_helpers.h>
 #include <stdio.h>
@@ -32,7 +33,6 @@ uint8_t cn10k_crash_buf[2048];
 static cn10k_cpu_context_t cn10k_ctx __aligned(16);
 #endif
 
-#if DEBUG
 static char *core_err_src[] = {
 	"DSU_RAM",
 	"CORE_RAM",
@@ -54,7 +54,6 @@ static char *err_type_str[] = {
 	"Deferred Error (DE)",
 	"Uncorrected Error (UE)",
 };
-#endif
 
 static char *err_type_str_short[] = {"NO", "CE", "DE", "UE"};
 
@@ -412,7 +411,7 @@ static void plat_set_apa_msix_vectors(void)
 		vecaddr = CAVM_GICD_SETSPI_SR | 1;
 		vecctl = (uint64_t) RAS_CORE_SPI_IRQ(core);
 
-		debug_ras("Core %d MSIx Addr 0x%llx data 0x%llx SPI %d\n", core, vecaddr, vecctl, RAS_CORE_SPI_IRQ(core));
+		debug_ras("Core %d MSIx Addr 0x%" PRIx64 " data 0x%" PRIx64 " SPI %d\n", core, vecaddr, vecctl, RAS_CORE_SPI_IRQ(core));
 		/* Write the SPI address and IRQ number */
 		octeontx_write64(CAVM_APAX_MSIX_VECX_ADDR(core, CAVM_APA_INT_VEC_E_APA_CORE_ECC_INT), vecaddr);
 		octeontx_write64(CAVM_APAX_MSIX_VECX_CTL(core, CAVM_APA_INT_VEC_E_APA_CORE_ECC_INT), vecctl);
@@ -604,94 +603,94 @@ int cn10k_ras_init(void)
 
 static void print_cpu_gpregs(gp_regs_t *ctx)
 {
-	debug_printf("X0 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X0));
-	debug_printf("X1 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X1));
-	debug_printf("X2 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X2));
-	debug_printf("X3 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X3));
-	debug_printf("X4 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X4));
-	debug_printf("X5 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X5));
-	debug_printf("X6 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X6));
-	debug_printf("X7 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X7));
-	debug_printf("X8 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X8));
-	debug_printf("X9 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X9));
-	debug_printf("X10 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X10));
-	debug_printf("X11 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X11));
-	debug_printf("X12 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X12));
-	debug_printf("X13 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X13));
-	debug_printf("X14 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X14));
-	debug_printf("X15 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X15));
-	debug_printf("X16 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X16));
-	debug_printf("X17 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X17));
-	debug_printf("X18 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X18));
-	debug_printf("X19 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X19));
-	debug_printf("X20 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X20));
-	debug_printf("X21 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X21));
-	debug_printf("X22 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X22));
-	debug_printf("X23 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X23));
-	debug_printf("X24 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X24));
-	debug_printf("X25 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X25));
-	debug_printf("X26 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X26));
-	debug_printf("X27 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X27));
-	debug_printf("X28 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X28));
-	debug_printf("X29 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X29));
-	debug_printf("LR 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_LR));
-	debug_printf("SP_EL0 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_SP_EL0));
-	debug_printf("LR_BCK 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_LR_BCK));
+	debug_printf("X0 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X0));
+	debug_printf("X1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X1));
+	debug_printf("X2 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X2));
+	debug_printf("X3 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X3));
+	debug_printf("X4 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X4));
+	debug_printf("X5 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X5));
+	debug_printf("X6 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X6));
+	debug_printf("X7 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X7));
+	debug_printf("X8 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X8));
+	debug_printf("X9 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X9));
+	debug_printf("X10 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X10));
+	debug_printf("X11 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X11));
+	debug_printf("X12 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X12));
+	debug_printf("X13 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X13));
+	debug_printf("X14 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X14));
+	debug_printf("X15 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X15));
+	debug_printf("X16 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X16));
+	debug_printf("X17 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X17));
+	debug_printf("X18 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X18));
+	debug_printf("X19 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X19));
+	debug_printf("X20 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X20));
+	debug_printf("X21 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X21));
+	debug_printf("X22 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X22));
+	debug_printf("X23 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X23));
+	debug_printf("X24 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X24));
+	debug_printf("X25 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X25));
+	debug_printf("X26 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X26));
+	debug_printf("X27 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X27));
+	debug_printf("X28 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X28));
+	debug_printf("X29 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X29));
+	debug_printf("LR 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_LR));
+	debug_printf("SP_EL0 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_SP_EL0));
+	debug_printf("LR_BCK 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_LR_BCK));
 }
 
 static void print_el3_state(el3_state_t *ctx)
 {
-	debug_printf("SCR_EL3 0x%llx\n", read_ctx_reg(ctx, CTX_SCR_EL3));
-	debug_printf("ESR_EL3 0x%llx\n", read_ctx_reg(ctx, CTX_ESR_EL3));
-	debug_printf("SP 0x%llx\n", read_ctx_reg(ctx, CTX_RUNTIME_SP));
-	debug_printf("SPSR_EL3 0x%llx\n", read_ctx_reg(ctx, CTX_SPSR_EL3));
-	debug_printf("ELR_EL3 0x%llx\n", read_ctx_reg(ctx, CTX_ELR_EL3));
-	debug_printf("PMCR_EL0 0x%llx\n", read_ctx_reg(ctx, CTX_PMCR_EL0));
+	debug_printf("SCR_EL3 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_SCR_EL3));
+	debug_printf("ESR_EL3 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_ESR_EL3));
+	debug_printf("SP 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_RUNTIME_SP));
+	debug_printf("SPSR_EL3 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_SPSR_EL3));
+	debug_printf("ELR_EL3 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_ELR_EL3));
+	debug_printf("PMCR_EL0 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_PMCR_EL0));
 }
 
 static void print_el1_sysregs(el1_sysregs_t *ctx)
 {
-	debug_printf("SPSR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_SPSR_EL1));
-	debug_printf("ELR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_ELR_EL1));
-	debug_printf("SCTLR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_SCTLR_EL1));
-	debug_printf("TCR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_TCR_EL1));
-	debug_printf("CPACR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_CPACR_EL1));
-	debug_printf("CSSELR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_CSSELR_EL1));
-	debug_printf("SP_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_SP_EL1));
-	debug_printf("ESR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_ESR_EL1));
-	debug_printf("TTBR0_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_TTBR0_EL1));
-	debug_printf("TTBR1_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_TTBR1_EL1));
-	debug_printf("MAIR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_MAIR_EL1));
-	debug_printf("AMAIR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_AMAIR_EL1));
-	debug_printf("ACTLR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_ACTLR_EL1));
-	debug_printf("TPIDR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_TPIDR_EL1));
-	debug_printf("TPIDR_EL0 0x%llx\n", read_ctx_reg(ctx, CTX_TPIDR_EL0));
-	debug_printf("TPIDRRO_EL0 0x%llx\n", read_ctx_reg(ctx, CTX_TPIDRRO_EL0));
-	debug_printf("PAR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_PAR_EL1));
-	debug_printf("FAR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_FAR_EL1));
-	debug_printf("AFSR0_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_AFSR0_EL1));
-	debug_printf("AFSR1_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_AFSR1_EL1));
-	debug_printf("CONTEXTIDR_EL1 0x%llx\n", read_ctx_reg(ctx, CTX_CONTEXTIDR_EL1));
+	debug_printf("SPSR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_SPSR_EL1));
+	debug_printf("ELR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_ELR_EL1));
+	debug_printf("SCTLR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_SCTLR_EL1));
+	debug_printf("TCR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_TCR_EL1));
+	debug_printf("CPACR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_CPACR_EL1));
+	debug_printf("CSSELR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_CSSELR_EL1));
+	debug_printf("SP_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_SP_EL1));
+	debug_printf("ESR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_ESR_EL1));
+	debug_printf("TTBR0_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_TTBR0_EL1));
+	debug_printf("TTBR1_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_TTBR1_EL1));
+	debug_printf("MAIR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_MAIR_EL1));
+	debug_printf("AMAIR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_AMAIR_EL1));
+	debug_printf("ACTLR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_ACTLR_EL1));
+	debug_printf("TPIDR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_TPIDR_EL1));
+	debug_printf("TPIDR_EL0 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_TPIDR_EL0));
+	debug_printf("TPIDRRO_EL0 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_TPIDRRO_EL0));
+	debug_printf("PAR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_PAR_EL1));
+	debug_printf("FAR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_FAR_EL1));
+	debug_printf("AFSR0_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_AFSR0_EL1));
+	debug_printf("AFSR1_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_AFSR1_EL1));
+	debug_printf("CONTEXTIDR_EL1 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_CONTEXTIDR_EL1));
 }
 
 static void print_el0isr_gp_regs(el0isr_gp_regs_t *ctx)
 {
-	debug_printf("GPREG_X0_BCK 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X0_BCK));
-	debug_printf("GPREG_X1_BCK 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X1_BCK));
-	debug_printf("GPREG_X2_BCK 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X2_BCK));
-	debug_printf("GPREG_X3_BCK 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X3_BCK));
-	debug_printf("GPREG_X4_BCK 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X4_BCK));
-	debug_printf("GPREG_X5_BCK 0x%llx\n", read_ctx_reg(ctx, CTX_GPREG_X5_BCK));
+	debug_printf("GPREG_X0_BCK 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X0_BCK));
+	debug_printf("GPREG_X1_BCK 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X1_BCK));
+	debug_printf("GPREG_X2_BCK 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X2_BCK));
+	debug_printf("GPREG_X3_BCK 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X3_BCK));
+	debug_printf("GPREG_X4_BCK 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X4_BCK));
+	debug_printf("GPREG_X5_BCK 0x%" PRIx64 "\n", read_ctx_reg(ctx, CTX_GPREG_X5_BCK));
 }
 
 static void print_el0isr_sysregs(el0isr_sys_regs_t *ctx)
 {
-	debug_printf("TCR_EL12 0x%llx\n", read_ctx_reg(ctx, EL0ISR_CTX_TCR_EL12));
-	debug_printf("TTBR0_EL12 0x%llx\n", read_ctx_reg(ctx, EL0ISR_CTX_TTBR0_EL12));
-	debug_printf("TTBR1_EL12 0x%llx\n", read_ctx_reg(ctx, EL0ISR_CTX_TTBR1_EL12));
-	debug_printf("SCR_EL3 0x%llx\n", read_ctx_reg(ctx, EL0ISR_CTX_SCR_EL3));
-	debug_printf("SPSR_EL3 0x%llx\n", read_ctx_reg(ctx, EL0ISR_CTX_SPSR_EL3));
-	debug_printf("ELR_EL3 0x%llx\n", read_ctx_reg(ctx, EL0ISR_CTX_ELR_EL3));
+	debug_printf("TCR_EL12 0x%" PRIx64 "\n", read_ctx_reg(ctx, EL0ISR_CTX_TCR_EL12));
+	debug_printf("TTBR0_EL12 0x%" PRIx64 "\n", read_ctx_reg(ctx, EL0ISR_CTX_TTBR0_EL12));
+	debug_printf("TTBR1_EL12 0x%" PRIx64 "\n", read_ctx_reg(ctx, EL0ISR_CTX_TTBR1_EL12));
+	debug_printf("SCR_EL3 0x%" PRIx64 "\n", read_ctx_reg(ctx, EL0ISR_CTX_SCR_EL3));
+	debug_printf("SPSR_EL3 0x%" PRIx64 "\n", read_ctx_reg(ctx, EL0ISR_CTX_SPSR_EL3));
+	debug_printf("ELR_EL3 0x%" PRIx64 "\n", read_ctx_reg(ctx, EL0ISR_CTX_ELR_EL3));
 }
 
 static void crashdump_cpu_context(cn10k_cpu_context_t *data)
@@ -735,7 +734,7 @@ static void crashdump_cpu_context(cn10k_cpu_context_t *data)
 		}
 	}
 	else {
-		debug_printf("Crashdump collected on CPU 0x%llx\n", data->mpidr_el1);
+		debug_printf("Crashdump collected on CPU 0x%" PRIx64 "\n", data->mpidr_el1);
 		debug_printf("*** NonSecure EL GP Regs ***\n");
 		print_cpu_gpregs(&data->nsec_gpregs_ctx);
 		debug_printf("*** Secure EL GP Regs ***\n");
@@ -749,11 +748,11 @@ static void crashdump_cpu_context(cn10k_cpu_context_t *data)
 		debug_printf("*** EL0ISR Sys Regs ***\n");
 		print_el0isr_sysregs(&data->el0isr_sysregs_ctx);
 		debug_printf("*** GIC registers ***\n");
-		debug_printf("icc_ctrl_el3 0x%llx\n", data->icc_ctlr_el3);
-		debug_printf("icc_hppir0_el1 0x%llx\n", data->icc_hppir0_el1);
-		debug_printf("icc_hppir1_el1 0x%llx\n", data->icc_hppir1_el1);
+		debug_printf("icc_ctrl_el3 0x%" PRIx64 "\n", data->icc_ctlr_el3);
+		debug_printf("icc_hppir0_el1 0x%" PRIx64 "\n", data->icc_hppir0_el1);
+		debug_printf("icc_hppir1_el1 0x%" PRIx64 "\n", data->icc_hppir1_el1);
 		for (i = 0; i < 4; i++)
-			debug_printf("ISPENDR[%d] 0x%llx\n", (i + 1), data->gicd_ispendr[i]);
+			debug_printf("ISPENDR[%d] 0x%" PRIx64 "\n", (i + 1), data->gicd_ispendr[i]);
 	}
 }
 
@@ -817,7 +816,7 @@ void cn10k_fatal_error_handler(void)
 	uint64_t len, magic;
 	int i = 0;
 
-	debug_printf("%s 0x%llx\n", __func__, (uint64_t) WORK_BUFFER_CRASHLOG_BASE);
+	debug_printf("%s 0x%" PRIx64 "\n", __func__, (uint64_t) WORK_BUFFER_CRASHLOG_BASE);
 	magic = *(uint64_t *)(WORK_BUFFER_CRASHLOG_BASE);
 
 	if (magic == WORK_BUFFER_CRASH_MAGIC) {
