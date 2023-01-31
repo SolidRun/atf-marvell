@@ -2089,9 +2089,23 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 	 */
 	scratchx0.s.evt_sts.id = request_id;
 	scratchx0.s.evt_sts.evt_type = ETH_EVT_CMD_RESP;
+
+	if (!lmac->lmac_enable) {
+		/* If a request was sent and if the request cannot be processed due
+		 * to LMAC being disabled, populate the error
+		 * type in the response struct accordingly
+		 * For LINK_UP/DOWN, link_sts struct and for other
+		 * requests, err_sts struct to be updated.
+		 */
+		if (err_type & RPM_ERR_MASK) {
+			scratchx0.s.err.type = err_type;
+			scratchx0.s.link_sts.err_type = err_type;
+		}
+	}
+
 	if ((request_id != ETH_CMD_LINK_BRING_UP) &&
 		(request_id != ETH_CMD_LINK_BRING_DOWN)) {
-		/* in case of LINK_UP/DOWN, error type is updated
+		/* In case of LINK_UP/DOWN, error type is updated
 		 * as part of link status struct
 		 */
 		if (err_type & RPM_ERR_MASK)
