@@ -192,6 +192,18 @@ struct file_entry {
 	bool file_written:1;		/** True if file written successfully */
 };
 
+struct hash_data {
+	bool hash_started;
+	uint64_t read_offset;
+	size_t size;
+	struct ehsm_handle ehdl;
+	int  hashret;
+	uint8_t digest[EHSM_MAX_HASH_SIZE_BYTES];
+	int hash_size;
+	struct io_handle io;
+	bool ignore_version;
+};
+
 struct object_group_entry {
 	const char *tim_filename;
 	const char *data_filename;
@@ -218,6 +230,7 @@ struct object_entry {
 	unsigned int update_all:1;	/** Require ALL files be updated */
 	unsigned int is_root_tim_obj:1;	/** Set if root TIM object */
 	unsigned int no_data_file:1;	/** Set if no data file */
+	struct hash_data hash;
 };
 
 struct verification_data {
@@ -498,12 +511,20 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 static enum update_ret
 octeontx_read_data(const struct smc_update_descriptor *desc, uint64_t offset,
 		   size_t size, void *buffer);
+
+static enum update_ret
+octeontx_io_data_read(struct io_handle *io_handle, uint64_t offset,
+		      size_t size, void *buffer);
+
 static enum update_ret update_tim0(const uint8_t *tim0, uint64_t offset,
 				   size_t size);
 
 static int flash_smc_get_versions(struct smc_version_info *vinfo,
 				  struct verification_data *vdata);
+
 enum spi_dc_ret async_clone_callback(void *p);
+
+enum spi_dc_ret async_update_callback(void *p);
 
 /**
  * Customer defined function to perform image verification
@@ -1398,6 +1419,8 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
  *
  * @param[in]	desc	descriptor with flags and media information
  * @param	object	object to verify
+ * @param[in]	async_operation		flag that indicates if the operation
+ *						is synchronous or asynchronous
  *
  * This function checks an object against what is stored in flash.  This is
  * used for the purpose of determining whether or not the update should
@@ -1417,7 +1440,7 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
  *		after every call.
  */
 enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
-				   struct object_entry *object)
+				   struct object_entry *object, bool async_operation)
 {
 	struct tim_handle *fl_hdl = &_tim_handle;	/* Flash image handle */
 	struct tim_load_info *fl_li = &_tim_load_info;
@@ -1483,43 +1506,48 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		goto done;
 	}
 
-	uret = verify_hash(desc, fl_li, NULL, NULL);
-	if (uret == UPDATE_AUTH_ERROR) {
-		UERROR("Hash mismatch for %s\n", object->data_file->filename);
-		uret = UPDATE_OK;
-		goto done;
-
-	} else if (uret != UPDATE_OK) {
-		/* Something else went wrong */
-		UERROR("Error %d finalizing verification for %s\n",
-		       uret, object->data_file->filename);
-		uret = UPDATE_OK;
-		goto done;
-	}
-
-	if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)) {
-		tret = tim_get_version_info(fl_hdl, &fl_vinfo);
-		if (tret != TIM_NO_ERROR) {
-			UWARN("TIM %s is missing version info in flash\n",
-			      object->tim_file->filename);
-			uret = UPDATE_VERSION_CHECK_FAIL;
-			goto done;
-		}
-		/* If we're here we have the version information */
-		ret = marvell_cust_check_version(desc, object, &fl_vinfo);
-		if (ret > 0) {
-			object->skip_install = 1;
+	if (!async_operation) {
+		uret = verify_hash(desc, fl_li, NULL, NULL);
+		if (uret == UPDATE_AUTH_ERROR) {
+			UERROR("Hash mismatch for %s\n", object->data_file->filename);
 			uret = UPDATE_OK;
 			goto done;
-		} else if (ret < 0) {
-			uret = UPDATE_VERSION_CHECK_FAIL;
+		} else if (uret != UPDATE_OK) {
+			/* Something else went wrong */
+			UERROR("Error %d finalizing verification for %s\n",
+			       uret, object->data_file->filename);
+			uret = UPDATE_OK;
 			goto done;
+		}
+
+		if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)) {
+			tret = tim_get_version_info(fl_hdl, &fl_vinfo);
+			if (tret != TIM_NO_ERROR) {
+				UWARN("TIM %s version info is missing in flash\n",
+				      object->tim_file->filename);
+				uret = UPDATE_VERSION_CHECK_FAIL;
+				goto done;
+			}
+			/* If we're here we have the version information */
+			ret = marvell_cust_check_version(desc, object, &fl_vinfo);
+			if (ret > 0) {
+				object->skip_install = 1;
+				uret = UPDATE_OK;
+				goto done;
+			} else if (ret < 0) {
+				UWARN("TIM %s version check fails with error %d\n",
+				      object->tim_file->filename, ret);
+				uret = UPDATE_VERSION_CHECK_FAIL;
+				goto done;
+			}
 		}
 	}
 
 done:
-	zeromem(fl_hdl, sizeof(*fl_hdl));
-	zeromem(fl_li, sizeof(*fl_li));
+	if (!async_operation) {
+		zeromem(fl_hdl, sizeof(*fl_hdl));
+		zeromem(fl_li, sizeof(*fl_li));
+	}
 	return uret;
 }
 
@@ -1578,6 +1606,92 @@ static void update_flash_group_flags(const struct object_group_entry *group,
 	}
 }
 
+static int verify_hash_version_block(void *ptr)
+{
+	struct object_entry *obj = (struct object_entry *)ptr;
+	struct tim_handle *fl_hdl = &_tim_handle;	/* Flash image handle */
+	struct tim_load_info *fl_li = &_tim_load_info;
+	struct tim_opaque_data_version_info fl_vinfo;
+	uint64_t blk_size = sizeof(tim_buffer);
+	int ret = 0;
+	enum tim_return tret;
+
+	if (!obj->hash.hash_started) {
+		obj->hash.read_offset = fl_li->src_address;
+		obj->hash.size = fl_li->image_length;
+		ret = ehsm_verify_init(fl_li, &obj->hash.ehdl);
+		if (ret) {
+			UERROR("Error initializing hash verification: %d\n", ret);
+			zeromem(fl_hdl, sizeof(*fl_hdl));
+			zeromem(fl_li, sizeof(*fl_li));
+			return SPI_OP_CALLBACK_ERROR;
+		}
+		obj->hash.hash_started = true;
+	}
+
+	if (obj->hash.size > blk_size) {
+		octeontx_io_data_read(&obj->hash.io, obj->hash.read_offset, blk_size, tim_buffer);
+		ehsm_verify_update(&obj->hash.ehdl, tim_buffer, blk_size);
+		obj->hash.read_offset += blk_size;
+		obj->hash.size -= blk_size;
+
+		return SPI_OP_CALLBACK_CONTINUE;
+	}
+	if (obj->hash.size) {
+		octeontx_io_data_read(&obj->hash.io, obj->hash.read_offset, obj->hash.size,
+				      tim_buffer);
+		obj->hash.hashret = ehsm_verify_final(&obj->hash.ehdl, tim_buffer, obj->hash.size,
+						  fl_li, obj->hash.digest,
+						  &obj->hash.hash_size);
+		obj->hash.size = 0;
+		return SPI_OP_CALLBACK_CONTINUE;
+	}
+
+	if (obj->hash.hashret == -EAUTH) {
+		UERROR("Hash mismatch for %s\n", obj->data_file->filename);
+	} else if (obj->hash.hashret != 0) {
+		UERROR("Error %d finalizing verification for %s\n",
+		       obj->hash.hashret, obj->data_file->filename);
+	} else {
+		if (!obj->hash.ignore_version) {
+			tret = tim_get_version_info(fl_hdl, &fl_vinfo);
+			if (tret != TIM_NO_ERROR) {
+				UERROR("TIM %s version info is missing in flash\n",
+				      obj->tim_file->filename);
+				zeromem(fl_hdl, sizeof(*fl_hdl));
+				zeromem(fl_li, sizeof(*fl_li));
+				return SPI_OP_CALLBACK_ERROR;
+			}
+			/* If we're here we have the version information */
+			ret = marvell_cust_check_version(obj->hash.io.desc, obj, &fl_vinfo);
+			if (ret > 0) {
+				obj->skip_install = 1;
+			} else if (ret < 0) {
+				UERROR("TIM %s version check fails with error %d\n",
+				      obj->tim_file->filename, ret);
+				zeromem(fl_hdl, sizeof(*fl_hdl));
+				zeromem(fl_li, sizeof(*fl_li));
+				return SPI_OP_CALLBACK_ERROR;
+			}
+		}
+	}
+
+	zeromem(fl_hdl, sizeof(*fl_hdl));
+	zeromem(fl_li, sizeof(*fl_li));
+
+	return SPI_OP_CALLBACK_FINISHED;
+}
+
+static int init_hash_version_check(void *ptr)
+{
+	struct object_entry *obj = (struct object_entry *)ptr;
+
+	obj->hash.hash_started = false;
+
+	UINFO("Validating hash for %s\n", obj->tim_file->filename);
+	return SPI_OP_CALLBACK_CONTINUE;
+}
+
 /**
  * Checks all of the files against what is stored in the flash.  This also
  * checks the flags for skipping to make sure all objects in a group are
@@ -1599,7 +1713,7 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 	UINFO("Checking files in flash\n");
 	for_each_object(obj) {
 		if (obj->data_file != NULL) {
-			ret = check_flash_object(desc, obj);
+			ret = check_flash_object(desc, obj, false);
 			if (ret != UPDATE_OK)
 				return ret;
 			if (obj->update_all)
@@ -1636,13 +1750,24 @@ check_flash_files_async(struct async_update_data *data)
 
 	while (data->obj) {
 		if (data->obj->data_file != NULL) {
-			ret = check_flash_object(desc, data->obj);
+			ret = check_flash_object(desc, data->obj, true);
 			if (ret != UPDATE_OK) {
 				desc->retcode = ret;
 				return ASYNC_CHECK_ERROR;
 			}
 			if (data->obj->update_all)
 				data->update_all = true;
+			else {
+				data->obj->hash.ignore_version = (desc->update_flags & UPDATE_FLAG_IGNORE_VERSION) ? true : false;
+				data->obj->hash.io.desc = desc;
+				data->obj->hash.io.io_handle = &media_handle;
+				data->obj->hash.io.dev_handle = &media_dev_handle;
+				data->obj->hash.io.spec = &media_spec;
+				spi_async_add_block_callback(NULL, NULL,
+						init_hash_version_check, data->obj,
+						verify_hash_version_block, data->obj,
+						0);
+			}
 			if (data->update_all && !data->all_present) {
 				desc->retcode = -EINVAL;
 				UERROR("Flash inconsistencies found."
@@ -1653,6 +1778,7 @@ check_flash_files_async(struct async_update_data *data)
 			      data->obj->data_file->filename);
 		}
 		data->obj = data->obj->next;
+		spi_async_start(async_update_callback, &aupdate_data);
 		return ASYNC_CHECK_CONTINUE;
 	}
 	return ASYNC_CHECK_DONE;
@@ -3303,7 +3429,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 	/* Do one final check */
 	if (base_addr + ns_map_size >= dram_end) {
-		UWARN("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
+		UERROR("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
 		     base_addr, ns_map_size);
 		err = -SPI_MMAP_ERR;
 		goto error;
@@ -3659,7 +3785,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 							 ns_map_size,
 							 MT_RW | MT_NS);
 	if (err) {
-		UWARN("Read Flash: Image mmap failed (%d)\n", err);
+		UERROR("Read Flash: Image mmap failed (%d)\n", err);
 		return -SPI_MMAP_ERR;
 	}
 
@@ -5041,7 +5167,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		ns_map_size += PAGE_SIZE;
 
 	if (base_addr + ns_map_size > dram_end) {
-		UWARN("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
+		UERROR("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
 		     base_addr, ns_map_size);
 		*uret = -SPI_MMAP_ERR;
 		err = -EFAULT;
@@ -5051,7 +5177,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 							 ns_map_size,
 							 MT_RW | MT_NS);
 	if (err) {
-		UWARN("Version check descriptor mmap failed (%d)\n", err);
+		UERROR("Version check descriptor mmap failed (%d)\n", err);
 		*uret = -SPI_MMAP_ERR;
 		err = -EFAULT;
 		goto error;
@@ -5062,7 +5188,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 	uParams.p[0].base_addr = base_addr;
 	vinfo = (struct smc_version_info *)desc_buf;
 	if (vinfo->magic_number != VERSION_MAGIC) {
-		UWARN("Bad magic number 0x%x in version descriptor\n",
+		UERROR("Bad magic number 0x%x in version descriptor\n",
 		     vinfo->magic_number);
 		*uret = -SPI_BAD_MAGIC_NUMBER;
 		err = -EINVAL;
@@ -5080,7 +5206,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 								 console_map_size,
 								 MT_RW | MT_NS);
 		if (err) {
-			UERROR("FW Update: console mmap failed (%d)\n", err);
+			UERROR("SMC version: console mmap failed (%d)\n", err);
 			err = -SPI_MMAP_ERR;
 			console_base_addr = 0;
 			console_map_size = 0;
