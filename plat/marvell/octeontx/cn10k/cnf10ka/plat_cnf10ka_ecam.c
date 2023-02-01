@@ -328,7 +328,6 @@ static void init_xspi(uint64_t config_base, uint64_t config_size)
 		}
 	}
 	CSR_WRITE(CAVM_SPIX_INTR_ENA_W1S(spi_id), 1ULL);
-	CSR_MODIFY(c, CAVM_SPIX_CLK_CTRL(spi_id), c.s.spi_sclk_force = 1;);
 }
 
 struct ecam_init_callback plat_init_callbacks[] = {
