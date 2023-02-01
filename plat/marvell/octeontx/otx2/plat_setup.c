@@ -33,6 +33,7 @@
  */
 
 #include <arch.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <debug.h>
 #include <string.h>
@@ -233,7 +234,7 @@ unsigned int plat_configure_rid(void)
 
 	default:
 		midr_id = 0xf;
-		WARN("Unknown partnum 0x%llx, set midr id in REVID to 0xf\n",
+		WARN("Unknown partnum 0x%" PRIx64 ", set midr id in REVID to 0xf\n",
 			MIDR_PARTNUM(midr));
 	}
 
@@ -698,8 +699,8 @@ void plat_initialize_boot_error_data_area(unsigned long attr)
 	}
 
 	/* Add mapping region for Boot Error Data area */
-	INFO("BERT area: %llx to %llx (%lldKB)\n", (long long)bed_base,
-	       (long long)(bed_base + bed_size - 1), bed_size/1024);
+	INFO("BERT area: %" PRIx64 " to %" PRIx64 " (%" PRId64 "KB)\n", (uint64_t)bed_base,
+	       (uint64_t)(bed_base + bed_size - 1), bed_size/1024);
 	mmap_add_region(base, bed_base, bed_size, attr);
 	plat_octeontx_bcfg->bert_area.base = bed_base;
 	plat_octeontx_bcfg->bert_area.size = bed_size;
@@ -778,8 +779,8 @@ void plat_initialize_ghes_hest_area(void)
 	}
 
 	if (ghes_base != 0) {
-		VERBOSE("Using fixed GHES addresses @ 0x%llx\n",
-			(long long)ghes_base);
+		VERBOSE("Using fixed GHES addresses @ 0x%" PRIx64 "\n",
+			(uint64_t)ghes_base);
 		return;
 	}
 
@@ -803,8 +804,8 @@ void plat_initialize_ghes_hest_area(void)
 
 	snprintf(ghes_name, sizeof(ghes_name), "ghes-hest@%016lx",
 		 (long)ghes_base);
-	INFO("HEST area: %llx to %llx (%lldKB)\n", (long long)ghes_base,
-	       (long long)(ghes_base + ghes_size - 1), ghes_size/1024);
+	INFO("HEST area: %" PRIx64 " to %" PRIx64 " (%" PRId64 "KB)\n", (uint64_t)ghes_base,
+	       (uint64_t)(ghes_base + ghes_size - 1), ghes_size/1024);
 	if (fdt_set_name((void *)fdt, ghes_off, ghes_name))
 		INFO("Unable to set ghes-hest DT node name %s\n", ghes_name);
 
@@ -838,7 +839,7 @@ void plat_initialize_ghes_hest_area(void)
 		ghes_ranges[idx].parent_addr = fdt64_to_cpu(ghes_range_base);
 		ghes_range_base += fdt32p_to_cpu(freg32);
 
-		INFO("%s range %d: 0x%016llx 0x%016llx 0x%08x\n",
+		INFO("%s range %d: 0x%016" PRIx64 " 0x%016" PRIx64 " 0x%08x\n",
 		     sdei_ghes_dev_name, idx,
 		     fdt64_to_cpu(ghes_ranges[idx].child_addr),
 		     fdt64_to_cpu(ghes_ranges[idx].parent_addr),

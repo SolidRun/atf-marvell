@@ -6,6 +6,7 @@
  */
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <string.h>
 #include <platform_def.h>
 #include <plat_board_cfg.h>
@@ -326,14 +327,14 @@ int cgx_smc_do_prbs(int cmd, int qlm, int x3, int lane)
 		if (x3) {
 			printf("QLM%d.Lane%d: errors:", qlm, lane);
 			if (prbs_data->errors[lane].err != -1)
-				printf("%lld", prbs_data->errors[lane].err);
+				printf("%" PRId64 "", prbs_data->errors[lane].err);
 			else
 				printf("No lock");
 
 			if (prbs_data->errors[lane].phy_host != -2) {
 				printf(", PHY Host errors: ");
 				if (prbs_data->errors[lane].phy_host != -1)
-					printf("%lld", prbs_data->errors[lane].phy_host);
+					printf("%" PRId64 "", prbs_data->errors[lane].phy_host);
 				else
 					printf("No lock");
 			}
@@ -341,7 +342,7 @@ int cgx_smc_do_prbs(int cmd, int qlm, int x3, int lane)
 			if (prbs_data->errors[lane].phy_line != -2) {
 				printf(", PHY Line errors: ");
 			if (prbs_data->errors[lane].phy_line != -1)
-				printf("%lld", prbs_data->errors[lane].phy_line);
+				printf("%" PRId64 "", prbs_data->errors[lane].phy_line);
 			else
 				printf("No lock");
 			}

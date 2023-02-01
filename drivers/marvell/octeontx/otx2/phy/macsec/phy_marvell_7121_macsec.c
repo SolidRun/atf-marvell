@@ -8,6 +8,7 @@
 
 #include <arch.h>
 #include <stdio.h>
+#include <inttypes.h>
 #include <debug.h>
 #include <drivers/delay_timer.h>
 #include <platform_def.h>
@@ -1500,8 +1501,8 @@ MZD_STATUS phy_7121_macsec_pkt_test(int cgx_id,
 		MAC_ADV_MACSEC_DBG("PHY_7121_MACSEC_PKTTEST_COUNTERS\n");
 		mzdPktGeneratorGetCounter(phy->priv, phy->addr, MZD_HOST_SIDE, lane_offset,
 			  MZD_PKT_GET_RX, &rxPktCountAfter, &rxByteCountAfter);
-		printf("mdioPort %d line side clear packet received rxPktCountAfter: %llu"
-		" rxByteCountAfter: %llu\n", phy->addr,
+		printf("mdioPort %d line side clear packet received rxPktCountAfter: %" PRIu64 ""
+		" rxByteCountAfter: %" PRIu64 "\n", phy->addr,
 			rxPktCountAfter, rxByteCountAfter);
 		MZD_ATTEMPT(mzdPktGeneratorGetCounter(phy->priv, phy->addr,
 				MZD_HOST_SIDE, lane_offset, MZD_PKT_GET_RX,
@@ -1513,11 +1514,11 @@ MZD_STATUS phy_7121_macsec_pkt_test(int cgx_id,
 				"rxMACSecByteCount: %d or %d\n", numPktsToSend,
 				((frameLengthControl+32+4)*numPktsToSend),
 				((frameLengthControl+24+4)*numPktsToSend));
-		printf("LINE: rxMACSecPktCount: %llu "
-				"rxMACSecByteCount: %llu\n",
+		printf("LINE: rxMACSecPktCount: %" PRIu64 " "
+				"rxMACSecByteCount: %" PRIu64 "\n",
 				rxMACSecPktCount, rxMACSecByteCount);
-		printf("ERROR COUNT LINE: rxMACSecPktErrCount: %llu "
-				"rxMACSecByteErrCount: %llu\n\n",
+		printf("ERROR COUNT LINE: rxMACSecPktErrCount: %" PRIu64 " "
+				"rxMACSecByteErrCount: %" PRIu64 "\n\n",
 				rxMACSecPktErrCount, rxMACSecByteErrCount);
 		break;
 

@@ -9,6 +9,7 @@
 
 #include <arch.h>
 #include <stdio.h>
+#include <inttypes.h>
 #include <debug.h>
 #include <string.h>
 #include <platform_def.h>
@@ -356,7 +357,7 @@ int phy_advance_commads(int eth_id, int lmac_id, uintptr_t *adv_cmds, int size)
 	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
 	base_addr = (uintptr_t)adv_cmds & mask;
 
-	debug_nw_mgmt("%s: base_addr %llx ns_map_size %d\n", __func__,
+	debug_nw_mgmt("%s: base_addr %" PRIx64 " ns_map_size %d\n", __func__,
 					base_addr, ns_map_size);
 	if (((uintptr_t)adv_cmds + size) > (base_addr + ns_map_size))
 		ns_map_size += PAGE_SIZE;

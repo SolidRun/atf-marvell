@@ -36,6 +36,7 @@
  *
  */
 
+#include <inttypes.h>
 #include <gsern/gsern.h>
 #include <gser_internal.h>
 #include <cgx.h>
@@ -194,7 +195,7 @@ static int gsern_eye_capture_setup(struct eye_capture_state *state,
 			0 /* vmin */, eye_data->height-1 /* vmax */, 1 /* vstep */,
 			0 /* tmin */, eye_data->width-1 /* tmax */, 1 /* tstep */,
 			BER /* BER */, 0 /* OffsetOverrideEn */, "DOUTQ" /* PTYPE */, "NO_SHIFT" /* SHIFT */);
-		printf("# cycle count = %llu, bus width = %d\n", state->cycles, bus_width);
+		printf("# cycle count = %" PRIu64 ", bus width = %d\n", state->cycles, bus_width);
 		printf("V  T  %-20s %-20s %-20s %-20s\n", "TRANS_ONE_ECNT",
 			"NON_TRANS_ONE_ECNT", "TRANS_ZEROS_ECNT", "NON_TRANS_ZEROS_ECNT");
 	}
@@ -276,7 +277,7 @@ static int gsern_eye_capture_line(struct eye_capture_state *state,
 
 		if (show_data)
 		{
-			printf("%02x %02x %020llx %020llx %020llx %020llx\n",
+			printf("%02x %02x %020" PRIx64 " %020" PRIx64 " %020" PRIx64 " %020" PRIx64 "\n",
 				v, t, errors_tr_ones, errors_nt_ones,
 				errors_tr_zeros, errors_nt_zeros);
 		}

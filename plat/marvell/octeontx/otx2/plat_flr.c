@@ -6,6 +6,7 @@
  */
 
 #include <debug.h>
+#include <inttypes.h>
 #include <assert.h>
 #include <context.h>
 #include <octeontx_common.h>
@@ -304,7 +305,7 @@ static int update_value(void *ctx_h, uint64_t *value, uint64_t *mask,
 			rt_value = read_gp_reg(ctx_h, mask, rt_id);
 			rs_value = read_gp_reg(ctx_h, mask, rs_id);
 
-			INFO("STP val0 = 0x%llx; rt=%d;, val1 = 0x%llx; rs=%d; mask=0x%llx to address %p\n",
+			INFO("STP val0 = 0x%" PRIx64 "; rt=%d;, val1 = 0x%" PRIx64 "; rs=%d; mask=0x%" PRIx64 " to address %p\n",
 			     rt_value, *rt_id, rs_value, *rs_id, *mask, value);
 
 			if (*mask == UINT64_MAX) {
@@ -312,16 +313,16 @@ static int update_value(void *ctx_h, uint64_t *value, uint64_t *mask,
 			} else if (*mask == UINT32_MAX) {
 				do_stpw(rt_value, rs_value, value);
 			} else {
-				ERROR("%s: Invalid mask = 0x%llx\n", __func__, *mask);
+				ERROR("%s: Invalid mask = 0x%" PRIx64 "\n", __func__, *mask);
 				return -1;
 			}
 		} else {
 			/* If it was write, the value to store is saved at Rt */
-			INFO("val = 0x%llx; rt=%d; mask=0x%llx\n",
+			INFO("val = 0x%" PRIx64 "; rt=%d; mask=0x%" PRIx64 "\n",
 				read_gp_reg(ctx_h, mask, rt_id), *rt_id, *mask);
 			*value = read_gp_reg(ctx_h, mask, rt_id);
 
-			INFO("%s: Write: value=0x%llx\n", __func__, (*value & *mask));
+			INFO("%s: Write: value=0x%" PRIx64 "\n", __func__, (*value & *mask));
 		}
 	} else if (op == FLR_OPERATION_LOAD) {
 		if (*rs_id != INVALID_REG_IDX) {
@@ -330,10 +331,10 @@ static int update_value(void *ctx_h, uint64_t *value, uint64_t *mask,
 			} else if (*mask == UINT32_MAX) {
 				do_ldpw(&rt_value, &rs_value, value);
 			} else {
-				ERROR("%s: Invalid mask = 0x%llx\n", __func__, *mask);
+				ERROR("%s: Invalid mask = 0x%" PRIx64 "\n", __func__, *mask);
 				return -1;
 			}
-			INFO("LDP from address %p mask 0x%llx val0 = 0x%llx val1 = 0x%llx to rt=%d rs=%d\n",
+			INFO("LDP from address %p mask 0x%" PRIx64 " val0 = 0x%" PRIx64 " val1 = 0x%" PRIx64 " to rt=%d rs=%d\n",
 			     value, *mask, rt_value, rs_value, *rt_id, *rs_id);
 			write_gp_reg(ctx_h, mask, rt_id, rt_value);
 			write_gp_reg(ctx_h, mask, rs_id, rs_value);
@@ -344,7 +345,7 @@ static int update_value(void *ctx_h, uint64_t *value, uint64_t *mask,
 			 * Write proper structure field at Rt.
 			 */
 			write_gp_reg(ctx_h, mask, rt_id, *value);
-			INFO("%s: Read: value=0x%llx\n", __func__, (*value & *mask));
+			INFO("%s: Read: value=0x%" PRIx64 "\n", __func__, (*value & *mask));
 		}
 	} else {
 /*
@@ -361,7 +362,7 @@ do {									\
 	} else if (*mask == UINT8_MAX) {				\
 		do_##instr##bw(&rs_value, &rt_value, value);		\
 	} else {							\
-		ERROR("%s: Invalid mask = 0x%llx\n", __func__, *mask);	\
+		ERROR("%s: Invalid mask = 0x%" PRIx64 "\n", __func__, *mask);	\
 		return -1;						\
 	}								\
 } while (0)
@@ -400,7 +401,7 @@ do {									\
 			return -1;
 		}
 		write_gp_reg(ctx_h, mask, rt_id, rt_value);
-		INFO("%s: Atomic op 0x%x: value=0x%llx, rs=0x%llx\n",
+		INFO("%s: Atomic op 0x%x: value=0x%" PRIx64 ", rs=0x%" PRIx64 "\n",
 			 __func__, op, (rt_value & *mask), rs_value & *mask);
 #undef DO_ATOMIC_OPERATION
 	}
@@ -547,7 +548,7 @@ static int do_sel(void *ctx_h, uintptr_t pa, uint64_t *mask, uint8_t *rt_id,
 	}
 
 	update_value(ctx_h, addr, mask, rt_id, rs_id, op);
-	INFO("%s: op 0x%x: blk_id=%d, blk_af_bar2_sel.u=0x%llx\n",
+	INFO("%s: op 0x%x: blk_id=%d, blk_af_bar2_sel.u=0x%" PRIx64 "\n",
 	     __func__, op, blk_id, (*addr & *mask));
 
 	if (!is_sel) {
@@ -600,7 +601,7 @@ static int update_rn(void *ctx_h, uint8_t *rn_id, int16_t *imm)
 	rn_val = read_gp_reg(ctx_h, &rn_mask, rn_id);
 	write_gp_reg(ctx_h, &rn_mask, rn_id, rn_val + *imm);
 
-	INFO("%s: rn_val=0x%llx, imm=0x%x, rn_val+imm=0x%llx\n",
+	INFO("%s: rn_val=0x%" PRIx64 ", imm=0x%x, rn_val+imm=0x%" PRIx64 "\n",
 		 __func__, rn_val, *imm, rn_val + *imm);
 	return 0;
 }
@@ -860,18 +861,18 @@ void octeontx_trap_handler(void *ctx_handle)
 	reg_el3 = read_far_el3();
 	pa = virt_to_phys(reg_el3);
 	if (pa == 0) {
-		ERROR("Invalid PA 0x%llx from EL%lu\n", pa, GET_EL(read_spsr_el3()));
+		ERROR("Invalid PA 0x%" PRIx64 " from EL%lu\n", pa, GET_EL(read_spsr_el3()));
 		panic();
 	}
 
 	/* Extract and validate opcode */
 	reg_el3 = read_cvmtrapopc_el3();
-	INFO("Handling opcode=0x%llx\n", CAVM_TRAPOPC_INSN(reg_el3));
+	INFO("Handling opcode=0x%" PRIx64 "\n", (uint64_t)CAVM_TRAPOPC_INSN(reg_el3));
 	rc = validate_opcode(CAVM_TRAPOPC_INSN(reg_el3), &size_mask, &rt_offset,
 				&rn_offset, &rt2_offset, &imm, &op);
 	if (rc) {
-		ERROR("Unsupported opcode=0x%llx, please contact firmware team\n",
-		      CAVM_TRAPOPC_INSN(reg_el3));
+		ERROR("Unsupported opcode=0x%" PRIx64 ", please contact firmware team\n",
+		      (uint64_t)CAVM_TRAPOPC_INSN(reg_el3));
 		panic();
 	}
 

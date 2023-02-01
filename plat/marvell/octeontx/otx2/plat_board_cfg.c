@@ -4,6 +4,7 @@
  */
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include <limits.h>
 #include <platform_def.h>
 #include <platform_setup.h>
@@ -615,7 +616,7 @@ static void octeontx2_parse_rvu_config(const void *fdt, int *fdt_vfs)
 	}
 
 	/* Parse all subnodes of ECAM0, Domain2 */
-	snprintf(node_name, sizeof(node_name), "pci@%llx",
+	snprintf(node_name, sizeof(node_name), "pci@%" PRIx64 "",
 		(ECAM_PF_BAR2(0) | (2 << 28)));
 	offset = fdt_subnode_offset(fdt, soc_offset, node_name);
 	if (offset < 0) {
@@ -845,7 +846,7 @@ static int octeontx2_fdt_get_bus(const void *fdt, int offset,
 		mdio = octeontx2_fdt_get_uint64(fdt, "reg", node);
 		if (mdio != -1)
 			bus = (mdio & (1 << 7)) ? 1 : 0;
-		debug_dts("CGX%d.LMAC%d: mdio 0x%llx bus %d\n",
+		debug_dts("CGX%d.LMAC%d: mdio 0x%" PRIx64 " bus %d\n",
 				cgx_idx, lmac_idx, mdio, bus);
 	} else if (!strncmp(nodename, "i2c", 3)) {
 		debug_dts("CGX%d.LMAC%d: I2C node\n", cgx_idx, lmac_idx);

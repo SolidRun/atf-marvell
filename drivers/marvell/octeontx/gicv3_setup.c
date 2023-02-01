@@ -8,6 +8,7 @@
 /* GIC driver for OcteonTX (CN8xxx and CN9xxx) */
 
 #include <arch.h>
+#include <inttypes.h>
 #include <platform_def.h>
 #include <octeontx_common.h>
 #include <gicv3_setup.h>
@@ -230,7 +231,7 @@ void octeontx_gic_redistif_probe(uintptr_t *rdistif_addrs,
 		if (proc_num < rdistif_num) {
 			rdistif_addrs[proc_num] = rdistif_base;
 #ifdef DEBUG_GICR
-			VERBOSE("%s Core %d GICR_TYPER: 0x%llx, GICR Base: 0x%llx\n",
+			VERBOSE("%s Core %d GICR_TYPER: 0x%" PRIx64 ", GICR Base: 0x%" PRIx64 "\n",
 				__func__, proc_num, typer_val, rdistif_base_addrs[proc_num]);
 #endif
 		}

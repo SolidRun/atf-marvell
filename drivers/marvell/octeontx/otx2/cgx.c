@@ -36,6 +36,7 @@
 
 #include <arch.h>
 #include <stdio.h>
+#include <inttypes.h>
 #include <string.h>
 #include <limits.h>
 #include <debug.h>
@@ -406,9 +407,9 @@ static int cgx_link_training_wait(int cgx_id, int lmac_id)
 			__func__, cgx_id, lmac_id);
 		return -1;
 	} else
-		debug_cgx("%s: %d:%d Link Training Completed. Completion time: %lld ms\n",
+		debug_cgx("%s: %d:%d Link Training Completed. Completion time: %" PRId64 " ms\n",
 			__func__, cgx_id, lmac_id,
-			((gser_clock_get_count(GSER_CLOCK_TIME) - init_time) *
+			(uint64_t)((gser_clock_get_count(GSER_CLOCK_TIME) - init_time) *
 				1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
 	return 0;
 }
@@ -1206,7 +1207,7 @@ static int cgx_an_hcd_check(int cgx_id, int lmac_id, int training_fail)
 
 	/* Check if we did not have an HCD match. Bit 0 is always 1 */
 	if (an_bp_status.u == 1) {
-		WARN("%s %d:%d Autonegotiation failed to find a match, AN ADV=0x%llx, AN LP BASE= 0x%llx\n",
+		WARN("%s %d:%d Autonegotiation failed to find a match, AN ADV=0x%" PRIx64 ", AN LP BASE= 0x%" PRIx64 "\n",
 				__func__, cgx_id, lmac_id,
 				CSR_READ(CAVM_CGXX_SPUX_AN_ADV(cgx_id, lmac_id)),
 				CSR_READ(CAVM_CGXX_SPUX_AN_LP_BASE(cgx_id, lmac_id)));
@@ -1310,7 +1311,7 @@ static int cgx_an_hcd_check(int cgx_id, int lmac_id, int training_fail)
 			return 1;
 		}
 	}
-	debug_cgx("%s %d:%d AN HCD matched CGX config, AN ADV=0x%llx, AN LP BASE= 0x%llx\n",
+	debug_cgx("%s %d:%d AN HCD matched CGX config, AN ADV=0x%" PRIx64 ", AN LP BASE= 0x%" PRIx64 "\n",
 			  __func__, cgx_id, lmac_id,
 			CSR_READ(CAVM_CGXX_SPUX_AN_ADV(cgx_id, lmac_id)),
 			CSR_READ(CAVM_CGXX_SPUX_AN_LP_BASE(cgx_id, lmac_id)));
@@ -1541,9 +1542,9 @@ static int cgx_autoneg_wait(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ct
 				__func__, cgx_id, lmac_id);
 	}
 
-	debug_cgx("%s: %d:%d AN successfully completed, AN Completion time: %lld ms\n",
+	debug_cgx("%s: %d:%d AN successfully completed, AN Completion time: %" PRId64 " ms\n",
 		__func__, cgx_id, lmac_id,
-		((gser_clock_get_count(GSER_CLOCK_TIME) - init_time) *
+		(uint64_t)((gser_clock_get_count(GSER_CLOCK_TIME) - init_time) *
 		 1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
 	return 0;
 
@@ -1567,13 +1568,13 @@ AN_failure:
 		debug_cgx("%s: %d:%d Number of Next pages transmitted = %d\n"
 			   , __func__, cgx_id, lmac_id, num_pages);
 		for (int i = 0; i < np; i++) {
-			debug_cgx("%s: %d:%d AN Page%d: AN Link Partner Extended Next Page: 0x%llx\n",
+			debug_cgx("%s: %d:%d AN Page%d: AN Link Partner Extended Next Page: 0x%" PRIx64 "\n",
 				__func__, cgx_id, lmac_id, i, lp_xnp[i].u);
-			debug_cgx("%s: %d:%d AN Page%d: AN Extended Next Page Tx: 0x%llx\n"
+			debug_cgx("%s: %d:%d AN Page%d: AN Extended Next Page Tx: 0x%" PRIx64 "\n"
 				, __func__, cgx_id, lmac_id, i, xnp_tx[i].u);
-			debug_cgx("%s: %d:%d AN Page%d: AN Advertisement: 0x%llx\n"
+			debug_cgx("%s: %d:%d AN Page%d: AN Advertisement: 0x%" PRIx64 "\n"
 				, __func__, cgx_id, lmac_id, i, an_adv[i].u);
-			debug_cgx("%s: %d:%d AN Page%d: Link Partner Base Page: 0x%llx\n"
+			debug_cgx("%s: %d:%d AN Page%d: Link Partner Base Page: 0x%" PRIx64 "\n"
 				, __func__, cgx_id, lmac_id, i, lp_base[i].u);
 		}
 	}
@@ -1858,7 +1859,7 @@ int cgx_sgmii_check_an_cpt(int cgx_id, int lmac_id)
 		if (cgx_poll_for_csr(CAVM_CGXX_GMP_PCS_MRX_STATUS(
 			cgx_id, lmac_id), CGX_GMP_PCS_AN_CPT_MASK, 1,
 				CGX_POLL_AN_STATUS)) {
-			debug_cgx("%s: %d:%d SGMII AN not complete 0x%llx\n",
+			debug_cgx("%s: %d:%d SGMII AN not complete 0x%" PRIx64 "\n",
 				__func__, cgx_id, lmac_id,
 			CSR_READ(CAVM_CGXX_GMP_PCS_MRX_STATUS(
 					cgx_id, lmac_id)));
@@ -2787,7 +2788,7 @@ int cgx_sgmii_check_link(int cgx_id, int lmac_id)
 	if (!lmac->autoneg_dis) {
 		if (cgx_poll_for_csr(CAVM_CGXX_GMP_PCS_MRX_STATUS(
 			cgx_id, lmac_id), CGX_GMP_PCS_LNK_ST_MASK, 1, -1)) {
-			debug_cgx("%s: %d:%d SGMII/QSGMII Link is not up 0x%llx\n",
+			debug_cgx("%s: %d:%d SGMII/QSGMII Link is not up 0x%" PRIx64 "\n",
 				__func__, cgx_id, lmac_id,
 			CSR_READ(CAVM_CGXX_GMP_PCS_MRX_STATUS(
 					cgx_id, lmac_id)));
@@ -2802,7 +2803,7 @@ int cgx_sgmii_check_link(int cgx_id, int lmac_id)
 	} else {
 		if (cgx_poll_for_csr(CAVM_CGXX_GMP_PCS_RXX_SYNC(
 			cgx_id, lmac_id), CGX_GMP_PCS_RXX_SYNC_MASK, 1, -1)) {
-			debug_cgx("%s: %d:%d SGMII Link is not up 0x%llx\n",
+			debug_cgx("%s: %d:%d SGMII Link is not up 0x%" PRIx64 "\n",
 				__func__, cgx_id, lmac_id,
 			CSR_READ(CAVM_CGXX_GMP_PCS_RXX_SYNC(
 					cgx_id, lmac_id)));
@@ -3301,9 +3302,9 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 
 			/* Verify if we are passed the link stabilization time */
 			if (gser_clock_get_count(GSER_CLOCK_TIME) >= stabilization_timeout) {
-				debug_cgx("%s: %d:%d Link error timeout %lld us\n",
+				debug_cgx("%s: %d:%d Link error timeout %" PRId64 " us\n",
 					__func__, cgx_id, lmac_id,
-				    ((gser_clock_get_count(GSER_CLOCK_TIME) - initial_time) *
+				    (uint64_t)((gser_clock_get_count(GSER_CLOCK_TIME) - initial_time) *
 					1000000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
 				spux_status1.u = CSR_READ(
 						CAVM_CGXX_SPUX_STATUS1(
@@ -3405,7 +3406,7 @@ int cgx_xaui_get_link(int cgx_id, int lmac_id,
 		} else {
 			result->s.full_duplex = 1;
 			speed = cgx_get_lane_speed(cgx_id, lmac_id);
-			debug_cgx("%s: %d:%d spux_status1 0x%llx, smux_tx_ctl 0x%llx smux_rx_ctl 0x%llx\n",
+			debug_cgx("%s: %d:%d spux_status1 0x%" PRIx64 ", smux_tx_ctl 0x%" PRIx64 " smux_rx_ctl 0x%" PRIx64 "\n",
 				__func__, cgx_id, lmac_id,
 				spux_status1.u, smux_tx_ctl.u, smux_rx_ctl.u);
 			debug_cgx("%s: %d:%d speed obtained %d\n", __func__,
@@ -3425,7 +3426,7 @@ int cgx_xaui_get_link(int cgx_id, int lmac_id,
 			lmac_ctx->s.remote_fault = 0;
 		}
 	} else {
-		debug_cgx("%s: %d:%d spux_status1 0x%llx, smux_tx_ctl 0x%llx smux_rx_ctl 0x%llx\n",
+		debug_cgx("%s: %d:%d spux_status1 0x%" PRIx64 ", smux_tx_ctl 0x%" PRIx64 " smux_rx_ctl 0x%" PRIx64 "\n",
 			__func__, cgx_id, lmac_id,
 			spux_status1.u, smux_tx_ctl.u, smux_rx_ctl.u);
 		uint64_t ber_cnt = 0;
@@ -3456,7 +3457,7 @@ int cgx_xaui_get_link(int cgx_id, int lmac_id,
 					debug_cgx("%s: %d:%d Local Rx fault detected, reinitializing Rx link\n",
 					   __func__, cgx_id, lmac_id);
 				} else
-					debug_cgx("%s: %d:%d Errors detected (err_blk = %lld, ber_cnt = %lld), reinitializing Rx link\n",
+					debug_cgx("%s: %d:%d Errors detected (err_blk = %" PRId64 ", ber_cnt = %" PRId64 "), reinitializing Rx link\n",
 					   __func__, cgx_id, lmac_id, err_blks, ber_cnt);
 			}
 		}

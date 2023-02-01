@@ -6,6 +6,7 @@
  */
 
 #include <debug.h>
+#include <platform_def.h>
 
 #ifndef OCTEONTX_DEBUG_H
 #define OCTEONTX_DEBUG_H

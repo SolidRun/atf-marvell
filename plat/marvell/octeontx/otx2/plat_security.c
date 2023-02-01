@@ -4,6 +4,7 @@
  */
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <debug.h>
 #include <arch.h>
 #include <platform_def.h>
@@ -269,7 +270,7 @@ void octeontx_security_setup(void)
 			  ccs_asc_attr.u);
 #endif
 
-		VERBOSE("Mark memory region %d:: %llx to %llx as %ssecure (%llx)\n",
+		VERBOSE("Mark memory region %d:: %" PRIx64 " to %" PRIx64 " as %ssecure (%" PRIx64 ")\n",
 			region->number,
 			CSR_READ(CAVM_CCS_ASC_REGIONX_START(region->number)),
 			CSR_READ(CAVM_CCS_ASC_REGIONX_END(region->number)) | 0xffffff,
@@ -280,11 +281,11 @@ void octeontx_security_setup(void)
 		end = CSR_READ(CAVM_CCS_ASC_REGIONX_END(region->number)) | 0xffffff;
 		if ((end - start)) {
 			if (region->number == SECURE_PRESERVE)
-				NOTICE("Secure Preserved Memory Region: %llx to %llx (%lldKB)\n",
+				NOTICE("Secure Preserved Memory Region: %" PRIx64 " to %" PRIx64 " (%" PRId64 "KB)\n",
 				       start, end,
 				       ((end - start + 1) / 1024));
 			if (region->number == NSECURE_PRESERVE)
-				NOTICE("Non-Secure Preserved Memory Region: %llx to %llx (%lldKB)\n",
+				NOTICE("Non-Secure Preserved Memory Region: %" PRIx64 " to %" PRIx64 " (%" PRId64 "KB)\n",
 				       start, end,
 				       ((end - start + 1) / 1024));
 		}
@@ -295,7 +296,7 @@ void octeontx_security_setup(void)
 	if (plat_octeontx_bcfg->bert_area.size) {
 		start = plat_octeontx_bcfg->bert_area.base;
 		end = start + plat_octeontx_bcfg->bert_area.size - 1,
-		NOTICE("BERT area: %llx to %llx (%lldKB)\n", start, end,
+		NOTICE("BERT area: %" PRIx64 " to %" PRIx64 " (%" PRId64 "KB)\n", start, end,
 		       ((end - start + 1) / 1024));
 	}
 

@@ -9,6 +9,7 @@
 
 #include <arch.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -252,7 +253,7 @@ static union mdc_ras_entry_s mdc_read_ras_entry(int chain, int hub, int node)
 
 	if (ver != 1) {
 		if (!once)
-			ERROR("Unsupported MDC_RAS_ROM version %llx\n", ver);
+			ERROR("Unsupported MDC_RAS_ROM version %" PRIx64 "\n", ver);
 		once = 1;
 		return leaf;
 	}
@@ -260,15 +261,15 @@ static union mdc_ras_entry_s mdc_read_ras_entry(int chain, int hub, int node)
 	cdex = 1 + chain;
 
 	cbase = mdc_ras_romx(cdex);
-	debug2ras("RAS_ROM[1+c:%x=%x] cbase %llx\n", chain, cdex, cbase);
+	debug2ras("RAS_ROM[1+c:%x=%x] cbase %" PRIx64 "\n", chain, cdex, cbase);
 
 	hdex = cbase + hub;
 	hbase = mdc_ras_romx(hdex);
-	debug2ras("RAS_ROM[cbase+h:%x=%x] hbase %llx\n", hub, hdex, hbase);
+	debug2ras("RAS_ROM[cbase+h:%x=%x] hbase %" PRIx64 "\n", hub, hdex, hbase);
 
 	ndex = hbase + node;
 	leaf.u = mdc_ras_romx(ndex);
-	debug2ras("RAS_ROM[hbase+n:%x=%x] leaf %llx\n", node, ndex, leaf.u);
+	debug2ras("RAS_ROM[hbase+n:%x=%x] leaf %" PRIx64 "\n", node, ndex, leaf.u);
 
 	return leaf;
 }
@@ -358,7 +359,7 @@ static void ccu_read_err(int ccu, int b, union cavm_mdc_ecc_status mes,
 	mtd.u = octeontx_read64(CAVM_CCUX_PIC_MTDX_ERR(ccu, b));
 	if (mtd.s.sbe || mtd.s.dbe) {
 		if (!quiet)
-			printf("CCU%d_PIC_MTD%d_ERR %llx\n", ccu, b, mtd.u);
+			printf("CCU%d_PIC_MTD%d_ERR %" PRIx64 "\n", ccu, b, mtd.u);
 		/* scrub as in HM-B2.1E pp 281 */
 		sys_wbillci(mtd.s.addr & 0x3ff, mes.s.row + 5 * b);
 		octeontx_write64(CAVM_CCUX_PIC_MTDX_ERR(ccu, b), mtd.u);
@@ -366,7 +367,7 @@ static void ccu_read_err(int ccu, int b, union cavm_mdc_ecc_status mes,
 	tag.u = octeontx_read64(CAVM_CCUX_PIC_TAGX_ERR(ccu, b));
 	if (tag.s.parerr) {
 		if (!quiet)
-			printf("CCU%d_PIC_TAG%d_ERR %llx\n", ccu, b, tag.u);
+			printf("CCU%d_PIC_TAG%d_ERR %" PRIx64 "\n", ccu, b, tag.u);
 		octeontx_write64(CAVM_CCUX_PIC_TAGX_ERR(ccu, b), tag.u);
 	}
 	tad.u = octeontx_read64(CAVM_CCUX_TADX_DAT_ERR(ccu, b));
@@ -375,7 +376,7 @@ static void ccu_read_err(int ccu, int b, union cavm_mdc_ecc_status mes,
 		int dtg;
 
 		if (!quiet)
-			printf("CCU%d_TAD%d_DAT_ERR %llx\n", ccu, b, tad.u);
+			printf("CCU%d_TAD%d_DAT_ERR %" PRIx64 "\n", ccu, b, tad.u);
 		octeontx_write64(CAVM_CCUX_TADX_DAT_ERR(ccu, b), tad.u);
 		/* scrub as in HM-B2.1E pp 283
 		 * mes.s.row sufficient to scrub, with dtg=0, way[4]=0.
@@ -411,7 +412,7 @@ static void ccu_read_err(int ccu, int b, union cavm_mdc_ecc_status mes,
 	if (xbf.s.sbe || xbf.s.dbe) {
 		// xbf.s.addr is PA after tad-set aliasing, no scrub needed
 		if (!quiet)
-			debug_ras("CCU%d_TAD%d_XBF_ERR %llx\n", ccu, b, xbf.u);
+			debug_ras("CCU%d_TAD%d_XBF_ERR %" PRIx64 "\n", ccu, b, xbf.u);
 		octeontx_write64(CAVM_CCUX_TADX_XBF_ERR(ccu, b), xbf.u);
 	}
 }
@@ -429,8 +430,8 @@ static void check_lmc_ras(void)
 {
 	int lmc_no;
 
-	debug2ras("MDC_INT_W1C r %llx\n", CSR_READ(CAVM_MDC_INT_W1C));
-	debug2ras("MDC_ECC_STATUS r %llx\n", CSR_READ(CAVM_MDC_ECC_STATUS));
+	debug2ras("MDC_INT_W1C r %" PRIx64 "\n", CSR_READ(CAVM_MDC_INT_W1C));
+	debug2ras("MDC_ECC_STATUS r %" PRIx64 "\n", CSR_READ(CAVM_MDC_ECC_STATUS));
 
 	for (lmc_no = 0; lmc_no < MAX_LMC; lmc_no++) {
 		union cavm_lmcx_ras_err00status stat;
@@ -443,7 +444,7 @@ static void check_lmc_ras(void)
 		if (!stat.s.v)
 			continue;
 
-#define PR(csr)	debug_ras("%d " #csr " r %llx\n", \
+#define PR(csr)	debug_ras("%d " #csr " r %" PRIx64 "\n", \
 			lmc_no, CSR_READ(csr(lmc_no)))
 		PR(CAVM_LMCX_RAS_ERR00STATUS);
 		PR(CAVM_LMCX_RAS_ERR00FR);
@@ -471,7 +472,7 @@ static int check_cn9xxx_mdc(union cavm_mdc_ecc_status st, int dont_report)
 	quiet = dont_report;
 
 	if (!quiet)
-		INFO("%s: ecc_status:%llx chn %d.%d.%d row %d"
+		INFO("%s: ecc_status:%" PRIx64 " chn %d.%d.%d row %d"
 			" db:%d%s sb%d%s\n",
 			__func__, st.u,
 			st.s.chain_id, st.s.hub_id, st.s.node_id, st.s.row,
@@ -519,7 +520,7 @@ static int check_cn9xxx_mdc(union cavm_mdc_ecc_status st, int dont_report)
 		cmd.s.csr_id = MDN_BIST_CONFIG;
 		dat = mdn_rd(cmd);
 		if (dat.s.data != 0xf0 && !bist_once) {
-			debug2ras("MDN_BIST_CONFIG %llx"
+			debug2ras("MDN_BIST_CONFIG %" PRIx64 ""
 				", k:%x a:%x c:%x hlt:%x bc:%x\n",
 				dat.u,
 				(dat.s.data >> 13) & 0x3,
@@ -661,7 +662,7 @@ uint64_t otx2_mdc_isr(uint32_t id, uint32_t flags, void *cookie)
 		static int seen;
 
 		if (id && ++seen && !(seen & (seen - 1)))
-			debug_ras("%s(%x) st:%llx #%d\n", __func__, id,
+			debug_ras("%s(%x) st:%" PRIx64 " #%d\n", __func__, id,
 				CSR_READ(CAVM_MDC_ECC_STATUS), seen);
 		if (!mdc_int)
 			return 0;
@@ -770,7 +771,7 @@ static void ras_log_regions(void)
 
 		if (!(r_start.u | r_attr.u | r_off.u | r_end.u))
 			continue;
-		debug_ras("ASC.R%d %llx..%llx o:%x wt%d"
+		debug_ras("ASC.R%d %" PRIx64 "..%" PRIx64 " o:%x wt%d"
 			" lmc(mo:%x ma:%x) s%d ns%d\n",
 			r, a_start, a_end,
 			(int)r_off.s.offset,
@@ -844,7 +845,7 @@ static int ras_init_mccs(void)
 			r = CAVM_CCUX_TADX_INT_ENA_W1C(ccu, b);
 			octeontx_write64(r, ~0ull);
 
-			debug_ras("Registering CCU%d_TAD%lld irq handlers\n", ccu, b);
+			debug_ras("Registering CCU%d_TAD%" PRId64 " irq handlers\n", ccu, b);
 			vaddr = CAVM_CCUX_MSIX_VECX_ADDR(ccu, b);
 			vctl = CAVM_CCUX_MSIX_VECX_CTL(ccu, b);
 			octeontx_write64(vaddr, ctl);
@@ -932,7 +933,7 @@ int64_t plat_ras_mdc_rw(u_register_t x2, u_register_t x3, u_register_t x4)
 	if (!w) {
 		rsp = mdn_rd(cmd);
 		if (rsp.u != rsp_last)
-			printf("%d.%d.%d.%x %llx\n", c, h, n, r, rsp.u);
+			printf("%d.%d.%d.%x %" PRIx64 "\n", c, h, n, r, rsp.u);
 		rsp_last = rsp.u;
 		return rsp.u;
 	}

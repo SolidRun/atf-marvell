@@ -7,6 +7,7 @@
 
 /* Timer driver which implements hw_timers.h API for OcteonTX (CN8xxx and CN9xxx) */
 
+#include <inttypes.h>
 #include <bl_common.h>
 #include <bl31/interrupt_mgmt.h>
 #include <stdio.h>
@@ -104,7 +105,7 @@ uint64_t plat_timer_irq_handler(uint32_t id, uint32_t flags, void *cookie)
 
 #ifdef DEBUG_TIMERS
 	__asm__ volatile("mrs %[val], cntpct_el0" : [val] "=r" (cval2));
-	printf("%s: COUNT diff  %lld\n", __func__, cval2 - cval1);
+	printf("%s: COUNT diff  %" PRId64 "\n", __func__, cval2 - cval1);
 #endif
 
 	return 0;

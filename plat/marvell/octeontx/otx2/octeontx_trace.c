@@ -6,6 +6,7 @@
  */
 
 #include <stdint.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <assert.h>
 #include <platform_def.h>
@@ -76,7 +77,7 @@ static inline bool is_address_region_nsec_npres(uint64_t addr, uint64_t size)
 	outside = IS_ADDR_OUTSIDE_BOUNDARY(addr, size,
 					nsec_npres, nsec_npres_end);
 	if (outside) {
-		INFO("%s: address 0x%llx, size 0x%llx outside nsec_npres\n",
+		INFO("%s: address 0x%" PRIx64 ", size 0x%" PRIx64 " outside nsec_npres\n",
 		     __func__, addr, size);
 		return false;
 	} else
@@ -91,7 +92,7 @@ static inline bool is_address_region_arm_tracebuf(uint64_t addr, uint64_t size)
 	outside = IS_ADDR_OUTSIDE_BOUNDARY(addr, size,
 					arm_tracebuf, arm_tracebuf_end);
 	if (outside) {
-		INFO("%s: address 0x%llx, size 0x%llx outside tracebuffer\n",
+		INFO("%s: address 0x%" PRIx64 ", size 0x%" PRIx64 " outside tracebuffer\n",
 		     __func__, addr, size);
 		return false;
 	} else
@@ -202,7 +203,7 @@ void plat_armtrace_init(void)
 		}
 
 		arm_tracebuf_end = arm_tracebuf + arm_tracebuf_size - 1;
-		INFO("ARM trace buffer start = 0x%llx, size = 0x%llx\n",
+		INFO("ARM trace buffer start = 0x%" PRIx64 ", size = 0x%" PRIx64 "\n",
 		       arm_tracebuf, arm_tracebuf_size);
 	}
 
@@ -211,7 +212,7 @@ void plat_armtrace_init(void)
 	if (!size)
 		goto err;
 	nsec_npres_end = nsec_npres + size - 1;
-	INFO("NS non preserve start = 0x%llx, size = 0x%llx\n",
+	INFO("NS non preserve start = 0x%" PRIx64 ", size = 0x%" PRIx64 "\n",
 		       nsec_npres, size);
 
 	/* We do not have any concurrent callers here since this
@@ -263,7 +264,7 @@ int arm_trace_register_drvbuf(uint64_t address, uint64_t size)
 
 	if (octeontx_mmap_add_dynamic_region_with_sync(address, address, size,
 						MT_MEMORY | MT_RW | MT_NS)) {
-		INFO("%s: NS address 0x%llx, size 0x%llx map failure\n",
+		INFO("%s: NS address 0x%" PRIx64 ", size 0x%" PRIx64 " map failure\n",
 			__func__, address, size);
 		return SMC_UNK;
 	}
@@ -277,7 +278,7 @@ int arm_trace_unregister_drvbuf(uint64_t address, uint64_t size)
 		return SMC_UNK;
 
 	if (octeontx_mmap_remove_dynamic_region_with_sync(address, size)) {
-		INFO("%s: NS address 0x%llx, size 0x%llx unmap failure\n",
+		INFO("%s: NS address 0x%" PRIx64 ", size 0x%" PRIx64 " unmap failure\n",
 			__func__, address, size);
 		return SMC_UNK;
 	}

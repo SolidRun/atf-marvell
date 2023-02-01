@@ -6,6 +6,7 @@
  */
 
 #include <debug.h>
+#include <inttypes.h>
 #include <runtime_svc.h>
 #include <octeontx_svc.h>
 #include <platform_svc.h>
@@ -20,7 +21,7 @@ int marvell_cust_sec_update(uint64_t addr, uint64_t size)
 
 int marvell_cust_sec_update(uint64_t addr, uint64_t size)
 {
-	ERROR("marvell_cust_sec_update not implemented, addr: 0x%llx, size: 0x%llx\n",
+	ERROR("marvell_cust_sec_update not implemented, addr: 0x%" PRIx64 ", size: 0x%" PRIx64 "\n",
 		addr,
 		size);
 	return 0;

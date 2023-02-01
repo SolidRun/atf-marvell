@@ -116,7 +116,7 @@
 
 #define UAAX_PF_BAR0(x)		CAVM_UAA_BAR_E_UAAX_PF_BAR0_CN9(x)
 
-#define ECAM_PF_BAR2(x)		CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_CN9(x)
+#define ECAM_PF_BAR2(x)		(uint64_t) CAVM_ECAM_BAR_E_ECAMX_PF_BAR2_CN9(x)
 
 /* Priority levels for OcteonTX platforms */
 #if SDEI_SUPPORT

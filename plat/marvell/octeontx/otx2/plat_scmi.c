@@ -5,6 +5,7 @@
  * https://spdx.org/licenses
  */
 
+#include <platform_def.h>
 #include <arch_helpers.h>
 #include <string.h>
 #include <limits.h>

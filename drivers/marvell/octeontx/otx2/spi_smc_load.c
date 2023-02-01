@@ -6,6 +6,7 @@
  */
 
 #include <stdint.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <string.h>
 #include <spi.h>
@@ -121,7 +122,7 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 
 	memset(hdr, 0, TIM_BLOCK_MAX_SIZE);
 
-	debug_spi_nor("SPI: bus:0x%llx cs:0x%llx\n", bus, cs);
+	debug_spi_nor("SPI: bus:0x%" PRIx64 " cs:0x%" PRIx64 "\n", bus, cs);
 	/* Init Secure SPI */
 	/* FIXME */
 	/* Need to parse FDT to config SPI */
@@ -191,7 +192,7 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 		err = -ENOENT;
 		goto err;
 	}
-	debug_spi_nor("%s %s %llx %x\n", __func__, file, tim_info.src_address,
+	debug_spi_nor("%s %s %" PRIx64 " %x\n", __func__, file, tim_info.src_address,
 		      tim_info.image_length);
 
 	addr += tim_info.src_address;
@@ -304,7 +305,7 @@ int spi_smc_write(uintptr_t efi_buf, uint64_t efi_size,
 		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
 
 		if (spi_nor_erase(offset, mode, bus, cs)) {
-			WARN("SPI: Erase flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
@@ -312,14 +313,14 @@ int spi_smc_write(uintptr_t efi_buf, uint64_t efi_size,
 
 		if (spi_nor_write(wr_buffer, BUF_SIZE, offset,
 				  mode, bus, cs) < 0) {
-			WARN("SPI: Write flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Write flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
 		}
 		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
 				 mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     offset);
 			ret = -1;
 			break;
@@ -402,7 +403,7 @@ unsigned long spi_smc_read(uintptr_t efi_buf, uint64_t *efi_size,
 		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
 		if (spi_nor_read(rd_buffer, xfer_len, offset,
 				 mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
 				offset);
 			ret = -1;
 			break;

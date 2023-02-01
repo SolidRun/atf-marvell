@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <string.h>
 #include <octeontx_ecam.h>
 #include <platform_irqs_def.h>
@@ -70,11 +71,11 @@ static int is_qlm_configured_as_cgx(int qlm)
 	return 0;
 }
 
-static int ecam_probe_cgx(unsigned long long arg)
+static int ecam_probe_cgx(uint64_t arg)
 {
 	int qlm;
 
-	debug_plat_ecam("%s arg %lld\n", __func__, arg);
+	debug_plat_ecam("%s arg %" PRId64 "\n", __func__, arg);
 
 	/* cgx to qlm mapping.
 	 * CGX0 - QLM9
@@ -100,7 +101,7 @@ static void init_gpio(uint64_t config_base, uint64_t config_size)
 {
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
 
-	debug_plat_ecam("GPIO init called config_base:%llx size:%llx\n",
+	debug_plat_ecam("GPIO init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 			config_base, config_size);
 
 	/* Block can have mix of secure and non-secure MSI-X interrupts */
@@ -147,7 +148,7 @@ static void init_cgx(uint64_t config_base, uint64_t config_size)
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
 	cgx_id = vsec_ctl.s.inst_num;
 
-	debug_plat_ecam("CGX(%d): init config_base:%llx size:%llx\n",
+	debug_plat_ecam("CGX(%d): init config_base:%" PRIx64 " size:%" PRIx64 "\n",
 		vsec_ctl.s.inst_num, config_base, config_size);
 
 	cgx_hw_init(cgx_id);
@@ -167,7 +168,7 @@ static void init_scp(uint64_t config_base, uint64_t config_size)
 	if (config_base & 0xffff)
 		return;
 
-	debug_plat_ecam("SCP init called config_base:%llx size:%llx\n",
+	debug_plat_ecam("SCP init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 		 config_base, config_size);
 
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
@@ -189,7 +190,7 @@ static void init_scp(uint64_t config_base, uint64_t config_size)
 	if (table_size && (table_size > 2)) {
 		vector_base = get_bar_val(pconfig, bir);
 		debug_plat_ecam("table_size: %x bir:%1x\n", table_size, bir);
-		debug_plat_ecam("MSI-X vector base: %llx\n", vector_base);
+		debug_plat_ecam("MSI-X vector base: %" PRIx64 "\n", vector_base);
 
 		for (i = 0; i < table_size; i++) {
 			/* Ensure the interrupt is not pending ! */
@@ -197,7 +198,7 @@ static void init_scp(uint64_t config_base, uint64_t config_size)
 			octeontx_write64(vector_base, CAVM_GICD_SETSPI_NSR);
 			vector_base += 8;
 			msg = SCP_SPI_IRQ(i);
-			debug_plat_ecam("SCP: vect: %d addr: %llx irq: %llu\n",
+			debug_plat_ecam("SCP: vect: %d addr: %" PRIx64 " irq: %" PRIu64 "\n",
 					i, CAVM_GICD_SETSPI_NSR, msg);
 			octeontx_write64(vector_base, msg);
 			vector_base += 8;

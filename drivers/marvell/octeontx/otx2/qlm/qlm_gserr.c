@@ -3,6 +3,7 @@
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
+#include <inttypes.h>
 #include <gser_internal.h>
 #include <qlm/qlm.h>
 #include <qlm/qlm_gserr.h>
@@ -2218,8 +2219,9 @@ int qlm_gserr_eye_capture(int qlm, int lane, int show_data, qlm_eye_t *eye_data)
 			break;
 	}
 
-	printf("GSERR%d.%d: Measured TX bit rate %llu.%llu MHz\n", qlm, lane,
-		hz / 1000000, ((hz + 500) / 1000) % 1000);
+	printf("GSERR%d.%d: Measured TX bit rate %" PRIu64 ".%" PRIu64 " MHz\n", qlm, lane,
+			(uint64_t)hz / 1000000,
+			(uint64_t)((hz + 500) / 1000) % 1000);
 
 	GSER_CSR_INIT(bsts, CAVM_GSERRX_LANEX_STATUS_BSTS(qlm, lane));
 	if (bsts.s.ln_stat_los)
@@ -2302,7 +2304,7 @@ int qlm_gserr_eye_capture(int qlm, int lane, int show_data, qlm_eye_t *eye_data)
 			uint64_t sample = get_eye_sample(&eye_state);
 			eye_data->data[y][x] = sample;
 			if (show_data)
-				printf("%5d %5d %llu\n", y * y_step + y_min, x * x_step + x_min, sample);
+				printf("%5d %5d %" PRIu64 "\n", y * y_step + y_min, x * x_step + x_min, sample);
 		}
 	}
 	/* Need one more data fetch */

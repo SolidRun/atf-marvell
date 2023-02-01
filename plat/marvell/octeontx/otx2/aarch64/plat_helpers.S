@@ -37,7 +37,7 @@ func octeontx_io_trap_handler
 	 * If Secure Cycle Counter is not disabled in MDCR_EL3 when
 	 * ARMv8.5-PMU is implemented, save PMCR_EL0 and disable Cycle Counter.
 	 */
-	bl	save_gp_pmcr_pauth_regs
+	bl	prepare_el3_entry
 
 	mov	x0, sp
 

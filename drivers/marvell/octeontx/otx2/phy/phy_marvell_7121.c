@@ -7,6 +7,7 @@
 
 #include <arch.h>
 #include <stdio.h>
+#include <inttypes.h>
 #include <debug.h>
 #include <drivers/delay_timer.h>
 #include <platform_def.h>
@@ -1695,7 +1696,7 @@ static int phy_marvell_7121_pktgen_config(int cgx_id,
 							&pktCount,
 							&byteCount));
 
-			printf("PKTGEN: TxPktCount:%llu TxByteCount:%llu\n",
+			printf("PKTGEN: TxPktCount:%" PRIu64 " TxByteCount:%" PRIu64 "\n",
 				pktCount, byteCount);
 
 			MZD_ATTEMPT(mzdPktGeneratorGetCounter(pDev,
@@ -1706,7 +1707,7 @@ static int phy_marvell_7121_pktgen_config(int cgx_id,
 							&pktCount,
 							&byteCount));
 
-			printf("PKTGEN: RxPktCount:%llu RxByteCount:%llu\n",
+			printf("PKTGEN: RxPktCount:%" PRIu64 " RxByteCount:%" PRIu64 "\n",
 				pktCount, byteCount);
 
 			MZD_ATTEMPT(mzdPktGeneratorGetCounter(pDev,
@@ -1717,7 +1718,7 @@ static int phy_marvell_7121_pktgen_config(int cgx_id,
 							&pktCount,
 							&byteCount));
 
-			printf("PKTGEN: ErrorPktCount:%llu\n",
+			printf("PKTGEN: ErrorPktCount:%" PRIu64 "\n",
 				pktCount);
 
 		}
@@ -1933,9 +1934,9 @@ static uint64_t phy_marvell_7121_get_prbs_errors(int cgx_id, int lmac_id,
 				&rxBitErrorCount));
 
 	printf("%s side PRBS stats:\n"
-		"txBitCount:%llu\n"
-		"rxBitCount:%llu\n"
-		"rxBitErrorCount:%llu\n",
+		"txBitCount:%" PRIu64 "\n"
+		"rxBitCount:%" PRIu64 "\n"
+		"rxBitErrorCount:%" PRIu64 "\n",
 		host_side ? "Host" : "Line", txBitCount, rxBitCount, rxBitErrorCount);
 
 	if (host_side) {

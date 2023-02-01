@@ -8,6 +8,7 @@
 /* MMC driver for OcteonTX (CN8xxx and CN9xxx) */
 
 #include <stdint.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <string.h>
 #include <platform_def.h>
@@ -271,8 +272,8 @@ static uint64_t mio_emm_cmd(uint32_t cmd_idx, uint32_t ctype_xor,
 		    cmd_idx != MMC_CMD_SET_DSR) {
 			if (!suppress_warning) {
 				ERROR("MMC: No valid response\n"
-					"              cmd     = 0x%016llx\n"
-					"              rsp_sts = 0x%016llx\n",
+					"              cmd     = 0x%016" PRIx64 "\n"
+					"              rsp_sts = 0x%016" PRIx64 "\n",
 					cmd, emm_rsp_sts);
 			}
 
@@ -352,11 +353,10 @@ static int sdmmc_rw_block(int write, uint64_t addr, uint32_t blk_cnt,
 
 			dma_retry_count++;
 			INFO("MMC: DMA error, retry %d\n"
-				"                rsp_sts: 0x%016llx\n"
-				"                rsp_lo : 0x%016llx\n",
+				"                rsp_sts: 0x%016" PRIx64 "\n"
+				"                rsp_lo : 0x%016" PRIx64 "\n",
 				dma_retry_count, emm_rsp_sts,
-				(unsigned long long)CSR_READ(
-							CAVM_MIO_EMM_RSP_LO));
+				(uint64_t)CSR_READ(CAVM_MIO_EMM_RSP_LO));
 			print_rsp_sts_errors(emm_rsp_sts, 0);
 			mio_emm_dma = CSR_READ(CAVM_MIO_EMM_DMA);
 			mio_emm_dma = MIO_EMM_DMA_SET_DMA_VAL(mio_emm_dma);
@@ -409,7 +409,7 @@ static int sdmmc_rw_data(int write, unsigned int addr, int size, uintptr_t buf)
 
 	if (mmc_drv.sector_mode &&
 	   (uint64_t)addr + size > UINT32_MAX * (uint64_t)mmc_drv.sector_size) {
-		WARN("Range 0x%llx - 0x%llx is to big for sector mode card\n",
+		WARN("Range 0x%" PRIx64 " - 0x%" PRIx64 " is to big for sector mode card\n",
 			(uint64_t)addr, (uint64_t)addr + size);
 
 		return -2;
@@ -417,7 +417,7 @@ static int sdmmc_rw_data(int write, unsigned int addr, int size, uintptr_t buf)
 
 	if (!mmc_drv.sector_mode &&
 	   (uint64_t)addr + size > SIZE_2GB) {
-		WARN("Range 0x%llx - 0x%llx is to big for byte mode card\n",
+		WARN("Range 0x%" PRIx64 " - 0x%" PRIx64 " is to big for byte mode card\n",
 			(uint64_t)addr, (uint64_t)addr + size);
 
 		return -3;

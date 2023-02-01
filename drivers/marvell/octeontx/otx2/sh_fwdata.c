@@ -8,6 +8,7 @@
 /* SH FW DATA management driver for OcteonTX2 */
 
 #include <stdio.h>
+#include <inttypes.h>
 #include <string.h>
 #include <arch.h>
 #include <platform_def.h>
@@ -167,7 +168,7 @@ void sh_fwdata_update_supported_fec(int cgx_id, int lmac_id)
 
 	fwdata->supported_fec = val;
 	fwdata->rw_valid = 1;
-	debug_shmem_mgmt("%s: %d:%d fwdata->supported_fec %llx\n", __func__,
+	debug_shmem_mgmt("%s: %d:%d fwdata->supported_fec %" PRIx64 "\n", __func__,
 						cgx_id,
 						lmac_id, fwdata->supported_fec);
 }
@@ -221,7 +222,7 @@ void sh_fwdata_set_supported_link_modes(int cgx_id, int lmac_id)
 	fwdata = get_sh_cgx_fwdata_ptr(cgx_id, lmac_id);
 
 	fwdata->supported_link_modes = lmac_cfg->supported_link_modes;
-	debug_shmem_mgmt("%s: %d:%d supported link mode 0x%llx\n", __func__,
+	debug_shmem_mgmt("%s: %d:%d supported link mode 0x%" PRIx64 "\n", __func__,
 			cgx_id, lmac_id,
 			fwdata->supported_link_modes);
 }

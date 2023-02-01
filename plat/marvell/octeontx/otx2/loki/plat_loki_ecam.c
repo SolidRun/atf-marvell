@@ -10,6 +10,7 @@
 #include <debug.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <string.h>
 #include <octeontx_ecam.h>
 #include <plat_board_cfg.h>
@@ -73,9 +74,9 @@ static int is_qlm_configured_as_cgx(int qlm)
 	return 0;
 }
 
-static int ecam_probe_cgx(unsigned long long arg)
+static int ecam_probe_cgx(uint64_t arg)
 {
-	debug_plat_ecam("%s arg %lld\n", __func__, arg);
+	debug_plat_ecam("%s arg %" PRId64 "\n", __func__, arg);
 
 	/* cgx to qlm mapping.
 	 * CGX0 - QLM1
@@ -108,7 +109,7 @@ static void init_gpio(uint64_t config_base, uint64_t config_size)
 {
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
 
-	debug_plat_ecam("GPIO init called config_base:%llx size:%llx\n",
+	debug_plat_ecam("GPIO init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 			config_base, config_size);
 
 	/* Block can have mix of secure and non-secure MSI-X interrupts */
@@ -142,7 +143,7 @@ static void init_cgx(uint64_t config_base, uint64_t config_size)
 	vsec_ctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_CTL);
 	cgx_id = vsec_ctl.s.inst_num;
 
-	debug_plat_ecam("CGX(%d): init config_base:%llx size:%llx\n",
+	debug_plat_ecam("CGX(%d): init config_base:%" PRIx64 " size:%" PRIx64 "\n",
 		vsec_ctl.s.inst_num, config_base, config_size);
 
 	cgx = &(plat_octeontx_bcfg->cgx_cfg[cgx_id]);
@@ -161,7 +162,7 @@ static void init_bphy(uint64_t config_base, uint64_t config_size)
 	uint8_t bir = 0;
 	uint16_t tbl_sz = 0;
 
-	debug_plat_ecam("BPHY init called config_base:%llx size:%llx\n",
+	debug_plat_ecam("BPHY init called config_base:%" PRIx64 " size:%" PRIx64 "\n",
 			config_base, config_size);
 
 	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
@@ -173,7 +174,7 @@ static void init_bphy(uint64_t config_base, uint64_t config_size)
 	enable_msix(config_base, pconfig->cap_pointer, &tbl_sz, &bir);
 	if (tbl_sz) {
 		debug_plat_ecam("tbl sz: %x, bir:%x\n", tbl_sz, bir);
-		debug_plat_ecam("MSI-X vector base: %llx\n",
+		debug_plat_ecam("MSI-X vector base: %" PRIx64 "\n",
 				get_bar_val(pconfig, bir));
 	}
 }

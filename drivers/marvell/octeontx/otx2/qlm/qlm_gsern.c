@@ -8,6 +8,7 @@
 * SPDX-License-Identifier: BSD-3-Clause
 * https://spdx.org/licenses
 ***********************license end**************************************/
+#include <inttypes.h>
 #include <gser_internal.h>
 #include <qlm/qlm.h>
 #include <qlm/qlm_gsern.h>
@@ -840,7 +841,7 @@ void qlm_display_settings_gsern(int qlm, int qlm_lane, bool show_tx, bool show_r
 			train_0_bcfg.s.cgx_dual, train_5_bcfg.s.raw_fom,
 			train_5_bcfg.s.filtered_fom, train_1_bcfg.s.rxt_fom,
 			train_10_bcfg.s.fom_type);
-		printf("	ERR_CNT_DIV_OVRRD_VAL=%d, ERR_CNT_DIV_OVRRD_EN=%d, EYE_CNT_OVRRD_EN=%d, EYE_CNT_OVRRD_VAL=0x%llx\n",
+		printf("	ERR_CNT_DIV_OVRRD_VAL=%d, ERR_CNT_DIV_OVRRD_EN=%d, EYE_CNT_OVRRD_EN=%d, EYE_CNT_OVRRD_VAL=0x%" PRIx64 "\n",
 			train_4_bcfg.s.err_cnt_div_ovrrd_val, train_4_bcfg.s.err_cnt_div_ovrrd_en, train_4_bcfg.s.eye_cnt_ovrrd_en,
 			(uint64_t)train_4_bcfg.s.eye_cnt_ovrrd_val);
 		printf("	LD_RECEIVER_RDY=%d, FIFO_PSH_POP_OS=%d\n",

@@ -9,6 +9,7 @@
 
 #include <arch.h>
 #include <cassert.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <debug.h>
 #include <string.h>
@@ -187,7 +188,7 @@ static int cgx_get_mode_for_qlm_mode(int qlm_mode)
 			break;
 		}
 	}
-	debug_cgx_intf("%s: mode 0x%llx qlm_mode %d\n", __func__,
+	debug_cgx_intf("%s: mode 0x%" PRIx64 " qlm_mode %d\n", __func__,
 		       bitmask, qlm_mode);
 	if (bitmask)
 		mode = __builtin_ffsl(bitmask) - 1; /* enum starts at 0 */
@@ -690,13 +691,13 @@ retry_link:
 				signal_detect = 1;
 				current_time = gser_clock_get_count(GSER_CLOCK_TIME);
 				/* Rx Signal Detect Time may be off by as much as 10ms */
-				debug_cgx_intf("%s: %d:%d Rx Signal Detect Time:%lld ms\n",
+				debug_cgx_intf("%s: %d:%d Rx Signal Detect Time:%" PRId64 " ms\n",
 					       __func__, cgx_id, lmac_id,
-					       ((rx_link_time - initial_time) *
+					       (uint64_t)((rx_link_time - initial_time) *
 						1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
-				debug_cgx_intf("%s: %d:%d Rx Link Up Time:%lld ms\n",
+				debug_cgx_intf("%s: %d:%d Rx Link Up Time:%" PRId64 " ms\n",
 					       __func__, cgx_id, lmac_id,
-					       ((current_time - initial_time) *
+					       (uint64_t)((current_time - initial_time) *
 						1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
 				rx_link_time = current_time;
 			}
@@ -729,13 +730,13 @@ retry_link:
 			 * poll timer to start polling for link
 			 */
 			current_time = gser_clock_get_count(GSER_CLOCK_TIME);
-			debug_cgx_intf("%s: %d:%d Remote Fault Clear Time:%lld ms\n",
+			debug_cgx_intf("%s: %d:%d Remote Fault Clear Time:%" PRId64 " ms\n",
 				       __func__, cgx_id, lmac_id,
-				       ((current_time - rx_link_time) *
+				       (uint64_t)((current_time - rx_link_time) *
 					1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
-			debug_cgx_intf("%s: %d:%d Total Link Up Time:%lld ms\n",
+			debug_cgx_intf("%s: %d:%d Total Link Up Time:%" PRId64 " ms\n",
 				       __func__, cgx_id, lmac_id,
-				       ((current_time - initial_time) *
+				       (uint64_t)((current_time - initial_time) *
 					1000 / gser_clock_get_rate(GSER_CLOCK_TIME)));
 			lmac_ctx->s.link_up = link.s.link_up;
 			lmac_ctx->s.full_duplex = link.s.full_duplex;
@@ -901,7 +902,7 @@ static int cgx_get_lmac_type_for_req_mode(uint64_t req_mode)
 			break;
 		}
 	}
-	debug_cgx_intf("%s: req_mode %lld mode %d\n", __func__,
+	debug_cgx_intf("%s: req_mode %" PRId64 " mode %d\n", __func__,
 			req_mode, lmac_mode);
 	return lmac_mode;
 }
@@ -916,7 +917,7 @@ static int cgx_get_training_for_mode(uint64_t req_mode)
 			break;
 		}
 	}
-	debug_cgx_intf("%s: req_mode %lld use_training %d\n", __func__,
+	debug_cgx_intf("%s: req_mode %" PRId64 " use_training %d\n", __func__,
 			req_mode, use_training);
 	return use_training;
 }
@@ -944,7 +945,7 @@ static int cgx_get_qlm_mode_for_req_mode(uint64_t req_mode)
 			break;
 		}
 	}
-	debug_cgx_intf("%s: req_mode 0x%llx qlm_mode %d\n", __func__,
+	debug_cgx_intf("%s: req_mode 0x%" PRIx64 " qlm_mode %d\n", __func__,
 			req_mode, qlm_mode);
 	return qlm_mode;
 }
@@ -987,13 +988,13 @@ static int cgx_check_speed_change_allowed(int cgx_id, int lmac_id, int new_mode,
 	cgx_lmac_config_t *lmac_cfg;
 	int new_lc;
 
-	debug_cgx_intf("%s: %d:%d mode_bitmask 0x%llx\n",
+	debug_cgx_intf("%s: %d:%d mode_bitmask 0x%" PRIx64 "\n",
 		__func__, cgx_id, lmac_id, mode_bitmask);
 	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 
 	/* Check if mode is in the supported link modes */
 	if (!(mode_bitmask & lmac_cfg->supported_link_modes)) {
-		debug_cgx_intf("%s: bitmask 0x%llx link_mode 0x%llx\n",
+		debug_cgx_intf("%s: bitmask 0x%" PRIx64 " link_mode 0x%" PRIx64 "\n",
 			__func__, mode_bitmask,
 			lmac_cfg->supported_link_modes);
 		return 0;
@@ -1361,7 +1362,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 		(IS_OCTEONTX_VAR(read_midr(), F95PARTNUM, 1)))
 		is_gsern = true;
 
-	debug_cgx_intf("%s: %d:%d speed %d req_speed %d req_an %d req_duplex %d req_mode 0x%llx\n",
+	debug_cgx_intf("%s: %d:%d speed %d req_speed %d req_an %d req_duplex %d req_mode 0x%" PRIx64 "\n",
 				__func__, cgx_id, lmac_id, lmac_ctx->s.speed,
 					req_speed, req_an, req_duplex, req_mode);
 
@@ -2787,7 +2788,7 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 	} else
 		lmac_cfg->supported_link_modes = 0;
 
-	debug_cgx_intf("%s: %d:%d link_modes 0x%llx\n",
+	debug_cgx_intf("%s: %d:%d link_modes 0x%" PRIx64 "\n",
 			__func__, cgx_id, lmac_id,
 			lmac_cfg->supported_link_modes);
 

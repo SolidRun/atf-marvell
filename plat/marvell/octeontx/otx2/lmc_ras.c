@@ -9,6 +9,7 @@
 
 #include <arch.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -274,7 +275,7 @@ uint64_t ras_ccs_reverse_lmc_hash(uint64_t _pa_no_lr_hash,
 	pa_no_lr = _pa_no_lr_hash & ~(0xfff);
 	lmc_hash = (_pa_no_lr_hash >> 8) & 0xf;
 
-	debug2ras("%-40s: 0x%016llx\n", "pre pa_no_lr", pa_no_lr);
+	debug2ras("%-40s: 0x%016" PRIx64 "\n", "pre pa_no_lr", pa_no_lr);
 	debug2ras("%-40s: 0x%x\n", "lmc_hash", lmc_hash);
 
 	for (i = 0; i < 4; i++) {
@@ -1144,7 +1145,7 @@ static inline uint64_t virt_to_phys(uint64_t uaddr)
 	/* Determine from which EL exception came */
 	elx = GET_EL(read_spsr_el3());
 
-	debug_ras("%s(%llx EL%d) -> vttbr_el2:%lx ...\n",
+	debug_ras("%s(%" PRIx64 " EL%d) -> vttbr_el2:%lx ...\n",
 		__func__, uaddr, elx, read_vttbr_el2());
 
 	if (elx == MODE_EL3)
@@ -1176,9 +1177,9 @@ static inline uint64_t virt_to_phys(uint64_t uaddr)
 	/* Extract Physical Address from PAR */
 	pa = (par & (PAR_ADDR_MASK << PAR_ADDR_SHIFT));
 
-	debug_ras("%s(%llx EL%d) -> vttbr_el2:%d pa:%llx f:%llx par:%llx\n",
+	debug_ras("%s(%" PRIx64 " EL%d) -> vttbr_el2:%d pa:%" PRIx64 " f:%" PRIx64 " par:%" PRIx64 "\n",
 		__func__, uaddr, elx, !!read_vttbr_el2(), pa,
-		(par & PAR_F_MASK), par);
+		(uint64_t)(par & PAR_F_MASK), par);
 	/* If the translation resulted in fault, return failure */
 	if ((par & PAR_F_MASK) != 0)
 		return -1;
@@ -1226,9 +1227,9 @@ static int ccs_lmc_hash(uint64_t pa_no_lr, int pa_right, uint64_t *adr_mcs,
 			lmc_hash |= __rxor((adr_mcs[i] & pa_no_lr) >> 8) << i;
 
 		lmc_hash |= ((pa_no_lr & ~0xfffull) >> 8);
-		debug_ras("%-40s: 0x%llx\n", "pa_no_lr", pa_no_lr);
+		debug_ras("%-40s: 0x%" PRIx64 "\n", "pa_no_lr", pa_no_lr);
 		debug_ras("%-40s: 0x%x\n", "pa_right", pa_right);
-		debug_ras("%-40s: 0x%llx\n", "lmc_hash", lmc_hash);
+		debug_ras("%-40s: 0x%" PRIx64 "\n", "lmc_hash", lmc_hash);
 
 		switch (((lmc_hash % 6) << 1) | pa_right) {
 # define conc(mod6, right) (((mod6) << 1) | (right))
@@ -1261,7 +1262,7 @@ static int pa_to_lmc(uint64_t pa)
 	union cavm_ccs_const ccs_const;
 	union cavm_ccs_adr_ctl adr_ctl;
 
-	debug_ras("Starting PA:%llx to LMC Conversion\n", pa);
+	debug_ras("Starting PA:%" PRIx64 " to LMC Conversion\n", pa);
 	/* Find number of ASC regions on this chip */
 	ccs_const.u = CSR_READ(CAVM_CCS_CONST);
 	nr_ascs = ccs_const.s.asc;
@@ -1288,7 +1289,7 @@ static int pa_to_lmc(uint64_t pa)
 		for (int mcs = 0; mcs < MAX_MCS; mcs++)
 			asc_mcs_en[mcs] =
 				CSR_READ(CAVM_CCS_ADR_MCSX(mcs));
-		debug_ras("ASC%d: pa:%llx\n", region, pa);
+		debug_ras("ASC%d: pa:%" PRIx64 "\n", region, pa);
 
 		/*
 		 * lmc hashes on pa_no_lr<42:8>, built from
@@ -1317,7 +1318,7 @@ static int pa_to_lmc(uint64_t pa)
 		uint64_t pa_no_lr = pnl_hi | (pnl_lo << 1);
 		int pa_right = __rxor((adr_ctl.s.md_lr_en << 7) & pa);
 
-		debug_ras("lr_bit:%d/%llx pa:%llx pnl:%llx  p_r:%x\n",
+		debug_ras("lr_bit:%d/%" PRIx64 " pa:%" PRIx64 " pnl:%" PRIx64 "  p_r:%x\n",
 		      lr_bit, msk_drop, pa, pa_no_lr, pa_right);
 
 		lmc = ccs_lmc_hash(pa_no_lr, pa_right, asc_mcs_en, attr);
@@ -1379,7 +1380,7 @@ static void *map_elx_addr(uint64_t address, struct elx_map *m, int is_phys, int 
 
 	/* writing to instruction space requires relaxing  WXN */
 	m->sctlr_el3 = read_sctlr_el3();
-	write_sctlr_el3(m->sctlr_el3 | SCTLR_WXN_BIT | SCTLR_UWXN_BIT);
+	write_sctlr_el3(m->sctlr_el3 | SCTLR_WXN_BIT | SCTLR_TSCXT_BIT);
 
 	m->va = address;
 	m->vpage = (address & ~PAGE_SIZE_MASK);
@@ -1432,7 +1433,7 @@ static void *map_elx_addr(uint64_t address, struct elx_map *m, int is_phys, int 
 	 * set to zero, so it's not an issue
 	 */
 	m->lmcx = pa_to_lmc(m->pa);
-	debug_ras("(map nomap:%d va:0x%llx -> el3:%p LMC%d)\n",
+	debug_ras("(map nomap:%d va:0x%" PRIx64 " -> el3:%p LMC%d)\n",
 		m->nomap, address, m->mapped, m->lmcx);
 
 	return m->mapped;
@@ -1535,7 +1536,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	ras_int.u = CSR_READ(CAVM_MCCX_LMCOEX_RAS_ERRGSR0(mcc, lmcoe));
 
 	if (++cnt && (ras_int.u != was[lmc] || !(cnt & (cnt - 1))))
-		debug2ras("%s(%d,%d) ras_int:%llx #%d\n",
+		debug2ras("%s(%d,%d) ras_int:%" PRIx64 " #%d\n",
 			__func__, mcc, lmcoe, ras_int.u, cnt);
 	was[lmc] = ras_int.u;
 
@@ -1597,7 +1598,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 
 	paddr = erraddr.s.paddr;
 
-	debug_ras("int:%llx ena:%llx status:%llx erraddr:%llx/%llx\n",
+	debug_ras("int:%" PRIx64 " ena:%" PRIx64 " status:%" PRIx64 " erraddr:%" PRIx64 "/%" PRIx64 "\n",
 		ras_int.u, ras_int_ena.u, status.u, erraddr.u, paddr);
 
 	debug_ras("status(av%d v%d ue%d er%d of%d mv%d ce%d de%d"
@@ -1615,15 +1616,15 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 		(int)status.s.ierr,
 		ras_serr_str[status.s.serr]);
 
-	debug_ras("erraddr: (%s%s paddr:%llx%s %s arem:%llx region:%llx"
-		  " ord:%llx off:%llx idx:%llx)\n",
+	debug_ras("erraddr: (%s%s paddr:%" PRIx64 "%s %s arem:%" PRIx64 " region:%" PRIx64 ""
+		  " ord:%" PRIx64 " off:%" PRIx64 " idx:%" PRIx64 ")\n",
 		(erraddr.s.nsec ? "NS" : "Secure"), (erraddr.s.si ? "(?)" : ""),
 		paddr, (erraddr.s.ai ? "(?)" : ""),
 		(((paddr >> 47) & 1) ? "R" : "L"),
 		(paddr >> 43) & 0xf,
 		(paddr >> 39) & 0xf,
 		(paddr >> 38) & 1,
-		(paddr >> 3) & 0x3ffffffffull,
+		(uint64_t)((paddr >> 3) & 0x3ffffffffull),
 		(paddr >> 0) & 0x7);
 
 	if (!status.s.v)
@@ -1644,8 +1645,8 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	}
 
 	if (!report_err) { /* FIXME? use TRACE to control output or not */
-		ERROR("%s: MCC%d.LMC%d: EXTRA ECC: %s @ 0x%016llX"
-		      " (I%02llX/E%02llx)\n",
+		ERROR("%s: MCC%d.LMC%d: EXTRA ECC: %s @ 0x%016" PRIx64 ""
+		      " (I%02" PRIx64 "/E%02" PRIx64 ")\n",
 		      __func__, mcc, lmcoe, err_type, address,
 		      ras_int.u & 0x0FUL, ras_int_ena.u & 0x0FUL);
 
@@ -1659,7 +1660,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 					&reg, &s_reg, &ns_reg);
 		if (physaddr == (uint64_t)-1) {
 			ERROR("MCC%d.LMC%d: ERROR: LMC to Phys conversion"
-			      " failed: ADDR: 0x%llx, LMC: 0x%llx\n",
+			      " failed: ADDR: 0x%" PRIx64 ", LMC: 0x%" PRIx64 "\n",
 			      mcc, lmcoe, address, lmcaddr);
 			av = 0;
 		}
@@ -1702,7 +1703,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	 * delivered via linux/cper.h::cper_arm_err_info
 	 */
 	printf("LMC%d: DRAM ECC %s (DIMM%d,Rank%d/%d,Bank%02d,"
-	      "Row 0x%05x,Col 0x%04x,FIDX=%d,%s)%s0x%llx%s %s%s%s\n",
+	      "Row 0x%05x,Col 0x%04x,FIDX=%d,%s)%s0x%" PRIx64 "%s %s%s%s\n",
 	      lmc, err_type, dimm, prank, lrank, bank,
 	      row, col, fidx, synstr,
 	      (erraddr.s.ai ? "?" : "["), physaddr, (erraddr.s.ai ? "?" : "]"),
@@ -1850,7 +1851,7 @@ int lmc_ras_setup(int lmc_no)
 	octeontx_write64(vctl, irq);
 	octeontx_write64(vaddr, CAVM_GICD_SETSPI_SR | 1);
 
-	debug_ras("addr: 0x%llx, ctl: 0x%llx\n",
+	debug_ras("addr: 0x%" PRIx64 ", ctl: 0x%" PRIx64 "\n",
 	     octeontx_read64(vaddr), octeontx_read64(vctl));
 
 	CSR_WRITE(CAVM_LMCX_RAS_INT_ENA_W1C(lmc_no), ~0ULL);
@@ -1911,7 +1912,7 @@ int lmcoe_ras_setup(int mcc, int lmcoe)
 	octeontx_write64(vctl, irq);
 	octeontx_write64(vaddr, CAVM_GICD_SETSPI_SR | 1);
 
-	debug_ras("addr: 0x%llx, ctl: 0x%llx\n",
+	debug_ras("addr: 0x%" PRIx64 ", ctl: 0x%" PRIx64 "\n",
 	     octeontx_read64(vaddr), octeontx_read64(vctl));
 
 	CSR_WRITE(CAVM_MCCX_LMCOEX_RAS_INT_ENA_W1C(mcc, lmcoe), 0xFF);
@@ -1964,7 +1965,7 @@ int lmcoe_scrubber_setup(int mcc, int lmcoe)
 	a_start = 0;
 	a_end = BIT_64(lmc_addr_bits) - 1;
 
-	debug_ras("bscrub range was %llx-%llx, want %llx-%llx\n",
+	debug_ras("bscrub range was %" PRIx64 "-%" PRIx64 ", want %" PRIx64 "-%" PRIx64 "\n",
 		(uint64_t)cfg.s.start_address, (uint64_t)cfg2.s.stop_address,
 		a_start, a_end);
 
@@ -2068,7 +2069,7 @@ static int dram_inject_error(struct elx_map *m, int bit, int flags)
 
 	if (m->mapped) {
 		dcivac((uint64_t)m->mapped);
-		printf("Injected error va:0x%llx, pa:%p, lmc%d (mcc%d)\n",
+		printf("Injected error va:0x%" PRIx64 ", pa:%p, lmc%d (mcc%d)\n",
 			m->va, m->mapped, m->lmcx,
 			plat_lmc_map[m->lmcx].mcc);
 
@@ -2171,7 +2172,7 @@ static int cache_inject_error(int level, int icache, struct elx_map *m,
 	/* Disable error injection */
 	cache_ecc_inject(level, icache, m->mapped, 0);
 
-	debug_ras("Injected error address 0x%llx, %c-cache level-%d\n",
+	debug_ras("Injected error address 0x%" PRIx64 ", %c-cache level-%d\n",
 	       m->va, "di"[icache], level);
 
 	return ret;
@@ -2224,7 +2225,7 @@ int64_t plat_ras_lmc_inject(u_register_t x2, u_register_t x3,
 	map_elx_addr(aligned_address, &m, nomap, (x2 == 3) || (x2 == 7));
 
 	if (m.lmcx < 0 || !plat_lmc_map[m.lmcx].valid) {
-		ERROR("%s(0x%llx, %d): ERROR: Could not map to LMC\n",
+		ERROR("%s(0x%" PRIx64 ", %d): ERROR: Could not map to LMC\n",
 		       __func__, address, bit);
 		debug_ras("LMC%d l%d m%d oe%d v%d\n",
 			m.lmcx, plat_lmc_map[m.lmcx].lmc,
@@ -2277,7 +2278,7 @@ uint64_t otx2_lmc_isr(uint32_t id, uint32_t flags, void *cookie)
 
 	CSR_WRITE(CAVM_LMCX_RAS_ERR00STATUS(lmc), status.u);
 	arm_err_nn(1, CAVM_LMCX_RAS_ERR, 00, lmc);
-	debug2ras("%s lmc%d st:%llx ad:%llx m0:%llx m1:%llx\n",
+	debug2ras("%s lmc%d st:%" PRIx64 " ad:%" PRIx64 " m0:%" PRIx64 " m1:%" PRIx64 "\n",
 		__func__, lmc, status.u, erraddr.u, m0.u, m1.u);
 
 	return 0;
