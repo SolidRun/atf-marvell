@@ -116,9 +116,12 @@ static void phy_marvell_1780_probe(int eth_id, int lmac_id)
 	if (priv->initialized)
 		return;
 
+	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	if (!phy)
+		return;
+
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
-	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
 	phy->req_an = 1;
 	priv->mdev.appData = (void *)phy;
 
@@ -133,6 +136,9 @@ static void phy_marvell_1780_probe(int eth_id, int lmac_id)
 	/* Make the PHY initialized on other LMACs too */
 	for (int id = 0; id < MAX_LMAC_PER_RPM; id++) {
 		phy = plat_eth_get_phy_cfg(eth_id, id);
+		if (!phy)
+			continue;
+
 		phy->init = 1;
 		phy->priv = (void *)priv;
 	}
@@ -183,7 +189,13 @@ static void phy_marvell_1780_config(int eth_id, int lmac_id)
 	MAD_BOOL an_enable;
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	if (!phy)
+		return;
+
 	priv = (phy_1780_priv_t *)phy->priv;
+	if (!priv)
+		return;
+
 	lport = phy->port;
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
@@ -225,7 +237,13 @@ static void phy_marvell_1780_get_link_status(int eth_id, int lmac_id,
 	MAD_BOOL link_on;
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	if (!phy)
+		return;
+
 	priv = (phy_1780_priv_t *)phy->priv;
+	if (!priv)
+		return;
+
 	lport = phy->port;
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
@@ -295,6 +313,9 @@ static void phy_marvell_1780_supported_modes(int eth_id, int lmac_id)
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	if (!phy)
+		return;
+
 	phy->supported_link_modes =
 				(1 << ETH_MODE_SGMII_BIT) |
 				(1 << ETH_MODE_1000_BASEX_BIT);
@@ -320,7 +341,13 @@ static int phy_marvell_1780_set_loopback(int eth_id, int lmac_id, int host_side,
 			 __func__, eth_id, lmac_id, host_side, lbk_type, enable);
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	if (!phy)
+		return -1;
+
 	priv = (phy_1780_priv_t *)phy->priv;
+	if (!priv)
+		return -1;
+
 	lport = phy->port;
 
 	if (!host_side) {
@@ -427,7 +454,13 @@ static int phy_marvell_1780_enable_prbs(int eth_id, int lmac_id, int host_side, 
 	}
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	if (!phy)
+		return -1;
+
 	priv = (phy_1780_priv_t *)phy->priv;
+	if (!priv)
+		return -1;
+
 	lport = phy->port;
 
 	ret = madPatCtrlSetPRBS(&priv->mdev, lport, &prbs_cfg);
@@ -451,7 +484,13 @@ static int phy_marvell_1780_disable_prbs(int eth_id, int lmac_id, int host_side,
 	}
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	if (!phy)
+		return -1;
+
 	priv = (phy_1780_priv_t *)phy->priv;
+	if (!priv)
+		return -1;
+
 	lport = phy->port;
 
 	ret = madPatCtrlSetPRBS(&priv->mdev, lport, &prbs_cfg);
@@ -476,7 +515,13 @@ static uint64_t phy_marvell_1780_get_prbs_errors(int eth_id, int lmac_id, int ho
 	}
 
 	phy = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	if (!phy)
+		return (uint64_t)-1;
+
 	priv = (phy_1780_priv_t *)phy->priv;
+	if (!priv)
+		return (uint64_t)-1;
+
 	lport = phy->port;
 
 	ret = madPatCtrlGetPRBS(&priv->mdev, lport, &prbs_cfg);
