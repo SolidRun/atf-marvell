@@ -677,6 +677,7 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size)
 {
 	struct pie_session_key *session_key = NULL;
+	struct pie_session_key pie_encrypt_key;
 	struct ehsm_handle ehandle;
 	enum sec_return ret;
 	uint32_t attr, map_required;
@@ -718,7 +719,8 @@ int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size)
 		}
 	}
 
-	session_key = (struct pie_session_key *)user_buf;
+	memcpy((void *)&pie_encrypt_key, (void *)user_buf, sizeof(pie_encrypt_key));
+	session_key = &pie_encrypt_key;
 
 	ret = ehsm_initialize(&ehandle);
 	if (ret != SEC_NO_ERROR) {
@@ -738,10 +740,12 @@ int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size)
 					session_key->token);
 
 	if (ret != SEC_NO_ERROR) {
-		WARN("Error in getting eHSM encrypted session key (%d)\n", ret);
+		WARN("eHSM PIE: Error in getting eHSM encrypted session key (%d)\n", ret);
 		err = -EIO;
 		goto error;
 	}
+
+	memcpy((void *)user_buf, (void *)&pie_encrypt_key, sizeof(pie_encrypt_key));
 
 error:
 	/* unmap non-secure memory buffer */
@@ -763,6 +767,7 @@ error:
 int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t size)
 {
 	struct pie_rkek *rkek_key = NULL;
+	struct pie_rkek pie_rkek_key;
 	struct ehsm_handle ehandle;
 	enum sec_return ret;
 	uint32_t attr, map_required;
@@ -804,7 +809,8 @@ int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t s
 		}
 	}
 
-	rkek_key = (struct pie_rkek *)user_buf;
+	memcpy((void *)&pie_rkek_key, (void *)user_buf, sizeof(pie_rkek_key));
+	rkek_key = &pie_rkek_key;;
 
 	ret = ehsm_initialize(&ehandle);
 	if (ret != SEC_NO_ERROR) {
@@ -826,10 +832,12 @@ int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t s
 					rkek_key->provision_opt);
 
 	if (ret != SEC_NO_ERROR) {
-		WARN("Error in getting eHSM encrypted session key (%d)\n", ret);
+		WARN("eHSM PIE: Error in rkek protected provision (%d)\n", ret);
 		err = -EIO;
 		goto error;
 	}
+
+	memcpy((void *)user_buf, (void *)&pie_rkek_key, sizeof(pie_rkek_key));
 
 error:
 	/* unmap non-secure memory buffer */
