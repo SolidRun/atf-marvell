@@ -329,7 +329,7 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 
 #endif /* DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS */
 
-#if defined(PLAT_t96)
+#if defined(PLAT_t96) || defined(PLAT_t98)
 	case PLAT_OCTEONTX_GET_EFI_SHARED_MEM:
 		SMC_RET3(handle, 0, EFI_VAR_MEM_BASE, EFI_VAR_MEM_SIZE);
 		break;

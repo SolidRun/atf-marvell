@@ -386,6 +386,10 @@ void plat_add_mmio()
 	 */
 	add_map_record(CAVM_TSN_BAR_E_TSNX_PF_BAR0(14),
 		       CAVM_TSN_BAR_E_TSNX_PF_BAR0_SIZE, attr);
+
+	/* Shared memory region for EFI variables */
+	mmap_add_region(EFI_VAR_MEM_BASE, EFI_VAR_MEM_BASE,
+			EFI_VAR_MEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 }
 
 void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)
