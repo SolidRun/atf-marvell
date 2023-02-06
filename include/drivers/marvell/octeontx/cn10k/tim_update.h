@@ -458,6 +458,11 @@ enum async_clone_operations {
 	ACLONE_CLEANUP,
 };
 
+enum read_or_write_operations {
+	READ_OPERATION,
+	WRITE_OPERATION,
+};
+
 struct async_clone_copy_params {
 	struct io_handle *src_handle;
 	struct io_handle *dst_handle;
@@ -465,6 +470,7 @@ struct async_clone_copy_params {
 	uint64_t src_object_size;
 	uint64_t src_tim_addr;
 	uint64_t src_tim_size;
+	enum read_or_write_operations read_or_write;
 };
 
 //Data structures for clone

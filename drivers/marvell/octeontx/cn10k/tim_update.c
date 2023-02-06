@@ -124,6 +124,8 @@ static bool debug_flag;
 
 log_info_t log_info = {(void *)0, 0, 0};
 
+#define SPI_ASYNC_COPY_SIZE (0x1000)
+
 #define MAX_PARAM_SET_COUNT 5
 
 struct param_set {
@@ -2892,6 +2894,7 @@ int async_prepare_copy_operation(void *p)
 	clone_cfg->copy_params.src_tim_addr = clone_cfg->vinfo_source->objects[obj_id].tim_address;
 	clone_cfg->copy_params.src_object_size = clone_cfg->vinfo_source->objects[obj_id].object_size;
 	clone_cfg->copy_params.src_tim_size = clone_cfg->vinfo_source->objects[obj_id].tim_size;
+	clone_cfg->copy_params.read_or_write = READ_OPERATION;
 
 	UINFO("Name: %s, obj 0x%" PRIx64 ":0x%" PRIx64 ", tim: 0x%" PRIx64 ":0x%" PRIx64 " SRC:%d:%d DST:%d:%d\n",
 			clone_cfg->vinfo_source->objects[obj_id].name,
@@ -2916,42 +2919,52 @@ int async_do_copy(void *p)
 
 	/* Copy object first */
 	while (params->src_object_size) {
-		read_size = (params->src_object_size < sizeof(tim_buffer)) ?
-						params->src_object_size : sizeof(tim_buffer);
-		ret = octeontx_io_data_read(params->src_handle,
-					    params->src_object_addr,
-					    read_size, tim_buffer);
-		if (ret) {
-			return SPI_OP_CALLBACK_ERROR;
+		read_size = (params->src_object_size < SPI_ASYNC_COPY_SIZE) ?
+						params->src_object_size : SPI_ASYNC_COPY_SIZE;
+		if (params->read_or_write == READ_OPERATION) {
+			ret = octeontx_io_data_read(params->src_handle,
+						    params->src_object_addr,
+						    read_size, tim_buffer);
+			if (ret) {
+				return SPI_OP_CALLBACK_ERROR;
+			}
+			params->read_or_write = WRITE_OPERATION;
+		} else {
+			ret = octeontx_io_data_write(params->dst_handle,
+						     params->src_object_addr,
+						     read_size, tim_buffer);
+			if (ret) {
+				return SPI_OP_CALLBACK_ERROR;
+			}
+			params->src_object_addr += read_size;
+			params->src_object_size -= read_size;
+			params->read_or_write = READ_OPERATION;
 		}
-		ret = octeontx_io_data_write(params->dst_handle,
-					     params->src_object_addr,
-					     read_size, tim_buffer);
-		if (ret) {
-			return SPI_OP_CALLBACK_ERROR;
-		}
-		params->src_object_addr += read_size;
-		params->src_object_size -= read_size;
 		return SPI_OP_CALLBACK_CONTINUE;
 	}
 
 	while (params->src_tim_size) {
-		read_size = (params->src_tim_size < sizeof(tim_buffer)) ?
-						params->src_tim_size : sizeof(tim_buffer);
-		ret = octeontx_io_data_read(params->src_handle,
-					    params->src_tim_addr,
-					    read_size, tim_buffer);
-		if (ret) {
-			return SPI_OP_CALLBACK_ERROR;
+		read_size = (params->src_tim_size < SPI_ASYNC_COPY_SIZE) ?
+						params->src_tim_size : SPI_ASYNC_COPY_SIZE;
+		if (params->read_or_write == READ_OPERATION) {
+			ret = octeontx_io_data_read(params->src_handle,
+						    params->src_tim_addr,
+						    read_size, tim_buffer);
+			if (ret) {
+				return SPI_OP_CALLBACK_ERROR;
+			}
+			params->read_or_write = WRITE_OPERATION;
+		} else {
+			ret = octeontx_io_data_write(params->dst_handle,
+						     params->src_tim_addr,
+						     read_size, tim_buffer);
+			if (ret) {
+				return SPI_OP_CALLBACK_ERROR;
+			}
+			params->src_tim_addr += read_size;
+			params->src_tim_size -= read_size;
+			params->read_or_write = READ_OPERATION;
 		}
-		ret = octeontx_io_data_write(params->dst_handle,
-					     params->src_tim_addr,
-					     read_size, tim_buffer);
-		if (ret) {
-			return SPI_OP_CALLBACK_ERROR;
-		}
-		params->src_tim_addr += read_size;
-		params->src_tim_size -= read_size;
 		return SPI_OP_CALLBACK_CONTINUE;
 	}
 	return SPI_OP_CALLBACK_FINISHED;
@@ -3071,6 +3084,7 @@ enum spi_dc_ret async_clone_callback(void *p)
 			param->state++;
 		}
 		ret = DC_RET_CONTINUE;
+		break;
 	case ACLONE_ERASE_EBF_CONFIG:
 		if (param->vinfo_source->version_flags & SMC_VERSION_ERASE_EBF_CONFIG) {
 			UINFO("Erase EBF config stage\n");
@@ -3087,6 +3101,7 @@ enum spi_dc_ret async_clone_callback(void *p)
 			param->state++;
 		}
 		ret = DC_RET_CONTINUE;
+		break;
 	case ACLONE_COPY_IMAGES:
 		UINFO("Copy images\n");
 		param->clone_counter = 0;
