@@ -1525,7 +1525,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 			if (tret != TIM_NO_ERROR) {
 				UWARN("TIM %s version info is missing in flash\n",
 				      object->tim_file->filename);
-				uret = UPDATE_VERSION_CHECK_FAIL;
+				uret = UPDATE_OK;
 				goto done;
 			}
 			/* If we're here we have the version information */
@@ -1537,7 +1537,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 			} else if (ret < 0) {
 				UWARN("TIM %s version check fails with error %d\n",
 				      object->tim_file->filename, ret);
-				uret = UPDATE_VERSION_CHECK_FAIL;
+				uret = UPDATE_OK;
 				goto done;
 			}
 		}
@@ -1658,9 +1658,6 @@ static int verify_hash_version_block(void *ptr)
 			if (tret != TIM_NO_ERROR) {
 				UERROR("TIM %s version info is missing in flash\n",
 				      obj->tim_file->filename);
-				zeromem(fl_hdl, sizeof(*fl_hdl));
-				zeromem(fl_li, sizeof(*fl_li));
-				return SPI_OP_CALLBACK_ERROR;
 			}
 			/* If we're here we have the version information */
 			ret = marvell_cust_check_version(obj->hash.io.desc, obj, &fl_vinfo);
@@ -1669,9 +1666,6 @@ static int verify_hash_version_block(void *ptr)
 			} else if (ret < 0) {
 				UERROR("TIM %s version check fails with error %d\n",
 				      obj->tim_file->filename, ret);
-				zeromem(fl_hdl, sizeof(*fl_hdl));
-				zeromem(fl_li, sizeof(*fl_li));
-				return SPI_OP_CALLBACK_ERROR;
 			}
 		}
 	}
@@ -3914,9 +3908,9 @@ static int check_get_version(struct smc_version_info *vinfo,
 		ventry->object_address = 0;
 		tret = tim_get_version_info(thdl, &ventry->version);
 		if (tret != TIM_NO_ERROR) {
-			VLOG(ventry, "%s is missing version information in the TIM",
+			VLOG(ventry, "Version information is missing in the TIM %s",
 			     ventry->name);
-			UWARN("%s is missing version information in the TIM\n",
+			UWARN("Version information is missing in the TIM %s\n",
 			     ventry->name);
 			ventry->retcode = RET_TIM_NO_VERSION;
 			return RET_TIM_NO_VERSION;
@@ -3945,9 +3939,9 @@ static int check_get_version(struct smc_version_info *vinfo,
 	}
 	tret = tim_get_version_info(thdl, &ventry->version);
 	if (tret != TIM_NO_ERROR) {
-		VLOG(ventry, "%s is missing version information in the TIM",
+		VLOG(ventry, "Version information is missing in the TIM %s",
 		     ventry->name);
-		UWARN("%s is missing version information in the TIM\n",
+		UWARN("Version information is missing in the TIM %s\n",
 		     ventry->name);
 		ventry->retcode = RET_TIM_NO_VERSION;
 		return RET_TIM_NO_VERSION;
