@@ -1250,30 +1250,30 @@ pll_rdy:
 
 	while (clock_get_count(GSER_CLOCK_TIME) < link_timeout) {
 		status = ecp_get_link_state(portm_idx, lmac_id, link_state, &sig_detect);
-		if (status == ETH_LINK_STATE_NO_STATE)
+		if (status == ETH_LINK_STATE_NO_STATE) {
 			break;
+		} else if (status == ETH_LINK_STATE_GSERM_FAILURE) {
+			ERROR("%s: PORTM%d GSERM failure encountered\n", __func__, portm_idx);
+			return -1;
+		}
 
 		mdelay(5);
 	}
 
-	if (status == ETH_LINK_STATE_PLL_RDY && max_pll_rdy_retries) {
+	if (status != ETH_LINK_STATE_NO_STATE  && max_pll_rdy_retries) {
 		max_pll_rdy_retries--;
-		debug_rpm_intf("%s PORTM%d timed out waiting for PLL RDY, retrying...\n",
-			__func__, portm_idx);
+		debug_rpm_intf("%s PORTM%d: %d ms timeout exceeded, continue waiting ...\n",
+			__func__, portm_idx, ECP_MODE_CHANGE_WAIT_STATUS / 1000);
 		goto pll_rdy;
 	}
 
 	if (status != ETH_LINK_STATE_NO_STATE) {
-		if (!max_pll_rdy_retries)
-			ERROR("%s: PORTM%d exceeded maximum PLL RDY time\n",
-				__func__, portm_idx);
-		else
-			ERROR("%s: PORTM%d Request not sent\n",
-				__func__, portm_idx);
+		ERROR("%s: PORTM%d ECP Mode Change request failed\n",
+		      __func__, portm_idx);
 		return -1;
 	}
 
-	debug_rpm_intf("%s: PORTM%d Mode Change Request sent to ECP\n",
+	debug_rpm_intf("%s: PORTM%d ECP Mode Change request succeeded\n",
 		__func__, portm_idx);
 
 	return 0;
