@@ -113,6 +113,7 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
  * @param[in]	ptr	Last block of data to verify
  * @param	size	size of last block
  * @param[in]	li	TIM load info
+ * @param[in]	verbose	flag to print debug info
  * @param[out] digest	Calculated hash value.  Must be able to hold 512 bits.
  *			This may be NULL.
  * @param[out] hash_size	Size of hash in bytes, may be NULL
@@ -122,6 +123,7 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
 int ehsm_verify_final(struct ehsm_handle *ehandle,
 		      const void *ptr, size_t size,
 		      const struct tim_load_info *li,
+		      bool verbose,
 		      uint8_t *digest, int *hash_size);
 
 /**

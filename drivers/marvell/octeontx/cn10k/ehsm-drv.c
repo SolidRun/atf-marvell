@@ -333,6 +333,7 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
  * @param[in]	ptr	Last block of data to verify
  * @param	size	size of last block
  * @param[in]	li	TIM load info
+ * @param[in]	verbose	flag to print debug info
  * @param[out] digest	Calculated hash value.  Must be able to hold 512 bits.
  *			This may be NULL.
  * @param[out] hash_size	Size of hash in bytes, may be NULL
@@ -342,6 +343,7 @@ int ehsm_verify_update(struct ehsm_handle *ehandle, const void *ptr,
 int ehsm_verify_final(struct ehsm_handle *ehandle,
 		      const void *ptr, size_t size,
 		      const struct tim_load_info *li,
+		      bool verbose,
 		      uint8_t *digest, int *hash_size)
 {
 	enum sec_return ret = SEC_NO_ERROR;
@@ -392,24 +394,26 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
 
 		hash_str[0] = '\0';
 		WARN("Hash mismatch between TIM and image\n");
-		for (int i = 0; i < li->hash_size; i++) {
-			snprintf(hash_digit, sizeof(hash_digit),
-				 "%02x ", digest_out[i]);
-			strlcat(hash_str, hash_digit, sizeof(hash_str));
+		if (verbose) {
+			for (int i = 0; i < li->hash_size; i++) {
+				snprintf(hash_digit, sizeof(hash_digit),
+					 "%02x ", digest_out[i]);
+				strlcat(hash_str, hash_digit, sizeof(hash_str));
+			}
+			WARN("Calculated: %s\n", hash_str);
+			hash_str[0] = '\0';
+			for (int i = 0; i < li->hash_size; i++) {
+				snprintf(hash_digit, sizeof(hash_digit),
+					 "%02x ", li->hash_data[i]);
+				strlcat(hash_str, hash_digit, sizeof(hash_str));
+			}
+			WARN("TIM:        %s\n", hash_str);
+			WARN("Image size: 0x%lx, ehsm size: 0x%x\n", size,
+			     li->image_length);
+			print_buffer(nonsecure ? ehsm_buffer : ptr,
+				     size <= sizeof(ehsm_buffer) ?
+				     size : sizeof(ehsm_buffer));
 		}
-		WARN("Calculated: %s\n", hash_str);
-		hash_str[0] = '\0';
-		for (int i = 0; i < li->hash_size; i++) {
-			snprintf(hash_digit, sizeof(hash_digit),
-				 "%02x ", li->hash_data[i]);
-			strlcat(hash_str, hash_digit, sizeof(hash_str));
-		}
-		WARN("TIM:        %s\n", hash_str);
-		WARN("Image size: 0x%lx, ehsm size: 0x%x\n", size,
-		     li->image_length);
-		print_buffer(nonsecure ? ehsm_buffer : ptr,
-			     size <= sizeof(ehsm_buffer) ?
-			     size : sizeof(ehsm_buffer));
 		return -EAUTH;
 	}
 

@@ -1402,7 +1402,7 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
 		if (uret != UPDATE_OK)
 			return uret;
 	}
-	ret = ehsm_verify_final(&ehdl, tim_buffer, size, linfo, digest,
+	ret = ehsm_verify_final(&ehdl, tim_buffer, size, linfo, debug_flag, digest,
 				hash_size);
 	if (ret == -EAUTH) {
 		UWARN("Detected corrupt flash image for %s\n",
@@ -1643,7 +1643,7 @@ static int verify_hash_version_block(void *ptr)
 		octeontx_io_data_read(&obj->hash.io, obj->hash.read_offset, obj->hash.size,
 				      tim_buffer);
 		obj->hash.hashret = ehsm_verify_final(&obj->hash.ehdl, tim_buffer, obj->hash.size,
-						  fl_li, obj->hash.digest,
+						  fl_li, debug_flag, obj->hash.digest,
 						  &obj->hash.hash_size);
 		obj->hash.size = 0;
 		return SPI_OP_CALLBACK_CONTINUE;
@@ -4670,7 +4670,7 @@ static int verify_hash_block(void *ptr)
 	if (data->size) {
 		octeontx_io_data_read(&data->io, data->read_offset, data->size, tim_buffer);
 		data->hashret = ehsm_verify_final(&data->ehdl, tim_buffer, data->size,
-						  linfo, data->digest,
+						  linfo, debug_flag, data->digest,
 						  &data->hash_size);
 		data->size = 0;
 		return SPI_OP_CALLBACK_CONTINUE;
