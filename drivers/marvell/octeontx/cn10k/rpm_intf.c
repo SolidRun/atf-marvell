@@ -2132,6 +2132,8 @@ static int rpm_handle_requests_cb(int timer)
 	 */
 	for (int rpm = 0; rpm < plat_octeontx_scfg->rpm_count; rpm++) {
 		for (int lmac = 0; lmac < MAX_LMAC_PER_RPM; lmac++) {
+			if (cavm_is_model(OCTEONTX_CN10KB) && (rpm == 2) && lmac > 3)
+				continue;
 			scratch1.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm, lmac, 1));
 			scratch0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm, lmac, 0));
 			/* acquire firmware internal lock */
