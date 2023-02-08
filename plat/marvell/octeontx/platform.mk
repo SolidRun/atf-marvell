@@ -153,6 +153,8 @@ ifeq (${TRUSTED_BOARD_BOOT},1)
     # KEY_ALG and TF_MBEDTLS_KEY_ALG are used for authentication purposes
     KEY_ALG                := ecdsa
     TF_MBEDTLS_KEY_ALG     := ${KEY_ALG}
+    KEY_SIZE               := 256
+    TF_MBEDTLS_KEY_SIZE    := ${KEY_SIZE}
 
     # CIPHER_TYPE that will be used to encrypt/decrypt images
     # If not defied at build time, do not use encryption

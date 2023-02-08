@@ -10,11 +10,13 @@
 
 /* mbed TLS headers */
 #include <mbedtls/gcm.h>
+#include <mbedtls/aes.h>
 #include <mbedtls/md.h>
 #include <mbedtls/memory_buffer_alloc.h>
 #include <mbedtls/oid.h>
 #include <mbedtls/platform.h>
 #include <mbedtls/x509.h>
+#include <mbedtls/error.h>
 
 #include <common/debug.h>
 #include <drivers/auth/crypto_mod.h>
@@ -272,6 +274,7 @@ static int calc_hash(enum crypto_md_algo md_algo, void *data_ptr,
 #endif /* CRYPTO_SUPPORT == CRYPTO_HASH_CALC_ONLY || \
 	  CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC */
 
+#if CRYPTO_BOARD_BOOT
 #if TF_MBEDTLS_USE_AES_GCM
 /*
  * Stack based buffer allocation for decryption operation. It could
@@ -283,6 +286,7 @@ static int aes_gcm_decrypt(void *data_ptr, size_t len, const void *key,
 			   unsigned int key_len, const void *iv,
 			   unsigned int iv_len, const void *tag,
 			   unsigned int tag_len)
+{
 	mbedtls_gcm_context ctx;
 	mbedtls_cipher_id_t cipher = MBEDTLS_CIPHER_ID_AES;
 	unsigned char buf[DEC_OP_BUF_SIZE];
@@ -356,12 +360,14 @@ static int auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
 	assert((key_flags & ENC_KEY_IS_IDENTIFIER) == 0);
 
 	switch (dec_algo) {
+#if TF_MBEDTLS_USE_AES_GCM
 	case CRYPTO_GCM_DECRYPT:
 		rc = aes_gcm_decrypt(data_ptr, len, key, key_len, iv, iv_len,
 				     tag, tag_len);
 		if (rc != 0)
 			return rc;
 		break;
+#endif
 	default:
 		return CRYPTO_ERR_DECRYPTION;
 	}
@@ -369,6 +375,56 @@ static int auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
  	return CRYPTO_SUCCESS;
 }
 #endif /* TF_MBEDTLS_USE_AES_GCM */
+
+static int aes_cbc_decrypt_image(void *data_ptr, unsigned int data_len,
+				 unsigned int cipher_type, unsigned char **key,
+				 unsigned int *key_len)
+{
+	mbedtls_aes_context ctx;
+	unsigned char iv[16] = { 0 };
+	unsigned char *ptr = (unsigned char *)data_ptr;
+	int rc;
+
+	switch (cipher_type) {
+	case TBBR_AES_128_CBC:
+		mbedtls_aes_init(&ctx);
+
+		rc = mbedtls_aes_setkey_dec(&ctx, *key, (*key_len) * 8);
+		if (rc != 0) {
+			printf("CRYPTO: Unable to set AES key for decryption, rc=%d\n",
+			       rc);
+			rc = CRYPTO_ERR_DECRYPT;
+			goto exit_cbc;
+		}
+
+		/* Perform decryption of image */
+		rc = mbedtls_aes_crypt_cbc(&ctx, MBEDTLS_AES_DECRYPT,
+					   data_len, iv, ptr, ptr);
+		if (rc != 0) {
+			rc = CRYPTO_ERR_DECRYPT;
+			printf("CRYPTO: Unable to decrypt image, rc=%d\n", rc);
+			goto exit_cbc;
+		}
+exit_cbc:
+		mbedtls_aes_free(&ctx);
+		break;
+
+	default:
+		printf("CRYPTO: Unsupported cipher type: %d\n", cipher_type);
+		rc = CRYPTO_ERR_DECRYPT;
+	}
+	return rc;
+}
+#else
+static int decrypt_image_null(enum crypto_dec_algo dec_algo, void *data_ptr,
+			size_t len, const void *key, unsigned int key_len,
+			unsigned int key_flags, const void *iv,
+			unsigned int iv_len, const void *tag,
+			unsigned int tag_len)
+{
+	return CRYPTO_SUCCESS;
+}
+#endif	/* CRYPTO_BOARD_BOOT */
 
 #if MEASURED_BOOT
 /*
@@ -506,7 +562,8 @@ REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash, calc_hash,
 REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
 		    auth_decrypt);
 #else
-REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash, NULL);
+REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
+			decrypt_image_null);
 #endif
 #elif CRYPTO_SUPPORT == CRYPTO_HASH_CALC_ONLY
 REGISTER_CRYPTO_LIB(LIB_NAME, init, calc_hash);

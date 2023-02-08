@@ -35,6 +35,7 @@ LIBMBEDTLS_SRCS		:= $(addprefix ${MBEDTLS_DIR}/library/,	\
 					bignum.c				\
 					gcm.c 					\
 					md.c					\
+					md_wrap.c				\
 					pk.c 					\
 					pk_wrap.c 				\
 					pkparse.c 				\
@@ -47,7 +48,6 @@ LIBMBEDTLS_SRCS		:= $(addprefix ${MBEDTLS_DIR}/library/,	\
 					rsa.c					\
 					x509.c 					\
 					x509_crt.c 				\
-					constant_time.c 			\
 					)
 
 # The platform may define the variable 'TF_MBEDTLS_KEY_ALG' to select the key
@@ -82,6 +82,9 @@ endif
 
 ifeq (${TF_MBEDTLS_KEY_ALG},ecdsa)
     TF_MBEDTLS_KEY_ALG_ID	:=	TF_MBEDTLS_ECDSA
+	ifeq (${KEY_SIZE},)
+        KEY_SIZE		:=	256
+    endif
 else ifeq (${TF_MBEDTLS_KEY_ALG},rsa)
     TF_MBEDTLS_KEY_ALG_ID	:=	TF_MBEDTLS_RSA
 else ifeq (${TF_MBEDTLS_KEY_ALG},rsa+ecdsa)

@@ -267,8 +267,10 @@ typedef struct {
 } gser_qlm_eye_t;
 
 #ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
+#ifdef SERDES_EYE_DATA_SIZE
 CASSERT(SERDES_EYE_DATA_SIZE >= sizeof(gser_qlm_eye_t),
 	assert_serdes_eye_data_size_to_small);
+#endif
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
 
 struct qlm_mode_strmap_s {

@@ -12,7 +12,7 @@ MBEDTLS_SOURCES	+=		drivers/auth/mbedtls/mbedtls_crypto.c
 ifeq (${CRYPTO_BOARD_BOOT},1)
     ifeq (${MBEDTLS_CIPHER_TYPE},aes-128-cbc)
         MBEDTLS_SOURCES	+=	$(addprefix ${MBEDTLS_DIR}/library/,	\
-				aes.c					\
+				aes.c md_wrap.c md.c					            \
 				)
         TBBR_CIPHER_TYPE_ID	:=	TBBR_AES_128_CBC
     else

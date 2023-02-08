@@ -10,7 +10,6 @@
 #include <drivers/auth/crypto_mod.h>
 
 /* Variable exported by the crypto library through REGISTER_CRYPTO_LIB() */
-extern const crypto_lib_desc_t crypto_lib_desc;
 extern const crypto_img_desc_t *const crypto_params_ptr;
 
 /*

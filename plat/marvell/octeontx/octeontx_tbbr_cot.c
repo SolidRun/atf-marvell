@@ -14,7 +14,9 @@
 /*
  * Maximum key and hash sizes (in DER format)
  */
-#define PK_DER_LEN			294
+#ifndef PK_DER_LEN
+# define PK_DER_LEN			294
+#endif
 #define HASH_DER_LEN			51
 
 /*

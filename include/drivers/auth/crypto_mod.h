@@ -163,7 +163,6 @@ int crypto_mod_calc_hash(enum crypto_md_algo alg, void *data_ptr,
 		.verify_signature = _verify_signature, \
 		.verify_hash = _verify_hash, \
 		.auth_decrypt = _auth_decrypt \
-		.decrypt_image = _decrypt_image \
 	}
 #elif CRYPTO_SUPPORT == CRYPTO_HASH_CALC_ONLY
 #define REGISTER_CRYPTO_LIB(_name, _init, _calc_hash) \

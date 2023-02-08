@@ -7,6 +7,7 @@
 #ifndef AUTH_MOD_H
 #define AUTH_MOD_H
 
+#include <stddef.h>
 #include <common/tbbr/cot_def.h>
 #include <common/tbbr/tbbr_img_def.h>
 #include <drivers/auth/auth_common.h>
