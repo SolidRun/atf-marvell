@@ -2350,6 +2350,8 @@ void rpm_fw_intf_shutdown(void)
 	 */
 	for (int rpm = 0; rpm < plat_octeontx_scfg->rpm_count; rpm++) {
 		for (int lmac = 0; lmac < MAX_LMAC_PER_RPM; lmac++) {
+			if (cavm_is_model(OCTEONTX_CN10KB) && ((rpm == 2) && (lmac > 3)))
+				continue;
 			lmac_ctx = &lmac_context[rpm][lmac];
 			lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm]
 							.lmac_cfg[lmac];
