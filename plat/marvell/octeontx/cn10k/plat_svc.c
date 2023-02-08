@@ -1029,7 +1029,8 @@ err4:
 			}
 
 			if ((user_buf < NS_IMAGE_BASE) ||
-			    (size != sizeof(struct smc_read_flash_descriptor))) {
+			    ((size != sizeof(struct smc_read_flash_descriptor)) &&
+			    (size != sizeof(struct smc_read_flash_descriptor_prev)))) {
 				ERROR("Invalid descriptor address or size\n");
 				ret = -1;
 				goto err5;

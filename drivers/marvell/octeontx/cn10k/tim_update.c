@@ -59,17 +59,20 @@
 	do {	\
 		if (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) {\
 			tf_log(LOG_MARKER_NOTICE __VA_ARGS__); \
-			ULOG(__VA_ARGS__); \
+			ULOG("DEBUG: " __VA_ARGS__); \
+		} else if (debug_flag) { \
+			VERBOSE(__VA_ARGS__); \
+			ULOG("DEBUG: " __VA_ARGS__); \
 		} \
 	} while (0)
 #  else
-#    define debug_fw_update(...)	ULOG(__VA_ARGS__)
+#    define debug_fw_update(...)	ULOG("DEBUG: " __VA_ARGS__)
 #  endif
 #elif DEBUG_ATF_FW_UPDATE
   #define debug_fw_update(...)	\
-	do { printf(__VA_ARGS__); ULOG(__VA_ARGS__); } while (0)
+	do { printf(__VA_ARGS__); ULOG("DEBUG: " __VA_ARGS__); } while (0)
 #else
-  #define debug_fw_update(...)	ULOG(__VA_ARGS__)
+  #define debug_fw_update(...)	ULOG("DEBUG: " __VA_ARGS__)
 #endif
 
 /** Buffer used for copying data */
@@ -116,6 +119,8 @@ __aligned(8) static uint8_t tim0_buffer[TIM_MAX_SIZE];
 static size_t tim0_size;
 static uint64_t tim0_offset;
 static struct smc_version_info clone_destination;
+
+static bool debug_flag;
 
 log_info_t log_info = {(void *)0, 0, 0};
 
@@ -2583,7 +2588,7 @@ octeontx_write_files(const struct smc_update_descriptor *desc,
 	struct file_entry *fentry;
 	enum update_ret ret;
 
-	spi_async_init_delayed();
+	spi_async_init_delayed(debug_flag);
 
 	for_each_file(fentry) {
 		if (fentry->object->update_all ||
@@ -3115,7 +3120,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 		aupdate_data.desc = desc;
 		aupdate_data.state = AUPDATE_VERIF_IMAGE;
 		aupdate_data.cust_verify_count = 0;
-		spi_async_init_delayed();
+		spi_async_init_delayed(debug_flag);
 		spi_async_clear_time_stats();
 		spi_async_start(async_update_callback, &aupdate_data);
 		return UPDATE_OK;
@@ -3332,6 +3337,9 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		log_info.log_size_bytes = 0;
 		log_info.log_bytes_used = 0;
 	}
+
+	debug_flag = (update_desc.update_flags & UPDATE_FLAG_DEBUG) ? true : false;
+
 	addr = update_desc.image_addr;
 	size = update_desc.image_size;
 	bus = update_desc.bus;
@@ -3497,7 +3505,7 @@ static int cn10k_read_flash(struct smc_read_flash_descriptor *desc,
 
 	gti_wdog_pet();
 	INFO("Reading Data\n");
-	err = spi_async_init_delayed();
+	err = spi_async_init_delayed(debug_flag);
 
 	gti_wdog_pet();
 	spi_async_add_block_read(desc->bus, desc->cs, desc->offset, buffer, size, NULL, NULL);
@@ -3520,6 +3528,8 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	uint64_t base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
+	uintptr_t console_base_addr = 0;
+	size_t console_map_size = 0;
 
 	debug_fw_update("desc: 0x%lx, desc size: 0x%" PRIx64 "\n",
 			desc_buf, desc_size);
@@ -3552,8 +3562,20 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	memcpy(&read_desc, (const void *)desc_buf, sizeof(read_desc));
 
 	octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
+
 	base_addr = 0;
 	ns_map_size = 0;
+
+	if (read_desc.version != READ_VERSION) {
+		UERROR("Version 0x%x mistmatch (expected 0x%x). Some features could be not available\n",
+		       read_desc.version, READ_VERSION);
+	}
+	if (read_desc.version < READ_MIN_VERSION) {
+		UERROR("Unsupported descriptor version 0x%x\n",
+		     read_desc.version);
+		err = -SPI_BAD_PARAMETER;
+		goto error;
+	}
 
 	addr = read_desc.addr;
 	size = read_desc.length;
@@ -3594,6 +3616,38 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	uParams.p[0].ns_map_size = ns_map_size;
 	uParams.p[0].base_addr = base_addr;
 
+	if (read_desc.version >= READ_LOG_VERSION &&
+	    read_desc.output_console != 0 &&
+	    read_desc.output_console_size > 0 &&
+	    read_desc.read_flags & READ_FLAG_LOG_PROGRESS) {
+		console_base_addr = read_desc.output_console & mask;
+		console_map_size = (read_desc.output_console_size + PAGE_SIZE - 1) & mask;
+		err = octeontx_mmap_add_dynamic_region_with_sync(console_base_addr,
+								 console_base_addr,
+								 console_map_size,
+								 MT_RW | MT_NS);
+		if (err) {
+			UERROR("SMC read: console mmap failed (%d)\n", err);
+			err = -SPI_MMAP_ERR;
+			console_base_addr = 0;
+			console_map_size = 0;
+			goto error;
+		}
+		if (async_operation) {
+			add_mapped_region(&uParams, console_base_addr, console_map_size);
+		}
+		log_info.update_log = (char *)read_desc.output_console;
+		log_info.log_bytes_used = 0;
+		log_info.log_size_bytes = read_desc.output_console_size;
+		zeromem(log_info.update_log, log_info.log_size_bytes);
+	} else {
+		log_info.update_log = NULL;
+		log_info.log_size_bytes = 0;
+		log_info.log_bytes_used = 0;
+	}
+
+	debug_flag = (read_desc.read_flags & READ_FLAG_DEBUG) ? true : false;
+
 	err = cn10k_read_flash(&read_desc, &uParams, async_operation);
 	if (err != 0) {
 		UERROR("Read Flash Data failed\n");
@@ -3603,13 +3657,18 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 error:
 
 	/* unmap non-secure memory buffer */
-	if (err) {
+	if (!async_operation || err) {
 		if (base_addr && ns_map_size)
 			octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
 								ns_map_size);
-	} else if (!async_operation) {
-		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
-								ns_map_size);
+		if (console_base_addr != 0 && console_map_size != 0) {
+			log_info.update_log[log_info.log_size_bytes - 1] = '\0';
+			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
+							      console_map_size);
+		}
+		log_info.update_log = NULL;
+		log_info.log_bytes_used = 0;
+		log_info.log_size_bytes = 0;
 	}
 
 	return err;
@@ -4738,7 +4797,8 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 
 	vdata->vinfo = vinfo;
 	vdata->ventry_counter = 0;
-	spi_async_init_delayed();
+
+	spi_async_init_delayed(debug_flag);
 
 	uboot_obj_ventry_counter = 0;
 	npc_obj_ventry_counter = 0;
@@ -4973,6 +5033,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		log_info.log_bytes_used = 0;
 	}
 
+	debug_flag = (vinfo->version_flags & SMC_VERSION_DEBUG) ? true : false;
 
 	if (vinfo->num_objects > SMC_MAX_VERSION_ENTRIES) {
 		UWARN("Descriptor exceeds maximum number of objects\n");

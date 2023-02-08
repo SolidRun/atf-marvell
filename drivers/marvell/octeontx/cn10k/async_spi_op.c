@@ -51,6 +51,7 @@ uint64_t delayed_spi_in_progress;
 
 static uint32_t timer_hd;
 static uint32_t tim_initialized;
+static bool spi_async_debug;
 
 #define CALC_MOVING_AVERAGE(avg, count, val) \
 	(((avg)*(count)) + (val)) / ((count + 1))
@@ -299,8 +300,10 @@ static int async_tim_handler(int tim)
 
 	async_handler_time_total = get_usecs() - async_handler_start;
 
-	UINFO("%s: SPI async op[%d]: type %d - duration %" PRId64 "us\n", __func__,
-	      spi_op_cnt_saved, type_saved, async_handler_time_total);
+	if (spi_async_debug) {
+		UINFO("%s: SPI async op[%d]: type %d - duration %" PRId64 "us\n", __func__,
+		      spi_op_cnt_saved, type_saved, async_handler_time_total);
+	}
 
 	if (async_handler_time_total > SPI_OP_CRITICAL_DURATION_US) {
 		UERROR("This handler operation (op[%d] type %d) takes too much time %" PRId64 "us\n",
@@ -788,7 +791,7 @@ void spi_async_add_block_update(int bus, int cs, uint64_t spi_addr, void *mem_ad
  * Initialize internal data structures.
  * Should be called before starting configuring new transfer chain.
  */
-int spi_async_init_delayed(void)
+int spi_async_init_delayed(bool debug_flag)
 {
 
 	if (delayed_spi_in_progress) {
@@ -798,6 +801,8 @@ int spi_async_init_delayed(void)
 
 	spi_init_l1_desc();
 	spi_init_l2_desc();
+
+	spi_async_debug = debug_flag;
 
 	INFO("%s: delayed op init completed\n", __func__);
 	return 0;
@@ -819,7 +824,9 @@ void spi_async_start(enum spi_dc_ret (*block_callback)(void *), void *params)
 	uint64_t async_start_start = get_usecs();
 	uint64_t async_start_time_total = 0;
 
-	spi_async_display_time_stats();
+	if (spi_async_debug) {
+		spi_async_display_time_stats();
+	}
 
 	block_op_cnt = 0;
 	delayed_callback = block_callback;
@@ -828,7 +835,9 @@ void spi_async_start(enum spi_dc_ret (*block_callback)(void *), void *params)
 
 	async_start_time_total = get_usecs() - async_start_start;
 
-	UINFO("%s: duration %" PRId64 "us\n", __func__, async_start_time_total);
+	if (spi_async_debug) {
+		UINFO("%s: duration %" PRIx64 "us\n", __func__, async_start_time_total);
+	}
 
 	if (async_start_time_total > SPI_OP_CRITICAL_DURATION_US) {
 		UWARN("This start operation takes too much time %" PRId64 "us\n",

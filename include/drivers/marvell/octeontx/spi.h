@@ -209,7 +209,7 @@ void spi_async_add_block_callback(int (*callback)(void*, int, struct delayed_blo
 				  int (*callback_init)(void *), void *cb_init,
 				  int (*callback_cont)(void *), void *cb_cont,
 				  uint64_t callback_tmax_usec);
-int spi_async_init_delayed(void);
+int spi_async_init_delayed(bool debug_flag);
 bool spi_async_working(void);
 void spi_async_display_time_stats(void);
 void spi_async_clear_time_stats(void);

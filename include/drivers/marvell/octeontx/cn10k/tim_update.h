@@ -125,13 +125,15 @@ struct smc_update_obj_info {
 /** Erase eMMC partition data */
 #define UPDATE_FLAG_ERASE_PART		BIT(2)
 /** Don't perform version check */
-#define UPDATE_FLAG_IGNORE_VERSION 	BIT(3)
+#define UPDATE_FLAG_IGNORE_VERSION	BIT(3)
 /** Always overwrite even if data matches */
 #define UPDATE_FLAG_FORCE_WRITE		BIT(4)
 /** Erase configuration data after update */
 #define UPDATE_FLAG_ERASE_CONFIG	BIT(5)
 /** Log update progress */
 #define UPDATE_FLAG_LOG_PROGRESS	BIT(6)
+/** Debug */
+#define UPDATE_FLAG_DEBUG			BIT(8)
 /** Set when user parameters are passed */
 #define UPDATE_FLAG_USER_PARMS		BIT(15)
 
@@ -186,17 +188,45 @@ struct smc_update_descriptor_prev {
 
 
 /* Read Flash */
+
+/** Minimum allowed read version */
+#define READ_MIN_VERSION		0x0000
+/** Minimum version that includes log support */
+#define READ_LOG_VERSION		0x0100
+/** Current smc_read_flash_descriptor version */
+#define READ_VERSION			0x0100
+
+/** Log progress */
+#define READ_FLAG_LOG_PROGRESS	BIT(0)
+/** Debug */
+#define READ_FLAG_DEBUG			BIT(1)
+
 /**
  * This descriptor is used to read data from flash
  */
 struct smc_read_flash_descriptor {
-        uint64_t        addr;           /** Physical buffer address */
-        uint64_t        offset;         /** Offset in flash */
-        uint64_t        length;         /** Length to read */
-        uint32_t        bus;            /** SPI BUS number */
-        uint32_t        cs;             /** SPI chip select number */
-        uint32_t        async_spi;      /** Async SPI operations */
-        uint32_t        reserved;       /** Space to add stuff */
+	uint64_t        addr;           /** Physical buffer address */
+	uint64_t        offset;         /** Offset in flash */
+	uint64_t        length;         /** Length to read */
+	uint32_t        bus;            /** SPI BUS number */
+	uint32_t        cs;             /** SPI chip select number */
+	uint32_t        async_spi;      /** Async SPI operations */
+	uint16_t        version;        /** Version of descriptor */
+	uint16_t        read_flags;     /** Flags passed to read process */
+	uintptr_t       output_console;	/** Text output console */
+	uint32_t        output_console_size;/** Console buffer size in bytes */
+	uint32_t        output_console_end;/** Not used yet */
+	uint64_t        reserved[8];   /** Space to add stuff */
+};
+
+struct smc_read_flash_descriptor_prev {
+	uint64_t        addr;           /** Physical buffer address */
+	uint64_t        offset;         /** Offset in flash */
+	uint64_t        length;         /** Length to read */
+	uint32_t        bus;            /** SPI BUS number */
+	uint32_t        cs;             /** SPI chip select number */
+	uint32_t        async_spi;      /** Async SPI operations */
+	uint32_t        reserved;       /** Space to add stuff */
 };
 
 int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size);
@@ -291,22 +321,28 @@ struct smc_version_info_entry {
 /**
  * Set this to enable async operations
  */
-#define SMC_VERSION_ASYNC_OPERATION             BIT(8)
+#define SMC_VERSION_ASYNC_OPERATION			BIT(8)
 
 /**
  * Set this to skip failed images, instead of faili whole clone operation
  */
-#define SMC_VERSION_SKIP_FAIL_CHECK		BIT(9)
+#define SMC_VERSION_SKIP_FAIL_CHECK			BIT(9)
 
 /**
  * Set this to skip failed images, instead of faili whole clone operation
  */
-#define SMC_VERSION_ERASE_EBF_CONFIG	BIT(10)
+#define SMC_VERSION_ERASE_EBF_CONFIG		BIT(10)
 
 /**
  * Set this to store log progress in buffer
  */
-#define SMC_VERSION_LOG_PROGRESS		BIT(11)
+#define SMC_VERSION_LOG_PROGRESS			BIT(11)
+
+/**
+ * Set this to get debug info
+ */
+#define SMC_VERSION_DEBUG					BIT(12)
+
 
 /**
  * Maximum number of objects that can return the version info
