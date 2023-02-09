@@ -45,6 +45,8 @@
 #if RAS_EXTENSION
 #include <plat_ras.h>
 #endif
+#include <bl31/interrupt_mgmt.h>
+#include <plat/common/platform.h>
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-pccpf.h"
@@ -61,6 +63,7 @@
 #include "cavm-csrs-rst.h"
 #include "cavm-csrs-ncb.h"
 #include "cavm-sw-csrs.h"
+#include "cavm-csrs-apa.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -112,6 +115,53 @@ static void plat_set_emmc_msix_vectors(void)
 		CSR_WRITE(CAVM_EMMCX_CLK_CTRL(0), clk_ctrl.u);
 	}
 
+}
+
+static void plat_set_apa_wdog_msix_vectors(void)
+{
+	int core;
+	uint64_t vecaddr, vecctl;
+
+	for (core = 0; core < PLATFORM_CORE_PER_CLUSTER; core++) {
+		octeontx_write64(CAVM_APAX_WDOG_INT_W1C(core), ~0ULL);
+		/* Secure SPI for each core */
+		vecaddr = CAVM_GICD_SETSPI_SR | 1;
+		vecctl = (uint64_t) APA_WDOG_SPI_IRQ(core);
+
+		VERBOSE("APA wdog Core %d MSIx Addr 0x%" PRIx64 " data 0x%" PRIx64 " SPI %d\n", core, vecaddr,
+			 vecctl, APA_WDOG_SPI_IRQ(core));
+		/* Write the SPI address and IRQ number */
+		octeontx_write64(CAVM_APAX_MSIX_VECX_ADDR(core, CAVM_APA_INT_VEC_E_APA_WDOG_INT), vecaddr);
+		octeontx_write64(CAVM_APAX_MSIX_VECX_CTL(core, CAVM_APA_INT_VEC_E_APA_WDOG_INT), vecctl);
+		/* Enable APA Core MSIx */
+		octeontx_write64(CAVM_APAX_WDOG_INT_ENA_W1S(core), ~0ULL);
+	}
+}
+
+static void plat_apa_wdog_intr_init(void)
+{
+	int irq, core;
+
+	/* EBF boot menu option controls APA wdog support.
+	 * Check APA watchdog enabled, if enabled configure
+	 * the interrupts for APA wdog block.
+	 */
+	CSR_INIT(apa_wdog_status, CAVM_APAX_WDOG_CORE(0));
+	if (apa_wdog_status.s.enable == 0)
+		return;
+
+	/* APA wdog set msix vectors */
+	plat_set_apa_wdog_msix_vectors();
+
+	/* APA wdog SPI GIC configuration */
+	for (core = 0; core < PLATFORM_CORE_PER_CLUSTER; core++) {
+		irq = APA_WDOG_SPI_IRQ(core);
+		plat_ic_set_interrupt_type(irq, INTR_TYPE_EL3);
+		plat_ic_set_interrupt_priority(irq, PLAT_IRQ_PRI);
+		plat_ic_clear_interrupt_pending(irq);
+		plat_ic_set_spi_routing(irq, INTR_ROUTING_MODE_PE, (u_register_t)(read_mpidr_el1() | (core << 16)));
+		plat_ic_enable_interrupt(irq);
+	}
 }
 
 #if defined(IMAGE_BL2)
@@ -348,6 +398,9 @@ void plat_octeontx_setup(void)
 #endif
 
 	plat_set_emmc_msix_vectors();
+
+	/* Setup APA wdog interrupts */
+	plat_apa_wdog_intr_init();
 
 	plat_set_coresight_funnel();
 

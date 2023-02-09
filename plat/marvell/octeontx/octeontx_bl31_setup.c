@@ -7,6 +7,7 @@
  *
  */
 
+#include <inttypes.h>
 #include <arch.h>
 #include <arch_helpers.h>
 #include <assert.h>
@@ -38,6 +39,7 @@
 #include <octeontx_mmap_utils.h>
 #include <gpio_octeontx.h>
 #include <plat_mem_alloc.h>
+#include <lib/spinlock.h>
 
 #if defined(ENABLE_RECORD_FWLOG)
 #if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
@@ -54,6 +56,10 @@
 #if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 #include "cavm-csrs-rst.h"
 #include "cavm-sw-csrs.h"
+#endif
+
+#if defined(PLAT_CN10K_FAMILY)
+#include "cavm-csrs-apa.h"
 #endif
 
 static entry_point_info_t bl33_image_ep_info, bl32_image_ep_info;
@@ -189,6 +195,80 @@ void bl31_early_platform_setup2(u_register_t arg0, u_register_t arg1,
 	bl31_early_platform_setup((void *)arg0, (void *)arg1, (uint64_t)arg2);
 }
 
+#if defined(PLAT_CN10K_FAMILY)
+#define APA_WDOG_DIAG_CLEAR_30_31       3UL << 30
+#define APA_WDOG_DIAG_CLEAR_62_63       3ULL << 62
+
+static spinlock_t octeontx_apa_lock;
+
+void apa_wdog_dump(int core)
+{
+	ERROR("APA wdog: int_w1c 0x%" PRIx64 "\n",
+		CSR_READ(CAVM_APAX_WDOG_INT_W1C(core)));
+	ERROR("APA wdog: core_diag 0x%" PRIx64 "\n",
+	      CSR_READ(CAVM_APAX_WDOG_CORE_DIAG(core)));
+	ERROR("APA wdog: struct_crd_diag 0x%" PRIx64 "\n",
+	      CSR_READ(CAVM_APAX_WDOG_STRUCT_CRD_DIAG(core)));
+	ERROR("APA wdog: struct_txnid_diag 0x%" PRIx64 "\n",
+	      CSR_READ(CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(core)));
+	ERROR("APA wdog: struct_rqb_diag 0x%" PRIx64 "\n",
+	      CSR_READ(CAVM_APAX_WDOG_STRUCT_RQB_DIAG(core)));
+	ERROR("APA wdog: struct_dat_diag 0x%" PRIx64 "\n",
+	      CSR_READ(CAVM_APAX_WDOG_STRUCT_DAT_DIAG(core)));
+}
+
+uint64_t apa_wdog_irq_handler(uint32_t id, uint32_t flags, void *cookie)
+{
+	int core_pos;
+
+	core_pos = plat_my_core_pos();
+
+	spin_lock(&octeontx_apa_lock);
+	ERROR("APA wdog: Timeout interrupt on CPU 0x%x\n", core_pos);
+	apa_wdog_dump(core_pos);
+	spin_unlock(&octeontx_apa_lock);
+
+	//clear interrupt after handling
+	CSR_WRITE(CAVM_APAX_WDOG_INT_W1C(core_pos), ~0ULL);
+	// clear APA wdog DIAG stale and multi entry fields
+	CSR_WRITE(CAVM_APAX_WDOG_CORE_DIAG(core_pos), APA_WDOG_DIAG_CLEAR_30_31);
+	CSR_WRITE(CAVM_APAX_WDOG_STRUCT_CRD_DIAG(core_pos), APA_WDOG_DIAG_CLEAR_30_31);
+	CSR_WRITE(CAVM_APAX_WDOG_STRUCT_TXNID_DIAG(core_pos), APA_WDOG_DIAG_CLEAR_30_31);
+	CSR_WRITE(CAVM_APAX_WDOG_STRUCT_RQB_DIAG(core_pos), APA_WDOG_DIAG_CLEAR_62_63);
+	CSR_WRITE(CAVM_APAX_WDOG_STRUCT_DAT_DIAG(core_pos), APA_WDOG_DIAG_CLEAR_62_63);
+
+	plat_ic_end_of_interrupt(core_pos);
+
+	return 0;
+}
+
+void octeontx_apa_wdog_init(void)
+{
+	int core;
+	int rc;
+
+	/* EBF boot menu option controls APA wdog support.
+	 * Check APA watchdog enabled, if enabled configure
+	 * the interrupt handler for APA wdog.
+	 */
+	CSR_INIT(apa_wdog_status, CAVM_APAX_WDOG_CORE(0));
+	if (apa_wdog_status.s.enable == 0)
+		return;
+
+	for (core = 0; core < PLATFORM_CORE_PER_CLUSTER; core++) {
+		rc = octeontx_ehf_register_irq_handler(APA_WDOG_SPI_IRQ(core),
+						       apa_wdog_irq_handler);
+		if (rc) {
+			ERROR("err %d registering APA wdog secure IRQ handler\n", rc);
+			return;
+		}
+	}
+
+	NOTICE("APA wdog intr handlers registered\n");
+
+}
+#endif
+
 /*******************************************************************************
  * Initialize the gic, configure the CLCD and zero out variables needed by the
  * secondaries to boot up correctly.
@@ -211,6 +291,9 @@ void bl31_platform_setup()
 	/* Intialize the power controller */
 	plat_pwrc_setup();
 	octeontx_init_heap();
+#if defined(PLAT_CN10K_FAMILY)
+	octeontx_apa_wdog_init();
+#endif
 }
 
 /*******************************************************************************
