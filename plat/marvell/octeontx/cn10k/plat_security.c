@@ -54,6 +54,7 @@
 #include "cavm-csrs-sam.h"
 #include "cavm-csrs-tad_cmn.h"
 #include "cavm-csrs-tad.h"
+#include "cavm-csrs-pem.h"
 
 #define MAX_ASC_REGIONS 32
 
@@ -450,6 +451,37 @@ void llc_flush(void)
 
 void octeontx_security_setup(void)
 {
+	cavm_pemx_bar_ctl_t bar_ctl, bc;
+
+	bar_ctl.u = 0; /* avoid 'uninitialized usage' warning */
+
+	/* In EP mode, host writes (reg or mem) can hang Octeon (TBD).
+	 * As a workaround, disable PEM BAR access & flush cache
+	 * prior to configuring memory regions.
+	 */
+	if (is_pem_in_ep_mode(0)) {
+		/* save BAR control reg */
+		bar_ctl.u = CSR_READ(CAVM_PEMX_BAR_CTL(0));
+
+		/* clear remote access from BAR0, BAR2, and BAR4 */
+		CSR_MODIFY(c, CAVM_PEMX_BAR_CTL(0),
+			   c.s.bar4_enb    = 0;
+			   c.s.bar0_enb    = 0;
+			   c.s.bar2_enb    = 0);
+
+		/* ensure write completion by re-reading reg */
+		bc.u = CSR_READ(CAVM_PEMX_BAR_CTL(0));
+		(void)bc.u;
+
+		/* Flush processor data caches */
+
+		VERBOSE("Flushing L1C\n");
+		dcsw_op_all(DCCISW);
+
+		VERBOSE("Flushing LLC\n");
+		llc_flush();
+	}
+
 	/*
 	 * It's expected that EBF has allocated second region.
 	 * Now mark it as non-secure.
@@ -470,7 +502,13 @@ void octeontx_security_setup(void)
 			 "isb\n");
 
 	init_ccs_region_map();
+
+	if (is_pem_in_ep_mode(0)) {
+		/* restore BAR control reg */
+		CSR_WRITE(CAVM_PEMX_BAR_CTL(0), bar_ctl.u);
+	}
 }
+
 /*
  * This function configures IOBN to grant access for eMMC controller
  * to secure/non-secure memory based on input parameter passed
