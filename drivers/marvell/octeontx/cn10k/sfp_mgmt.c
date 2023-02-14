@@ -368,6 +368,10 @@ static void sfp_get_info_25g(int portm_idx)
 		debug_sfp_mgmt("%s:  50GAUI FR detected\n", __func__);
 		cap_info->trans_type = SFP_TRANS_TYPE_50G_FR;
 		break;
+	case 0x45:
+		debug_sfp_mgmt("%s:  50GAUI LR detected\n", __func__);
+		cap_info->trans_type = SFP_TRANS_TYPE_50G_LR;
+		break;
 	case 0x4A:
 		debug_sfp_mgmt("%s:  50GAUI ER detected\n", __func__);
 		cap_info->trans_type = SFP_TRANS_TYPE_50G_ER;
@@ -883,6 +887,7 @@ int sfp_get_fec_capability(int portm_idx)
 	case SFP_TRANS_TYPE_50G_CR:
 	case SFP_TRANS_TYPE_50G_ER:
 	case SFP_TRANS_TYPE_50G_FR:
+	case SFP_TRANS_TYPE_50G_LR:
 		fec = SFP_FEC_MODE_RS;
 		break;
 	default:
@@ -935,6 +940,7 @@ int sfp_get_speed_capability(int portm_idx)
 	case SFP_TRANS_TYPE_50G_SR:
 	case SFP_TRANS_TYPE_50G_CR:
 	case SFP_TRANS_TYPE_50G_FR:
+	case SFP_TRANS_TYPE_50G_LR:
 	case SFP_TRANS_TYPE_50G_ER:
 		max_speed = 50000;
 		break;
