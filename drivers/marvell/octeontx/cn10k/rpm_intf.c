@@ -1390,7 +1390,7 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 		lmac->port_enable = 0;
 		lmac->lmac_enable = 0;
 		rpm->lmac_count--;
-		rpm_init(rpm_id);
+		rpm_cfg(rpm_id);
 
 		/* Disable Ethernet LMAC in shared memory */
 		sh_fwdata_set_lmac_type(rpm_id, lmac_id, PORTM_CPRI);
@@ -1573,7 +1573,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		lmac->lmac_enable = 1;
 		rpm->lmac_count++;
 		rpm->enable = 1;
-		rpm_init(rpm_id);
+		rpm_cfg(rpm_id);
 	}
 
 	ret = rpm_ecp_req_mode_change(portm_idx, rpm_id, lmac_id,

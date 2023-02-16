@@ -523,6 +523,13 @@ int rpm_set_ptp_mode(int rpm_id, int lmac_id, int enable)
  */
 void rpm_init(int rpm_id)
 {
+	/* Clear FC-FEC/RS-FEC for all LMACs */
+	CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id), 0x0);
+	rpm_cfg(rpm_id);
+}
+
+void rpm_cfg(int rpm_id)
+{
 	int lmac_id, lmac_mask = 0;
 	rpm_config_t *rpm;
 	rpm_lmac_config_t *lmac;
@@ -559,9 +566,6 @@ void rpm_init(int rpm_id)
 					CAVM_RPMX_CMR_TX_LMACS(rpm_id),
 					cn10ka, lmac_exist, (lmac_mask & 0xF));
 		}
-		/* Clear FC-FEC/RS-FEC for all LMACs */
-		CSR_WRITE(CAVM_RPMX_EXT_MTI_GLOBAL_FEC_CONTROL(rpm_id),
-				0x0);
 		/* Retrieve the LMAC config from plat_octeontx_bcfg structure
 		 * and loop
 		 * through them for lmac_count times and program the HW

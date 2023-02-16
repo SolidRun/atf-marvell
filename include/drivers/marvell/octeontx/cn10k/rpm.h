@@ -191,6 +191,7 @@ void rpm_fw_intf_shutdown(void);
 /* Plat APIs specific to CN10K family */
 int plat_get_rpm_idx(int qlm, int lane);
 void rpm_init(int rpm_id);
+void rpm_cfg(int rpm_id);
 int rpm_lmac_port_disable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx);
 int rpm_set_internal_loopback(int rpm_id, int lmac_id, int enable);
 void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable);
