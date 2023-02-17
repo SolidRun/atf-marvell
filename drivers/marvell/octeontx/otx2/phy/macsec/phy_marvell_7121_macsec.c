@@ -1038,6 +1038,8 @@ MZD_STATUS phy_7121_macsec_sa_switch(phy_7121_macsec_drv_t *phy_macsec_drv,
 	uint8_t sa2 = sa_adv_ops->sa2;
 	SecY_SA_t sa_params;
 
+	memset(&sa_params, 0x00, sizeof(sa_params));
+
 	phy_7121_macsec_vport_t *macsec_vport =
 				&phy_macsec_drv->macsec_vport_egress[vport_num];
 
