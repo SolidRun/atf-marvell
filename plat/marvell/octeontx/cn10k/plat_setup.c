@@ -207,6 +207,7 @@ static void plat_cn10k_apply_workaround(void)
 {
 	cavm_iobnx_cfg0_t iobn_cfg0;
 	cavm_iobnx_rperf_cntrx_t iobn_rperf_cntr;
+	cavm_ncbx_arbidx_ctl_t ncb_ctl;
 	uint32_t i, j;
 
 	/* Add workaround for ipbuanb-485 */
@@ -222,19 +223,82 @@ static void plat_cn10k_apply_workaround(void)
 			CSR_WRITE(CAVM_IOBNX_RPERF_CNTRX(i, j), iobn_rperf_cntr.u);
 	}
 
-	/*
-	 * cnf10k: Disable strict ordering for dsp to partial
-	 * cacheline write to llc/ddr
-	 */
 	if (cavm_is_model(OCTEONTX_CNF10KA) || cavm_is_model(OCTEONTX_CNF10KB)) {
-		cavm_ncbx_arbidx_ctl_t ncb_ctl;
-
+		/*
+		 * cnf10k: Disable strict ordering for dsp to partial
+		 * cacheline write to llc/ddr
+		 */
 		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(5, 0));
 		ncb_ctl.s.pr_iova_dis = 1;
 		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(5, 0), ncb_ctl.u);
 		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(6, 0));
 		ncb_ctl.s.pr_iova_dis = 1;
 		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(6, 0), ncb_ctl.u);
+
+		/*
+		 * cnf10k: Don't allow CRs to pass PRs
+		 */
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 0));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 0), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 1));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 1), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 3));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 3), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 5));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 5), ncb_ctl.u);
+	}
+
+	/*
+	 * cn10ka: Don't allow CRs to pass PRs
+	 */
+	if (cavm_is_model(OCTEONTX_CN10KA)) {
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 0));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 0), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 1));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 1), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 3));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 3), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 5));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 5), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 6));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 6), ncb_ctl.u);
+	}
+
+	/*
+	 * cn10kb: Don't allow CRs to pass PRs
+	 */
+	if (cavm_is_model(OCTEONTX_CN10KB)) {
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 3));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 3), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 4));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 4), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 6));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 6), ncb_ctl.u);
+
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 8));
+		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 8), ncb_ctl.u);
 	}
 }
 

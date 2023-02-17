@@ -27,6 +27,8 @@
 #include "cavm-csrs-tad_cmn.h"
 #include "cavm-csrs-rnm.h"
 
+#define NCB_COUNT			3
+
 static uint64_t msix_addr_save;
 
 int plat_octeontx_get_ecams_count(void)
@@ -406,6 +408,10 @@ void plat_add_mmio(void)
 				CAVM_RNM_BAR_E_RNM_VF_BAR0_SIZE, attr);
 	add_map_record(CAVM_RNM_BAR_E_RNM_PF_BAR0,
 		       CAVM_RNM_BAR_E_RNM_PF_BAR0_SIZE, attr);
+
+	for (i = 0; i < NCB_COUNT; ++i)
+		add_map_record(CAVM_NCB_BAR_E_NCBX_PF_BAR0(i),
+				CAVM_NCB_BAR_E_NCBX_PF_BAR0_SIZE, attr);
 
 	/*
 	 * Map DSU UB for core power management
