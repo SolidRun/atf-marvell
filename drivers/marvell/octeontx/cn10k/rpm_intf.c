@@ -848,72 +848,84 @@ static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int t
 }
 
 static const speed_mode_map_s rpm_speed_mode_map[] = {
-	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_DISABLED */
-	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_INVALID  */
-	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_INACTIVE */
-	{(1ULL << ETH_MODE_SGMII_BIT)},		/* PORTM_MODE_SGMII */
-	{(1ULL << ETH_MODE_1000_BASEX_BIT)},	/* PORTM_MODE_1000BASE_X */
-	{(1ULL << ETH_MODE_SFI_1G_BIT)},	/* PORTM_MODE_SFI_1G */
-	{(1ULL << ETH_MODE_QSGMII_BIT)},	/* PORTM_MODE_QSGMII */
-	{(1ULL << ETH_MODE_10G_C2C_BIT)},	/* PORTM_MODE_XFI */
-	{(1ULL << ETH_MODE_10G_C2M_BIT)},	/* PORTM_MODE_SFI */
-	{(1ULL << ETH_MODE_10G_KR_BIT)},	/* PORTM_MODE_10GBASE_KR */
+	{(1ULL << ETH_MODE_SGMII_BIT), PORTM_MODE_SGMII},
+	{(1ULL << ETH_MODE_1000_BASEX_BIT), PORTM_MODE_1000BASE_X},
+	{(1ULL << ETH_MODE_SFI_1G_BIT), PORTM_MODE_SFI_1G},
+	{(1ULL << ETH_MODE_QSGMII_BIT), PORTM_MODE_QSGMII},
+	{(1ULL << ETH_MODE_10G_C2C_BIT), PORTM_MODE_XFI},
+	{(1ULL << ETH_MODE_10G_C2M_BIT), PORTM_MODE_SFI},
+	{(1ULL << ETH_MODE_10G_KR_BIT), PORTM_MODE_10GBASE_KR},
 	/* ETH_MODE_20G_C2C_BIT not supported for CN10K family */
 	/* ETH_MODE_25G_2_C2C_BIT not supported for CN10K family */
-	{(1ULL << ETH_MODE_25G_C2C_BIT)},	/* PORTM_MODE_25GAUI_C2C */
-	{(1ULL << ETH_MODE_25G_C2M_BIT)}, 	/* PORTM_MODE_25GAUI_C2M */
-	{(1ULL << ETH_MODE_25G_CR_BIT)},	/* PORTM_MODE_25GBASE_CR */
-	{(1ULL << ETH_MODE_25G_KR_BIT)},	/* PORTM_MODE_25GBASE_KR */
-	{(1ULL << ETH_MODE_25GBASE_CR_C_BIT)},	/* PORTM_MODE_25GBASE_CR_C */
-	{(1ULL << ETH_MODE_25GBASE_KR_C_BIT)},	/* PORTM_MODE_25GBASE_KR_C */
-	{(1ULL << ETH_MODE_40G_C2C_BIT)},	/* PORTM_MODE_XLAUI */
-	{(1ULL << ETH_MODE_40G_C2M_BIT)},  /* PORTM_MODE_XLAUI_C2M */
-	{(1ULL << ETH_MODE_40G_CR4_BIT)},  /* PORTM_MODE_40GBASE_CR4 */
-	{(1ULL << ETH_MODE_40G_KR4_BIT)},	/* PORTM_MODE_40GBASE_KR4 */
+	{(1ULL << ETH_MODE_25G_C2C_BIT), PORTM_MODE_25GAUI_C2C},
+	{(1ULL << ETH_MODE_25G_C2M_BIT), PORTM_MODE_25GAUI_C2M},
+	{(1ULL << ETH_MODE_25G_CR_BIT), PORTM_MODE_25GBASE_CR},
+	{(1ULL << ETH_MODE_25G_KR_BIT), PORTM_MODE_25GBASE_KR},
+	{(1ULL << ETH_MODE_25GBASE_CR_C_BIT), PORTM_MODE_25GBASE_CR_C},
+	{(1ULL << ETH_MODE_25GBASE_KR_C_BIT), PORTM_MODE_25GBASE_KR_C},
+	{(1ULL << ETH_MODE_40G_C2C_BIT), PORTM_MODE_XLAUI},
+	{(1ULL << ETH_MODE_40G_C2M_BIT), PORTM_MODE_XLAUI_C2M},
+	{(1ULL << ETH_MODE_40G_CR4_BIT), PORTM_MODE_40GBASE_CR4},
+	{(1ULL << ETH_MODE_40G_KR4_BIT), PORTM_MODE_40GBASE_KR4},
 	/* ETH_MODE_40GAUI_C2C_BIT not supported for CN10K family */
-	{(1ULL << ETH_MODE_50GAUI_2_C2C_BIT)},	/* PORTM_MODE_LAUI_2_C2C */
-	{(1ULL << ETH_MODE_50GAUI_2_C2M_BIT)},	/* PORTM_MODE_LAUI_2_C2M */
-	{(1ULL << ETH_MODE_50GBASE_CR2_C_BIT)},	/* PORTM_MODE_50GBASE_CR2_C */
-	{(1ULL << ETH_MODE_50GBASE_KR2_C_BIT)},	/* PORTM_MODE_50GBASE_KR2_C */
-	{(1ULL << ETH_MODE_50G_C2C_BIT)}, /* PORTM_MODE_50GAUI_1_C2C */
-	{(1ULL << ETH_MODE_50G_C2M_BIT)}, /* PORTM_MODE_50GAUI_1_C2M */
-	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_50GBASE_USR not supported for mode change */
+	{(1ULL << ETH_MODE_50GAUI_2_C2C_BIT), PORTM_MODE_LAUI_2_C2C},
+	{(1ULL << ETH_MODE_50GAUI_2_C2M_BIT), PORTM_MODE_LAUI_2_C2M},
+	{(1ULL << ETH_MODE_50GBASE_CR2_C_BIT), PORTM_MODE_50GBASE_CR2_C},
+	{(1ULL << ETH_MODE_50GBASE_KR2_C_BIT), PORTM_MODE_50GBASE_KR2_C},
+	{(1ULL << ETH_MODE_50G_C2C_BIT), PORTM_MODE_50GAUI_1_C2C},
+	{(1ULL << ETH_MODE_50G_C2M_BIT), PORTM_MODE_50GAUI_1_C2M},
+	{(1ULL << ETH_MODE_MAX_BIT), PORTM_MODE_50GBASE_USR},
 	/* ETH_MODE_50G_4_C2C_BIT not supported for CN10K family */
-	{(1ULL << ETH_MODE_50G_CR_BIT)}, /* PORTM_MODE_50GBASE_CR */
-	{(1ULL << ETH_MODE_50G_KR_BIT)}, /* PORTM_MODE_50GBASE_KR */
+	{(1ULL << ETH_MODE_50G_CR_BIT), PORTM_MODE_50GBASE_CR},
+	{(1ULL << ETH_MODE_50G_KR_BIT), PORTM_MODE_50GBASE_KR},
 	/* ETH_MODE_80GAUI_C2C_BIT not supported for CN10K family */
-	{(1ULL << ETH_MODE_100G_C2C_BIT)},	/* PORTM_MODE_CAUI_4_C2C */
-	{(1ULL << ETH_MODE_100G_C2M_BIT)}, /* PORTM_MODE_CAUI_4_C2M */
-	{(1ULL << ETH_MODE_100G_CR4_BIT)},	/* PORTM_MODE_100GBASE_CR4 */
-	{(1ULL << ETH_MODE_100G_KR4_BIT)},	/* PORTM_MODE_100GBASE_KR4 */
-	{(1ULL << ETH_MODE_100GAUI_2_C2C_BIT)}, /* PORTM_MODE_100GAUI_2_C2C */
-	{(1ULL << ETH_MODE_100GAUI_2_C2M_BIT)}, /* PORTM_MODE_100GAUI_2_C2M */
-	{(1ULL << ETH_MODE_MAX_BIT)},	/* PORTM_MODE_100GBASE_USR2 not supported for mode change */
-	{(1ULL << ETH_MODE_100GBASE_CR2_BIT)}, /* PORTM_MODE_100GBASE_CR2 */
-	{(1ULL << ETH_MODE_100GBASE_KR2_BIT)}, /* PORTM_MODE_100GBASE_KR2 */
+	{(1ULL << ETH_MODE_100G_C2C_BIT), PORTM_MODE_CAUI_4_C2C},
+	{(1ULL << ETH_MODE_100G_C2M_BIT), PORTM_MODE_CAUI_4_C2M},
+	{(1ULL << ETH_MODE_100G_CR4_BIT), PORTM_MODE_100GBASE_CR4},
+	{(1ULL << ETH_MODE_100G_KR4_BIT), PORTM_MODE_100GBASE_KR4},
+	{(1ULL << ETH_MODE_100GAUI_2_C2C_BIT), PORTM_MODE_100GAUI_2_C2C},
+	{(1ULL << ETH_MODE_100GAUI_2_C2M_BIT), PORTM_MODE_100GAUI_2_C2M},
+	{(1ULL << ETH_MODE_MAX_BIT), PORTM_MODE_100GBASE_USR2},
+	{(1ULL << ETH_MODE_100GBASE_CR2_BIT), PORTM_MODE_100GBASE_CR2},
+	{(1ULL << ETH_MODE_100GBASE_KR2_BIT), PORTM_MODE_100GBASE_KR2},
 };
 
+#define CPRI_MODE(_m) {(1ULL << ETH_MODE_## _m ##_BIT), PORTM_MODE_## _m}
 static const speed_mode_map_s cpri_speed_mode_map[] = {
-	{(1ULL << ETH_MODE_CPRI_2_4G_BIT)},
-	{(1ULL << ETH_MODE_CPRI_3_1G_BIT)},
-	{(1ULL << ETH_MODE_CPRI_4_9G_BIT)},
-	{(1ULL << ETH_MODE_CPRI_6_1G_BIT)},
-	{(1ULL << ETH_MODE_CPRI_9_8G_BIT)},
+	CPRI_MODE(CPRI_2_4G),
+	CPRI_MODE(CPRI_3_1G),
+	CPRI_MODE(CPRI_4_9G),
+	CPRI_MODE(CPRI_6_1G),
+	CPRI_MODE(CPRI_9_8G),
 };
 
 static const speed_mode_map_s cpri_test_speed_mode_map[] = {
-	{(1ULL << ETH_MODE_CPRI_2_4G_TEST_BIT)},
-	{(1ULL << ETH_MODE_CPRI_3_1G_TEST_BIT)},
-	{(1ULL << ETH_MODE_CPRI_4_9G_TEST_BIT)},
-	{(1ULL << ETH_MODE_CPRI_6_1G_TEST_BIT)},
-	{(1ULL << ETH_MODE_CPRI_9_8G_TEST_BIT)},
-	{(1ULL << ETH_MODE_CPRI_12_3G_TEST_BIT)},
-	{(1ULL << ETH_MODE_CPRI_19_7G_TEST_BIT)},
+	CPRI_MODE(CPRI_2_4G_TEST),
+	CPRI_MODE(CPRI_3_1G_TEST),
+	CPRI_MODE(CPRI_4_9G_TEST),
+	CPRI_MODE(CPRI_6_1G_TEST),
+	CPRI_MODE(CPRI_9_8G_TEST),
+	CPRI_MODE(CPRI_12_3G_TEST),
+	CPRI_MODE(CPRI_19_7G_TEST),
 };
+
+static uint64_t rpm_get_eth_mode_bitmask(cn10k_portm_modes_t portm_mode)
+{
+	const speed_mode_map_s *map = rpm_speed_mode_map;
+	const size_t len = ARRAY_SIZE(rpm_speed_mode_map);
+
+	for (int i = 0; i < len; i++) {
+		if (map[i].portm_mode == portm_mode)
+			return map[i].mode_bitmask;
+	}
+
+	return 0;
+}
 
 static int rpm_obtain_mode_and_group(cn10k_portm_modes_t portm_mode, int *mode, int *group)
 {
 	int mac_type;
+	uint64_t bitmask;
 
 	mac_type = cn10k_portm_get_mode_desc_mac_type(portm_mode);
 	switch (mac_type) {
@@ -930,13 +942,14 @@ static int rpm_obtain_mode_and_group(cn10k_portm_modes_t portm_mode, int *mode, 
 		else if (portm_mode == PORTM_MODE_25GBASE_USR)
 			portm_mode = PORTM_MODE_25GAUI_C2C;
 
-		if (portm_mode >= ARRAY_SIZE(rpm_speed_mode_map)) {
+		bitmask = rpm_get_eth_mode_bitmask(portm_mode);
+		if (!bitmask) {
 			ERROR("%s Ethernet group: unsupported portm_mode %d\n",
 				__func__, portm_mode);
 			return -1;
 		}
 
-		*mode = __builtin_ffsl(rpm_speed_mode_map[portm_mode].mode_bitmask) - 1; /* enum starts at 0 */
+		*mode = __builtin_ffsl(bitmask) - 1; /* enum starts at 0 */
 		*group = MODE_GROUP_ETH;
 		break;
 
@@ -1003,12 +1016,10 @@ static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask, int mode
 	size_t len = ARRAY_SIZE(rpm_speed_mode_map);
 	const char *group = "rpm";
 	bool try_cpri_test_modes = true;
-	int mode_offset = 0;
 
 	if (mode_group == MODE_GROUP_CPRI) {
 		map = cpri_speed_mode_map;
 		len = ARRAY_SIZE(cpri_speed_mode_map);
-		mode_offset = PORTM_MODE_CPRI_2_4G;
 		group = "cpri";
 	}
 
@@ -1019,7 +1030,7 @@ retry:
 				group,
 				map[i].mode_bitmask);
 		if (map[i].mode_bitmask == mode_bitmask)
-			return i + mode_offset;
+			return map[i].portm_mode;
 	}
 
 	/* If mode is from CPRI group and not found so far, try CPRI test modes */
@@ -1027,7 +1038,6 @@ retry:
 		try_cpri_test_modes = false;
 		map = cpri_test_speed_mode_map;
 		len = ARRAY_SIZE(cpri_test_speed_mode_map);
-		mode_offset = PORTM_MODE_CPRI_2_4G_TEST;
 		group = "cpri_test";
 		goto retry;
 	}
@@ -1040,22 +1050,35 @@ static void rpm_set_link_mode(int rpm_id, int lmac_id, int portm_mode)
 	union eth_scratchx0 scratchx0;
 	uint64_t mode = 0, bitmask = 0;
 
+	switch (portm_mode) {
 	/* USR modes added specifically for CN10KAS platform is internally
 	 * same as C2C mode. Ethernet mode bitmask eth_mode_t enum is
 	 * not added to these modes as mode change is supported. Hence,
 	 * update USR mode as C2C mode.
 	 */
-	if (portm_mode == PORTM_MODE_100GBASE_USR2)
+	case PORTM_MODE_100GBASE_USR2:
 		portm_mode = PORTM_MODE_100GAUI_2_C2C;
-	else if (portm_mode == PORTM_MODE_50GBASE_USR)
+		break;
+	case PORTM_MODE_50GBASE_USR:
 		portm_mode = PORTM_MODE_50GAUI_1_C2C;
-	else if (portm_mode == PORTM_MODE_25GBASE_USR)
+		break;
+	case PORTM_MODE_25GBASE_USR:
 		portm_mode = PORTM_MODE_25GAUI_C2C;
+		break;
+
+	default:
+		break;
+	}
+
+	bitmask = rpm_get_eth_mode_bitmask(portm_mode);
+	if (!bitmask) {
+		ERROR("%s %d:%d no bitmask for portm_mode %d\n",
+			__func__, rpm_id, lmac_id, portm_mode);
+		return;
+	}
 
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
-	bitmask = rpm_speed_mode_map[portm_mode].mode_bitmask;
-	if (bitmask)
-		mode = __builtin_ffsl(bitmask) - 1; /* enum starts at 0 */
+	mode = __builtin_ffsl(bitmask) - 1; /* enum starts at 0 */
 	scratchx0.s.link_sts.mode = mode;
 	CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0), scratchx0.u);
 }
@@ -1064,7 +1087,6 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 {
 	uint64_t modes_allowed = 0, modes_exclude = 0;
 	rpm_lmac_config_t *lmac_cfg;
-	uint64_t eth_mode[MAX_PORTM] = {0};
 	const cn10k_portm_modes_t *descr;
 	int portm_count = 0;
 	portm_config_t *portm;
@@ -1074,13 +1096,18 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 
-	/* Some CN9XX specific modes are not supported.
-	 * Exclude them from supported link modes
+	/* FIXME: Exclude USGMII & USXGMII from mode change once
+	 * their corresonding bitmasks are added
 	 */
 	modes_exclude = (BIT_64(ETH_MODE_80GAUI_C2C_BIT) |
 				BIT_64(ETH_MODE_25G_2_C2C_BIT) |
 				BIT_64(ETH_MODE_50G_4_C2C_BIT) |
-				BIT_64(ETH_MODE_40GAUI_C2C_BIT));
+				BIT_64(ETH_MODE_40GAUI_C2C_BIT)
+				//BIT64(ETH_MODE_Q_USGMII_BIT) |
+				//BIT64(ETH_MODE_O_USGMII_BIT) |
+				//BIT64(ETH_MODE_10G_DSXGMII_BIT) |
+				//BIT64(ETH_MODE_10G_QSXGMII_BIT)
+				);
 
 	/* FIXME */
 	if (lmac_cfg->phy_present && lmac_cfg->phy_config)
@@ -1119,19 +1146,38 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 		}
 	}
 
-	/* Restrict speed change only for modes based on PORTM */
-	descr = portm_get_mode_desc(lmac_cfg->portm_idx);
-	portm_count = cn10k_get_portm_mode_count(lmac_cfg->portm_idx);
+	switch (portm->portm_mode) {
+	case PORTM_MODE_2500BASE_X:
+	case PORTM_MODE_5000BASE_X:
+	case PORTM_MODE_2_5G_SXGMII:
+	case PORTM_MODE_5G_SXGMII:
+	case PORTM_MODE_10G_SXGMII:
+	case PORTM_MODE_10G_DXGMII:
+	case PORTM_MODE_10G_QXGMII:
+	case PORTM_MODE_Q_USGMII:
+	case PORTM_MODE_O_USGMII:
+		/* FIXME: unimplemented modes bitmasks or mode change not supported */
+		modes_allowed = 0;
+		break;
 
-	if (descr) {
-		for (int i = 0; i < (portm_count - 1); i++) {
-			eth_mode[i] = rpm_speed_mode_map[descr[i]].mode_bitmask;
-			modes_allowed |= eth_mode[i];
-		}
-	}
-
-	if (portm->portm_mode == PORTM_MODE_QSGMII)
+	case PORTM_MODE_QSGMII:
 		modes_allowed = BIT_64(ETH_MODE_QSGMII_BIT);
+		break;
+	default:
+		/* All others: Restrict speed change only for modes based on PORTM */
+		descr = portm_get_mode_desc(lmac_cfg->portm_idx);
+		portm_count = cn10k_get_portm_mode_count(lmac_cfg->portm_idx);
+
+		if (descr) {
+			for (int i = 0; i < (portm_count - 1); i++) {
+				cn10k_portm_modes_t portm_mode = descr[i];
+				uint64_t bitmask = rpm_get_eth_mode_bitmask(portm_mode);
+
+				modes_allowed |= bitmask;
+			}
+		}
+		break;
+	}
 
 	lmac_cfg->supported_link_modes &= modes_allowed;
 

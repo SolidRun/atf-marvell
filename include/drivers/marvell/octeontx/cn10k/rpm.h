@@ -179,6 +179,7 @@ typedef struct rpm_lmac_bringup_context_s {
 /* Mapping of mode to PORTM mode */
 typedef struct speed_mode_map {
 	uint64_t mode_bitmask;
+	cn10k_portm_modes_t portm_mode;
 } speed_mode_map_s;
 
 /* RPM driver APIs */
