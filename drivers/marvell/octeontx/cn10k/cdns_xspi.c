@@ -839,7 +839,7 @@ int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 	union cavm_spix_ctrl_cmd_stat_cmd_reg1 reg_1;
 	union cavm_spix_ctrl_cmd_stat_cmd_reg4 reg_4;
 	union cavm_spix_ctrl_cmd_stat_cmd_reg5 reg_5;
-	int timeout = 100 * 100;
+	int timeout = 200 * 1000;
 
 	cdns_xspi_set_mode(spi_con, XSPI_MODE_AUTO);
 
@@ -856,7 +856,7 @@ int cdns_xspi_auto_erase(uint64_t spi_addr, uint32_t block_erase_cnt,
 			erase_ctrl.s.erss_seq_p1_cmd_val = SPINOR_OP_BE_64K_4B;
 		if (erase_ctrl.s.erss_seq_p1_cmd_val == SPINOR_OP_BE_4K)
 			erase_ctrl.s.erss_seq_p1_cmd_val = SPINOR_OP_BE_64K;
-		timeout = 500 * 100;
+		timeout = 500 * 1000;
 	}
 	CSR_WRITE(CAVM_SPIX_DEV_SEQ_REGS_ERS_SEQ_CFG_0(spi_con), erase_ctrl.u);
 	CSR_WRITE(CAVM_SPIX_CTRL_CMD_STAT_CMD_REG5(spi_con), reg_5.u);
