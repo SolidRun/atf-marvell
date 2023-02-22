@@ -699,8 +699,20 @@
  */
 #define PLAT_OCTEON_CLEAR_FIRMWARE_LOGGING	0xc2000b1c
 
+/*
+ * x1 - user_buffer
+ * x2 - buffer size
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Invalid Arguments
+ *	x1: variable container size
+ */
+#define PLAT_OCTEONTX_READ_EFI_VAR		0xc2000b1d
+
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			28
+#define OTX3_NUM_SMC_CALLS			29
 
 
 /* API that allows to define platform specific SMC CALLS */

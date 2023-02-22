@@ -73,10 +73,28 @@
 
 #define TIM_BLOCK_MAX_SIZE	0x1000
 #define MAX_EFI_VAR_SIZE	0x4000
+#define MAX_EFI_STORAGE		0x10000
 
 static struct tim_handle tim_handle;
 static struct tim_header_info tim_header_info;
 static struct tim_load_info tim_load_info;
+
+/**
+ * struct efi_var_file - file for storing UEFI variables
+ *
+ * @reserved:	unused, may be overwritten by memory probing
+ * @magic:	identifies file format, takes value %EFI_VAR_FILE_MAGIC
+ * @length:	length including header
+ * @crc32:	CRC32 without header
+ * @var:	variables
+ */
+struct efi_var_file_hdr {
+	uint64_t reserved;
+	uint64_t magic;
+	uint32_t length;
+	uint32_t crc32;
+};
+#define EFI_VAR_FILE_MAGIC 0x0161566966456255 /* UbEfiVa, version 1 */
 
 /* Buffer to read TIMs */
 static inline int get_spi_mode(uint64_t offset)
@@ -317,6 +335,11 @@ int spi_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
 		return -1;
 	}
 
+	if (spi_dev_lock(spi_id)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, spi_id);
+		return -1;
+	}
+
 	if (cn10k_spi_dev_read_aligned(img_buf, OEM_DATA_SIZE, OEM_DATA_OFFSET, spi_id, cs))
 		return -EIO;
 
@@ -326,176 +349,168 @@ int spi_load_oem_data(int spi_id, int cs, uintptr_t img_buf,
 }
 
 #define BUF_SIZE	4096
-__aligned(8) static uint8_t wr_buffer[BUF_SIZE] = {0};
-__aligned(8) static uint8_t rd_buffer[BUF_SIZE] = {0};
+__aligned(8) static uint8_t wr_buffer[BUF_SIZE] = {0xFF};
 
 #define BUF_SIZE_64K	65536
-__aligned(8) static uint8_t rd_buffer64[BUF_SIZE_64K] = {0};
+__aligned(8) static uint8_t rd_buffer[BUF_SIZE_64K] = {0xFF};
 
-int cn10k_spi_dev_write_64k(uintptr_t buf, uint64_t buf_size,
-			    int loc, int bus, int cs)
+int cn10k_spi_dev_erase(uint64_t offset, uint64_t len, int bus, int cs)
 {
-	size_t size = buf_size;
-	uint64_t offset = loc, xfer_len;
-	uint64_t sector_offset, sector_addr;
-	int mode = SPI_ADDRESSING_24BIT, ret = 0;
-	const void *user_buffer = (void *)buf;
+	uint64_t sector_offset, sector_addr, sector_size, window_size;
+	int64_t last_sector;
+	int mode = SPI_ADDRESSING_24BIT;
 
 	debug_spi_nor("%s buf %lx len %" PRIx64 " loc %x bus %d cs %d\n",
-		      __func__, buf, buf_size, loc, bus, cs);
-	memset(rd_buffer64, 0, BUF_SIZE_64K);
-
-	memset(wr_buffer, 0, BUF_SIZE);
-	memset(rd_buffer, 0, BUF_SIZE);
-
-	if (spi_dev_lock(bus)) {
-		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
-		return -1;
-	}
+		      __func__, buf, len, offset, bus, cs);
 
 	CHECK_AND_CONFIG_SPI(bus, cs)
 
-	/* Update data */
-	while (size > 0) {
-		sector_addr   = offset & ~(BUF_SIZE_64K - 1);
-		sector_offset = offset &  (BUF_SIZE_64K - 1);
-		xfer_len = size < BUF_SIZE_64K ? size : BUF_SIZE_64K;
-		if (sector_offset + xfer_len > BUF_SIZE_64K)
-			xfer_len = BUF_SIZE_64K - sector_offset;
+	if (plat_octeontx_bcfg->spi_cfg[bus].erase_64k[cs])
+		sector_size = BUF_SIZE_64K;
+	else
+		sector_size = BUF_SIZE;
 
-		debug_spi_nor("%s sect addr %" PRIx64 " offset %llx xferlen %llx\n",
-			      __func__, sector_addr, sector_offset, xfer_len);
-		if (spi_nor_read(rd_buffer64, BUF_SIZE_64K, sector_addr,
+	sector_addr = offset & ~(sector_size - 1);
+	sector_offset = offset &  (sector_size - 1);
+	last_sector = ((offset + len - 1) & ~(sector_size - 1));
+
+	/* First sector: keep possible heading and trailing bytes */
+	if ((sector_offset > 0) || (len < sector_size)) {
+		if (spi_nor_read(rd_buffer, sector_size, sector_addr,
 				 mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
-			     offset);
-			ret = -1;
-			break;
+			WARN("SPI: Read flash failed for offset: 0x%llx, "
+				 "len: 0x%llx, file: EFI_VAR\n",
+			     sector_addr, sector_size );
+			return -1;
 		}
-		memcpy((void *)(rd_buffer64 + sector_offset),
-		       (const void *)user_buffer, xfer_len);
+
+		if (sector_offset + len < sector_size)
+			window_size = len;
+		else
+			window_size = sector_size - sector_offset;
+
+		memset(rd_buffer + sector_offset, 0xFF, window_size);
 
 		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
-			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
-			     offset);
-			ret = -1;
-			break;
+			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64
+				 ", sector size: 0x%llx, file: EFI_VAR\n",
+			     sector_addr, sector_size );
+			return -1;
 		}
-		if (spi_nor_write(rd_buffer64, BUF_SIZE_64K, sector_addr,
+
+		if (spi_nor_write(rd_buffer, sector_size, sector_addr,
 				  mode, bus, cs) < 0) {
-			WARN("SPI: Write flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
-			     offset);
-			ret = -1;
-			break;
+			WARN("SPI: Write flash failed for offset: 0x%" PRIx64
+				 ", len: 0x%llx, file: EFI_VAR\n",
+			     sector_addr, sector_size );
+			return -1;
 		}
-		offset += xfer_len;
-		user_buffer += xfer_len;
-		size -= xfer_len;
+
+		sector_addr += sector_size;
 	}
 
-	if (ret == -1)
-		goto fail;
+	window_size = (offset + len) & (sector_size - 1);
 
-	/* Verify data */
-	offset = loc;
-	size = buf_size;
-	user_buffer = (void *)buf;
-	while (size > 0) {
-		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
-		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
+	/* Erase middle sector(s) */
+	while ((sector_addr < last_sector) ||
+		   ((sector_addr == last_sector) && (window_size == 0))) {
+		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
+			WARN("SPI: Erase flash failed for offset: 0x%llx, "
+				 "sector size: 0x%llx, file: EFI_VAR\n",
+			     sector_addr, sector_size );
+			return -1;
+		}
+		sector_addr += sector_size;
+	}
 
-		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
+	/* Last sector: keep possible trailing bytes */
+	if ((sector_addr == last_sector) && (window_size > 0)) {
+		if (spi_nor_read(rd_buffer, sector_size, sector_addr,
 				 mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
-			     offset);
-			ret = -1;
-			break;
+			WARN("SPI: Read flash failed for offset: 0x%" PRIx64
+				 ", len: 0x%llx, file: EFI_VAR\n",
+			     sector_addr, sector_size );
+			return -1;
 		}
-		if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
-			WARN("SPI: Compare data failed for file: EFI_VAR\n");
-			ret = -1;
-			break;
+
+		memset(rd_buffer, 0xFF, window_size);
+
+		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
+			WARN("SPI: Erase flash failed for offset: 0x%llx, "
+				 "sector size: 0x%llx, file: EFI_VAR\n",
+			     sector_addr, sector_size );
+			return -1;
 		}
-		offset += xfer_len;
-		user_buffer += xfer_len;
-		size -= xfer_len;
+
+		if (spi_nor_write(rd_buffer, sector_size, sector_addr,
+				  mode, bus, cs) < 0) {
+			WARN("SPI: Write flash failed for offset: 0x%llx, "
+				 "len: 0x%llx, file: EFI_VAR\n",
+			     sector_addr, sector_size );
+			return -1;
+		}
 	}
 
-fail:
-	if (spi_dev_unlock(bus)) {
-		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
-		return -1;
-	}
-
-	return ret;
+	return 0;
 }
 
-int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
+static int cn10k_spi_dev_write(uintptr_t efi_buf, uint64_t efi_size,
 			   int loc, int bus, int cs)
 {
 	size_t size = efi_size;
-	uint64_t offset = loc, xfer_len;
-	int mode = SPI_ADDRESSING_24BIT, ret = 0;
-	const void *user_buffer = (void *)efi_buf;
-
-	if (plat_octeontx_bcfg->spi_cfg[bus].erase_64k[cs]) {
-		return cn10k_spi_dev_write_64k(efi_buf, efi_size, loc, bus, cs);
-	}
-
-	memset(wr_buffer, 0, BUF_SIZE);
-	memset(rd_buffer, 0, BUF_SIZE);
-
-	if (spi_dev_lock(bus)) {
-		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
-		return -1;
-	}
+	int mode = SPI_ADDRESSING_24BIT;
+	const uint8_t *user_buffer = (uint8_t *)efi_buf;
+	uint64_t sector_addr, sector_offset, window_size;
 
 	CHECK_AND_CONFIG_SPI(bus, cs)
 
-	while (size > 0) {
-		xfer_len = size < BUF_SIZE ? size : BUF_SIZE;
-		memcpy((void *)wr_buffer, (const void *)user_buffer, xfer_len);
+	sector_addr = loc & ~(BUF_SIZE - 1);
+	sector_offset = loc & (BUF_SIZE - 1);
 
-		if (spi_nor_erase(offset, mode, bus, cs)) {
+	while (size > 0) {
+		if (spi_nor_read(wr_buffer, BUF_SIZE, sector_addr,
+				 mode, bus, cs) < 0) {
 			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
-			     offset);
-			ret = -1;
-			break;
+			     sector_addr);
+			return -1;
 		}
 
-		if (spi_nor_write(wr_buffer, BUF_SIZE, offset,
+		if (sector_offset + size < BUF_SIZE)
+			window_size = size;
+		else
+			window_size = BUF_SIZE - sector_offset;
+
+		memcpy(wr_buffer + sector_offset, user_buffer, window_size);
+
+		if (spi_nor_write(wr_buffer, BUF_SIZE, sector_addr,
 				  mode, bus, cs) < 0) {
 			WARN("SPI: Write flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
-			     offset);
-			ret = -1;
-			break;
+			     sector_addr);
+			return -1;
 		}
-		if (spi_nor_read(rd_buffer, BUF_SIZE, offset,
+
+		if (spi_nor_read(rd_buffer, BUF_SIZE, sector_addr,
 				 mode, bus, cs) < 0) {
 			WARN("SPI: Read flash failed for offset: 0x%" PRIx64 ", file: EFI_VAR\n",
-			     offset);
-			ret = -1;
-			break;
+			     sector_addr);
+			return -1;
 		}
-		if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
+
+		if (memcmp(rd_buffer, wr_buffer, BUF_SIZE)) {
 			WARN("SPI: Compare data failed for file: EFI_VAR\n");
-			ret = -1;
-			break;
+			return -1;
 		}
-		offset += xfer_len;
-		user_buffer += xfer_len;
-		size -= xfer_len;
+
+		sector_addr += BUF_SIZE;
+		user_buffer += window_size;
+		size -= window_size;
+		sector_offset = 0;
 	}
 
-	if (spi_dev_unlock(bus)) {
-		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
-		return -1;
-	}
-
-	return ret;
+	return 0;
 }
 
-unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
+static long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 		int loc, int bus, int cs)
 {
 	size_t size = *efi_size;
@@ -510,11 +525,6 @@ unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 	}
 
 	memset(rd_buffer, 0, BUF_SIZE);
-
-	if (spi_dev_lock(bus)) {
-		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
-		return -1;
-	}
 
 	CHECK_AND_CONFIG_SPI(bus, cs)
 
@@ -533,17 +543,18 @@ unsigned long cn10k_spi_dev_read(uintptr_t efi_buf, uint64_t *efi_size,
 		size -= xfer_len;
 	}
 
-	if (spi_dev_unlock(bus)) {
-		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
-		return -1;
-	}
-
 	return ret;
 }
 
 int spi_write_efi_var(uintptr_t efi_buf, uint64_t efi_size)
 {
-	uint32_t i, j, spi_bus, spi_cs, found;
+	uint32_t i, j, spi_bus, spi_cs, found, ret = 0;
+	uint64_t flash_off, sector_off;
+
+	if (efi_size < offsetof(struct efi_var_file_hdr, crc32)) {
+		WARN("%s: EFI variable smaller than pure header\n", __func__);
+		return -1;
+	}
 
 	found = 0;
 	for (i = 0; i < MAX_SPI_BUS; i++) {
@@ -570,116 +581,338 @@ int spi_write_efi_var(uintptr_t efi_buf, uint64_t efi_size)
 	}
 
 	/* Confirm offset for EFI variables available */
-	if (!plat_octeontx_bcfg->spi_cfg[spi_bus].efivar_offset) {
+	flash_off = plat_octeontx_bcfg->spi_cfg[spi_bus].efivar_offset;
+	if (!flash_off) {
 		WARN("%s: Offset in flash unknown, check device tree\n",
 		     __func__);
 		return -1;
 	}
 
-	return cn10k_spi_dev_write(efi_buf, efi_size,
-			     plat_octeontx_bcfg->spi_cfg[spi_bus].efivar_offset,
-			     spi_bus, spi_cs);
+	if (spi_dev_lock(spi_bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, spi_bus);
+		return -1;
+	}
+
+	/* find end of container chain */
+	sector_off = 0;
+
+	while (sector_off < MAX_EFI_STORAGE) {
+		struct efi_var_file_hdr container_hdr;
+		uint64_t hdr_size = sizeof(container_hdr);
+
+		if (cn10k_spi_dev_read((uintptr_t)&container_hdr, &hdr_size,
+									flash_off + sector_off, spi_bus, spi_cs) ||
+			(hdr_size != sizeof(container_hdr)) ||
+			(container_hdr.magic != EFI_VAR_FILE_MAGIC))
+			break;
+
+		sector_off += container_hdr.length;
+	}
+
+	/* save behind last container, erase if needed */
+	if (sector_off + efi_size > MAX_EFI_STORAGE) {
+		ret = cn10k_spi_dev_erase(flash_off, MAX_EFI_STORAGE, spi_bus, spi_cs);
+		sector_off = 0;
+	}
+
+	if (ret == 0) {
+		ret = cn10k_spi_dev_write(efi_buf, efi_size, flash_off + sector_off,
+								  spi_bus, spi_cs);
+		/* in case some garbage lead to fail erase all and restart from 0 */
+		if ((ret != 0) && (sector_off != 0)) {
+			ret = cn10k_spi_dev_erase(flash_off, MAX_EFI_STORAGE,
+									  spi_bus, spi_cs);
+			if (ret == 0)
+				ret = cn10k_spi_dev_write(efi_buf, efi_size,
+										  flash_off, spi_bus, spi_cs);
+		}
+	}
+
+	if (spi_dev_unlock(spi_bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, spi_bus);
+		return -1;
+	}
+
+	return ret;
+}
+
+int spi_read_efi_var(uintptr_t efi_buf, uint64_t *efi_size)
+{
+	uint32_t i, j, bus, cs, found;
+	int ret = 0;
+	uint64_t flash_off, sector_off, found_off;
+
+	if (*efi_size < offsetof(struct efi_var_file_hdr, crc32)) {
+		WARN("%s: Receive buffer too small (0x%llx), even header won't fit\n",
+		     __func__, *efi_size);
+		return -1;
+	}
+
+	found = 0;
+	for (i = 0; i < MAX_SPI_BUS; i++) {
+		for (j = 0; j < MAX_SPI_CS; j++) {
+			if (plat_octeontx_bcfg->spi_cfg[i].has_efivar &&
+			    plat_octeontx_bcfg->spi_cfg[i].cs[j]) {
+				found = 1;
+				bus = i;
+				cs = j;
+				break;
+			}
+		}
+	}
+
+	if (!found) {
+		WARN("%s: EFI variable flash unknown, check device tree\n",
+		     __func__);
+		return -1;
+	}
+
+	flash_off = plat_octeontx_bcfg->spi_cfg[bus].efivar_offset;
+	if (!flash_off) {
+		WARN("%s: Offset in flash unknown, check device tree\n",
+		     __func__);
+		return -1;
+	}
+
+	if (spi_dev_lock(bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		return -1;
+	}
+
+	/* find end of container chain */
+	sector_off = 0;
+	found_off = 0;
+
+	while (sector_off < MAX_EFI_STORAGE) {
+		struct efi_var_file_hdr container_hdr;
+		uint64_t hdr_size = sizeof(container_hdr);
+
+		if (cn10k_spi_dev_read((uintptr_t)&container_hdr, &hdr_size,
+									flash_off + sector_off, bus, cs) ||
+			(hdr_size != sizeof(container_hdr)) ||
+			(container_hdr.magic != EFI_VAR_FILE_MAGIC))
+			break;
+
+		found_off = sector_off;
+		sector_off += container_hdr.length;
+	}
+
+	/* read content of last container */
+	if (! cn10k_spi_dev_read(efi_buf, (uint64_t *)efi_size,
+							flash_off + found_off, bus, cs)) {
+		if (((struct efi_var_file_hdr*)efi_buf)->length > *efi_size)
+			ret = -EFBIG;
+		else
+			ret = 0;
+
+		*efi_size = ((struct efi_var_file_hdr*)efi_buf)->length;
+	}
+
+	if (found == 0) {
+		WARN("%s: No valid container found\n", __func__);
+		ret = -1;
+	}
+
+	if (spi_dev_unlock(bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
+		return -1;
+	}
+
+	return ret;
 }
 
 int spi_update_ethernet_persistent_data(uintptr_t log_entry, size_t sz)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t offset;
+	int ret;
 
 	if (cfg == NULL)
 		return -1;
 
 	offset = cfg->offset + PERSIST_NETWORK_SETTINGS_OFFSET;
 
-	if (cn10k_spi_dev_write(log_entry, sz, offset, cfg->bus, cfg->cs) < 0)
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
 		return -1;
+	}
 
-	return 0;
+	ret = cn10k_spi_dev_erase(offset, sz, cfg->bus, cfg->cs);
+
+	if (ret == 0)
+		ret = cn10k_spi_dev_write(log_entry, sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
 }
 
 int spi_read_ethernet_persistent_data(uintptr_t log_entry, uint64_t *sz)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t offset;
+	int ret;
 
 	if (cfg == NULL)
 		return -1;
 
 	offset = cfg->offset + PERSIST_NETWORK_SETTINGS_OFFSET;
 
-	if ((long)cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs) < 0)
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
 		return -1;
+	}
 
-	return 0;
+	ret = cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
 }
 
 int spi_update_mac_addr_persistent_data(uintptr_t log_entry, size_t sz)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t offset;
+	int ret;
 
 	if (cfg == NULL)
 		return -1;
 
 	offset = PERSIST_MAC_ADDRESS_OFFSET + cfg->offset;
 
-	if (cn10k_spi_dev_write(log_entry, sz, offset, cfg->bus, cfg->cs) < 0)
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
 		return -1;
+	}
 
-	return 0;
+	ret = cn10k_spi_dev_erase(offset, sz, cfg->bus, cfg->cs);
+
+	if (ret == 0)
+		ret = cn10k_spi_dev_write(log_entry, sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
 }
 
 int spi_read_mac_addr_persistent_data(uintptr_t log_entry, size_t *sz)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t offset;
+	int ret;
 
 	if (cfg == NULL)
 		return -1;
 
 	offset = PERSIST_MAC_ADDRESS_OFFSET + cfg->offset;
 
-	if ((long)cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs) < 0)
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
 		return -1;
+	}
 
-	return 0;
+	ret = cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
 }
 
 int spi_update_preserve_memconfig(uintptr_t wrbuf, uint64_t wrsize)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t rpram_offset;
+	int ret;
 
 	if (cfg == NULL)
 		return -1;
 
 	rpram_offset = PERSIST_RPRAM_DATA_OFFSET + cfg->offset;
 
-	return cn10k_spi_dev_write(wrbuf, wrsize, rpram_offset, cfg->bus, cfg->cs);
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	ret = cn10k_spi_dev_erase(rpram_offset, wrsize, cfg->bus, cfg->cs);
+
+	if (ret == 0)
+		ret = cn10k_spi_dev_write(wrbuf, wrsize, rpram_offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
 }
 
 int spi_read_memtest_persistent_data(uintptr_t buf, uint64_t *sz)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t offset;
+	int ret;
 
 	if (cfg == NULL)
 		return -2;
 
 	offset = PERSIST_MEMTEST_DATA_OFFSET + cfg->offset;
-	return cn10k_spi_dev_read(buf, sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	ret = cn10k_spi_dev_read(buf, sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
 }
 
 int spi_write_memtest_persistent_data(uintptr_t buf, uint64_t sz)
 {
 	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
 	uint64_t offset;
+	int ret;
 
 	if (cfg == NULL)
 		return -2;
 
 	offset = PERSIST_MEMTEST_DATA_OFFSET + cfg->offset;
-	return cn10k_spi_dev_write(buf, sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	ret = cn10k_spi_dev_erase(offset, sz, cfg->bus, cfg->cs);
+
+	if (ret == 0)
+		ret = cn10k_spi_dev_write(buf, sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
 }
 
 /* Gather info about all secure busses and chip selects */
@@ -735,7 +968,19 @@ unsigned long sec_spi_operation(int offset, uintptr_t efi_buf, uint64_t *efi_siz
 			debug_spi_nor("SPI-S: mmap failed (%d)\n", err);
 			return -SPI_MMAP_ERR;
 		}
+
+		if (spi_dev_lock(bus)) {
+			ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+			return -1;
+		}
+
 		r =  cn10k_spi_dev_read(efi_buf, efi_size, offset, bus, cs);
+
+		if (spi_dev_unlock(bus)) {
+			WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
+			return -1;
+		}
+
 		/* unmap non-secure memory buffer */
 		octeontx_mmap_remove_dynamic_region_with_sync(aligned_base, aligned_size);
 		break;

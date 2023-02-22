@@ -611,6 +611,21 @@ PLAT_OCTEONTX_EHSM_READ_CSR
     This SMC call can be used to read specific eHSM CSRs.
   * Supported platforms: CN10K
 
+PLAT_OCTEONTX_READ_EFI_VAR
+  * SMC FID : 0xc2000b17
+  * Input register values:
+    x0: SMC FID
+    x1: Physical address of buffer
+    x2: Size of buffer in bytes
+  * Return value:
+    x0: 0 on success, negative value for failure
+    x1: (Expected) size of container
+  * Description;
+    This call is used for UEFI runtime GetVariable call to read EFI
+    variables from flash. In case return buffer is too small then
+    return value is -EFBIG and required size is returned.
+  * Supported platforms: CN10k
+
 PLAT_OCTEONTX_PHY_DBG_PRBS
   * SMC FID: 0xc2000e00
   * Input registers values:
