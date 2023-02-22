@@ -86,6 +86,7 @@
 #include "cavm-csrs-cst_shrd_funnel.h"
 #include "cavm-csrs-rst.h"
 #include "cavm-csrs-ncb.h"
+#include "cavm-sw-csrs.h"
 
 /* Each of these can be overridden by the platform - this is uncommon */
 #pragma weak plat_octeontx_get_eth_count
@@ -1138,12 +1139,20 @@ int disable_devmem_ns_access(struct ecam_device *dev)
 	return 0;
 }
 
-#ifdef ENABLE_RECORD_FWLOG
 void bl2_el3_plat_prepare_exit(void)
 {
+	union cavm_rst_cold_data2_sw boot_info;
+
+#ifdef ENABLE_RECORD_FWLOG
 	flush_dcache_range(FWLOG_SEC_BASE, FWLOG_SEC_SIZE);
-}
 #endif
+
+	/* ATF bl2 boot successfully with no error */
+	boot_info.u = CSR_READ(CAVM_RST_COLD_DATAX(2));
+	boot_info.s.atf_bl2_boot_status = BOOT_SUCCESS;
+	boot_info.s.atf_bl2_boot_error = BOOT_NEXT_STAGE_SUCCESS;
+	CSR_WRITE(CAVM_RST_COLD_DATAX(2), boot_info.u);
+}
 
 bool plat_ras_feature_supported(void)
 {

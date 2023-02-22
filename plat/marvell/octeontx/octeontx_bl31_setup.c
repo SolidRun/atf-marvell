@@ -73,7 +73,8 @@
 
 #include "cavm-csrs-uaa.h"
 
-#if defined(PLAT_OTX2_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
+#include "cavm-csrs-rst.h"
 #include "cavm-sw-csrs.h"
 #endif
 
@@ -297,7 +298,7 @@ WEAK void otx2_map_ghes(ras_config_t *rc)
 
 void bl31_plat_runtime_setup(void)
 {
-#if defined(PLAT_OTX2_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 	union cavm_rst_cold_data2_sw boot_info;
 #endif
 
@@ -329,7 +330,7 @@ void bl31_plat_runtime_setup(void)
 #endif
 #endif
 
-#if defined(PLAT_OTX2_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) || defined(PLAT_OTX2_FAMILY)
 	/* ATF bl31 boot successfully */
 	boot_info.u = CSR_READ(CAVM_RST_COLD_DATAX(2));
 	boot_info.s.atf_bl31_boot_status = BOOT_SUCCESS;

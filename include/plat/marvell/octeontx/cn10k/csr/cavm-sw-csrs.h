@@ -9,8 +9,7 @@
 
 /* ATF Boot status */
 #define BOOT_SUCCESS   1
-enum boot_error
-{
+enum boot_error {
 	BOOT_NEXT_STAGE_SUCCESS = 0x0,
 	BOOT_NEXT_STAGE_ERROR,
 };
@@ -32,11 +31,9 @@ enum boot_error
  *                  BOOT_NEXT_STAGE_ERROR,
  *              };
  */
-union cavm_rst_cold_data2_sw
-{
+union cavm_rst_cold_data2_sw {
 	uint64_t u;
-	struct cavm_rst_cold_data2_sw_s
-	{
+	struct cavm_rst_cold_data2_sw_s {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
 		uint64_t linux_boot_error : 2;  /**< [  63:  62] Linux boot stage error */
 		uint64_t linux_boot_status : 1;  /**< [  61:  61] Linux boot status */
@@ -52,7 +49,8 @@ union cavm_rst_cold_data2_sw
 		uint64_t atf_bl1_boot_status : 1;  /**< [  46:  46] ATF bl1 boot status */
 		uint64_t ebf_boot_error : 2;  /**< [  45:  44] EBF boot stage error */
 		uint64_t ebf_boot_status : 1;  /**< [  43:  43] EBF boot status */
-		uint64_t reserved_12_42        : 31;
+		uint64_t reserved_13_42        : 30;
+		uint64_t vdd_ddr_dig_voltage : 1;    /**  [ 12: 12] Check for vdd_ddr_dig_voltage set*/
 		uint64_t cust                  : 8;  /**< [ 11:  4] For customer use. */
 		uint64_t ebf_to_scp_vrm_problem : 1; /**< [  3:  3] EBF sets to tell SCP to not proceed if the PMBus configuration failed. */
 		uint64_t scp_to_ebf_vrm_problem : 1; /**< [  2:  2] SCP sets to tell EBF to not proceed if the AVS bus is not working. */
@@ -64,7 +62,8 @@ union cavm_rst_cold_data2_sw
 		uint64_t scp_to_ebf_vrm_problem : 1; /**< [  2:  2] SCP sets to tell EBF to not proceed if the AVS bus is not working. */
 		uint64_t ebf_to_scp_vrm_problem : 1; /**< [  3:  3] EBF sets to tell SCP to not proceed if the PMBus configuration failed. */
 		uint64_t cust                  : 8;  /**< [ 11:  4] For customer use. */
-		uint64_t reserved_12_42        : 31;
+		uint64_t vdd_ddr_dig_voltage : 1;    /**  [ 12: 12] Check for vdd_ddr_dig_voltage set*/
+		uint64_t reserved_13_42        : 30;
 		uint64_t ebf_boot_status : 1;  /**< [  43:  43] EBF boot status */
 		uint64_t ebf_boot_error : 2;  /**< [  45:  44] EBF boot stage error */
 		uint64_t atf_bl1_boot_status : 1;  /**< [  46:  46] ATF bl1 boot status */
