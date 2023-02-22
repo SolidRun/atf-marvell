@@ -134,6 +134,7 @@ declare_cpu_ops_base octeontx2, OCTEONTX2_CN96XX_MIDR, \
 	octeontx2_reset_func, \
 	octeontx2_check_wa_cve_2017_5715, \
 	octeontx2_check_wa_cve_2018_3639, \
+	0, \
 	octeontx2_exception_handler, \
 	octeontx2_core_pwr_dwn, \
 	octeontx2_cluster_pwr_dwn
@@ -142,6 +143,7 @@ declare_cpu_ops_base octeontx2, OCTEONTX2_CNF95XX_MIDR, \
 	octeontx2_reset_func, \
 	octeontx2_check_wa_cve_2017_5715, \
 	octeontx2_check_wa_cve_2018_3639, \
+	0, \
 	octeontx2_exception_handler, \
 	octeontx2_core_pwr_dwn, \
 	octeontx2_cluster_pwr_dwn
@@ -150,6 +152,7 @@ declare_cpu_ops_base octeontx2, OCTEONTX2_LOKI_MIDR, \
 	octeontx2_reset_func, \
 	octeontx2_check_wa_cve_2017_5715, \
 	octeontx2_check_wa_cve_2018_3639, \
+	0, \
 	octeontx2_exception_handler, \
 	octeontx2_core_pwr_dwn, \
 	octeontx2_cluster_pwr_dwn
@@ -158,6 +161,7 @@ declare_cpu_ops_base octeontx2, OCTEONTX2_CN98XX_MIDR, \
 	octeontx2_reset_func, \
 	octeontx2_check_wa_cve_2017_5715, \
 	octeontx2_check_wa_cve_2018_3639, \
+	0, \
 	octeontx2_exception_handler, \
 	octeontx2_core_pwr_dwn, \
 	octeontx2_cluster_pwr_dwn
@@ -166,6 +170,7 @@ declare_cpu_ops_base octeontx2, OCTEONTX2_F95MM_MIDR, \
 	octeontx2_reset_func, \
 	octeontx2_check_wa_cve_2017_5715, \
 	octeontx2_check_wa_cve_2018_3639, \
+	0, \
 	octeontx2_exception_handler, \
 	octeontx2_core_pwr_dwn, \
 	octeontx2_cluster_pwr_dwn
@@ -174,6 +179,7 @@ declare_cpu_ops_base octeontx2, OCTEONTX2_F95O_MIDR, \
 	octeontx2_reset_func, \
 	octeontx2_check_wa_cve_2017_5715, \
 	octeontx2_check_wa_cve_2018_3639, \
+	0, \
 	octeontx2_exception_handler, \
 	octeontx2_core_pwr_dwn, \
 	octeontx2_cluster_pwr_dwn
