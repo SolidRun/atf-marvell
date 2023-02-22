@@ -186,7 +186,19 @@ typedef enum {
 	ETH_MODE_25GBASE_CR_C_BIT,
 	ETH_MODE_25GBASE_KR_C_BIT,	/* = 37 */
 	/* Add new ethernet modes here */
-	ETH_MODE_MAX_BIT,
+	ETH_MODE_MAX_BIT = 41,       /* = 41 */
+	/* The below modes are applicable only for T103/T102 */
+	ETH_MODE_2500_BASEX_BIT = 42,    /* Start from 42 to indicate Mode group 1 */
+	ETH_MODE_5000_BASEX_BIT,
+	ETH_MODE_O_USGMII_BIT,
+	ETH_MODE_Q_USGMII_BIT,		/* = 45 */
+	ETH_MODE_2_5G_USXGMII_BIT,
+	ETH_MODE_5G_USXGMII_BIT,
+	ETH_MODE_10G_SXGMII_BIT,
+	ETH_MODE_10G_DXGMII_BIT,
+	ETH_MODE_10G_QXGMII_BIT,	/* = 50 */
+	/* Add new ethernet modes here */
+	ETH_MODE_MAX_GROUP2_BIT,        /* = 83 */
 } eth_mode_t;
 
 /* Supported CPRI modes */
@@ -207,7 +219,8 @@ typedef enum {
 } eth_cpri_mode_t;
 
 typedef enum {
-	MODE_GROUP_ETH,		/* Groups 0 and 1 are reserved for ethernet */
+	MODE_GROUP_ETH0,		/* Groups 0 and 1 are reserved for ethernet */
+	MODE_GROUP_ETH1,		/* Groups 0 and 1 are reserved for ethernet */
 	MODE_GROUP_CPRI = 2,
 } mode_group_t;
 
@@ -296,7 +309,8 @@ struct eth_lnk_sts_s {
 	uint64_t fec:2;		/* Current FEC type if enabled, if not 0 */
 	uint64_t lmac_type:8;	/* LMAC type: applicable only for CN10K */
 	uint64_t mode:8;	/* eth_mode_t enum integer value */
-	uint64_t reserved2:20;
+	uint64_t mode_group_idx:2; /* mode_grp_idx : group 0 or 1 depending on the mode */
+	uint64_t reserved2:18;
 };
 
 struct sh_fwd_base_s {

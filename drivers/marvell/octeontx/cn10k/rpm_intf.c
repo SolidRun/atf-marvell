@@ -847,7 +847,7 @@ static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int t
 	return 0;
 }
 
-static const speed_mode_map_s rpm_speed_mode_map[] = {
+static speed_mode_map_s rpm_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_SGMII_BIT), PORTM_MODE_SGMII},
 	{(1ULL << ETH_MODE_1000_BASEX_BIT), PORTM_MODE_1000BASE_X},
 	{(1ULL << ETH_MODE_SFI_1G_BIT), PORTM_MODE_SFI_1G},
@@ -890,8 +890,20 @@ static const speed_mode_map_s rpm_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_100GBASE_KR2_BIT), PORTM_MODE_100GBASE_KR2},
 };
 
+static speed_mode_map_s rpm_group1_speed_mode_map[] = {
+	{(1ULL << ETH_MODE_2500_BASEX_BIT), PORTM_MODE_2500BASE_X},
+	{(1ULL << ETH_MODE_5000_BASEX_BIT), PORTM_MODE_5000BASE_X},
+	{(1ULL << ETH_MODE_O_USGMII_BIT), PORTM_MODE_O_USGMII},
+	{(1ULL << ETH_MODE_Q_USGMII_BIT), PORTM_MODE_Q_USGMII},
+	{(1ULL << ETH_MODE_2_5G_USXGMII_BIT), PORTM_MODE_2_5G_SXGMII},
+	{(1ULL << ETH_MODE_5G_USXGMII_BIT), PORTM_MODE_5G_SXGMII},
+	{(1ULL << ETH_MODE_10G_SXGMII_BIT), PORTM_MODE_10G_SXGMII},
+	{(1ULL << ETH_MODE_10G_DXGMII_BIT), PORTM_MODE_10G_DXGMII},
+	{(1ULL << ETH_MODE_10G_QXGMII_BIT), PORTM_MODE_10G_QXGMII},
+};
+
 #define CPRI_MODE(_m) {(1ULL << ETH_MODE_## _m ##_BIT), PORTM_MODE_## _m}
-static const speed_mode_map_s cpri_speed_mode_map[] = {
+static speed_mode_map_s cpri_speed_mode_map[] = {
 	CPRI_MODE(CPRI_2_4G),
 	CPRI_MODE(CPRI_3_1G),
 	CPRI_MODE(CPRI_4_9G),
@@ -899,7 +911,7 @@ static const speed_mode_map_s cpri_speed_mode_map[] = {
 	CPRI_MODE(CPRI_9_8G),
 };
 
-static const speed_mode_map_s cpri_test_speed_mode_map[] = {
+static speed_mode_map_s cpri_test_speed_mode_map[] = {
 	CPRI_MODE(CPRI_2_4G_TEST),
 	CPRI_MODE(CPRI_3_1G_TEST),
 	CPRI_MODE(CPRI_4_9G_TEST),
@@ -909,14 +921,38 @@ static const speed_mode_map_s cpri_test_speed_mode_map[] = {
 	CPRI_MODE(CPRI_19_7G_TEST),
 };
 
-static uint64_t rpm_get_eth_mode_bitmask(cn10k_portm_modes_t portm_mode)
+static uint64_t rpm_get_eth_mode_bitmask(cn10k_portm_modes_t portm_mode, int *group)
 {
-	const speed_mode_map_s *map = rpm_speed_mode_map;
-	const size_t len = ARRAY_SIZE(rpm_speed_mode_map);
+	int mode_group = 0;
+	speed_mode_map_s *map;
+	size_t len;
+
+	switch (portm_mode) {
+	case PORTM_MODE_2500BASE_X:
+	case PORTM_MODE_5000BASE_X:
+	case PORTM_MODE_2_5G_SXGMII:
+	case PORTM_MODE_5G_SXGMII:
+	case PORTM_MODE_10G_SXGMII:
+	case PORTM_MODE_10G_DXGMII:
+	case PORTM_MODE_10G_QXGMII:
+	case PORTM_MODE_Q_USGMII:
+	case PORTM_MODE_O_USGMII:
+		mode_group = MODE_GROUP_ETH1;
+		map = rpm_group1_speed_mode_map;
+		len = ARRAY_SIZE(rpm_group1_speed_mode_map);
+		break;
+	default:
+		mode_group = MODE_GROUP_ETH0;
+		map = rpm_speed_mode_map;
+		len = ARRAY_SIZE(rpm_speed_mode_map);
+		break;
+	}
 
 	for (int i = 0; i < len; i++) {
-		if (map[i].portm_mode == portm_mode)
+		if (map[i].portm_mode == portm_mode) {
+			*group = mode_group;
 			return map[i].mode_bitmask;
+		}
 	}
 
 	return 0;
@@ -942,7 +978,7 @@ static int rpm_obtain_mode_and_group(cn10k_portm_modes_t portm_mode, int *mode, 
 		else if (portm_mode == PORTM_MODE_25GBASE_USR)
 			portm_mode = PORTM_MODE_25GAUI_C2C;
 
-		bitmask = rpm_get_eth_mode_bitmask(portm_mode);
+		bitmask = rpm_get_eth_mode_bitmask(portm_mode, group);
 		if (!bitmask) {
 			ERROR("%s Ethernet group: unsupported portm_mode %d\n",
 				__func__, portm_mode);
@@ -950,7 +986,6 @@ static int rpm_obtain_mode_and_group(cn10k_portm_modes_t portm_mode, int *mode, 
 		}
 
 		*mode = __builtin_ffsl(bitmask) - 1; /* enum starts at 0 */
-		*group = MODE_GROUP_ETH;
 		break;
 
 	case PORTM_CPRI:
@@ -1012,17 +1047,31 @@ static int rpm_obtain_mode_and_group(cn10k_portm_modes_t portm_mode, int *mode, 
 
 static cn10k_portm_modes_t rpm_obtain_portm_mode(uint64_t mode_bitmask, int mode_group)
 {
-	const speed_mode_map_s *map = rpm_speed_mode_map;
-	size_t len = ARRAY_SIZE(rpm_speed_mode_map);
-	const char *group = "rpm";
+	speed_mode_map_s *map = NULL;
+	size_t len = 0;
+	char *group = "eth_group0";
 	bool try_cpri_test_modes = true;
 
-	if (mode_group == MODE_GROUP_CPRI) {
+	switch (mode_group) {
+	case MODE_GROUP_CPRI:
+		group = "cpri";
 		map = cpri_speed_mode_map;
 		len = ARRAY_SIZE(cpri_speed_mode_map);
-		group = "cpri";
+	break;
+	case MODE_GROUP_ETH0:
+		group = "eth_group0";
+		map = rpm_speed_mode_map;
+		len = ARRAY_SIZE(rpm_speed_mode_map);
+	break;
+	case MODE_GROUP_ETH1:
+		group = "eth_group1";
+		map = rpm_group1_speed_mode_map;
+		len = ARRAY_SIZE(rpm_group1_speed_mode_map);
+		mode_bitmask = (1ULL << ((__builtin_ffsl(mode_bitmask) - 1) + 41));
+	break;
+	default:
+	break;
 	}
-
 retry:
 	for (int i = 0; i < len; i++) {
 		debug_rpm_intf("%s: i %d mode_bitmask 0x%" PRIx64 " %s_speed_mode_map[i].mode_bitmask 0x%" PRIx64 "\n", __func__,
@@ -1049,6 +1098,7 @@ static void rpm_set_link_mode(int rpm_id, int lmac_id, int portm_mode)
 {
 	union eth_scratchx0 scratchx0;
 	uint64_t mode = 0, bitmask = 0;
+	int group = 0;
 
 	switch (portm_mode) {
 	/* USR modes added specifically for CN10KAS platform is internally
@@ -1070,9 +1120,9 @@ static void rpm_set_link_mode(int rpm_id, int lmac_id, int portm_mode)
 		break;
 	}
 
-	bitmask = rpm_get_eth_mode_bitmask(portm_mode);
+	bitmask = rpm_get_eth_mode_bitmask(portm_mode, &group);
 	if (!bitmask) {
-		ERROR("%s %d:%d no bitmask for portm_mode %d\n",
+		ERROR("%s %d:%d No valid bitmask found for portm_mode %d\n",
 			__func__, rpm_id, lmac_id, portm_mode);
 		return;
 	}
@@ -1080,6 +1130,7 @@ static void rpm_set_link_mode(int rpm_id, int lmac_id, int portm_mode)
 	scratchx0.u = CSR_READ(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0));
 	mode = __builtin_ffsl(bitmask) - 1; /* enum starts at 0 */
 	scratchx0.s.link_sts.mode = mode;
+	scratchx0.s.link_sts.mode_group_idx = group;
 	CSR_WRITE(CAVM_RPMX_CMRX_SCRATCHX(rpm_id, lmac_id, 0), scratchx0.u);
 }
 
@@ -1088,7 +1139,7 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	uint64_t modes_allowed = 0, modes_exclude = 0;
 	rpm_lmac_config_t *lmac_cfg;
 	const cn10k_portm_modes_t *descr;
-	int portm_count = 0;
+	int portm_count = 0, group = 0;
 	portm_config_t *portm;
 
 	debug_rpm_intf("%s: %d:%d\n", __func__, rpm_id, lmac_id);
@@ -1096,17 +1147,10 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac_cfg->portm_idx]);
 
-	/* FIXME: Exclude USGMII & USXGMII from mode change once
-	 * their corresonding bitmasks are added
-	 */
 	modes_exclude = (BIT_64(ETH_MODE_80GAUI_C2C_BIT) |
 				BIT_64(ETH_MODE_25G_2_C2C_BIT) |
 				BIT_64(ETH_MODE_50G_4_C2C_BIT) |
 				BIT_64(ETH_MODE_40GAUI_C2C_BIT)
-				//BIT64(ETH_MODE_Q_USGMII_BIT) |
-				//BIT64(ETH_MODE_O_USGMII_BIT) |
-				//BIT64(ETH_MODE_10G_DSXGMII_BIT) |
-				//BIT64(ETH_MODE_10G_QSXGMII_BIT)
 				);
 
 	/* FIXME */
@@ -1147,19 +1191,6 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	}
 
 	switch (portm->portm_mode) {
-	case PORTM_MODE_2500BASE_X:
-	case PORTM_MODE_5000BASE_X:
-	case PORTM_MODE_2_5G_SXGMII:
-	case PORTM_MODE_5G_SXGMII:
-	case PORTM_MODE_10G_SXGMII:
-	case PORTM_MODE_10G_DXGMII:
-	case PORTM_MODE_10G_QXGMII:
-	case PORTM_MODE_Q_USGMII:
-	case PORTM_MODE_O_USGMII:
-		/* FIXME: unimplemented modes bitmasks or mode change not supported */
-		modes_allowed = 0;
-		break;
-
 	case PORTM_MODE_QSGMII:
 		modes_allowed = BIT_64(ETH_MODE_QSGMII_BIT);
 		break;
@@ -1171,8 +1202,7 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 		if (descr) {
 			for (int i = 0; i < (portm_count - 1); i++) {
 				cn10k_portm_modes_t portm_mode = descr[i];
-				uint64_t bitmask = rpm_get_eth_mode_bitmask(portm_mode);
-
+				uint64_t bitmask = rpm_get_eth_mode_bitmask(portm_mode, &group);
 				modes_allowed |= bitmask;
 			}
 		}
@@ -1461,7 +1491,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	rpm_lmac_config_t *lmac;
 	int req_speed;
 	int req_duplex;
-	int invalid_req = 0, portm_mode = 0, mode_group;
+	int invalid_req = 0, portm_mode = 0, mode_group = 0;
 	uint64_t req_mode = 0;
 	int ret = 0;
 	ecp_link_state_t link_state;
@@ -1500,9 +1530,10 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	mode_group = args->mode_group_idx;
 	req_duplex = args->duplex;
 
-	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%" PRIx64 "\n",
+	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%lx mode_group %d\n",
 				__func__, portm_idx, lmac_ctx->s.speed,
-					req_speed, req_duplex, req_mode);
+					req_speed, req_duplex, req_mode,
+					mode_group);
 
 	/* Check if arguments are valid */
 	if ((!req_mode) && (req_speed == ETH_LINK_NONE)) {
@@ -1818,7 +1849,8 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 		ret = rpm_handle_cpri_mode_change(portm_idx, args);
 		break;
 
-	case MODE_GROUP_ETH:
+	case MODE_GROUP_ETH0:
+	case MODE_GROUP_ETH1:
 		if (portm->mac_type == PORTM_ETH) {
 			rpm_id = portm->mac_num;
 			lmac_id = portm->mac_lane;
