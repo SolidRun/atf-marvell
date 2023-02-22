@@ -178,7 +178,9 @@ func delegate_sync_ea
 	cmp     x3, #SYNC_EA_FSC
 	b.ne    1f
 
-	no_ret  plat_handle_uncontainable_ea
+	mov	x29, x30
+	bl	plat_handle_uncontainable_ea
+	mov	x30, x29
 1:
 #endif
 
@@ -202,6 +204,7 @@ func delegate_async_ea
 	ubfx	x2, x1, #ESR_EC_SHIFT, #ESR_EC_LENGTH
 	cmp	x2, EC_SERROR
 	b.ne	do_panic
+
 	/*
 	 * Check for Implementation Defined Syndrome. If so, skip checking
 	 * Uncontainable error type from the syndrome as the format is unknown.
@@ -217,15 +220,13 @@ func delegate_async_ea
 	 * Check for Uncontainable error type. If so, route to the platform
 	 * fatal error handler rather than the generic EA one.
 	 */
-	ubfx	x3, x1, #EABORT_AET_SHIFT, #EABORT_AET_WIDTH
-	cmp	x3, #ERROR_STATUS_UET_UC
-#if defined(PLAT_CN10K_FAMILY)
-	b.eq	1f
-#else
+	ubfx	x2, x1, #EABORT_AET_SHIFT, #EABORT_AET_WIDTH
+	cmp	x2, #ERROR_STATUS_UET_UC
 	b.ne	1f
-#endif
 
-	no_ret	plat_handle_uncontainable_ea
+	mov	x29, x30
+	bl	plat_handle_uncontainable_ea
+	mov	x30, x29
 1:
 #endif
 

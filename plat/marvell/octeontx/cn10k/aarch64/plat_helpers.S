@@ -18,6 +18,7 @@
 	.globl	octeontx_calc_core_pos
 	.globl  plat_panic_handler
 	.globl  plat_check_ras_error
+	.globl  plat_handle_uncontainable_ea
 
 	/* ESR in X30, x29 and x30 from stack */
 func plat_check_ras_error
@@ -143,3 +144,7 @@ func plat_panic_handler
 	wfi
 	b	plat_panic_handler
 endfunc plat_panic_handler
+
+func plat_handle_uncontainable_ea
+	ret
+endfunc plat_handle_uncontainable_ea
