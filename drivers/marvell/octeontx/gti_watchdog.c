@@ -44,7 +44,7 @@
 
 #define SPSR_ISR_EL2	SPSR_64(MODE_EL2, MODE_SP_ELX, 3)
 #define SPSR_ISR_EL1	SPSR_64(MODE_EL1, MODE_SP_ELX, 3)
-#define SCR_ISR		(SCR_NS_BIT | SCR_RW_BIT)
+#define SCR_ISR		(SCR_NS_BIT | SCR_RW_BIT | SCR_API_BIT | SCR_APK_BIT)
 
 #define ROUND_DOWN(val, align)	((val) / (align) * (align))
 
