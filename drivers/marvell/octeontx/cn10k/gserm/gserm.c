@@ -1378,6 +1378,14 @@ void gserm_reset_init(void)
 		}
 	}
 
+	/* Update Tx Resistance */
+	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
+		debug_gserm("%s: GSERM%d: Update Tx Resistance\n", __func__, gserm_idx);
+		CSR_MODIFY(c, CAVM_GSERMX_PH_OS_BOUNDARY(gserm_idx),
+			   c.s.vth_tximpcal_shift_h_lane = 0x4;
+			   c.s.vth_tximpcal_shift_l_lane = 0x4);
+	}
+
 	/* (22b) Disable Comphy broadcast mode on all GSERM's */
 	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 		cfg.gserm_idx = gserm_idx;
