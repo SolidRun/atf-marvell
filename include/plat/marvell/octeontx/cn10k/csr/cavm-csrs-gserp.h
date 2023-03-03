@@ -130113,7 +130113,13 @@ union cavm_gserpx_train_control_5
     struct cavm_gserpx_train_control_5_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_29_63        : 35;
+        uint64_t reserved_32_63        : 32;
+        uint64_t stored_free_osc_sel_lane : 1;/**< [ 31: 31](R/W/H) Saved CFG_FREE_OSC_SEL_LANE Value For NON_STOP_PCLK Mode FW WA
+                                                                 internal */
+        uint64_t dis_non_stop_pclk_mode_wa_lane : 1;/**< [ 30: 30](R/W/H) Disable NON_STOP_PCLK Mode FW WA
+                                                                 internal */
+        uint64_t detected_non_stop_pclk_mode_rd_lane : 1;/**< [ 29: 29](R/W/H) Detect NON_STOP_PCLK Mode
+                                                                 internal */
         uint64_t rx_rxffe_c_ini_lane   : 5;  /**< [ 28: 24](R/W/H) Train Initial RXFFE C Index Value
                                                                  internal */
         uint64_t rx_train_pcie_phase_update_thresh_lane : 4;/**< [ 23: 20](R/W/H) Threshold to use when deciding to update phase during RX phase train
@@ -130163,67 +130169,16 @@ union cavm_gserpx_train_control_5
                                                                  internal */
         uint64_t rx_rxffe_c_ini_lane   : 5;  /**< [ 28: 24](R/W/H) Train Initial RXFFE C Index Value
                                                                  internal */
-        uint64_t reserved_29_63        : 35;
+        uint64_t detected_non_stop_pclk_mode_rd_lane : 1;/**< [ 29: 29](R/W/H) Detect NON_STOP_PCLK Mode
+                                                                 internal */
+        uint64_t dis_non_stop_pclk_mode_wa_lane : 1;/**< [ 30: 30](R/W/H) Disable NON_STOP_PCLK Mode FW WA
+                                                                 internal */
+        uint64_t stored_free_osc_sel_lane : 1;/**< [ 31: 31](R/W/H) Saved CFG_FREE_OSC_SEL_LANE Value For NON_STOP_PCLK Mode FW WA
+                                                                 internal */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_train_control_5_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_29_31        : 3;
-        uint64_t rx_rxffe_c_ini_lane   : 5;  /**< [ 28: 24](R/W/H) Train Initial RXFFE C Index Value
-                                                                 internal */
-        uint64_t rx_train_pcie_phase_update_thresh_lane : 4;/**< [ 23: 20](R/W/H) Threshold to use when deciding to update phase during RX phase train
-                                                                 internal */
-        uint64_t train_use_s_lane      : 1;  /**< [ 19: 19](R/W/H) Enable Train Use Slice Clock Path.
-                                                                 internal */
-        uint64_t train_use_d_lane      : 1;  /**< [ 18: 18](R/W/H) Enable Train Use Data Clock Path.
-                                                                 internal */
-        uint64_t train_use_e_lane      : 1;  /**< [ 17: 17](R/W/H) Enable Train Use Even Clock Path.
-                                                                 internal */
-        uint64_t train_use_o_lane      : 1;  /**< [ 16: 16](R/W/H) Enable Train Use Odd Clock Path.
-                                                                 internal */
-        uint64_t rx_rsweep_pcie_rw2_lane : 8;/**< [ 15:  8](R/W/H) F2 Weighting for PCIe RSWEEP training
-                                                                 internal */
-        uint64_t train_speed_mode_idx_lane : 4;/**< [  7:  4](R/W/H) Train speed mode index for training speed table
-                                                                 internal */
-        uint64_t pcie_res_train_en_g4_lane : 1;/**< [  3:  3](R/W/H) PCIe GEN5 Resolution Train Enable
-                                                                 internal */
-        uint64_t tx_reset_lane         : 1;  /**< [  2:  2](R/W/H) Tx reset.
-                                                                 internal */
-        uint64_t train_pass_lane       : 1;  /**< [  1:  1](R/W/H) Train pass.
-                                                                 internal */
-        uint64_t train_done_lane       : 1;  /**< [  0:  0](R/W/H) Train done.
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint64_t train_done_lane       : 1;  /**< [  0:  0](R/W/H) Train done.
-                                                                 internal */
-        uint64_t train_pass_lane       : 1;  /**< [  1:  1](R/W/H) Train pass.
-                                                                 internal */
-        uint64_t tx_reset_lane         : 1;  /**< [  2:  2](R/W/H) Tx reset.
-                                                                 internal */
-        uint64_t pcie_res_train_en_g4_lane : 1;/**< [  3:  3](R/W/H) PCIe GEN5 Resolution Train Enable
-                                                                 internal */
-        uint64_t train_speed_mode_idx_lane : 4;/**< [  7:  4](R/W/H) Train speed mode index for training speed table
-                                                                 internal */
-        uint64_t rx_rsweep_pcie_rw2_lane : 8;/**< [ 15:  8](R/W/H) F2 Weighting for PCIe RSWEEP training
-                                                                 internal */
-        uint64_t train_use_o_lane      : 1;  /**< [ 16: 16](R/W/H) Enable Train Use Odd Clock Path.
-                                                                 internal */
-        uint64_t train_use_e_lane      : 1;  /**< [ 17: 17](R/W/H) Enable Train Use Even Clock Path.
-                                                                 internal */
-        uint64_t train_use_d_lane      : 1;  /**< [ 18: 18](R/W/H) Enable Train Use Data Clock Path.
-                                                                 internal */
-        uint64_t train_use_s_lane      : 1;  /**< [ 19: 19](R/W/H) Enable Train Use Slice Clock Path.
-                                                                 internal */
-        uint64_t rx_train_pcie_phase_update_thresh_lane : 4;/**< [ 23: 20](R/W/H) Threshold to use when deciding to update phase during RX phase train
-                                                                 internal */
-        uint64_t rx_rxffe_c_ini_lane   : 5;  /**< [ 28: 24](R/W/H) Train Initial RXFFE C Index Value
-                                                                 internal */
-        uint64_t reserved_29_31        : 3;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_train_control_5_s cn; */
 };
 typedef union cavm_gserpx_train_control_5 cavm_gserpx_train_control_5_t;
 
@@ -132595,7 +132550,9 @@ union cavm_gserpx_train_para_0
     struct cavm_gserpx_train_para_0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
+        uint64_t reserved_32_63        : 32;
+        uint64_t txtrain_f0a_high_thres_pam2_in_pam4_lane : 8;/**< [ 31: 24](R/W/H) Tx Train GainTrain Threshold For PAM2 In PAM4 Mode
+                                                                 internal */
         uint64_t pcie_cal_rx_sq_thresh_force_lane : 8;/**< [ 23: 16](R/W/H) PCIe SQ Threshold Force Value For Debug
                                                                  internal */
         uint64_t dfe_res_f0b_high_thres_init_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0b High Threshold Initial
@@ -132609,31 +132566,12 @@ union cavm_gserpx_train_para_0
                                                                  internal */
         uint64_t pcie_cal_rx_sq_thresh_force_lane : 8;/**< [ 23: 16](R/W/H) PCIe SQ Threshold Force Value For Debug
                                                                  internal */
-        uint64_t reserved_24_63        : 40;
+        uint64_t txtrain_f0a_high_thres_pam2_in_pam4_lane : 8;/**< [ 31: 24](R/W/H) Tx Train GainTrain Threshold For PAM2 In PAM4 Mode
+                                                                 internal */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gserpx_train_para_0_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t reserved_24_31        : 8;
-        uint64_t pcie_cal_rx_sq_thresh_force_lane : 8;/**< [ 23: 16](R/W/H) PCIe SQ Threshold Force Value For Debug
-                                                                 internal */
-        uint64_t dfe_res_f0b_high_thres_init_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0b High Threshold Initial
-                                                                 internal */
-        uint64_t vref_res_high_thres_lane : 8;/**< [  7:  0](R/W/H) VREF Resolution High Threshold
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint64_t vref_res_high_thres_lane : 8;/**< [  7:  0](R/W/H) VREF Resolution High Threshold
-                                                                 internal */
-        uint64_t dfe_res_f0b_high_thres_init_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0b High Threshold Initial
-                                                                 internal */
-        uint64_t pcie_cal_rx_sq_thresh_force_lane : 8;/**< [ 23: 16](R/W/H) PCIe SQ Threshold Force Value For Debug
-                                                                 internal */
-        uint64_t reserved_24_31        : 8;
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gserpx_train_para_0_s cn; */
 };
 typedef union cavm_gserpx_train_para_0 cavm_gserpx_train_para_0_t;
 

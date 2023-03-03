@@ -29,6 +29,8 @@
  */
 #define CAVM_MDAB_BAR_E_MDABX_PF_BAR0(a) (0x87e044000000ll + 0x80000ll * (a))
 #define CAVM_MDAB_BAR_E_MDABX_PF_BAR0_SIZE 0x10000ull
+#define CAVM_MDAB_BAR_E_MDABX_PF_BAR2(a) (0x87e044000000ll + 0x80000ll * (a))
+#define CAVM_MDAB_BAR_E_MDABX_PF_BAR2_SIZE 0x10000ull
 
 /**
  * Enumeration mdab_rsl_subid_e
@@ -85,7 +87,7 @@ static inline uint64_t CAVM_MDABX_CFG_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_CFG_ADDR(a) cavm_mdabx_cfg_addr_t
 #define bustype_CAVM_MDABX_CFG_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_CFG_ADDR(a) "MDABX_CFG_ADDR"
-#define device_bar_CAVM_MDABX_CFG_ADDR(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_CFG_ADDR(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_CFG_ADDR(a) (a)
 #define arguments_CAVM_MDABX_CFG_ADDR(a) (a),-1,-1,-1
 
@@ -137,7 +139,7 @@ static inline uint64_t CAVM_MDABX_CFG_LENGTH(uint64_t a)
 #define typedef_CAVM_MDABX_CFG_LENGTH(a) cavm_mdabx_cfg_length_t
 #define bustype_CAVM_MDABX_CFG_LENGTH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_CFG_LENGTH(a) "MDABX_CFG_LENGTH"
-#define device_bar_CAVM_MDABX_CFG_LENGTH(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_CFG_LENGTH(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_CFG_LENGTH(a) (a)
 #define arguments_CAVM_MDABX_CFG_LENGTH(a) (a),-1,-1,-1
 
@@ -228,7 +230,7 @@ static inline uint64_t CAVM_MDABX_CFG_LIMIT(uint64_t a)
 #define typedef_CAVM_MDABX_CFG_LIMIT(a) cavm_mdabx_cfg_limit_t
 #define bustype_CAVM_MDABX_CFG_LIMIT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_CFG_LIMIT(a) "MDABX_CFG_LIMIT"
-#define device_bar_CAVM_MDABX_CFG_LIMIT(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_CFG_LIMIT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_CFG_LIMIT(a) (a)
 #define arguments_CAVM_MDABX_CFG_LIMIT(a) (a),-1,-1,-1
 
@@ -340,7 +342,7 @@ static inline uint64_t CAVM_MDABX_CFG_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_CFG_STATUS(a) cavm_mdabx_cfg_status_t
 #define bustype_CAVM_MDABX_CFG_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_CFG_STATUS(a) "MDABX_CFG_STATUS"
-#define device_bar_CAVM_MDABX_CFG_STATUS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_CFG_STATUS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_CFG_STATUS(a) (a)
 #define arguments_CAVM_MDABX_CFG_STATUS(a) (a),-1,-1,-1
 
@@ -594,7 +596,7 @@ static inline uint64_t CAVM_MDABX_DAC_CTRL(uint64_t a)
 #define typedef_CAVM_MDABX_DAC_CTRL(a) cavm_mdabx_dac_ctrl_t
 #define bustype_CAVM_MDABX_DAC_CTRL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DAC_CTRL(a) "MDABX_DAC_CTRL"
-#define device_bar_CAVM_MDABX_DAC_CTRL(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_DAC_CTRL(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_DAC_CTRL(a) (a)
 #define arguments_CAVM_MDABX_DAC_CTRL(a) (a),-1,-1,-1
 
@@ -638,7 +640,7 @@ static inline uint64_t CAVM_MDABX_DAC_ERR_LOG_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) cavm_mdabx_dac_err_log_addr_t
 #define bustype_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) "MDABX_DAC_ERR_LOG_ADDR"
-#define device_bar_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) (a)
 #define arguments_CAVM_MDABX_DAC_ERR_LOG_ADDR(a) (a),-1,-1,-1
 
@@ -962,7 +964,7 @@ static inline uint64_t CAVM_MDABX_DAC_ERR_LOG_SRC(uint64_t a)
 #define typedef_CAVM_MDABX_DAC_ERR_LOG_SRC(a) cavm_mdabx_dac_err_log_src_t
 #define bustype_CAVM_MDABX_DAC_ERR_LOG_SRC(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DAC_ERR_LOG_SRC(a) "MDABX_DAC_ERR_LOG_SRC"
-#define device_bar_CAVM_MDABX_DAC_ERR_LOG_SRC(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_DAC_ERR_LOG_SRC(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_DAC_ERR_LOG_SRC(a) (a)
 #define arguments_CAVM_MDABX_DAC_ERR_LOG_SRC(a) (a),-1,-1,-1
 
@@ -1061,7 +1063,7 @@ static inline uint64_t CAVM_MDABX_DSP_FYI(uint64_t a)
 #define typedef_CAVM_MDABX_DSP_FYI(a) cavm_mdabx_dsp_fyi_t
 #define bustype_CAVM_MDABX_DSP_FYI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DSP_FYI(a) "MDABX_DSP_FYI"
-#define device_bar_CAVM_MDABX_DSP_FYI(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_DSP_FYI(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_DSP_FYI(a) (a)
 #define arguments_CAVM_MDABX_DSP_FYI(a) (a),-1,-1,-1
 
@@ -1103,7 +1105,7 @@ static inline uint64_t CAVM_MDABX_DSPINTR_BAR(uint64_t a)
 #define typedef_CAVM_MDABX_DSPINTR_BAR(a) cavm_mdabx_dspintr_bar_t
 #define bustype_CAVM_MDABX_DSPINTR_BAR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_DSPINTR_BAR(a) "MDABX_DSPINTR_BAR"
-#define device_bar_CAVM_MDABX_DSPINTR_BAR(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_DSPINTR_BAR(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_DSPINTR_BAR(a) (a)
 #define arguments_CAVM_MDABX_DSPINTR_BAR(a) (a),-1,-1,-1
 
@@ -1153,7 +1155,7 @@ static inline uint64_t CAVM_MDABX_EDAP_STS(uint64_t a)
 #define typedef_CAVM_MDABX_EDAP_STS(a) cavm_mdabx_edap_sts_t
 #define bustype_CAVM_MDABX_EDAP_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_EDAP_STS(a) "MDABX_EDAP_STS"
-#define device_bar_CAVM_MDABX_EDAP_STS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_EDAP_STS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_EDAP_STS(a) (a)
 #define arguments_CAVM_MDABX_EDAP_STS(a) (a),-1,-1,-1
 
@@ -1277,7 +1279,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_ENA_W1C(a) cavm_mdabx_err_int_ena_w1c_t
 #define bustype_CAVM_MDABX_ERR_INT_ENA_W1C(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_ENA_W1C(a) "MDABX_ERR_INT_ENA_W1C"
-#define device_bar_CAVM_MDABX_ERR_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_ERR_INT_ENA_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_ERR_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -1401,7 +1403,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_ENA_W1S(a) cavm_mdabx_err_int_ena_w1s_t
 #define bustype_CAVM_MDABX_ERR_INT_ENA_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_ENA_W1S(a) "MDABX_ERR_INT_ENA_W1S"
-#define device_bar_CAVM_MDABX_ERR_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_ERR_INT_ENA_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_ERR_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -1461,7 +1463,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_INT0_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_INT0_ENA(a) cavm_mdabx_err_int_int0_ena_t
 #define bustype_CAVM_MDABX_ERR_INT_INT0_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_INT0_ENA(a) "MDABX_ERR_INT_INT0_ENA"
-#define device_bar_CAVM_MDABX_ERR_INT_INT0_ENA(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_ERR_INT_INT0_ENA(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_ERR_INT_INT0_ENA(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_INT0_ENA(a) (a),-1,-1,-1
 
@@ -1586,7 +1588,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_SUM(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_SUM(a) cavm_mdabx_err_int_sum_t
 #define bustype_CAVM_MDABX_ERR_INT_SUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_SUM(a) "MDABX_ERR_INT_SUM"
-#define device_bar_CAVM_MDABX_ERR_INT_SUM(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_ERR_INT_SUM(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_ERR_INT_SUM(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_SUM(a) (a),-1,-1,-1
 
@@ -1711,7 +1713,7 @@ static inline uint64_t CAVM_MDABX_ERR_INT_SUM_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_ERR_INT_SUM_W1S(a) cavm_mdabx_err_int_sum_w1s_t
 #define bustype_CAVM_MDABX_ERR_INT_SUM_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ERR_INT_SUM_W1S(a) "MDABX_ERR_INT_SUM_W1S"
-#define device_bar_CAVM_MDABX_ERR_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_ERR_INT_SUM_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_ERR_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_MDABX_ERR_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -1754,7 +1756,7 @@ static inline uint64_t CAVM_MDABX_GMID(uint64_t a)
 #define typedef_CAVM_MDABX_GMID(a) cavm_mdabx_gmid_t
 #define bustype_CAVM_MDABX_GMID(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GMID(a) "MDABX_GMID"
-#define device_bar_CAVM_MDABX_GMID(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GMID(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GMID(a) (a)
 #define arguments_CAVM_MDABX_GMID(a) (a),-1,-1,-1
 
@@ -1791,7 +1793,7 @@ static inline uint64_t CAVM_MDABX_GP0(uint64_t a)
 #define typedef_CAVM_MDABX_GP0(a) cavm_mdabx_gp0_t
 #define bustype_CAVM_MDABX_GP0(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP0(a) "MDABX_GP0"
-#define device_bar_CAVM_MDABX_GP0(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GP0(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GP0(a) (a)
 #define arguments_CAVM_MDABX_GP0(a) (a),-1,-1,-1
 
@@ -1828,7 +1830,7 @@ static inline uint64_t CAVM_MDABX_GP1(uint64_t a)
 #define typedef_CAVM_MDABX_GP1(a) cavm_mdabx_gp1_t
 #define bustype_CAVM_MDABX_GP1(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP1(a) "MDABX_GP1"
-#define device_bar_CAVM_MDABX_GP1(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GP1(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GP1(a) (a)
 #define arguments_CAVM_MDABX_GP1(a) (a),-1,-1,-1
 
@@ -1865,7 +1867,7 @@ static inline uint64_t CAVM_MDABX_GP2(uint64_t a)
 #define typedef_CAVM_MDABX_GP2(a) cavm_mdabx_gp2_t
 #define bustype_CAVM_MDABX_GP2(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP2(a) "MDABX_GP2"
-#define device_bar_CAVM_MDABX_GP2(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GP2(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GP2(a) (a)
 #define arguments_CAVM_MDABX_GP2(a) (a),-1,-1,-1
 
@@ -1902,7 +1904,7 @@ static inline uint64_t CAVM_MDABX_GP3(uint64_t a)
 #define typedef_CAVM_MDABX_GP3(a) cavm_mdabx_gp3_t
 #define bustype_CAVM_MDABX_GP3(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP3(a) "MDABX_GP3"
-#define device_bar_CAVM_MDABX_GP3(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GP3(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GP3(a) (a)
 #define arguments_CAVM_MDABX_GP3(a) (a),-1,-1,-1
 
@@ -1939,7 +1941,7 @@ static inline uint64_t CAVM_MDABX_GP4(uint64_t a)
 #define typedef_CAVM_MDABX_GP4(a) cavm_mdabx_gp4_t
 #define bustype_CAVM_MDABX_GP4(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP4(a) "MDABX_GP4"
-#define device_bar_CAVM_MDABX_GP4(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GP4(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GP4(a) (a)
 #define arguments_CAVM_MDABX_GP4(a) (a),-1,-1,-1
 
@@ -1976,7 +1978,7 @@ static inline uint64_t CAVM_MDABX_GP5(uint64_t a)
 #define typedef_CAVM_MDABX_GP5(a) cavm_mdabx_gp5_t
 #define bustype_CAVM_MDABX_GP5(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP5(a) "MDABX_GP5"
-#define device_bar_CAVM_MDABX_GP5(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GP5(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GP5(a) (a)
 #define arguments_CAVM_MDABX_GP5(a) (a),-1,-1,-1
 
@@ -2013,7 +2015,7 @@ static inline uint64_t CAVM_MDABX_GP6(uint64_t a)
 #define typedef_CAVM_MDABX_GP6(a) cavm_mdabx_gp6_t
 #define bustype_CAVM_MDABX_GP6(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP6(a) "MDABX_GP6"
-#define device_bar_CAVM_MDABX_GP6(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GP6(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GP6(a) (a)
 #define arguments_CAVM_MDABX_GP6(a) (a),-1,-1,-1
 
@@ -2050,7 +2052,7 @@ static inline uint64_t CAVM_MDABX_GP7(uint64_t a)
 #define typedef_CAVM_MDABX_GP7(a) cavm_mdabx_gp7_t
 #define bustype_CAVM_MDABX_GP7(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GP7(a) "MDABX_GP7"
-#define device_bar_CAVM_MDABX_GP7(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GP7(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GP7(a) (a)
 #define arguments_CAVM_MDABX_GP7(a) (a),-1,-1,-1
 
@@ -2087,7 +2089,7 @@ static inline uint64_t CAVM_MDABX_GPIO_IN(uint64_t a)
 #define typedef_CAVM_MDABX_GPIO_IN(a) cavm_mdabx_gpio_in_t
 #define bustype_CAVM_MDABX_GPIO_IN(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GPIO_IN(a) "MDABX_GPIO_IN"
-#define device_bar_CAVM_MDABX_GPIO_IN(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GPIO_IN(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GPIO_IN(a) (a)
 #define arguments_CAVM_MDABX_GPIO_IN(a) (a),-1,-1,-1
 
@@ -2124,7 +2126,7 @@ static inline uint64_t CAVM_MDABX_GPIO_OUT(uint64_t a)
 #define typedef_CAVM_MDABX_GPIO_OUT(a) cavm_mdabx_gpio_out_t
 #define bustype_CAVM_MDABX_GPIO_OUT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_GPIO_OUT(a) "MDABX_GPIO_OUT"
-#define device_bar_CAVM_MDABX_GPIO_OUT(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_GPIO_OUT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_GPIO_OUT(a) (a)
 #define arguments_CAVM_MDABX_GPIO_OUT(a) (a),-1,-1,-1
 
@@ -2177,7 +2179,7 @@ static inline uint64_t CAVM_MDABX_ID(uint64_t a)
 #define typedef_CAVM_MDABX_ID(a) cavm_mdabx_id_t
 #define bustype_CAVM_MDABX_ID(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_ID(a) "MDABX_ID"
-#define device_bar_CAVM_MDABX_ID(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_ID(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_ID(a) (a)
 #define arguments_CAVM_MDABX_ID(a) (a),-1,-1,-1
 
@@ -2249,7 +2251,7 @@ static inline uint64_t CAVM_MDABX_INT_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MDABX_INT_ENA_W1C(a) cavm_mdabx_int_ena_w1c_t
 #define bustype_CAVM_MDABX_INT_ENA_W1C(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_ENA_W1C(a) "MDABX_INT_ENA_W1C"
-#define device_bar_CAVM_MDABX_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_INT_ENA_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_MDABX_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -2337,7 +2339,7 @@ static inline uint64_t CAVM_MDABX_INT_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_INT_ENA_W1S(a) cavm_mdabx_int_ena_w1s_t
 #define bustype_CAVM_MDABX_INT_ENA_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_ENA_W1S(a) "MDABX_INT_ENA_W1S"
-#define device_bar_CAVM_MDABX_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_INT_ENA_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_MDABX_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -2540,7 +2542,7 @@ static inline uint64_t CAVM_MDABX_INT_SUM(uint64_t a)
 #define typedef_CAVM_MDABX_INT_SUM(a) cavm_mdabx_int_sum_t
 #define bustype_CAVM_MDABX_INT_SUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_SUM(a) "MDABX_INT_SUM"
-#define device_bar_CAVM_MDABX_INT_SUM(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_INT_SUM(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_INT_SUM(a) (a)
 #define arguments_CAVM_MDABX_INT_SUM(a) (a),-1,-1,-1
 
@@ -2614,7 +2616,7 @@ static inline uint64_t CAVM_MDABX_INT_SUM_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_INT_SUM_W1S(a) cavm_mdabx_int_sum_w1s_t
 #define bustype_CAVM_MDABX_INT_SUM_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_SUM_W1S(a) "MDABX_INT_SUM_W1S"
-#define device_bar_CAVM_MDABX_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_INT_SUM_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_MDABX_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -2655,7 +2657,7 @@ static inline uint64_t CAVM_MDABX_INT_VEC_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_INT_VEC_ADDR(a) cavm_mdabx_int_vec_addr_t
 #define bustype_CAVM_MDABX_INT_VEC_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INT_VEC_ADDR(a) "MDABX_INT_VEC_ADDR"
-#define device_bar_CAVM_MDABX_INT_VEC_ADDR(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_INT_VEC_ADDR(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_INT_VEC_ADDR(a) (a)
 #define arguments_CAVM_MDABX_INT_VEC_ADDR(a) (a),-1,-1,-1
 
@@ -2727,7 +2729,7 @@ static inline uint64_t CAVM_MDABX_INTERRUPT_ACTIVE(uint64_t a)
 #define typedef_CAVM_MDABX_INTERRUPT_ACTIVE(a) cavm_mdabx_interrupt_active_t
 #define bustype_CAVM_MDABX_INTERRUPT_ACTIVE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_INTERRUPT_ACTIVE(a) "MDABX_INTERRUPT_ACTIVE"
-#define device_bar_CAVM_MDABX_INTERRUPT_ACTIVE(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_INTERRUPT_ACTIVE(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_INTERRUPT_ACTIVE(a) (a)
 #define arguments_CAVM_MDABX_INTERRUPT_ACTIVE(a) (a),-1,-1,-1
 
@@ -2782,7 +2784,7 @@ static inline uint64_t CAVM_MDABX_IPB_CTL(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_CTL(a) cavm_mdabx_ipb_ctl_t
 #define bustype_CAVM_MDABX_IPB_CTL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_CTL(a) "MDABX_IPB_CTL"
-#define device_bar_CAVM_MDABX_IPB_CTL(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_IPB_CTL(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_IPB_CTL(a) (a)
 #define arguments_CAVM_MDABX_IPB_CTL(a) (a),-1,-1,-1
 
@@ -2833,7 +2835,7 @@ static inline uint64_t CAVM_MDABX_IPB_FLUSH(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_FLUSH(a) cavm_mdabx_ipb_flush_t
 #define bustype_CAVM_MDABX_IPB_FLUSH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_FLUSH(a) "MDABX_IPB_FLUSH"
-#define device_bar_CAVM_MDABX_IPB_FLUSH(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_IPB_FLUSH(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_IPB_FLUSH(a) (a)
 #define arguments_CAVM_MDABX_IPB_FLUSH(a) (a),-1,-1,-1
 
@@ -2873,7 +2875,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_CTL(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PERF_CTL(a) cavm_mdabx_ipb_perf_ctl_t
 #define bustype_CAVM_MDABX_IPB_PERF_CTL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PERF_CTL(a) "MDABX_IPB_PERF_CTL"
-#define device_bar_CAVM_MDABX_IPB_PERF_CTL(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_IPB_PERF_CTL(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_IPB_PERF_CTL(a) (a)
 #define arguments_CAVM_MDABX_IPB_PERF_CTL(a) (a),-1,-1,-1
 
@@ -2915,7 +2917,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_HITCNT(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PERF_HITCNT(a) cavm_mdabx_ipb_perf_hitcnt_t
 #define bustype_CAVM_MDABX_IPB_PERF_HITCNT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PERF_HITCNT(a) "MDABX_IPB_PERF_HITCNT"
-#define device_bar_CAVM_MDABX_IPB_PERF_HITCNT(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_IPB_PERF_HITCNT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_IPB_PERF_HITCNT(a) (a)
 #define arguments_CAVM_MDABX_IPB_PERF_HITCNT(a) (a),-1,-1,-1
 
@@ -2957,7 +2959,7 @@ static inline uint64_t CAVM_MDABX_IPB_PERF_MISSCNT(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PERF_MISSCNT(a) cavm_mdabx_ipb_perf_misscnt_t
 #define bustype_CAVM_MDABX_IPB_PERF_MISSCNT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PERF_MISSCNT(a) "MDABX_IPB_PERF_MISSCNT"
-#define device_bar_CAVM_MDABX_IPB_PERF_MISSCNT(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_IPB_PERF_MISSCNT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_IPB_PERF_MISSCNT(a) (a)
 #define arguments_CAVM_MDABX_IPB_PERF_MISSCNT(a) (a),-1,-1,-1
 
@@ -3000,7 +3002,7 @@ static inline uint64_t CAVM_MDABX_IPB_PFRANGE_MAX(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PFRANGE_MAX(a) cavm_mdabx_ipb_pfrange_max_t
 #define bustype_CAVM_MDABX_IPB_PFRANGE_MAX(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PFRANGE_MAX(a) "MDABX_IPB_PFRANGE_MAX"
-#define device_bar_CAVM_MDABX_IPB_PFRANGE_MAX(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_IPB_PFRANGE_MAX(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_IPB_PFRANGE_MAX(a) (a)
 #define arguments_CAVM_MDABX_IPB_PFRANGE_MAX(a) (a),-1,-1,-1
 
@@ -3051,7 +3053,7 @@ static inline uint64_t CAVM_MDABX_IPB_PFRANGE_MIN(uint64_t a)
 #define typedef_CAVM_MDABX_IPB_PFRANGE_MIN(a) cavm_mdabx_ipb_pfrange_min_t
 #define bustype_CAVM_MDABX_IPB_PFRANGE_MIN(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_IPB_PFRANGE_MIN(a) "MDABX_IPB_PFRANGE_MIN"
-#define device_bar_CAVM_MDABX_IPB_PFRANGE_MIN(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_IPB_PFRANGE_MIN(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_IPB_PFRANGE_MIN(a) (a)
 #define arguments_CAVM_MDABX_IPB_PFRANGE_MIN(a) (a),-1,-1,-1
 
@@ -3101,7 +3103,7 @@ static inline uint64_t CAVM_MDABX_JOB_PTR_HIX(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_JOB_PTR_HIX(a,b) cavm_mdabx_job_ptr_hix_t
 #define bustype_CAVM_MDABX_JOB_PTR_HIX(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_JOB_PTR_HIX(a,b) "MDABX_JOB_PTR_HIX"
-#define device_bar_CAVM_MDABX_JOB_PTR_HIX(a,b) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_JOB_PTR_HIX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_JOB_PTR_HIX(a,b) (a)
 #define arguments_CAVM_MDABX_JOB_PTR_HIX(a,b) (a),(b),-1,-1
 
@@ -3145,7 +3147,7 @@ static inline uint64_t CAVM_MDABX_JOB_PTR_LOX(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_JOB_PTR_LOX(a,b) cavm_mdabx_job_ptr_lox_t
 #define bustype_CAVM_MDABX_JOB_PTR_LOX(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_JOB_PTR_LOX(a,b) "MDABX_JOB_PTR_LOX"
-#define device_bar_CAVM_MDABX_JOB_PTR_LOX(a,b) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_JOB_PTR_LOX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_JOB_PTR_LOX(a,b) (a)
 #define arguments_CAVM_MDABX_JOB_PTR_LOX(a,b) (a),(b),-1,-1
 
@@ -3230,7 +3232,7 @@ static inline uint64_t CAVM_MDABX_JOB_STATUSX(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_JOB_STATUSX(a,b) cavm_mdabx_job_statusx_t
 #define bustype_CAVM_MDABX_JOB_STATUSX(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_JOB_STATUSX(a,b) "MDABX_JOB_STATUSX"
-#define device_bar_CAVM_MDABX_JOB_STATUSX(a,b) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_JOB_STATUSX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_JOB_STATUSX(a,b) (a)
 #define arguments_CAVM_MDABX_JOB_STATUSX(a,b) (a),(b),-1,-1
 
@@ -3270,7 +3272,7 @@ static inline uint64_t CAVM_MDABX_JOB_STATUS1X(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_JOB_STATUS1X(a,b) cavm_mdabx_job_status1x_t
 #define bustype_CAVM_MDABX_JOB_STATUS1X(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_JOB_STATUS1X(a,b) "MDABX_JOB_STATUS1X"
-#define device_bar_CAVM_MDABX_JOB_STATUS1X(a,b) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_JOB_STATUS1X(a,b) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_JOB_STATUS1X(a,b) (a)
 #define arguments_CAVM_MDABX_JOB_STATUS1X(a,b) (a),(b),-1,-1
 
@@ -3312,7 +3314,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MDABX_LD_INT_ENA_W1C(a) cavm_mdabx_ld_int_ena_w1c_t
 #define bustype_CAVM_MDABX_LD_INT_ENA_W1C(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LD_INT_ENA_W1C(a) "MDABX_LD_INT_ENA_W1C"
-#define device_bar_CAVM_MDABX_LD_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_LD_INT_ENA_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_LD_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_MDABX_LD_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -3354,7 +3356,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_LD_INT_ENA_W1S(a) cavm_mdabx_ld_int_ena_w1s_t
 #define bustype_CAVM_MDABX_LD_INT_ENA_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LD_INT_ENA_W1S(a) "MDABX_LD_INT_ENA_W1S"
-#define device_bar_CAVM_MDABX_LD_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_LD_INT_ENA_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_LD_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_MDABX_LD_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -3396,7 +3398,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_SUM(uint64_t a)
 #define typedef_CAVM_MDABX_LD_INT_SUM(a) cavm_mdabx_ld_int_sum_t
 #define bustype_CAVM_MDABX_LD_INT_SUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LD_INT_SUM(a) "MDABX_LD_INT_SUM"
-#define device_bar_CAVM_MDABX_LD_INT_SUM(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_LD_INT_SUM(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_LD_INT_SUM(a) (a)
 #define arguments_CAVM_MDABX_LD_INT_SUM(a) (a),-1,-1,-1
 
@@ -3450,7 +3452,7 @@ static inline uint64_t CAVM_MDABX_LD_INT_SUM_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_LD_INT_SUM_W1S(a) cavm_mdabx_ld_int_sum_w1s_t
 #define bustype_CAVM_MDABX_LD_INT_SUM_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_LD_INT_SUM_W1S(a) "MDABX_LD_INT_SUM_W1S"
-#define device_bar_CAVM_MDABX_LD_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_LD_INT_SUM_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_LD_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_MDABX_LD_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -4858,9 +4860,10 @@ union cavm_mdabx_proc_ctl
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t rcv_core              : 1;  /**< [ 31: 31](R/W) When this bit is set, a DSP core which is low-power state (standby or light
                                                                  sleep) would wake up and move to run state. */
-        uint32_t sb_req                : 1;  /**< [ 30: 30](R/W) Standby request.
-                                                                 1 = Request transition from light sleep to standby if in Light sleep state.
-                                                                 0 = Request transition from standby to light sleep if in Standby state. */
+        uint32_t sb_req                : 1;  /**< [ 30: 30](R/W) Standby request (Active Low)
+                                                                 This bit has an effect only when Software has placed the DSP into light sleep mode:
+                                                                 0 = transition to Standby state.
+                                                                 1 = transition to Light Sleep state */
         uint32_t boot_vec_sel          : 1;  /**< [ 29: 29](R/W) Setting this bit selects the alternative stationary vector base address. */
         uint32_t powersave_stall_en    : 1;  /**< [ 28: 28](R/W) This bit enables the RUN_STALL powersaving mode. If set, the RUN_STALL signal is toggled
                                                                  according to [POWERSAVE_ON_CNT] and [POWERSAVE_OFF_CNT]. The RUN_STALL
@@ -4944,9 +4947,10 @@ union cavm_mdabx_proc_ctl
                                                                  the RUN_STALL is toggled low for the number of clocks provided by [POWERSAVE_OFF_CNT]+1.
                                                                  Minimum valid count values are 15. */
         uint32_t boot_vec_sel          : 1;  /**< [ 29: 29](R/W) Setting this bit selects the alternative stationary vector base address. */
-        uint32_t sb_req                : 1;  /**< [ 30: 30](R/W) Standby request.
-                                                                 1 = Request transition from light sleep to standby if in Light sleep state.
-                                                                 0 = Request transition from standby to light sleep if in Standby state. */
+        uint32_t sb_req                : 1;  /**< [ 30: 30](R/W) Standby request (Active Low)
+                                                                 This bit has an effect only when Software has placed the DSP into light sleep mode:
+                                                                 0 = transition to Standby state.
+                                                                 1 = transition to Light Sleep state */
         uint32_t rcv_core              : 1;  /**< [ 31: 31](R/W) When this bit is set, a DSP core which is low-power state (standby or light
                                                                  sleep) would wake up and move to run state. */
 #endif /* Word 0 - End */
@@ -4967,7 +4971,7 @@ static inline uint64_t CAVM_MDABX_PROC_CTL(uint64_t a)
 #define typedef_CAVM_MDABX_PROC_CTL(a) cavm_mdabx_proc_ctl_t
 #define bustype_CAVM_MDABX_PROC_CTL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PROC_CTL(a) "MDABX_PROC_CTL"
-#define device_bar_CAVM_MDABX_PROC_CTL(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_PROC_CTL(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_PROC_CTL(a) (a)
 #define arguments_CAVM_MDABX_PROC_CTL(a) (a),-1,-1,-1
 
@@ -5122,19 +5126,37 @@ union cavm_mdabx_proc_status
         uint32_t etm_fifo_empty        : 1;  /**< [ 13: 13](RO/H) Reflect the status for the ETM FIFO, 0x0 - empty, 0x1 - occupied. */
         uint32_t ocem_gp               : 4;  /**< [ 12:  9](RO/H) Reflect the status at OCEM control register bits[15:12]. */
         uint32_t reserved_4_8          : 5;
-        uint32_t dsp_sb                : 1;  /**< [  3:  3](RO/H) DSP in Standby Mode. */
+        uint32_t dsp_sb                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint32_t dsp_ack_sb            : 1;  /**< [  2:  2](RO/H) Acknowledge hardware transition request from light sleep to standby. */
-        uint32_t core_stand_by         : 1;  /**< [  1:  1](RO/H) Indicates the DSP core and its memory system are in sleep mode. Any enabled
-                                                                 interrupt will wake the DSP up or setting in MDAB_(0..31,32..48)PROC_CTL[RCV_CORE]. */
-        uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt will
-                                                                 wake the DSP up or setting MDAB_PROC_CTL[RCV_CORE]. */
+        uint32_t core_stand_by         : 1;  /**< [  1:  1](RO/H) Indicates the DSP core and its memory system are not active. Any enabled
+                                                                 interrupt assertion will activate the DSP.
+                                                                 Setting MDAB_(0..31,32..48)PROC_CTL[RCV_CORE] will also activate the DSP. */
+        uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt assertion will
+                                                                  activate the DSP. Setting MDAB_PROC_CTL[RCV_CORE] will also activate the DSP.
+
+                                                                  DSP running state is indicated below:
+                                                                   CORE_LIGHT_SLEEP  |  CORE_STANDBY  | DSP Mode
+                                                                   -----------------------------------------------------------------------
+                                                                         0                0           | DSP is running
+                                                                         1                0           | DSP core is in LIGHT_SLEEP mode. DSP Memory is active
+                                                                         1                1           | DSP and DSP memory are in low power mode
+                                                                 Internal: This is driven by the DSP output: cevaxc_pmu_core_idle_r */
 #else /* Word 0 - Little Endian */
-        uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt will
-                                                                 wake the DSP up or setting MDAB_PROC_CTL[RCV_CORE]. */
-        uint32_t core_stand_by         : 1;  /**< [  1:  1](RO/H) Indicates the DSP core and its memory system are in sleep mode. Any enabled
-                                                                 interrupt will wake the DSP up or setting in MDAB_(0..31,32..48)PROC_CTL[RCV_CORE]. */
+        uint32_t core_light_sleep      : 1;  /**< [  0:  0](RO/H) Indicates that the DSP core is in the sleep mode. Any enabled interrupt assertion will
+                                                                  activate the DSP. Setting MDAB_PROC_CTL[RCV_CORE] will also activate the DSP.
+
+                                                                  DSP running state is indicated below:
+                                                                   CORE_LIGHT_SLEEP  |  CORE_STANDBY  | DSP Mode
+                                                                   -----------------------------------------------------------------------
+                                                                         0                0           | DSP is running
+                                                                         1                0           | DSP core is in LIGHT_SLEEP mode. DSP Memory is active
+                                                                         1                1           | DSP and DSP memory are in low power mode
+                                                                 Internal: This is driven by the DSP output: cevaxc_pmu_core_idle_r */
+        uint32_t core_stand_by         : 1;  /**< [  1:  1](RO/H) Indicates the DSP core and its memory system are not active. Any enabled
+                                                                 interrupt assertion will activate the DSP.
+                                                                 Setting MDAB_(0..31,32..48)PROC_CTL[RCV_CORE] will also activate the DSP. */
         uint32_t dsp_ack_sb            : 1;  /**< [  2:  2](RO/H) Acknowledge hardware transition request from light sleep to standby. */
-        uint32_t dsp_sb                : 1;  /**< [  3:  3](RO/H) DSP in Standby Mode. */
+        uint32_t dsp_sb                : 1;  /**< [  3:  3](RO/H) Reserved. */
         uint32_t reserved_4_8          : 5;
         uint32_t ocem_gp               : 4;  /**< [ 12:  9](RO/H) Reflect the status at OCEM control register bits[15:12]. */
         uint32_t etm_fifo_empty        : 1;  /**< [ 13: 13](RO/H) Reflect the status for the ETM FIFO, 0x0 - empty, 0x1 - occupied. */
@@ -5165,7 +5187,7 @@ static inline uint64_t CAVM_MDABX_PROC_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_PROC_STATUS(a) cavm_mdabx_proc_status_t
 #define bustype_CAVM_MDABX_PROC_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PROC_STATUS(a) "MDABX_PROC_STATUS"
-#define device_bar_CAVM_MDABX_PROC_STATUS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_PROC_STATUS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_PROC_STATUS(a) (a)
 #define arguments_CAVM_MDABX_PROC_STATUS(a) (a),-1,-1,-1
 
@@ -5208,7 +5230,7 @@ static inline uint64_t CAVM_MDABX_PSM_CMDX(uint64_t a, uint64_t b)
 #define typedef_CAVM_MDABX_PSM_CMDX(a,b) cavm_mdabx_psm_cmdx_t
 #define bustype_CAVM_MDABX_PSM_CMDX(a,b) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PSM_CMDX(a,b) "MDABX_PSM_CMDX"
-#define device_bar_CAVM_MDABX_PSM_CMDX(a,b) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_PSM_CMDX(a,b) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_PSM_CMDX(a,b) (a)
 #define arguments_CAVM_MDABX_PSM_CMDX(a,b) (a),(b),-1,-1
 
@@ -5257,7 +5279,7 @@ static inline uint64_t CAVM_MDABX_PSM_CMD_PUSH(uint64_t a)
 #define typedef_CAVM_MDABX_PSM_CMD_PUSH(a) cavm_mdabx_psm_cmd_push_t
 #define bustype_CAVM_MDABX_PSM_CMD_PUSH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PSM_CMD_PUSH(a) "MDABX_PSM_CMD_PUSH"
-#define device_bar_CAVM_MDABX_PSM_CMD_PUSH(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_PSM_CMD_PUSH(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_PSM_CMD_PUSH(a) (a)
 #define arguments_CAVM_MDABX_PSM_CMD_PUSH(a) (a),-1,-1,-1
 
@@ -5314,7 +5336,7 @@ static inline uint64_t CAVM_MDABX_PSM_TIMER_HI(uint64_t a)
 #define typedef_CAVM_MDABX_PSM_TIMER_HI(a) cavm_mdabx_psm_timer_hi_t
 #define bustype_CAVM_MDABX_PSM_TIMER_HI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PSM_TIMER_HI(a) "MDABX_PSM_TIMER_HI"
-#define device_bar_CAVM_MDABX_PSM_TIMER_HI(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_PSM_TIMER_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_PSM_TIMER_HI(a) (a)
 #define arguments_CAVM_MDABX_PSM_TIMER_HI(a) (a),-1,-1,-1
 
@@ -5417,7 +5439,7 @@ static inline uint64_t CAVM_MDABX_PSM_TIMER_LO(uint64_t a)
 #define typedef_CAVM_MDABX_PSM_TIMER_LO(a) cavm_mdabx_psm_timer_lo_t
 #define bustype_CAVM_MDABX_PSM_TIMER_LO(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_PSM_TIMER_LO(a) "MDABX_PSM_TIMER_LO"
-#define device_bar_CAVM_MDABX_PSM_TIMER_LO(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_PSM_TIMER_LO(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_PSM_TIMER_LO(a) (a)
 #define arguments_CAVM_MDABX_PSM_TIMER_LO(a) (a),-1,-1,-1
 
@@ -5462,7 +5484,7 @@ static inline uint64_t CAVM_MDABX_RD_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_RD_ADDR(a) cavm_mdabx_rd_addr_t
 #define bustype_CAVM_MDABX_RD_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_ADDR(a) "MDABX_RD_ADDR"
-#define device_bar_CAVM_MDABX_RD_ADDR(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RD_ADDR(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RD_ADDR(a) (a)
 #define arguments_CAVM_MDABX_RD_ADDR(a) (a),-1,-1,-1
 
@@ -5519,7 +5541,7 @@ static inline uint64_t CAVM_MDABX_RD_ERROR_STS(uint64_t a)
 #define typedef_CAVM_MDABX_RD_ERROR_STS(a) cavm_mdabx_rd_error_sts_t
 #define bustype_CAVM_MDABX_RD_ERROR_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_ERROR_STS(a) "MDABX_RD_ERROR_STS"
-#define device_bar_CAVM_MDABX_RD_ERROR_STS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RD_ERROR_STS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RD_ERROR_STS(a) (a)
 #define arguments_CAVM_MDABX_RD_ERROR_STS(a) (a),-1,-1,-1
 
@@ -5563,7 +5585,7 @@ static inline uint64_t CAVM_MDABX_RD_FIFO_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_RD_FIFO_STATUS(a) cavm_mdabx_rd_fifo_status_t
 #define bustype_CAVM_MDABX_RD_FIFO_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_FIFO_STATUS(a) "MDABX_RD_FIFO_STATUS"
-#define device_bar_CAVM_MDABX_RD_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RD_FIFO_STATUS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RD_FIFO_STATUS(a) (a)
 #define arguments_CAVM_MDABX_RD_FIFO_STATUS(a) (a),-1,-1,-1
 
@@ -5613,7 +5635,7 @@ static inline uint64_t CAVM_MDABX_RD_LENGTH(uint64_t a)
 #define typedef_CAVM_MDABX_RD_LENGTH(a) cavm_mdabx_rd_length_t
 #define bustype_CAVM_MDABX_RD_LENGTH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_LENGTH(a) "MDABX_RD_LENGTH"
-#define device_bar_CAVM_MDABX_RD_LENGTH(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RD_LENGTH(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RD_LENGTH(a) (a)
 #define arguments_CAVM_MDABX_RD_LENGTH(a) (a),-1,-1,-1
 
@@ -5694,7 +5716,7 @@ static inline uint64_t CAVM_MDABX_RD_LIMIT(uint64_t a)
 #define typedef_CAVM_MDABX_RD_LIMIT(a) cavm_mdabx_rd_limit_t
 #define bustype_CAVM_MDABX_RD_LIMIT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_LIMIT(a) "MDABX_RD_LIMIT"
-#define device_bar_CAVM_MDABX_RD_LIMIT(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RD_LIMIT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RD_LIMIT(a) (a)
 #define arguments_CAVM_MDABX_RD_LIMIT(a) (a),-1,-1,-1
 
@@ -5736,7 +5758,7 @@ static inline uint64_t CAVM_MDABX_RD_NEXT_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_RD_NEXT_ADDR(a) cavm_mdabx_rd_next_addr_t
 #define bustype_CAVM_MDABX_RD_NEXT_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_NEXT_ADDR(a) "MDABX_RD_NEXT_ADDR"
-#define device_bar_CAVM_MDABX_RD_NEXT_ADDR(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RD_NEXT_ADDR(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RD_NEXT_ADDR(a) (a)
 #define arguments_CAVM_MDABX_RD_NEXT_ADDR(a) (a),-1,-1,-1
 
@@ -5848,7 +5870,7 @@ static inline uint64_t CAVM_MDABX_RD_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_RD_STATUS(a) cavm_mdabx_rd_status_t
 #define bustype_CAVM_MDABX_RD_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RD_STATUS(a) "MDABX_RD_STATUS"
-#define device_bar_CAVM_MDABX_RD_STATUS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RD_STATUS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RD_STATUS(a) (a)
 #define arguments_CAVM_MDABX_RD_STATUS(a) (a),-1,-1,-1
 
@@ -5890,7 +5912,7 @@ static inline uint64_t CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) cavm_mdabx_rmp_dflt_win_addr_hi_t
 #define bustype_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) "MDABX_RMP_DFLT_WIN_ADDR_HI"
-#define device_bar_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) (a)
 #define arguments_CAVM_MDABX_RMP_DFLT_WIN_ADDR_HI(a) (a),-1,-1,-1
 
@@ -5932,7 +5954,7 @@ static inline uint64_t CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) cavm_mdabx_rmp_dflt_win_addr_low_t
 #define bustype_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) "MDABX_RMP_DFLT_WIN_ADDR_LOW"
-#define device_bar_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) (a)
 #define arguments_CAVM_MDABX_RMP_DFLT_WIN_ADDR_LOW(a) (a),-1,-1,-1
 
@@ -5972,7 +5994,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_ADDR_HI(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_WIN_ADDR_HI(a) cavm_mdabx_rmp_win_addr_hi_t
 #define bustype_CAVM_MDABX_RMP_WIN_ADDR_HI(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_WIN_ADDR_HI(a) "MDABX_RMP_WIN_ADDR_HI"
-#define device_bar_CAVM_MDABX_RMP_WIN_ADDR_HI(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RMP_WIN_ADDR_HI(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RMP_WIN_ADDR_HI(a) (a)
 #define arguments_CAVM_MDABX_RMP_WIN_ADDR_HI(a) (a),-1,-1,-1
 
@@ -6014,7 +6036,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_ADDR_LOW(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) cavm_mdabx_rmp_win_addr_low_t
 #define bustype_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) "MDABX_RMP_WIN_ADDR_LOW"
-#define device_bar_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) (a)
 #define arguments_CAVM_MDABX_RMP_WIN_ADDR_LOW(a) (a),-1,-1,-1
 
@@ -6062,7 +6084,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_BASE(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_WIN_BASE(a) cavm_mdabx_rmp_win_base_t
 #define bustype_CAVM_MDABX_RMP_WIN_BASE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_WIN_BASE(a) "MDABX_RMP_WIN_BASE"
-#define device_bar_CAVM_MDABX_RMP_WIN_BASE(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RMP_WIN_BASE(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RMP_WIN_BASE(a) (a)
 #define arguments_CAVM_MDABX_RMP_WIN_BASE(a) (a),-1,-1,-1
 
@@ -6104,7 +6126,7 @@ static inline uint64_t CAVM_MDABX_RMP_WIN_SIZE(uint64_t a)
 #define typedef_CAVM_MDABX_RMP_WIN_SIZE(a) cavm_mdabx_rmp_win_size_t
 #define bustype_CAVM_MDABX_RMP_WIN_SIZE(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RMP_WIN_SIZE(a) "MDABX_RMP_WIN_SIZE"
-#define device_bar_CAVM_MDABX_RMP_WIN_SIZE(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RMP_WIN_SIZE(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RMP_WIN_SIZE(a) (a)
 #define arguments_CAVM_MDABX_RMP_WIN_SIZE(a) (a),-1,-1,-1
 
@@ -6164,7 +6186,7 @@ static inline uint64_t CAVM_MDABX_RSP_PEND_STS(uint64_t a)
 #define typedef_CAVM_MDABX_RSP_PEND_STS(a) cavm_mdabx_rsp_pend_sts_t
 #define bustype_CAVM_MDABX_RSP_PEND_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_RSP_PEND_STS(a) "MDABX_RSP_PEND_STS"
-#define device_bar_CAVM_MDABX_RSP_PEND_STS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_RSP_PEND_STS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_RSP_PEND_STS(a) (a)
 #define arguments_CAVM_MDABX_RSP_PEND_STS(a) (a),-1,-1,-1
 
@@ -6235,7 +6257,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_ENA_W1C(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_ENA_W1C(a) cavm_mdabx_sec_int_ena_w1c_t
 #define bustype_CAVM_MDABX_SEC_INT_ENA_W1C(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_ENA_W1C(a) "MDABX_SEC_INT_ENA_W1C"
-#define device_bar_CAVM_MDABX_SEC_INT_ENA_W1C(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_SEC_INT_ENA_W1C(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_SEC_INT_ENA_W1C(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_ENA_W1C(a) (a),-1,-1,-1
 
@@ -6306,7 +6328,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_ENA_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_ENA_W1S(a) cavm_mdabx_sec_int_ena_w1s_t
 #define bustype_CAVM_MDABX_SEC_INT_ENA_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_ENA_W1S(a) "MDABX_SEC_INT_ENA_W1S"
-#define device_bar_CAVM_MDABX_SEC_INT_ENA_W1S(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_SEC_INT_ENA_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_SEC_INT_ENA_W1S(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_ENA_W1S(a) (a),-1,-1,-1
 
@@ -6354,7 +6376,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_INT1_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_INT1_ENA(a) cavm_mdabx_sec_int_int1_ena_t
 #define bustype_CAVM_MDABX_SEC_INT_INT1_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_INT1_ENA(a) "MDABX_SEC_INT_INT1_ENA"
-#define device_bar_CAVM_MDABX_SEC_INT_INT1_ENA(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_SEC_INT_INT1_ENA(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_SEC_INT_INT1_ENA(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_INT1_ENA(a) (a),-1,-1,-1
 
@@ -6402,7 +6424,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_INTVEC_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) cavm_mdabx_sec_int_intvec_ena_t
 #define bustype_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) "MDABX_SEC_INT_INTVEC_ENA"
-#define device_bar_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_INTVEC_ENA(a) (a),-1,-1,-1
 
@@ -6450,7 +6472,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_NMI_ENA(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_NMI_ENA(a) cavm_mdabx_sec_int_nmi_ena_t
 #define bustype_CAVM_MDABX_SEC_INT_NMI_ENA(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_NMI_ENA(a) "MDABX_SEC_INT_NMI_ENA"
-#define device_bar_CAVM_MDABX_SEC_INT_NMI_ENA(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_SEC_INT_NMI_ENA(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_SEC_INT_NMI_ENA(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_NMI_ENA(a) (a),-1,-1,-1
 
@@ -6526,7 +6548,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_SUM(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_SUM(a) cavm_mdabx_sec_int_sum_t
 #define bustype_CAVM_MDABX_SEC_INT_SUM(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_SUM(a) "MDABX_SEC_INT_SUM"
-#define device_bar_CAVM_MDABX_SEC_INT_SUM(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_SEC_INT_SUM(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_SEC_INT_SUM(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_SUM(a) (a),-1,-1,-1
 
@@ -6598,7 +6620,7 @@ static inline uint64_t CAVM_MDABX_SEC_INT_SUM_W1S(uint64_t a)
 #define typedef_CAVM_MDABX_SEC_INT_SUM_W1S(a) cavm_mdabx_sec_int_sum_w1s_t
 #define bustype_CAVM_MDABX_SEC_INT_SUM_W1S(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SEC_INT_SUM_W1S(a) "MDABX_SEC_INT_SUM_W1S"
-#define device_bar_CAVM_MDABX_SEC_INT_SUM_W1S(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_SEC_INT_SUM_W1S(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_SEC_INT_SUM_W1S(a) (a)
 #define arguments_CAVM_MDABX_SEC_INT_SUM_W1S(a) (a),-1,-1,-1
 
@@ -6644,7 +6666,7 @@ static inline uint64_t CAVM_MDABX_SLAVE_DMA_CTRL(uint64_t a)
 #define typedef_CAVM_MDABX_SLAVE_DMA_CTRL(a) cavm_mdabx_slave_dma_ctrl_t
 #define bustype_CAVM_MDABX_SLAVE_DMA_CTRL(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_SLAVE_DMA_CTRL(a) "MDABX_SLAVE_DMA_CTRL"
-#define device_bar_CAVM_MDABX_SLAVE_DMA_CTRL(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_SLAVE_DMA_CTRL(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_SLAVE_DMA_CTRL(a) (a)
 #define arguments_CAVM_MDABX_SLAVE_DMA_CTRL(a) (a),-1,-1,-1
 
@@ -6689,7 +6711,7 @@ static inline uint64_t CAVM_MDABX_WR_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_WR_ADDR(a) cavm_mdabx_wr_addr_t
 #define bustype_CAVM_MDABX_WR_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_ADDR(a) "MDABX_WR_ADDR"
-#define device_bar_CAVM_MDABX_WR_ADDR(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_WR_ADDR(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_WR_ADDR(a) (a)
 #define arguments_CAVM_MDABX_WR_ADDR(a) (a),-1,-1,-1
 
@@ -6748,7 +6770,7 @@ static inline uint64_t CAVM_MDABX_WR_ERROR_STS(uint64_t a)
 #define typedef_CAVM_MDABX_WR_ERROR_STS(a) cavm_mdabx_wr_error_sts_t
 #define bustype_CAVM_MDABX_WR_ERROR_STS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_ERROR_STS(a) "MDABX_WR_ERROR_STS"
-#define device_bar_CAVM_MDABX_WR_ERROR_STS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_WR_ERROR_STS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_WR_ERROR_STS(a) (a)
 #define arguments_CAVM_MDABX_WR_ERROR_STS(a) (a),-1,-1,-1
 
@@ -6792,7 +6814,7 @@ static inline uint64_t CAVM_MDABX_WR_FIFO_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_WR_FIFO_STATUS(a) cavm_mdabx_wr_fifo_status_t
 #define bustype_CAVM_MDABX_WR_FIFO_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_FIFO_STATUS(a) "MDABX_WR_FIFO_STATUS"
-#define device_bar_CAVM_MDABX_WR_FIFO_STATUS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_WR_FIFO_STATUS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_WR_FIFO_STATUS(a) (a)
 #define arguments_CAVM_MDABX_WR_FIFO_STATUS(a) (a),-1,-1,-1
 
@@ -6848,7 +6870,7 @@ static inline uint64_t CAVM_MDABX_WR_LENGTH(uint64_t a)
 #define typedef_CAVM_MDABX_WR_LENGTH(a) cavm_mdabx_wr_length_t
 #define bustype_CAVM_MDABX_WR_LENGTH(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_LENGTH(a) "MDABX_WR_LENGTH"
-#define device_bar_CAVM_MDABX_WR_LENGTH(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_WR_LENGTH(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_WR_LENGTH(a) (a)
 #define arguments_CAVM_MDABX_WR_LENGTH(a) (a),-1,-1,-1
 
@@ -6933,7 +6955,7 @@ static inline uint64_t CAVM_MDABX_WR_LIMIT(uint64_t a)
 #define typedef_CAVM_MDABX_WR_LIMIT(a) cavm_mdabx_wr_limit_t
 #define bustype_CAVM_MDABX_WR_LIMIT(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_LIMIT(a) "MDABX_WR_LIMIT"
-#define device_bar_CAVM_MDABX_WR_LIMIT(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_WR_LIMIT(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_WR_LIMIT(a) (a)
 #define arguments_CAVM_MDABX_WR_LIMIT(a) (a),-1,-1,-1
 
@@ -6977,7 +6999,7 @@ static inline uint64_t CAVM_MDABX_WR_NEXT_ADDR(uint64_t a)
 #define typedef_CAVM_MDABX_WR_NEXT_ADDR(a) cavm_mdabx_wr_next_addr_t
 #define bustype_CAVM_MDABX_WR_NEXT_ADDR(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_NEXT_ADDR(a) "MDABX_WR_NEXT_ADDR"
-#define device_bar_CAVM_MDABX_WR_NEXT_ADDR(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_WR_NEXT_ADDR(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_WR_NEXT_ADDR(a) (a)
 #define arguments_CAVM_MDABX_WR_NEXT_ADDR(a) (a),-1,-1,-1
 
@@ -7091,7 +7113,7 @@ static inline uint64_t CAVM_MDABX_WR_STATUS(uint64_t a)
 #define typedef_CAVM_MDABX_WR_STATUS(a) cavm_mdabx_wr_status_t
 #define bustype_CAVM_MDABX_WR_STATUS(a) CSR_TYPE_MULTIRSL32b
 #define basename_CAVM_MDABX_WR_STATUS(a) "MDABX_WR_STATUS"
-#define device_bar_CAVM_MDABX_WR_STATUS(a) 0x0 /* PF_BAR0 */
+#define device_bar_CAVM_MDABX_WR_STATUS(a) 0x2 /* PF_BAR2 */
 #define busnum_CAVM_MDABX_WR_STATUS(a) (a)
 #define arguments_CAVM_MDABX_WR_STATUS(a) (a),-1,-1,-1
 
