@@ -14,7 +14,8 @@
 	.global el3_invoke_elx_kernel_callback
 
 #define SPSR_ISR	((1ULL << SPSR_E_SHIFT) | (3 << SPSR_AIF_SHIFT))
-#define SCR_ISR		(SCR_NS_BIT | SCR_TWE_BIT | SCR_TWI_BIT | SCR_RW_BIT)
+#define SCR_ISR		(SCR_NS_BIT | SCR_TWE_BIT | SCR_TWI_BIT | SCR_RW_BIT | \
+			 SCR_API_BIT | SCR_APK_BIT)
 
 func el3_exit_wfi
 
