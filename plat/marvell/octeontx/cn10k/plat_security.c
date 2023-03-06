@@ -455,9 +455,25 @@ void octeontx_security_setup(void)
 
 	bar_ctl.u = 0; /* avoid 'uninitialized usage' warning */
 
-	/* In EP mode, host writes (reg or mem) can hang Octeon (TBD).
-	 * As a workaround, disable PEM BAR access & flush cache
-	 * prior to configuring memory regions.
+	/*
+	 * Prior to re-configuring these memory regions as insecure
+	 * (from secure), the data caches must be flushed in the event
+	 * that there are any dirty cache lines present.
+	 * Failure to do so will cause unpredictable and fatal results
+	 * (i.e., Octeon hang) when the SAM_ASC_REGIONX registers are
+	 * written.
+	 *
+	 * The presence of dirty cache lines can only be true for Endpoint mode,
+	 * when the host has issued remote writes to Octeon memory.
+	 * Thus, this check is EP-specific.
+	 *
+	 * First, disable host BAR access to prevent any remote writes
+	 * from entering the mesh, then flush the data caches.
+	 * Regular operation can then proceed.
+	 *
+	 * Note that this 'pre-flush' operation is separate from the
+	 * 'post-flush' operation.
+	 * Both are required, although the 'pre-flush' is EP-mode-specific.
 	 */
 	if (is_pem_in_ep_mode(0)) {
 		/* save BAR control reg */
