@@ -378,8 +378,8 @@ int cn10k_spi_dev_erase(uint64_t offset, uint64_t len, int bus, int cs)
 	if ((sector_offset > 0) || (len < sector_size)) {
 		if (spi_nor_read(rd_buffer, sector_size, sector_addr,
 				 mode, bus, cs) < 0) {
-			WARN("SPI: Read flash failed for offset: 0x%llx, "
-				 "len: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Read flash failed for offset: 0x%" PRIx64
+				 ", len: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     sector_addr, sector_size );
 			return -1;
 		}
@@ -393,7 +393,7 @@ int cn10k_spi_dev_erase(uint64_t offset, uint64_t len, int bus, int cs)
 
 		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
 			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64
-				 ", sector size: 0x%llx, file: EFI_VAR\n",
+				 ", sector size: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     sector_addr, sector_size );
 			return -1;
 		}
@@ -401,7 +401,7 @@ int cn10k_spi_dev_erase(uint64_t offset, uint64_t len, int bus, int cs)
 		if (spi_nor_write(rd_buffer, sector_size, sector_addr,
 				  mode, bus, cs) < 0) {
 			WARN("SPI: Write flash failed for offset: 0x%" PRIx64
-				 ", len: 0x%llx, file: EFI_VAR\n",
+				 ", len: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     sector_addr, sector_size );
 			return -1;
 		}
@@ -415,8 +415,8 @@ int cn10k_spi_dev_erase(uint64_t offset, uint64_t len, int bus, int cs)
 	while ((sector_addr < last_sector) ||
 		   ((sector_addr == last_sector) && (window_size == 0))) {
 		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
-			WARN("SPI: Erase flash failed for offset: 0x%llx, "
-				 "sector size: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64
+				 ", sector size: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     sector_addr, sector_size );
 			return -1;
 		}
@@ -428,7 +428,7 @@ int cn10k_spi_dev_erase(uint64_t offset, uint64_t len, int bus, int cs)
 		if (spi_nor_read(rd_buffer, sector_size, sector_addr,
 				 mode, bus, cs) < 0) {
 			WARN("SPI: Read flash failed for offset: 0x%" PRIx64
-				 ", len: 0x%llx, file: EFI_VAR\n",
+				 ", len: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     sector_addr, sector_size );
 			return -1;
 		}
@@ -436,16 +436,16 @@ int cn10k_spi_dev_erase(uint64_t offset, uint64_t len, int bus, int cs)
 		memset(rd_buffer, 0xFF, window_size);
 
 		if (spi_nor_erase(sector_addr, mode, bus, cs)) {
-			WARN("SPI: Erase flash failed for offset: 0x%llx, "
-				 "sector size: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Erase flash failed for offset: 0x%" PRIx64
+				 ", sector size: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     sector_addr, sector_size );
 			return -1;
 		}
 
 		if (spi_nor_write(rd_buffer, sector_size, sector_addr,
 				  mode, bus, cs) < 0) {
-			WARN("SPI: Write flash failed for offset: 0x%llx, "
-				 "len: 0x%llx, file: EFI_VAR\n",
+			WARN("SPI: Write flash failed for offset: 0x%" PRIx64
+				 ", len: 0x%" PRIx64 ", file: EFI_VAR\n",
 			     sector_addr, sector_size );
 			return -1;
 		}
@@ -643,7 +643,7 @@ int spi_read_efi_var(uintptr_t efi_buf, uint64_t *efi_size)
 	uint64_t flash_off, sector_off, found_off;
 
 	if (*efi_size < offsetof(struct efi_var_file_hdr, crc32)) {
-		WARN("%s: Receive buffer too small (0x%llx), even header won't fit\n",
+		WARN("%s: Receive buffer too small (0x%" PRIx64 "), even header won't fit\n",
 		     __func__, *efi_size);
 		return -1;
 	}
