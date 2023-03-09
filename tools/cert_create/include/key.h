@@ -2,6 +2,9 @@
  * Copyright (c) 2015-2022, Arm Limited and Contributors. All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
+ *
+ * https://spdx.org/licenses
+ *
  */
 
 #ifndef KEY_H
