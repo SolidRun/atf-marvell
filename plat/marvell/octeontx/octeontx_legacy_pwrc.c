@@ -114,21 +114,19 @@ void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 	core_pwpr.s.pwr_policy = 0x8; /* ON. Logic on with RAM on, cluster is functional */
 	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
 
-	if (cavm_is_platform(PLATFORM_ASIM)) {
-		/* Poll on core PPU_PWSR register until the value matches the PWPR */
-		loop = 1000000;
-		while(loop) {
-			core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
-			core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
-			if (core_pwsr.u == core_pwpr.u)
-				break;
-			udelay(1);
-			loop--;
-		}
-		if (!loop) {
-			WARN("%s: Failed to match PWSR with PWPR core_pwsr.u 0x%x\n", __func__, core_pwsr.u);
-			return;
-		}
+	/* Poll on core PPU_PWSR register until the value matches the PWPR */
+	loop = 1000;
+	while (loop) {
+		core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
+		core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
+		if (core_pwsr.u == core_pwpr.u)
+			break;
+		udelay(1);
+		loop--;
+	}
+	if (!loop) {
+		WARN("%s: Failed to match PWSR with PWPR core_pwsr.u 0x%x\n", __func__, core_pwsr.u);
+		return;
 	}
 #else
 	union cavm_rst_pp_reset pp_reset;
@@ -181,47 +179,44 @@ void octeontx_legacy_pwrc_cpu_off(int octeontx_core_id)
 	write_cpupwrctlr_el1(cpupwrctlr_el1);
 	cpupwrctlr_el1 = read_cpupwrctlr_el1();
 
-	cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
-	cluster_pwpr.s.pwr_policy = 0x0; /* OFF */
-	CSR_WRITE(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id), cluster_pwpr.u);
-
-	if (cavm_is_platform(PLATFORM_ASIM)) {
-		loop = 1000000;
-		while (loop) {
-			cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
-			cluster_pwsr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWSR(octeontx_core_id));
-
-			if (cluster_pwsr.u == cluster_pwpr.u)
-				break;
-			udelay(1);
-			loop--;
-		}
-		if (!loop) {
-			WARN("%s: Failed to match PWSR with PWPR cluster_pwsr.u 0x%x\n", __func__, cluster_pwsr.u);
-			return;
-		}
-	}
-
 	/* Set the policy mode to OFF for the core/cluster */
 	core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
 	core_pwpr.s.pwr_policy = 0x0; /* OFF */
 	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
 
-	if (cavm_is_platform(PLATFORM_ASIM)) {
-		loop = 1000000;
-		while (loop) {
-			core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
-			core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
-			if (core_pwsr.u == core_pwpr.u)
-				break;
-			udelay(1);
-			loop--;
-		}
-		if (!loop) {
-			WARN("%s: Failed to match PWSR with PWPR core_pwsr.u 0x%x\n", __func__, core_pwsr.u);
-			return;
-		}
+	loop = 1000;
+	while (loop) {
+		core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
+		core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
+		if (core_pwsr.u == core_pwpr.u)
+			break;
+		udelay(1);
+		loop--;
 	}
+	if (!loop) {
+		WARN("%s: Failed to match PWSR with PWPR core_pwsr.u 0x%x\n", __func__, core_pwsr.u);
+		return;
+	}
+
+	cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
+	cluster_pwpr.s.pwr_policy = 0x0; /* OFF */
+	CSR_WRITE(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id), cluster_pwpr.u);
+
+	loop = 1000;
+	while (loop) {
+		cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
+		cluster_pwsr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWSR(octeontx_core_id));
+
+		if (cluster_pwsr.u == cluster_pwpr.u)
+			break;
+		udelay(1);
+		loop--;
+	}
+	if (!loop) {
+		WARN("%s: Failed to match PWSR with PWPR cluster_pwsr.u 0x%x\n", __func__, cluster_pwsr.u);
+		return;
+	}
+
 #endif
 }
 
