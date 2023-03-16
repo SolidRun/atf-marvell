@@ -85,6 +85,8 @@ struct ccs_region ccs_map[MAX_ASC_REGIONS] = {
 void dump_ccs_region_config(void)
 {
 	int index;
+	cavm_sam_asc_regionx_attr_t asc_attr;
+	cavm_sam_asc_regionx_offset_t asc_offset;
 	ccs_region_t *region;
 	uint64_t start, end;
 
@@ -101,6 +103,10 @@ void dump_ccs_region_config(void)
 
 			start = region->start;
 			end = region->end;
+			asc_offset.u = CSR_READ(CAVM_SAM_ASC_REGIONX_OFFSET(index));
+			asc_attr.u = CSR_READ(CAVM_SAM_ASC_REGIONX_ATTR(index));
+			VERBOSE("%d: DMC_MASK = 0x%x, OFFSET = 0x%x\n",
+				 index, asc_attr.s.dmc_mask, asc_offset.s.offset);
 
 			switch (index) {
 			case SECURE_NONPRESERVE:
@@ -272,6 +278,10 @@ int adjust_asc_region(ccs_region_index_t index, uint64_t size, int *new_index)
 		ERROR("%s: SAM: Cannot map new region in ASC\n", __func__);
 		return -1;
 	}
+
+	/* Update Offset of new region based on current offset */
+	CSR_WRITE(CAVM_SAM_ASC_REGIONX_OFFSET(*new_index),
+			CSR_READ(CAVM_SAM_ASC_REGIONX_OFFSET(index)));
 
 	return 0;
 }
