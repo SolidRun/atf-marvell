@@ -127,6 +127,10 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndpeid_el3, AP_CVM_CPURNDPEID_EL3)
 
 #define PEM_ALL_STREAM_IDS	0xFFFF
 
+/* Defines for coresight preserve region support*/
+#define CORESIGHT_METADATA_SIZE			(1 * 1024 * 1024)
+#define CORESIGHT_REGISTER_SNAPSHOT_SIZE	64
+
 /* LLC cache locking */
 static inline int octeontx_llc_lock(uint64_t phys_addr, uint64_t size)
 {
@@ -160,6 +164,7 @@ void sata_ipm_quirk(void);
 void plat_flr_init(void);
 void plat_initialize_boot_error_data_area(unsigned long attr);
 void plat_initialize_ghes_hest_area(void);
+void plat_initialize_coresight_metadata_area(void);
 
 bool plat_ras_feature_supported(void);
 void plat_remove_ras_fdt_nodes(void);

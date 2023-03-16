@@ -628,6 +628,9 @@ void bl2_platform_setup(void)
 	plat_initialize_ghes_hest_area();
 
 	dump_ccs_region_config();
+
+	/* Update metadata memory region for coresight DT nodes */
+	plat_initialize_coresight_metadata_area();
 #else
 	if (!plat_ras_feature_supported())
 		plat_remove_ras_fdt_nodes();

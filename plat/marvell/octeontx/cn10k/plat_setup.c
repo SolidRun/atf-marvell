@@ -1135,3 +1135,172 @@ bool plat_ras_feature_supported(void)
 	else
 		return 0;
 }
+
+void plat_initialize_coresight_metadata_area(void)
+{
+	const char *cs_presrv_mem_name = "/reserved-memory/coresight-presrv";
+	uint64_t cs_base, cs_size;
+	uint64_t cs_ete_range_base, cs_etf_range_base, cs_etr_range_base;
+	int cs_off, cs_dev_off, fail, core_idx;
+	const void *fdt = fdt_ptr;
+	const fdt64_t *freg64;
+	char cs_node_name[31];
+	int freg_len;
+	struct {
+		/* NOTE: these are in FDT format, not CPU format */
+		fdt64_t addr; /* DT address-cells = 2 */
+		fdt64_t size; /* DT size-cells = 2 */
+	} dt_regs;
+	struct {
+		/* NOTE: these are in FDT format, not CPU format */
+		fdt64_t addr;  /* DT address-cells = 2 */
+		fdt64_t size;  /* DT size-cells = 2 */
+	} cs_metadata;
+
+	fail = 1;
+
+	cs_off = fdt_path_offset(fdt, cs_presrv_mem_name);
+	if (cs_off == -1) {
+		VERBOSE("Missing Coresight Preserve area from DT\n");
+		return;
+	}
+
+	/* Retrieve coresight presrv area DT settings */
+	cs_base = cs_size = 0;
+	freg64 = fdt_getprop(fdt, cs_off, "reg", &freg_len);
+	if (freg64 && (freg_len >= (sizeof(*freg64) * 2))) {
+		cs_base = fdt64p_to_cpu(&freg64[0]);
+		cs_size = fdt64p_to_cpu(&freg64[1]);
+	}
+
+	if (!cs_base || !cs_size || (cs_size & PAGE_SIZE_MASK)) {
+		WARN("Coresight presrv region invalid address 0x%" PRIx64 " and size 0x%lx for %s\n",
+		     cs_base, (long)cs_size, cs_presrv_mem_name);
+		goto exit;
+	}
+
+	/* Coresight register metadata located @end 1MB in preserved region
+	 * so adjust the preserved region for trace data by excluding metadata area
+	 */
+	cs_size -= CORESIGHT_METADATA_SIZE;
+
+	/* Set adjusted coresight presrv DT values */
+	INFO("Set DT Coresight preserve memory region base 0x%" PRIx64 " size 0x%lx\n",
+	     cs_base, (long)cs_size);
+
+	dt_regs.addr = cpu_to_fdt64(cs_base);
+	dt_regs.size = cpu_to_fdt64(cs_size);
+	if (fdt_setprop((void *)fdt, cs_off, "reg", &dt_regs, sizeof(dt_regs))) {
+		WARN("Unable to set DT coresight preserv area 0x%" PRIx64 "/0x%lx\n",
+		     cs_base, (long)cs_size);
+		goto exit;
+	}
+
+	/* Set register metadata memory region to all per-core ETE nodes*/
+	cs_ete_range_base = cs_base + cs_size;
+
+	for (core_idx = 0; core_idx < PLATFORM_CORE_PER_CLUSTER; core_idx++) {
+		snprintf(cs_node_name, sizeof(cs_node_name), "/soc@0/ete%d", core_idx);
+		cs_dev_off = fdt_path_offset(fdt, cs_node_name);
+		if (cs_dev_off >= 0) {
+			freg64 = fdt_getprop(fdt, cs_dev_off, "metadata-region", &freg_len);
+			if (freg_len != sizeof(cs_metadata)) {
+				WARN("%s: Invalid coresight device DT metadata-region size (%d vs %d)\n",
+				     cs_node_name, freg_len, (int)sizeof(cs_metadata));
+				continue;
+			}
+			if (!freg64) {
+				WARN("%s: Bad or missing coresight device DT metadata-region property\n",
+				     cs_node_name);
+				continue;
+			}
+
+			cs_metadata.addr = fdt64_to_cpu(cs_ete_range_base + (core_idx *
+							CORESIGHT_REGISTER_SNAPSHOT_SIZE));
+			cs_metadata.size = fdt64_to_cpu(CORESIGHT_REGISTER_SNAPSHOT_SIZE);
+
+			/* write the metadata-region */
+			if (fdt_setprop((void *)fdt, cs_dev_off, "metadata-region", &cs_metadata,
+					sizeof(cs_metadata))) {
+				WARN("%s: Unable to set coresight device DT metadata-region\n",
+				     cs_node_name);
+				continue;
+			}
+		} else
+			WARN("Couldn't find the coresight node %s\n", cs_node_name);
+	}
+
+	/* Set register metadata memory region to all per-core ETF nodes*/
+	cs_etf_range_base = cs_ete_range_base + (PLATFORM_CORE_PER_CLUSTER *
+						 CORESIGHT_REGISTER_SNAPSHOT_SIZE);
+
+	for (core_idx = 0; core_idx < PLATFORM_CORE_PER_CLUSTER; core_idx++) {
+		snprintf(cs_node_name, sizeof(cs_node_name), "/soc@0/etf%d", core_idx);
+		cs_dev_off = fdt_path_offset(fdt, cs_node_name);
+		if (cs_dev_off >= 0) {
+			freg64 = fdt_getprop(fdt, cs_dev_off, "metadata-region", &freg_len);
+
+			if (freg_len != sizeof(cs_metadata)) {
+				WARN("%s: Invalid coresight device DT metadata-region size (%d vs %d)\n",
+				     cs_node_name, freg_len, (int)sizeof(cs_metadata));
+				continue;
+			}
+			if (!freg64) {
+				WARN("%s: Bad or missing coresight device DT metadata-region property\n",
+				     cs_node_name);
+				continue;
+			}
+
+			cs_metadata.addr = fdt64_to_cpu(cs_etf_range_base + (core_idx *
+							CORESIGHT_REGISTER_SNAPSHOT_SIZE));
+			cs_metadata.size = fdt64_to_cpu(CORESIGHT_REGISTER_SNAPSHOT_SIZE);
+
+			/* write the metadata-region */
+			if (fdt_setprop((void *)fdt, cs_dev_off, "metadata-region", &cs_metadata,
+					sizeof(cs_metadata))) {
+				WARN("%s: Unable to set coresight device DT metadata-region\n",
+				     cs_node_name);
+				continue;
+			}
+		} else
+			WARN("Couldn't find the coresight node %s\n", cs_node_name);
+	}
+
+	/* Set register metadata memory region to ETR node*/
+	cs_etr_range_base = cs_etf_range_base + (PLATFORM_CORE_PER_CLUSTER *
+						 CORESIGHT_REGISTER_SNAPSHOT_SIZE);
+
+	snprintf(cs_node_name, sizeof(cs_node_name), "/soc@0/sh_etr");
+	cs_dev_off = fdt_path_offset(fdt, cs_node_name);
+	if (cs_dev_off >= 0) {
+		freg64 = fdt_getprop(fdt, cs_dev_off, "metadata-region", &freg_len);
+
+		if (freg_len != sizeof(cs_metadata)) {
+			WARN("%s: Invalid coresight device DT metadata-region size (%d vs %d)\n",
+			     cs_node_name, freg_len, (int)sizeof(cs_metadata));
+			goto exit;
+		}
+		if (!freg64) {
+			WARN("%s: Bad or missing coresight device DT metadata-region property",
+			     cs_node_name);
+			goto exit;
+		}
+
+		cs_metadata.addr = fdt64_to_cpu(cs_etr_range_base);
+		cs_metadata.size = fdt64_to_cpu(CORESIGHT_REGISTER_SNAPSHOT_SIZE);
+
+		/* write the metadata-region */
+		if (fdt_setprop((void *)fdt, cs_dev_off, "metadata-region", &cs_metadata,
+				sizeof(cs_metadata))) {
+			WARN("%s: Unable to set coresight device DT metadata-region\n",
+			     cs_node_name);
+			goto exit;
+		}
+	} else
+		WARN("Couldn't find the coresight node %s\n", cs_node_name);
+
+	fail = 0;
+exit:
+	if (fail)
+		ERROR("Coresight presrv region not available or unable to set DT property\n");
+}
