@@ -166,7 +166,7 @@ int ecp_wait_for_cmd_ack_to_clr(int portm_idx, int timeout_ms)
 	return ret;
 }
 
-static void ecp_link_update_sgmii_speed_dplx(int portm_idx)
+void ecp_link_update_sgmii_speed_dplx(int portm_idx, int specific_lmac)
 {
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 	portm_config_t *portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
@@ -177,14 +177,29 @@ static void ecp_link_update_sgmii_speed_dplx(int portm_idx)
 	lmac_id = portm->mac_lane;
 	num_lmacs = portm->num_lmacs;
 	rpm = &(plat_octeontx_bcfg->rpm_cfg[rpm_id]);
+	debug_eth_link_intf("%s %d %d:%d num_lmacs %d\n", __func__, portm_idx, rpm_id, lmac_id,
+			num_lmacs);
 
-	for (idx = 0; idx < num_lmacs; idx++) {
+	if (specific_lmac != -1) {
 		rpm_lmac_config_t *lmac;
 
-		lmac = &rpm->lmac_cfg[lmac_id + idx];
-		sh_data->lpcs_speed_dplx[idx].an_disable = lmac->an_disable;
-		sh_data->lpcs_speed_dplx[idx].mac_speed = lmac->sgmii_speed;
-		sh_data->lpcs_speed_dplx[idx].mac_duplex = lmac->sgmii_duplex;
+		lmac = &rpm->lmac_cfg[specific_lmac];
+		debug_eth_link_intf("%s lmac %d an_disable %d mac_speed %d mac_duplex %d\n", __func__, specific_lmac,
+				lmac->an_disable, lmac->sgmii_speed, lmac->sgmii_duplex);
+		sh_data->lpcs_speed_dplx[specific_lmac].an_disable = lmac->an_disable;
+		sh_data->lpcs_speed_dplx[specific_lmac].mac_speed = lmac->sgmii_speed;
+		sh_data->lpcs_speed_dplx[specific_lmac].mac_duplex = lmac->sgmii_duplex;
+	} else {
+		for (idx = 0; idx < num_lmacs; idx++) {
+			rpm_lmac_config_t *lmac;
+
+			lmac = &rpm->lmac_cfg[lmac_id + idx];
+			debug_eth_link_intf("%s lmac %d an_disable %d mac_speed %d mac_duplex %d\n", __func__, lmac_id + idx,
+				lmac->an_disable, lmac->sgmii_speed, lmac->sgmii_duplex);
+			sh_data->lpcs_speed_dplx[idx].an_disable = lmac->an_disable;
+			sh_data->lpcs_speed_dplx[idx].mac_speed = lmac->sgmii_speed;
+			sh_data->lpcs_speed_dplx[idx].mac_duplex = lmac->sgmii_duplex;
+		}
 	}
 }
 
@@ -235,7 +250,7 @@ void ecp_link_init_shmem(void)
 		case PORTM_PCS_QSGMII:
 		case PORTM_PCS_USGMII:
 		case PORTM_PCS_USXGMII:
-			ecp_link_update_sgmii_speed_dplx(portm_idx);
+			ecp_link_update_sgmii_speed_dplx(portm_idx, -1);
 			break;
 		default:
 			break;

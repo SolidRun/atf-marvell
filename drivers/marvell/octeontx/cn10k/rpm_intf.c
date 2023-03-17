@@ -878,6 +878,18 @@ static speed_mode_map_s rpm_group1_speed_mode_map[] = {
 	{(1ULL << ETH_MODE_10G_QXGMII_BIT), PORTM_MODE_10G_QXGMII},
 };
 
+static rpm_lmac_speed_list_s rpm_group1_speed_list[] = {
+	{PORTM_MODE_2500BASE_X, {ETH_LINK_2HG}},
+	{PORTM_MODE_5000BASE_X, {ETH_LINK_5G}},
+	{PORTM_MODE_O_USGMII, {ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G}},
+	{PORTM_MODE_Q_USGMII, {ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G}},
+	{PORTM_MODE_2_5G_SXGMII, {ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G, ETH_LINK_2HG}},
+	{PORTM_MODE_5G_SXGMII, {ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G, ETH_LINK_2HG, ETH_LINK_5G}},
+	{PORTM_MODE_10G_SXGMII, {ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G, ETH_LINK_2HG, ETH_LINK_5G, ETH_LINK_10G}},
+	{PORTM_MODE_10G_DXGMII, {ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G, ETH_LINK_2HG, ETH_LINK_5G}},
+	{PORTM_MODE_10G_QXGMII, {ETH_LINK_10M, ETH_LINK_100M, ETH_LINK_1G, ETH_LINK_2HG}},
+};
+
 #define CPRI_MODE(_m) {(1ULL << ETH_MODE_## _m ##_BIT), PORTM_MODE_## _m}
 static speed_mode_map_s cpri_speed_mode_map[] = {
 	CPRI_MODE(CPRI_2_4G),
@@ -1191,13 +1203,21 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 	sh_fwdata_set_supported_link_modes(rpm_id, lmac_id);
 }
 
-static int rpm_check_mode_change_allowed(rpm_lmac_config_t *lmac_cfg,
-				uint64_t mode_bitmask)
+static int rpm_check_mode_change_allowed(rpm_lmac_config_t *lmac_cfg, uint64_t mode_bitmask,
+						int mode_group)
 {
+	uint64_t mode_bitmask1 = mode_bitmask;
+
+	/* For mode group 1, mode_bitmask cannot be used directly as this will be
+	 * passed the same value as mode group 0
+	 */
+	if (mode_group == 1)
+		mode_bitmask1 = (1ULL << ((__builtin_ffsl(mode_bitmask) - 1) + 41));
+
 	/* Check if mode is in the supported link modes */
 	if (!(mode_bitmask & lmac_cfg->supported_link_modes)) {
 		debug_rpm_intf("%s: Not supported link mode bitmask 0x%" PRIx64 " link_mode 0x%" PRIx64 "\n",
-			__func__, mode_bitmask,
+			__func__, mode_bitmask1,
 			lmac_cfg->supported_link_modes);
 		return -1;
 	}
@@ -1458,6 +1478,31 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 	return 0;
 }
 
+static int check_if_speed_is_valid_for_mode_group1(int portm_mode, int req_speed)
+{
+	int len = 0;
+	rpm_lmac_speed_list_s *speed_list;
+
+	/* req_speed of zero is not a valid speed */
+	if (!req_speed)
+		return 0;
+
+	speed_list = rpm_group1_speed_list;
+	len = ARRAY_SIZE(rpm_group1_speed_list);
+
+	for (int i = 0; i < len; i++) {
+		if (speed_list[i].portm_mode == portm_mode) {
+			for (int j = 0; j < ARRAY_SIZE(speed_list[i].valid_speed); j++) {
+				if (speed_list[i].valid_speed[j] == req_speed)
+					return 1;
+			}
+			return 0;
+		}
+	}
+
+	return 0;
+}
+
 static int rpm_handle_eth_mode_change(int portm_idx,
 				struct eth_mode_change_args *args)
 {
@@ -1477,8 +1522,9 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	cn10k_portm_fec_t fec_orig;
 	cn10k_portm_fec_t fec;
 	int switch_from_cpri = 0;
-	int current_lc, new_lc;
+	int current_lc, new_lc, req_an;
 	rpm_lmac_bringup_context_t *bringup_ctx;
+	int speed_valid = 0;
 
 	portm = &plat_octeontx_bcfg->portm_cfg[portm_idx];
 
@@ -1505,16 +1551,27 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	req_mode = args->mode;
 	mode_group = args->mode_group_idx;
 	req_duplex = args->duplex;
+	req_an = args->an;
 
-	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%lx mode_group %d\n",
+	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%lx mode_group %d req_an %d\n",
 				__func__, portm_idx, lmac_ctx->s.speed,
 					req_speed, req_duplex, req_mode,
-					mode_group);
+					mode_group,
+					req_an);
 
 	/* Check if arguments are valid */
 	if ((!req_mode) && (req_speed == ETH_LINK_NONE)) {
 		invalid_req = 1;
-		/* FIXME for duplex, AN */
+		if ((req_an != 0) && (req_an != 1)) {
+			debug_rpm_intf("%s: %d:%d Invalid AN request\n",
+					 __func__, rpm_id, lmac_id);
+			invalid_req = 1;
+		}
+		if ((req_duplex != 0) && (req_duplex != 1)) {
+			debug_rpm_intf("%s: %d: %d Invalid duplex request\n",
+					 __func__, rpm_id, lmac_id);
+			invalid_req = 1;
+		}
 		if (invalid_req == 1) {
 			debug_rpm_intf("%s: PORTM%d Invalid speed/AN/mode request\n",
 					 __func__, portm_idx);
@@ -1530,21 +1587,9 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		return -1;
 	}
 
-	if (portm->portm_mode == portm_mode) {
-		WARN("%s: PORTM%d Requested mode is same as current mode, Ignore request\n",
-				__func__, portm_idx);
-		link.s.fec = lmac_ctx->s.fec;
-		link.s.link_up = lmac_ctx->s.link_up;
-		link.s.full_duplex = lmac_ctx->s.full_duplex;
-		link.s.speed = lmac_ctx->s.speed;
-		rpm_set_link_state(rpm_id, lmac_id, &link, 0);
-		return 0;
-	}
-
 	/* Validate against supported link modes */
 	if (portm->mac_type == PORTM_ETH &&
-		rpm_check_mode_change_allowed(lmac, req_mode)) {
-
+		rpm_check_mode_change_allowed(lmac, req_mode, mode_group)) {
 		debug_rpm_intf("%s: PORTM%d Invalid speed/AN/mode request\n",
 			__func__, portm_idx);
 		rpm_set_error_type(rpm_id, lmac_id,
@@ -1552,23 +1597,73 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		goto mode_err;
 	}
 
-	/* Allow mode change if new mode's requested serdes lane is less
-	 * than current mode lane num
-	 */
-	current_lc = cn10k_portm_get_mode_desc_serdes_num(portm->portm_mode);
-	new_lc = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
-	if (new_lc == -1 || current_lc < new_lc) {
-		ERROR("%s: PORTM%d: requested lane count (%d) higher than available (%d)\n",
-			__func__, portm_idx, new_lc, current_lc);
-		return -1;
-	}
+	/* If PORTM mode is same, check for the requested speed, AN and duplex */
+	if (portm->portm_mode == portm_mode) {
+		if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_USGMII) ||
+			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII)) {
+			/* Check if speed/an/duplex is requested to be changed are valid
+			 * and applicable to this mode and update
+			 * ecp_link_update_sgmii_speed_dplx()
+			 */
+			speed_valid = check_if_speed_is_valid_for_mode_group1(portm_mode, req_speed);
+			if (!speed_valid) {
+				debug_rpm_intf("%s: PORTM%d Requested speed is not valid for portm mode\n",
+						__func__, portm_idx);
+				goto mode_err;
+			}
+			/* Update LMAC config with the requested speed, AN, duplex */
+			lmac->an_disable = !req_an;
+			lmac->sgmii_speed = req_speed;
+			lmac->sgmii_duplex = req_duplex;
 
-	debug_rpm_intf("%s: PORTM%d new_lc %d max lane count %d\n",
+			ecp_link_update_sgmii_speed_dplx(portm_idx, lmac_id);
+		} else {
+			WARN("%s: PORTM%d Requested mode is same as current mode, Ignore request\n",
+				__func__, portm_idx);
+			link.s.fec = lmac_ctx->s.fec;
+			link.s.link_up = lmac_ctx->s.link_up;
+			link.s.full_duplex = lmac_ctx->s.full_duplex;
+			link.s.speed = lmac_ctx->s.speed;
+			rpm_set_link_state(rpm_id, lmac_id, &link, 0);
+			return 0;
+		}
+	} else {
+		/* Update LMAC config with the requested speed, AN, duplex */
+		lmac->an_disable = !req_an;
+		lmac->sgmii_speed = req_speed;
+		lmac->sgmii_duplex = req_duplex;
+
+		ecp_link_update_sgmii_speed_dplx(portm_idx, lmac_id);
+
+		/* Allow mode change if new mode's requested serdes lane is less
+		 * than current mode lane num
+		 */
+		current_lc = cn10k_portm_get_mode_desc_serdes_num(portm->portm_mode);
+		new_lc = cn10k_portm_get_mode_desc_serdes_num(portm_mode);
+		if (new_lc == -1 || current_lc < new_lc) {
+			ERROR("%s: PORTM%d: requested lane count (%d) higher than available (%d)\n",
+					__func__, portm_idx, new_lc, current_lc);
+			return -1;
+		}
+
+		/* Don't allow mode change between modes that has multiple LMACs
+		 * cn10k_portm_get_mode_desc_mac_num
+		 */
+		if ((cn10k_portm_get_mode_desc_mac_num(portm_mode) > 1) ||
+			(cn10k_portm_get_mode_desc_mac_num(portm->portm_mode) > 1))  {
+			ERROR("%s: PORTM%d: Cannot switch between modes that has multiple LMACs portm_mode %d\n",
+					__func__, portm_idx, portm_mode);
+			return -1;
+		}
+
+		debug_rpm_intf("%s: PORTM%d new_lc %d max lane count %d\n",
 				__func__, portm_idx,
 				new_lc, current_lc);
 
-	/* Update the PORTM cfg struct */
-	portm->portm_mode = portm_mode;
+		/* Update the PORTM cfg struct */
+		portm->portm_mode = portm_mode;
+	}
+
 
 	/* Check if fec type was specified and is supported by the
 	 * requested mode. If not, then set to lowest supported FEC.

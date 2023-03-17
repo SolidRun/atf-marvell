@@ -326,6 +326,7 @@ unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *li
 unsigned int ecp_update_phy_link_state(int portm, int lmac_id, rpm_link_state_t *phy_link_state);
 unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);
 int ecp_dump_state_history(int portm_idx, int lmac_id, const char *msg);
+void ecp_link_update_sgmii_speed_dplx(int portm_idx, int specific_lmac);
 
 /**
  * Convert ECP ETH Link state into a string value

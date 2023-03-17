@@ -194,6 +194,13 @@ typedef struct speed_mode_map {
 	cn10k_portm_modes_t portm_mode;
 } speed_mode_map_s;
 
+/* Applicable to speed change for group1 modes- USXGMII/USGMII */
+typedef struct rpm_lmac_speed_list {
+	cn10k_portm_modes_t portm_mode;
+	/* Valid speeds applicable to the specific PORTM mode */
+	int valid_speed[10];
+} rpm_lmac_speed_list_s;
+
 /* RPM driver APIs */
 void rpm_set_error_type(int rpm_id, int lmac_id, uint64_t type);
 
