@@ -17,6 +17,7 @@
 #include <octeontx_utils.h>
 #include <plat_scmi.h>
 #include <eth_link_mgmt_intf.h>
+#include <libfdt.h>
 
 #include "cavm-csrs-cpc.h"
 #include "cavm-csrs-xcp.h"
@@ -515,6 +516,68 @@ int scmi_octeontx_flsf_clear_force_2ndry(void *p)
 		SCMI_CAVM_FLSF_RET_OK : SCMI_CAVM_FLSF_RET_FAIL;
 }
 
+int scmi_octeontx_coresight_presrv_region_config(void *p)
+{
+	const char *cs_presrv_mem_name = "/reserved-memory/coresight-presrv";
+	mailbox_mem_t *mbx_mem;
+	int token = 0, ret;
+	uint32_t lodw, hidw, sizedw;
+	scmi_channel_t *ch = (scmi_channel_t *)p;
+	int cs_off, freg_len;
+	uint64_t cs_base = 0, cs_size = 0;
+	const fdt64_t *freg64;
+	const void *fdt = fdt_ptr;
+
+	if (validate_scmi_channel(ch, XCP_ECP_SCP))
+		return -1;
+
+	/* Retrieve coresight reserve-memory DT settings.
+	 * If DT node not present/invalid, do silent exit without
+	 * reporting an error. As this node will be removed by the
+	 * EBF if coresight preserve memory not configured in boot
+	 * MENU.
+	 */
+	cs_off = fdt_path_offset(fdt, cs_presrv_mem_name);
+	if (cs_off == -1)
+		return 0;
+
+	freg64 = fdt_getprop(fdt, cs_off, "reg", &freg_len);
+	if (freg64 && (freg_len >= (sizeof(*freg64) * 2))) {
+		cs_base = fdt64p_to_cpu(&freg64[0]);
+		cs_size = fdt64p_to_cpu(&freg64[1]);
+	}
+
+	if (!cs_base || !cs_size || (cs_size & PAGE_SIZE_MASK))
+		return 0;
+
+	/* Add excluded metadata area size */
+	cs_size += CORESIGHT_METADATA_SIZE;
+
+	scmi_get_channel(ch);
+
+	mbx_mem = (mailbox_mem_t *)(ch->info->scmi_mbx_mem);
+	mbx_mem->msg_header = SCMI_MSG_CREATE(SCMI_CAVM_CONFIG_PROTO_ID,
+			SCMI_CAVM_CST_PRESRV_REGION_CONFIG_MSG, token);
+	mbx_mem->len = SCMI_CAVM_CST_PRESRV_REGION_MSG_LEN;
+	mbx_mem->flags = SCMI_FLAG_RESP_POLL;
+
+	lodw = (uint32_t)octeontx_bit_extract(cs_base, 0, 32);
+	hidw = (uint32_t)octeontx_bit_extract(cs_base, 32, 32);
+	sizedw = (uint32_t)octeontx_bit_extract(cs_size, 0, 32);
+	SCMI_PAYLOAD_ARG3(mbx_mem->payload, lodw, hidw, sizedw);
+
+	scmi_send_sync_command(ch);
+
+	/* Get the return values */
+	SCMI_PAYLOAD_RET_VAL1(mbx_mem->payload, ret);
+	assert(mbx_mem->len == SCMI_CAVM_CST_PRESRV_REGION_MSG_LEN);
+	assert(token == SCMI_MSG_GET_TOKEN(mbx_mem->msg_header));
+
+	scmi_put_channel(ch);
+
+	return ret;
+}
+
 /*
  * SCMI Driver initialization API. Returns initialized channel on success
  * or NULL on error. The return type is an opaque void pointer.
@@ -618,6 +681,13 @@ void *scmi_init(scmi_channel_t *ch)
 	ret = scmi_octeontx_link_config(ch, (void *)ETH_LINK_SHMEM_BASE);
 	if (ret != SCMI_E_SUCCESS) {
 		WARN("SCMI Cavium config protocol - unable to send LINK config - returned %d\n",
+			ret);
+		goto error;
+	}
+
+	ret = scmi_octeontx_coresight_presrv_region_config(ch);
+	if (ret != SCMI_E_SUCCESS) {
+		WARN("SCMI Cavium config protocol - unable to send coresight config - returned %d\n",
 			ret);
 		goto error;
 	}
