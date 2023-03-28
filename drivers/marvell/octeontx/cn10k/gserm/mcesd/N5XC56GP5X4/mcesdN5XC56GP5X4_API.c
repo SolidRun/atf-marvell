@@ -163,7 +163,12 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxEqParam
     MCESD_U32 data, position, paramUnsignedValue;
     MCESD_32 paramPol;
 
-    if (paramValue < 0)
+    if (paramValue == 0)
+    {
+        paramUnsignedValue = 0;
+        paramPol = (param == N5XC56GP5X4_TXEQ_EM_PRE2) || (param == N5XC56GP5X4_TXEQ_EM_MAIN);
+    }
+    else if (paramValue < 0)
     {
         paramUnsignedValue = -1 * paramValue;
         paramPol = 0;       /* Normal Polarity */
@@ -294,9 +299,9 @@ MCESD_STATUS API_N5XC56GP5X4_SetTxEqAll
     /* Set Polarity */
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_FIR_TAP_POL_F, lane, 1);
     data = (pre2 >= 0) << 1;
-    data += (pre >= 0) << 2;
+    data += (pre > 0) << 2;
     data += (main >= 0) << 3;
-    data += (post >= 0) << 4;
+    data += (post > 0) << 4;
     N5XC56GP5X4_WRITE_FIELD(devPtr, F_N5XC56GP5X4_TX_FIR_TAP_POL, lane, data);
 
     /* Calculate absolute values */
