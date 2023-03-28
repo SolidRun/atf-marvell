@@ -32,6 +32,7 @@
 #define SPI_NOR_CMD_READ_4B		0x13
 #define SPI_NOR_CMD_READ_FAST		0x0b
 #define SPI_NOR_CMD_QREAD		0x6b
+#define SPI_NOR_CMD_QREAD_4B		0x6c
 
 #define SPI_NOR_CMD_WREN		0x06
 #define SPI_NOR_CMD_WRDI		0x04

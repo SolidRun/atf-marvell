@@ -255,7 +255,6 @@ static inline int spi_xfer(unsigned char *dout, unsigned char *din, int len,
 	return spi_xfer_legacy(dout, din, len, spi_con, cs, last_data);
 }
 
-
 int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 			int addr_len, int spi_con, int cs)
 {
@@ -279,7 +278,11 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 		!(spi_mode & SPI_FORCE_X1_READ) &&
 		!(spi_mode & SPI_FORCE_LEGACY_MODE)) {
 
-		cmd[0] = SPI_NOR_CMD_QREAD;
+		if (addr_len == SPI_ADDRESSING_24BIT)
+			cmd[0] = SPI_NOR_CMD_QREAD;
+		else
+			cmd[0] = SPI_NOR_CMD_QREAD_4B;
+
 		/* Dummy byte after command is required in Quad SPI mode */
 		len++;
 		if (spi_xfer(cmd, NULL, len, spi_con, cs, 0))
@@ -301,10 +304,11 @@ int spi_nor_read(uint8_t *buf, int buf_size, uint32_t addr,
 		/* Wait after configuration */
 		udelay(10);
 	} else {
-		if (spi_mode & SPI_FORCE_4B_OPCODE)
-			cmd[0] = SPI_NOR_CMD_READ_4B;
-		else
+		if (addr_len == SPI_ADDRESSING_24BIT)
 			cmd[0] = SPI_NOR_CMD_READ;
+		else
+			cmd[0] = SPI_NOR_CMD_READ_4B;
+
 		if (spi_xfer(cmd, NULL, len, spi_con, cs, 0))
 			return -1;
 
