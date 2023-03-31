@@ -1343,12 +1343,52 @@ Replace argument ``0xXXXXXXX`` from the below table for the corresponding mode.
      - ETH_MODE_SGMII
      - ETHTOOL_LINK_MODE_1000BaseT_Full_BIT
      - 0x20
+   * - 38
+     - ETH_MODE_2500_BASEX
+     - ETHTOOL_LINK_MODE_2500baseX_Full_BIT
+     - 0x8000
+   * - 39
+     - ETH_MODE_5000_BASEX
+     - ETHTOOL_LINK_MODE_5000baseT_Full_BIT
+     - 0x1000000000000
+   * - 40
+     - ETH_MODE_O_USGMII
+     - ETHTOOL_LINK_MODE_100baseT1_Full_BIT
+     - 0x80000000000000000
+   * - 41
+     - ETH_MODE_Q_USGMII
+     - ETHTOOL_LINK_MODE_1000baseT1_Full_BIT
+     - 0x100000000000000000
+   * - 42
+     - ETH_MODE_2_5G_USXGMII
+     - ETHTOOL_LINK_MODE_2500baseT_Full_BIT
+     - 0x800000000000
+   * - 43
+     - ETH_MODE_5G_USXGMII
+     - ETHTOOL_LINK_MODE_200000baseCR4_Full_BIT
+     - 0x40000000000000000
+   * - 44
+     - ETH_MODE_10G_SXGMII
+     - ETHTOOL_LINK_MODE_10000baseCR_Full_BIT
+     - 0x40000000000
+   * - 45
+     - ETH_MODE_10G_DXGMII
+     - ETHTOOL_LINK_MODE_10000baseER_Full_BIT
+     - 0x400000000000
+   * - 46
+     - ETH_MODE_10G_QXGMII
+     - ETHTOOL_LINK_MODE_200000baseDR4_Full_BIT
+     - 0x20000000000000000
 
 
 Mode/Speed change is restricted based on the physical port capability. Each port depending on
 whether it has PHY or no PHY, can support different MODES
-listed above. In addition, MODE change from LMAC using four-lane or two-lane to fewer lane is possible
+listed above.
+
+NOTES: MODE change from LMAC using four-lane or two-lane to fewer lane is possible
 and vice versa is not supported.
+MODE change from modes configured as multi-LMACs (Ex: ETH_MODE_10G_QXGMII) to modes
+with single LMAC (ex: ETH_MODE_10G_SXGMII) or vice versa is not supported
 
 The following are the valid standard mode changes.  Other chip/board specific mode
 changes are supported but not documented here.
@@ -1366,6 +1406,46 @@ Two Lane Protocols
 
 PORTM mode updated (from EBF setup menu/U-boot/Linux) are persistent and will take effect in next reboot as well.
 To ignore persistent settings and restore DT settings, "Restore factory defaults" from EBF setup menu can be used.
+
+4.3.1 Change speed via ethtool for USXGMII
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The below commands are to change the speed/auto-neg/duplex with the mode (advertise) remaining the same.
+
+Supported speeds for the modes:
+
+1. ETH_MODE_2_5G_USXGMII
+	10M, 100M, 1G, 2.5G
+2. ETH_MODE_5G_USXGMII
+	10M, 100M, 1G, 2.5G, 5G
+3. ETH_MODE_10G_SXGMII
+	10M, 100M, 1G, 2.5G, 5G, 10G
+
+To Disable Auto-Neg and set specific speed (10M, 100M, 1G, 2.5G, 5G, 10G)
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX speed 100 autoneg off phyad 1
+
+To Enable Auto-Neg
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX autoneg on phyad 1
+
+To Disable Auto-Neg and set specific speed and duplex
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX speed 100 autoneg off duplex full phyad 1
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX speed 100 autoneg off duplex half phyad 1
+
+Replace argument ``0xXXXXXXX`` from the above table for the corresponding mode. Ex: for ETH_MODE_10G_SXGMII_BIT, advertise should be 0x40000000000
+
+Speed change is restricted based on the physical port capability.
 
 4.4 Change FEC via setup menu
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
