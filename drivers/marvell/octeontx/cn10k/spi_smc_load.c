@@ -54,6 +54,11 @@
 #define PERSIST_PPR_OFFSET			0x4000
 #define PERSIST_PPR_LEN				0x20000
 
+#ifdef PLAT_cnf10kb
+#define PERSIST_RETIMER_CONFIG_OFFSET		0x24000
+#define PERSIST_RETIMER_CONFIG_LEN		0x1000
+#endif
+
 #define PERSIST_MEMTEST_DATA_OFFSET		0x3E000
 #define PERSIST_MEMTEST_DATA_LEN		0x1000
 
@@ -914,6 +919,63 @@ int spi_write_memtest_persistent_data(uintptr_t buf, uint64_t sz)
 
 	return ret;
 }
+
+#ifdef PLAT_cnf10kb
+int spi_read_retimer_persistent_data(uintptr_t log_entry, uint64_t *sz)
+{
+	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+	uint64_t offset;
+	int ret;
+
+	if (cfg == NULL)
+		return -1;
+
+	offset = cfg->offset + PERSIST_RETIMER_CONFIG_OFFSET;
+
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	ret = cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
+}
+
+int spi_update_retimer_persistent_data(uintptr_t log_entry, size_t sz)
+{
+	persist_data_cfg_t *cfg = cn10k_persistent_data_base();
+	uint64_t offset;
+	int ret;
+
+	if (cfg == NULL)
+		return -1;
+
+	offset = cfg->offset + PERSIST_RETIMER_CONFIG_OFFSET;
+
+	if (spi_dev_lock(cfg->bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	ret = cn10k_spi_dev_erase(offset, sz, cfg->bus, cfg->cs);
+
+	if (ret == 0)
+		ret = cn10k_spi_dev_write(log_entry, sz, offset, cfg->bus, cfg->cs);
+
+	if (spi_dev_unlock(cfg->bus)) {
+		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
+		return -1;
+	}
+
+	return ret;
+}
+#endif
 
 /* Gather info about all secure busses and chip selects */
 unsigned long sec_spi_get_info(void)

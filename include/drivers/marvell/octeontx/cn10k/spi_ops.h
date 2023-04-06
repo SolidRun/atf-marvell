@@ -27,5 +27,8 @@ int spi_update_ethernet_persistent_data(uintptr_t log_entry, size_t sz);
 int spi_read_ethernet_persistent_data(uintptr_t log_entry, uint64_t *sz);
 int spi_read_memtest_persistent_data(uintptr_t buf, uint64_t *sz);
 int spi_write_memtest_persistent_data(uintptr_t buf, uint64_t sz);
-
+#ifdef PLAT_cnf10kb
+int spi_update_retimer_persistent_data(uintptr_t log_entry, size_t sz);
+int spi_read_retimer_persistent_data(uintptr_t log_entry, uint64_t *sz);
+#endif
 #endif
