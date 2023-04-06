@@ -117,6 +117,18 @@ typedef union rpm_lmac_flash_ctx {
 	} s;
 } rpm_lmac_flash_ctx_t;
 
+
+#ifdef PLAT_cnf10kb
+typedef union gserm_retimer_flash_ctx {
+	uint64_t u64;
+	struct gserm_retimer_flash_ctx_s {
+		uint64_t status:2; /* valid 0x2, other values invalid */
+		uint64_t gserm_idx:3;
+		uint64_t rsvd:59;
+	} s;
+} gserm_retimer_flash_ctx_t;
+#endif
+
 typedef enum link_bringup_state {
 	LINK_BRINGUP_INIT = 0,
 	LINK_BRINGUP_IN_PROGRESS,
@@ -202,6 +214,10 @@ int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ct
 int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec);
 int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode);
 int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode);
+#ifdef PLAT_cnf10kb
+int rpm_update_flash_mode_param_for_retimer(int retimer_idx, int gserm_idx, int portm_mode);
+int rpm_update_flash_gserm_retimer_params(int gserm_idx, int retimer_idx);
+#endif
 /* Returns 1 if debug enabled, 0 if disabled */
 int rpm_debug_log_state(void);
 int rpm_set_ptp_mode(int rpm_id, int lmac_id, int enable);
