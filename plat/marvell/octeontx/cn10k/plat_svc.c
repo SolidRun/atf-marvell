@@ -66,6 +66,16 @@ enum spi_gpio_dir {
 	GPIO_AS_SPI
 };
 
+#ifdef PLAT_cnf10kb
+struct retimer_mux_cfg {
+	uint32_t gserm:3;
+	uint32_t gserm_updated:1;
+	uint32_t mode:7;
+	uint32_t mode_updated:1;
+	uint32_t rsrvd:20;
+};
+#endif
+
 WEAK uintptr_t cn10k_svc_smc_handler(uint32_t smc_fid,
 				    u_register_t x1,
 				    u_register_t x2,
@@ -447,6 +457,44 @@ err:
 		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 		SMC_RET2(handle, ret, uret);
 		break;
+
+#ifdef PLAT_cnf10kb
+#define RETIMER_MAX 4
+	case PLAT_OCTEONTX_CONFIG_RETIMER:
+	{
+		int i = 0;
+		int gserm_idx = -1, portm_mode = -1;
+		struct retimer_mux_cfg *mux_cfg;
+		uint32_t x[] = {x1, x2, x3, x4};
+
+		/* Configure retimer and GSERM index mapping and PORTM mode chosen for the
+		 * specific GSERM
+		 */
+		spin_lock(&serdes_lock);
+		for (i = 0; i < RETIMER_MAX; i++) {
+			mux_cfg = (struct retimer_mux_cfg *)&x[i];
+
+			gserm_idx = mux_cfg->gserm;
+			portm_mode = mux_cfg->mode;
+
+			if (mux_cfg->gserm_updated) {
+				ret = rpm_update_flash_gserm_retimer_params(i, gserm_idx);
+				if (ret)
+					goto out;
+			}
+
+			if (mux_cfg->mode_updated) {
+				ret = rpm_update_flash_mode_param_for_retimer(i, gserm_idx, portm_mode);
+				if (ret)
+					goto out;
+			}
+		}
+	out:
+		spin_unlock(&serdes_lock);
+		SMC_RET1(handle, ret);
+	}
+	break;
+#endif
 
 #ifdef DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS
 

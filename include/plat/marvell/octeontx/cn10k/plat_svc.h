@@ -243,6 +243,21 @@
  */
 #define PLAT_OCTEONTX_SERDES_DBG_NOTIFY_ECP	0xc2000d0a
 
+#ifdef PLAT_cnf10kb
+/*
+ * x1 - retimer[0] config
+ * x2 - retimer[1] config
+ * x3 - retimer[2] config
+ * x4 - retimer[3] config
+ *
+ * Return:
+ *	x0:
+ * 	  0 -- Success
+ * 	 -1 -- Failure
+ */
+#define PLAT_OCTEONTX_CONFIG_RETIMER		0xc2000d0d
+#endif
+
 /*
  * x1 - cmd
  *	1 - PHY_PRBS_START_CMD - start phy prbs with config (x2)
@@ -688,7 +703,7 @@
 #define PLAT_OCTEONTX_READ_EFI_VAR		0xc2000b1d
 
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			29
+#define OTX3_NUM_SMC_CALLS			30
 
 
 /* API that allows to define platform specific SMC CALLS */

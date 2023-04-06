@@ -827,6 +827,22 @@ PLAT_OCTEONTX_PHY_ADVANCE_CMDS
      Currently supports only Marvell 88x7121 PHY
   * Supported platforms: T9x, CN10K
 
+PLAT_OCTEONTX_CONFIG_RETIMER
+  * SMC FID: 0xc2000d0d
+  * Input registers values:
+    x1 - retimer[0] config
+    x2 - retimer[1] config
+    x3 - retimer[2] config
+    x4 - retimer[3] config
+  * Return Value:
+      x0
+         0 -- Success
+        -1 -- Failure
+  * Description:
+      This SMC call handles updating persistent memory for Retimer (mode & gserm index).
+      New Retimer configuration is effective on the next boot
+  * Supported platforms: CNF10KB (Thor VRAN NIC board)
+
 
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf
 [SMCCC]:   http://infocenter.arm.com/help/topic/com.arm.doc.den0028b/ARM_DEN0028B_SMC_Calling_Convention.pdf
