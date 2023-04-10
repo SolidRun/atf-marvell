@@ -658,6 +658,8 @@
  */
 #define PLAT_OCTEON_GENERIC_SW_UPDATE		0xc2000b19
 
+#define PLAT_OCTEON_GENERIC_SW_HASH		0xc2000b1a
+
 /*
  * SMC Call ID
  * x0 - PLAT_OCTEON_SET_FIRMWARE_LOGGING
@@ -703,7 +705,7 @@
 #define PLAT_OCTEONTX_READ_EFI_VAR		0xc2000b1d
 
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			30
+#define OTX3_NUM_SMC_CALLS			31
 
 
 /* API that allows to define platform specific SMC CALLS */

@@ -385,8 +385,10 @@
  */
 #define PLAT_OCTEON_GENERIC_SW_UPDATE  0xc2000b19
 
+#define PLAT_OCTEON_GENERIC_SW_HASH    0xc2000b1a
+
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			26
+#define OTX2_NUM_SMC_CALLS			27
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
