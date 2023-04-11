@@ -500,6 +500,35 @@ func check_errata_2340933
 	b	cpu_rev_var_ls
 endfunc check_errata_2340933
 
+/* --------------------------------------------------
+ * Errata Workaround for Neoverse N2 Erratum 2855383
+ * This applies to revision r0p0 - r1p2 of Neoverse N2. it is still open.
+ * Inputs:
+ * x0: variant[4:7] and revision[0:3] of current cpu.
+ * Shall clobber: x0-x17
+ * ---------------------------------------------------------------
+ */
+func errata_n2_2855383_wa
+	/* Check version */
+	mov	x17, x30
+	bl	check_errata_2855383
+	cbz	x0, 1f
+
+	/* Set CPUACTLR2_EL1[51] */
+	mrs	x0, NEOVERSE_N2_CPUACTLR2_EL1
+	orr	x0, x0, NEOVERSE_N2_CPUACTLR2_EL1_BIT_51
+	msr	NEOVERSE_N2_CPUACTLR2_EL1, x0
+1:
+	ret	x17
+endfunc errata_n2_2855383_wa
+
+func check_errata_2855383
+	/* Applies to r0p0 - r1p2 */
+	mov	x1, #0x00
+	mov	x2, #0x12
+	b	cpu_rev_var_range
+endfunc check_errata_2855383
+
 	/* -------------------------------------------
 	 * The CPU Ops reset function for Neoverse N2.
 	 * -------------------------------------------
@@ -596,6 +625,11 @@ func neoverse_n2_reset_func
 #if ERRATA_N2_2340933
 	mov	x0, x18
 	bl	errata_n2_2340933_wa
+#endif
+
+#if ERRATA_N2_2855383
+	mov	x0, x18
+	bl	errata_n2_2855383_wa
 #endif
 
 #if ENABLE_AMU
@@ -696,6 +730,7 @@ func neoverse_n2_errata_report
 	report_errata WORKAROUND_CVE_2022_23960, neoverse_n2, cve_2022_23960
 	report_errata ERRATA_DSU_2313941, neoverse_n2, dsu_2313941
 	report_errata ERRATA_N2_2340933, neoverse_n2, 2340933
+	report_errata ERRATA_N2_2855383, neoverse_n2, 2855383
 
 	ldp	x8, x30, [sp], #16
 	ret
