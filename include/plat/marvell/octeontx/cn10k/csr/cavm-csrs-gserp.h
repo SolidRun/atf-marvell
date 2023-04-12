@@ -84448,11 +84448,9 @@ union cavm_gserpx_ph_os_boundary
         uint64_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
         uint64_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
         uint64_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface For SOC0x0: No CDR lock0x1: CDR lock0xFA: DTL disabled0xFB: CDR freeze0xFC: CLAMPING = 1 0xFD: RX_FOFFSET_RDY not ready0xFE: No CDR lock signal0xFF: CDR lock result is pending */
-        uint64_t vth_tximpcal_shift_h_lane : 4;/**< [  7:  4](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
-        uint64_t vth_tximpcal_shift_l_lane : 4;/**< [  3:  0](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
+        uint64_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
-        uint64_t vth_tximpcal_shift_l_lane : 4;/**< [  3:  0](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
-        uint64_t vth_tximpcal_shift_h_lane : 4;/**< [  7:  4](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint64_t reserved_0_7          : 8;
         uint64_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface For SOC0x0: No CDR lock0x1: CDR lock0xFA: DTL disabled0xFB: CDR freeze0xFC: CLAMPING = 1 0xFD: RX_FOFFSET_RDY not ready0xFE: No CDR lock signal0xFF: CDR lock result is pending */
         uint64_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
         uint64_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
@@ -119685,7 +119683,9 @@ union cavm_gserpx_serdes_reset_state
     struct cavm_gserpx_serdes_reset_state_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
+        uint64_t reserved_24_63        : 40;
+        uint64_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint64_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
         uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
@@ -119695,7 +119695,9 @@ union cavm_gserpx_serdes_reset_state
                                                                  internal */
         uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint64_t reserved_16_63        : 48;
+        uint64_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
+        uint64_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     struct cavm_gserpx_serdes_reset_state_cn
@@ -119703,7 +119705,8 @@ union cavm_gserpx_serdes_reset_state
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
         uint64_t reserved_24_31        : 8;
-        uint64_t reserved_16_23        : 8;
+        uint64_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint64_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
         uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint64_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
@@ -119713,7 +119716,8 @@ union cavm_gserpx_serdes_reset_state
                                                                  internal */
         uint64_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint64_t reserved_16_23        : 8;
+        uint64_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
+        uint64_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
         uint64_t reserved_24_31        : 8;
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */

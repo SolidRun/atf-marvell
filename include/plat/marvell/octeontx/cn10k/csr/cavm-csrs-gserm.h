@@ -79006,11 +79006,9 @@ union cavm_gsermx_ph_os_boundary
         uint32_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
         uint32_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
         uint32_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface For SOC0x0: No CDR lock0x1: CDR lock0xFA: DTL disabled0xFB: CDR freeze0xFC: CLAMPING = 1 0xFD: RX_FOFFSET_RDY not ready0xFE: No CDR lock signal0xFF: CDR lock result is pending */
-        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [  7:  4](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
-        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [  3:  0](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
+        uint32_t reserved_0_7          : 8;
 #else /* Word 0 - Little Endian */
-        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [  3:  0](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
-        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [  7:  4](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint32_t reserved_0_7          : 8;
         uint32_t cdr_lock_detect_interface_lane : 8;/**< [ 15:  8](R/W/H) CDR Lock Detect Interface For SOC0x0: No CDR lock0x1: CDR lock0xFA: DTL disabled0xFB: CDR freeze0xFC: CLAMPING = 1 0xFD: RX_FOFFSET_RDY not ready0xFE: No CDR lock signal0xFF: CDR lock result is pending */
         uint32_t ph_os_dat_max_lane    : 8;  /**< [ 23: 16](R/W/H) Phase OS Upper Boundary */
         uint32_t ph_os_dat_min_lane    : 8;  /**< [ 31: 24](R/W/H) Phase OS Lower Boundary */
@@ -109025,7 +109023,9 @@ union cavm_gsermx_serdes_reset_state
     struct cavm_gsermx_serdes_reset_state_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
+        uint32_t reserved_24_31        : 8;
+        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
         uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
@@ -109035,27 +109035,12 @@ union cavm_gsermx_serdes_reset_state
                                                                  internal */
         uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint32_t reserved_16_31        : 16;
+        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
+        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    struct cavm_gsermx_serdes_reset_state_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t reserved_16_23        : 8;
-        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
-                                                                 internal */
-        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
-                                                                 internal */
-#else /* Word 0 - Little Endian */
-        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
-                                                                 internal */
-        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
-                                                                 internal */
-        uint32_t reserved_16_23        : 8;
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } cn;
+    /* struct cavm_gsermx_serdes_reset_state_s cn; */
 };
 typedef union cavm_gsermx_serdes_reset_state cavm_gsermx_serdes_reset_state_t;
 
