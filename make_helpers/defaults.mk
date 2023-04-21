@@ -375,7 +375,7 @@ ENABLE_SVE_FOR_NS		:= 1
 ifeq (${ARCH},aarch32)
 	override ENABLE_SVE_FOR_NS	:= 0
 endif
-ENABLE_SVE_FOR_SWD		:= 0
+ENABLE_SVE_FOR_SWD		:= 1
 
 # Default SVE vector length to maximum architected value
 SVE_VECTOR_LEN			:= 2048
