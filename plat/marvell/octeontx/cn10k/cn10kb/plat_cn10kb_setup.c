@@ -470,6 +470,14 @@ void plat_add_mmio(void)
 	mmap_add_region(ETH_LINK_SHMEM_BASE, ETH_LINK_SHMEM_BASE,
 			ETH_LINK_SHMEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 
+#ifdef INCLUDE_OPTEE
+	mmap_add_region(BL32_BASE, BL32_BASE,
+			BL32_MAX_SIZE, (MT_MEMORY | MT_RW | MT_SECURE));
+
+	mmap_add_region(BL32_NSEC_SHMEM_BASE, BL32_NSEC_SHMEM_BASE,
+			BL32_NSEC_SHMEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
+#endif
+
 #ifdef NT_FW_CONFIG
 	mmap_add_region(NT_FW_CONFIG_BASE, NT_FW_CONFIG_BASE,
 			NT_FW_CONFIG_LIMIT, (MT_MEMORY | MT_RW | MT_NS));

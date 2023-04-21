@@ -56,6 +56,10 @@
 /* IO devices */
 static const io_dev_connector_t *bl31_dev_con;
 static uintptr_t bl31_dev_handle;
+#ifdef INCLUDE_OPTEE
+static const io_dev_connector_t *bl32_dev_con;
+static uintptr_t bl32_dev_handle;
+#endif
 static const io_dev_connector_t *soc_fw_dev_con;
 static uintptr_t soc_fw_dev_handle;
 #ifdef NT_FW_CONFIG
@@ -73,6 +77,12 @@ static uintptr_t emmc_dev_handle;
 static const io_uuid_spec_t bl31_uuid_spec = {
 	.uuid = UUID_EL3_RUNTIME_FIRMWARE_BL31,
 };
+
+#ifdef INCLUDE_OPTEE
+static const io_uuid_spec_t bl32_uuid_spec = {
+	.uuid = UUID_SECURE_PAYLOAD_BL32,
+};
+#endif
 
 static const io_uuid_spec_t bl33_uuid_spec = {
 	.uuid = UUID_NON_TRUSTED_FIRMWARE_BL33,
@@ -97,6 +107,9 @@ static const int spi_boot_method[] = {
 };
 
 static int open_bl31_image(const uintptr_t spec);
+#ifdef INCLUDE_OPTEE
+static int open_bl32_image(const uintptr_t spec);
+#endif
 static int open_bl33_image(const uintptr_t spec);
 static int open_soc_fw_image(const uintptr_t spec);
 #ifdef NT_FW_CONFIG
@@ -124,6 +137,15 @@ static const struct plat_io_policy policies[] = {
 		&tim_specs[TIM_SPEC_BL31],
 		open_bl31_image,
 	},
+#ifdef INCLUDE_OPTEE
+	[BL32_IMAGE_ID] = {
+		&bl32_dev_handle,
+		(uintptr_t)&bl32_uuid_spec,
+		"tee.bin",
+		&tim_specs[TIM_SPEC_BL32],
+		open_bl32_image,
+	},
+#endif
 	[BL33_IMAGE_ID] = {
 		&bl33_dev_handle,
 		(uintptr_t)&bl33_uuid_spec,
@@ -157,6 +179,13 @@ static int open_bl31_image(const uintptr_t spec)
 {
 	return io_dev_init(bl31_dev_handle, 0);
 }
+
+#ifdef INCLUDE_OPTEE
+static int open_bl32_image(const uintptr_t spec)
+{
+	return io_dev_init(bl32_dev_handle, 0);
+}
+#endif
 
 static int open_bl33_image(const uintptr_t spec)
 {
@@ -253,6 +282,11 @@ void octeontx_io_setup(void)
 	io_result = register_io_dev_dummy(&bl31_dev_con);
 	assert(io_result == 0);
 
+#ifdef INCLUDE_OPTEE
+	io_result = register_io_dev_dummy(&bl32_dev_con);
+	assert(io_result == 0);
+#endif
+
 	io_result = register_io_dev_dummy(&soc_fw_dev_con);
 	assert(io_result == 0);
 
@@ -272,6 +306,12 @@ void octeontx_io_setup(void)
 	io_result = io_dev_open(bl31_dev_con, (uintptr_t)NULL,
 				&bl31_dev_handle);
 	assert(io_result == 0);
+
+#ifdef INCLUDE_OPTEE
+	io_result = io_dev_open(bl32_dev_con, (uintptr_t)NULL,
+				&bl32_dev_handle);
+	assert(io_result == 0);
+#endif
 
 	io_result = io_dev_open(soc_fw_dev_con, (uintptr_t)NULL,
 				&soc_fw_dev_handle);

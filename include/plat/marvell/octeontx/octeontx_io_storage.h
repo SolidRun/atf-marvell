@@ -13,6 +13,18 @@
 #include <drivers/io/io_storage.h>
 
 #define TIM_SPEC_BL31		0
+#ifdef INCLUDE_OPTEE
+#define TIM_SPEC_BL32		1
+#define TIM_SPEC_BL33		2
+#define TIM_SPEC_SOC_FW_CONFIG	3
+
+#ifdef NT_FW_CONFIG
+# define TIM_SPEC_NT_FW_CONFIG	4
+# define TIM_NUM_SPECS		5
+#else
+# define TIM_NUM_SPECS		4
+#endif
+#else
 #define TIM_SPEC_BL33		1
 #define TIM_SPEC_SOC_FW_CONFIG	2
 
@@ -21,6 +33,7 @@
 # define TIM_NUM_SPECS		4
 #else
 # define TIM_NUM_SPECS		3
+#endif
 #endif
 
 #define TIM_SPEC_SIGNATURE     (0xf65689bb7775c42eULL)

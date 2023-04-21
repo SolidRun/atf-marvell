@@ -58,6 +58,10 @@ PLAT_CSR_INCLUDE        :=       include/plat/marvell/octeontx/cn10k/csr
 # enable Marvel ATF Runtime Logging
 USE_MRVL_TF_LOGGING     :=       1
 
+ifeq (${NEED_BL32},yes)
+$(eval $(call add_define,INCLUDE_OPTEE))
+endif
+
 # Include common Marvell platform's makefile helper
 include plat/marvell/octeontx/platform.mk
 

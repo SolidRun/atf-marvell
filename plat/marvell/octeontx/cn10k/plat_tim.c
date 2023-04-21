@@ -108,6 +108,12 @@ int plat_read_tim(int boot_type, unsigned int image_id,
 		filename = "bl31.bin";
 		tspec = &tim_specs[TIM_SPEC_BL31];
 		break;
+#ifdef INCLUDE_OPTEE
+	case BL32_IMAGE_ID:
+		filename = "tee.bin";
+		tspec = &tim_specs[TIM_SPEC_BL32];
+		break;
+#endif
 	case BL33_IMAGE_ID:
 #if defined(BUILD_UEFI)
 		filename = "uefi.bin";
@@ -231,6 +237,11 @@ const tim_spec_info_t *plat_find_tim_spec(unsigned int image_id)
 	case BL31_IMAGE_ID:
 		tspec = &tim_specs[TIM_SPEC_BL31];
 		break;
+#ifdef INCLUDE_OPTEE
+	case BL32_IMAGE_ID:
+		tspec = &tim_specs[TIM_SPEC_BL32];
+		break;
+#endif
 	case BL33_IMAGE_ID:
 		tspec = &tim_specs[TIM_SPEC_BL33];
 		break;

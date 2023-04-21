@@ -27,8 +27,13 @@
 /*************************************************
 
 |---------------------|==>Secure Memory 16MB @0
+|	4 KB	      |
+|---------------------|
 |		      |
+|	BL32	      |
+|	10 MB	      |
 |		      |
+|---------------------|
 |		      |
 |---------------------|
 |	Firmware Logs |
@@ -88,6 +93,11 @@
 |		      |
 |		      |
 |		      |
+|---------------------|
+|		      |
+|	BL32 NSEC     |
+|	Shared mem    |
+|	8 MB	      |
 |		      |
 |---------------------|
 |		      |
@@ -139,6 +149,17 @@
 #define TSP_IRQ_SEC_PHY_TIMER		29
 #define TSP_SEC_MEM_BASE		TZDRAM_BASE
 #define TSP_SEC_MEM_SIZE		TZDRAM_SIZE
+
+#ifdef INCLUDE_OPTEE
+/*
+ * BL32 secure memory
+ * NOTE: Any change in BL32 BASE addresses or sizes,
+ * needs a corresponding changes to OPTEE-OS config.
+ */
+#define BL32_BASE			(TZDRAM_BASE + 0x1000)
+#define BL32_MAX_SIZE			0x000a00000
+#define BL32_LIMIT			(BL32_BASE + BL32_MAX_SIZE)
+#endif
 
 /*
  * Use the workbuffer region in case of EL3 panic.
@@ -221,6 +242,14 @@
 					 SERDES_EYE_DATA_SIZE)
 #define SERDES_PRBS_DATA_BASE		(SERDES_SETTINGS_DATA_BASE + \
 					 SERDES_SETTINGS_DATA_SIZE)
+
+#ifdef INCLUDE_OPTEE
+/* BL32 non-secure shared memory
+ * of 8MB @52MB
+ */
+#define BL32_NSEC_SHMEM_SIZE		0x00800000
+#define BL32_NSEC_SHMEM_BASE		(FWLOG_NS_MEM_BASE - BL32_NSEC_SHMEM_SIZE)
+#endif
 
 #ifndef __ASSEMBLER__
 int plat_is_irq_ns(uint32_t irq);

@@ -372,6 +372,13 @@ static const struct object_group_entry ap_atf_grp[] = {
 		.data_filename = "bl31.bin",
 		.optional = false,
 	},
+#if defined(INCLUDE_OPTEE)
+	{
+		.tim_filename = "tee.timb",
+		.data_filename = "tee.bin",
+		.optional = false,
+	},
+#endif
 	{ NULL, NULL },
 };
 
