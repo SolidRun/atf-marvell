@@ -343,11 +343,24 @@ will be removed from dts tree right after ATF is done with parsing.
        };
    };
 
-**LED (example):**
+**LED (example syntax in EBF DT):**
 
-**TODO**
+ATF uses the below macros from EBF DT to map the corresponding CGX LMAC to a specific GPIO to enable link and activity LED.
 
-----
+	NETWORK-LED-LINK-FAST.N0.CGX%d.P%d
+
+	NETWORK-LED-ACTIVITY.N0.CGX%d.P%d
+
+Example syntax to enable LED link and activity for SFP port (to be added in EBF board DTS):
+
+	"PORT4_LINK,type=LED-GPIO,dev=N0.GPIO0,gpio=57,active_high=1,tristate=0", /* SFP28(Port4), QLM6.0, CGX2 */
+
+	"QLM6_LANE0_ACT,type=LED-GPIO,dev=N0.GPIO0,gpio=52,active_high=1,tristate=0"
+
+	NETWORK-LED-LINK-FAST.N0.CGX2.P0 = "PORT4_LINK";
+
+	NETWORK-LED-ACTIVITY.N0.CGX2.P0 = "QLM6_LANE0_ACT";
+
 
 3 ATF CGX Interface
 -------------------
@@ -436,6 +449,8 @@ interrupt cannot be triggered.
 
 For firmware to notify kernel, ``CGXX_CMRX_INT(0..2)(0..3)`` – Overflow bit (bit 1)
 is chosen as communication method for all OTX2 platform.
+
+----
 
 3.2 Run Time Services
 ^^^^^^^^^^^^^^^^^^^^^
@@ -1412,7 +1427,12 @@ If a GPIO expander needs to be added other than the listed below, this array in 
 5 LED management
 ----------------
 
-**TODO**
+EBF board device tree allows to configure the ethernet link and activity LED GPIO details.
+Device tree provides the mapping between the CGX LMAC to ethernet link and activity LED GPIO.
+ATF parses this device tree and configures the link LED based on the current ethernet link
+status and activity LED based on ethernet packet Tx/Rx status.
+
+Syntax of the DT config is mentioned in section 2 Device Tree - LED.
 
 ----
 
