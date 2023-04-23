@@ -3025,6 +3025,7 @@ int plat_octeontx_fill_board_details(void)
 {
 	void *fdt = fdt_ptr;
 	int offset, rc, i;
+	const char *str = NULL;
 
 	rc = fdt_check_header(fdt);
 	if (rc) {
@@ -3070,6 +3071,19 @@ int plat_octeontx_fill_board_details(void)
 
 	/* Parse PPR configuration */
 	cn10k_parse_ppr_config(fdt);
+
+	/* Parse shutdown GPIO configuration */
+	str = fdt_getprop(fdt, offset, "GPIO-SHUTDOWN-CTL-IN", NULL);
+	if (str) {
+		plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_in = strtol(str, NULL, 0);
+		printf("SHUTIN: %s\n", str);
+	}
+
+	str = fdt_getprop(fdt, offset, "GPIO-SHUTDOWN-CTL-OUT", NULL);
+	if (str) {
+		plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_out = strtol(str, NULL, 0);
+		printf("SHUTOUT: %s\n", str);
+	}
 
 	return 0;
 }
