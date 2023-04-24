@@ -781,6 +781,34 @@ unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
 	return 0;
 }
 
+int ecp_update_rx_tx_disable_arg(int portm_idx, int rx_tx_dis)
+{
+	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
+
+	debug_eth_link_intf("%s: %d\n", __func__, portm_idx);
+
+	if (sh_data == NULL) {
+		ERROR("%s: SM pointer is NULL\n", __func__);
+		return -1;
+	}
+
+	if (ecp_wait_for_lock(portm_idx, ECP_LINK_LOCK_WAIT_MS)) {
+		debug_eth_link_intf("%s PORTM%d lock %d not available for AP\n",
+				    __func__, portm_idx,
+				    sh_data->lock);
+		return -1;
+	} else
+		sh_data->lock = LINK_OWN_AP;
+
+	sh_data->link_req.rx_tx_dis = rx_tx_dis;
+	debug_eth_link_intf("%s: portm_idx %d rx_tx_dis %d\n", __func__, portm_idx,
+				sh_data->link_req.rx_tx_dis);
+
+	sh_data->lock = LINK_OWN_NONE;
+
+	return 0;
+}
+
 /**
  * Convert ECP ETH Link state into a string value
  *

@@ -455,7 +455,8 @@ struct eth_mtu_args {
 struct cgx_link_bringup_args {         /* start from bit 8 */
 	uint64_t reserved1:8;
 	uint64_t timeout:14;            /* in ms */
-	uint64_t reserved2:42;
+	uint64_t rx_tx_dis:1;		/* Argument to not enable Rx/Tx when link is up */
+	uint64_t reserved2:41;
 };
 
 /* command argument to be passed for cmd ID - ETH_CMD_MODE_CHANGE */

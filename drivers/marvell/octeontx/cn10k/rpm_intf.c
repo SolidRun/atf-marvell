@@ -411,7 +411,7 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 	return 0;
 }
 
-static int rpm_link_bringup(int rpm_id, int lmac_id, uint64_t link_timeout)
+static int rpm_link_bringup(int rpm_id, int lmac_id, uint64_t link_timeout, int rx_tx_dis)
 {
 	int mod_status = 0, sfp_count = 0, ret = 0;
 	rpm_lmac_config_t *lmac_cfg;
@@ -439,6 +439,13 @@ static int rpm_link_bringup(int rpm_id, int lmac_id, uint64_t link_timeout)
 		ret = rpm_handle_link_in_progress(rpm_id, lmac_id);
 		return ret;
 	}
+
+	/* Update Rx/Tx disable argument */
+	if (ecp_update_rx_tx_disable_arg(lmac_cfg->portm_idx, rx_tx_dis) == -1)
+		/* If not able to update rx_tx_dis argument, keep the value as default
+		 * enabling Rx/Tx during link up.
+		 */
+		debug_rpm_intf("%s: %d:%d Not able to update rx_tx_dis arg\n", __func__, rpm_id, lmac_id);
 
 	if ((lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_SGMII) ||
 		(lmac_cfg->mode == CAVM_RPM_LMAC_TYPES_E_QSGMII) ||
@@ -2075,8 +2082,9 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 					lmac_timeout = RPM_POLL_LINK_BRINGUP_STATUS; /* Save in us */
 				else
 					lmac_timeout = scratchx1.s.lnk_bringup.timeout * 1000; /* Save in us */
-				debug_rpm_intf("%s: %d:%d: lmac_timeout = %" PRId64 "\n", __func__, rpm_id, lmac_id, lmac_timeout);
-				ret = rpm_link_bringup(rpm_id, lmac_id, lmac_timeout);
+				debug_rpm_intf("%s: %d:%d: lmac_timeout = %" PRId64 ", scratchx1.s.lnk_bringup.rx_tx_dis %d\n", __func__,
+						rpm_id, lmac_id, lmac_timeout, scratchx1.s.lnk_bringup.rx_tx_dis);
+				ret = rpm_link_bringup(rpm_id, lmac_id, lmac_timeout, scratchx1.s.lnk_bringup.rx_tx_dis);
 				break;
 			case ETH_CMD_LINK_BRING_DOWN:
 				ret = rpm_link_bringdown(rpm_id, lmac_id);

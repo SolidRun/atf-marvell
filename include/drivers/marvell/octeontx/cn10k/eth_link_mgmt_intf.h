@@ -208,10 +208,11 @@ typedef enum sfp_mod_state_info {
 
 typedef struct ecp_link_req {
 	uint32_t req_id:6;
-	uint32_t req_args;        /* TODO */
 	uint32_t sfp_slot_present:1;/* Indicates if QSFP/SFP mgmt is enabled */
 	uint32_t sfp_mod_stat:2;    /* Indicates if QSFP/SFP module is present */
 	uint32_t phy_present:1;     /* Indicates if PHY is present */
+	uint32_t rx_tx_dis:1;       /* Indicates if Rx/Tx not to be enabled during link up config */
+	uint32_t req_args;        /* TODO */
 	/* PHY mgmt is handled by ATF. ATF will update phy_link_stat reading
 	 * from PHY and update SM. Relevant fields of ecp_link_state_t
 	 * can be used for PHY and others can be ignored
@@ -325,6 +326,13 @@ unsigned int ecp_get_req_in_prog(int portm_idx, int lmac_id);
 unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *link_state, int *sig_detect);
 unsigned int ecp_update_phy_link_state(int portm, int lmac_id, rpm_link_state_t *phy_link_state);
 unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);
+/**
+ * Updates Rx/Tx disable arg passed via link bring up argument
+ *
+ * @param : rx_tx_dis
+ * @return: 0 : request done, -1 : not done
+ */
+int ecp_update_rx_tx_disable_arg(int portm_idx, int rx_tx_dis);
 int ecp_dump_state_history(int portm_idx, int lmac_id, const char *msg);
 void ecp_link_update_sgmii_speed_dplx(int portm_idx, int specific_lmac);
 
