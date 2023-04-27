@@ -628,10 +628,10 @@ Parameters to be sent:
 
 * Cmd arguments
 struct cgx_link_bringup_args {         /* start from bit 8 */
-        uint64_t reserved1:2;
-        uint64_t id:6;			/* = 5 (ETH_CMD_LINK_BRING_UP) */
+	uint64_t reserved1:8;
         uint64_t timeout:14;            /* in ms */
-        uint64_t reserved2:42;
+	uint64_t rx_tx_dis:1;		/* Argument to not enable Rx/Tx when link is up */
+        uint64_t reserved2:41;
 
 * As part of request processing, ATF sends ECP_LINK_REQ_BRINGUP request to ECP to bring up the link
 
@@ -659,6 +659,9 @@ Any errors will be set in the ``RPM_CMRX_SCRATCHX[rpm][lmac][0]``.
 * If RPM configuration succeeds, current link status will be set
 
 * If RPM configuration fails, both error type and current link status will be set
+
+"rx_tx_dis" parameter provides option to the user to not enable packet Tx/Rx when the link
+is UP during link configuration.
 
 "timeout" parameter enables user to pass the link timeout (in ms) to limit the link bring up timeout
 (Same timeout is used for mode change/FEC change commands execution)
@@ -890,6 +893,11 @@ If the command status is successful, ATF updates the link
 status also in the response structure
 
 **NOTE:** Based on current PORTM configuration, ATF decides whether to allow the change.
+
+"rx_tx_dis" parameter option is provided as part of cgx_link_bringup_args struct to be passed with
+LINK_BRING_UP command. This provides option to the user to not enable packet Tx/Rx when the link
+is UP during link configuration. If this parameter is passed for a specific port during
+LINK_BRING_UP, this parameter will be applied to MODE_CHANGE as well.
 
 3.2.4.11 GET_PORT_MODE
 """""""""""""""""""""""
