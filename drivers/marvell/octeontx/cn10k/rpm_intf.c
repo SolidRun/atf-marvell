@@ -1442,6 +1442,14 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 		return 0;
 	}
 
+#ifdef PLAT_cnf10kb
+	if (cn10k_is_portm_muxed(portm_idx)) {
+		ERROR("%s: PORTM%d: Mode change not supported for ports connected to the MUX\n",
+			__func__, portm_idx);
+		return -1;
+	}
+#endif
+
 	/* Update the PORTM config struct */
 	portm->portm_mode = portm_mode;
 	portm->gser_numlanes = 1;
@@ -1603,6 +1611,15 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 			ETH_ERR_SPEED_CHANGE_INVALID);
 		goto mode_err;
 	}
+
+#ifdef PLAT_cnf10kb
+	if (cn10k_is_portm_muxed(portm_idx)) {
+		ERROR("%s: PORTM%d: Mode change not supported for ports connected to the MUX\n",
+			__func__, portm_idx);
+		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
+		goto mode_err;
+	}
+#endif
 
 	/* If PORTM mode is same, check for the requested speed, AN and duplex */
 	if (portm->portm_mode == portm_mode) {

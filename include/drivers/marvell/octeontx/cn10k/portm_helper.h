@@ -27,6 +27,16 @@ void cn10k_fill_portm_tx_eq_info(int portm_idx, cn10k_portm_modes_t portm_mode);
 void cn10k_fill_portm_lane_map(int portm_idx);
 
 /**
+ * Checks if the PORTM is connected through MUX (to be called for THOR VRAN NIC card only)
+ *
+ * @param portm_idx  PORTM
+ *
+ */
+#ifdef PLAT_cnf10kb
+int cn10k_is_portm_muxed(int portm_idx);
+#endif
+
+/**
  * Updates Portm struct mac info based on portm_mode
  *
  * @param portm_idx   PORTM

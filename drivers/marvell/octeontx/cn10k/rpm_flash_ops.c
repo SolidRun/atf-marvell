@@ -21,6 +21,7 @@
 #include <rpm.h>
 #include <octeontx_utils.h>
 #include <spi_ops.h>
+#include <fdtebf_helper.h>
 
 /* define DEBUG_ATF_RPM_FLASH to enable debug logs */
 #undef DEBUG_ATF_RPM_FLASH
@@ -99,6 +100,12 @@ static int rpm_update_flash_lmac_params(int portm_idx, int cmd,
 	return 0;
 }
 
+int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode)
+{
+	return rpm_update_flash_lmac_params(portm_idx, PORTM_MODE,
+		portm_mode);
+}
+
 #ifdef PLAT_cnf10kb
 /* These functions are added to support retimer MUX config via SMC call (sysfs)
  * interface for VRAN NIC Thor board
@@ -110,67 +117,30 @@ static int rpm_read_flash_retimer_params(uint8_t *buf, uint64_t *buflen)
 }
 
 #define MAX_RETIMERS 4
-static int gserm_get_lane_for_retimer(int retimer_idx, int gserm_idx)
-{
-	int lane = -1;
-
-	debug_rpm_flash("%s: retimer_idx %d gserm_idx %d\n", __func__, retimer_idx, gserm_idx);
-
-	switch (retimer_idx) {
-	case 0:
-		if ((gserm_idx == 0) || (gserm_idx == 3))
-			lane = 3;
-	break;
-	case 1:
-		if ((gserm_idx == 0) || (gserm_idx == 3))
-			lane = 2;
-	break;
-	case 2:
-		if (gserm_idx == 0)
-			lane = 1;
-		else if (gserm_idx == 2)
-			lane = 3;
-	break;
-	case 3:
-		if (gserm_idx == 0)
-			lane = 0;
-		else if (gserm_idx == 2)
-			lane = 2;
-	break;
-	default:
-		ERROR("%s: Invalid retimer Id %d\n", __func__, retimer_idx);
-		return -1;
-	break;
-	}
-
-	return lane;
-}
-#endif
-
-int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode)
-{
-	return rpm_update_flash_lmac_params(portm_idx, PORTM_MODE,
-		portm_mode);
-}
-
-
-
-#ifdef PLAT_cnf10kb
 int rpm_update_flash_gserm_retimer_params(int retimer_idx, int gserm_idx)
 {
 	gserm_retimer_flash_ctx_t rctx[MAX_RETIMERS];
 	gserm_retimer_flash_ctx_t *ptr;
 	int err, lane = -1;
 	uint64_t buf_size = sizeof(rctx);
+	const void *fdt = fdt_ptr;
 
 	debug_rpm_flash("%s: retimer_idx %d gserm_idx %d\n", __func__, retimer_idx, gserm_idx);
 
 	if (gserm_idx != -1) {
 		/* Validate GSERM for the retimer index */
-		lane = gserm_get_lane_for_retimer(retimer_idx, gserm_idx);
+		lane = retimer_get_gserm_muxed_lane(fdt, retimer_idx, gserm_idx);
+
 		if (lane == -1) {
 			ERROR("%s: GSERM%d chosen is not valid for the retimer %d\n", __func__,
 					gserm_idx, retimer_idx);
+			return -1;
+		}
+
+		if (lane == -2) {
+			ERROR("%s: MUX%d: No valid MUX Mapping found in the Device Tree\n", __func__,
+					retimer_idx);
+
 			return -1;
 		}
 
@@ -201,6 +171,7 @@ int rpm_update_flash_gserm_retimer_params(int retimer_idx, int gserm_idx)
 int rpm_update_flash_mode_param_for_retimer(int retimer_idx, int gserm_idx, int portm_mode)
 {
 	int portm_idx = 0, lane = -1, portm_first = 0;
+	const void *fdt = fdt_ptr;
 
 	debug_rpm_flash("%s: retimer_idx %d gserm_idx %d portm_mode %d\n", __func__,
 			retimer_idx, gserm_idx, portm_mode);
@@ -215,11 +186,18 @@ int rpm_update_flash_mode_param_for_retimer(int retimer_idx, int gserm_idx, int 
 	if (portm_first == -1)
 		return -1;
 
-	lane = gserm_get_lane_for_retimer(retimer_idx, gserm_idx);
+	lane = retimer_get_gserm_muxed_lane(fdt, retimer_idx, gserm_idx);
 
 	if (lane == -1) {
 		ERROR("%s: Not valid GSERM%d chosen for the retimer %d\n", __func__,
 				gserm_idx, retimer_idx);
+		return -1;
+	}
+
+	if (lane == -2) {
+		ERROR("%s: MUX%d: No valid MUX Mapping found in the Device Tree\n", __func__,
+				retimer_idx);
+
 		return -1;
 	}
 

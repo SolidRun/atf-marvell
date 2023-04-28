@@ -161,6 +161,33 @@ void cn10k_fill_portm_lane_map(int portm_idx)
 }
 
 /**
+ * Checks if the PORTM is connected through MUX (to be called for THOR VRAN NIC card only)
+ *
+ * @param portm_idx  PORTM
+ *
+ */
+#ifdef PLAT_cnf10kb
+int cn10k_is_portm_muxed(int portm_idx)
+{
+	int rtmr_idx;
+	int gserm, g_lane;
+	portm_config_t *portm;
+	const char *fdt = fdt_ptr;
+
+	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+	gserm = portm->gserm;
+	g_lane = portm->lane_map & 0xf;
+
+	for (rtmr_idx = 0; rtmr_idx < 4; rtmr_idx++) {
+		if (g_lane == retimer_get_gserm_muxed_lane(fdt, rtmr_idx, gserm))
+			return 1;
+	}
+
+	return 0;
+}
+#endif
+
+/**
  * Updates Portm struct mac info based on portm_mode
  *
  * @param portm_idx   PORTM
