@@ -110,42 +110,42 @@ static const portm_tx_tuning_t portm_default_tx_tuning_list[] = {
 	{PORTM_MODE_SGMII,           35,  0,  0,  0 },
 	{PORTM_MODE_1000BASE_X,      63,  0,  0,  0 },
 	{PORTM_MODE_SFI_1G,          63,  0,  0,  0 },
-	{PORTM_MODE_QSGMII,          63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_QSGMII,          63,  0,  0,  0 },
 	{PORTM_MODE_2500BASE_X,      63,  0,  0,  0 },
 	{PORTM_MODE_5000BASE_X,      63,  0,  0,  0 },
-	{PORTM_MODE_XFI,             63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_XFI,             63,  0,  0,  0 },
 	{PORTM_MODE_SFI,             52, -10,  -1,  0 },
 	{PORTM_MODE_10GBASE_KR,      63,  0,  0,  0 }, /* Set via LT */
-	{PORTM_MODE_25GAUI_C2C,      63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_25GAUI_C2C,      63,  0,  0,  0 },
 	{PORTM_MODE_25GAUI_C2M,      56,  -3,  -4,  0 },
 	{PORTM_MODE_25GBASE_USR,     63,  0,  0,  0 },
 	{PORTM_MODE_25GBASE_CR,      63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_25GBASE_KR,      63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_25GBASE_CR_C,    63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_25GBASE_KR_C,    63,  0,  0,  0 }, /* Set via LT */
-	{PORTM_MODE_XLAUI,           63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_XLAUI_C2M,       63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_XLAUI,           63,  0,  0,  0 },
+	{PORTM_MODE_XLAUI_C2M,       63,  0,  0,  0 },
 	{PORTM_MODE_40GBASE_CR4,     63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_40GBASE_KR4,     63,  0,  0,  0 }, /* Set via LT */
-	{PORTM_MODE_LAUI_2_C2C,      63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_LAUI_2_C2C,      63,  0,  0,  0 },
 	{PORTM_MODE_LAUI_2_C2M,      56,  -2,  -5,  0 },
 	{PORTM_MODE_50GBASE_CR2_C,   63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_50GBASE_KR2_C,   63,  0,  0,  0 }, /* Set via LT */
-	{PORTM_MODE_50GAUI_1_C2C,    63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_50GAUI_1_C2C,    63,  0,  0,  0 },
 	{PORTM_MODE_50GAUI_1_C2M,    56,  -2,  -5,  0 },
 	{PORTM_MODE_50GBASE_USR,     63,  0,  0,  0 }, /* Set via firmware */
 	{PORTM_MODE_50GBASE_CR,      63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_50GBASE_KR,      63,  0,  0,  0 }, /* Set via LT */
-	{PORTM_MODE_CAUI_4_C2C,      63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CAUI_4_C2M,      63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_CAUI_4_C2C,      63,  0,  0,  0 },
+	{PORTM_MODE_CAUI_4_C2M,      63,  0,  0,  0 },
 	{PORTM_MODE_100GBASE_CR4,    63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_100GBASE_KR4,    63,  0,  0,  0 }, /* Set via LT */
-	{PORTM_MODE_100GAUI_2_C2C,   63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_100GAUI_2_C2M,   63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_100GAUI_2_C2C,   63,  0,  0,  0 },
+	{PORTM_MODE_100GAUI_2_C2M,   63,  0,  0,  0 },
 	{PORTM_MODE_100GBASE_USR2,   63,  0,  0,  0 }, /* Set via firmware */
 	{PORTM_MODE_100GBASE_CR2,    63,  0,  0,  0 }, /* Set via LT */
 	{PORTM_MODE_100GBASE_KR2,    63,  0,  0,  0 }, /* Set via LT */
-	{PORTM_MODE_802_3AP,         63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_802_3AP,         63,  0,  0,  0 }, /* Set via LT */
 
 	/* USXGMII modes */
 	{PORTM_MODE_2_5G_SXGMII,     63,  0,  0,  0 }, /* TBD */
@@ -159,18 +159,18 @@ static const portm_tx_tuning_t portm_default_tx_tuning_list[] = {
 	{PORTM_MODE_O_USGMII,        63,  0,  0,  0 }, /* TBD */
 
 	/* CPRI modes */
-	{PORTM_MODE_CPRI_2_4G,       63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_3_1G,       63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_4_9G,       63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_6_1G,       63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_9_8G,       63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_2_4G_TEST,  63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_3_1G_TEST,  63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_4_9G_TEST,  63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_6_1G_TEST,  63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_9_8G_TEST,  63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_12_3G_TEST, 63,  0,  0,  0 }, /* TBD */
-	{PORTM_MODE_CPRI_19_7G_TEST, 63,  0,  0,  0 }, /* TBD */
+	{PORTM_MODE_CPRI_2_4G,       63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_3_1G,       63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_4_9G,       63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_6_1G,       63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_9_8G,       63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_2_4G_TEST,  63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_3_1G_TEST,  63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_4_9G_TEST,  63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_6_1G_TEST,  63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_9_8G_TEST,  63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_12_3G_TEST, 63,  0,  0,  0 },
+	{PORTM_MODE_CPRI_19_7G_TEST, 63,  0,  0,  0 },
 
 	/* JESD204C modes */
 	{PORTM_MODE_JESD204C_12_2G,  63,  0,  0,  0 },
