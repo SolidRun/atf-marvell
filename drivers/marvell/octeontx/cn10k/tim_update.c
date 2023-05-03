@@ -1558,6 +1558,7 @@ static void update_flash_group_flags(const struct object_group_entry *group,
 		/* We're done, nothing to skip */
 		return;
 	}
+
 	/* Now check if the skip flag is set it is set for all group entries */
 	for (gentry = group; gentry->data_filename; gentry++) {
 		fentry = find_file(gentry->data_filename);
@@ -1569,6 +1570,7 @@ static void update_flash_group_flags(const struct object_group_entry *group,
 			}
 		}
 	}
+
 	if (!skip_install && skip_set) {
 		/*
 		 * At least one object was marked to skip but not all of them.
@@ -1624,7 +1626,8 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 	 * performance.
 	 */
 	for_each_object(obj)
-		update_flash_group_flags(obj->group, update_all);
+		if (obj->group)
+			update_flash_group_flags(obj->group, update_all);
 
 	return UPDATE_OK;
 }
