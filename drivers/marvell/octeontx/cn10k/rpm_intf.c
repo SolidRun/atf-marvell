@@ -660,7 +660,7 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	ap_adv = &portm->ap_802_3_adv;
 
 	debug_rpm_intf("%s: %d:%d fec %d request_fec %d\n", __func__, rpm_id,
-				lmac_id, lmac->fec, req_fec);
+				lmac_id, portm->fec, req_fec);
 
 	if (bringup_ctx->link_bringup_status == LINK_BRINGUP_IN_PROGRESS) {
 		ret = rpm_handle_link_in_progress(rpm_id, lmac_id);
@@ -675,7 +675,7 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 		return 0;
 	}
 
-	if ((!lmac->phy_present) && (req_fec == lmac->fec)) {
+	if ((!lmac->phy_present) && (req_fec == portm->fec)) {
 		WARN("%s: %d:%d FEC requested is same as current FEC state\n",
 				__func__, rpm_id, lmac_id);
 		return 0;
@@ -697,12 +697,12 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	/* FIXME: Validate FEC based on transceiver and add support for line side FEC */
 	if (portm->an_lt_ena) {
 		cn10k_portm_update_802_3ap_fec(fec, ap_adv);
-		portm->fec = lmac->fec = fec;
+		portm->fec = fec;
 	} else
-		portm->fec = lmac->fec = fec;
+		portm->fec = fec;
 
 	/* Send request to ECP for FEC change */
-	if (rpm_fec_change(rpm_id, lmac_id, lmac->fec, lmac_ctx, &link_sts))
+	if (rpm_fec_change(rpm_id, lmac_id, portm->fec, lmac_ctx, &link_sts))
 		goto fec_fail;
 
 	/* Update the new FEC type with current link status */
@@ -1739,7 +1739,6 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	rpm_set_error_type(rpm_id, lmac_id, 0);
 
 	if (switch_from_cpri) {
-		lmac->fec = portm->fec;
 		lmac->portm_idx = portm_idx;
 		lmac->port_enable = 1;
 		lmac->lmac_enable = 1;

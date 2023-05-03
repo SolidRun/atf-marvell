@@ -140,7 +140,6 @@ typedef struct rpm_lmac_config {
 	 * mean the link is up until the user sends LINK UP command
 	 */
 	int lmac_enable;
-	int fec;	/* host side of PHY's fec type */
 	uint8_t local_mac_address[6];
 	uint64_t supported_link_modes;	/* rpm_mode_t enum */
 	int phy_present;

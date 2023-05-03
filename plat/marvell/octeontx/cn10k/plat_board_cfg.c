@@ -578,7 +578,7 @@ void plat_octeontx_print_board_variables(void)
 					lmac->local_mac_address[4],
 					lmac->local_mac_address[5]);
 			debug_dts("\tLMAC enable=%d\n", lmac->lmac_enable);
-			debug_dts("\tLMAC fec type=%d\n", lmac->fec);
+			debug_dts("\tLMAC fec type=%d\n", portm->fec);
 			if (lmac->phy_present && lmac->phy_config) {
 				phy_config_t *phy;
 				phy = lmac->phy_config;
@@ -1816,7 +1816,7 @@ static int cn10k_fill_rpm_struct(int portm_idx, int rpm_idx, int fec)
 		lmac = &rpm->lmac_cfg[lmac_num];
 		lmac->mode = mode;	/* LMAC type */
 		lmac->portm_idx = portm_idx;
-		lmac->fec = fec;
+		portm->fec = fec;
 		lmac->port_enable = 1;
 
 		debug_dts(
@@ -1825,7 +1825,7 @@ static int cn10k_fill_rpm_struct(int portm_idx, int rpm_idx, int fec)
 				lmac->portm_idx,
 				lmac->mode,
 				lmac->port_enable,
-				lmac->fec);
+				portm->fec);
 
 		rpm->lmac_count++;
 
