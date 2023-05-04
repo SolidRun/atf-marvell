@@ -550,7 +550,7 @@ static int octeontx_init_rvu_from_fdt(void)
 	sw_pf = find_sw_rvu_pf_info(SW_RVU_IPSEC_PF(0));
 	if (sw_pf != NULL && sw_pf->mapping != SW_RVU_MAP_NONE) {
 		octeontx_init_rvu_fixed(&current_hwvf, FIXED_RVU_IPSEC,
-			SW_RVU_IPSEC_PF(0), FALSE);
+			SW_RVU_IPSEC_PF(0), TRUE);
 	} else {
 		uninit_pfs++;
 		WARN("RVU: skipping fixed IPSEC allocation\n");
