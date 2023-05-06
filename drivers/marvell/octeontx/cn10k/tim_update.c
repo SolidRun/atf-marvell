@@ -291,6 +291,40 @@ static struct async_update_data aupdate_data;
 
 static enum update_ret media_done(struct io_handle *io_handle);
 
+struct object_alt_layout {
+	const char *objname;
+	uint64_t old_addr;
+	uint64_t old_size;
+	uint64_t new_addr;
+	uint64_t new_size;
+};
+static const struct object_alt_layout alt_layout[] = {
+	{
+		.objname = "bl31.bin",
+		.old_addr = 0x540000,
+		.old_size = 0xc0000,
+		.new_addr = 0x540000,
+		.new_size = 0x120000,
+	},
+	{
+		.objname = "u-boot-nodtb.bin",
+		.old_addr = 0x600000,
+		.old_size = 0x100000,
+		.new_addr = 0x660000,
+		.new_size = 0x150000,
+	},
+	{
+		.objname = "npc_mkex-cn10xx.fw",
+		.old_addr = 0x700000,
+		.old_size = 0x60000,
+		.new_addr = 0x7b0000,
+		.new_size = 0x60000,
+	},
+	{NULL, 0, 0, 0, 0},
+};
+static uint8_t uboot_obj_ventry_counter;
+static uint8_t npc_obj_ventry_counter;
+
 #if 0
 /* The following define the various object groupings.  In order to be valid,
  * all of the files within a group must be present.  Incomplete groups
@@ -4087,11 +4121,32 @@ src_io_error:
 	return err;
 }
 
+static int get_object_alt_layout(struct smc_version_info_entry *ventry)
+{
+	int i;
+
+	for (i = 0; alt_layout[i].objname != NULL; i++) {
+		if (!strncmp(ventry->name, alt_layout[i].objname, 6)) {
+			if (ventry->tim_address == alt_layout[i].old_addr) {
+				ventry->tim_address = alt_layout[i].new_addr;
+				ventry->max_size = alt_layout[i].new_size;
+			}
+			if (ventry->tim_address == alt_layout[i].new_addr) {
+				ventry->tim_address = alt_layout[i].old_addr;
+				ventry->max_size = alt_layout[i].old_size;
+			}
+			return 1;
+		}
+	}
+	return 0;
+}
+
 static int update_vinfo(struct verification_data *hash_data)
 {
 	int err;
-	uint64_t size;
+	uint64_t size, uboot_tim_addr = 0, uboot_max_size = 0;
 	uint32_t tim_size = 0;
+
 	struct smc_version_info_entry *ventry =
 			&(hash_data->vinfo->objects[hash_data->ventry_counter]);
 
@@ -4099,11 +4154,112 @@ static int update_vinfo(struct verification_data *hash_data)
 		size = 0;
 	else
 		size = ventry->max_size;
+	if (!strcmp(ventry->name, "bl31.bin") &&
+	    uboot_obj_ventry_counter) {
+		ventry = &(hash_data->vinfo->objects[uboot_obj_ventry_counter]);
+		uboot_tim_addr = ventry->tim_address;
+		/* Fix BL31 Max size when U-Boot is modified */
+		ventry = &(hash_data->vinfo->objects[hash_data->ventry_counter]);
+		if (uboot_tim_addr == 0x600000)
+			ventry->max_size = 0xc0000;
+		else
+			ventry->max_size = 0x120000;
+	}
+	if (!strcmp(ventry->name, "u-boot-nodtb.bin"))
+		uboot_obj_ventry_counter = hash_data->ventry_counter;
+	if (!strcmp(ventry->name, "npc_mkex-cn10xx.fw"))
+		npc_obj_ventry_counter = hash_data->ventry_counter;
+
 	err = check_get_version(hash_data->vinfo, ventry, &hash_data->udesc,
 				ventry->tim_address, size,
 				&tim_size);
 	ventry->tim_size = tim_size;
 	ventry->retcode = err;
+
+	/* For SDK12 where uboot size is 2M case */
+	if (err == RET_IMAGE_TOO_BIG &&
+	    !strcmp(ventry->name, "u-boot-nodtb.bin")) {
+		ventry->max_size = 0x200000;
+		err = check_get_version(hash_data->vinfo, ventry,
+					&hash_data->udesc,
+					ventry->tim_address,
+					ventry->max_size,
+					&tim_size);
+		ventry->tim_size = tim_size;
+		ventry->retcode = err;
+		if (npc_obj_ventry_counter) {
+			uboot_tim_addr = ventry->tim_address;
+			uboot_max_size = ventry->max_size;
+			/* Fix NPC binary address when U-Boot is modified
+			 * as it is far enough in new layout to get corrupted when
+			 * downgraded
+			 */
+			ventry = &(hash_data->vinfo->objects[npc_obj_ventry_counter]);
+			if (uboot_tim_addr == 0x600000) {
+				if (uboot_max_size > 0x100000)
+					ventry->tim_address = 0x800000; /* SDK12 */
+				else
+					ventry->tim_address = 0x700000;
+				err = check_get_version(hash_data->vinfo, ventry,
+							&hash_data->udesc,
+							ventry->tim_address,
+							ventry->max_size,
+							&tim_size);
+				ventry->tim_size = tim_size;
+				ventry->retcode = err;
+			}
+			/* Reset counter after update */
+			npc_obj_ventry_counter = 0;
+		}
+	}
+	if (err == RET_NOT_FOUND || err == RET_TIM_INVALID) {
+		if (get_object_alt_layout(ventry)) {
+			err = check_get_version(hash_data->vinfo, ventry,
+						&hash_data->udesc,
+						ventry->tim_address,
+						ventry->max_size,
+						&tim_size);
+			ventry->tim_size = tim_size;
+			ventry->retcode = err;
+			/* For SDK12 where uboot size is 2M case */
+			if (err == RET_IMAGE_TOO_BIG) {
+				ventry->max_size = 0x200000;
+				err = check_get_version(hash_data->vinfo, ventry,
+							&hash_data->udesc,
+							ventry->tim_address,
+							ventry->max_size,
+							&tim_size);
+				ventry->tim_size = tim_size;
+				ventry->retcode = err;
+			}
+			if (!strcmp(ventry->name, "u-boot-nodtb.bin") &&
+			    npc_obj_ventry_counter) {
+				uboot_tim_addr = ventry->tim_address;
+				uboot_max_size = ventry->max_size;
+				/* Fix NPC binary address when U-Boot is modified
+				 * as it is far enough in new layout to get corrupted when
+				 * downgraded
+				 */
+				ventry = &(hash_data->vinfo->objects[npc_obj_ventry_counter]);
+				if (uboot_tim_addr == 0x600000) {
+					if (uboot_max_size > 0x100000)
+						ventry->tim_address = 0x800000; /* SDK12 */
+					else
+						ventry->tim_address = 0x700000;
+					err = check_get_version(hash_data->vinfo, ventry,
+								&hash_data->udesc,
+								ventry->tim_address,
+								ventry->max_size,
+								&tim_size);
+					ventry->tim_size = tim_size;
+					ventry->retcode = err;
+				}
+				/* Reset counter after update */
+				npc_obj_ventry_counter = 0;
+			}
+		}
+	}
+
 	hash_data->ventry_counter++;
 
 	return 0;
@@ -4257,7 +4413,7 @@ static int init_hash_verification(void *ptr) {
 	int err;
 	struct verification_data *data = (struct verification_data *)ptr;
 	struct smc_version_info_entry *ventry = &(data->vinfo->objects[data->ventry_counter]);
-	uint64_t size;
+	uint64_t size, uboot_taddr = 0, uboot_msize = 0;
 	uint32_t tim_size = 0;
 
 	data->ventry = ventry;
@@ -4267,6 +4423,22 @@ static int init_hash_verification(void *ptr) {
 	else
 		size = ventry->max_size;
 
+	if (!strcmp(ventry->name, "bl31.bin") &&
+	    uboot_obj_ventry_counter) {
+		ventry = &(data->vinfo->objects[uboot_obj_ventry_counter]);
+		uboot_taddr = ventry->tim_address;
+		/* Fix BL31 Max size when U-Boot is modified */
+		ventry = &(data->vinfo->objects[data->ventry_counter]);
+		if (uboot_taddr == 0x600000)
+			ventry->max_size = 0xc0000;
+		else
+			ventry->max_size = 0x120000;
+	}
+	if (!strcmp(ventry->name, "u-boot-nodtb.bin"))
+		uboot_obj_ventry_counter = data->ventry_counter;
+	if (!strcmp(ventry->name, "npc_mkex-cn10xx.fw"))
+		npc_obj_ventry_counter = data->ventry_counter;
+
 	err = check_tim(data->vinfo,
 			ventry,
 			&data->io,
@@ -4275,6 +4447,91 @@ static int init_hash_verification(void *ptr) {
 
 	ventry->tim_size = tim_size;
 	ventry->retcode = err;
+
+	/* For SDK12 where uboot size is 2M case */
+	if (err == RET_IMAGE_TOO_BIG &&
+	    !strcmp(ventry->name, "u-boot-nodtb.bin")) {
+		ventry->max_size = 0x200000;
+		err = check_tim(data->vinfo, ventry,
+				&data->io,
+				ventry->tim_address,
+				ventry->max_size,
+				&tim_size);
+		ventry->tim_size = tim_size;
+		ventry->retcode = err;
+		if (npc_obj_ventry_counter) {
+			uboot_taddr = ventry->tim_address;
+			uboot_msize = ventry->max_size;
+			/* Fix NPC binary address when U-Boot is modified
+			 * as it is far enough in new layout to get corrupted when
+			 * downgraded
+			 */
+			ventry = &(data->vinfo->objects[npc_obj_ventry_counter]);
+			if (uboot_taddr == 0x600000) {
+				if (uboot_msize > 0x100000)
+					ventry->tim_address = 0x800000; /* SDK12 */
+				else
+					ventry->tim_address = 0x700000;
+				err = check_tim(data->vinfo, ventry,
+						&data->io,
+						ventry->tim_address,
+						ventry->max_size,
+						&tim_size);
+				ventry->tim_size = tim_size;
+				ventry->retcode = err;
+			}
+			/* Reset counter after update */
+			npc_obj_ventry_counter = 0;
+		}
+	}
+	if (err == RET_NOT_FOUND || err == RET_TIM_INVALID) {
+		if (get_object_alt_layout(ventry)) {
+			err = check_tim(data->vinfo,
+					ventry,
+					&data->io,
+					ventry->tim_address,
+					ventry->max_size,
+					&tim_size);
+			ventry->tim_size = tim_size;
+			ventry->retcode = err;
+			/* For SDK12 where uboot size is 2M case */
+			if (err == RET_IMAGE_TOO_BIG) {
+				ventry->max_size = 0x200000;
+				err = check_tim(data->vinfo, ventry,
+						&data->io,
+						ventry->tim_address,
+						ventry->max_size,
+						&tim_size);
+				ventry->tim_size = tim_size;
+				ventry->retcode = err;
+			}
+			if (!strcmp(ventry->name, "u-boot-nodtb.bin") &&
+			    npc_obj_ventry_counter) {
+				uboot_taddr = ventry->tim_address;
+				uboot_msize = ventry->max_size;
+				/* Fix NPC binary address when U-Boot is modified
+				 * as it is far enough in new layout to get corrupted when
+				 * downgraded
+				 */
+				ventry = &(data->vinfo->objects[npc_obj_ventry_counter]);
+				if (uboot_taddr == 0x600000) {
+					if (uboot_msize > 0x100000)
+						ventry->tim_address = 0x800000; /* SDK12 */
+					else
+						ventry->tim_address = 0x700000;
+					err = check_tim(data->vinfo, ventry,
+							&data->io,
+							ventry->tim_address,
+							ventry->max_size,
+							&tim_size);
+					ventry->tim_size = tim_size;
+					ventry->retcode = err;
+				}
+				/* Reset counter after update */
+				npc_obj_ventry_counter = 0;
+			}
+		}
+	}
 	data->ventry_counter++;
 	data->hash_started = false;
 
@@ -4461,6 +4718,9 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 		else
 			spi_async_start(done_callback, &uParams);
 	}
+
+	uboot_obj_ventry_counter = 0;
+	npc_obj_ventry_counter = 0;
 	return err;
 }
 
