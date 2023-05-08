@@ -1619,6 +1619,27 @@ void gserm_reset_init(void)
 		}
 	}
 
+	/* Clear ini_phase_offset_lane before RX training (SFI mode only) */
+	for (int portm_idx = 0; portm_idx < portm_count;) {
+		portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
+		if (!portm->port_enable) {
+			portm_idx++;
+			continue;
+		}
+		if (portm->portm_mode != PORTM_MODE_SFI) {
+			portm_idx += portm->portms_used;
+			continue;
+		}
+		gser_lane = portm->lane_map & 0xf;
+		debug_gserm("%s: GSERM%d.%d: SFI set ini_phase_offset_lane=0x0\n",
+				    __func__, portm->gserm, gser_lane);
+		CSR_MODIFY(c, CAVM_GSERMX_SYSTEM(portm->gserm),
+				c.s.lane_sel = gser_lane);
+		CSR_MODIFY(c, CAVM_GSERMX_TRAIN_CONTROL_1(portm->gserm),
+				c.s.ini_phase_offset_lane = 0);
+		portm_idx += portm->portms_used;
+	}
+
 	/* (28) Enable the PHY transmitter output by writing
 	 * GSERM(0..5,15)_LANE(0..3)_CONTROL_BCFG[TX_IDLE] = 0x0.
 	 * Note: This will be done later when link up requested
