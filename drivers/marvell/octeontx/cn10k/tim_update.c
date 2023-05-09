@@ -2878,8 +2878,13 @@ enum update_ret source_check_async(struct async_clone_data *param)
 	int i;
 
 	for (i = 0; i < src->num_objects; i++) {
-		if (src->objects[i].retcode != RET_OK)
-			return UPDATE_UNKNOWN_ERROR;
+		if (src->objects[i].retcode != RET_OK) {
+			if (strcmp(src->objects[i].name, "tee.bin"))
+				return UPDATE_UNKNOWN_ERROR;
+			else
+				INFO("\tOptional %s retcode %d, do not fail\n",
+				     src->objects[i].name, src->objects[i].retcode);
+		}
 	}
 
 	return UPDATE_OK;
@@ -3930,6 +3935,12 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	for (i = 0; i < vinfo->num_objects; i++) {
 		ventry = &vinfo->objects[i];
 		if (ventry->retcode != RET_OK) {
+			if (!strcmp(ventry->name, "tee.bin")) {
+				if (ventry->retcode == (RET_NOT_FOUND || RET_TIM_INVALID)) {
+					ventry->perform_clone = 0;
+					continue;
+				}
+			}
 			ERROR("Error backing up: Object %s failed verification\n",
 				ventry->name);
 			ventry->perform_clone = 0;
