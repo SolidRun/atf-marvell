@@ -42,6 +42,10 @@
 #include <bphy.h>
 #endif
 
+#if defined(PLAT_CN10K_FAMILY)
+#include <octeontx_helpers.h>
+#endif
+
 #if RAS_EXTENSION
 #include <plat_ras.h>
 #endif
@@ -88,6 +92,8 @@ extern console_t fwlog_buf;
 #if defined(SAVE_FATAL_ERRLOGS) && defined(IMAGE_BL31)
 int crashdump_init(void *fdt);
 #endif
+
+volatile int8_t enable_hotplug[24] __aligned(CACHE_WRITEBACK_GRANULE);
 
 static void plat_set_emmc_msix_vectors(void)
 {
@@ -361,6 +367,7 @@ void set_mpamf_cust_window()
 void plat_octeontx_setup(void)
 {
 	int pem;
+	int core;
 
 #if defined(IMAGE_BL31)
 #if defined(SAVE_FATAL_ERRLOGS)
@@ -420,6 +427,8 @@ void plat_octeontx_setup(void)
 #ifdef ENABLE_MPAM_FOR_LOWER_ELS
 	set_mpamf_cust_window();
 #endif
+	for(core = 1; core < PLATFORM_CORE_COUNT; core++)
+		enable_hotplug[core] = CN10K_CORE_PWROFF;
 }
 
 unsigned int is_pem_hotplug(int pem)

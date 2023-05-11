@@ -29,6 +29,8 @@
 #include "cavm-csrs-dsuub.h"
 #endif
 
+#define CORE_ONFINISH_WAIT_LOOPS 1000000
+
 #if !(defined(PLAT_CN10K_FAMILY))
 static int wait_for_core()
 {
@@ -66,67 +68,64 @@ static int wait_for_core()
 }
 #endif
 
-void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
+static void octeontx_dsu_core_cluster_on(int octeontx_core_id)
 {
-#if defined(PLAT_CN10K_FAMILY)
-	int loop;
-#endif
-	unsigned long octeontx_core_id = (unsigned long)(plat_core_pos_by_mpidr
-					((u_register_t)mpidr));
-
-#if defined(PLAT_CN10K_FAMILY)
 	cavm_dsuubx_cluster_ppu_pwpr_t cluster_pwpr;
 	cavm_dsuubx_core_ppu_pwpr_t core_pwpr;
-	cavm_dsuubx_cluster_ppu_pwsr_t cluster_pwsr;
-	cavm_dsuubx_core_ppu_pwsr_t core_pwsr;
 
-	if (cavm_is_platform(PLATFORM_EMULATOR))
-		printf("Turning core%ld on\n", octeontx_core_id);
-
-	/* Set RVBARADDR with entry point */
-	plat_cn10k_set_secondary_cpu_jump_addr(octeontx_core_id,
-			(uint64_t)plat_secondary_cold_boot_setup);
 	/* Power up the cluster */
 	cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
 	cluster_pwpr.s.pwr_policy = 0x8; /* ON. Logic on with RAM on, cluster is functional */
 	cluster_pwpr.s.op_policy = 0x7; /* OPMODE_07: ALL_SLICE_FULL_RAM_ON */
 	CSR_WRITE(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id), cluster_pwpr.u);
 
-	if (cavm_is_platform(PLATFORM_ASIM)) {
-		/* Poll on core PPU_PWSR register until the value matches the PWPR */
-		loop = 1000000;
-		while (loop) {
-			cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
-			cluster_pwsr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWSR(octeontx_core_id));
-			if (cluster_pwsr.u == cluster_pwpr.u)
-				break;
-			udelay(1);
-			loop--;
-		}
-		if (!loop) {
-			WARN("%s: Failed to match PWSR with PWPR cluster_pwsr.u 0x%x\n", __func__, cluster_pwsr.u);
-			return;
-		}
-	}
-
 	/* Power up the core */
 	core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
 	core_pwpr.s.pwr_policy = 0x8; /* ON. Logic on with RAM on, cluster is functional */
 	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
+}
 
-	/* Poll on core PPU_PWSR register until the value matches the PWPR */
-	loop = 1000;
-	while (loop) {
-		core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
-		core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
-		if (core_pwsr.u == core_pwpr.u)
-			break;
-		udelay(1);
-		loop--;
-	}
-	if (!loop) {
-		WARN("%s: Failed to match PWSR with PWPR core_pwsr.u 0x%x\n", __func__, core_pwsr.u);
+void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
+{
+#if defined(PLAT_CN10K_FAMILY)
+	unsigned long octeontx_core_id = (unsigned long)(plat_core_pos_by_mpidr((u_register_t)mpidr));
+	int loop = CORE_ONFINISH_WAIT_LOOPS;
+	int pwr_on = 0;
+	int cur_state = enable_hotplug[octeontx_core_id];
+
+	switch(cur_state) {
+	case CN10K_CORE_PWROFF:
+		pwr_on = 1;
+	/* fallthrough */
+	case CN10K_CORE_RESET:
+		break;
+	case CN10K_CORE_CLEAR_RESET:
+	case CN10K_CORE_ONFINISH:
+	default:
+		ERROR("Failed to clear reset, Core %d is not in RESET, hotplug state %d\n",
+						(uint32_t) octeontx_core_id, cur_state);
 		return;
+	}
+
+	/* Set RVBARADDR with entry point */
+	plat_cn10k_set_secondary_cpu_jump_addr(octeontx_core_id, 
+		(uint64_t)plat_secondary_cold_boot_setup);
+	enable_hotplug[octeontx_core_id] = CN10K_CORE_CLEAR_RESET;
+
+	if (pwr_on)
+		octeontx_dsu_core_cluster_on(octeontx_core_id);
+
+	isb();
+	dsb();
+	sev();
+	
+	while(loop-- && enable_hotplug[octeontx_core_id] != CN10K_CORE_ONFINISH) {
+		udelay(1);
+	};
+
+	if (!loop) {
+		ERROR("Failed to bring up core %d, hotplug state %d\n",
+				(uint32_t) octeontx_core_id, enable_hotplug[octeontx_core_id]);
 	}
 #else
 	union cavm_rst_pp_reset pp_reset;
@@ -159,62 +158,29 @@ void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 				octeontx_core_id);
 	}
 #endif
+
 }
 
 void octeontx_legacy_pwrc_cpu_off(int octeontx_core_id)
 {
 #if defined(PLAT_CN10K_FAMILY)
-	int loop;
-	uint64_t cpupwrctlr_el1;
-	cavm_dsuubx_cluster_ppu_pwpr_t cluster_pwpr;
-	cavm_dsuubx_core_ppu_pwpr_t core_pwpr;
-	cavm_dsuubx_cluster_ppu_pwsr_t cluster_pwsr;
-	cavm_dsuubx_core_ppu_pwsr_t core_pwsr;
+	int cur_state = enable_hotplug[octeontx_core_id];
 
-	if (cavm_is_platform(PLATFORM_EMULATOR))
-		printf("Turning core%d off\n", octeontx_core_id);
-
-	cpupwrctlr_el1 = read_cpupwrctlr_el1();
-	set_bit(cpupwrctlr_el1, 0);
-	write_cpupwrctlr_el1(cpupwrctlr_el1);
-	cpupwrctlr_el1 = read_cpupwrctlr_el1();
-
-	/* Set the policy mode to OFF for the core/cluster */
-	core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
-	core_pwpr.s.pwr_policy = 0x0; /* OFF */
-	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
-
-	loop = 1000;
-	while (loop) {
-		core_pwsr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWSR(octeontx_core_id));
-		core_pwpr.u = CSR_READ(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id));
-		if (core_pwsr.u == core_pwpr.u)
-			break;
-		udelay(1);
-		loop--;
-	}
-	if (!loop) {
-		WARN("%s: Failed to match PWSR with PWPR core_pwsr.u 0x%x\n", __func__, core_pwsr.u);
-		return;
-	}
-
-	cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
-	cluster_pwpr.s.pwr_policy = 0x0; /* OFF */
-	CSR_WRITE(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id), cluster_pwpr.u);
-
-	loop = 1000;
-	while (loop) {
-		cluster_pwpr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWPR(octeontx_core_id));
-		cluster_pwsr.u = CSR_READ(CAVM_DSUUBX_CLUSTER_PPU_PWSR(octeontx_core_id));
-
-		if (cluster_pwsr.u == cluster_pwpr.u)
-			break;
-		udelay(1);
-		loop--;
-	}
-	if (!loop) {
-		WARN("%s: Failed to match PWSR with PWPR cluster_pwsr.u 0x%x\n", __func__, cluster_pwsr.u);
-		return;
+	switch(cur_state) {
+	case CN10K_CORE_PWROFF:
+		break;
+	case CN10K_CORE_CLEAR_RESET:
+	case CN10K_CORE_RESET:
+	case CN10K_CORE_ONFINISH:
+	default:
+		{
+			/* Set RVBARADDR with entry point */
+			plat_cn10k_set_secondary_cpu_jump_addr(octeontx_core_id,
+					(uint64_t)plat_secondary_cold_boot_setup);
+			enable_hotplug[octeontx_core_id] = CN10K_CORE_RESET;
+			dsb();
+		}
+		break;
 	}
 
 #endif

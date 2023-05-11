@@ -11,6 +11,7 @@
 #include <assert_macros.S>
 #include <cpu_macros.S>
 #include <drivers/arm/pl011.h>
+#include <octeontx_helpers.h>
 
 	/* Global functions */
 	.globl	plat_is_my_cpu_primary
@@ -21,6 +22,10 @@
 	.globl	plat_crash_console_flush
 	.globl	platform_mem_init
 	.globl	octeontx_sec_entry_point
+
+#if defined(PLAT_CN10K_FAMILY)
+	.extern enable_hotplug
+#endif
 
 	/* -----------------------------------------------------
 	 * unsigned int plat_is_my_cpu_primary(void);
@@ -65,20 +70,42 @@ func plat_secondary_cold_boot_setup
 	/* Enable Activity Monitors used by SCP Power Control firmware for cn10k */ 
 	mov x1, 0xf
 	msr S3_3_C13_C2_5, x1
-#endif
+
+	bl      plat_my_core_pos
+        mov     x3, x0
 
 	mov_imm	x0, MAILBOX_BASE
+        ldr     x2, =enable_hotplug
+
+poll_mailbox:
+        ldrb    w1, [x2, x3]
+        cmp     w1, #CN10K_CORE_CLEAR_RESET
+        b.ne    1f
+
 	/* Wait until the entrypoint gets populated.
 	 * In current implementation it will be always bl31_warm_entrypoint.
 	 * Secondary CPU will be trapped until all initializations will be done.
 	 */
-poll_mailbox:
 	ldr	x1, [x0]
 	cbz	x1, 1f
 	br	x1
 1:
 	wfe
 	b	poll_mailbox
+#else
+	mov_imm	x0, MAILBOX_BASE
+poll_mailbox:
+	/* Wait until the entrypoint gets populated.
+	 * In current implementation it will be always bl31_warm_entrypoint.
+	 * Secondary CPU will be trapped until all initializations will be done.
+	 */
+	ldr	x1, [x0]
+	cbz	x1, 1f
+	br	x1
+1:
+	wfe
+	b	poll_mailbox
+#endif
 endfunc plat_secondary_cold_boot_setup
 
 	/* ---------------------------------------------

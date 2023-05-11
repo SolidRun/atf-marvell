@@ -17,6 +17,9 @@
 #include <lib/psci/psci.h>
 #include <octeontx_legacy_pwrc.h>
 #include <octeontx_common.h>
+#if defined(PLAT_CN10K_FAMILY)
+#include <octeontx_helpers.h>
+#endif
 #include <plat_board_cfg.h>
 #include <gpio_octeontx.h>
 #include <gicv3_setup.h>
@@ -157,7 +160,19 @@ __dead2 static void octeontx_legacy_pwr_domain_off_wfi(const psci_power_state_t 
 
 	cn10k_power_down_core();
 	octeontx_legacy_pwrc_cpu_off(idx);
-	psci_power_down_wfi();
+
+	isb();
+	dsbsy();
+
+	do {
+		wfe();
+		dsb();
+	} while(enable_hotplug[idx] != CN10K_CORE_CLEAR_RESET);
+
+	plat_secondary_cold_boot_setup();
+	
+	/* We should never arrive here */
+	plat_panic_handler();
 }
 #endif
 
@@ -169,6 +184,7 @@ static void octeontx_legacy_pwr_domain_off(const psci_power_state_t *target_stat
 {
 	assert(target_state->pwr_domain_state[MPIDR_AFFLVL0] ==
 					OCTEONTX_STATE_OFF);
+
 	/*
 	 * If execution reaches this stage then this power domain will be
 	 * suspended. Prevent interrupts from spuriously waking up this cpu.
@@ -218,10 +234,14 @@ static void octeontx_legacy_pwr_domain_on_finish(const psci_power_state_t *targe
 	/* Init FLR for secondary cores */
 	plat_flr_init();
 
-#if defined(PLAT_CN10K_FAMILY) && RAS_EXTENSION
+#if defined(PLAT_CN10K_FAMILY)
+#if RAS_EXTENSION
 	/* Per CPU RAS init */
 	cn10k_per_cpu_ras_init();
 #endif
+#endif
+	enable_hotplug[plat_my_core_pos()] = CN10K_CORE_ONFINISH;
+	dsbsy();
 }
 
 /*******************************************************************************
