@@ -68,6 +68,7 @@ static int wait_for_core()
 }
 #endif
 
+#if defined(PLAT_CN10K_FAMILY)
 static void octeontx_dsu_core_cluster_on(int octeontx_core_id)
 {
 	cavm_dsuubx_cluster_ppu_pwpr_t cluster_pwpr;
@@ -84,11 +85,12 @@ static void octeontx_dsu_core_cluster_on(int octeontx_core_id)
 	core_pwpr.s.pwr_policy = 0x8; /* ON. Logic on with RAM on, cluster is functional */
 	CSR_WRITE(CAVM_DSUUBX_CORE_PPU_PWPR(octeontx_core_id), core_pwpr.u);
 }
+#endif
 
 void octeontx_legacy_pwrc_write_pponr(unsigned long mpidr)
 {
-#if defined(PLAT_CN10K_FAMILY)
 	unsigned long octeontx_core_id = (unsigned long)(plat_core_pos_by_mpidr((u_register_t)mpidr));
+#if defined(PLAT_CN10K_FAMILY)
 	int loop = CORE_ONFINISH_WAIT_LOOPS;
 	int pwr_on = 0;
 	int cur_state = enable_hotplug[octeontx_core_id];

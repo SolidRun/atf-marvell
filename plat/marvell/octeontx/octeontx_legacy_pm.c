@@ -239,9 +239,9 @@ static void octeontx_legacy_pwr_domain_on_finish(const psci_power_state_t *targe
 	/* Per CPU RAS init */
 	cn10k_per_cpu_ras_init();
 #endif
-#endif
 	enable_hotplug[plat_my_core_pos()] = CN10K_CORE_ONFINISH;
 	dsbsy();
+#endif
 }
 
 /*******************************************************************************
