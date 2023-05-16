@@ -37,7 +37,7 @@
 |	512 KB      |
 |---------------------|
 |	BL31	      |
-|	1596 KB	      |
+|	1628 KB	      |
 |---------------------|
 |		      |
 |	Heap	      |
@@ -137,7 +137,7 @@
 #define ARM_TRACE_SECURE_BUFFER
 
 #define BL31_LIMIT			HEAP_BASE
-#define BL31_MAX_SIZE			(0x00118000 + \
+#define BL31_MAX_SIZE			(0x00120000 + \
 					 MAX_XLAT_TABLES * PAGE_SIZE)
 #define BL31_BASE			(BL31_LIMIT - BL31_MAX_SIZE)
 

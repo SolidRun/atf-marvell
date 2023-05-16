@@ -39,7 +39,7 @@
 |	512 KB      |
 |---------------------|
 |	BL31	      |
-|	1464 KB	      |
+|	1496 KB	      |
 |---------------------|
 |	BL2	      |
 |	904/840 KB    |
@@ -133,7 +133,7 @@
 #define ARM_TRACE_SECURE_BUFFER
 
 #define BL31_LIMIT			BL2_BASE
-#define BL31_MAX_SIZE			(0x000F8000 + \
+#define BL31_MAX_SIZE			(0x00100000 + \
 					 MAX_XLAT_TABLES * PAGE_SIZE)
 #define BL31_BASE			(BL31_LIMIT - BL31_MAX_SIZE)
 
