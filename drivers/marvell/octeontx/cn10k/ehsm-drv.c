@@ -160,8 +160,10 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 	 * Treat unaligned images as nonsecure so they get copied to an
 	 * aligned buffer.
 	 */
-	if (ehsm_check_alignment(image))
+	if (ehsm_check_alignment(image)) {
+		INFO("Image is not aligned, using copy buffer.\n");
 		nonsecure = true;
+	}
 
 	/* Make sure that a secure image doesn't become non-secure */
 	if (!nonsecure &&
@@ -427,7 +429,7 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 				      const struct tim_header_info *hinfo,
 				      const uint8_t *tim_buffer)
 {
-	struct tim_signature_info sinfo;
+	const struct tim_signature_info *sinfo;
 	struct ehsm_handle eh;
 	struct sec_auth_params sec_params;
 	enum tim_return tret;
@@ -437,8 +439,7 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 	bool has_hash = th->load_info.hshi_parsed;
 	bool has_data = th->load_info.lodi_parsed;
 	uint8_t *buffer = NULL;
-	int key_num;
-	int key_found = 0;
+	bool key_found = false;
 
 	if (cavm_is_platform(PLATFORM_EMULATOR)) {
 		WARN("EHSM disabled in emulator\n");
@@ -513,16 +514,17 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 		goto done;
 	}
 
-	for (key_num = 0; key_num < TIM_MAX_KEYS; key_num++) {
-		tret = tim_get_signature_info(th, key_num, &sinfo);
-		if (tret == TIM_NO_SIGNATURE)
-			continue;
-		if (tret != TIM_NO_ERROR) {
-			ERROR("Error %d obtaining TIM signature information\n", tret);
+	sinfo = NULL;
+	do {
+		tret = tim_get_next_signature_info(th, &sinfo);
+		if (tret != TIM_NO_ERROR || sinfo == NULL) {
+			ERROR("No more signatures to check\n");
 			ret = -EINVAL;
-			goto done;
+			break;
 		}
-
+		if (!sinfo->ds_parsed) {
+			continue;
+		}
 		/* Make sure TIM buffer is aligned */
 		if (ehsm_ptr_is_aligned(tim_buffer)) {
 			buffer = (uint8_t *)tim_buffer;
@@ -534,7 +536,7 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 			}
 			memcpy(buffer, tim_buffer, hinfo->signed_tim_size);
 		}
-		sret = ehsm_tim_sig_info_to_sec_msg_params(&sec_params, &sinfo,
+		sret = ehsm_tim_sig_info_to_sec_msg_params(&sec_params, sinfo,
 							   buffer,
 						hinfo->unsigned_tim_size);
 		if (sret != SEC_NO_ERROR) {
@@ -544,10 +546,10 @@ int ehsm_verify_tim_digital_signature(struct tim_handle *th,
 		}
 		sret = ehsm_verify_auth_message(&eh, &sec_params);
 		if (sret == SEC_NO_ERROR) {
-			key_found = 1;
+			key_found = true;
 			break;
 		}
-	}
+	} while (!key_found);
 	if (!key_found) {
 		ERROR("Digital signature verification failed: %d\n", sret);
 		ret = -EAUTH;
