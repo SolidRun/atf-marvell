@@ -14,7 +14,12 @@
 
 #undef  DEBUG_ATF_MARVELL_PHY_DRIVER
 
-#ifdef DEBUG_ATF_MARVELL_PHY_DRIVER
+#if defined(MRVL_TF_LOG_MODULE)
+#  undef MRVL_TF_LOG_MODULE
+#  define MRVL_TF_LOG_MODULE  MRVL_TF_LOG_MODULE_ETH_PHY_MGMT
+#  define debug_phy_driver(...) (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE) ? \
+			       tf_log(LOG_MARKER_NOTICE __VA_ARGS__) : (void)0
+#elif DEBUG_ATF_MARVELL_PHY_DRIVER
 #define debug_phy_driver printf
 #else
 #define debug_phy_driver(...) ((void) (0))
