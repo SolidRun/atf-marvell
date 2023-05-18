@@ -175,6 +175,17 @@ drwxr-xr-x    mdc0
 drwxr-xr-x    mdc0
 -r--r--r--    ue_count - UE counter
 
+EDAC DEVICE0: UE: mdc instance: mdc0 block: mdc0 'MDC D 1.8.0  status:0xb21000220000002 row:2849 responderID: 0xf46c88e1 '
+
+responderID : RAS_ID RAM identifier is unique identifier for error reported RAM.
+              Indicate an error record which memory is reporting the error and mapped into edac responder_id.
+MDC D       :  Double bit error
+MDC D+      : Multiple double bit errors
+MDC S       : Single bit error
+MDC S+      : Multiple single bit errors
+1.8.0       : chaine.hub.node identifier
+row:2849    : SRAM row address of the most recent double-bit/uncorrectable error (DBE)
+status      : MDC ecc status raw register dump
 
 RAS EDAC Interface TAD (LLC last level cache)
 =============================================
