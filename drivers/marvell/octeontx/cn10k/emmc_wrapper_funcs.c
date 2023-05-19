@@ -240,9 +240,10 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 		}
 
 		if (last_cmd_resp.CommandComplete) {
-			if (response_type != MMC_RESPONSE_R1B)
+			if (last_cmd_resp.TransferComplete)
 				break;
-			else if (last_cmd_resp.TransferComplete)
+
+			if ((crd_prop.card_state != WRITE) && (response_type != MMC_RESPONSE_R1B))
 				break;
 		}
 		udelay(1);
@@ -470,50 +471,51 @@ void emmc_isr(void)
 	}
 
 	CSR_INIT(sts_reg, CAVM_EMMCX_HOST_SRS_SRS09(0));
-	/* Clear the interrupts */
-	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS12(0), result.all);
-	CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0));
 
 	if (crd_prop.emmc_dma_type == NODMA) {
 		/* Handle State based interrupts XFRCOMP, BUFRDRDY, BUFWRRDY */
 		switch (crd_prop.card_state) {
 		case WRITE:
 		{
-			temp = card_txfer_upd.WordIndex;
-			if (sts_reg.s.bwe)
-				emmc_writefifo();
+			if (result.s.buf_wr_rdy) {
+				temp = card_txfer_upd.WordIndex;
+				if (sts_reg.s.bwe)
+					emmc_writefifo();
 
-			img_txfer_upd.img_cur_sz_txfer += (card_txfer_upd.WordIndex * 4);
-			/* Update the image read status when the whole image is written */
-			if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size)
-				img_txfer_upd.img_txfer_status = 1;
+				img_txfer_upd.img_cur_sz_txfer += (card_txfer_upd.WordIndex * 4);
+				/* Update the image read status when the whole image is written */
+				if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size)
+					img_txfer_upd.img_txfer_status = 1;
 
-			/* Are we done sending all of data? */
-			if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex)
-				crd_prop.card_state = DATATRAN;
-			/*since we are doing block by block, write 1 block*/
-			if (card_txfer_upd.WordIndex >= ((temp*4) + crd_prop.WriteBlockSize)/4)
-				crd_prop.card_state = READY;
+				/* Are we done sending all of data? */
+				if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex)
+					crd_prop.card_state = DATATRAN;
+				/*since we are doing block by block, write 1 block*/
+				if (card_txfer_upd.WordIndex >= ((temp*4) + crd_prop.WriteBlockSize)/4)
+					crd_prop.card_state = READY;
 
+			}
 			break;
 		}
 		case READ:
 		{ // NO READ
-			temp = card_txfer_upd.WordIndex;
-			if (result.s.buf_rd_rdy)
-				emmc_readfifo();
+			if (result.s.buf_rd_rdy) {
+				temp = card_txfer_upd.WordIndex;
+				if (result.s.buf_rd_rdy)
+					emmc_readfifo();
 
-			img_txfer_upd.img_cur_sz_txfer += (card_txfer_upd.WordIndex * 4);
-			/* Update the image read status when the whole image is read */
-			if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size)
-				img_txfer_upd.img_txfer_status = 1;
+				img_txfer_upd.img_cur_sz_txfer += (card_txfer_upd.WordIndex * 4);
+				/* Update the image read status when the whole image is read */
+				if (img_txfer_upd.img_cur_sz_txfer == img_txfer_upd.img_size)
+					img_txfer_upd.img_txfer_status = 1;
 
-			/* Are we done sending all of data? */
-			if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex)
-				crd_prop.card_state = DATATRAN;
-			/*since we are doing block by block, read 1 block*/
-			if (card_txfer_upd.WordIndex >= ((temp*4) + crd_prop.ReadBlockSize)/4)
-				crd_prop.card_state = READY;
+				/* Are we done sending all of data? */
+				if (card_txfer_upd.TransWordSize == card_txfer_upd.WordIndex)
+					crd_prop.card_state = DATATRAN;
+				/*since we are doing block by block, read 1 block*/
+				if (card_txfer_upd.WordIndex >= ((temp*4) + crd_prop.ReadBlockSize)/4)
+					crd_prop.card_state = READY;
+			}
 			break;
 		}
 		case DATATRAN:
@@ -528,6 +530,10 @@ void emmc_isr(void)
 			break;
 		}
 	}
+
+	/* Clear the interrupts */
+	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS12(0), result.all);
+	CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0));
 }
 
 /****************************************************************
@@ -936,8 +942,9 @@ uint32_t wrapper_SendDataCommand(uint32_t cmd, uint32_t argument,
 	else
 		fAutoCmd23En = 0;
 
-	if (crd_prop.card_state == WRITE)
-		emmc_isr();
+
+
+
 	result = emmc_SendDataCommand(cmd, argument, blk_type, data_dir,
 		resp_type & 0x000000ff, 0, fAutoCmd23En,
 		((crd_prop.RPMB_Enable) ? 1 : 0));
