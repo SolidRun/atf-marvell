@@ -425,7 +425,7 @@ int ehsm_verify_final(struct ehsm_handle *ehandle,
  *
  * @return	0 for success, -1 if failed
  */
-int ehsm_verify_tim_digital_signature(struct tim_handle *th,
+int ehsm_verify_tim_digital_signature(const struct tim_handle *th,
 				      const struct tim_header_info *hinfo,
 				      const uint8_t *tim_buffer)
 {
