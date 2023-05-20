@@ -363,7 +363,7 @@ uint32_t emmc_write(uint64_t pBuffer, uint32_t flash_offset,
 	uint32_t temp_img_sz;
 	uint32_t local_buffer = (uint32_t)pBuffer;
 
-	debug_emmc("%s flash_offset::%x pbuffer::%llx length::%x\n"
+	debug_emmc("%s flash_offset::%x pbuffer::%llx length::%x\n",
 		__func__, flash_offset, pBuffer, size);
 	/* We will divide the original data we want to write to flash into big
 	 * chunks.

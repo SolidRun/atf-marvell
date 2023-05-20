@@ -8,7 +8,7 @@
 
 
 uint32_t card_init(void);
-uint32_t get_response(uint32_t response_type);
+uint32_t get_response(uint32_t cmd, uint32_t response_type);
 void emmc_isr(void);
 void emmc_readfifo(void);
 void emmc_writefifo(void);
@@ -23,7 +23,7 @@ uint32_t wrapper_SendDataCommand(uint32_t cmd, uint32_t argument,
 	uint32_t blk_type, uint32_t data_dir, uint32_t resp_type);
 uint32_t wrapper_SendSetupCommand(uint32_t cmd, uint32_t argument,
 	uint32_t resp_type);
-uint32_t get_status_within(uint32_t msecs);
+uint32_t get_status_within(uint32_t cmd, uint32_t msecs);
 void emmc_SendStopCommand(void);
 uint32_t emmc_SetBusWidth(uint32_t width);
 uint32_t emmc_CardShutdown(void);

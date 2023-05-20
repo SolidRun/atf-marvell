@@ -22,6 +22,33 @@ extern cmd_framed_t      last_cmd_framed;
 extern card_registers_t  card_reg;
 extern emmc_blk_cntl   blk_ctrl;
 
+static uint32_t taac_ns;
+static uint32_t taac_clks;
+
+#define UNSTUFF_BITS(resp, start, size)					\
+	({								\
+		const int __size = size;				\
+		const uint32_t __mask = (__size < 32 ? 1 << __size : 0) - 1;	\
+		const int __off =  ((start) / 32);			\
+		const int __shft = (start) & 31;			\
+		uint32_t __res;						\
+									\
+		__res = resp[__off] >> __shft;				\
+		if (__size + __shft > 32)				\
+			__res |= resp[__off-1] << ((32 - __shft) % 32);	\
+		__res & __mask;						\
+	})
+
+static const unsigned int taac_exp[] = {
+	1,	10,	100,	1000,	10000,	100000,	1000000, 10000000,
+};
+
+static const unsigned int taac_mant[] = {
+	0,	10,	12,	13,	15,	20,	25,	30,
+	35,	40,	45,	50,	55,	60,	70,	80,
+};
+
+
 /******************************************************************************
  *  Description: Initialize the card
  *  Input Parameters: None
@@ -79,14 +106,14 @@ uint32_t card_init(void)
 
 	/*send CMD2 to get the CID numbers */
 	wrapper_SendSetupCommand(STD_MMC_CMD2, 0, EMMC_RESTYPE_R2 | EMMC_136_RES);
-	result = get_response(MMC_RESPONSE_R2);
+	result = get_response(STD_MMC_CMD2, MMC_RESPONSE_R2);
 	if (result != NO_ERROR)
 		return SDMMCInitializationError;
 
 	/* Next its CMD3 to assign an RCA to the cards */
 	if (crd_prop.SD == TYPE_SD) {
 		wrapper_SendSetupCommand(STD_MMC_CMD3, argument, EMMC_RESTYPE_R6 | EMMC_48_RES);
-		result = get_response(MMC_RESPONSE_R6);
+		result = get_response(STD_MMC_CMD3, MMC_RESPONSE_R6);
 	} else {
 		/* build an RCA for this session. Try to base the RCA on the serial number.
 		 * rca is only 16 bits long.
@@ -100,7 +127,7 @@ uint32_t card_init(void)
 
 		argument = card_reg.rca;
 		wrapper_SendSetupCommand(STD_MMC_CMD3, argument, EMMC_RESTYPE_R1 | EMMC_48_RES);
-		result = get_response(MMC_RESPONSE_R1);
+		result = get_response(STD_MMC_CMD3, MMC_RESPONSE_R1);
 	}
 	if (result != NO_ERROR)
 		return SDMMCInitializationError;
@@ -127,12 +154,12 @@ uint32_t card_init(void)
 	/* Send CMD 9 to retrieve the CSD */
 	argument = card_reg.rca;
 	wrapper_SendSetupCommand(STD_MMC_CMD9, argument, EMMC_RESTYPE_R2 | EMMC_136_RES);
-	result = get_response(MMC_RESPONSE_R2);
+	result = get_response(STD_MMC_CMD9, MMC_RESPONSE_R2);
 
 	/*send CMD7 to get card into transfer state */
 	argument = card_reg.rca;
 	wrapper_SendSetupCommand(STD_MMC_CMD7, argument, EMMC_RESTYPE_R1 | EMMC_48_RES);
-	result |= get_response(MMC_RESPONSE_R1);
+	result |= get_response(STD_MMC_CMD7, MMC_RESPONSE_R1);
 
 	/*send CMD13 to check the status of the card */
 	result |= emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
@@ -142,7 +169,7 @@ uint32_t card_init(void)
 	/* CMD 16 Set Block Length */
 	argument = crd_prop.ReadBlockSize;
 	wrapper_SendSetupCommand(STD_MMC_CMD16, argument, EMMC_RESTYPE_R1 | EMMC_48_RES);
-	result = get_response(MMC_RESPONSE_R1);
+	result = get_response(STD_MMC_CMD16, MMC_RESPONSE_R1);
 	/* Set the block length for the controller */
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), argument);
 
@@ -175,15 +202,30 @@ uint32_t card_init(void)
  *  Output Parameters: None
  *  Returns: None
  *******************************************************************************/
-uint32_t get_response(uint32_t response_type)
+uint32_t get_response(uint32_t cmd, uint32_t response_type)
 {
 	uint32_t i, temp, temp2, temp3;
 	uint32_t result = 0;
-	/*100 millisecond check time*/
-	uint32_t timeout = 100000;
+	/* Default to 1 second timeout */
+	int timeout_us = 1000000;
+
+	/*
+	 * If we know the taac_ns value from chip capabilities then
+	 * use that as the timeout value.
+	 */
+	if (taac_ns) {
+		/*
+		 * convert nanosecond to microseconds
+		 */
+		timeout_us = taac_ns / 1000;
+		/*
+		 * It is recommended to double timeout on block writes (CMD24)
+		 */
+		if (cmd == STD_MMC_CMD24)
+			timeout_us *= 2;
+	}
 
 	do {
-
 		emmc_isr();
 
 		/* if the command had an error, the command may have aborted
@@ -204,8 +246,11 @@ uint32_t get_response(uint32_t response_type)
 				break;
 		}
 		udelay(1);
-	} while (timeout--);
-	if (!timeout)
+		timeout_us--;
+
+	} while (timeout_us > 0);
+
+	if (!timeout_us)
 		return SDMMC_CMD_TIMEOUT;
 
 	/* Read in the Buffers */
@@ -247,6 +292,14 @@ uint32_t get_response(uint32_t response_type)
 				crd_prop.EraseSize *= crd_prop.WriteBlockSize;
 			}
 
+			uint32_t *resp = &card_reg.csd.csd_value[0];
+				/* CRC is stripped so we need to do some shifting */
+			for (i = 0; i < 4; i++) {
+				resp[i] <<= 8;
+				if (i != 3)
+					resp[i] |= resp[i + 1] >> 24;
+			}
+
 			/* Now calculate the capacity of this card */
 			temp = ((card_reg.csd.csd_value[2] >> 16) & 0xF);   /* Get READ_BL_LEN */
 			temp = 1 << temp;  /* Now we have Max Block Length */
@@ -256,6 +309,15 @@ uint32_t get_response(uint32_t response_type)
 			temp3 |= ((card_reg.csd.csd_value[2] & 0x3FF) << 2); /* Get C_SIZE */
 			temp3++;
 			crd_prop.CardCapacity = temp3 * temp2 * temp; /*Total Size of the card in Bytes*/
+
+			uint32_t m = 0;
+			uint32_t e = 0;
+
+
+			m = UNSTUFF_BITS(resp, 115, 4); // multiplier
+			e = UNSTUFF_BITS(resp, 112, 3); // time unit
+			taac_ns	 = (taac_exp[e] * taac_mant[m] + 9) / 10;
+			taac_clks	 = UNSTUFF_BITS(resp, 104, 8) * 100;
 		} else /* Assume CID */ {
 			/* Copy the CSD values from the buffer */
 			for (i = 0; i < 4; i++)
@@ -569,7 +631,7 @@ uint32_t identify_card(void)
 	/* Send CMD0 (GO_IDLE_STATE) to get card into idle state */
 	wrapper_SendSetupCommand(STD_MMC_CMD0, argument,
 		(EMMC_RESTYPE_NONE | EMMC_NO_RES));
-	error =  get_response(MMC_RESPONSE_NONE);
+	error =  get_response(STD_MMC_CMD0, MMC_RESPONSE_NONE);
 	/* Check for High Capacity Cards First
 	 * This do while sending SD specific command, not necessarily for MMC
 	 */
@@ -585,7 +647,7 @@ uint32_t identify_card(void)
 		wrapper_SendSetupCommand(STD_SD_CMD8, argument, EMMC_RESTYPE_R7 | EMMC_48_RES);
 
 		/* get the response (if any) to XLLP_SD_CMD8. */
-		result = get_response(MMC_RESPONSE_R7);
+		result = get_response(STD_SD_CMD8, MMC_RESPONSE_R7);
 		if (crd_prop.card_state == FAULT) {
 			crd_prop.SD = TYPE_MMC;
 			break;
@@ -612,10 +674,10 @@ uint32_t identify_card(void)
 		switch (crd_prop.SD) {
 		case TYPE_SD: /* Assume SD */
 			wrapper_SendSetupCommand(STD_SD_CMD55, 0, EMMC_RESTYPE_R1 | EMMC_48_RES);
-			error = get_response(MMC_RESPONSE_R1);
+			error = get_response(STD_SD_CMD55, MMC_RESPONSE_R1);
 			wrapper_SendSetupCommand(STD_SD_ACMD41, argument, EMMC_RESTYPE_R3 |
 				EMMC_48_RES);
-			error = get_response(MMC_RESPONSE_R3);
+			error = get_response(STD_SD_ACMD41, MMC_RESPONSE_R3);
 
 			if (card_reg.ocr == 0)
 				crd_prop.SD = TYPE_MMC;
@@ -623,8 +685,9 @@ uint32_t identify_card(void)
 				result = NO_ERROR;
 			break;
 		case TYPE_MMC: /* Assume MMC */
+			loop_count = 1000; // Try for 1 second per the JEDEC spec
 			wrapper_SendSetupCommand(STD_MMC_CMD1, argument, EMMC_RESTYPE_R3 | EMMC_48_RES);
-			error = get_response(MMC_RESPONSE_R3);
+			error = get_response(STD_MMC_CMD1, MMC_RESPONSE_R3);
 
 			if (card_reg.ocr == 0)
 				result = STD_NotFoundError;
@@ -708,7 +771,7 @@ uint32_t emmc_CheckCardStatus(uint32_t resp_to_match, uint32_t mask)
 	/*send CMD13 to check the status of the card */
 	argument = card_reg.rca;
 	wrapper_SendSetupCommand(STD_MMC_CMD13, argument, EMMC_RESTYPE_R1 | EMMC_48_RES);
-	result = get_response(MMC_RESPONSE_R1);
+	result = get_response(STD_MMC_CMD13, MMC_RESPONSE_R1);
 
 	/* Mask out undesired check bits */
 	cardstatus = (last_cmd_resp.R1_RESP) & mask;
@@ -735,7 +798,7 @@ uint32_t emmc_SDGet_SCR(void)
 
 	/* Issue ACMD51 to read in the SCR */
 	wrapper_SendSetupCommand(STD_SD_CMD55, card_reg.rca, MM4_RT_R1 | EMMC_48_RES);
-	result = get_response(MMC_RESPONSE_R1);
+	result = get_response(STD_SD_CMD55, MMC_RESPONSE_R1);
 
 	/* Set up State */
 	crd_prop.card_state = READ;
@@ -772,7 +835,7 @@ uint32_t emmc_SDGet_SCR(void)
 	}
 
 	/* Wait for the Read to Complete */
-	result = get_status_within(1);
+	result = get_status_within(STD_SD_ACMD51, taac_ns/1000000);
 	if (result != NO_ERROR) {
 		ctrl_blk.s.xfr_blksz = org_blk_size;
 		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), ctrl_blk.all);
@@ -783,7 +846,7 @@ uint32_t emmc_SDGet_SCR(void)
 	ctrl_blk.s.xfr_blksz = org_blk_size;
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS01(0), ctrl_blk.all);
 	/* Get the Card Response */
-	result = get_response(MMC_RESPONSE_R1);
+	result = get_response(STD_SD_ACMD51, MMC_RESPONSE_R1);
 	if ((result != NO_ERROR) || (last_cmd_resp.R1_RESP != 0x920))
 		emmc_SendStopCommand(); /* Send a stop command */
 	crd_prop.card_state = READY;
@@ -915,15 +978,16 @@ uint32_t wrapper_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resp
  *   Output: None
  *   Returns: Result
  *****************************************************************/
-uint32_t get_status_within(uint32_t msecs)
+uint32_t get_status_within(uint32_t cmd, uint32_t msecs)
 {
-	uint32_t timeout = msecs;
+	uint32_t timeout = msecs*1000;
 
 	do {
 		emmc_isr();
+
 		if ((crd_prop.card_state == FAULT) || (crd_prop.card_state == READY))
 			return NO_ERROR;
-		mdelay(1);
+		udelay(1);
 	} while (timeout--); /* detection loop with timeout */
 
 	return STD_TimeOutError;
@@ -940,13 +1004,13 @@ void emmc_SendStopCommand(void)
 	if (crd_prop.card_state == READ) {
 		/* Send a CMD 12 to stop transmissions. */
 		emmc_SendSetupCommand(STD_MMC_CMD12, 0, EMMC_RESTYPE_R1 | EMMC_48_RES);
-		get_response(MMC_RESPONSE_R1);
+		get_response(STD_MMC_CMD12, MMC_RESPONSE_R1);
 	}
 	if (crd_prop.card_state == WRITE) {
 		/*  Send a CMD 12 to stop transmissions. */
 		emmc_SendSetupCommand(STD_MMC_CMD12, 0,
 			EMMC_RESTYPE_R1 | EMMC_RT_BUSY | EMMC_48_RES_WITH_BUSY);
-		get_response(MMC_RESPONSE_R1B);
+		get_response(STD_MMC_CMD12, MMC_RESPONSE_R1B);
 	}
 }
 
@@ -976,10 +1040,10 @@ uint32_t emmc_SetBusWidth(uint32_t width)
 			/* Issue ACMD 6 to set the bus width */
 			wrapper_SendSetupCommand(STD_SD_CMD55, card_reg.rca, EMMC_RESTYPE_R1 |
 				EMMC_48_RES);
-			result = get_response(MMC_RESPONSE_R1);
+			result = get_response(STD_SD_CMD55, MMC_RESPONSE_R1);
 			wrapper_SendSetupCommand(STD_SD_ACMD6, SD_CMD6_4BITMODE, EMMC_RESTYPE_R1 |
 				EMMC_48_RES);
-			result = get_response(MMC_RESPONSE_R1);
+			result = get_response(STD_SD_ACMD6, MMC_RESPONSE_R1);
 		}
 	} else {
 		/* Issue CMD 6 to set BUS WIDTH bits in EXT_CSD register byte 183 */
@@ -992,7 +1056,7 @@ uint32_t emmc_SetBusWidth(uint32_t width)
 
 		wrapper_SendSetupCommand(STD_MMC_CMD6, mmc_cmd6.all,
 			EMMC_RESTYPE_R1 |  EMMC_RT_BUSY | EMMC_48_RES_WITH_BUSY);
-		result = get_response(MMC_RESPONSE_R1B);
+		result = get_response(STD_MMC_CMD6, MMC_RESPONSE_R1B);
 	}
 
 	/* send CMD13 to check the status of the card
@@ -1045,7 +1109,7 @@ uint32_t emmc_CardShutdown(void)
 
 	/* Send CMD0 (GO_IDLE_STATE) to get card into idle state */
 	emmc_SendSetupCommand(STD_MMC_CMD0, 0, EMMC_RESTYPE_NONE | EMMC_NO_RES);
-	get_response(MMC_RESPONSE_NONE);
+	get_response(STD_MMC_CMD0, MMC_RESPONSE_NONE);
 
 	/* Disable Bus Power */
 	emmc_ctrl1.s.buspwr = 0;
@@ -1113,7 +1177,7 @@ uint32_t change_parition(uint32_t part_num)
 
 		emmc_SendSetupCommand(STD_MMC_CMD6, mmc_cmd6.all,
 			EMMC_RESTYPE_R1 |  EMMC_RT_BUSY | EMMC_48_RES_WITH_BUSY);
-		result = get_response(MMC_RESPONSE_R1B);
+		result = get_response(STD_MMC_CMD6, MMC_RESPONSE_R1B);
 
 		/* Now issue CMD 6 again to set the right bits. */
 		mmc_cmd6.s.Access = EXT_CSD_ACCESS_SET_BITS;			  /* Clear bits */
@@ -1125,7 +1189,7 @@ uint32_t change_parition(uint32_t part_num)
 
 		wrapper_SendSetupCommand(STD_MMC_CMD6, mmc_cmd6.all,
 			EMMC_RESTYPE_R1 |  EMMC_RT_BUSY | EMMC_48_RES_WITH_BUSY);
-		result |= get_response(MMC_RESPONSE_R1B);
+		result |= get_response(STD_MMC_CMD6, MMC_RESPONSE_R1B);
 	}
 
 	result |= emmc_CheckCardStatus((uint32_t)0x900, (uint32_t)R1_LOCKEDCARDMASK);
@@ -1197,7 +1261,7 @@ uint32_t emmc_read_blocks(void)
 	if (result != NO_ERROR)
 		return result;
 
-	result = get_status_within(4);
+	result = get_status_within(STD_MMC_CMD17, taac_ns/1000000);
 	if (result != NO_ERROR)
 		return STD_TimeOutError;
 
@@ -1208,7 +1272,7 @@ uint32_t emmc_read_blocks(void)
 
 	/* Get the Card Response
 	 */
-	result = get_response(MMC_RESPONSE_R1);
+	result = get_response(STD_MMC_CMD17, MMC_RESPONSE_R1);
 	if ((result != NO_ERROR) || ((last_cmd_resp.R1_RESP & R1_LOCKEDCARDMASK)
 		!= 0x900) || (crd_prop.card_state == FAULT)) {
 		result = STD_ReadError;
@@ -1281,8 +1345,13 @@ uint32_t emmc_WriteBlocks(void)
 	if (result != NO_ERROR)
 		return result;
 
-	result = get_status_within(4);
+	/* It is recommended to double wait time for write operations
+	 */
+	result = get_status_within(STD_MMC_CMD24, (taac_ns/1000000)*2);
 
+	if (result != NO_ERROR) {
+		debug_emmc("%s: %d get_status_within failed result: %d\n", __func__, __LINE__, result);
+	}
 	/* This state entered if ISR detected an error.
 	 */
 	if (crd_prop.card_state == FAULT)
@@ -1290,7 +1359,7 @@ uint32_t emmc_WriteBlocks(void)
 
 	/* Get the Card Response
 	 */
-	result = get_response(MMC_RESPONSE_R1);
+	result = get_response(STD_MMC_CMD24, MMC_RESPONSE_R1);
 	if ((result != NO_ERROR) || (crd_prop.card_state == FAULT) ||
 		((last_cmd_resp.R1_RESP & R1_NOMASK) != 0x900)) {
 		result = STD_WriteError;
@@ -1354,10 +1423,8 @@ uint32_t emmc_WaitReady(uint32_t timeout)
 		 */
 		wrapper_SendSetupCommand(STD_MMC_CMD13, argument,
 			EMMC_RESTYPE_R1 | EMMC_48_RES);
-		/*  TBD: this timeout value should be dependent on CSD and operating
-		 *  configuration
-		 */
-		result = get_response(MMC_RESPONSE_R1);
+
+		result = get_response(STD_MMC_CMD13, MMC_RESPONSE_R1);
 		if (result != NO_ERROR)
 			break; // failed to complete transaction
 
@@ -1401,7 +1468,7 @@ uint32_t SetHighSpeedTiming(void)
 
 		wrapper_SendSetupCommand(STD_MMC_CMD6, mmc_cmd6.all,
 			EMMC_RESTYPE_R1 | EMMC_RT_BUSY | EMMC_48_RES_WITH_BUSY);
-			result = get_response(MMC_RESPONSE_R1B);
+			result = get_response(STD_MMC_CMD6, MMC_RESPONSE_R1B);
 	} else {
 		emmc_SetBusRate(crd_prop.SdhClock, EMMC_CLOCK12_5MHZRATE);
 		return NO_ERROR;
