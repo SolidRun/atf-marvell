@@ -946,6 +946,14 @@ const char *cn10k_eth_link_state_to_str(ecp_link_state_enum_t link_state)
 	break;
 	ETH_LINK_STATE_CASE(ETH_LINK_STATE_RCI_REG_READ_DATA_ACK);
 	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCK_START);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCK_READ);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCK_READ_DONE);
+	break;
+	ETH_LINK_STATE_CASE(ETH_LINK_STATE_CDR_LOCKED);
+	break;
 
 	default:
 		WARN("%s: unrecognized ECP link state %d\n", __func__, link_state);
