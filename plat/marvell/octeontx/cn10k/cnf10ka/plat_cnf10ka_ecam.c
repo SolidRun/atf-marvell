@@ -330,6 +330,15 @@ static void init_xspi(uint64_t config_base, uint64_t config_size)
 	CSR_WRITE(CAVM_SPIX_INTR_ENA_W1S(spi_id), 1ULL);
 }
 
+static void init_rnm(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	vsec_sctl.s.rid = plat_configure_rid();
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+}
+
 struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa00a, 0x177d, init_gpio},
 	{0xa060, 0x177d, init_rpm}, /* 0x60 - PCC_DEV_IDL_E::RPM */
@@ -350,6 +359,7 @@ struct ecam_init_callback plat_init_callbacks[] = {
 	{0xa093, 0x177d, init_apa},
 #endif
 	{0xa09b, 0x177d, init_xspi},
+	{0xa098, 0x177d, init_rnm},
 	{ECAM_INVALID_DEV_ID, 0, 0}
 };
 
