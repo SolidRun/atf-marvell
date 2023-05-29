@@ -130,6 +130,9 @@ DEFINE_RENAME_SYSREG_RW_FUNCS(cvmcpurndpeid_el3, AP_CVM_CPURNDPEID_EL3)
 /* Defines for coresight preserve region support*/
 #define CORESIGHT_METADATA_SIZE			(1 * 1024 * 1024)
 #define CORESIGHT_REGISTER_SNAPSHOT_SIZE	64
+#if defined(PLAT_CN10K_FAMILY)
+	#define CS_ETF_SRAM_SIZE		0x4000 /* 16k */
+#endif
 
 /* LLC cache locking */
 static inline int octeontx_llc_lock(uint64_t phys_addr, uint64_t size)

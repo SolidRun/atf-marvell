@@ -1207,6 +1207,7 @@ void plat_initialize_coresight_metadata_area(void)
 	const void *fdt = fdt_ptr;
 	const fdt64_t *freg64;
 	char cs_node_name[31];
+	int etf_sram_size = CS_ETF_SRAM_SIZE;
 	int freg_len;
 	struct {
 		/* NOTE: these are in FDT format, not CPU format */
@@ -1360,6 +1361,33 @@ void plat_initialize_coresight_metadata_area(void)
 		}
 	} else
 		WARN("Couldn't find the coresight node %s\n", cs_node_name);
+
+
+	/* Set etf preserv memory region to all per-core ETF nodes*/
+	cs_etf_range_base = cs_etr_range_base +
+		CORESIGHT_REGISTER_SNAPSHOT_SIZE;
+	cs_etf_range_base &= ~(0xffffUL);
+	cs_etf_range_base += 0x10000UL;
+
+	for (core_idx = 0; core_idx < PLATFORM_CORE_PER_CLUSTER; core_idx++) {
+		snprintf(cs_node_name, sizeof(cs_node_name),
+			 "/reserved-memory/etf%d_trace", core_idx);
+		cs_dev_off = fdt_path_offset(fdt, cs_node_name);
+		if (cs_dev_off >= 0) {
+			dt_regs.addr = cpu_to_fdt64(cs_etf_range_base +
+						    etf_sram_size * core_idx);
+			dt_regs.size = cpu_to_fdt64(etf_sram_size);
+			if (fdt_setprop((void *)fdt, cs_dev_off, "reg",
+					&dt_regs, sizeof(dt_regs))) {
+				WARN("Unable to set ETF trace area 0x%lx/0x%lx\n",
+					dt_regs.addr, (long)dt_regs.size);
+				goto exit;
+			}
+		} else {
+			WARN("Couldn't find the coresight node %s\n",
+			     cs_node_name);
+		}
+	}
 
 	fail = 0;
 exit:
