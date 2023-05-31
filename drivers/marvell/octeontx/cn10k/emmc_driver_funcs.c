@@ -7,6 +7,23 @@
 #include "emmc_driver_funcs.h"
 #include <plat_board_cfg.h>
 
+uint32_t emmc_last_cmd;
+
+/*****************************************************************************
+ *  Description: Reset emmc interrupt bits
+ *  Input Parameters: interrupt bits to clear
+ *  Output Parameters: None
+ *  Returns: None
+ ****************************************************************************/
+
+void emmc_clear_interrupts(uint32_t int_mask)
+{
+		/* Clear the interrupts */
+	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS12(0), int_mask);
+	CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0));
+
+}
+
 /******************************************************************************
  *  Description: Full software reset of all emmc controller
  *  Input Parameters: None
@@ -375,11 +392,15 @@ uint32_t emmc_SendDataCommand(uint32_t cmd, uint32_t argument,
 {
 	uint32_t cmd_framed;
 
+	emmc_last_cmd = cmd;
+
 	/* Make sure the controller is ready to accept the next data command */
 	if (EMMC_CSR_WAIT_FOR_FIELD(CAVM_EMMCX_HOST_SRS_SRS09(0), cidat, !=, 1, 10000)) {
 		debug_emmc("Failure next data command cannot be sent to eMMC controller\n");
 		return STD_TimeOutError;
 	}
+
+	emmc_clear_interrupts(0xffffffff);
 
 	/* Set the Argument Field */
 	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS02(0), argument);
@@ -494,6 +515,8 @@ uint32_t emmc_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resType
 {
 	uint32_t cmd_framed;
 
+	emmc_last_cmd = cmd;
+
 	//debug_emmc("In emmc_SendSetupCommand cmd::%d\n",cmd);
 	/* Make sure the controller is ready to accept the next data command */
 	if (EMMC_CSR_WAIT_FOR_FIELD(CAVM_EMMCX_HOST_SRS_SRS09(0), cicmd, !=, 1, 10000)) {
@@ -501,6 +524,8 @@ uint32_t emmc_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resType
 		debug_emmc("Failure next command cannot be sent to eMMC controller\n");
 		return STD_TimeOutError;
 	}
+
+	emmc_clear_interrupts(0xffffffff);
 
 	//debug_emmc("Ready In emmc_SendSetupCommand cmd::%d\n",cmd);
 	/* Set the Argument Field */

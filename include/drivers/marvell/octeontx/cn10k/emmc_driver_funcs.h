@@ -473,5 +473,6 @@ uint32_t emmc_SendSetupCommand(uint32_t cmd, uint32_t argument, uint32_t resType
 void emmc_EnableDisableIntSources(uint8_t int_cfg);
 uint32_t emmc_IsCardInserted(void);
 uint32_t emmc_IPSpecificInit(void);
+void emmc_clear_interrupts(uint32_t int_mask);
 
 #endif /*_EMMC_DRIVER_H*/

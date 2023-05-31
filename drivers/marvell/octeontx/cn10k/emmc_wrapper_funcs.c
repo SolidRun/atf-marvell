@@ -21,9 +21,13 @@ extern card_transfer_t   card_txfer_upd;
 extern cmd_framed_t      last_cmd_framed;
 extern card_registers_t  card_reg;
 extern emmc_blk_cntl   blk_ctrl;
+extern uint32_t emmc_last_cmd;
 
 static uint32_t taac_ns;
 static uint32_t taac_clks;
+static uint64_t wait_on_dat_longest_time;
+
+static srs12_intr_res_t last_result;
 
 #define UNSTUFF_BITS(resp, start, size)					\
 	({								\
@@ -67,6 +71,7 @@ uint32_t card_init(void)
 	if (!cavm_is_platform(PLATFORM_ASIM)) {
 		bus_width = 8;
 	}
+	wait_on_dat_longest_time = 0;
 
 	crd_prop.SdhClock = EMMC_CLOCK50MHZRATE;
 	udelay(1000);
@@ -235,6 +240,8 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 		 * will not assert. check for such a scenario here.
 		 */
 		if (crd_prop.card_state == FAULT) {
+			INFO("MMC driver wait for response set FAULT cmd: %d\n",
+				 emmc_last_cmd);
 			result = SDMMC_GENERAL_ERROR;
 			return result;
 		}
@@ -243,7 +250,8 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 			if (last_cmd_resp.TransferComplete)
 				break;
 
-			if ((crd_prop.card_state != WRITE) && (response_type != MMC_RESPONSE_R1B))
+			if ((crd_prop.card_state != WRITE) &&
+				(response_type != MMC_RESPONSE_R1B))
 				break;
 		}
 		udelay(1);
@@ -251,8 +259,10 @@ uint32_t get_response(uint32_t cmd, uint32_t response_type)
 
 	} while (timeout_us > 0);
 
-	if (!timeout_us)
+	if (timeout_us <= 0) {
+		WARN("%s timeout\n", __func__);
 		return SDMMC_CMD_TIMEOUT;
+	}
 
 	/* Read in the Buffers */
 	switch (response_type) {
@@ -382,6 +392,10 @@ void emmc_isr(void)
 
 	/*EMMC Host Error/Normal Interrupt Statu Register*/
 	result.all = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0));
+	last_result.all = result.all;
+
+	CSR_INIT(sts_reg, CAVM_EMMCX_HOST_SRS_SRS09(0));
+
 
 	/* Check for any error */
 	if (result.s.cmd_complete) {
@@ -424,8 +438,11 @@ void emmc_isr(void)
 		}
 
 		/* clear the general error status bits */
-		CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS12(0), result.all);
-		CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0)); /* Must make a dummy read to allow ints to clear. */
+		emmc_clear_interrupts(result.all);
+
+		INFO("%s err_intr: %x result: %x sts_reg: %x last_cmd: %d\n",
+			 __func__, result.s.err_intr, result.all, sts_reg.u,
+			 emmc_last_cmd);
 
 		crd_prop.card_state = FAULT;
 		/* done with handling an error condition. */
@@ -470,7 +487,6 @@ void emmc_isr(void)
 		}
 	}
 
-	CSR_INIT(sts_reg, CAVM_EMMCX_HOST_SRS_SRS09(0));
 
 	if (crd_prop.emmc_dma_type == NODMA) {
 		/* Handle State based interrupts XFRCOMP, BUFRDRDY, BUFWRRDY */
@@ -532,8 +548,7 @@ void emmc_isr(void)
 	}
 
 	/* Clear the interrupts */
-	CSR_WRITE(CAVM_EMMCX_HOST_SRS_SRS12(0), result.all);
-	CSR_READ(CAVM_EMMCX_HOST_SRS_SRS12(0));
+	emmc_clear_interrupts(result.all);
 }
 
 /****************************************************************
@@ -1373,6 +1388,9 @@ uint32_t emmc_WriteBlocks(void)
 		crd_prop.card_state = FAULT;
 		/* Send a stop command
 		 */
+		ERROR("%s emmc_blk.all: 0x%x last_cmd_resp: %x\n",
+			  __func__,  emmc_blk.all, last_cmd_resp.R1_RESP);
+
 		emmc_SendStopCommand();
 		return result;
 	}
@@ -1389,8 +1407,9 @@ uint32_t emmc_WriteBlocks(void)
 	 */
 	/* FIXME: implement the formula, which is based on info from the CSD...
 	 */
-	if (!emmc_WaitReady(6)) {
+	if (!emmc_WaitReady(600)) {
 		result = STD_WriteError;
+		ERROR("%s:%d FAULT\n", __func__, __LINE__);
 		crd_prop.card_state = FAULT;
 		/* Send a stop command
 		 */
@@ -1400,6 +1419,23 @@ uint32_t emmc_WriteBlocks(void)
 
 	crd_prop.card_state = READY;
 	return NO_ERROR;
+}
+
+
+/****************************************************************
+ *   Description: Read the CPC 100Mhz reference clock
+ *   Input: None
+ *   Output: None
+ *   Returns: clock tick converted to milliseconds
+ *****************************************************************/
+
+static uint64_t get_time_ms(void)
+{
+	/* CPC_TIMER100 is a 100Mhz clock so it fires every 10ns.
+	 * To convert to msec divice by 100000.
+	 */
+	return CSR_READ(CAVM_CPC_TIMER100)/100000;
+
 }
 
 /****************************************************************
@@ -1412,13 +1448,15 @@ uint32_t emmc_WriteBlocks(void)
  *****************************************************************/
 
 /* TBD: change this to use an r1b type... */
-
 uint32_t emmc_WaitReady(uint32_t timeout)
 {
 	uint32_t writecomplete = 0;
 	uint32_t result = NO_ERROR;
+	bool	 dat_idle = false;
 	uint32_t argument = card_reg.rca;
-	uint32_t time_out = timeout;
+	uint64_t start_time = get_time_ms();
+
+	CSR_INIT(sts_reg, CAVM_EMMCX_HOST_SRS_SRS09(0));
 
 	/* issue a series of get status commands until the (new) status
 	 * indicates ready.
@@ -1426,14 +1464,33 @@ uint32_t emmc_WaitReady(uint32_t timeout)
 	 * TimeOutMilliSec
 	 */
 	do {
+		sts_reg.u = CSR_READ(CAVM_EMMCX_HOST_SRS_SRS09(0));
+
+		/* Check to see if data line is still active indicating
+		 * indicating write is still in progress
+		 */
+		if (!sts_reg.s.dla) {
+			dat_idle = true;
+			break;
+		}
+
+	} while (get_time_ms() - start_time < timeout);
+
+	if (!dat_idle) {
+		ERROR("emmc_WaitReady timedout waiting for DAT\n");
+	}
+
+	do {
 		/*send CMD13 to check the status of the card
 		 */
 		wrapper_SendSetupCommand(STD_MMC_CMD13, argument,
 			EMMC_RESTYPE_R1 | EMMC_48_RES);
 
 		result = get_response(STD_MMC_CMD13, MMC_RESPONSE_R1);
-		if (result != NO_ERROR)
+		if (result != NO_ERROR) {
+			WARN("eMMC get response timeout\n");
 			break; // failed to complete transaction
+		}
 
 		/* examine the new status, which was just extracted from the response
 		 * field of the get stauts command.
@@ -1443,8 +1500,20 @@ uint32_t emmc_WaitReady(uint32_t timeout)
 			writecomplete = 1;
 			break;
 		}
+		udelay(1);
+		/* timeout is in mseconds */
+	} while (get_time_ms() - start_time < timeout);
 
-	} while (time_out--);
+	if (get_time_ms() - start_time > wait_on_dat_longest_time) {
+		wait_on_dat_longest_time = get_time_ms() - start_time;
+		INFO("MMC: longest write delay: %ld ms\n",
+			 wait_on_dat_longest_time);
+	}
+
+	if (!writecomplete) {
+		ERROR(" %s timed out resp: %x timeout: %d\n",
+			  __func__, last_cmd_resp.R1_RESP, timeout);
+	}
 
 	return writecomplete;
 }
