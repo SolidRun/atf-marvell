@@ -330,15 +330,6 @@ cn10k_portm_modes_t cn10k_portm_get_mode(int portm, int index);
 int cn10k_portm_gserm_get_first_portm_num(int gserm);
 
 /**
- * Get the first portm connected to RPM
- *
- * @param gserm RPM to query
- *
- * @return PORTM num, -1 on failure
- */
-int cn10k_portm_rpm_get_first_portm_num(int rpm);
-
-/**
  * Get the associated GSER num for a PORTM
  *
  * @param portm  PORTM to query

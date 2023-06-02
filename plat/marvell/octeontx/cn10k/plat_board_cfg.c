@@ -2037,18 +2037,12 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			goto next_node;
 		}
 
-		lmac = &rpm->lmac_cfg[lmac_idx];
 		mode_info = &lmac->lmac_mode_info[lmac_type];
 		snprintf(dbg_prefix, ARRAY_SIZE(dbg_prefix),
 			"RPM%d.LMAC%d", rpm_idx, lmac_idx);
 
-		/* If lmac is disabled, lmac structure is empty, hence the portm_idx
-		 * has to be derived using rpm/lmac indexes.
-		 */
-		if (lmac->port_enable)
-			portm_idx = lmac->portm_idx;
-		else
-			portm_idx = cn10k_portm_rpm_get_first_portm_num(rpm_idx) + lmac_idx;
+		lmac = &rpm->lmac_cfg[lmac_idx];
+		portm_idx = lmac->portm_idx;
 
 		cn10k_fill_lmac_mode_info(fdt, lmac, lmac_type, lmac_offset,
 					  rpm_idx, lmac_idx);

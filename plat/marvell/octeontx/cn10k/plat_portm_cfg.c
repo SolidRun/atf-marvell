@@ -1232,30 +1232,6 @@ int cn10k_portm_gserm_get_first_portm_num(int gserm)
 }
 
 /**
- * Get the first portm connected to RPM
- *
- * @param gserm RPM to query
- *
- * @return PORTM num, -1 on failure
- */
-int cn10k_portm_rpm_get_first_portm_num(int rpm)
-{
-	const cn10k_portm_gserm_mac_map_t *descr = portm_get_gserm_mac_map();
-	int portm;
-
-	if (!descr)
-		return -1;
-
-	for (portm = 0; portm < plat_octeontx_scfg->portm_count; portm++) {
-		if (descr[portm].mac_eth == rpm) {
-			return portm;
-		}
-	}
-
-	return -1;
-}
-
-/**
  * Get the associated GSER num for a PORTM
  *
  * @param portm  PORTM to query
