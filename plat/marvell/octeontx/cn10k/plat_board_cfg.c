@@ -2047,6 +2047,9 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 		cn10k_fill_lmac_mode_info(fdt, lmac, lmac_type, lmac_offset,
 					  rpm_idx, lmac_idx);
 
+		if (!lmac->port_enable)
+			goto next_node;
+
 		phy_offset = cn10k_fdt_lookup_phandle(fdt, lmac_offset, "phy-handle");
 
 		if (phy_offset > 0) {
@@ -2123,11 +2126,11 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			lmac->num_msix_vec = fdt32_to_cpu(*val);
 
 		/*
-		 * Check if currently parsed lmac mode is enabled and
-		 * is to be configured for this lmac. If yes, need to
-		 * enable it and update its sfp_info / an_disable.
+		 * Check if currently parsed lmac mode is what
+		 * is to be configured for this lmac. If yes,
+		 * need to enable it and update its sfp_info / an_disable.
 		 */
-		if (!lmac->port_enable || lmac->mode != lmac_type)
+		if (lmac->mode != lmac_type)
 			goto next_node;
 
 		if (mode_info->an_disable) {
@@ -2238,6 +2241,11 @@ static void cn10k_rpm_check_linux(void *fdt)
 	/* Parsing portm@<x> nodes for CPRI modes */
 	for (i = 0; i < plat_octeontx_scfg->portm_count; i++) {
 		int portm_offset;
+		portm_config_t *portm =
+			&(plat_octeontx_bcfg->portm_cfg[i]);
+
+		if (!portm->port_enable)
+			continue;
 
 		snprintf(name, sizeof(name), "portm@%d", i);
 		portm_offset = fdt_subnode_offset(fdt, offset, name);
