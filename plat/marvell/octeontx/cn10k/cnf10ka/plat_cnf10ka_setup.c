@@ -533,6 +533,10 @@ void plat_add_mmio()
 	mmap_add_region(SERDES_PRBS_DATA_BASE, SERDES_PRBS_DATA_BASE,
 		SERDES_PRBS_DATA_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 #endif /* DEBUG_ATF_ENABLE_SERDES_DIAGNOSTIC_CMDS */
+
+	/* Shared memory region for EFI variables */
+	mmap_add_region(EFI_VAR_MEM_BASE, EFI_VAR_MEM_BASE,
+			EFI_VAR_MEM_SIZE, (MT_MEMORY | MT_RW | MT_NS));
 }
 
 void plat_set_gpio_msix_vectors(int gpio_num, int irq_num, int enable)
