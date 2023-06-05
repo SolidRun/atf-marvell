@@ -515,6 +515,14 @@ int ehsm_verify_tim_digital_signature(const struct tim_handle *th,
 	}
 
 	sinfo = NULL;
+	/* Allocate aligned buffer */
+	buffer = ehsm_alloc(hinfo->signed_tim_size);
+	if (buffer == NULL) {
+		ret = -ENOMEM;
+		goto done;
+	}
+	memcpy(buffer, tim_buffer, hinfo->signed_tim_size);
+
 	do {
 		tret = tim_get_next_signature_info(th, &sinfo);
 		if (tret != TIM_NO_ERROR || sinfo == NULL) {
@@ -524,17 +532,6 @@ int ehsm_verify_tim_digital_signature(const struct tim_handle *th,
 		}
 		if (!sinfo->ds_parsed) {
 			continue;
-		}
-		/* Make sure TIM buffer is aligned */
-		if (ehsm_ptr_is_aligned(tim_buffer)) {
-			buffer = (uint8_t *)tim_buffer;
-		} else {
-			buffer = ehsm_alloc(hinfo->signed_tim_size);
-			if (buffer == NULL) {
-				ret = -ENOMEM;
-				goto done;
-			}
-			memcpy(buffer, tim_buffer, hinfo->signed_tim_size);
 		}
 		sret = ehsm_tim_sig_info_to_sec_msg_params(&sec_params, sinfo,
 							   buffer,
