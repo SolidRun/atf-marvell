@@ -8068,10 +8068,10 @@ union cavm_gsermx_cal_ctrl3_lane
         uint32_t sampler_cal_ofst_pass_lane : 1;/**< [ 16: 16](RO/H) Sampler Calibration Offset Pass Indicator For 32g. */
         uint32_t sq_ofst_avg_mode_lane : 2;  /**< [ 15: 14](R/W/H) SQ Offset Average Mode Option
                                                                  internal
-                                                                 0: serdes 2 time SQ Offset calculation pcie 1 time SQ Offset calculation
-                                                                 1: serdes 4 time SQ Offset calculation pcie 2 time SQ Offset calculation
-                                                                 2: serdes 8 time SQ Offset calculation pcie 4 time SQ Offset calculation
-                                                                 3: serdes 16 time SQ Offset calculation pcie 8 time SQ Offset calculation */
+                                                                 0: SerDes 2 time SQ Offset calculation PCIe 1 time SQ Offset calculation
+                                                                 1: SerDes 4 time SQ Offset calculation PCIe 2 time SQ Offset calculation
+                                                                 2: SerDes 8 time SQ Offset calculation PCIe 4 time SQ Offset calculation
+                                                                 3: SerDes 16 time SQ Offset calculation PCIe 8 time SQ Offset calculation */
         uint32_t rx_gaintrain_ultra_short_en_lane : 1;/**< [ 13: 13](R/W/H) Rx Train Gain Train Ultra Short Detection Enable
                                                                  internal */
         uint32_t reserved_12           : 1;
@@ -8101,10 +8101,10 @@ union cavm_gsermx_cal_ctrl3_lane
                                                                  internal */
         uint32_t sq_ofst_avg_mode_lane : 2;  /**< [ 15: 14](R/W/H) SQ Offset Average Mode Option
                                                                  internal
-                                                                 0: serdes 2 time SQ Offset calculation pcie 1 time SQ Offset calculation
-                                                                 1: serdes 4 time SQ Offset calculation pcie 2 time SQ Offset calculation
-                                                                 2: serdes 8 time SQ Offset calculation pcie 4 time SQ Offset calculation
-                                                                 3: serdes 16 time SQ Offset calculation pcie 8 time SQ Offset calculation */
+                                                                 0: SerDes 2 time SQ Offset calculation PCIe 1 time SQ Offset calculation
+                                                                 1: SerDes 4 time SQ Offset calculation PCIe 2 time SQ Offset calculation
+                                                                 2: SerDes 8 time SQ Offset calculation PCIe 4 time SQ Offset calculation
+                                                                 3: SerDes 16 time SQ Offset calculation PCIe 8 time SQ Offset calculation */
         uint32_t sampler_cal_ofst_pass_lane : 1;/**< [ 16: 16](RO/H) Sampler Calibration Offset Pass Indicator For 32g. */
         uint32_t tempc_sync_clk_pwr_saving_en_lane : 1;/**< [ 17: 17](R/W/H) TEMPC Sync Power Saving Enable */
         uint32_t rx_pi_dcc_cont_cal_fw_en_lane : 1;/**< [ 18: 18](R/W/H) Rx PI DCC Calibration Continuous Firmware Mode Enable
@@ -30988,7 +30988,7 @@ union cavm_gsermx_dfe_control_3
                                                                  internal */
         uint32_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
                                                                  internal */
-        uint32_t final_gaintrain_lane  : 1;  /**< [  7:  7](R/W/H) Final GainTrain Control Enable
+        uint32_t final_gaintrain_lane  : 1;  /**< [  7:  7](R/W/H) Final Gain Train Control Enable
                                                                  internal */
         uint32_t rx_tracking_enable_ini_lane : 1;/**< [  6:  6](R/W/H) Rx Tracking Enable Initial
                                                                  internal */
@@ -31009,7 +31009,7 @@ union cavm_gsermx_dfe_control_3
                                                                  internal */
         uint32_t rx_tracking_enable_ini_lane : 1;/**< [  6:  6](R/W/H) Rx Tracking Enable Initial
                                                                  internal */
-        uint32_t final_gaintrain_lane  : 1;  /**< [  7:  7](R/W/H) Final GainTrain Control Enable
+        uint32_t final_gaintrain_lane  : 1;  /**< [  7:  7](R/W/H) Final Gain Train Control Enable
                                                                  internal */
         uint32_t cal_eom_dpher_lane    : 8;  /**< [ 15:  8](R/W/H) EOM Align Calibration Save For Current PLL Rate.
                                                                  internal */
@@ -31116,7 +31116,7 @@ union cavm_gsermx_dfe_control_5
                                                                  internal */
         uint32_t eom_phase_ui_align_failed_lane : 1;/**< [ 21: 21](RO/H) Debug For During Phase Adapt
                                                                  internal */
-        uint32_t init_phase_train_en_lane : 1;/**< [ 20: 20](R/W/H) Enable Initial Phase Train After Gaintrain
+        uint32_t init_phase_train_en_lane : 1;/**< [ 20: 20](R/W/H) Enable Initial Phase Train After Gain Train
                                                                  internal */
         uint32_t phase_adapt_ui_align_skip_lane : 1;/**< [ 19: 19](R/W/H) UI Align Skip Enable During Phase Adapt
                                                                  internal */
@@ -31126,7 +31126,8 @@ union cavm_gsermx_dfe_control_5
                                                                  internal */
         uint32_t saturate_disable_lane : 1;  /**< [ 14: 14](R/W/H) DFE Saturate Disable.
                                                                  internal */
-        uint32_t reserved_13           : 1;
+        uint32_t detected_ultra_short_lane : 1;/**< [ 13: 13](R/W/H) Ultra Short Train Detected Status From Train
+                                                                 internal */
         uint32_t thre_good_lane        : 5;  /**< [ 12:  8](R/W/H) DFE Level Check Threshold For Good. */
         uint32_t tx_pam2_in_pam4_mode_lane : 1;/**< [  7:  7](RO/H) Tx PAM2 Modulation Mode Enable in Tx Train PAM4 Mode
                                                                  internal */
@@ -31158,7 +31159,8 @@ union cavm_gsermx_dfe_control_5
         uint32_t tx_pam2_in_pam4_mode_lane : 1;/**< [  7:  7](RO/H) Tx PAM2 Modulation Mode Enable in Tx Train PAM4 Mode
                                                                  internal */
         uint32_t thre_good_lane        : 5;  /**< [ 12:  8](R/W/H) DFE Level Check Threshold For Good. */
-        uint32_t reserved_13           : 1;
+        uint32_t detected_ultra_short_lane : 1;/**< [ 13: 13](R/W/H) Ultra Short Train Detected Status From Train
+                                                                 internal */
         uint32_t saturate_disable_lane : 1;  /**< [ 14: 14](R/W/H) DFE Saturate Disable.
                                                                  internal */
         uint32_t cdrphase_opt_en_lane  : 1;  /**< [ 15: 15](R/W/H) CDR Phase OPT Enable.
@@ -31167,7 +31169,7 @@ union cavm_gsermx_dfe_control_5
                                                                  internal */
         uint32_t phase_adapt_ui_align_skip_lane : 1;/**< [ 19: 19](R/W/H) UI Align Skip Enable During Phase Adapt
                                                                  internal */
-        uint32_t init_phase_train_en_lane : 1;/**< [ 20: 20](R/W/H) Enable Initial Phase Train After Gaintrain
+        uint32_t init_phase_train_en_lane : 1;/**< [ 20: 20](R/W/H) Enable Initial Phase Train After Gain Train
                                                                  internal */
         uint32_t eom_phase_ui_align_failed_lane : 1;/**< [ 21: 21](RO/H) Debug For During Phase Adapt
                                                                  internal */
@@ -47026,7 +47028,10 @@ union cavm_gsermx_dll_cal
     struct cavm_gsermx_dll_cal_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_30_31        : 2;
+        uint32_t reset_rl2_ultra_short_lane : 1;/**< [ 31: 31](R/W/H) Set CTLE_RL2_TUNE to 0 When Ultra Short Detect
+                                                                 internal */
+        uint32_t ultra_short_train_pin_mode_lane : 1;/**< [ 30: 30](R/W/H) Detected ultra_short applies ultra_short_pin
+                                                                 internal */
         uint32_t tx_train_pcie_fom_eom_max_lane : 6;/**< [ 29: 24](R/W/H) PCIe FOM mode EOM Maximum Error Counter Value
                                                                  internal */
         uint32_t rx_pll_rate_index_lane : 8; /**< [ 23: 16](RO/H) Rx PLL Rate Index For MCU Debug
@@ -47044,7 +47049,10 @@ union cavm_gsermx_dll_cal
                                                                  internal */
         uint32_t tx_train_pcie_fom_eom_max_lane : 6;/**< [ 29: 24](R/W/H) PCIe FOM mode EOM Maximum Error Counter Value
                                                                  internal */
-        uint32_t reserved_30_31        : 2;
+        uint32_t ultra_short_train_pin_mode_lane : 1;/**< [ 30: 30](R/W/H) Detected ultra_short applies ultra_short_pin
+                                                                 internal */
+        uint32_t reset_rl2_ultra_short_lane : 1;/**< [ 31: 31](R/W/H) Set CTLE_RL2_TUNE to 0 When Ultra Short Detect
+                                                                 internal */
 #endif /* Word 0 - End */
     } s;
     /* struct cavm_gsermx_dll_cal_s cn; */
@@ -109023,9 +109031,7 @@ union cavm_gsermx_serdes_reset_state
     struct cavm_gsermx_serdes_reset_state_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
-        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
+        uint32_t reserved_16_31        : 16;
         uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
         uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
@@ -109035,12 +109041,27 @@ union cavm_gsermx_serdes_reset_state
                                                                  internal */
         uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
                                                                  internal */
-        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
-        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
-        uint32_t reserved_24_31        : 8;
+        uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_gsermx_serdes_reset_state_s cn; */
+    struct cavm_gsermx_serdes_reset_state_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t reserved_16_23        : 8;
+        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
+                                                                 internal */
+        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
+                                                                 internal */
+#else /* Word 0 - Little Endian */
+        uint32_t serdes_tx_reset_state_lane : 8;/**< [  7:  0](R/W/H) SerDes Tx Reset State
+                                                                 internal */
+        uint32_t serdes_rx_reset_state_lane : 8;/**< [ 15:  8](R/W/H) SerDes Rx Reset State
+                                                                 internal */
+        uint32_t reserved_16_23        : 8;
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn;
 };
 typedef union cavm_gsermx_serdes_reset_state cavm_gsermx_serdes_reset_state_t;
 
@@ -119487,7 +119508,8 @@ union cavm_gsermx_train_debug_0
                                                                  internal */
         uint32_t tx_train_pcie_eye_chk_low_val_lane : 4;/**< [ 27: 24](R/W/H) EOM eye check threshold value for low range for FOM training
                                                                  internal */
-        uint32_t reserved_16_23        : 8;
+        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
+        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
         uint32_t dfe_res_f0a_high_thres_init_g5_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
         uint32_t dfe_res_f0a_high_thres_init_g4_lane : 8;/**< [  7:  0](R/W/H) DFE Resolution F0a High Threshold Initial
@@ -119497,7 +119519,8 @@ union cavm_gsermx_train_debug_0
                                                                  internal */
         uint32_t dfe_res_f0a_high_thres_init_g5_lane : 8;/**< [ 15:  8](R/W/H) DFE Resolution F0a High Threshold Initial
                                                                  internal */
-        uint32_t reserved_16_23        : 8;
+        uint32_t vth_tximpcal_shift_l_lane : 4;/**< [ 19: 16](R/W/H) VTH_TXIMPCAL Shift Above 40 Degree C */
+        uint32_t vth_tximpcal_shift_h_lane : 4;/**< [ 23: 20](R/W/H) VTH_TXIMPCAL Shift Below 40 Degree C */
         uint32_t tx_train_pcie_eye_chk_low_val_lane : 4;/**< [ 27: 24](R/W/H) EOM eye check threshold value for low range for FOM training
                                                                  internal */
         uint32_t tx_train_pcie_fom_f0d_weight_lane : 4;/**< [ 31: 28](R/W/H) PCIe FOM metric eo weighting factor
@@ -121450,7 +121473,7 @@ union cavm_gsermx_train_para_0
     struct cavm_gsermx_train_para_0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t txtrain_f0a_high_thres_pam2_in_pam4_lane : 8;/**< [ 31: 24](R/W/H) Tx Train GainTrain Threshold For PAM2 In PAM4 Mode
+        uint32_t txtrain_f0a_high_thres_pam2_in_pam4_lane : 8;/**< [ 31: 24](R/W/H) Tx Train Gain Train Threshold For PAM2 In PAM4 Mode
                                                                  internal */
         uint32_t pcie_cal_rx_sq_thresh_force_lane : 8;/**< [ 23: 16](R/W/H) PCIe SQ Threshold Force Value For Debug
                                                                  internal */
@@ -121465,7 +121488,7 @@ union cavm_gsermx_train_para_0
                                                                  internal */
         uint32_t pcie_cal_rx_sq_thresh_force_lane : 8;/**< [ 23: 16](R/W/H) PCIe SQ Threshold Force Value For Debug
                                                                  internal */
-        uint32_t txtrain_f0a_high_thres_pam2_in_pam4_lane : 8;/**< [ 31: 24](R/W/H) Tx Train GainTrain Threshold For PAM2 In PAM4 Mode
+        uint32_t txtrain_f0a_high_thres_pam2_in_pam4_lane : 8;/**< [ 31: 24](R/W/H) Tx Train Gain Train Threshold For PAM2 In PAM4 Mode
                                                                  internal */
 #endif /* Word 0 - End */
     } s;

@@ -4945,7 +4945,52 @@ union cavm_rpmx_anp_global_control
     } cn10ka;
     /* struct cavm_rpmx_anp_global_control_s cn10kb; */
     /* struct cavm_rpmx_anp_global_control_cn10ka cnf10ka; */
-    /* struct cavm_rpmx_anp_global_control_cn10ka cnf10kb; */
+    struct cavm_rpmx_anp_global_control_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t divide_sd_clocks      : 1;  /**< [ 31: 31](R/W) Asserted will enable SD Clock Dividers. */
+        uint64_t reg_dsp_lock_loss_latch_en : 1;/**< [ 30: 30](R/W) Enable latch of dsp_lock loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_sigdet_loss_latch_en : 1;/**< [ 29: 29](R/W) Enable latch of dsp_sigdet loss until SD SMs get reset/ STR request. */
+        uint64_t reg_tx_ready_loss_latch_en : 1;/**< [ 28: 28](R/W) Enable latch of tx_ready loss until SD SMs get reset/ STR request. */
+        uint64_t reg_rx_sm_cnt_saturate : 1; /**< [ 27: 27](R/W) When set, SD RX SM counters will saturate and not wraparound. */
+        uint64_t reg_tx_sm_cnt_saturate : 1; /**< [ 26: 26](R/W) When set, SD TX SM counters will saturate and not wraparound. */
+        uint64_t reg_txstr_rxsd_clear_cnt : 1;/**< [ 25: 25](R/W) When CH SM moves from TXSTR_RXSD back to RX_SD,
+                                                                 if configuration is set, SM counter is cleared, else it is not cleared. */
+        uint64_t reg_ch_sm_cnt_saturate : 1; /**< [ 24: 24](R/W) When set, CH SM counters will saturate and not wraparound. */
+        uint64_t reg_reset_pulse_conf_delay : 10;/**< [ 23: 14](R/W) Number of cycles since client (AN/PCS) TX reset released, until a reset pulse
+                                                                 will be generated towards SDW TX phase FIFO. */
+        uint64_t reg_train_type_mx_samp : 2; /**< [ 13: 12](R/W) Sets the number of additional samples on train_type_mx before going to logic. */
+        uint64_t reg_train_type_samp   : 2;  /**< [ 11: 10](R/W) Sets the number of additional samples on train_type before going to logic. */
+        uint64_t reg_txclk_sync_en_width_s : 8;/**< [  9:  2](R/W) Time to wait before starting TX clk synchronization. */
+        uint64_t an_ap_train_type      : 2;  /**< [  1:  0](R/W) Set training type to perform prior to AN.
+                                                                 0x0 = KR TRAINING.
+                                                                 0x1 = RX TRAINING.
+                                                                 0x2 = NO TRAINING.
+                                                                 0x3 = RESERVED. */
+#else /* Word 0 - Little Endian */
+        uint64_t an_ap_train_type      : 2;  /**< [  1:  0](R/W) Set training type to perform prior to AN.
+                                                                 0x0 = KR TRAINING.
+                                                                 0x1 = RX TRAINING.
+                                                                 0x2 = NO TRAINING.
+                                                                 0x3 = RESERVED. */
+        uint64_t reg_txclk_sync_en_width_s : 8;/**< [  9:  2](R/W) Time to wait before starting TX clk synchronization. */
+        uint64_t reg_train_type_samp   : 2;  /**< [ 11: 10](R/W) Sets the number of additional samples on train_type before going to logic. */
+        uint64_t reg_train_type_mx_samp : 2; /**< [ 13: 12](R/W) Sets the number of additional samples on train_type_mx before going to logic. */
+        uint64_t reg_reset_pulse_conf_delay : 10;/**< [ 23: 14](R/W) Number of cycles since client (AN/PCS) TX reset released, until a reset pulse
+                                                                 will be generated towards SDW TX phase FIFO. */
+        uint64_t reg_ch_sm_cnt_saturate : 1; /**< [ 24: 24](R/W) When set, CH SM counters will saturate and not wraparound. */
+        uint64_t reg_txstr_rxsd_clear_cnt : 1;/**< [ 25: 25](R/W) When CH SM moves from TXSTR_RXSD back to RX_SD,
+                                                                 if configuration is set, SM counter is cleared, else it is not cleared. */
+        uint64_t reg_tx_sm_cnt_saturate : 1; /**< [ 26: 26](R/W) When set, SD TX SM counters will saturate and not wraparound. */
+        uint64_t reg_rx_sm_cnt_saturate : 1; /**< [ 27: 27](R/W) When set, SD RX SM counters will saturate and not wraparound. */
+        uint64_t reg_tx_ready_loss_latch_en : 1;/**< [ 28: 28](R/W) Enable latch of tx_ready loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_sigdet_loss_latch_en : 1;/**< [ 29: 29](R/W) Enable latch of dsp_sigdet loss until SD SMs get reset/ STR request. */
+        uint64_t reg_dsp_lock_loss_latch_en : 1;/**< [ 30: 30](R/W) Enable latch of dsp_lock loss until SD SMs get reset/ STR request. */
+        uint64_t divide_sd_clocks      : 1;  /**< [ 31: 31](R/W) Asserted will enable SD Clock Dividers. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_anp_global_control cavm_rpmx_anp_global_control_t;
 
@@ -11422,7 +11467,7 @@ static inline uint64_t CAVM_RPMX_CMRX_CHAN_MSK_OR(uint64_t a, uint64_t b)
  * Logical MAC/PCS configuration registers, one per LMAC. The maximum number of LMACs (and
  * maximum LMAC ID) that can be enabled by these registers is limited by
  * combining RPM()_CMR_RX_LMACS[LMAC_EXIST] and RPM()_CMR_TX_LMACS[LMAC_EXIST]
- * (i.e. each enabled LMAC must have its LMAC_EXIST set, either for Tx or for Rx).
+ * (i.e. each enabled LMAC must have its LMAC_EXIST set, either for TX or for RX).
  */
 union cavm_rpmx_cmrx_config
 {
@@ -12259,48 +12304,49 @@ union cavm_rpmx_cmrx_config
                                                                  setting this bit to enable the LMAC. CMR clocking is enabled when any of the paths are enabled. */
         uint64_t reserved_26_54        : 29;
         uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Reserved, keep 1. */
-        uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
-                                                                 Rx line), as the first 8 Bytes of
-                                                                 the frame towards NIX. Note that if RX_TS_PREPEND is also 1, then Timestamp will
+        uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM prepends the user preamble it gets from the MAC (extracted from
+                                                                 RX line), as the first 8 bytes of
+                                                                 the frame towards NIX. Note that if [RX_TS_PREPEND] is also 1, then timestamp will
                                                                  be prepended as the actual first
-                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, then followed by the payload.
-                                                                 The User Preamble value from MAC is applied USER_PREAM_BYTE_FLIP, since it is inband to NIX.
-                                                                 Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
-                                                                 Byte will be hardwired assigned 8'hFB.
+                                                                 8 bytes, followed by the 8 bytes of the user preamble, then followed by the payload.
+                                                                 The user preamble value from MAC is applied to [USER_PREAM_BYTE_FLIP], since it is inband to NIX.
+                                                                 Note that the MAC only outputs the last 7 bytes of the preamble; so the first
+                                                                 byte will be hardwired assigned 0xFB.
                                                                  This field may only change value at idle time. */
         uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Reserved, keep 1. */
-        uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
-                                                                 arrival), as the first 8 Bytes of the frame towards NIX.
-                                                                 Note that if RX_USER_PREAM_PREPEND is also 1, then
-                                                                 Timestamp will be prepended as the first 8 Bytes,
-                                                                 followed by the 8 Bytes of the User Preamble, followed by the payload.
-                                                                 The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
+        uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM prepends the timestamp it gets from the MAC (timing RX frame
+                                                                 arrival), as the first 8 bytes of the frame towards NIX.
+                                                                 Note that if [RX_USER_PREAM_PREPEND] is also 1, then the
+                                                                 timestamp will be prepended as the first 8 bytes,
+                                                                 followed by the 8 bytes of the user preamble, followed by the payload.
+                                                                 The timestamp value from the MAC is applied to [RX_TS_BYTE_FLIP] since it is inband to NIX.
                                                                  This field may only change value at idle time. */
         uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Reserved, keep 1. */
-        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 20: 20](R/W) When set to 1, RPM will use RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as User Preamble.
-                                                                 When 0, RPM will use the stripped Preamble value from the packet (Arriving from
-                                                                 NIX-Tx). However, in case
-                                                                 TX_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
-                                                                 (oxd5dddddddddd) to MAC as User Preamble.
+        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 20: 20](R/W) When set to 1, RPM uses RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as user preamble.
+                                                                 When 0, RPM uses the stripped preamble value from the packet (arriving from
+                                                                 NIX-TX). However, when
+                                                                 [TX_PREAM_STRIP] is also 0, RPM feeds the standard preamble value
+                                                                 (0xD5DDDDDDDDDD) to the MAC as user preamble.
                                                                  This field may only change value at idle time. */
-        uint64_t tx_pream_strip        : 1;  /**< [ 19: 19](R/W) When 1, there will be 8 Bytes of Preamble just preceding the packet payload,
-                                                                 for all packets arriving from NIX-Tx to RPM.
-                                                                 The Preamble is expected to arrive from NIX-Tx aligned to the left, such that
-                                                                 first Byte of the Preamble is tx_data[MSB]; RPM will strip the Preamble from the frame.
-                                                                 If TX_USER_PREAM_OVRD is 0, RPM will use the stripped Preamble to feed it to the
-                                                                 MAC as User Preamble.
-                                                                 Note: before feeding the stripped Preamble to the MAC, USER_PREAM_BYTE_FLIP will be
+        uint64_t tx_pream_strip        : 1;  /**< [ 19: 19](R/W) When 1, 8 bytes of preamble precede the packet payload
+                                                                 for all packets arriving from NIX-TX to RPM.
+                                                                 The preamble is expected to arrive from NIX-TX aligned to the left, such that the
+                                                                 first byte of the preamble is tx_data[MSB]; RPM will strip the preamble from the frame.
+                                                                 If [TX_USER_PREAM_OVRD] is 0, RPM uses the stripped preamble to feed it to the
+                                                                 MAC as user preamble.
+                                                                 Note: before feeding the stripped preamble to the MAC, [USER_PREAM_BYTE_FLIP] will be
                                                                  applied to it, since it is inband from NIX.
-                                                                 Note: in fact, first byte is discarded while the last 7 Bytes are actually fed to MAC;
-                                                                 this is because first Byte is later assigned with SPD according to Standard.
+                                                                 Note: in fact, the first byte is discarded while the last 7 bytes are actually fed to MAC;
+                                                                 this is because first byte is later assigned with SPD according to the standard.
                                                                  This field may only change value at idle time. */
         uint64_t tx_ptp_1s_ts_byte_flip : 1; /**< [ 18: 18](R/W) Reserved, keep 1. */
-        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for 1-step PTP.
-                                                                 When set, packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
+        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for one-step PTP.
+                                                                 When set, the packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
                                                                  where TS_8B exists only for a PTP packet.
-                                                                 When bit is not set, only 2-step PTP is supported, and packet structure is {[PREAM_8B], PLD}.
-                                                                 In both cases, PREAM_8B exists only when TX_PREAM_STRIP==1.
-                                                                 TS_8B is 8 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
+                                                                 When this bit is not set, only two-step PTP is supported, and the packet
+                                                                 structure is {[PREAM_8B], PLD}.
+                                                                 In both cases, PREAM_8B exists only when [TX_PREAM_STRIP]==1.
+                                                                 TS_8B is 8 bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
                                                                  (other bits are reserved).
                                                                  This field may only change value at idle time. */
         uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Reserved, keep 1. */
@@ -12308,49 +12354,50 @@ union cavm_rpmx_cmrx_config
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_15         : 16;
         uint64_t tx_byte_flip          : 1;  /**< [ 16: 16](R/W) Reserved, keep 1. */
-        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for 1-step PTP.
-                                                                 When set, packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
+        uint64_t tx_ptp_1s_support     : 1;  /**< [ 17: 17](R/W) Set to 1 in order to enable RPM support for one-step PTP.
+                                                                 When set, the packet structure sent from NIX to RPM is {[TS_8B],[PREAM_8B],PLD},
                                                                  where TS_8B exists only for a PTP packet.
-                                                                 When bit is not set, only 2-step PTP is supported, and packet structure is {[PREAM_8B], PLD}.
-                                                                 In both cases, PREAM_8B exists only when TX_PREAM_STRIP==1.
-                                                                 TS_8B is 8 Bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
+                                                                 When this bit is not set, only two-step PTP is supported, and the packet
+                                                                 structure is {[PREAM_8B], PLD}.
+                                                                 In both cases, PREAM_8B exists only when [TX_PREAM_STRIP]==1.
+                                                                 TS_8B is 8 bytes inband field consisting of step_type,  ns_offset[31:0], tx_action[15:0]
                                                                  (other bits are reserved).
                                                                  This field may only change value at idle time. */
         uint64_t tx_ptp_1s_ts_byte_flip : 1; /**< [ 18: 18](R/W) Reserved, keep 1. */
-        uint64_t tx_pream_strip        : 1;  /**< [ 19: 19](R/W) When 1, there will be 8 Bytes of Preamble just preceding the packet payload,
-                                                                 for all packets arriving from NIX-Tx to RPM.
-                                                                 The Preamble is expected to arrive from NIX-Tx aligned to the left, such that
-                                                                 first Byte of the Preamble is tx_data[MSB]; RPM will strip the Preamble from the frame.
-                                                                 If TX_USER_PREAM_OVRD is 0, RPM will use the stripped Preamble to feed it to the
-                                                                 MAC as User Preamble.
-                                                                 Note: before feeding the stripped Preamble to the MAC, USER_PREAM_BYTE_FLIP will be
+        uint64_t tx_pream_strip        : 1;  /**< [ 19: 19](R/W) When 1, 8 bytes of preamble precede the packet payload
+                                                                 for all packets arriving from NIX-TX to RPM.
+                                                                 The preamble is expected to arrive from NIX-TX aligned to the left, such that the
+                                                                 first byte of the preamble is tx_data[MSB]; RPM will strip the preamble from the frame.
+                                                                 If [TX_USER_PREAM_OVRD] is 0, RPM uses the stripped preamble to feed it to the
+                                                                 MAC as user preamble.
+                                                                 Note: before feeding the stripped preamble to the MAC, [USER_PREAM_BYTE_FLIP] will be
                                                                  applied to it, since it is inband from NIX.
-                                                                 Note: in fact, first byte is discarded while the last 7 Bytes are actually fed to MAC;
-                                                                 this is because first Byte is later assigned with SPD according to Standard.
+                                                                 Note: in fact, the first byte is discarded while the last 7 bytes are actually fed to MAC;
+                                                                 this is because first byte is later assigned with SPD according to the standard.
                                                                  This field may only change value at idle time. */
-        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 20: 20](R/W) When set to 1, RPM will use RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as User Preamble.
-                                                                 When 0, RPM will use the stripped Preamble value from the packet (Arriving from
-                                                                 NIX-Tx). However, in case
-                                                                 TX_PREAM_STRIP is also 0, RPM will feed the standard Preamble value
-                                                                 (oxd5dddddddddd) to MAC as User Preamble.
+        uint64_t tx_user_pream_ovrd    : 1;  /**< [ 20: 20](R/W) When set to 1, RPM uses RPM_CMR()_TX_USER_PREAM_VALUE to feed to the MAC as user preamble.
+                                                                 When 0, RPM uses the stripped preamble value from the packet (arriving from
+                                                                 NIX-TX). However, when
+                                                                 [TX_PREAM_STRIP] is also 0, RPM feeds the standard preamble value
+                                                                 (0xD5DDDDDDDDDD) to the MAC as user preamble.
                                                                  This field may only change value at idle time. */
         uint64_t rx_byte_flip          : 1;  /**< [ 21: 21](R/W) Reserved, keep 1. */
-        uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM will prepend the Timestamp it gets from the MAC (timing Rx frame
-                                                                 arrival), as the first 8 Bytes of the frame towards NIX.
-                                                                 Note that if RX_USER_PREAM_PREPEND is also 1, then
-                                                                 Timestamp will be prepended as the first 8 Bytes,
-                                                                 followed by the 8 Bytes of the User Preamble, followed by the payload.
-                                                                 The Timestamp value from MAC is applied RX_TS_BYTE_FLIP, since it is inband to NIX.
+        uint64_t rx_ts_prepend         : 1;  /**< [ 22: 22](R/W) When 1, RPM prepends the timestamp it gets from the MAC (timing RX frame
+                                                                 arrival), as the first 8 bytes of the frame towards NIX.
+                                                                 Note that if [RX_USER_PREAM_PREPEND] is also 1, then the
+                                                                 timestamp will be prepended as the first 8 bytes,
+                                                                 followed by the 8 bytes of the user preamble, followed by the payload.
+                                                                 The timestamp value from the MAC is applied to [RX_TS_BYTE_FLIP] since it is inband to NIX.
                                                                  This field may only change value at idle time. */
         uint64_t rx_ts_byte_flip       : 1;  /**< [ 23: 23](R/W) Reserved, keep 1. */
-        uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM will prepend the User Preamble it gets from the MAC (extracted from
-                                                                 Rx line), as the first 8 Bytes of
-                                                                 the frame towards NIX. Note that if RX_TS_PREPEND is also 1, then Timestamp will
+        uint64_t rx_user_pream_prepend : 1;  /**< [ 24: 24](R/W) When 1, RPM prepends the user preamble it gets from the MAC (extracted from
+                                                                 RX line), as the first 8 bytes of
+                                                                 the frame towards NIX. Note that if [RX_TS_PREPEND] is also 1, then timestamp will
                                                                  be prepended as the actual first
-                                                                 8 Bytes, followed by the 8 Bytes of the User Preamble, then followed by the payload.
-                                                                 The User Preamble value from MAC is applied USER_PREAM_BYTE_FLIP, since it is inband to NIX.
-                                                                 Note that the MAC only outputs the last 7 Bytes of the Preamble, so the first
-                                                                 Byte will be hardwired assigned 8'hFB.
+                                                                 8 bytes, followed by the 8 bytes of the user preamble, then followed by the payload.
+                                                                 The user preamble value from MAC is applied to [USER_PREAM_BYTE_FLIP], since it is inband to NIX.
+                                                                 Note that the MAC only outputs the last 7 bytes of the preamble; so the first
+                                                                 byte will be hardwired assigned 0xFB.
                                                                  This field may only change value at idle time. */
         uint64_t user_pream_byte_flip  : 1;  /**< [ 25: 25](R/W) Reserved, keep 1. */
         uint64_t reserved_26_54        : 29;
@@ -12541,7 +12588,40 @@ union cavm_rpmx_cmrx_int
 #endif /* Word 0 - End */
     } cn10kb;
     /* struct cavm_rpmx_cmrx_int_s cnf10ka; */
-    /* struct cavm_rpmx_cmrx_int_s cnf10kb; */
+    struct cavm_rpmx_cmrx_int_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) TX channel was disabled during traffic, from NIX0 interface.
+                                                                 Received packet with matching ch_id
+                                                                 (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 * either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0.
+                                                                 * or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0.
+                                                                 * or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0.
+
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX0_NXC_ADR. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t p2x_nic_nxc           : 1;  /**< [  2:  2](R/W1C/H) Reserved. */
+        uint64_t p2x_nix0_nxc          : 1;  /**< [  3:  3](R/W1C/H) TX channel was disabled during traffic, from NIX0 interface.
+                                                                 Received packet with matching ch_id
+                                                                 (chan[11:4]==RPM_CMR()_LINK_CFG.BASE_CHAN[11:4]), but dropped it:
+                                                                 * either LMAC was disabled: RPM()_CMR()_CONFIG[ENABLE]==0.
+                                                                 * or Programmable ch_id CSR was disabled: RPM_CMR()_LINK_CFG.LOG2_RANGE==0.
+                                                                 * or LMAC does not exist: RPM()_CMR_TX_LMACS.LMAC_EXIST[lmac]==0.
+
+                                                                 Reported regardless of RPM()_CMR()_CONFIG[P2X_SELECT] association for this LMAC.
+                                                                 See syndrom (address and LMID) saved in RPM_CMR_P2X_NIX0_NXC_ADR. */
+        uint64_t p2x_nix1_nxc          : 1;  /**< [  4:  4](R/W1C/H) Reserved. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_int cavm_rpmx_cmrx_int_t;
 
@@ -13110,7 +13190,82 @@ union cavm_rpmx_cmrx_prt_cbfc_ctl
 #endif /* Word 0 - End */
     } cn10kb;
     /* struct cavm_rpmx_cmrx_prt_cbfc_ctl_s cnf10ka; */
-    /* struct cavm_rpmx_cmrx_prt_cbfc_ctl_cn10kb cnf10kb; */
+    struct cavm_rpmx_cmrx_prt_cbfc_ctl_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t logl_en_rx            : 16; /**< [ 48: 33](R/W) When bit i is high, XOFF for the relevant priority (request MAC FC generation to
+                                                                 link partner) may be asserted.
+                                                                 This field is only relevant for PFC mode (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==1).
+                                                                 For link pause, see the equivalent RPM()_CMR_RX_OVR_BP[EN] and RPM()_CMR_RX_OVR_BP[BP] fields.
+
+                                                                 In PFC mode, this field is bit-ANDed with the result of:
+                                                                 chan_bp (from NIX-Rx), bit-OR
+                                                                 RX_LOGL_XON and RX_LOGL_XOFF CSRs logic, bit-OR
+                                                                 FIFO fill BP (x16 multiplied).
+
+                                                                 For FIFO fill BP, see RPM()_CMR()_RX_BP_ON, RPM()_CMR()_RX_BP_OFF, and
+                                                                 RPM()_CMR_RX_OVR_BP[IGN_FIFO_BP].
+                                                                 FIFO fill BP will cause XOFF for all priorities, except those masked with LOGL_EN_RX. */
+        uint64_t pause_mode_stop_tx_en : 1;  /**< [ 32: 32](R/W) Reserved. */
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the link partner is backpressuring any LMACs (from incoming FC packets or by override via
+                                                                 RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP]), and all channels indicated by [PHYS_BP]=1 are
+                                                                 backpressured (i.e. there is a match), RPM will defer all packets on the transmitter
+                                                                 (i.e. signal to the MAC to stop transmission by asserting stop_tx).
+                                                                 Affects the MAC on frame boundary.
+
+                                                                 Note that this applies only when MAC is in PFC mode, and only when PHYS_BP is not all zeros.
+                                                                 Note that PHYS_BP bits that are 0 mean dont care; only asserted bits should match (all of them). */
+        uint64_t logl_en_tx            : 16; /**< [ 15:  0](R/W) When bit i is high, the relevant bit in MAC PFC status indication to CMR
+                                                                 (pause_on) may cause TX traffic defer (stop_tx), and be reflected to NIX-TX (on ebp interface).
+                                                                 Note, this field is only relevant when MTI MAC works in PFC mode.
+                                                                 For sake of traffic deference, [PHYS_BP] will mask the result of applying LOGL_EN_TX.
+                                                                 For sake of external backpressure to NIX (ebp), the masking will be done by,
+                                                                 RPM()_CMR()_TX_CHANNEL[MSK], after which ebp coupling logic may be applied, if enabled.
+                                                                 So, first, LOGL_EN_TX is bit-ANDed with p2x BP status (stop_tx from MAC).
+                                                                 The result is then bit-ORed with RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP], to allow software override.
+                                                                 Then we have 2 paths:
+                                                                 _ For Tx defer logic, the result goes through the PHYS_BP masking, to calculate stop_tx.
+                                                                 _ For ebp logic to NIX, the result is ANDed with RPM()_CMR()_TX_CHANNEL[MSK] bits,
+                                                                 and then applied with TX_CHANNEL.EBP_COUPLING_EN. */
+#else /* Word 0 - Little Endian */
+        uint64_t logl_en_tx            : 16; /**< [ 15:  0](R/W) When bit i is high, the relevant bit in MAC PFC status indication to CMR
+                                                                 (pause_on) may cause TX traffic defer (stop_tx), and be reflected to NIX-TX (on ebp interface).
+                                                                 Note, this field is only relevant when MTI MAC works in PFC mode.
+                                                                 For sake of traffic deference, [PHYS_BP] will mask the result of applying LOGL_EN_TX.
+                                                                 For sake of external backpressure to NIX (ebp), the masking will be done by,
+                                                                 RPM()_CMR()_TX_CHANNEL[MSK], after which ebp coupling logic may be applied, if enabled.
+                                                                 So, first, LOGL_EN_TX is bit-ANDed with p2x BP status (stop_tx from MAC).
+                                                                 The result is then bit-ORed with RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP], to allow software override.
+                                                                 Then we have 2 paths:
+                                                                 _ For Tx defer logic, the result goes through the PHYS_BP masking, to calculate stop_tx.
+                                                                 _ For ebp logic to NIX, the result is ANDed with RPM()_CMR()_TX_CHANNEL[MSK] bits,
+                                                                 and then applied with TX_CHANNEL.EBP_COUPLING_EN. */
+        uint64_t phys_bp               : 16; /**< [ 31: 16](R/W) When the link partner is backpressuring any LMACs (from incoming FC packets or by override via
+                                                                 RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP]), and all channels indicated by [PHYS_BP]=1 are
+                                                                 backpressured (i.e. there is a match), RPM will defer all packets on the transmitter
+                                                                 (i.e. signal to the MAC to stop transmission by asserting stop_tx).
+                                                                 Affects the MAC on frame boundary.
+
+                                                                 Note that this applies only when MAC is in PFC mode, and only when PHYS_BP is not all zeros.
+                                                                 Note that PHYS_BP bits that are 0 mean dont care; only asserted bits should match (all of them). */
+        uint64_t pause_mode_stop_tx_en : 1;  /**< [ 32: 32](R/W) Reserved. */
+        uint64_t logl_en_rx            : 16; /**< [ 48: 33](R/W) When bit i is high, XOFF for the relevant priority (request MAC FC generation to
+                                                                 link partner) may be asserted.
+                                                                 This field is only relevant for PFC mode (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==1).
+                                                                 For link pause, see the equivalent RPM()_CMR_RX_OVR_BP[EN] and RPM()_CMR_RX_OVR_BP[BP] fields.
+
+                                                                 In PFC mode, this field is bit-ANDed with the result of:
+                                                                 chan_bp (from NIX-Rx), bit-OR
+                                                                 RX_LOGL_XON and RX_LOGL_XOFF CSRs logic, bit-OR
+                                                                 FIFO fill BP (x16 multiplied).
+
+                                                                 For FIFO fill BP, see RPM()_CMR()_RX_BP_ON, RPM()_CMR()_RX_BP_OFF, and
+                                                                 RPM()_CMR_RX_OVR_BP[IGN_FIFO_BP].
+                                                                 FIFO fill BP will cause XOFF for all priorities, except those masked with LOGL_EN_RX. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_prt_cbfc_ctl cavm_rpmx_cmrx_prt_cbfc_ctl_t;
 
@@ -13493,7 +13648,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_DMAC_CTL0(uint64_t a, uint64_t b)
 /**
  * Register (RSL) rpm#_cmr#_rx_fifo_len
  *
- * RPM CMR Receive Fifo Length Registers
+ * RPM CMR Receive FIFO Length Registers
  */
 union cavm_rpmx_cmrx_rx_fifo_len
 {
@@ -14064,7 +14219,24 @@ union cavm_rpmx_cmrx_rx_stat4
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_rx_stat4_s cn; */
+    /* struct cavm_rpmx_cmrx_rx_stat4_s cn10; */
+    /* struct cavm_rpmx_cmrx_rx_stat4_s cn10ka; */
+    /* struct cavm_rpmx_cmrx_rx_stat4_s cn10kb; */
+    /* struct cavm_rpmx_cmrx_rx_stat4_s cnf10ka; */
+    struct cavm_rpmx_cmrx_rx_stat4_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of FIFO full dropped packets. [CNT] will wrap and is cleared if LMAC is disabled
+                                                                 with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of FIFO full dropped packets. [CNT] will wrap and is cleared if LMAC is disabled
+                                                                 with
+                                                                 RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_rx_stat4 cavm_rpmx_cmrx_rx_stat4_t;
 
@@ -14110,7 +14282,22 @@ union cavm_rpmx_cmrx_rx_stat5
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_rx_stat5_s cn; */
+    /* struct cavm_rpmx_cmrx_rx_stat5_s cn10; */
+    /* struct cavm_rpmx_cmrx_rx_stat5_s cn10ka; */
+    /* struct cavm_rpmx_cmrx_rx_stat5_s cn10kb; */
+    /* struct cavm_rpmx_cmrx_rx_stat5_s cnf10ka; */
+    struct cavm_rpmx_cmrx_rx_stat5_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of FIFO full dropped packets. [CNT] will wrap and is cleared if LMAC
+                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of FIFO full dropped packets. [CNT] will wrap and is cleared if LMAC
+                                                                 is disabled with RPM()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_rx_stat5 cavm_rpmx_cmrx_rx_stat5_t;
 
@@ -14343,7 +14530,28 @@ union cavm_rpmx_cmrx_rx_stat_defer_xoff
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_rx_stat_defer_xoff_s cn; */
+    /* struct cavm_rpmx_cmrx_rx_stat_defer_xoff_s cn10; */
+    /* struct cavm_rpmx_cmrx_rx_stat_defer_xoff_s cn10ka; */
+    /* struct cavm_rpmx_cmrx_rx_stat_defer_xoff_s cn10kb; */
+    /* struct cavm_rpmx_cmrx_rx_stat_defer_xoff_s cnf10ka; */
+    struct cavm_rpmx_cmrx_rx_stat_defer_xoff_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of TX defer XON to XOFF transitions due to received PFC or pause packets,
+                                                                 equals number of posedges of stop_tx bits to MAC.
+                                                                 Note that stop_tx can occur also because of software override - see RPM()_CMR()_TX_OVR_BP.
+                                                                 Note that RPM()_CMR()_PRT_CBFC_CTL[PHYS_BP], RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_TX],
+                                                                 RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE] values affect occurrences of stop_tx due to pause_on. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of TX defer XON to XOFF transitions due to received PFC or pause packets,
+                                                                 equals number of posedges of stop_tx bits to MAC.
+                                                                 Note that stop_tx can occur also because of software override - see RPM()_CMR()_TX_OVR_BP.
+                                                                 Note that RPM()_CMR()_PRT_CBFC_CTL[PHYS_BP], RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_TX],
+                                                                 RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE] values affect occurrences of stop_tx due to pause_on. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_rx_stat_defer_xoff cavm_rpmx_cmrx_rx_stat_defer_xoff_t;
 
@@ -14392,7 +14600,30 @@ union cavm_rpmx_cmrx_rx_stat_prix_xoff
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_rx_stat_prix_xoff_s cn; */
+    /* struct cavm_rpmx_cmrx_rx_stat_prix_xoff_s cn10; */
+    /* struct cavm_rpmx_cmrx_rx_stat_prix_xoff_s cn10ka; */
+    /* struct cavm_rpmx_cmrx_rx_stat_prix_xoff_s cn10kb; */
+    /* struct cavm_rpmx_cmrx_rx_stat_prix_xoff_s cnf10ka; */
+    struct cavm_rpmx_cmrx_rx_stat_prix_xoff_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to received PFC or pause packets, equals
+                                                                 number of posedges of pause_on bits from MAC.
+                                                                 Counter per class.
+                                                                 When MAC works in Link Pause mode
+                                                                 (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0), only its counter 0 will
+                                                                 toggle. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to received PFC or pause packets, equals
+                                                                 number of posedges of pause_on bits from MAC.
+                                                                 Counter per class.
+                                                                 When MAC works in Link Pause mode
+                                                                 (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0), only its counter 0 will
+                                                                 toggle. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_rx_stat_prix_xoff cavm_rpmx_cmrx_rx_stat_prix_xoff_t;
 
@@ -14420,7 +14651,7 @@ static inline uint64_t CAVM_RPMX_CMRX_RX_STAT_PRIX_XOFF(uint64_t a, uint64_t b, 
 /**
  * Register (RSL) rpm#_cmr#_rx_undersize
  *
- * RPM Rx undersize frames control Register
+ * RPM Rx Undersize Frames Control Register
  */
 union cavm_rpmx_cmrx_rx_undersize
 {
@@ -14453,7 +14684,40 @@ union cavm_rpmx_cmrx_rx_undersize
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_rx_undersize_s cn; */
+    /* struct cavm_rpmx_cmrx_rx_undersize_s cn10; */
+    /* struct cavm_rpmx_cmrx_rx_undersize_s cn10ka; */
+    /* struct cavm_rpmx_cmrx_rx_undersize_s cn10kb; */
+    /* struct cavm_rpmx_cmrx_rx_undersize_s cnf10ka; */
+    struct cavm_rpmx_cmrx_rx_undersize_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t rx_small_frame_min_size : 7;/**< [  8:  2](R/W) When RX_DROP_SMALL_FRAME_EN is high, indicate the minimal allowed frame size (in bytes),
+                                                                 below which frames will be dropped by CMR.
+                                                                 This value has to be positive when [RX_DROP_SMALL_FRAME_EN] is 1.
+                                                                 A typical value is 0x3C (60B), since CRC is stripped previously by the MAC.
+                                                                 However, if RPM()_MTI_MAC100()_COMMAND_CONFIG[CRC_FWD] is 1, consider setting this value to 0x40. */
+        uint64_t rx_drop_small_frame_en : 1; /**< [  1:  1](R/W) When this is high, CMR will drop frames coming out of the MAC with
+                                                                 length\<[RX_SMALL_FRAME_MIN_SIZE].
+                                                                 Dropped undersized frames are counted in RPM()_CMR()_RX_STAT7 and RPM()_CMR()_RX_STAT8. */
+        uint64_t rx_ignore_minimal_frame_en : 1;/**< [  0:  0](R/W) When this is high, CMR will ignore frames coming out of the MAC with length\<=16B
+                                                                 (even if [RX_DROP_SMALL_FRAME_EN]==0).
+                                                                 These frames are counted in RPM()_CMR()_RX_STAT7 and RPM()_CMR()_RX_STAT8. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_ignore_minimal_frame_en : 1;/**< [  0:  0](R/W) When this is high, CMR will ignore frames coming out of the MAC with length\<=16B
+                                                                 (even if [RX_DROP_SMALL_FRAME_EN]==0).
+                                                                 These frames are counted in RPM()_CMR()_RX_STAT7 and RPM()_CMR()_RX_STAT8. */
+        uint64_t rx_drop_small_frame_en : 1; /**< [  1:  1](R/W) When this is high, CMR will drop frames coming out of the MAC with
+                                                                 length\<[RX_SMALL_FRAME_MIN_SIZE].
+                                                                 Dropped undersized frames are counted in RPM()_CMR()_RX_STAT7 and RPM()_CMR()_RX_STAT8. */
+        uint64_t rx_small_frame_min_size : 7;/**< [  8:  2](R/W) When RX_DROP_SMALL_FRAME_EN is high, indicate the minimal allowed frame size (in bytes),
+                                                                 below which frames will be dropped by CMR.
+                                                                 This value has to be positive when [RX_DROP_SMALL_FRAME_EN] is 1.
+                                                                 A typical value is 0x3C (60B), since CRC is stripped previously by the MAC.
+                                                                 However, if RPM()_MTI_MAC100()_COMMAND_CONFIG[CRC_FWD] is 1, consider setting this value to 0x40. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_rx_undersize cavm_rpmx_cmrx_rx_undersize_t;
 
@@ -14848,7 +15112,50 @@ union cavm_rpmx_cmrx_tx_channel
     } cn10ka;
     /* struct cavm_rpmx_cmrx_tx_channel_s cn10kb; */
     /* struct cavm_rpmx_cmrx_tx_channel_cn10ka cnf10ka; */
-    /* struct cavm_rpmx_cmrx_tx_channel_s cnf10kb; */
+    struct cavm_rpmx_cmrx_tx_channel_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t ebp_coupling_en       : 1;  /**< [ 16: 16](R/W) When 1, and mode==PFC, EBP sent to NIX-TX duplicates bit \<i\> to bit \<i+8\> (i=0..7).
+                                                                 EBP coupling provides an option for using 8 PFC channels towards the MAC and 16 towards the MCS.
+                                                                 The motivation is splitting priority/channel to two types: encrypted and non-encrypted,
+                                                                 where the latter may be used for one-step PTP messages, for example (i.e. in case
+                                                                 packet encryption after modification is not supported).
+
+                                                                 In coupling mode, both channels are a single software priority, and the split is
+                                                                 only for MCS processing;
+                                                                 hence, when we issue PFC on the encrypted priority, we should issue PFC on the
+                                                                 coupled non-encrypted channel as well.
+
+                                                                 Note: when coupling is enabled, bits [15:8] of RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_TX], TX_CHAN_BP,
+                                                                 RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP], and RPM()_CMR()_TX_CHANNEL[MSK]
+                                                                 CSRs have no effect on EBP to NIX.
+                                                                 See RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_TX] configuration for more details. */
+        uint64_t msk                   : 16; /**< [ 15:  0](R/W) Backpressure channel mask.
+                                                                 Any channel in which MSK\<n\> is set never sends backpressure information to NIX-TX.
+                                                                 See RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_TX] configuration for more details. */
+#else /* Word 0 - Little Endian */
+        uint64_t msk                   : 16; /**< [ 15:  0](R/W) Backpressure channel mask.
+                                                                 Any channel in which MSK\<n\> is set never sends backpressure information to NIX-TX.
+                                                                 See RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_TX] configuration for more details. */
+        uint64_t ebp_coupling_en       : 1;  /**< [ 16: 16](R/W) When 1, and mode==PFC, EBP sent to NIX-TX duplicates bit \<i\> to bit \<i+8\> (i=0..7).
+                                                                 EBP coupling provides an option for using 8 PFC channels towards the MAC and 16 towards the MCS.
+                                                                 The motivation is splitting priority/channel to two types: encrypted and non-encrypted,
+                                                                 where the latter may be used for one-step PTP messages, for example (i.e. in case
+                                                                 packet encryption after modification is not supported).
+
+                                                                 In coupling mode, both channels are a single software priority, and the split is
+                                                                 only for MCS processing;
+                                                                 hence, when we issue PFC on the encrypted priority, we should issue PFC on the
+                                                                 coupled non-encrypted channel as well.
+
+                                                                 Note: when coupling is enabled, bits [15:8] of RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_TX], TX_CHAN_BP,
+                                                                 RPM()_CMR()_TX_OVR_BP[TX_CHAN_BP], and RPM()_CMR()_TX_CHANNEL[MSK]
+                                                                 CSRs have no effect on EBP to NIX.
+                                                                 See RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_TX] configuration for more details. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_tx_channel cavm_rpmx_cmrx_tx_channel_t;
 
@@ -14946,7 +15253,26 @@ union cavm_rpmx_cmrx_tx_ovr_bp
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_tx_ovr_bp_s cn; */
+    /* struct cavm_rpmx_cmrx_tx_ovr_bp_s cn10; */
+    /* struct cavm_rpmx_cmrx_tx_ovr_bp_s cn10ka; */
+    /* struct cavm_rpmx_cmrx_tx_ovr_bp_s cn10kb; */
+    /* struct cavm_rpmx_cmrx_tx_ovr_bp_s cnf10ka; */
+    struct cavm_rpmx_cmrx_tx_ovr_bp_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel set override of backpressure status.
+                                                                 See RPM()_CMR()_PRT_CBFC[LOGL_EN_TX] configuration for more details.
+                                                                 0 = Channel is available.
+                                                                 1 = Channel is backpressured. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel set override of backpressure status.
+                                                                 See RPM()_CMR()_PRT_CBFC[LOGL_EN_TX] configuration for more details.
+                                                                 0 = Channel is available.
+                                                                 1 = Channel is backpressured. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_tx_ovr_bp cavm_rpmx_cmrx_tx_ovr_bp_t;
 
@@ -15093,7 +15419,56 @@ union cavm_rpmx_cmrx_tx_stat_prix_xoff
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_tx_stat_prix_xoff_s cn; */
+    /* struct cavm_rpmx_cmrx_tx_stat_prix_xoff_s cn10; */
+    /* struct cavm_rpmx_cmrx_tx_stat_prix_xoff_s cn10ka; */
+    /* struct cavm_rpmx_cmrx_tx_stat_prix_xoff_s cn10kb; */
+    /* struct cavm_rpmx_cmrx_tx_stat_prix_xoff_s cnf10ka; */
+    struct cavm_rpmx_cmrx_tx_stat_prix_xoff_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets.
+                                                                 Counter per class.
+                                                                 When the MAC works in link pause mode
+                                                                 (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0), only its counter 0 will
+                                                                 toggle.
+
+                                                                 Note that when working in PFC mode
+                                                                 (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==1), xoff_gen is affected by:
+                                                                 * RX Bulk FIFO level - combined with RPM()_CMR()_RX_BP_ON,
+                                                                 RPM()_CMR()_RX_BP_OFF, RPM()_CMR_RX_OVR_BP[IGN_FIFO_BP].
+                                                                 * Channel BP from NIX (x2p_bp) - combined with RPM()_CMR()_RX_LOGL_XOFF, RPM()_CMR()_RX_LOGL_XON.
+                                                                 * Enable logic RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_RX][15:0].
+
+                                                                 When working in link pause mode
+                                                                 (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0), xoff_gen is affected by:
+                                                                 * RX Bulk FIFO level - combined with RPM()_CMR()_RX_BP_ON,
+                                                                 RPM()_CMR()_RX_BP_OFF, RPM()_CMR_RX_OVR_BP[IGN_FIFO_BP].
+                                                                 * Channel BP from NIX (x2p_bp) - combined with RPM()_CMR_CHAN_MSK_AND, RPM()_CMR_CHAN_MSK_OR.
+                                                                 * Software override CSRs RPM()_CMR()_RX_OVR_BP[EN], RPM()_CMR()_RX_OVR_BP[BP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Number of XON to XOFF transitions due to generated PFC or pause packets.
+                                                                 Counter per class.
+                                                                 When the MAC works in link pause mode
+                                                                 (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0), only its counter 0 will
+                                                                 toggle.
+
+                                                                 Note that when working in PFC mode
+                                                                 (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==1), xoff_gen is affected by:
+                                                                 * RX Bulk FIFO level - combined with RPM()_CMR()_RX_BP_ON,
+                                                                 RPM()_CMR()_RX_BP_OFF, RPM()_CMR_RX_OVR_BP[IGN_FIFO_BP].
+                                                                 * Channel BP from NIX (x2p_bp) - combined with RPM()_CMR()_RX_LOGL_XOFF, RPM()_CMR()_RX_LOGL_XON.
+                                                                 * Enable logic RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_RX][15:0].
+
+                                                                 When working in link pause mode
+                                                                 (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0), xoff_gen is affected by:
+                                                                 * RX Bulk FIFO level - combined with RPM()_CMR()_RX_BP_ON,
+                                                                 RPM()_CMR()_RX_BP_OFF, RPM()_CMR_RX_OVR_BP[IGN_FIFO_BP].
+                                                                 * Channel BP from NIX (x2p_bp) - combined with RPM()_CMR_CHAN_MSK_AND, RPM()_CMR_CHAN_MSK_OR.
+                                                                 * Software override CSRs RPM()_CMR()_RX_OVR_BP[EN], RPM()_CMR()_RX_OVR_BP[BP]. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_tx_stat_prix_xoff cavm_rpmx_cmrx_tx_stat_prix_xoff_t;
 
@@ -15172,7 +15547,56 @@ union cavm_rpmx_cmrx_tx_thresh
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmrx_tx_thresh_s cn; */
+    /* struct cavm_rpmx_cmrx_tx_thresh_s cn10; */
+    /* struct cavm_rpmx_cmrx_tx_thresh_s cn10ka; */
+    /* struct cavm_rpmx_cmrx_tx_thresh_s cn10kb; */
+    /* struct cavm_rpmx_cmrx_tx_thresh_s cnf10ka; */
+    struct cavm_rpmx_cmrx_tx_thresh_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t ch_cred_only_after_mac_tx : 1;/**< [ 16: 16](R/W) When this bit is 1, ch_credit indications to P2X are delayed, to after data has left the MAC FIFO.
+                                                                 MAC FIFO fill level is indicated by wlevel signal. When wlevel is smaller than
+                                                                 the internal credit counter,
+                                                                 the gap between them corresponds to data that has already left the MAC FIFO.
+                                                                 The overall objective here is to be able to meet the standard requirement,
+                                                                 regarding maximum allowed TX residual data after PFC is received. */
+        uint64_t macout_thresh         : 3;  /**< [ 15: 13](R/W) Calibrated value, do not change it unless required to. Max value is 7.
+                                                                 CMR starts packet transmission to MAC only if macout FIFO fill (16B granularity)
+                                                                 is bigger than this value, or if FIFO contains an EOP beat. */
+        uint64_t bulk_thresh           : 13; /**< [ 12:  0](R/W) Number of 128-bit words (16 bytes) to accumulate in the CMR TX Bulk FIFO before
+                                                                 starting to send a new packet to MAC. Once packet started, it will not stop.
+                                                                 This field should be large enough to prevent underflow on the packet interface.
+                                                                 In all modes, this field cannot exceed the TX FIFO depth for this LMAC, determined by
+                                                                 RPM()_CMR_TX_LMACS (in terms of total bytes for each corresponding LMAC).
+                                                                 This value needs to be at least 6, in order to assure that CMR does not
+                                                                 introduce bubbles when feeding the MAC.
+                                                                 If netclk \> x2p2xclk, then it is set to:
+                                                                   BULK_THRESH = MTU_cycles * (1-(x2p2xclk_freq/netclk_freq)) + 6
+                                                                   Where MTU_cycles = ceil (MTU[Bytes] / 16) */
+#else /* Word 0 - Little Endian */
+        uint64_t bulk_thresh           : 13; /**< [ 12:  0](R/W) Number of 128-bit words (16 bytes) to accumulate in the CMR TX Bulk FIFO before
+                                                                 starting to send a new packet to MAC. Once packet started, it will not stop.
+                                                                 This field should be large enough to prevent underflow on the packet interface.
+                                                                 In all modes, this field cannot exceed the TX FIFO depth for this LMAC, determined by
+                                                                 RPM()_CMR_TX_LMACS (in terms of total bytes for each corresponding LMAC).
+                                                                 This value needs to be at least 6, in order to assure that CMR does not
+                                                                 introduce bubbles when feeding the MAC.
+                                                                 If netclk \> x2p2xclk, then it is set to:
+                                                                   BULK_THRESH = MTU_cycles * (1-(x2p2xclk_freq/netclk_freq)) + 6
+                                                                   Where MTU_cycles = ceil (MTU[Bytes] / 16) */
+        uint64_t macout_thresh         : 3;  /**< [ 15: 13](R/W) Calibrated value, do not change it unless required to. Max value is 7.
+                                                                 CMR starts packet transmission to MAC only if macout FIFO fill (16B granularity)
+                                                                 is bigger than this value, or if FIFO contains an EOP beat. */
+        uint64_t ch_cred_only_after_mac_tx : 1;/**< [ 16: 16](R/W) When this bit is 1, ch_credit indications to P2X are delayed, to after data has left the MAC FIFO.
+                                                                 MAC FIFO fill level is indicated by wlevel signal. When wlevel is smaller than
+                                                                 the internal credit counter,
+                                                                 the gap between them corresponds to data that has already left the MAC FIFO.
+                                                                 The overall objective here is to be able to meet the standard requirement,
+                                                                 regarding maximum allowed TX residual data after PFC is received. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmrx_tx_thresh cavm_rpmx_cmrx_tx_thresh_t;
 
@@ -15201,10 +15625,10 @@ static inline uint64_t CAVM_RPMX_CMRX_TX_THRESH(uint64_t a, uint64_t b)
  * Register (RSL) rpm#_cmr#_tx_user_pream_value
  *
  * User Preamble Tx value Register
- * Override Value to push to MAC as User Preamble.
+ * Override value to push to MAC as user preamble.
  * When RPM()_CMR()_CONFIG[TX_USER_PREAM_OVRD] is 1, push this value to the MAC.
  * Byte order: first network-order-Byte on the right side (lsb).
- * This CSR is Not applied with USER_PREAM_BYTE_FLIP.
+ * This CSR is not applied with RPM()_CMR()_CONFIG[USER_PREAM_BYTE_FLIP].
  */
 union cavm_rpmx_cmrx_tx_user_pream_value
 {
@@ -15363,7 +15787,39 @@ union cavm_rpmx_cmr_chan_msk_and
                                                                  _ LMAC 3: \<x:y\> = \<63:48\>. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmr_chan_msk_and_s cn; */
+    /* struct cavm_rpmx_cmr_chan_msk_and_s cn10; */
+    /* struct cavm_rpmx_cmr_chan_msk_and_s cn10ka; */
+    /* struct cavm_rpmx_cmr_chan_msk_and_s cnf10ka; */
+    struct cavm_rpmx_cmr_chan_msk_and_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Relevant for RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0 only (e.g. link pause mode).
+                                                                 Assert physical backpressure when the backpressure channel vector combined with [MSK_AND]
+                                                                 indicates backpressure as follows:
+                                                                 _ phys_bp_msk_and = [MSK_AND]\<x:y\> != 0 && (chan_vector\<x:y\> & [MSK_AND]\<x:y\>) ==
+                                                                 [MSK_AND]\<x:y\>
+                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
+
+                                                                 x/y are as follows:
+                                                                 _ LMAC 0: \<x:y\> = \<15:0\>.
+                                                                 _ LMAC 1: \<x:y\> = \<31:16\>.
+                                                                 _ LMAC 2: \<x:y\> = \<47:32\>.
+                                                                 _ LMAC 3: \<x:y\> = \<63:48\>. */
+#else /* Word 0 - Little Endian */
+        uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Relevant for RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0 only (e.g. link pause mode).
+                                                                 Assert physical backpressure when the backpressure channel vector combined with [MSK_AND]
+                                                                 indicates backpressure as follows:
+                                                                 _ phys_bp_msk_and = [MSK_AND]\<x:y\> != 0 && (chan_vector\<x:y\> & [MSK_AND]\<x:y\>) ==
+                                                                 [MSK_AND]\<x:y\>
+                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
+
+                                                                 x/y are as follows:
+                                                                 _ LMAC 0: \<x:y\> = \<15:0\>.
+                                                                 _ LMAC 1: \<x:y\> = \<31:16\>.
+                                                                 _ LMAC 2: \<x:y\> = \<47:32\>.
+                                                                 _ LMAC 3: \<x:y\> = \<63:48\>. */
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_chan_msk_and cavm_rpmx_cmr_chan_msk_and_t;
 
@@ -15424,7 +15880,39 @@ union cavm_rpmx_cmr_chan_msk_or
                                                                  _ LMAC 3: \<x:y\> = \<63:48\>. */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmr_chan_msk_or_s cn; */
+    /* struct cavm_rpmx_cmr_chan_msk_or_s cn10; */
+    /* struct cavm_rpmx_cmr_chan_msk_or_s cn10ka; */
+    /* struct cavm_rpmx_cmr_chan_msk_or_s cnf10ka; */
+    struct cavm_rpmx_cmr_chan_msk_or_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Relevant for RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0 only (e.g. link pause mode).
+                                                                 Assert physical backpressure when the backpressure channel vector combined with [MSK_OR]
+                                                                 indicates backpressure as follows:
+
+                                                                 _ phys_bp_msk_or = (chan_vector\<x:y\> & [MSK_OR]\<x:y\>) != 0
+                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
+
+                                                                 x/y are as follows:
+                                                                 _ LMAC 0: \<x:y\> = \<15:0\>.
+                                                                 _ LMAC 1: \<x:y\> = \<31:16\>.
+                                                                 _ LMAC 2: \<x:y\> = \<47:32\>.
+                                                                 _ LMAC 3: \<x:y\> = \<63:48\>. */
+#else /* Word 0 - Little Endian */
+        uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Relevant for RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0 only (e.g. link pause mode).
+                                                                 Assert physical backpressure when the backpressure channel vector combined with [MSK_OR]
+                                                                 indicates backpressure as follows:
+
+                                                                 _ phys_bp_msk_or = (chan_vector\<x:y\> & [MSK_OR]\<x:y\>) != 0
+                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
+
+                                                                 x/y are as follows:
+                                                                 _ LMAC 0: \<x:y\> = \<15:0\>.
+                                                                 _ LMAC 1: \<x:y\> = \<31:16\>.
+                                                                 _ LMAC 2: \<x:y\> = \<47:32\>.
+                                                                 _ LMAC 3: \<x:y\> = \<63:48\>. */
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_chan_msk_or cavm_rpmx_cmr_chan_msk_or_t;
 
@@ -15653,7 +16141,7 @@ union cavm_rpmx_cmr_global_config
                                                                  When high, x2p.clk_en output is always active. */
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) Reserved. */
         uint64_t reserved_5            : 1;
-        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface (affects X2P interface, and Rx SKID FIFO controls and data).
+        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface (affects X2P interface, and RX SKID FIFO controls and data).
                                                                  see also RPM()_CMR()_CONFIG[X2P_SELECT].
 
                                                                  \<pre\>
@@ -15675,7 +16163,7 @@ union cavm_rpmx_cmr_global_config
         uint64_t reserved_0            : 1;
         uint64_t rpm_clk_enable        : 1;  /**< [  1:  1](R/W) The global force-clock for RPM. Setting this bit to 1 overrides clock enables set by
                                                                  RPM()_CMR()_CONFIG[ENABLE], essentially turning on clocks for the entire RPM. */
-        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface (affects X2P interface, and Rx SKID FIFO controls and data).
+        uint64_t cmr_x2p_reset         : 3;  /**< [  4:  2](R/W) Reset bit per X2P interface (affects X2P interface, and RX SKID FIFO controls and data).
                                                                  see also RPM()_CMR()_CONFIG[X2P_SELECT].
 
                                                                  \<pre\>
@@ -16351,7 +16839,18 @@ union cavm_rpmx_cmr_p2x_nix0_nxc_adr
 #endif /* Word 0 - End */
     } cn10kb;
     /* struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s cnf10ka; */
-    /* struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_s cnf10kb; */
+    struct cavm_rpmx_cmr_p2x_nix0_nxc_adr_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX0 (see RPM()_CMR_P2X_NIX0_NXC). */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX0 (see RPM()_CMR_P2X_NIX0_NXC). */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIX0 (see RPM()_CMR_P2X_NIX0_NXC). */
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID for NXC exceptions associated with NIX0 (see RPM()_CMR_P2X_NIX0_NXC). */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_p2x_nix0_nxc_adr cavm_rpmx_cmr_p2x_nix0_nxc_adr_t;
 
@@ -16782,7 +17281,54 @@ union cavm_rpmx_cmr_rx_lmacs
 #endif /* Word 0 - End */
     } cn10kb;
     /* struct cavm_rpmx_cmr_rx_lmacs_cn10ka cnf10ka; */
-    /* struct cavm_rpmx_cmr_rx_lmacs_cn10ka cnf10kb; */
+    struct cavm_rpmx_cmr_rx_lmacs_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST])==3, in which case it determines which LMAC
+                                                                 of the three existing LMACs gets the bigger memory allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal (i.e.
+                                                                 LMAC_EXIST[HI_PERF_LMAC]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t lmac_exist            : 4;  /**< [  3:  0](R/W) Number of LMACS. Specifies which LMACs can be enabled for RX traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for RX traffic.
+                                                                 This also determines the logical RX buffer size assigned to each LMAC.
+
+                                                                 When all bits are 0, no LMAC may be enabled for Rx traffic.
+                                                                 _ When 1 LMAC exists: all the memory is assigned to that LMAC (RPM()_CONST[RX_FIFOSZ] bytes).
+                                                                 _ When 2 LMACs exist: RPM()_CONST[RX_FIFOSZ]/2 bytes are assigned per LMAC.
+                                                                 _ When 3 LMACs exist: RPM_CMR_RX_LMACS[HI_PERF_LMAC] gets assigned RPM()_CONST[RX_FIFOSZ]/2 bytes.
+                                                                                     RPM()_CONST[RX_FIFOSZ]/4 bytes are assigned to the other 2 existing LMACs.
+                                                                 _ When all 4 LMACs exist: RPM()_CONST[RX_FIFOSZ]/4 bytes are assigned per LMAC.
+
+                                                                 To be able to change the number of LMACs without affecting currently
+                                                                 active LMACs, this should be set to the maximum number of possible
+                                                                 LMACs desired in any re-configuration. */
+#else /* Word 0 - Little Endian */
+        uint64_t lmac_exist            : 4;  /**< [  3:  0](R/W) Number of LMACS. Specifies which LMACs can be enabled for RX traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for RX traffic.
+                                                                 This also determines the logical RX buffer size assigned to each LMAC.
+
+                                                                 When all bits are 0, no LMAC may be enabled for Rx traffic.
+                                                                 _ When 1 LMAC exists: all the memory is assigned to that LMAC (RPM()_CONST[RX_FIFOSZ] bytes).
+                                                                 _ When 2 LMACs exist: RPM()_CONST[RX_FIFOSZ]/2 bytes are assigned per LMAC.
+                                                                 _ When 3 LMACs exist: RPM_CMR_RX_LMACS[HI_PERF_LMAC] gets assigned RPM()_CONST[RX_FIFOSZ]/2 bytes.
+                                                                                     RPM()_CONST[RX_FIFOSZ]/4 bytes are assigned to the other 2 existing LMACs.
+                                                                 _ When all 4 LMACs exist: RPM()_CONST[RX_FIFOSZ]/4 bytes are assigned per LMAC.
+
+                                                                 To be able to change the number of LMACs without affecting currently
+                                                                 active LMACs, this should be set to the maximum number of possible
+                                                                 LMACs desired in any re-configuration. */
+        uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when sum(RPM_CMR_RX_LMACS[LMAC_EXIST])==3, in which case it determines which LMAC
+                                                                 of the three existing LMACs gets the bigger memory allocation for its Rx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal (i.e.
+                                                                 LMAC_EXIST[HI_PERF_LMAC]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_rx_lmacs cavm_rpmx_cmr_rx_lmacs_t;
 
@@ -16864,7 +17410,65 @@ union cavm_rpmx_cmr_rx_ovr_bp
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_cmr_rx_ovr_bp_s cn; */
+    /* struct cavm_rpmx_cmr_rx_ovr_bp_s cn10; */
+    /* struct cavm_rpmx_cmr_rx_ovr_bp_s cn10ka; */
+    /* struct cavm_rpmx_cmr_rx_ovr_bp_s cnf10ka; */
+    struct cavm_rpmx_cmr_rx_ovr_bp_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override (for link pause mode only).
+                                                                 0 = Don't enable.
+                                                                 1 = Enable override.
+
+                                                                 Bit\<8\> represents LMAC 0, ..., bit\<11\> represents LMAC 3.
+                                                                 When working in PFC mode (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE] == 1),
+                                                                 this field has no effect
+                                                                 (see RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_RX]). */
+        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for link pause mode only).
+                                                                 0 = LMAC is available.
+                                                                 1 = LMAC should be backpressured.
+
+                                                                 Bit\<4\> represents LMAC 0, ..., bit\<7\> represents LMAC 3.
+                                                                 When working in PFC mode (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE] == 1),
+                                                                 this field has no effect
+                                                                 (see RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_RX]). */
+        uint64_t ign_fifo_bp           : 4;  /**< [  3:  0](R/W) Ignore RPM()_CMR()_RX_BP_ON[MARK] when computing backpressure. CMR does not
+                                                                 backpressure the MAC due to the FIFO fill passing RPM()_CMR()_RX_BP_ON[MARK].
+                                                                 This field applies both for PFC and link pause modes (either values of PFC_MODE CSR).
+                                                                 When RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0 (link pause mode), and IGN_FIFO_BP==0,
+                                                                 then high FIFO fill will cause XOFF for priority 0 to be asserted.
+                                                                 When RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==1 (PFC mode), and IGN_FIFO_BP==0,
+                                                                 then high FIFO will cause XOFF for all priorities to be asserted, if the respective bit in
+                                                                 RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_RX] is high as well. */
+#else /* Word 0 - Little Endian */
+        uint64_t ign_fifo_bp           : 4;  /**< [  3:  0](R/W) Ignore RPM()_CMR()_RX_BP_ON[MARK] when computing backpressure. CMR does not
+                                                                 backpressure the MAC due to the FIFO fill passing RPM()_CMR()_RX_BP_ON[MARK].
+                                                                 This field applies both for PFC and link pause modes (either values of PFC_MODE CSR).
+                                                                 When RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==0 (link pause mode), and IGN_FIFO_BP==0,
+                                                                 then high FIFO fill will cause XOFF for priority 0 to be asserted.
+                                                                 When RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE]==1 (PFC mode), and IGN_FIFO_BP==0,
+                                                                 then high FIFO will cause XOFF for all priorities to be asserted, if the respective bit in
+                                                                 RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_RX] is high as well. */
+        uint64_t bp                    : 4;  /**< [  7:  4](R/W) Per-LMAC backpressure status to use, when override is enabled (for link pause mode only).
+                                                                 0 = LMAC is available.
+                                                                 1 = LMAC should be backpressured.
+
+                                                                 Bit\<4\> represents LMAC 0, ..., bit\<7\> represents LMAC 3.
+                                                                 When working in PFC mode (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE] == 1),
+                                                                 this field has no effect
+                                                                 (see RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_RX]). */
+        uint64_t en                    : 4;  /**< [ 11:  8](R/W) Per-LMAC enable backpressure override (for link pause mode only).
+                                                                 0 = Don't enable.
+                                                                 1 = Enable override.
+
+                                                                 Bit\<8\> represents LMAC 0, ..., bit\<11\> represents LMAC 3.
+                                                                 When working in PFC mode (RPM()_MTI_MAC100()_COMMAND_CONFIG[PFC_MODE] == 1),
+                                                                 this field has no effect
+                                                                 (see RPM()_CMR()_PRT_CBFC_CTL[LOGL_EN_RX]). */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_rx_ovr_bp cavm_rpmx_cmr_rx_ovr_bp_t;
 
@@ -17071,8 +17675,8 @@ static inline uint64_t CAVM_RPMX_CMR_RX_STEERING_VETYPE0X(uint64_t a, uint64_t b
  * Register (RSL) rpm#_cmr_tx_lmacs
  *
  * RPM CMR Transmit Logical MACs Registers
- * Configure LMAC existence for Tx Bulk memory allocation.
- * Tx Bulk FIFO memory is statically allocated among existing LMACs, as indicated by this CSR.
+ * Configure LMAC existence for TX bulk memory allocation.
+ * TX bulk FIFO memory is statically allocated among existing LMACs, as indicated by this CSR.
  * This configuration may be written only once, before setting the RPM_CMR()_CONFIG[ENABLE] bits.
  */
 union cavm_rpmx_cmr_tx_lmacs
@@ -17240,7 +17844,54 @@ union cavm_rpmx_cmr_tx_lmacs
 #endif /* Word 0 - End */
     } cn10kb;
     /* struct cavm_rpmx_cmr_tx_lmacs_cn10ka cnf10ka; */
-    /* struct cavm_rpmx_cmr_tx_lmacs_cn10ka cnf10kb; */
+    struct cavm_rpmx_cmr_tx_lmacs_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when RPM_CMR_TX_LMACS[LMAC_EXIST]==3, in which case it determines which LMAC
+                                                                 of the three existing LMACs gets the bigger memory allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal (i.e.
+                                                                 LMAC_EXIST[HI_PERF_LMAC]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t lmac_exist            : 4;  /**< [  3:  0](R/W) Number of LMACS. Specifies which LMACs can be enabled for TX traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for TX traffic.
+                                                                 This also determines the logical TX buffer size assigned to each LMAC.
+
+                                                                 _ When all bits are 0: no LMAC may be enabled for Tx traffic.
+                                                                 _ When 1 LMAC exists: all the memory is assigned to that LMAC (RPM()_CONST[TX_FIFOSZ] bytes).
+                                                                 _ When 2 LMACs exist: RPM()_CONST[TX_FIFOSZ]/2 bytes are assigned per LMAC.
+                                                                 _ When 3 LMACs exist: RPM_CMR_TX_LMACS[HI_PERF_LMAC] gets assigned RPM()_CONST[TX_FIFOSZ]/2 bytes.
+                                                                                     RPM()_CONST[TX_FIFOSZ]/4 bytes are assigned to the other 2 existing LMACs.
+                                                                 _ When all 4 LMACs exist: RPM()_CONST[TX_FIFOSZ]/4 bytes are assigned per LMAC.
+
+                                                                 To be able to change the number of LMACs without affecting currently
+                                                                 active LMACs, this should be set to the maximum number of possible
+                                                                 LMACs desired in any re-configuration. */
+#else /* Word 0 - Little Endian */
+        uint64_t lmac_exist            : 4;  /**< [  3:  0](R/W) Number of LMACS. Specifies which LMACs can be enabled for TX traffic.
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC).
+                                                                 When bit n is set to 1, LMAC[n] can be enabled for TX traffic.
+                                                                 This also determines the logical TX buffer size assigned to each LMAC.
+
+                                                                 _ When all bits are 0: no LMAC may be enabled for Tx traffic.
+                                                                 _ When 1 LMAC exists: all the memory is assigned to that LMAC (RPM()_CONST[TX_FIFOSZ] bytes).
+                                                                 _ When 2 LMACs exist: RPM()_CONST[TX_FIFOSZ]/2 bytes are assigned per LMAC.
+                                                                 _ When 3 LMACs exist: RPM_CMR_TX_LMACS[HI_PERF_LMAC] gets assigned RPM()_CONST[TX_FIFOSZ]/2 bytes.
+                                                                                     RPM()_CONST[TX_FIFOSZ]/4 bytes are assigned to the other 2 existing LMACs.
+                                                                 _ When all 4 LMACs exist: RPM()_CONST[TX_FIFOSZ]/4 bytes are assigned per LMAC.
+
+                                                                 To be able to change the number of LMACs without affecting currently
+                                                                 active LMACs, this should be set to the maximum number of possible
+                                                                 LMACs desired in any re-configuration. */
+        uint64_t hi_perf_lmac          : 2;  /**< [  5:  4](R/W) Relevant only when RPM_CMR_TX_LMACS[LMAC_EXIST]==3, in which case it determines which LMAC
+                                                                 of the three existing LMACs gets the bigger memory allocation for its Tx buffer.
+                                                                 The configured LMAC must exist in order for this configuration to be legal (i.e.
+                                                                 LMAC_EXIST[HI_PERF_LMAC]==1).
+                                                                 This CSR may be configured only once, at initialization (before enabling the LMAC). */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_cmr_tx_lmacs cavm_rpmx_cmr_tx_lmacs_t;
 
@@ -17333,7 +17984,28 @@ union cavm_rpmx_const
         uint64_t ver                   : 8;  /**< [ 63: 56](RO) HW Major version */
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_const_s cn; */
+    /* struct cavm_rpmx_const_s cn10; */
+    /* struct cavm_rpmx_const_s cn10ka; */
+    /* struct cavm_rpmx_const_s cn10kb; */
+    /* struct cavm_rpmx_const_s cnf10ka; */
+    struct cavm_rpmx_const_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ver                   : 8;  /**< [ 63: 56](RO) HW Major version */
+        uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of receive buffering (RX bulk FIFO) in entire RPM. This buffering may be split
+                                                                 between LMACs; see RPM()_CMR_RX_LMACS. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering (TX bulk FIFO) in entire RPM. This buffering may be split
+                                                                 between LMACs; see RPM()_CMR_TX_LMACS. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_fifosz             : 24; /**< [ 23:  0](RO) Number of bytes of transmit buffering (TX bulk FIFO) in entire RPM. This buffering may be split
+                                                                 between LMACs; see RPM()_CMR_TX_LMACS. */
+        uint64_t lmacs                 : 8;  /**< [ 31: 24](RO) Number of LMACs. */
+        uint64_t rx_fifosz             : 24; /**< [ 55: 32](RO) Number of bytes of receive buffering (RX bulk FIFO) in entire RPM. This buffering may be split
+                                                                 between LMACs; see RPM()_CMR_RX_LMACS. */
+        uint64_t ver                   : 8;  /**< [ 63: 56](RO) HW Major version */
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_const cavm_rpmx_const_t;
 
@@ -19609,7 +20281,82 @@ union cavm_rpmx_ext_mti_portx_status
 #endif /* Word 0 - End */
     } cn10kb;
     /* struct cavm_rpmx_ext_mti_portx_status_s cnf10ka; */
-    /* struct cavm_rpmx_ext_mti_portx_status_s cnf10kb; */
+    struct cavm_rpmx_ext_mti_portx_status_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_27_63        : 37;
+        uint64_t link_ok_clean         : 1;  /**< [ 26: 26](RO/H) Same as LINK_OK, but not affected by
+                                                                 RPM_EXT_MTI_PORT()_CONTROL[FORCE_LINK_OK_DIS] or
+                                                                 RPM_EXT_MTI_PORT()_CONTROL[FORCE_LINK_OK_EN]. */
+        uint64_t ff_rx_dsav            : 1;  /**< [ 25: 25](RO/H) MAC RX FIFO fill level is higher than configurable threshold. */
+        uint64_t ff_rx_empty           : 1;  /**< [ 24: 24](RO/H) MAC RX FIFO is empty. */
+        uint64_t ff_tx_septy           : 1;  /**< [ 23: 23](RO/H) MAC TX FIFO fill level is lower than configurable threshold. */
+        uint64_t pfc_mode              : 1;  /**< [ 22: 22](RO/H) Reserved. */
+        uint64_t mac_tx_ts_frm_out     : 1;  /**< [ 21: 21](RO/H) Asserts for PTP frames. */
+        uint64_t mac_tx_isidle         : 1;  /**< [ 20: 20](RO/H) MAC transmit is idle - no transmission. */
+        uint64_t mac_tx_empty          : 1;  /**< [ 19: 19](RO/H) MAC transmit FIFO is empty. */
+        uint64_t tx_traffic_ind        : 1;  /**< [ 18: 18](RO/H) Traffic detected on the TX MII. */
+        uint64_t rx_traffic_ind        : 1;  /**< [ 17: 17](RO/H) Traffic detected on the RX MII. */
+        uint64_t rsfec_aligned         : 1;  /**< [ 16: 16](RO/H) RS-FEC alignment status. */
+        uint64_t hi_ber                : 1;  /**< [ 15: 15](RO/H) Indicates high bit error rate. */
+        uint64_t ber_timer_done        : 1;  /**< [ 14: 14](RO/H) This is a pulse indicating the end of BER window */
+        uint64_t align_done            : 1;  /**< [ 13: 13](RO/H) 100G Eth Alignment Marker Lock indication.
+                                                                 Relevant only for even ports (0,2,4,6) and only when set to 100G. */
+        uint64_t mac_res_speed         : 8;  /**< [ 12:  5](RO/H) Port speed:
+                                                                 0x1 = 10M
+                                                                 0x2 = 100M
+                                                                 0x3 = 1G/2.5G
+                                                                 0x6 = 10G/25G
+                                                                 0x7 = 40G
+                                                                 0x8 = 50G
+                                                                 0x9 = 100G
+                                                                 0xFF = reset value / channel unusable. */
+        uint64_t lpcs_an_done          : 1;  /**< [  4:  4](RO/H) Asserts (1) when the internal (Clause 37) autonegotiation function completed.
+                                                                 The application can then inspect the ability registers as needed to set speed
+                                                                 for the link. */
+        uint64_t lpcs_rx_sync          : 1;  /**< [  3:  3](RO/H) Asserts (1) when the receiver detected comma characters and 10B alignment has been achieved. */
+        uint64_t lpcs_link_status      : 1;  /**< [  2:  2](RO/H) Low rates PCS link. */
+        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high BER is present. */
+        uint64_t link_ok               : 1;  /**< [  0:  0](RO/H) LINK_STATUS (or LPCS_LINK_STATUS in case of low rates - up to 2.5G)
+                                                                 AND no faults are present. */
+#else /* Word 0 - Little Endian */
+        uint64_t link_ok               : 1;  /**< [  0:  0](RO/H) LINK_STATUS (or LPCS_LINK_STATUS in case of low rates - up to 2.5G)
+                                                                 AND no faults are present. */
+        uint64_t link_status           : 1;  /**< [  1:  1](RO/H) PCS is locked and aligned, and no high BER is present. */
+        uint64_t lpcs_link_status      : 1;  /**< [  2:  2](RO/H) Low rates PCS link. */
+        uint64_t lpcs_rx_sync          : 1;  /**< [  3:  3](RO/H) Asserts (1) when the receiver detected comma characters and 10B alignment has been achieved. */
+        uint64_t lpcs_an_done          : 1;  /**< [  4:  4](RO/H) Asserts (1) when the internal (Clause 37) autonegotiation function completed.
+                                                                 The application can then inspect the ability registers as needed to set speed
+                                                                 for the link. */
+        uint64_t mac_res_speed         : 8;  /**< [ 12:  5](RO/H) Port speed:
+                                                                 0x1 = 10M
+                                                                 0x2 = 100M
+                                                                 0x3 = 1G/2.5G
+                                                                 0x6 = 10G/25G
+                                                                 0x7 = 40G
+                                                                 0x8 = 50G
+                                                                 0x9 = 100G
+                                                                 0xFF = reset value / channel unusable. */
+        uint64_t align_done            : 1;  /**< [ 13: 13](RO/H) 100G Eth Alignment Marker Lock indication.
+                                                                 Relevant only for even ports (0,2,4,6) and only when set to 100G. */
+        uint64_t ber_timer_done        : 1;  /**< [ 14: 14](RO/H) This is a pulse indicating the end of BER window */
+        uint64_t hi_ber                : 1;  /**< [ 15: 15](RO/H) Indicates high bit error rate. */
+        uint64_t rsfec_aligned         : 1;  /**< [ 16: 16](RO/H) RS-FEC alignment status. */
+        uint64_t rx_traffic_ind        : 1;  /**< [ 17: 17](RO/H) Traffic detected on the RX MII. */
+        uint64_t tx_traffic_ind        : 1;  /**< [ 18: 18](RO/H) Traffic detected on the TX MII. */
+        uint64_t mac_tx_empty          : 1;  /**< [ 19: 19](RO/H) MAC transmit FIFO is empty. */
+        uint64_t mac_tx_isidle         : 1;  /**< [ 20: 20](RO/H) MAC transmit is idle - no transmission. */
+        uint64_t mac_tx_ts_frm_out     : 1;  /**< [ 21: 21](RO/H) Asserts for PTP frames. */
+        uint64_t pfc_mode              : 1;  /**< [ 22: 22](RO/H) Reserved. */
+        uint64_t ff_tx_septy           : 1;  /**< [ 23: 23](RO/H) MAC TX FIFO fill level is lower than configurable threshold. */
+        uint64_t ff_rx_empty           : 1;  /**< [ 24: 24](RO/H) MAC RX FIFO is empty. */
+        uint64_t ff_rx_dsav            : 1;  /**< [ 25: 25](RO/H) MAC RX FIFO fill level is higher than configurable threshold. */
+        uint64_t link_ok_clean         : 1;  /**< [ 26: 26](RO/H) Same as LINK_OK, but not affected by
+                                                                 RPM_EXT_MTI_PORT()_CONTROL[FORCE_LINK_OK_DIS] or
+                                                                 RPM_EXT_MTI_PORT()_CONTROL[FORCE_LINK_OK_EN]. */
+        uint64_t reserved_27_63        : 37;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_ext_mti_portx_status cavm_rpmx_ext_mti_portx_status_t;
 
@@ -23518,7 +24265,34 @@ union cavm_rpmx_mti_mac100x_rx_fifo_sections
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_mac100x_rx_fifo_sections_s cn; */
+    /* struct cavm_rpmx_mti_mac100x_rx_fifo_sections_s cn10; */
+    /* struct cavm_rpmx_mti_mac100x_rx_fifo_sections_s cn10ka; */
+    /* struct cavm_rpmx_mti_mac100x_rx_fifo_sections_s cn10kb; */
+    /* struct cavm_rpmx_mti_mac100x_rx_fifo_sections_s cnf10ka; */
+    struct cavm_rpmx_mti_mac100x_rx_fifo_sections_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t rx_section_empty      : 16; /**< [ 31: 16](R/W) RX section empty threshold. When FIFO level reaches the SECTION_EMPTY value, an indication
+                                                                 is provided to the MAC transmitter, which generates a XOFF Pause frame to peer.
+                                                                 Value 0 disables the function, and the MAC is never informed of a congestion. */
+        uint64_t rx_section_full       : 16; /**< [ 15:  0](R/W) RX section full threshold. When the FIFO level reaches this value, CMR is notified
+                                                                 that data is available in the receive FIFO
+                                                                 (either a complete frame, or at least the threshold amount).
+                                                                 Value 0x0 causes CMR to be notified only when a complete frame is stored in the FIFO.
+                                                                 The value is specified in units of 16 bytes, and the maximum value is 0x20, i.e. 512 bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_section_full       : 16; /**< [ 15:  0](R/W) RX section full threshold. When the FIFO level reaches this value, CMR is notified
+                                                                 that data is available in the receive FIFO
+                                                                 (either a complete frame, or at least the threshold amount).
+                                                                 Value 0x0 causes CMR to be notified only when a complete frame is stored in the FIFO.
+                                                                 The value is specified in units of 16 bytes, and the maximum value is 0x20, i.e. 512 bytes. */
+        uint64_t rx_section_empty      : 16; /**< [ 31: 16](R/W) RX section empty threshold. When FIFO level reaches the SECTION_EMPTY value, an indication
+                                                                 is provided to the MAC transmitter, which generates a XOFF Pause frame to peer.
+                                                                 Value 0 disables the function, and the MAC is never informed of a congestion. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_mti_mac100x_rx_fifo_sections cavm_rpmx_mti_mac100x_rx_fifo_sections_t;
 
@@ -23997,7 +24771,38 @@ union cavm_rpmx_mti_mac100x_tx_fifo_sections
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct cavm_rpmx_mti_mac100x_tx_fifo_sections_s cn; */
+    /* struct cavm_rpmx_mti_mac100x_tx_fifo_sections_s cn10; */
+    /* struct cavm_rpmx_mti_mac100x_tx_fifo_sections_s cn10ka; */
+    /* struct cavm_rpmx_mti_mac100x_tx_fifo_sections_s cn10kb; */
+    /* struct cavm_rpmx_mti_mac100x_tx_fifo_sections_s cnf10ka; */
+    struct cavm_rpmx_mti_mac100x_tx_fifo_sections_cnf10kb
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold.
+                                                                 When the FIFO level reaches this value, CMR is notified that the Transmit FIFO is getting full.
+                                                                 When set to 0 (disable), CMR is not notified. */
+        uint64_t tx_section_full       : 16; /**< [ 15:  0](R/W) TX section full threshold. When the FIFO level reaches the section full value,
+                                                                 the MAC transmit control logic starts frame transmission (cut-through operation).
+                                                                 Independent of the setting, if a complete frame is stored, transmission will always start.
+                                                                 When operating in cut-through mode, the section full value must be set to greater or equal to 4.
+                                                                 The value is specified in units of 16 bytes, and the maximum value is 0x20, i.e. 512 bytes.
+
+                                                                 This field must not be set to 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_section_full       : 16; /**< [ 15:  0](R/W) TX section full threshold. When the FIFO level reaches the section full value,
+                                                                 the MAC transmit control logic starts frame transmission (cut-through operation).
+                                                                 Independent of the setting, if a complete frame is stored, transmission will always start.
+                                                                 When operating in cut-through mode, the section full value must be set to greater or equal to 4.
+                                                                 The value is specified in units of 16 bytes, and the maximum value is 0x20, i.e. 512 bytes.
+
+                                                                 This field must not be set to 0x0. */
+        uint64_t tx_section_empty      : 16; /**< [ 31: 16](R/W) TX section empty threshold.
+                                                                 When the FIFO level reaches this value, CMR is notified that the Transmit FIFO is getting full.
+                                                                 When set to 0 (disable), CMR is not notified. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cnf10kb;
 };
 typedef union cavm_rpmx_mti_mac100x_tx_fifo_sections cavm_rpmx_mti_mac100x_tx_fifo_sections_t;
 

@@ -7836,7 +7836,9 @@ union cavm_pcieepx_ptm_cap
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t clkg                  : 8;  /**< [ 15:  8](RO/WRSL/H) PTM local clock granularity.
+        uint32_t clkg                  : 8;  /**< [ 15:  8](RO/WRSL) PTM local clock granularity.
+                                                                 Writable through PEM()_CFG_TBL().
+                                                                 0x0: Time Source does not implement a local clock.
 
                                                                  Reset values:
                                                                  _ PF0:          0x10.
@@ -7884,7 +7886,9 @@ union cavm_pcieepx_ptm_cap
                                                                  _ PF0:          0x1.
                                                                  _ PF1:          0x0. */
         uint32_t reserved_4_7          : 4;
-        uint32_t clkg                  : 8;  /**< [ 15:  8](RO/WRSL/H) PTM local clock granularity.
+        uint32_t clkg                  : 8;  /**< [ 15:  8](RO/WRSL) PTM local clock granularity.
+                                                                 Writable through PEM()_CFG_TBL().
+                                                                 0x0: Time Source does not implement a local clock.
 
                                                                  Reset values:
                                                                  _ PF0:          0x10.
