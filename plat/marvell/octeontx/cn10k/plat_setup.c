@@ -1198,6 +1198,28 @@ bool plat_ras_feature_supported(void)
 		return 0;
 }
 
+
+/* Cleanup the dummy etf nodes */
+void coresight_etf_resvmem_cleanup(void)
+{
+	int i, offset;
+	void *fdt = fdt_ptr;
+	char cs_node_name[32];
+
+	for (i = 0; i < PLATFORM_CORE_COUNT; i++) {
+		snprintf(cs_node_name, sizeof(cs_node_name),
+			 "/reserved-memory/etf%d_trace", i);
+		VERBOSE("deleting node %s\n", cs_node_name);
+		offset = fdt_path_offset(fdt, cs_node_name);
+		if (offset < 0) {
+			ERROR("%s: Unable to find node %s, error %d\n",
+				__func__, cs_node_name, offset);
+			continue;
+		}
+		fdt_del_node((void *)fdt, offset);
+	}
+}
+
 void plat_initialize_coresight_metadata_area(void)
 {
 	const char *cs_presrv_mem_name = "/reserved-memory/coresight-presrv";
@@ -1225,6 +1247,8 @@ void plat_initialize_coresight_metadata_area(void)
 	cs_off = fdt_path_offset(fdt, cs_presrv_mem_name);
 	if (cs_off == -1) {
 		VERBOSE("Missing Coresight Preserve area from DT\n");
+		/* Cleanup all the ETF resv mem nodes */
+		coresight_etf_resvmem_cleanup();
 		return;
 	}
 
