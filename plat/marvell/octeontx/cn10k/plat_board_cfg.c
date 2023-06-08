@@ -175,12 +175,25 @@ static int fdt_check_compatible_new_old_fmt(const void *fdt, int nodeoffset,
 	return ret;
 }
 
+int plat_cn10k_get_core_count(void)
+{
+	uint64_t rst_pp_available;
+	uint32_t core_cnt = 0;
+
+	rst_pp_available = CSR_READ(CAVM_RST_PP_AVAILABLE);
+	while (rst_pp_available) {
+		rst_pp_available &= (rst_pp_available - 1);
+		core_cnt++;
+	}
+
+	return core_cnt;
+}
+
 void plat_cn10k_fdt_tad_pmu_node_refresh(void)
 {
 	uint32_t tad_pmu_page_size;
-	uint64_t rst_pp_available;
+	uint32_t core_cnt;
 	uint32_t tad_page_size;
-	uint32_t core_cnt = 0;
 	void *fdt = fdt_ptr;
 	const char *compat;
 	uint32_t tad_cnt;
@@ -189,15 +202,11 @@ void plat_cn10k_fdt_tad_pmu_node_refresh(void)
 	size_t size;
 	int offs;
 
-	rst_pp_available = CSR_READ(CAVM_RST_PP_AVAILABLE);
-	while (rst_pp_available) {
-		rst_pp_available &= (rst_pp_available - 1);
-		core_cnt++;
-	}
+	core_cnt = plat_cn10k_get_core_count();
 
 	/* Expect a minimum of one active cpu */
 	if (core_cnt == 0) {
-		ERROR("RST_PP_AVAILABLE can't be zero\n");
+		ERROR("Core count can't be zero\n");
 		panic();
 	}
 
@@ -3021,6 +3030,58 @@ static void cn10k_get_persist_data_config(const void *fdt)
 	}
 }
 
+static void octeontx_fdt_node_del(const void *fdt, char *node_name)
+{
+	int offset;
+
+	VERBOSE("Deleting node %s\n", node_name);
+	offset = fdt_path_offset(fdt, node_name);
+	if (offset < 0) {
+		WARN("%s: Unable to find node %s, error %d\n",
+			__func__, node_name, offset);
+		return;
+	}
+	fdt_del_node((void *)fdt, offset);
+}
+
+void fdt_coresight_node_refresh(const void *fdt)
+{
+	char node_name[64];
+	int i, ncores;
+
+	ncores = plat_cn10k_get_core_count();
+	if (!ncores) {
+		WARN("%s: No active cpus\n", __func__);
+		return;
+	}
+
+	for (i = ncores; i < PLATFORM_CORE_COUNT ; i++) {
+		snprintf(node_name, sizeof(node_name), "/soc@0/ete%d", i);
+		octeontx_fdt_node_del(fdt, node_name);
+
+		snprintf(node_name, sizeof(node_name), "/soc@0/etf%d@%lx",
+		i, 0x87a004010000 + i * 0x100000);
+		octeontx_fdt_node_del(fdt, node_name);
+
+		/* ST funnel ports */
+		snprintf(node_name, sizeof(node_name),
+			 "/soc@0/st_funnel/in-ports/port@%x", i);
+		octeontx_fdt_node_del(fdt, node_name);
+
+		snprintf(node_name, sizeof(node_name), "/soc@0/ap_cti%d@%lx",
+		i, 0x87a080010000 + i * 0x2000000);
+		octeontx_fdt_node_del(fdt, node_name);
+
+		snprintf(node_name, sizeof(node_name), "/soc@0/etf_cti%d@%lx",
+		i, 0x87a004020000 + i * 0x100000);
+		octeontx_fdt_node_del(fdt, node_name);
+
+		snprintf(node_name, sizeof(node_name), "/soc@0/pmpcsr%d@%lx",
+		i, 0x87a081020000 + i * 0x2000000);
+		octeontx_fdt_node_del(fdt, node_name);
+	}
+}
+
 int plat_octeontx_fill_board_details(void)
 {
 	void *fdt = fdt_ptr;
@@ -3084,6 +3145,8 @@ int plat_octeontx_fill_board_details(void)
 		plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_out = strtol(str, NULL, 0);
 		printf("SHUTOUT: %s\n", str);
 	}
+
+	fdt_coresight_node_refresh(fdt);
 
 	return 0;
 }
