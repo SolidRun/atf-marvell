@@ -316,6 +316,8 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	uint64_t reg_addr = 0, reg_size = 0;
 	int ret = 0;
 
+	VERBOSE("%s: smc_fid = 0x%x\n", __func__, smc_fid);
+
 	switch (smc_fid) {
 	case PLAT_OCTEONTX_DISABLE_RVU_LFS:
 		spin_lock(&octeontx_smc_rvu_lock);
