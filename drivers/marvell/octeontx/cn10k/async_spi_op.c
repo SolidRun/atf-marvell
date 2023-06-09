@@ -264,8 +264,8 @@ static int async_tim_handler(int tim)
 	aperf_counter.time_count++;
 	aperf_counter.total_time += async_handler_time_total;
 
-	spi_dev_unlock(bus);
 	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+	spi_dev_unlock(bus);
 
 	return 0;
 }
