@@ -420,7 +420,7 @@ static void init_gti(uint64_t config_base, uint64_t config_size)
 	int i;
 	uint8_t cap_pointer, bir = 0;
 	uint16_t table_size = 0;
-	uint64_t vector_base = 0, msg = 0;
+	uint64_t vector_base = 0, msg = 0, addr = CAVM_GICD_SETSPI_NSR;
 	volatile uint32_t *sctl = (uint32_t *)
 			 (config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
 
@@ -440,25 +440,32 @@ static void init_gti(uint64_t config_base, uint64_t config_size)
 
 	/* configure interrupt vectors */
 	for (i = 0; i < table_size; i++) {
-		if (i < CAVM_GTI_INT_VEC_E_TX_TIMESTAMP)
-			octeontx_write64(vector_base, (i % 2) ? CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR);
-		else
-			octeontx_write64(vector_base, CAVM_GICD_SETSPI_NSR);
+		addr = CAVM_GICD_SETSPI_NSR;
+		if (i < CAVM_GTI_INT_VEC_E_TX_TIMESTAMP) {
+			if (i % 2)
+				addr = CAVM_GICD_CLRSPI_NSR;
+		}
+
+		octeontx_write64(vector_base, addr);
+
 		vector_base += 8;
 		if (i == CAVM_GTI_INT_VEC_E_WATCHDOG ||
 		    i == CAVM_GTI_INT_VEC_E_WATCHDOG_CLEAR) {
 			assert(GTI_WATCHDOG_SPI_IRQ_DEVS > 0);
 			msg = GTI_WATCHDOG_SPI_IRQ(0);
+#if defined(PLAT_CN10K_FAMILY)
+		} else if (i == CAVM_GTI_INT_VEC_E_CORE_WDOGX_INT(63)) {
+			msg = GTI_CWD_GBL_SPI_IRQ(0);
+#endif
 		} else {
 			msg = 0x100000000ULL; /* Masked */
 		}
 		octeontx_write64(vector_base, msg);
 		vector_base += 8;
-		debug_io("GTI: Vector:%d address :%" PRIx64 " irq:%" PRIu64 "\n", i,
-			(i % 2 && i < CAVM_GTI_INT_VEC_E_TX_TIMESTAMP) ?
-				CAVM_GICD_CLRSPI_NSR : CAVM_GICD_SETSPI_NSR,
-			msg);
+		debug_io("GTI: Vector:%d address :%" PRIx64 " irq:%" PRIu64 "\n",
+			 i, addr, msg);
 	}
+
 	*sctl |= 0x1;
 }
 
