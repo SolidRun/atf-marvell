@@ -156,8 +156,12 @@ static int load_and_verify_image(uint32_t addr, int bus, int cs,
 	}
 
 	if (spi_nor_read((uint8_t *)img_addr, tim_info->image_length, addr,
-			 get_spi_mode(addr), bus, cs))
+			 get_spi_mode(addr), bus, cs)) {
+
+		spi_dev_unlock(bus);
+
 		return -EIO;
+	}
 
 	if (spi_dev_unlock(bus)) {
 		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
@@ -208,7 +212,7 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 	if (spi_config(CONFIG_SPI_FREQUENCY, 0, 0, 0, bus, cs)) {
 		debug_spi_nor("SPI: Config flash failed\n");
 		err = -SPI_CONFIG_ERR;
-		goto err;
+		goto err1;
 	}
 
 	err = parse_fw_address_size(file, &addr, &map_size);
@@ -226,6 +230,7 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 						       MT_RW | MT_NS)) {
 		debug_spi_nor("Switch: mmap failed (%d)\n", err);
 		err = -SPI_MMAP_ERR;
+		goto err;
 	}
 
 	/* Read the TIM header */
@@ -293,7 +298,12 @@ static int parse_fw_image(const char *name, uintptr_t img_addr, uint32_t *size)
 	err = load_and_verify_image(addr, bus, cs, img_addr, tim_info, name);
 
 	*size = tim_info->image_length;
+
 err:
+	/* unmap non-secure memory buffer */
+	octeontx_mmap_remove_dynamic_region_with_sync(img_addr, map_size);
+
+err1:
 	if (spi_dev_unlock(bus))
 		WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
 
@@ -302,8 +312,6 @@ err:
 	memset(hinfo, 0, sizeof(*hinfo));
 	memset(tim_info, 0, sizeof(*tim_info));
 
-	/* unmap non-secure memory buffer */
-	octeontx_mmap_remove_dynamic_region_with_sync(img_addr, map_size);
 	return err;
 }
 
@@ -1033,16 +1041,18 @@ unsigned long sec_spi_operation(int offset, uintptr_t efi_buf, uint64_t *efi_siz
 
 		if (spi_dev_lock(bus)) {
 			ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
-			return -1;
+			r = -1;
+			goto err;
 		}
 
 		r =  cn10k_spi_dev_read(efi_buf, efi_size, offset, bus, cs);
 
 		if (spi_dev_unlock(bus)) {
 			WARN("%s: SPI_%d: Unlock failed\n", __func__, bus);
-			return -1;
+			r = -1;
 		}
 
+err:
 		/* unmap non-secure memory buffer */
 		octeontx_mmap_remove_dynamic_region_with_sync(aligned_base, aligned_size);
 		break;
