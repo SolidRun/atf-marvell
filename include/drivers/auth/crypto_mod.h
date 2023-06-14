@@ -31,7 +31,8 @@ enum crypto_ret_value {
 
 /* Decryption algorithm */
 enum crypto_dec_algo {
-	CRYPTO_GCM_DECRYPT = 0
+	CRYPTO_GCM_DECRYPT = 0,
+	CRYPTO_AES_128_CBC = 1
 };
 
 /* Message digest algorithm */

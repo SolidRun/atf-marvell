@@ -274,7 +274,6 @@ static int calc_hash(enum crypto_md_algo md_algo, void *data_ptr,
 #endif /* CRYPTO_SUPPORT == CRYPTO_HASH_CALC_ONLY || \
 	  CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC */
 
-#if CRYPTO_BOARD_BOOT
 #if TF_MBEDTLS_USE_AES_GCM
 /*
  * Stack based buffer allocation for decryption operation. It could
@@ -376,20 +375,25 @@ static int auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
 }
 #endif /* TF_MBEDTLS_USE_AES_GCM */
 
-static int aes_cbc_decrypt_image(void *data_ptr, unsigned int data_len,
-				 unsigned int cipher_type, unsigned char **key,
-				 unsigned int *key_len)
+//#if (TBBR_CIPHER_TYPE_ID == TBBR_AES_128_CBC)
+#if CRYPTO_BOARD_BOOT
+static int aes_cbc_decrypt_image(enum crypto_dec_algo dec_algo,
+				void *data_ptr,
+				unsigned int data_len,
+				const void *key,
+				unsigned int *key_len)
 {
 	mbedtls_aes_context ctx;
 	unsigned char iv[16] = { 0 };
 	unsigned char *ptr = (unsigned char *)data_ptr;
 	int rc;
 
-	switch (cipher_type) {
-	case TBBR_AES_128_CBC:
+	switch (dec_algo) {
+	case CRYPTO_AES_128_CBC:
 		mbedtls_aes_init(&ctx);
 
-		rc = mbedtls_aes_setkey_dec(&ctx, *key, (*key_len) * 8);
+		rc = mbedtls_aes_setkey_dec(&ctx, (unsigned char *)key,
+								(*key_len) * 8);
 		if (rc != 0) {
 			printf("CRYPTO: Unable to set AES key for decryption, rc=%d\n",
 			       rc);
@@ -410,12 +414,24 @@ exit_cbc:
 		break;
 
 	default:
-		printf("CRYPTO: Unsupported cipher type: %d\n", cipher_type);
+		printf("CRYPTO: Unsupported cipher type: %d\n", dec_algo);
 		rc = CRYPTO_ERR_DECRYPT;
 	}
 	return rc;
 }
+
+static int aes_cbc_auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
+			size_t len, const void *key, unsigned int key_len,
+			unsigned int key_flags, const void *iv,
+			unsigned int iv_len, const void *tag,
+			unsigned int tag_len)
+{
+	return aes_cbc_decrypt_image(dec_algo, data_ptr, len, key, &key_len);
+}
+
+
 #else
+
 static int decrypt_image_null(enum crypto_dec_algo dec_algo, void *data_ptr,
 			size_t len, const void *key, unsigned int key_len,
 			unsigned int key_flags, const void *iv,
@@ -551,20 +567,24 @@ static int auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
  */
 #if CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC
 #if TF_MBEDTLS_USE_AES_GCM
-REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash, calc_hash,
-		    auth_decrypt);
+	REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
+						calc_hash, auth_decrypt);
 #else
-REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash, calc_hash,
-		    NULL);
+	REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
+						calc_hash, NULL);
 #endif
 #elif CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_ONLY
 #if TF_MBEDTLS_USE_AES_GCM
-REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
-		    auth_decrypt);
+	REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
+						auth_decrypt);
+#elif CRYPTO_BOARD_BOOT
+	REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
+						aes_cbc_auth_decrypt);
 #else
-REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
-			decrypt_image_null);
+	REGISTER_CRYPTO_LIB(LIB_NAME, init, verify_signature, verify_hash,
+						decrypt_image_null);
 #endif
 #elif CRYPTO_SUPPORT == CRYPTO_HASH_CALC_ONLY
-REGISTER_CRYPTO_LIB(LIB_NAME, init, calc_hash);
-#endif /* CRYPTO_SUPPORT == CRYPTO_AUTH_VERIFY_AND_HASH_CALC */
+		REGISTER_CRYPTO_LIB(LIB_NAME, init, calc_hash);
+#endif
+
