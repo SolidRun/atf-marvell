@@ -133,6 +133,15 @@ static void init_rvu_rid(uint64_t config_base, uint64_t config_size)
 	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
 }
 
+static void init_ptp(uint64_t config_base, uint64_t config_size)
+{
+	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
+
+	vsec_sctl.u = octeontx_read32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL);
+	vsec_sctl.s.rid = plat_configure_rid();
+	octeontx_write32(config_base + CAVM_PCCPF_XXX_VSEC_SCTL, vsec_sctl.u);
+}
+
 static void init_rvu(uint64_t config_base, uint64_t config_size)
 {
 	union cavm_pccpf_xxx_vsec_sctl vsec_sctl;
@@ -360,6 +369,7 @@ struct ecam_init_callback plat_init_callbacks[] = {
 #endif
 	{0xa09b, 0x177d, init_xspi},
 	{0xa098, 0x177d, init_rnm},
+	{0xa09e, 0x177d, init_ptp},  /* 0x9e */
 	{ECAM_INVALID_DEV_ID, 0, 0}
 };
 
