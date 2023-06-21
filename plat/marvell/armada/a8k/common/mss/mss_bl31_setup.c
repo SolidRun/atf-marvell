@@ -12,7 +12,6 @@
 #include <lib/mmio.h>
 
 #include <armada_common.h>
-
 #include "mss_defs.h"
 
 void mss_start_cp_cm3(int cp)

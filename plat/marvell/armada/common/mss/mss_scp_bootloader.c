@@ -48,7 +48,8 @@ static int mss_check_image_ready(volatile struct mss_pm_ctrl_block *mss_pm_crtl)
 	return 0;
 }
 
-static int mss_image_load(uint32_t src_addr, uint32_t size, uintptr_t mss_regs)
+static int mss_iram_dma_load(uint32_t src_addr, uint32_t size,
+			     uintptr_t mss_regs)
 {
 	uint32_t i, loop_num, timeout;
 
