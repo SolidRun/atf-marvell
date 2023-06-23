@@ -361,6 +361,30 @@ Example syntax to enable LED link and activity for SFP port (to be added in EBF 
 
 	NETWORK-LED-ACTIVITY.N0.CGX2.P0 = "QLM6_LANE0_ACT";
 
+2.10 Ignore persistent option
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When user updates mode/FEC change during runtime, settings are saved in SPI flash
+and are persistent across reboots (Mode/FEC setting from DTS/EBF setup menu won't
+take effect in this case). If user doesn't need these settings to be persistent,
+"atf,ignore_persistent" can be added to board linux DT as the below suggested
+syntax
+
+
+&spi_6_0 {
+        flash@0 {
+                compatible = "jedec,spi-nor", "spi-flash";
+                reg = <0x0>;
+                spi-max-frequency = <25000000>;
+                #address-cells = <1>;
+                #size-cells = <1>;
+                spi-tx-bus-width = <4>;
+                spi-rx-bus-width = <4>;
+                u-boot,env;
+                atf,ignore_persistent;
+        };
+};
+
 
 3 ATF CGX Interface
 -------------------
@@ -1590,6 +1614,10 @@ The above command provides the supported FEC types for a particular ethernet int
 
 The above command provides option to user to change FEC type for a particular ethernet interface. Allowed FEC types depends on the protocol.
 
+NOTE: set_fec for the ethernet port is persistent across reboots until user changes FEC in
+u-boot/linux or if "set_ignore ethX 1" command is executed in u-boot (explained in
+section 8.5)
+
 8.2 Read QSFP/SFP module info via ethtool
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -1653,7 +1681,12 @@ Set FEC type for any RVU PF-based network interface
 
    get_fec <ethX>
 
-Display FEC type for an RVU PF-based network interface
+Display FEC type for an RVU PF-based network interface. get_fec will display the correct FEC type
+only when either the link is brought up in u-boot or set_fec command was executed.
+
+NOTE: set_fec for the ethernet port is persistent across reboots until user changes FEC in
+u-boot/linux or if "set_ignore ethX 1" command is executed in u-boot (explained in
+section 8.5)
 
 .. code-block:: bash
 
@@ -1669,8 +1702,28 @@ Set line-side PHY MOD type for an RVU PF-based network interface
 
 * where type - 0 [NRZ] 1 [PAM4]
 
+8.5 set_ignore command
+^^^^^^^^^^^^^^^^^^^^^^
 
-8.5 Change speed/mode via ethtool
+.. code-block:: bash
+
+   set_ignore <ethX> 1
+
+This command can be executed in u-boot if user doesn't need the mode/FEC settings changed in
+u-boot/linux to take effect (ethernet mode set in DTS/EBF setup menu will take effect).
+For FEC setting, if user needs to set fec, linux DTS has to be updated (FEC setting from
+EBF setup menu won't take effect in u-boot/linux)
+
+.. code-block:: bash
+
+   set_ignore <ethX> 0
+
+This command can be executed in u-boot if user need the mode/FEC settings changed in u-boot/linux
+to be persistent across reboots (default option, unless "atf,ignore_persistent" DTS option is added
+to board linux DT as mentioned in section 2.10). Settings from EBF setup menu/DTS won't take
+effect in this case.
+
+8.6 Change speed/mode via ethtool
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
@@ -1845,7 +1898,7 @@ Quad Lane Backplane/Chip-to-Chip Protocols
 Quad Lane Cable Protocols
 * MODE change between 40G_C2M(XLAUI_C2M) / 40G_CR4 / 100G_C2M(CAUI_4_C2M) / 100G_CR4
 
-8.6 Change speed via ethtool
+8.7 Change speed via ethtool
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The below commands are to change the speed/auto-neg/duplex with the mode (advertise) remaining the same.
