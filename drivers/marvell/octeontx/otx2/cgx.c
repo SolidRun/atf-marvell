@@ -2128,7 +2128,7 @@ int cgx_validate_fec_config(int cgx_id, int lmac_id, int req_fec)
 		}
 	break;
 	case CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R:
-		if ((fec != CGX_FEC_BASE_R) && (fec != CGX_FEC_RS)) {
+		if (fec != CGX_FEC_RS) {
 			WARN("%s: 100G PCS doesn't support FEC type %d\t"
 				"default FEC type will be set\n",
 				__func__, req_fec);

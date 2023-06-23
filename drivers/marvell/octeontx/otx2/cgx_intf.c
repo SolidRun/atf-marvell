@@ -1656,9 +1656,9 @@ int cgx_set_fec_type(int cgx_id, int lmac_id, int req_fec)
 	}
 
 	if ((!lmac->phy_present) && (req_fec == lmac->fec)) {
-		WARN("%s: %d:%d FEC requested is same as current FEC state\n",
+		debug_cgx_intf("%s: %d:%d FEC requested is same as current FEC state\n",
 				__func__, cgx_id, lmac_id);
-		return 0;
+		goto update_link_state;
 	}
 
 	/* Validate FEC based on LMAC mode, QLM mode, and PHY mod type */
@@ -1676,9 +1676,9 @@ int cgx_set_fec_type(int cgx_id, int lmac_id, int req_fec)
 	 */
 	if ((lmac->phy_present) && (lmac->phy_config.init)) {
 		if (req_fec == lmac->line_fec) {
-			WARN("%s: %d:%d FEC requested is same as current FEC state\n",
+			debug_cgx_intf("%s: %d:%d FEC requested is same as current FEC state\n",
 				__func__, cgx_id, lmac_id);
-			return 0;
+			goto update_link_state;
 		}
 		lmac->line_fec = req_fec;
 		/* Update the line side of PHY fec but keep the
@@ -1707,6 +1707,7 @@ int cgx_set_fec_type(int cgx_id, int lmac_id, int req_fec)
 			goto anlt_fec_fail;
 	}
 
+update_link_state:
 	/* Just update the new FEC type but use the existing link status */
 	link.s.fec = lmac_ctx->s.fec = req_fec;
 	link.s.link_up = lmac_ctx->s.link_up;
