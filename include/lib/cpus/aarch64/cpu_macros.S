@@ -229,6 +229,61 @@
 			\_extra1, \_extra2, \_extra3, 0, \_power_down_ops
 	.endm
 
+/*******************************************************************************
+ * Errata workaround helpers
+ ******************************************************************************/
+/*
+ * Set a bit in a system register. Can set multiple bits but is limited by the
+ *  way the ORR instruction encodes them.
+ *
+ * _reg:
+ *	Register to write to
+ *
+ * _bit:
+ *	Bit to set. Please use a descriptive #define
+ *
+ * _assert:
+ *	Optionally whether to read back and assert that the bit has been
+ *	written. Please disable with NO_ASSERT macro
+ *
+ * clobbers: x1
+ */
+.macro sysreg_bit_set _reg:req, _bit:req, _assert=1
+	mrs	x1, \_reg
+	orr	x1, x1, #\_bit
+	msr	\_reg, x1
+.endm
+
+/*
+ * Clear a bit in a system register. Can clear multiple bits but is limited by
+ *  the way the BIC instrucion encodes them.
+ *
+ * see sysreg_bit_set for usage
+ */
+.macro sysreg_bit_clear _reg:req, _bit:req
+	mrs	x1, \_reg
+	bic	x1, x1, #\_bit
+	msr	\_reg, x1
+.endm
+
+.macro override_vector_table _table:req
+	adr	x1, \_table
+	msr	vbar_el3, x1
+.endm
+
+/*
+ * BFI : Inserts bitfield into a system register.
+ *
+ * BFI{cond} Rd, Rn, #lsb, #width
+ */
+.macro sysreg_bitfield_insert _reg:req, _src:req, _lsb:req, _width:req
+	/* Source value for BFI */
+	mov	x1, #\_src
+	mrs	x0, \_reg
+	bfi	x0, x1, #\_lsb, #\_width
+	msr	\_reg, x0
+.endm
+
 #if REPORT_ERRATA
 	/*
 	 * Print status of a CPU errata
@@ -311,4 +366,23 @@
 	b.eq	\_label
 	.endm
 
+/*
+ * Maintain compatibility with the old scheme of each cpu has its own reporting.
+ * TODO remove entirely once all cpus have been converted. This includes the
+ * cpu_ops entry, as print_errata_status can call this directly for all cpus
+ */
+.macro errata_report_shim _cpu:req
+	#if REPORT_ERRATA
+	func \_cpu\()_errata_report
+		/* normal stack frame for pretty debugging */
+		stp	x29, x30, [sp, #-16]!
+		mov	x29, sp
+
+		bl	generic_errata_report
+
+		ldp	x29, x30, [sp], #16
+		ret
+	endfunc \_cpu\()_errata_report
+	#endif
+.endm
 #endif /* CPU_MACROS_S */
