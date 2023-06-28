@@ -24,10 +24,12 @@
 /* Bits [125:95] - 31 data bits total, 32nd bit is parity for bits [125:63] */
 #define MVEBU_AP_LDX_125_95_EFUSE_OFFS	(MVEBU_AP_LD_EFUSE_BASE + 0xC)
 /* Bits [157:126] - 32 data bits total */
-#define MVEBU_AP_LDX_126_157_EFUSE_OFFS	(MVEBU_AP_LD_EFUSE_BASE + 0x10)
+#define MVEBU_AP_LDX_157_126_EFUSE_OFFS	(MVEBU_AP_LD_EFUSE_BASE + 0x10)
 /* Bits [188:158] - 31 data bits total, 32nd bit is parity for bits [188:126] */
 #define MVEBU_AP_LDX_188_158_EFUSE_OFFS	(MVEBU_AP_LD_EFUSE_BASE + 0x14)
 /* Bits [220:189] - 32 data bits total */
 #define MVEBU_AP_LDX_220_189_EFUSE_OFFS	(MVEBU_AP_LD_EFUSE_BASE + 0x18)
+/* Bits [251:221] - 31 data bits total */
+#define MVEBU_AP_LDX_251_221_EFUSE_OFFS	(MVEBU_AP_LD_EFUSE_BASE + 0x1C)
 
 #endif /* EFUSE_DEF_H */

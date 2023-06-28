@@ -86,6 +86,12 @@
 #define EFUSE_SRV_CTRL_LD_SELECT_OFFS	6
 #define EFUSE_SRV_CTRL_LD_SEL_USER_MASK	(1 << EFUSE_SRV_CTRL_LD_SELECT_OFFS)
 
+/* VDD is 0.865V for 2.5GHz clock on CN9130H device */
+#define AVS_AP807_CLK_VALUE_H		((0x80UL << 24) | \
+					 (0x2e9 << 13) | \
+					 (0x2e9 << 3) | \
+					 (0x1 << AVS_SOFT_RESET_OFFSET) | \
+					 (0x1 << AVS_ENABLE_OFFSET))
 
 /*
  * - Identification information in the LD-0 eFuse:
@@ -93,6 +99,7 @@
  *	Revision:      LD0[78:75] - Not used by the SW
  *	Bin:           LD0[80:79] - Not used by the SW
  *	SW Revision:   LD0[115:113]
+ *	9130H:		   LD0[192] - if set to 1, 9130H
  *	Cluster 1 PWR: LD0[193] - if set to 1, power down CPU Cluster-1
  *				  resulting in 2 CPUs active only (7020)
  */
@@ -133,6 +140,8 @@
 #define EFUSE_AP_LD0_SVC4_OFFS			42	/* LD0[112:105] */
 
 #define EFUSE_AP_LD0_CLUSTER_DOWN_OFFS		4
+#define EFUSE_AP_LD0_9130H_OFFS		3		/* LD0[192] */
+#define EFUSE_AP_LD0_9130H(v)		(((v) >> EFUSE_AP_LD0_9130H_OFFS) & 1)
 
 #if MARVELL_SVC_TEST
 #define MVEBU_CP_MPP_CTRL37_OFFS	20
@@ -196,6 +205,15 @@ static void ble_plat_mmap_config(int restore)
 }
 
 /****************************************************************************
+ * Check EFUSE_AP_LD0_9130H
+ ****************************************************************************
+ */
+static bool is_9130h_set(void)
+{
+	return EFUSE_AP_LD0_9130H(mmio_read_32(MVEBU_AP_LDX_220_189_EFUSE_OFFS)) == 1;
+}
+
+/****************************************************************************
  * Setup Adaptive Voltage Switching - this is required for some platforms
  ****************************************************************************
  */
@@ -211,7 +229,7 @@ static void ble_plat_avs_config(void)
 	/* Check which SoC is running and act accordingly */
 	if (ble_get_ap_type() == CHIP_ID_AP807) {
 
-		avs_val = AVS_AP807_CLK_VALUE;
+		avs_val = (is_9130h_set()) ? AVS_AP807_CLK_VALUE_H : AVS_AP807_CLK_VALUE;
 
 	} else {
 		/* Check which SoC is running and act accordingly */
@@ -236,7 +254,7 @@ static void ble_plat_avs_config(void)
 	}
 
 	if (avs_val) {
-		VERBOSE("AVS: Setting AVS CTRL to 0x%x\n", avs_val);
+		NOTICE("AVS: Setting AVS CTRL to 0x%x\n", avs_val);
 		mmio_write_32(AVS_EN_CTRL_REG, avs_val);
 	}
 }
@@ -378,6 +396,13 @@ static void ble_plat_svc_config(void)
 	reg_val = mmio_read_32(MVEBU_AP_EFUSE_SRV_CTRL_REG);
 	reg_val &= ~EFUSE_SRV_CTRL_LD_SELECT_MASK;
 	mmio_write_32(MVEBU_AP_EFUSE_SRV_CTRL_REG, reg_val);
+
+	if (is_9130h_set()) {
+		NOTICE("SVC: DEV ID: %s, FREQ Mode: 0x%x\n",
+			"CN9130H", CPU_2500_DDR_1200_RCLK_1200);
+		ble_plat_avs_config();
+		return;
+	}
 
 	/* Obtain the value of LD0[125:63] */
 	efuse = mmio_read_32(MVEBU_AP_LDX_125_95_EFUSE_OFFS);
@@ -752,7 +777,7 @@ int ble_plat_setup(int *skip)
 
 	/* work with PLL clock driver in AP807 */
 	if (ble_get_ap_type() == CHIP_ID_AP807)
-		ap807_clocks_init(freq_mode);
+		ap807_clocks_init(is_9130h_set() ? CPU_2500_DDR_1200_RCLK_1200 : freq_mode);
 
 	/* Do required AP setups for BLE stage */
 	ap_ble_init();
