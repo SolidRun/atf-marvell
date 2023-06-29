@@ -1,7 +1,20 @@
-Post Package Repair (PPR) implementation
-========================================
+Hard Post Package Repair (hPPR) implementation
+==============================================
 
-The purpose of this document is to describe the ATF's Post Package Repair (PPR).
+The purpose of this document is to describe the ATF's Hard Post Package Repair (hPPR).
+
+Driver support
+1. Hard Post Package Repair When Due (periodic hPPR based on ECS data)
+2. Hard Post Package Repair On Demand (manual hPPR based on user-provided data)
+
+
+
+Hard Post Package Repair When Due
+=================================
+
+J) DDR ECS Statistics Enable (1)
+E) DDR Hard Post Package Repair When Due (1)
+
 The PPR driver supports Fail Row address repair for DDR5 based on
 collected statistic.
 For internal details about DDR5 PPR procedure refer to JESD79-5 4.29.
@@ -141,7 +154,7 @@ Next ppr index point on PPR region record index for next hPPR repair procedure t
 The further header can be extended to add communication with EBF and track PPR progress.
 
 Example:
-========
+--------
 
 In the same BA rows 20,21,22 failed, if only one repair row exist
 row 22 should be repaired because of maximum accumulated EpRC.
@@ -182,65 +195,252 @@ cases - Number of times row failed in current PPR cycle Id.
 cycle - Id of PPR cycle, when row failed. Next PPR cycle Id sheduled by PPR timer
         or by EpRC value reached threshold.
 
-<- repaired - mark repaired rows
+repaired - mark repaired rows
 
 PPR flash region keeps cycle 0 and cycle 1 records because
 system alive 2 * PPR_cycle without reboot.
 After reboot system execute hPPR (if enabled) and update PPR region
 head pointer.
 
-PPR on-demand:
-==============
+
+
+Hard Post Package Repair On Demand
+==================================
+
+The user is able to point out on particular row to repair it.
+
+Disable concurrent Hard Post Package Repair When Due option required:
+	E) DDR Hard Post Package Repair When Due (0)
+	I) DDR HPPR Skip Repairing Step (0)
+	
 
 Select particular row for repair:
+	D) EBF_CONFIG_DDR5_PPR_CHANNEL  (0x0)  (0x0)  (0x0)
+	E) EBF_CONFIG_DDR5_PPR_RANK  (0x0)  (0x0)  (0x0)
+	F) EBF_CONFIG_DDR5_PPR_DEVICE  (0x0)  (0x0)  (0x0)
+	G) EBF_CONFIG_DDR5_PPR_BG  (0x0)  (0x0)  (0x0)
+	H) EBF_CONFIG_DDR5_PPR_BA  (0x0)  (0x0)  (0x0)
+	I) EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0x40000)
+
+EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0x40000) - 0x40000 is a special magic number 
+                     to disable hPPR on demand for particular DSS that set row into 0x40000.
+
+It is example of hPPR On Demand for [5 0 4 2 3 61500]
+The channel is 5
+The rank is    0
+DRAM device id 4
+Bank Group is  2
+Bank id is     3
+Row number is  61500
+
+For platform with DSS0, DSS1, DSS2 are 6 channels 0,1,2,3,4,5.
+DSS0: ch0 + ch1
+DSS1: ch2 + ch3
+DSS2: ch4 + ch5 
+
+Absolute channel number 5 is for DSS2 and relative addressing for it is DSS2 + channel 1.
+
+Choice: D
+(INS)Enter value: dss2: 1
+Choice: E
+
+(INS)Enter value: dss2: 0
+Choice: F
+(INS)Enter value: dss2: 4
+Choice: G
+(INS)Enter value: dss2: 2
+Choice: H
+(INS)Enter value: dss2: 3
+Choice: I
+(INS)Enter value: dss2: 61500
+
+	D) EBF_CONFIG_DDR5_PPR_CHANNEL  (0x0)  (0x0)  (0x1)
+	E) EBF_CONFIG_DDR5_PPR_RANK  (0x0)  (0x0)  (0x0)
+	F) EBF_CONFIG_DDR5_PPR_DEVICE  (0x0)  (0x0)  (0x4)
+	G) EBF_CONFIG_DDR5_PPR_BG  (0x0)  (0x0)  (0x2)
+	H) EBF_CONFIG_DDR5_PPR_BA  (0x0)  (0x0)  (0x3)
+	I) EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0xf03c)
+	
+I) EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0xf03c) - consider only DSS2 for hPPR on demand, 
+                                because  only DSS2 has row id set into value less that 0x40000
+                                On the contrary I) EBF_CONFIG_DDR5_PPR_ROW  (0xf03c)  (0xf03c)  (0xf03c) - row number 61500 
+                                is about to be repaired for the next devices:
+                                [0 0 0 0 0 61500]
+                                [0 0 0 0 0 61500]
+                                [1 1 0 2 1 61500]
+                                that is not what we want so enable only proper DSS by set row id only for proper DSS
+
+Next combination enable hPPR On Demand for channel 5
+D) EBF_CONFIG_DDR5_PPR_CHANNEL  (0x0)  (0x0)  (0x1)
+I) EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0xf03c)
+
+Next combination enable hPPR On Demand for channel 4
 D) EBF_CONFIG_DDR5_PPR_CHANNEL  (0x0)  (0x0)  (0x0)
+I) EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0xf03c)
+
+Next combination enable hPPR On Demand for channel 0 and channel 4
+D) EBF_CONFIG_DDR5_PPR_CHANNEL  (0x0)  (0x0)  (0x0)
+I) EBF_CONFIG_DDR5_PPR_ROW  (0x1)  (0x40000)  (0x1)
+
+The valid channel range is [0, 1] per DSS and protected in setup menu.
+
+I) DDR HPPR Skip Repairing Step (0)
+-----------------------------------
+If a user would like to check Post Package Repair On Demand Enable in debug mode
+to test hPPR but not utilize row resources, should set the option I) DDR HPPR Skip Repairing Step (1)
+Keep repairing active with:
+I) DDR HPPR Skip Repairing Step (0)
+
+Additional hPPR logs can be enabled by
+1) DRAM Initialization                      (Enabled)
+
+
+0d00h00m29.016100s: DRAM: PPR region empty                                                                     <--- so far this system do not have ECS statistics, 
+                                                                                                                    because ECS is disabled or because all DRAMs are in good shape.
+0d00h00m29.017501s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffff6
+0d00h00m29.026317s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xfffffffe
+0d00h00m29.035511s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xfffffffe
+0d00h00m29.044699s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xfffffffe       <--- hPPR resources for DRAM3 in channel 0 and rank 0.
+                                                                                                                    0xfffffffe - 8 BG and 4 Banks
+                                                                                                                    0xe (0b1110) - BankGroup0, Bank3, Bank2, Bank1, Bank0
+                                                                                                                    (0b1110) - Bank0 in BG0 is "0" - all resources already used for [0 0 3 0 0]
+0d00h00m29.053913s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM4 MR54 - MR57 = 0xffffffff
+0d00h00m29.063455s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM0 MR54 - MR57 = 0xffffffff
+0d00h00m29.072270s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m29.081459s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m29.090653s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m29.099867s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM4 MR54 - MR57 = 0xffffffff
+0d00h00m29.109403s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 2 cs: 0 DRAM0 MR54 - MR57 = 0xffffffff
+0d00h00m29.118227s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 2 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m29.127416s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 2 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m29.136607s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 2 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m29.145810s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 2 cs: 0 DRAM4 MR54 - MR57 = 0xffffffff
+0d00h00m29.155355s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 3 cs: 0 DRAM0 MR54 - MR57 = 0xffffffff
+0d00h00m29.164177s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 3 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m29.173359s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 3 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m29.182552s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 3 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m29.191768s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 3 cs: 0 DRAM4 MR54 - MR57 = 0xffffffff
+0d00h00m29.201304s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 4 cs: 0 DRAM0 MR54 - MR57 = 0xffffffff
+0d00h00m29.210119s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 4 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m29.219319s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 4 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m29.228507s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 4 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m29.237718s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 4 cs: 0 DRAM4 MR54 - MR57 = 0xffffffff
+0d00h00m29.247259s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM0 MR54 - MR57 = 0xffffffff
+0d00h00m29.256073s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m29.265266s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m29.274459s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m29.283671s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM4 MR54 - MR57 = 0xffffffff
+ebf_perform_ppr_on_demand DSS2[5 0 4 2 3 61500]                                                                  <--- Start hPPR On Demand for particular row
+0d00h00m29.297594s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM0 MR54 - MR57 = 0xffffffff
+0d00h00m29.306414s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m29.315600s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m29.324791s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m29.334008s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM4 MR54 - MR57 = 0xffffffff         <--- All resources available for this device
+0d00h00m29.347510s: DRAM: ebf_ddrc_ddr5_h_ppr dev=5, is_rank1=0, is_group1=1, is_ecc=1
+0d00h00m29.452556s: DRAM: DONE Disable De-Queue to target ranks
+0d00h00m29.455604s: DRAM: DONE Flush REFAB
+0d00h00m29.459419s: DRAM: DONE Pause Refresh commands to target ranks
+0d00h00m29.465382s: DRAM: DONE Lock the command scheduler
+0d00h00m29.470699s: DRAM: DONE Ensure all banks in the target Rank is precharged
+0d00h00m29.477800s: DRAM: DONE Disable CRC
+0d00h00m29.481619s: DRAM: DONE Enable hPRR
+0d00h00m29.485236s: DRAM: DONE guard key seq1
+0d00h00m29.489317s: DRAM: DONE guard key seq2
+0d00h00m29.493383s: DRAM: DONE guard key seq3
+0d00h00m29.497461s: DRAM: DONE guard key seq4
+0d00h00m29.501540s: DRAM: DONE Issue ACT command
+0d00h00m29.505880s: DRAM: dev_idx: 4
+0d00h00m29.509159s: DRAM: dev_width: 8
+0d00h00m29.512632s: DRAM: mask: 0xff
+0d00h00m29.515922s: DRAM: is_ecc_byte: 1                                                                           <--- this is DRAM4 ECC device
+0d00h00m29.519557s: DRAM: is_multi_beat_ecc: 1
+0d00h00m29.523783s: DRAM: DONE Issue WRA command
+0d00h00m31.528066s: DRAM: DONE Issue PRE command
+0d00h00m31.529614s: DRAM: DONE Exit hPPR                                                                           <--- End of hPPR On Demand for particular row
+REPAIRED: CH=5, CS=0, DEV=4, BG=2, BA=3, ROW=61500                                                                 <--- Successful hPPR On Demand
+0d00h00m31.537770s: DRAM: DONE Unlock the command scheduler
+0d00h00m31.544057s: DRAM: DONE Resume refresh to all ranks
+0d00h00m31.549266s: DRAM: DONE Enable De-Queue to target ranks
+0d00h00m31.554805s: DRAM: [5 0 4 2 3 61500] EpRCacc 0 cases 0 cycle 0
+0d00h00m31.560265s: DRAM: Update PPR region 0x1f9b000: offset 0x1f9b000/8                                          <--- Log this hPPR On Demand in a flash
+0d00h00m32.023293s: DRAM: Update PPR header: offset 0x1f94000
+0d00h00m32.484516s: DRAM: hPPR SIG      cafebaba
+MRRid   0       PPRid   1                                                                                          <--- This is first entry in a flash
+MRRc    0       PPRc    0
+maxEpRC 0       hPPRnxt 0
+
+After "hPPR On Demand" and "hPPR When Due" reboot required.
+
+hPPR resources are vendor dependent and can be per Bank or per Bank Group.
+Also, the number of rows for repair is vendor dependent.
+If the user going to execute hPPR On Demand enough times resource should disappear.
+For this particular example, it looks like:
+0d00h00m29.334008s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 5 cs: 0 DRAM4 MR54 - MR57 = 0xfffff7ff         <--- BG2, Bank3 out of resources
+PPR repairing internal execution is vendor-specific and memory controller independent.
+Specific DRAM PPR questions should be forwarded to the DRAM vendor.
+
+After hPPR On Demand done driver disable it:
+D) EBF_CONFIG_DDR5_PPR_CHANNEL  (0x0)  (0x0)  (0x1)
 E) EBF_CONFIG_DDR5_PPR_RANK  (0x0)  (0x0)  (0x0)
-F) EBF_CONFIG_DDR5_PPR_DEVICE  (0x0)  (0x0)  (0x0)
-G) EBF_CONFIG_DDR5_PPR_BG  (0x0)  (0x0)  (0x0)
-H) EBF_CONFIG_DDR5_PPR_BA  (0x0)  (0x0)  (0x0)
-I) EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0x40000)
+F) EBF_CONFIG_DDR5_PPR_DEVICE  (0x0)  (0x0)  (0x4)
+G) EBF_CONFIG_DDR5_PPR_BG  (0x0)  (0x0)  (0x2)
+H) EBF_CONFIG_DDR5_PPR_BA  (0x0)  (0x0)  (0x3)
+I) EBF_CONFIG_DDR5_PPR_ROW  (0x40000)  (0x40000)  (0x40000)                                                       <--- add DSS disable hPPR On Demand
 
-Row 0x40000 - disable PPR on-demand
+The way to track flash content is:
+----------------------------------
+ATF Module Tracing
+N) PPR statistics                           (Enabled)
+ATF Tracing Verbosity
+5) Debug      (*)
 
-PPR on-demand activation procedure is:
-E) DDR Post Package Repair enable (0)
-	Disable PPR when due
-I) EBF_CONFIG_DDR5_PPR_ROW  (0x20)  (0x20)  (0x20)
-	Setup valid row number < 0x40000
+VERBOSE: hPPR SIG       cafebaba
+MRRid   0       PPRid   1
+MRRc    0       PPRc    0
+maxEpRC 0       hPPRnxt 0
+VERBOSE: print_ppr [0 - 1] 0x1f9b000 - 0x1f9b008
+VERBOSE: [5 0 4 2 3 61500] EpRCacc 0 cases 0 cycle 0 <- repaired                                                  <--- Driver track hPPR On Demand in the same flash 
+                                                                                                                       the region where the driver keeps "hPPR When Due"
+                                                                                                                       periodic statistics.
+                                                                                                                       But these records are marked as fixed and will not
+                                                                                                                       be taken into account for hPPR When Due
 
-For debug purposes disable row repair and test idle on-demand row repair
-I) DDR Post Package Repair repair rows off (1)
-
-After verification return option back and do PPR on-demand
-I) DDR Post Package Repair repair rows off (0)
 
 
 Typical use cases
 =================
 
+J) DDR ECS Statistics Enable (1)
+--------------------------------
 By default we keep statistics collection by ATF even if PPR disabled
 
-E) DDR Post Package Repair enable (0)
-	PPR disabled by default and EBF in reboot cycle skip hPPR
+E) DDR Hard Post Package Repair When Due (0)
+--------------------------------------------
+	"hPPR when due" disabled by default and EBF driver in reboot cycle skip hPPR
+	This option allow "hPPR when due" if set to "1"
 
-I) DDR Post Package Repair repair rows off (1)
+I) DDR HPPR Skip Repairing Step (1)
+-----------------------------------
 	Disable rows repairing by default, additional option provided to protect rows from repair.
-	This safety option allow enable hPPR to check algorithm but do not do actual rows repair.
+	This safety option allow enable hPPR to check hPPR algorithm, but do not do actual rows repair.
+	If this option is "1" both "manual hPPR" and "hPPR when due" will proceed PPR algorithm but skip repairing step.
+	To enable repairing use "0":
 
 The valid options are:
-E) DDR Post Package Repair enable (0)
-I) DDR Post Package Repair repair rows off (1)
+E) DDR Hard Post Package Repair When Due (0)
+I) DDR HPPR Skip Repairing Step (1)
 	Disable all
 
-E) DDR Post Package Repair enable (1)
-I) DDR Post Package Repair repair rows off (1)
+E) DDR Hard Post Package Repair When Due (1)
+I) DDR HPPR Skip Repairing Step (1)
 	Debug what hPPR will do but do not utilize resources.
 
-E) DDR Post Package Repair enable (1)
-I) DDR Post Package Repair repair rows off (0)
+E) DDR Hard Post Package Repair When Due (1)
+I) DDR HPPR Skip Repairing Step (0)
 	Allow automatic hPPR for all available statistics collected
 	MRRid   0       PPRid   15   <--- Lastly added record id is 14 (15 first available)
 	MRRc    0       PPRc    5
 	maxEpRC 0       hPPRnxt 10   <--- At boot start to check records from index 10 (hPPRnxt)
 	hPPR has next records to check: 10,11,12,13,14 - totaly 5 recodrs between head and tail [hPPRnxt - PPRid)
 	In case of PPRid == hPPRnxt nothing for hPPR consideration
+
