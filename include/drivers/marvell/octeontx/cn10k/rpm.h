@@ -127,6 +127,14 @@ typedef union gserm_retimer_flash_ctx {
 		uint64_t rsvd:59;
 	} s;
 } gserm_retimer_flash_ctx_t;
+
+struct retimer_mux_cfg {
+	uint32_t gserm:3;
+	uint32_t gserm_updated:1;
+	uint32_t mode:7;
+	uint32_t mode_updated:1;
+	uint32_t rsrvd:20;
+};
 #endif
 
 typedef enum link_bringup_state {
@@ -222,8 +230,7 @@ int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec);
 int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode);
 int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode);
 #ifdef PLAT_cnf10kb
-int rpm_update_flash_mode_param_for_retimer(int retimer_idx, int gserm_idx, int portm_mode);
-int rpm_update_flash_gserm_retimer_params(int gserm_idx, int retimer_idx);
+int rpm_update_flash_retimer_params(struct retimer_mux_cfg *mux_cfgs, int num_cfgs);
 #endif
 /* Returns 1 if debug enabled, 0 if disabled */
 int rpm_debug_log_state(void);
