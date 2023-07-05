@@ -412,12 +412,12 @@ Typical use cases
 
 J) DDR ECS Statistics Enable (1)
 --------------------------------
-By default we keep statistics collection by ATF even if PPR disabled
+	By default we keep statistics collection by ATF even if PPR disabled
 
 E) DDR Hard Post Package Repair When Due (0)
 --------------------------------------------
-	"hPPR when due" disabled by default and EBF driver in reboot cycle skip hPPR
 	This option allow "hPPR when due" if set to "1"
+	"hPPR when due" disabled by default and EBF driver in reboot cycle skip hPPR
 
 I) DDR HPPR Skip Repairing Step (1)
 -----------------------------------
@@ -444,3 +444,172 @@ I) DDR HPPR Skip Repairing Step (0)
 	hPPR has next records to check: 10,11,12,13,14 - totaly 5 recodrs between head and tail [hPPRnxt - PPRid)
 	In case of PPRid == hPPRnxt nothing for hPPR consideration
 
+
+
+
+ ECC Error Check and Scrub Statistics
+=====================================
+
+For ECC Error Check and Scrub Statistics collection refer to JESD79-5A (4.37 DDR5 ECC Transparency and Error Scrub)
+
+ATF hPPR driver allow ECS statistics collection by EBF menu option:
+J) DDR ECS Statistics Enable (1) - enable
+J) DDR ECS Statistics Enable (0) - disable
+
+The driver checks MR16-MR19 once in 24 hours and preserves data only if ECS has reported an error
+for a row in DRAM. It is nothing to preserve if ECS did not find an error.
+Flash storage for statistics keeps the header at from of the data.
+
+VERBOSE: hPPR SIG       cafebaba
+MRRid   26      PPRid   18
+MRRc    16      PPRc    196
+maxEpRC 8       hPPRnxt 0
+
+hPPR SIG - it is flash ECS region signature
+For debugging reason driver allows flash storage to erase if signature mismatch.
+
+MRRid    - index of last record in MRR region
+Driver use MRR region for statisctics collection
+
+PPRid    - index of last record in PPR region
+Driver use PPR region to instruct which resource should be repared
+
+MRRc     - MRR cycle index, index to count days
+PPRc     - PPR cycle index, index to count days
+
+maxEpRC  - Error rep Row Counter refer to JESD79-5A (4.37 DDR5 ECC Transparency and Error Scrub)
+EpRC is data from ECS MR16-MR19 this field track maximum faund EpRC for some row in some device
+
+hPPRnxt  - index of record in PPR region to start hPPR from this index and till index in PPRid
+
+H) DDR ECS EpRC Threshold (128) - This option control statistics summary making.
+The driver allows urgent hPPR When Due. If some DRAM device ECS highlight row EpRC reached this threshold
+the drive will make statistics summary immediately.
+
+Transparency option for ECS data
+--------------------------------
+
+ATF driver provides option for ECS data advanced review
+
+N) PPR statistics                           (Enabled)
+5) Debug      (*)
+
+hPPR data at PPR region collected so far printed once at boot time:
+VERBOSE: hPPR SIG       cafebaba
+MRRid   96      PPRid   8
+MRRc    12      PPRc    27
+maxEpRC 8       hPPRnxt 8
+VERBOSE: print_ppr [0 - 8] 0x1f9b000 - 0x1f9b040
+VERBOSE: [0 0 0 0 0 0] EpRCacc 120 cases 15 cycle 0
+VERBOSE: [0 0 1 0 0 0] EpRCacc 120 cases 15 cycle 0
+VERBOSE: [0 0 2 0 0 0] EpRCacc 120 cases 15 cycle 0
+VERBOSE: [0 0 3 0 0 0] EpRCacc 120 cases 15 cycle 0
+VERBOSE: [0 0 4 0 0 0] EpRCacc 120 cases 15 cycle 0
+VERBOSE: [0 0 5 0 0 0] EpRCacc 120 cases 15 cycle 0
+VERBOSE: [0 0 6 0 0 0] EpRCacc 120 cases 15 cycle 0
+VERBOSE: [0 0 7 0 0 0] EpRCacc 120 cases 15 cycle 0
+
+
+Statistics data at MRR region:
+VERBOSE: print_mrr 0x1f95000 - 0x1f95240
+VERBOSE: [0 0 0 0 0 0]8 VERBOSE: [0 0 1 0 0 0]8 VERBOSE: [0 0 2 0 0 0]8 VERBOSE: [0 0 3 0 0 0]8
+VERBOSE: [0 0 4 0 0 0]8 VERBOSE: [0 0 5 0 0 0]8 VERBOSE: [0 0 6 0 0 0]8 VERBOSE: [0 0 7 0 0 0]8
+VERBOSE: [0 0 0 0 0 0]8 VERBOSE: [0 0 1 0 0 0]8 VERBOSE: [0 0 2 0 0 0]8 VERBOSE: [0 0 3 0 0 0]8
+VERBOSE: [0 0 4 0 0 0]8 VERBOSE: [0 0 5 0 0 0]8 VERBOSE: [0 0 6 0 0 0]8 VERBOSE: [0 0 7 0 0 0]8
+
+
+It is a typical example of data collection at each MRR cycle PPRid is still 0 because not enough statistics were collected.
+hPPRnxt is 0 because nothing to consider like a potential failed row to repair.
+maxEpRC is 8 so far, because the value did not reach the threshold value driver does not trigger urgent PPR statistics summary.
+VERBOSE: hPPR SIG       cafebaba
+MRRid   80      PPRid   0
+MRRc    10      PPRc    10
+maxEpRC 8       hPPRnxt 0
+VERBOSE: hPPR SIG       cafebab2
+MRRid   88      PPRid   0
+MRRc    11      PPRc    11
+maxEpRC 8       hPPRnxt 0
+
+
+In case of a bad DRAM device ECS has something to report and after 30 days or after urgent PPR
+driver going to make a data summary and will put the most failed rows in PPR region
+PPRid is 8 so PPR region keep 8 records
+hPPRnxt is 0 so next reboot should trigger hPPR When Due if enabled.
+PPRid > hPPRnxt - hPPR going from hPPRnxt to PPRid
+VERBOSE: hPPR SIG       cafebaba
+MRRid   40      PPRid   8
+MRRc    5       PPRc    20
+maxEpRC 8       hPPRnxt 0
+
+
+It is example of hPPR When Due:
+0d00h00m13.672118s: DRAM: hPPR SIG      cafebaba
+MRRid   96      PPRid   8
+MRRc    12      PPRc    27
+maxEpRC 8       hPPRnxt 0                                                                                       <--- hPPRnxt=0, PPRid=8, PPR region has 8 new records for repair
+0d00h00m13.678521s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe        <--- hPPR resource utilization
+0d00h00m13.687281s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m13.696473s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m13.705666s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m13.715237s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM0 MR54 - MR57 = 0xffffffff
+0d00h00m13.724046s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m13.733237s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m13.742423s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 1 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m13.758144s: DRAM: [0 0 0 0 0 0] EpRCacc 120 cases 15 cycle 0                                             <--- sammary for rows that should be repaired
+0d00h00m13.761430s: DRAM: [0 0 1 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m13.767499s: DRAM: [0 0 2 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m13.773573s: DRAM: [0 0 3 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m13.779638s: DRAM: [0 0 4 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m13.785707s: DRAM: [0 0 5 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m13.791774s: DRAM: [0 0 6 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m13.797845s: DRAM: [0 0 7 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m13.804320s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe
+0d00h00m13.813102s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m13.822295s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m13.831484s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m13.840681s: DRAM: 0xfffffffe no resource [0 0 0 0 0]                                                     <--- no resource for this Bank at current DRAM, skip
+0d00h00m13.846086s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe
+0d00h00m13.855234s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m13.864424s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m13.873616s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m13.888068s: DRAM: ebf_ddrc_ddr5_h_ppr dev=4, is_rank1=0, is_group1=0, is_ecc=0
+0d00h00m13.895528s: DRAM: ppr disabled[0 0 1 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m13.900065s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe
+0d00h00m13.909222s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m13.918408s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m13.927600s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m13.942719s: DRAM: ebf_ddrc_ddr5_h_ppr dev=4, is_rank1=0, is_group1=0, is_ecc=0
+0d00h00m13.950547s: DRAM: ppr disabled[0 0 2 0 0 0] EpRCacc 120 cases 15 cycle 0                                 <--- resource in place for DRAM but because the user enables debugging option driver proceeds with hPPR but skips the actual repair step  I) DDR HPPR Skip Repairing Step (1)
+0d00h00m13.954914s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe
+0d00h00m13.964068s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m13.973252s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m13.982447s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m13.996896s: DRAM: ebf_ddrc_ddr5_h_ppr dev=4, is_rank1=0, is_group1=0, is_ecc=0
+0d00h00m14.004532s: DRAM: ppr disabled[0 0 3 0 0 0] EpRCacc 120 cases 15 cycle 0
+0d00h00m14.008907s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe
+0d00h00m14.018054s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m14.027247s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m14.036431s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m14.045627s: DRAM: 0x00000000 no resource [0 0 4 0 0]
+0d00h00m14.051025s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe
+0d00h00m14.060187s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m14.069385s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m14.078575s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m14.087767s: DRAM: 0x00000000 no resource [0 0 5 0 0]
+0d00h00m14.093169s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe
+0d00h00m14.102331s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m14.111520s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m14.120704s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m14.129896s: DRAM: 0x00000000 no resource [0 0 6 0 0]
+0d00h00m14.135308s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM0 MR54 - MR57 = 0xfffffffe
+0d00h00m14.144460s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM1 MR54 - MR57 = 0xffffffff
+0d00h00m14.153651s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM2 MR54 - MR57 = 0xffffffff
+0d00h00m14.162839s: DRAM: ebf_ddrc_ddr5_repair_resource_check ch: 0 cs: 0 DRAM3 MR54 - MR57 = 0xffffffff
+0d00h00m14.172029s: DRAM: 0x00000000 no resource [0 0 7 0 0]
+
+
+After hPPR
+MRRid   96      PPRid   8
+MRRc    12      PPRc    27
+maxEpRC 8       hPPRnxt 8
+PPRid == hPPRnxt - PPR region do not have new records for hPPR.
