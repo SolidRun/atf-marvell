@@ -122,6 +122,33 @@ int cn10k_ras_disable_dss(void)
 
 extern bool is_secure_address(uint64_t addr);
 
+static uint64_t get_dss_err_syn(uint64_t ch, bool dbe)
+{
+	uint64_t syn = 0ULL;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccusyn0_t usyn0;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_eccusyn1_t usyn1;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccsyn0_t csyn0;
+	cavm_dssx_ddrctl_regb_ddrc_ch0_ecccsyn1_t csyn1;
+
+	if (dbe) {
+		usyn0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN0(ch));
+		usyn1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1(ch));
+		syn = usyn0.s.ecc_uncorr_syndromes_31_0 |
+			((uint64_t) usyn1.s.ecc_uncorr_syndromes_63_32 << 32ULL);
+		ERROR("DSS DBE ch %lld syndrome 0x%llx syn2 0x%x\n",
+				ch,
+				(uint64_t) syn,
+				(uint32_t) CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2(ch)));
+	} else {
+		csyn0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0(ch));
+		csyn1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1(ch));
+		syn = csyn0.s.ecc_corr_syndromes_31_0 |
+			((uint64_t) csyn1.s.ecc_corr_syndromes_63_32 << 32ULL);
+	}
+
+	return syn;
+}
+
 static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 		 cavm_dssx_ddrctl_regb_ddrc_ch0_eccstat_t eccstat)
 {
@@ -153,6 +180,7 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 	} else {
 		ecccaddr0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR0(ch));
 		ecccaddr1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCADDR1(ch));
+
 	}
 
 	addr.rank   = ecccaddr0.s.ecc_corr_rank;
@@ -192,6 +220,8 @@ static bool cn10k_ras_dss_notify(uint64_t ch, dss_err_info_t info,
 			CPER_MEM_VALID_RANK_NUMBER |
 			CPER_MEM_VALID_ERROR_TYPE);
 	dss->validation_bits |= !info.dbe ? CPER_MEM_VALID_BIT_POSITION : 0;
+
+	err_rec->syndrome = get_dss_err_syn(ch, info.dbe);
 
 	if (info.dbe) {
 		is_secure = is_secure_address(addr.phys_addr);

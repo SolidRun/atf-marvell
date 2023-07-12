@@ -1528,6 +1528,7 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	static int cnt;
 	static uint64_t was[MAX_LMC];
 	int severity = 0;
+	uint64_t syndrome = 0ULL;
 
 	status.u = 0;
 	erraddr.u = 0;
@@ -1667,8 +1668,10 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	}
 
 	synstr[0] = 0; /* just in case... */
+	syndrome = syns_left;
 	while (av && syns_left) {
 		int stroff = 0;
+
 		/* Check each byte of the syndrome for error data
 		 * each byte represents the syndrome data for one of 8 beats
 		 * in a transaction
@@ -1725,6 +1728,8 @@ int lmcoe_ras_check_ecc_errors(int mcc, int lmcoe)
 	/* Ensure fatal error is recorded EVEN if non-fatal ring is full. */
 	if (!err_rec && fatal && fatal_rec)
 		err_rec = fatal_rec;
+
+	err_rec->syndrome = syndrome;
 
 	severity = fatal ? CPER_SEV_RECOVERABLE : CPER_SEV_CORRECTED;
 	if (severity == CPER_SEV_RECOVERABLE && is_secure_address(physaddr))

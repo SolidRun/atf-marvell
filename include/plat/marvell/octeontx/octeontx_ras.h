@@ -254,6 +254,7 @@ struct otx2_ghes_err_record {
 	} u;
 	uint32_t error_severity; /* CPER_SEV_xxx */
 	char fru_text[OTX2_GHES_ERR_REC_FRU_TEXT_LEN];
+	uint64_t syndrome;
 };
 
 /* This is shared with Linux sdei-ghes driver */
