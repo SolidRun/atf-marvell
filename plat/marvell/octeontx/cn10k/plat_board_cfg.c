@@ -1763,10 +1763,7 @@ static void cn10k_parse_ppr_config(const void *fdt_addr)
 
 	plat_octeontx_bcfg->ppr_config.eprc_th = eprc_th;
 
-	if (collect_stat == 1)
-		plat_octeontx_bcfg->ppr_config.stat_enable = 1;
-	else
-		plat_octeontx_bcfg->ppr_config.stat_enable = 0;
+	plat_octeontx_bcfg->ppr_config.stat_enable = (uint32_t)collect_stat;
 }
 
 static void cn10k_fill_twsi_slave_details(const void *fdt)

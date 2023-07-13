@@ -220,18 +220,12 @@ void ddrc_ddr5_mrr_prepare(bool disable, int ch, int rank_num)
 	union cavm_dssx_ddrctl_regb_ddrc_ch0_pasctl8 reg_PASCTL8;
 
 	if (disable) {
-#ifdef PPR_DEBUG
-		debug_ppr("Disable ECS Ch: %d\n", ch);
-#endif
 		reg_PASCTL8.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(ch));
 		reg_PASCTL8.s.rank_blk6_en = 0x0;
 		if (rank_num == 1)
 			reg_PASCTL8.s.rank_blk14_en = 0x0;
 		udelay(1);
 	} else {
-#ifdef PPR_DEBUG
-		debug_ppr("Enable ECS Ch: %d\n", ch);
-#endif
 		reg_PASCTL8.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_PASCTL8(ch));
 		reg_PASCTL8.s.rank_blk6_en = 0x1;
 		if (rank_num == 1)
@@ -529,6 +523,7 @@ static int32_t mrr_write_record(mrr_t *record, uint32_t number)
 	ret = spi_flash_write(record, length, offset);
 	while (ret < length && err_cnt > 0) {
 		ret = spi_flash_write(record, length, offset);
+		ERROR("%s Failed MRR write %d, %d\n", __func__, offset, length);
 		err_cnt--;
 	}
 	if (ret != length) {
@@ -602,7 +597,6 @@ static int32_t mrr_clear_region(void)
 	return 0;
 }
 
-#ifdef PPR_DEBUG
 __attribute__((unused))
 static void print_mrr(void)
 {
@@ -642,17 +636,14 @@ static void print_ppr(void)
 			  (ppr_p->cycle & REPAIRED) ? "<- repaired":"");
 	}
 }
-#endif
 
 __attribute__((unused))
 static void print_stat(void)
 {
 	int ret = 0;
 
-#ifdef PPR_DEBUG
 	if (!(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR))
 		return;
-#endif
 
 	if (spi_dev_lock(bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
@@ -675,9 +666,7 @@ static void print_stat(void)
 			ppr_mrr.head_ppr  == FLASH_ERASE_MARK)
 		goto err;
 
-#ifdef PPR_DEBUG
 	print_ppr();
-#endif
 
 err:
 
@@ -740,6 +729,11 @@ static int32_t ppr_make_statistic(void)
 		// find first mrr valid record
 		if (buf_m[i] == 0)
 			continue;
+
+		if (buf_m[i] == -1ull) {
+			VERBOSE("error record\n");
+			continue;
+		}
 
 		eprc = buf_m[i] & 0xFFFF;
 		cycle = (buf_m[i] >> 16) & 0xFFFF;
@@ -882,6 +876,7 @@ static int ppr_timer_cb(int hd)
 		if (!ret)
 			continue;
 
+		memset(mrx, 0, sizeof(mrx));
 		rec = 0;
 		for (r = 0; r < MAX_CS; r++) {
 			for (g = 0; g < MAX_GRP; g++) {
@@ -944,9 +939,8 @@ static int ppr_timer_cb(int hd)
 	ppr_mrr.ppr_cycle++;
 	ppr_mrr.ppr_cycle %= 0x3FFF;
 
-#ifdef PPR_DEBUG
-	print_mrr();
-#endif
+	if (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR)
+		print_mrr();
 
 	/*
 	 * Record most failed record into PPR region after 30 MRR cycles
@@ -960,9 +954,8 @@ static int ppr_timer_cb(int hd)
 			goto err1;
 		}
 
-#ifdef PPR_DEBUG
-		print_ppr();
-#endif
+		if (mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR)
+			print_ppr();
 
 		ppr_mrr.mrr_cycle = 0;
 		ppr_mrr.mrr_max_EpRC = 0;
@@ -1006,6 +999,16 @@ void ppr_fw_init(void)
 		return;
 
 	debug("%s Setup PPR timer\n", __func__);
+
+	if (plat_octeontx_bcfg->ppr_config.stat_enable == 2)
+		if (!spi_dev_lock(bus)) {
+			if (!octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock)) {
+				if (!spi_flash_config())
+					ppr_mrr_clear_flash();
+				octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+			}
+			spi_dev_unlock(bus);
+		}
 
 	/* Start timer to handle MRR statistics collection */
 	timer_hd = timer_create(TM_PERIODIC, MRR_POLL_INTERVAL, ppr_timer_cb);
