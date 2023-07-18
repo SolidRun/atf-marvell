@@ -232,6 +232,51 @@ cn10k_portm_fec_t cn10k_portm_fec_str_to_type(const char *val)
 }
 
 /* Support 1, 2, and 4 SERDES Lane Ethernet PORTM modes (excluding QSGMII) */
+static const cn10k_portm_modes_t portm_4_lane_2500base_x[] = {
+	/* Ethernet - 1 lane */
+	PORTM_MODE_SGMII,
+	PORTM_MODE_1000BASE_X,
+	PORTM_MODE_2500BASE_X,
+	PORTM_MODE_SFI_1G,
+	PORTM_MODE_XFI,
+	PORTM_MODE_SFI,
+	PORTM_MODE_10GBASE_KR,
+	PORTM_MODE_25GAUI_C2C,
+	PORTM_MODE_25GAUI_C2M,
+	PORTM_MODE_25GBASE_CR,
+	PORTM_MODE_25GBASE_KR,
+	PORTM_MODE_25GBASE_CR_C,
+	PORTM_MODE_25GBASE_KR_C,
+	PORTM_MODE_50GAUI_1_C2C,
+	PORTM_MODE_50GAUI_1_C2M,
+	PORTM_MODE_50GBASE_CR,
+	PORTM_MODE_50GBASE_KR,
+	PORTM_MODE_10G_SXGMII,
+	/* Ethernet - 2 lane */
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
+	PORTM_MODE_50GBASE_CR2_C,
+	PORTM_MODE_50GBASE_KR2_C,
+	PORTM_MODE_100GAUI_2_C2C,
+	PORTM_MODE_100GAUI_2_C2M,
+	PORTM_MODE_100GBASE_CR2,
+	PORTM_MODE_100GBASE_KR2,
+	/* Ethernet - 4 lane */
+	PORTM_MODE_XLAUI,
+	PORTM_MODE_XLAUI_C2M,
+	PORTM_MODE_40GBASE_CR4,
+	PORTM_MODE_40GBASE_KR4,
+	PORTM_MODE_CAUI_4_C2C,
+	PORTM_MODE_CAUI_4_C2M,
+	PORTM_MODE_100GBASE_CR4,
+	PORTM_MODE_100GBASE_KR4,
+	/* Ethernet - 802_3AP */
+	PORTM_MODE_802_3AP,
+
+	PORTM_MODE_DISABLED
+};
+
+/* Support 1, 2, and 4 SERDES Lane Ethernet PORTM modes (excluding QSGMII and 2500BASE_X) */
 static const cn10k_portm_modes_t portm_4_lane[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
@@ -413,6 +458,42 @@ static const cn10k_portm_modes_t portm_4_lane_cpri[] = {
 };
 
 /* Support 1 and 2 SERDES Lane Ethernet (excluding QSGMII) PORTM modes	*/
+static const cn10k_portm_modes_t portm_2_lane_2500base_x[] = {
+	/* Ethernet - 1 lane */
+	PORTM_MODE_SGMII,
+	PORTM_MODE_1000BASE_X,
+	PORTM_MODE_2500BASE_X,
+	PORTM_MODE_SFI_1G,
+	PORTM_MODE_XFI,
+	PORTM_MODE_SFI,
+	PORTM_MODE_10GBASE_KR,
+	PORTM_MODE_25GAUI_C2C,
+	PORTM_MODE_25GAUI_C2M,
+	PORTM_MODE_25GBASE_CR,
+	PORTM_MODE_25GBASE_KR,
+	PORTM_MODE_25GBASE_CR_C,
+	PORTM_MODE_25GBASE_KR_C,
+	PORTM_MODE_50GAUI_1_C2C,
+	PORTM_MODE_50GAUI_1_C2M,
+	PORTM_MODE_50GBASE_CR,
+	PORTM_MODE_50GBASE_KR,
+	PORTM_MODE_10G_SXGMII,
+	/* Ethernet - 2 lane */
+	PORTM_MODE_LAUI_2_C2C,
+	PORTM_MODE_LAUI_2_C2M,
+	PORTM_MODE_50GBASE_CR2_C,
+	PORTM_MODE_50GBASE_KR2_C,
+	PORTM_MODE_100GAUI_2_C2C,
+	PORTM_MODE_100GAUI_2_C2M,
+	PORTM_MODE_100GBASE_CR2,
+	PORTM_MODE_100GBASE_KR2,
+	/* Ethernet - 802_3AP */
+	PORTM_MODE_802_3AP,
+
+	PORTM_MODE_DISABLED
+};
+
+/* Support 1 and 2 SERDES Lane Ethernet (excluding QSGMII and 2500BASE_X) PORTM modes	*/
 static const cn10k_portm_modes_t portm_2_lane[] = {
 	/* Ethernet - 1 lane */
 	PORTM_MODE_SGMII,
@@ -552,6 +633,33 @@ static const cn10k_portm_modes_t portm_2_lane_cpri[] = {
 	PORTM_MODE_CPRI_9_8G_TEST,
 	PORTM_MODE_CPRI_12_3G_TEST,
 	PORTM_MODE_CPRI_19_7G_TEST,
+
+	PORTM_MODE_DISABLED
+};
+
+/* Support 1 SERDES Lane Ethernet (excluding QSGMII, 5000BASE-X) modes */
+static const cn10k_portm_modes_t portm_1_lane_2500base_x[] = {
+	/* 1 lane */
+	PORTM_MODE_SGMII,
+	PORTM_MODE_1000BASE_X,
+	PORTM_MODE_2500BASE_X,
+	PORTM_MODE_SFI_1G,
+	PORTM_MODE_XFI,
+	PORTM_MODE_SFI,
+	PORTM_MODE_10GBASE_KR,
+	PORTM_MODE_25GAUI_C2C,
+	PORTM_MODE_25GAUI_C2M,
+	PORTM_MODE_25GBASE_CR,
+	PORTM_MODE_25GBASE_KR,
+	PORTM_MODE_25GBASE_CR_C,
+	PORTM_MODE_25GBASE_KR_C,
+	PORTM_MODE_50GAUI_1_C2C,
+	PORTM_MODE_50GAUI_1_C2M,
+	PORTM_MODE_50GBASE_CR,
+	PORTM_MODE_50GBASE_KR,
+	PORTM_MODE_10G_SXGMII,
+	/* 802_3AP */
+	PORTM_MODE_802_3AP,
 
 	PORTM_MODE_DISABLED
 };
@@ -740,6 +848,7 @@ static const cn10k_portm_modes_t portm_1_lane_slow_qsgmii[] = {
 	/* 1 lane */
 	PORTM_MODE_SGMII,
 	PORTM_MODE_1000BASE_X,
+	PORTM_MODE_2500BASE_X,
 	PORTM_MODE_SFI_1G,
 	PORTM_MODE_XFI,
 	PORTM_MODE_SFI,
@@ -904,12 +1013,12 @@ const cn10k_portm_modes_t *portm_get_mode_desc(int portm)
 		if (plat_get_altpkg() == CN10KA_PKG) {
 			switch (portm) {
 			case 0:
-				return portm_4_lane;
+				return portm_4_lane_2500base_x;
 			case 1:
 			case 3:
-				return portm_1_lane;
+				return portm_1_lane_2500base_x;
 			case 2:
-				return portm_2_lane;
+				return portm_2_lane_2500base_x;
 			case 4:
 			case 5:
 				return portm_1_lane_slow_qsgmii;
