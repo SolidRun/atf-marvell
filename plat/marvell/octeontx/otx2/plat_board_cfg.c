@@ -2807,6 +2807,20 @@ static void octeontx2_fill_twsi_slave_details(const void *fdt)
 	plat_octeontx_bcfg->bcfg.slave_twsi.s.addr = twssl_addr;
 }
 
+static void octeontx2_fill_twsi_details(const void *fdt)
+{
+	int twssl_bus, state;
+	char prop[64];
+
+	for (twssl_bus = 0; twssl_bus < TWSI_NUM; twssl_bus++) {
+		snprintf(prop, sizeof(prop),
+			"TWSI%d-HIDE-NSEC", twssl_bus);
+		state = octeontx2_fdtbdk_get_num(fdt, prop, 10);
+		if (state == 1)
+			plat_octeontx_bcfg->bcfg.atf_managed_twsi[twssl_bus] = 1;
+	}
+}
+
 /*
  * Parse SPI Controller Config from FDT
  */
@@ -3013,6 +3027,8 @@ int plat_octeontx_fill_board_details(void)
 #endif
 
 	octeontx2_fill_twsi_slave_details(fdt);
+
+	octeontx2_fill_twsi_details(fdt);
 
 	octeontx2_fill_timer_ms(fdt);
 
