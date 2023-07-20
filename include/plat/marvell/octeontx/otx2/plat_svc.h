@@ -387,8 +387,29 @@
 
 #define PLAT_OCTEON_GENERIC_SW_HASH    0xc2000b1a
 
+/*
+ * Reserving 16 SiP IDs for future use by customer
+ */
+
+#define PLAT_OCTEONTX_RESERVE_1			0xc2000b1e
+#define PLAT_OCTEONTX_RESERVE_2			0xc2000b1f
+#define PLAT_OCTEONTX_RESERVE_3			0xc2000b20
+#define PLAT_OCTEONTX_RESERVE_4			0xc2000b21
+#define PLAT_OCTEONTX_RESERVE_5			0xc2000b22
+#define PLAT_OCTEONTX_RESERVE_6			0xc2000b23
+#define PLAT_OCTEONTX_RESERVE_7			0xc2000b24
+#define PLAT_OCTEONTX_RESERVE_8			0xc2000b25
+#define PLAT_OCTEONTX_RESERVE_9			0xc2000b26
+#define PLAT_OCTEONTX_RESERVE_10		0xc2000b27
+#define PLAT_OCTEONTX_RESERVE_11		0xc2000b28
+#define PLAT_OCTEONTX_RESERVE_12		0xc2000b29
+#define PLAT_OCTEONTX_RESERVE_13		0xc2000b2a
+#define PLAT_OCTEONTX_RESERVE_14		0xc2000b2b
+#define PLAT_OCTEONTX_RESERVE_15		0xc2000b2c
+#define PLAT_OCTEONTX_RESERVE_16		0xc2000b2d
+
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			27
+#define OTX2_NUM_SMC_CALLS			43
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,
