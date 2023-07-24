@@ -21,6 +21,7 @@
 #include <sh_fwdata.h>
 #include <octeontx_dram.h>
 #include <spi_ops.h>
+#include <octeontx_mmap_utils.h>
 
 extern void *scmi_handle;
 
@@ -101,6 +102,37 @@ static int memtest_config_smc_handler(u_register_t x1, u_register_t x2,
 	}
 
 	return r;
+}
+
+int send_fw_version(void *p, uint32_t fw_ver, uintptr_t *version_str, int size)
+{
+	int ret = -1;
+	uint64_t base_addr = 0;
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+	int ns_map_size;
+
+	/* User Buffer  */
+	ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+	base_addr = (uintptr_t)version_str & mask;
+
+	if (((uintptr_t)version_str + size) > (base_addr + ns_map_size))
+		ns_map_size += PAGE_SIZE;
+
+	ret = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
+						ns_map_size, MT_RW | MT_NS);
+	if (ret) {
+		WARN("Version check descriptor mmap failed (%d)\n", ret);
+		goto error;
+	}
+
+	ret = scmi_octeontx_send_fw_version(p, fw_ver, (char *)version_str, size);
+
+	if (base_addr && ns_map_size)
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
+							ns_map_size);
+
+error:
+	return ret;
 }
 
 uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
@@ -420,6 +452,32 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 		ret_x3 |= reboot_mem_len;
 
 		SMC_RET4(handle, ret, next, power_on, ret_x3);
+	}
+	break;
+
+	case PLAT_OCTEONTX_SEND_FW_VERSION_TO_SCP:
+	{
+		uint32_t fw_ver;
+		uintptr_t size, user_buf;
+		uint64_t dram_end;
+
+		fw_ver = x1;
+		user_buf = x2;
+		size = x3;
+
+		dram_end = octeontx_dram_size();
+		if (((void *)user_buf == NULL) ||
+			(user_buf < NS_IMAGE_BASE) ||
+			((user_buf + size) > dram_end) ||
+			(size == 0)) {
+			ERROR("Error: invalid descriptor address 0x%lx, size: 0x%lx\n",
+								user_buf, size);
+			SMC_RET1(handle, -1);
+		}
+
+		ret = send_fw_version(scmi_handle, fw_ver, (uintptr_t *)user_buf, size);
+
+		SMC_RET1(handle, ret);
 	}
 	break;
 

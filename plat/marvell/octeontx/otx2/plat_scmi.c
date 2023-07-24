@@ -29,6 +29,18 @@
 #define assert_scmi(...) ;
 #endif
 
+char *find_str(const char *haystack, const char *needle)
+{
+	int nlen = strlen(needle);
+
+	while (*haystack) {
+		if (strncmp(haystack, needle, nlen) == 0)
+			return (char *)haystack;
+		haystack++;
+	}
+	return NULL;
+}
+
 const uintptr_t plat_get_scmi_mbox_addr()
 {
 	return CAVM_CPC_RAM_MEMX(AP_SECURE0_TO_XCP_MBOX_OFFSET);
@@ -542,6 +554,51 @@ int scmi_octeontx_set_avs_status(void *p, int status)
 		      SCMI_CAVM_SET_AVS_STATUS_RET_FAIL;
 }
 
+int scmi_octeontx_send_fw_version(void *p, uint32_t fw_ver,
+		char *version_str, uint32_t size)
+{
+	mailbox_mem_t *mbx_mem;
+	int ret, token = 0, i;
+	scmi_channel_t *ch = (scmi_channel_t *)p;
+	uint32_t payload_len = VERSION_STRING_LENGTH + sizeof(uint32_t);
+	uint8_t payload_buf[VERSION_STRING_LENGTH + sizeof(uint32_t)] = {0};
+
+	uint32_t *payload = (uint32_t *)payload_buf;
+	*payload++ = fw_ver;
+
+	if (size > VERSION_STRING_LENGTH)
+		size = VERSION_STRING_LENGTH;
+
+	memcpy(payload, version_str, size);
+
+	if (validate_scmi_channel(ch))
+		return -1;
+
+	scmi_get_channel(ch);
+
+	mbx_mem = (mailbox_mem_t *)(ch->info->scmi_mbx_mem);
+	mbx_mem->msg_header = SCMI_MSG_CREATE(SCMI_CAVM_CONFIG_PROTO_ID,
+			SCMI_CAVM_FW_VERSION_INFO, token);
+	mbx_mem->len = SCMI_CAVM_FW_VERSION_INFO_MSG_LEN;
+	mbx_mem->flags = SCMI_FLAG_RESP_POLL;
+
+	payload = (uint32_t *)payload_buf;
+	for (i = 0; i < payload_len; i++)
+		mmio_write_32((uintptr_t)&mbx_mem->payload[i], *payload++);
+
+	scmi_send_sync_command(ch);
+
+	/* Get the return values */
+	SCMI_PAYLOAD_RET_VAL1(mbx_mem->payload, ret);
+	assert_scmi(mbx_mem->len == SCMI_CAVM_FW_VERSION_INFO_RESP_LEN);
+	assert_scmi(token == SCMI_MSG_GET_TOKEN(mbx_mem->msg_header));
+
+	scmi_put_channel(ch);
+
+	return ret == SCMI_E_SUCCESS ? SCMI_CAVM_FW_VERSION_INFO_RET_OK :
+			SCMI_CAVM_FW_VERSION_INFO_RET_FAIL;
+}
+
 /*
  * SCMI Driver initialization API. Returns initialized channel on success
  * or NULL on error. The return type is an opaque void pointer.
@@ -552,6 +609,7 @@ void *scmi_init(scmi_channel_t *ch)
 	octeontx_shutdown_config_data_t shutdown_data;
 	uint32_t version;
 	int ret;
+	char *p = NULL;
 
 	assert_scmi(ch && ch->info);
 	assert_scmi(ch->info->db_reg_addr);
@@ -638,6 +696,22 @@ void *scmi_init(scmi_channel_t *ch)
 		WARN("SCMI Cavium config protocol - unable to send SFP config - returned %d\n",
 			ret);
 		goto error;
+	}
+
+	p = find_str(version_string, "Marvell-");
+
+	if (p) {
+		p += strlen("Marvell-");
+
+		if (strlen(p) > 0) {
+			ret = scmi_octeontx_send_fw_version(ch, ATF_VERSION, p,
+							strlen(p) - 1);
+			if (ret != SCMI_E_SUCCESS) {
+				WARN("SCMI Cavium config protocol - unable to send FW version - returned %d\n",
+						ret);
+				goto error;
+			}
+		}
 	}
 
 	NOTICE("SCMI driver initialized\n");

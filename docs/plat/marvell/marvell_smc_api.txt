@@ -843,6 +843,20 @@ PLAT_OCTEONTX_CONFIG_RETIMER
       New Retimer configuration is effective on the next boot
   * Supported platforms: CNF10KB (Thor VRAN NIC board)
 
+PLAT_OCTEONTX_SEND_FW_VERSION_TO_SCP
+  * SMC FID: 0xc2000b16
+  * Input registers values:
+    x1 - FW version enum
+    x2 - version string address
+    x3 - length of version string
+  * Return Value:
+      x0
+            0 -- Success
+            other values are error codes
+ * Description:
+     This SMC call will send the FW version string to SCP
+  * Supported platforms: T9x
+
 
 [PSCI]:    http://infocenter.arm.com/help/topic/com.arm.doc.den0022d/Power_State_Coordination_Interface_PDD_v1_1_DEN0022D.pdf
 [SMCCC]:   http://infocenter.arm.com/help/topic/com.arm.doc.den0028b/ARM_DEN0028B_SMC_Calling_Convention.pdf

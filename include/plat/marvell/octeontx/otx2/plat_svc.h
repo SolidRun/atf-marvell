@@ -373,6 +373,18 @@
 #define PLAT_OCTEONTX_MEM_TEST_CONFIG	0xc2000b15
 
 /*
+ * x1 - FW version enum
+ * x2 - version string address
+ * x3 - length of version string
+ *
+ * Return:
+ *       x0 - Status field:
+ *           0 - Success
+ *           other values are error codes
+ */
+#define PLAT_OCTEONTX_SEND_FW_VERSION_TO_SCP	0xc2000b16
+
+/*
  * SMC Call ID
  * x0 - PLAT_OCTEON_GENERIC_SW_UPDATE
  *
@@ -409,7 +421,7 @@
 #define PLAT_OCTEONTX_RESERVE_16		0xc2000b2d
 
 /* Number of family specific SMCs */
-#define OTX2_NUM_SMC_CALLS			43
+#define OTX2_NUM_SMC_CALLS			44
 
 /* API that allows to define platform specific SMC CALLS */
 uintptr_t otx2_svc_smc_handler(uint32_t smc_fid,

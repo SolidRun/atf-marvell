@@ -57,6 +57,9 @@
 #define SCMI_CAVM_SET_AVS_STATUS_MSG_LEN        12
 #define SCMI_CAVM_SET_AVS_STATUS_RESP_LEN       12
 
+#define SCMI_CAVM_FW_VERSION_INFO_MSG_LEN		40
+#define SCMI_CAVM_FW_VERSION_INFO_RESP_LEN		8
+
 /* SCMI message header format bit field */
 #define SCMI_MSG_ID_SHIFT		0
 #define SCMI_MSG_ID_WIDTH		8
@@ -198,14 +201,19 @@
 #define SCMI_CAVM_FLSF_CLR_FORCE_2NDRY_MSG	0x7
 #define SCMI_CAVM_GET_TSN_TEMP			0x8
 #define SCMI_CAVM_SET_AVS_STATUS                0x9
+#define SCMI_CAVM_FW_VERSION_INFO			0xa
 
 /* FailSafe status return codes */
 #define SCMI_CAVM_FLSF_RET_OK		0x0
 #define SCMI_CAVM_FLSF_RET_FAIL		0x1
 
-/* AVS set status returm codes */
+/* AVS set status return codes */
 #define SCMI_CAVM_SET_AVS_STATUS_RET_OK         0x0
 #define SCMI_CAVM_SET_AVS_STATUS_RET_FAIL       0x1
+
+/* SCMI send FW version return codes */
+#define SCMI_CAVM_FW_VERSION_INFO_RET_OK		0x0
+#define SCMI_CAVM_FW_VERSION_INFO_RET_FAIL		0x1
 
 /* Helper structures for Cavium shutdown config command */
 #define SCMI_CAVM_SHUTDOWN_CONFIG_TYPE_NONE	0x0
@@ -250,6 +258,17 @@ typedef union octeontx_shutdown_config_data {
 #endif
 	} odm_s;
 } octeontx_shutdown_config_data_t;
+
+#define VERSION_STRING_LENGTH  32
+typedef enum {
+	UBOOT_VERSION,
+	UEFI_VERSION,
+	ATF_VERSION,
+	AP_BL1_VERSION,
+	MCP_VERSION,
+	SCP_VERSION,
+	FW_VERSION_LAST,
+} fw_version_t;
 
 /* Helper macros for system power management protocol commands */
 
@@ -362,6 +381,10 @@ int scmi_octeontx_obtain_tsn(void *p, uint32_t tsn_index, int32_t *temp_val);
 
 /* AVS bus reset functionality */
 int scmi_octeontx_set_avs_status(void *p, int status);
+
+/* Send FW version to SCP */
+int scmi_octeontx_send_fw_version(void *p, uint32_t fw_ver,
+				char *version_str, uint32_t size);
 
 /* SCMI register configuration API */
 const uintptr_t plat_get_scmi_mbox_addr();
