@@ -2363,13 +2363,13 @@ int gserm_rx_training_start(int portm_idx, int lane_idx)
 			__func__, portm_idx, lane_idx);
 		break;
 	case -1:
-		ERROR("%s: PORTM%d:%d Timeout waiting for CDR lock status\n",
+		WARN("%s: PORTM%d:%d Timeout waiting for CDR lock status\n",
 			__func__, portm_idx, lane_idx);
-		return -1;
+		break;
 	default:
-		ERROR("%s: PORTM%d:%d CDR not locked (status=0x%x)\n",
+		WARN("%s: PORTM%d:%d CDR not locked (status=0x%x)\n",
 			__func__, portm_idx, lane_idx, cdr_lock_status);
-		return -1;
+		break;
 	}
 
 	ret = API_N5XC56GP5X4_StartTraining(&gserm_cfg.mcesd_handle,
@@ -2422,14 +2422,12 @@ int gserm_rx_training_check(int portm_idx, int lane_idx,
 				__func__, portm_idx, lane_idx);
 			break;
 		case -1:
-			ERROR("%s: PORTM%d:%d Timeout waiting for CDR lock status\n",
+			WARN("%s: PORTM%d:%d Timeout waiting for CDR lock status\n",
 				__func__, portm_idx, lane_idx);
-			status = 1;
 			break;
 		default:
-			ERROR("%s: PORTM%d:%d CDR not locked after training (status=0x%x)\n",
+			WARN("%s: PORTM%d:%d CDR not locked after training (status=0x%x)\n",
 				__func__, portm_idx, lane_idx, cdr_lock_status);
-			status = 1;
 			break;
 		}
 	}
