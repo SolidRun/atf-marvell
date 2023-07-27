@@ -603,7 +603,7 @@ void plat_octeontx_print_board_variables(void)
 						phy->addr,
 						phy->type,
 						phy->mux_switch,
-						phy->port,
+						lmac->phy_port,
 						phy->host_order,
 						phy->line_order);
 				}
@@ -1922,9 +1922,6 @@ static int cn10k_rpm_get_phy_info(phy_config_t *phy, void *fdt, int lmac_offset,
 	phy->addr = cn10k_fdt_get_int32(fdt,
 				"reg", phy_offset);
 
-	phy->port = cn10k_fdt_get_int32(fdt,
-				"port", phy_offset);
-
 	/* Passing the PHY node offset in Linux DT, so that the
 	 * driver can parse additional data from it, i.e. 'reg-init'
 	 */
@@ -2058,11 +2055,11 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			goto next_node;
 		}
 
+		lmac = &rpm->lmac_cfg[lmac_idx];
 		mode_info = &lmac->lmac_mode_info[lmac_type];
 		snprintf(dbg_prefix, ARRAY_SIZE(dbg_prefix),
 			"RPM%d.LMAC%d", rpm_idx, lmac_idx);
 
-		lmac = &rpm->lmac_cfg[lmac_idx];
 		portm_idx = lmac->portm_idx;
 
 		cn10k_fill_lmac_mode_info(fdt, lmac, lmac_type, lmac_offset,
@@ -2099,6 +2096,7 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 			if (pctx->phy_offsets[portm_idx].atf_mgmt) {
 				lmac->phy_config = phy;
 				lmac->phy_present = 1;
+				lmac->phy_port = cn10k_fdt_get_int32(fdt, "port", phy_offset);
 			}
 		}
 

@@ -144,6 +144,7 @@ typedef struct rpm_lmac_config {
 	uint64_t supported_link_modes;	/* rpm_mode_t enum */
 	int phy_present;
 	int phy_mode;		/* MAC or PHY mode for SGMII */
+	int phy_port;
 	phy_config_t *phy_config;
 	bool sfp_slot;
 	sfp_slot_info_t *sfp_info;
