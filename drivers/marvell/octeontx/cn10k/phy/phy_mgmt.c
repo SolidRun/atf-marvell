@@ -63,49 +63,6 @@ int phy_get_link_status(int eth_id, int lmac_id,
 	return 0;
 }
 
-void phy_check_reg_init(phy_config_t *phy, int mode, const void *fdt, int phy_node_offset)
-{
-	const struct fdt_property *reg_init;
-	const uint32_t *data;
-	int total_len, count;
-
-	reg_init = fdt_get_property(
-		fdt, phy_node_offset, "cn10k,reg-init", &total_len);
-
-	if (!phy || !reg_init)
-		return;
-
-	if (total_len % (5 * sizeof(uint32_t)))
-		return;
-
-	count = total_len / (5 * sizeof(uint32_t));
-	data = (const uint32_t *)reg_init->data;
-
-	for (int i = 0; i < count; i++) {
-		data = (const uint32_t *)reg_init->data + i * 5;
-
-		int out = 0;
-		int devad, reg, mask, val, wait_ms;
-
-		devad = (mode == CLAUSE45) ? fdt32_to_cpu(data[0]) : -1;
-		reg = fdt32_to_cpu(data[1]);
-		mask = fdt32_to_cpu(data[2]);
-		val = fdt32_to_cpu(data[3]);
-		wait_ms = fdt32_to_cpu(data[4]);
-
-		if (mask) {
-			out = phy_mdio_read(phy, mode, devad, reg);
-			out &= mask;
-		}
-
-		out |= val;
-		phy_mdio_write(phy, mode, devad, reg, out);
-
-		if (wait_ms)
-			mdelay(wait_ms);
-	}
-}
-
 void phy_probe(int eth_id, int lmac_id)
 {
 	phy_config_t *phy;
@@ -147,6 +104,127 @@ void phy_config(int eth_id, int lmac_id)
 	/* Call PHY specific config callback here */
 	if (phy->valid)
 		phy->drv->config(eth_id, lmac_id);
+}
+
+static int phy_mdio_read(rpm_lmac_config_t *lmac, int mode, int devad, int reg)
+{
+	int val = 0;
+	int addr;
+	phy_config_t *phy = lmac->phy_config;
+
+	if (!phy)
+		return 0;
+
+	addr = lmac->phy_port != -1 ? phy->addr + lmac->phy_port : phy->addr;
+	val = smi_read(phy->mdio_bus, mode, addr, devad, reg);
+
+	return val;
+}
+
+static void phy_mdio_write(rpm_lmac_config_t *lmac, int mode, int devad, int reg, int val)
+{
+	int addr;
+	phy_config_t *phy = lmac->phy_config;
+
+	if (!phy)
+		return;
+
+	addr = lmac->phy_port != -1 ? phy->addr + lmac->phy_port : phy->addr;
+	smi_write(phy->mdio_bus, addr, devad, mode, reg, val);
+}
+
+static int phy_mdio_c22_paged_read(rpm_lmac_config_t *lmac, int page, int reg)
+{
+	int val = 0;
+	int page_sel_reg;
+	int addr;
+	phy_config_t *phy = lmac->phy_config;
+
+	if (!phy)
+		return 0;
+
+	if (phy->valid && phy->drv->get_page_select_register)
+		page_sel_reg = phy->drv->get_page_select_register();
+	else
+		page_sel_reg = MII_MARVELL_22_PAGE_REG;
+
+	addr = lmac->phy_port != -1 ? phy->addr + lmac->phy_port : phy->addr;
+	/* First, set the requested page */
+	smi_write(phy->mdio_bus, addr, -1, CLAUSE22, page_sel_reg, page);
+	/* Read the register */
+	val = smi_read(phy->mdio_bus, CLAUSE22, addr, -1, reg);
+	/* Set the page back to zero */
+	smi_write(phy->mdio_bus, addr, -1, CLAUSE22, page_sel_reg, 0);
+
+	return val;
+}
+
+static void phy_mdio_c22_paged_write(rpm_lmac_config_t *lmac, int page, int reg, int val)
+{
+	int page_sel_reg;
+	int addr;
+	phy_config_t *phy = lmac->phy_config;
+
+	if (!phy)
+		return;
+
+	if (phy->valid && phy->drv->get_page_select_register)
+		page_sel_reg = phy->drv->get_page_select_register();
+	else
+		page_sel_reg = MII_MARVELL_22_PAGE_REG;
+
+	addr = lmac->phy_port != -1 ? phy->addr + lmac->phy_port : phy->addr;
+	/* First, set the requested page */
+	smi_write(phy->mdio_bus, addr, -1, CLAUSE22, page_sel_reg, page);
+	/* Read the register */
+	smi_write(phy->mdio_bus, addr, -1, CLAUSE22, reg, val);
+	/* Set the page back to zero */
+	smi_write(phy->mdio_bus, addr, -1, CLAUSE22, page_sel_reg, 0);
+}
+
+void phy_check_reg_init(int eth_id, int lmac_id, int mode, const void *fdt, int phy_node_offset)
+{
+	const struct fdt_property *reg_init;
+	const uint32_t *data;
+	int total_len, count;
+	rpm_lmac_config_t *lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	phy_config_t *phy = lmac->phy_config;
+
+	reg_init = fdt_get_property(
+		fdt, phy_node_offset, "cn10k,reg-init", &total_len);
+
+	if (!phy || !reg_init)
+		return;
+
+	if (total_len % (5 * sizeof(uint32_t)))
+		return;
+
+	count = total_len / (5 * sizeof(uint32_t));
+	data = (const uint32_t *)reg_init->data;
+
+	for (int i = 0; i < count; i++) {
+		data = (const uint32_t *)reg_init->data + i * 5;
+
+		int out = 0;
+		int devad, reg, mask, val, wait_ms;
+
+		devad = (mode == CLAUSE45) ? fdt32_to_cpu(data[0]) : -1;
+		reg = fdt32_to_cpu(data[1]);
+		mask = fdt32_to_cpu(data[2]);
+		val = fdt32_to_cpu(data[3]);
+		wait_ms = fdt32_to_cpu(data[4]);
+
+		if (mask) {
+			out = phy_mdio_read(lmac, mode, devad, reg);
+			out &= mask;
+		}
+
+		out |= val;
+		phy_mdio_write(lmac, mode, devad, reg, out);
+
+		if (wait_ms)
+			mdelay(wait_ms);
+	}
 }
 
 #ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
@@ -251,6 +329,7 @@ int phy_read_reg(int eth_id, int lmac_id,
 {
 	int ret = -1;
 	phy_config_t *phy;
+	rpm_lmac_config_t *lmac;
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
@@ -260,19 +339,20 @@ int phy_read_reg(int eth_id, int lmac_id,
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	phy = lmac->phy_config;
 	if (!phy)
 		return -1;
 
 	if (phy->valid && val) {
 		if (mode == CLAUSE22) {
 			*val = (dev_page >= 0) ?
-				phy_mdio_c22_paged_read(phy, dev_page, reg) :
-				phy_mdio_read(phy, mode, dev_page, reg);
+				phy_mdio_c22_paged_read(lmac, dev_page, reg) :
+				phy_mdio_read(lmac, mode, dev_page, reg);
 
 			ret = 0;
 		} else if (mode == CLAUSE45 && dev_page >= 0) {
-			*val = phy_mdio_read(phy, mode, dev_page, reg);
+			*val = phy_mdio_read(lmac, mode, dev_page, reg);
 			ret = 0;
 		}
 	}
@@ -285,6 +365,7 @@ int phy_write_reg(int eth_id, int lmac_id,
 {
 	int ret = -1;
 	phy_config_t *phy;
+	rpm_lmac_config_t *lmac;
 
 	debug_phy_driver("%s: %d:%d\n", __func__, eth_id, lmac_id);
 
@@ -294,20 +375,21 @@ int phy_write_reg(int eth_id, int lmac_id,
 	if (lmac_id < 0 || lmac_id >= MAX_LMAC_PER_RPM)
 		return -1;
 
-	phy = plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id].phy_config;
+	lmac = &plat_octeontx_bcfg->rpm_cfg[eth_id].lmac_cfg[lmac_id];
+	phy = lmac->phy_config;
 	if (!phy)
 		return -1;
 
 	if (phy->valid) {
 		if (mode == CLAUSE22) {
 			if (dev_page >= 0)
-				phy_mdio_c22_paged_write(phy, dev_page, reg, val);
+				phy_mdio_c22_paged_write(lmac, dev_page, reg, val);
 			else
-				phy_mdio_write(phy, mode, dev_page, reg, val);
+				phy_mdio_write(lmac, mode, dev_page, reg, val);
 
 			ret = 0;
 		} else if (mode == CLAUSE45 && dev_page >= 0) {
-			phy_mdio_write(phy, mode, dev_page, reg, val);
+			phy_mdio_write(lmac, mode, dev_page, reg, val);
 			ret = 0;
 		}
 	}
@@ -467,65 +549,6 @@ void phy_set_switch(phy_config_t *phy, int enable)
 {
 	if (phy)
 		smi_set_switch(phy, enable);
-}
-
-int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg)
-{
-	int val = 0;
-
-	if (phy)
-		val = smi_read(phy->mdio_bus, mode, phy->addr, devad, reg);
-
-	return val;
-}
-
-void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val)
-{
-	if (phy)
-		smi_write(phy->mdio_bus, phy->addr, devad, mode, reg, val);
-}
-
-int phy_mdio_c22_paged_read(phy_config_t *phy, int page, int reg)
-{
-	int val = 0;
-	int page_sel_reg;
-
-	if (!phy)
-		return 0;
-
-	if (phy->valid && phy->drv->get_page_select_register)
-		page_sel_reg = phy->drv->get_page_select_register();
-	else
-		page_sel_reg = MII_MARVELL_22_PAGE_REG;
-
-	/* First, set the requested page */
-	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, page_sel_reg, page);
-	/* Read the register */
-	val = smi_read(phy->mdio_bus, CLAUSE22, phy->addr, -1, reg);
-	/* Set the page back to zero */
-	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, page_sel_reg, 0);
-
-	return val;
-}
-
-void phy_mdio_c22_paged_write(phy_config_t *phy, int page, int reg, int val)
-{
-	int page_sel_reg;
-
-	if (!phy)
-		return;
-
-	if (phy->valid && phy->drv->get_page_select_register)
-		page_sel_reg = phy->drv->get_page_select_register();
-	else
-		page_sel_reg = MII_MARVELL_22_PAGE_REG;
-
-	/* First, set the requested page */
-	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, page_sel_reg, page);
-	/* Read the register */
-	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, reg, val);
-	/* Set the page back to zero */
-	smi_write(phy->mdio_bus, phy->addr, -1, CLAUSE22, page_sel_reg, 0);
 }
 
 int phy_get_fec_stats(int eth_id, int lmac_id)

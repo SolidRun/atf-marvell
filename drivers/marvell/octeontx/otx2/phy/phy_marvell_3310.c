@@ -213,7 +213,7 @@ void phy_marvell_3310_probe(int eth_id, int lmac_id)
 	if (phy->fdt_offset && !fdt_node_check_compatible(
 			fdt_ptr, phy->fdt_offset, "marvell,88x3310")) {
 
-		phy_check_reg_init(phy, CLAUSE45, fdt_ptr, phy->fdt_offset);
+		phy_check_reg_init(eth_id, lmac_id, CLAUSE45, fdt_ptr, phy->fdt_offset);
 	}
 #endif
 	init_dev();

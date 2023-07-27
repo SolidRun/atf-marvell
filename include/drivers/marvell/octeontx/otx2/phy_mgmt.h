@@ -316,10 +316,12 @@ int phy_get_link_status(int eth_id, int lmac_id, link_state_t *link);
 void phy_config(int eth_id, int lmac_id);
 void phy_register(int eth_id, int lmac_id, phy_drv_t *phy_drv);
 void phy_lookup(int eth_id, int lmac_id, int type);
+#ifndef PLAT_CN10K_FAMILY
 int phy_mdio_read(phy_config_t *phy, int mode, int devad, int reg);
 void phy_mdio_write(phy_config_t *phy, int mode, int devad, int reg, int val);
 int phy_mdio_c22_paged_read(phy_config_t *phy, int page, int reg);
 void phy_mdio_c22_paged_write(phy_config_t *phy, int page, int reg, int val);
+#endif
 
 void phy_set_switch(phy_config_t *phy, int enable);
 int phy_set_mod_type(int eth_id, int lmac_id, phy_mod_type_t mod_type);
@@ -341,7 +343,7 @@ void phy_reset(int eth_id, int lmac_id);
 int phy_get_fec_stats(int eth_id, int lmac_id);
 
 #ifdef PLAT_CN10K_FAMILY
-void phy_check_reg_init(phy_config_t *phy, int mode,
+void phy_check_reg_init(int eth_id, int lmac_id, int mode,
 		const void *fdt, int phy_node_offset);
 #endif
 
