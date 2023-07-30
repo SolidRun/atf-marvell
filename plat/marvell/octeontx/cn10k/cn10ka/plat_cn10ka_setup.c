@@ -175,10 +175,8 @@ int plat_portm_get_max_lane_cnt(int portm_idx)
 	case 0:
 		if (plat_get_altpkg() == CN10KA_PKG)
 			lanes = 4;
-		else if (plat_get_altpkg() == CN10KAS_PKG)
-			lanes = 2;
 		else
-			lanes = 4;
+			lanes = 2;
 		break;
 	case 1:
 	case 3:
@@ -189,10 +187,8 @@ int plat_portm_get_max_lane_cnt(int portm_idx)
 	case 2:
 		if (plat_get_altpkg() == CN10KA_PKG)
 			lanes = 2;
-		else if (plat_get_altpkg() == CN10KAS_PKG)
-			lanes = 1;
 		else
-			lanes = 2;
+			lanes = 1;
 		break;
 	default:
 		lanes = 0;

@@ -2746,7 +2746,7 @@ static void cn10k_fill_portm_details(void *fdt)
 		}
 
 		/* Configure CN10KAS MCM ports with DC termination */
-		if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+		if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG))
 		    && ((portm_idx >= 0) && (portm_idx < 3)))
 			rx_term = PORTM_RX_TERMINATION_DC;
 
@@ -2779,7 +2779,7 @@ static void cn10k_fill_portm_details(void *fdt)
 			/* CN10KAS MCM connections require Tx/Rx polarity inversion
 			 * They also do not support enabling of Tx/Rx precode
 			 */
-			if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+			if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG))
 			    && (portm_idx <= 2)) {
 				tx_pol = 1;
 				rx_pol = 1;

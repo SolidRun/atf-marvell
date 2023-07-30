@@ -8,7 +8,7 @@
 #ifndef __PLAT_CN10K_CONFIGURATION_H__
 #define __PLAT_CN10K_CONFIGURATION_H__
 
-#define CN10KAS_PKG  0
+#define CN10KAS_PKG  0  // or 2 for cn10kas prime part
 #define CN10KA_PKG  1
 #define CN10KB_PKG  1
 

@@ -912,7 +912,7 @@ static int set_gserm_rx_tx_config(int portm_idx, int portm_lidx, struct gserm_co
 	}
 
 	/* Configure SERDES Tx/Rx for Ultra Short Reach */
-	if (((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+	if (((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG))
 	    && ((gserm_cfg->gserm_idx == 0) && (gser_lane <= 2)))  ||
 		(cavm_is_model(OCTEONTX_CNF10KA) && portm_mode == PORTM_MODE_25GBASE_USR))
 		CSR_MODIFY(c, CAVM_GSERMX_PIN_RESERVED_INPUT_RXX(gserm, gser_lane),
@@ -1276,7 +1276,7 @@ void gserm_reset_init(void)
 	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 #if 0
 		if (cavm_is_platform(PLATFORM_ASIM)
-		    || (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG)))
+		    || (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG)))
 			cfg.gserm_idx = gserm_idx;
 		else {
 			cfg.gserm_idx = GSERM_BROADCAST;
@@ -1326,7 +1326,7 @@ void gserm_reset_init(void)
 	for (int gserm_idx = 0; gserm_idx < gserm_count; gserm_idx++) {
 #if 0
 		if (cavm_is_platform(PLATFORM_ASIM)
-		    || (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG)))
+		    || (cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG)))
 			cfg.gserm_idx = gserm_idx;
 		else {
 			cfg.gserm_idx = GSERM_BROADCAST;
@@ -1552,7 +1552,7 @@ void gserm_reset_init(void)
 			/* The SERDES firmware automatically configures Tx eq for
 			 * USR modes.
 			 */
-			if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() == CN10KAS_PKG))
+			if ((cavm_is_model(OCTEONTX_CN10KA) && (plat_get_altpkg() != CN10KA_PKG))
 			    && (portm_idx <= 2)) {
 				debug_gserm("%s: GSERM%d.%d: Configured in USR mode. Tx eq set to optimized values.\n",
 					    __func__, cfg.gserm_idx, gser_lane);
