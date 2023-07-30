@@ -514,7 +514,7 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	for (index = 0; index < (int)size / 4; index++) {
 		pmem.u = CSR_READ(CAVM_GSERMX_PMEMX(cfg->gserm_idx, index));
 		if (pmem.s.data != user_buffer[index]) {
-			debug_gserm("GSERM%d: Serdes firmware doesn't match, will be updated\n", index);
+			debug_gserm("GSERM%d: Serdes firmware doesn't match, will be updated\n", cfg->gserm_idx);
 			update_firmware = 1;
 			break;
 		}
