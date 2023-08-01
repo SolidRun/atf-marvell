@@ -135,10 +135,10 @@ static uint64_t get_dss_err_syn(uint64_t ch, bool dbe)
 		usyn1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN1(ch));
 		syn = usyn0.s.ecc_uncorr_syndromes_31_0 |
 			((uint64_t) usyn1.s.ecc_uncorr_syndromes_63_32 << 32ULL);
-		ERROR("DSS DBE ch %lld syndrome 0x%llx syn2 0x%x\n",
+		ERROR("DSS DBE ch %" PRId64 "syndrome 0x%" PRIx64 "syn2 0x%" PRIx64 "\n",
 				ch,
 				(uint64_t) syn,
-				(uint32_t) CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2(ch)));
+				CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCUSYN2(ch)));
 	} else {
 		csyn0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN0(ch));
 		csyn1.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_ECCCSYN1(ch));
