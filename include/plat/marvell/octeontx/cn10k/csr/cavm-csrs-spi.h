@@ -53,7 +53,7 @@ union cavm_spix_clk_ctrl
         uint64_t xspi_supports_xfer    : 1;  /**< [  7:  7](RO) Indicates is SPI supports XFER function. 1 = SPI supports xfer function. 0 = SPI
                                                                  does not supports xfer function. */
         uint64_t spi_imsc_shadow       : 1;  /**< [  6:  6](R/W) SPI interrupt enable. 1 = SPI INTR IS UNMASKED. 0 = SPI INTR IS MASKED. */
-        uint64_t spi_sclk_force        : 1;  /**< [  5:  5](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
+        uint64_t spi_sclk_force        : 1;  /**< [  5:  5](R/W) SPI sclk clk gate override. 0 = SPI sclk gating is enabled. 1 = SPI sclk gating is disabled. */
         uint64_t spi_io_clk_div        : 4;  /**< [  4:  1](R/W) SPI IO clock divide control.
                                                                  0x0 = Divide by 4.   SPI clock is 200 MHz.
                                                                  0x1 = Divide by 6.   SPI clock is 133.33 MHz.
@@ -91,7 +91,7 @@ union cavm_spix_clk_ctrl
                                                                  0xD = Divide by 128. SPI clock is 6.25 MHz.
                                                                  0xE = Reserved.
                                                                  0xF = Reserved. */
-        uint64_t spi_sclk_force        : 1;  /**< [  5:  5](R/W) EMMC sclk clk gate override. 0 = EMMC sclk gating is enabled. 1 = EMMC sclk gating is disabled. */
+        uint64_t spi_sclk_force        : 1;  /**< [  5:  5](R/W) SPI sclk clk gate override. 0 = SPI sclk gating is enabled. 1 = SPI sclk gating is disabled. */
         uint64_t spi_imsc_shadow       : 1;  /**< [  6:  6](R/W) SPI interrupt enable. 1 = SPI INTR IS UNMASKED. 0 = SPI INTR IS MASKED. */
         uint64_t xspi_supports_xfer    : 1;  /**< [  7:  7](RO) Indicates is SPI supports XFER function. 1 = SPI supports xfer function. 0 = SPI
                                                                  does not supports xfer function. */

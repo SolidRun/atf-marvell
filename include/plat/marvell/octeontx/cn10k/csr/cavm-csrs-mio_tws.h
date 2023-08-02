@@ -368,8 +368,9 @@ static inline uint64_t CAVM_MIO_TWSX_INT_W1S(uint64_t a)
  *
  * MIO TWSI IO Control Register
  * This register control the TWSI IO drive strength and slew rates. Index {a} of zero
- * (MIO_TWS(0)_IO_CTL) is used to control all TWSI outputs on CNXXXX; other index
- * values have no effect.
+ * (MIO_TWS(0)_IO_CTL) is used to control the dedicated TWSI(0..1) outputs on CNXXXX; other index
+ * values have no effect. The other programmable GPIO TWSI(2..11) ports, the pads are
+ * controlled by the corresponding GPIO_IO_CTL[n] registers.
  */
 union cavm_mio_twsx_io_ctl
 {

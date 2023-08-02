@@ -1566,11 +1566,13 @@ union cavm_gpio_pkg_ver
         uint64_t reserved_4_63         : 60;
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
                                                                  0x0 = SKU package A, code CF450AA = 45 x 45 package, for CN106XXS.
-                                                                 0x1 = SKU package B, code CF425AA = 42.5 x 42.5 package, for CN106XX. */
+                                                                 0x1 = SKU package B, code CF425AA = 42.5 x 42.5 package, for CN106XX.
+                                                                 0x2 = SKU package A1, code CF450AA = 45 x 45 package, for CN106XXS */
 #else /* Word 0 - Little Endian */
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
                                                                  0x0 = SKU package A, code CF450AA = 45 x 45 package, for CN106XXS.
-                                                                 0x1 = SKU package B, code CF425AA = 42.5 x 42.5 package, for CN106XX. */
+                                                                 0x1 = SKU package B, code CF425AA = 42.5 x 42.5 package, for CN106XX.
+                                                                 0x2 = SKU package A1, code CF450AA = 45 x 45 package, for CN106XXS */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -1607,10 +1609,12 @@ union cavm_gpio_pkg_ver
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN. */
+                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN.
+                                                                 0x1 = SKU package A1, code TBD = TBD x TBD package, for CNF105XXN */
 #else /* Word 0 - Little Endian */
         uint64_t pkg_ver               : 4;  /**< [  3:  0](RO/H) Reads the package version straps, which are set by the package.
-                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN. */
+                                                                 0x0 = SKU package A, code TBD = TBD x TBD package, for CNF105XXN.
+                                                                 0x1 = SKU package A1, code TBD = TBD x TBD package, for CNF105XXN */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cnf10kb;
