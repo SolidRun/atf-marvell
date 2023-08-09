@@ -650,8 +650,23 @@ int ehsm_csr_read(int reg_off, uint32_t *reg_val)
 	case FW_SEC_VER:
 	{
 		struct ehsm_fw_security_version_reg fw_sec_ver;
+		uint32_t loader_sec_version, main_fw_sec_version;
+		bool kak_id_valid;
+		uint32_t active_kak_id;
 
-		ret = ehsm_get_fw_security_version(&ehandle, &fw_sec_ver);
+		ret = ehsm_get_fw_security_version(&ehandle,
+						   &loader_sec_version,
+						   &main_fw_sec_version);
+		if (ret != SEC_NO_ERROR)
+			break;
+		ret = ehsm_get_active_kak_id(&ehandle, &active_kak_id, &kak_id_valid);
+		if (ret != SEC_NO_ERROR)
+			break;
+		fw_sec_ver.u.r = 0;
+		fw_sec_ver.u.b.active_kak_id = active_kak_id;
+		fw_sec_ver.u.b.kak_id_valid = kak_id_valid;
+		fw_sec_ver.u.b.loader_fw_sec_version = loader_sec_version;
+		fw_sec_ver.u.b.main_fw_sec_version = main_fw_sec_version;
 		*reg_val = fw_sec_ver.u.r;
 	}
 	break;
