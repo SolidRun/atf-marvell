@@ -284,6 +284,8 @@ static bool cdns_xspi_setup_clock(int requested_clk, int spi_con)
 	}
 
 	if (clk_ctrl.s.spi_io_clk_div != i) {
+		clk_ctrl.s.spi_clk_en = 0;
+		CSR_WRITE(CAVM_SPIX_CLK_CTRL(spi_con), clk_ctrl.u);
 		clk_ctrl.s.spi_io_clk_div = i;
 		update_clk = true;
 	}
