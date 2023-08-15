@@ -1299,9 +1299,7 @@ void gserm_reset_init(void)
 
 	/* Download GSERM FW */
 	debug_gserm("%s: GSERM: Downloading firmware\n", __func__);
-	do {
-		ret = load_gserx_image(fw_data, &fw_data_size);
-	} while((ret != 0) && (plat_try_next_boot_source() != 0));
+	ret = load_gserx_image(fw_data, &fw_data_size);
 
 	if (ret) {
 		ERROR("Failing to load GSERM Firmware\n");
