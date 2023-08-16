@@ -10,6 +10,7 @@
 #include <platform_def.h>
 #include <platform_setup.h>
 #include <debug.h>
+#include <ctype.h>
 #include <libfdt.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -3055,6 +3056,35 @@ static void octeontx_fdt_node_del(const void *fdt, char *node_name)
 	fdt_del_node((void *)fdt, offset);
 }
 
+void fdt_cpu_node_refresh(const void *fdt)
+{
+	char node_name[64], cpu_id[16];
+	int i, cnt, ncores;
+
+	ncores = plat_cn10k_get_core_count();
+	if (!ncores) {
+		WARN("%s: No active cpus\n", __func__);
+		return;
+	}
+
+	for (i = ncores; i < PLATFORM_CORE_COUNT ; i++) {
+		snprintf(cpu_id, sizeof(cpu_id), "%x", i);
+		for (cnt = 0; cnt < strlen(cpu_id); cnt++)
+			cpu_id[cnt] = toupper(cpu_id[cnt]);
+		snprintf(node_name, sizeof(node_name), "/cpus/cpu@%s0000",
+			 cpu_id);
+		octeontx_fdt_node_del(fdt, node_name);
+
+		snprintf(node_name, sizeof(node_name),
+			 "/cpus/cpu-map/cluster0/core%d", i);
+		octeontx_fdt_node_del(fdt, node_name);
+
+		snprintf(node_name, sizeof(node_name),
+			 "/soc@0/sdei-ghes/core%d", i);
+		octeontx_fdt_node_del(fdt, node_name);
+	}
+}
+
 void fdt_coresight_node_refresh(const void *fdt)
 {
 	char node_name[64];
@@ -3158,6 +3188,8 @@ int plat_octeontx_fill_board_details(void)
 		plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_out = strtol(str, NULL, 0);
 		printf("SHUTOUT: %s\n", str);
 	}
+
+	fdt_cpu_node_refresh(fdt);
 
 	fdt_coresight_node_refresh(fdt);
 
