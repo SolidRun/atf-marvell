@@ -25,6 +25,15 @@ enum smc_reg
 	FW_SEC_VER				= 0x8,
 };
 
+enum auth_cmd_id {
+	AUTH_CMD_ID_LOAD_UDS			= 0x1,
+	AUTH_CMD_ID_ADV_FA_LCS			= 0x2,
+	AUTH_CMD_ID_ADV_KAK_REVOCATION		= 0x3,
+	AUTH_CMD_ID_ADV_KM_VERSION		= 0x4,
+	AUTH_CMD_ID_ADV_LOADER_FW_VERSION	= 0x5,
+	AUTH_CMD_ID_ADV_MAIN_FW_VERSION		= 0x6,
+};
+
 struct ehsm_handle;
 
 #define PIE_MAX_SESSION_KEY_LEN32	128	/* 128*32=4096 bit */
@@ -171,5 +180,21 @@ int ehsm_pie_get_session_key(uintptr_t user_buf, bool nsec, uintptr_t size);
  * @return  0 for success, -EIO for eHSM errors
  */
 int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t size);
+
+/**
+ * Generate a 256-bit AUTH_CMD_PACKAGE that captures the 96-bit challenge
+ * value
+ *
+ * @param[in]	auth_cmd_id	Auth command ID
+ * @param[in]	user_buf	DRAM address of structure
+ *				(struct ehsm_authenticated_cmd_package)
+ * @param[in]	nsec		boolean Non-secure or Secure
+ * @param[in]	size		size of structure
+ *				(struct ehsm_authenticated_cmd_package)
+ *
+ * @return  0 for success, -EIO for eHSM errors
+ */
+int ehsm_smc_get_challenge(enum ehsm_auth_cmd_id auth_cmd_id,
+			   uintptr_t user_buf, bool nsec, uintptr_t size);
 
 #endif /* __EHSM_H__ */

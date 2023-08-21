@@ -651,6 +651,19 @@ PLAT_OCTEONTX_READ_EFI_VAR
     return value is -EFBIG and required size is returned.
   * Supported platforms: CN10k
 
+PLAT_OCTEONTX_EHSM_GET_CHALLENGE
+  * SMC FID : 0xc2000b2e
+  * Input register values:
+    x0: SMC FID
+    x1: Auth cmd id
+    x2: DRAM address of structure (struct ehsm_authenticated_cmd_package)
+    x3: sizeof structure (struct ehsm_authenticated_cmd_package)
+  * Return value:
+    x0: 0 on success, negative value for failure
+  * Description;
+    This call is used to send ehsm_get_challenge command to eHSM
+  * Supported platforms: CN10k
+
 PLAT_OCTEONTX_PHY_DBG_PRBS
   * SMC FID: 0xc2000e00
   * Input registers values:

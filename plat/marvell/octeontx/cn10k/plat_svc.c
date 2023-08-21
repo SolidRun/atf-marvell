@@ -1232,6 +1232,49 @@ err7:
 	}
 	break;
 
+	case PLAT_OCTEONTX_EHSM_GET_CHALLENGE:
+	{
+		uint32_t auth_cmd_id = x1;
+
+		user_buf = x2;
+		size = x3;
+
+		/* Check if NS user_buf is a valid DRAM address */
+		if (NULL == (void *)user_buf) {
+			ret = -1;
+			goto err8;
+		}
+
+		if (size < sizeof(struct ehsm_authenticated_cmd_package)) {
+			ret = -1;
+			goto err8;
+		}
+
+		dram_end = octeontx_dram_size();
+		/*
+		 * Sanity check
+		 *
+		 * NOTE: the size check may need to change for future
+		 * versions
+		 */
+		if ((user_buf < NS_IMAGE_BASE) ||
+		    (user_buf > (dram_end - 1)) ||
+		    ((user_buf + size) > (dram_end - 1))
+		   ) {
+			ERROR("Invalid descriptor address or size\n");
+			ret = -1;
+			goto err8;
+		}
+
+		spin_lock(&ehsm_lock);
+		ret = ehsm_smc_get_challenge(auth_cmd_id, user_buf,
+				NSEC_BUF, size);
+		spin_unlock(&ehsm_lock);
+err8:
+		SMC_RET1(handle, ret);
+	}
+	break;
+
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

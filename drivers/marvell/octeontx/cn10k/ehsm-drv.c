@@ -864,3 +864,112 @@ error:
 
 	return err;
 }
+
+/**
+ * Generate a 256-bit AUTH_CMD_PACKAGE that captures the 96-bit challenge
+ * value
+ *
+ * @param[in]	auth_cmd_id	Auth command ID
+ * @param[in]	user_buf	DRAM address of structure
+ *				(struct ehsm_authenticated_cmd_package)
+ * @param[in]	nsec		boolean Non-secure or Secure
+ * @param[in]	size		size of structure
+ *				(struct ehsm_authenticated_cmd_package)
+ *
+ * @return  0 for success, -EIO for eHSM errors
+ */
+int ehsm_smc_get_challenge(uint32_t auth_cmd_id,
+			   uintptr_t user_buf, bool nsec, uintptr_t size)
+{
+	struct ehsm_authenticated_cmd_package acmd;
+	enum ehsm_auth_cmd_id auth_id;
+	struct ehsm_handle ehandle;
+	enum sec_return ret;
+	uint32_t attr, map_required;
+	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
+	int err = 0, ns_map_size = 0;
+	uint64_t base_addr = 0;
+
+	if (cavm_is_platform(PLATFORM_EMULATOR)) {
+		WARN("EHSM disabled in emulator\n");
+		return 0;
+	}
+
+	switch (auth_cmd_id) {
+	case AUTH_CMD_ID_LOAD_UDS:
+		auth_id = AUTH_CMD_LOAD_UDS;
+		break;
+	case AUTH_CMD_ID_ADV_FA_LCS:
+		auth_id = AUTH_CMD_ADV_FA_LCS;
+		break;
+	case AUTH_CMD_ID_ADV_KAK_REVOCATION:
+		auth_id = AUTH_CMD_ADV_KAK_REVOCATION;
+		break;
+	case AUTH_CMD_ID_ADV_KM_VERSION:
+		auth_id = AUTH_CMD_ADV_KM_VERSION;
+		break;
+	case AUTH_CMD_ID_ADV_LOADER_FW_VERSION:
+		auth_id = AUTH_CMD_ADV_LOADER_FW_VERSION;
+		break;
+	case AUTH_CMD_ID_ADV_MAIN_FW_VERSION:
+		auth_id = AUTH_CMD_ADV_MAIN_FW_VERSION;
+		break;
+	default:
+		ERROR("Invalid AUTH_CMD_ID 0x%x\n", auth_cmd_id);
+		return -EINVAL;
+	}
+
+	if (nsec)
+		attr = MMAP_IMAGE_BUF_EN | MT_RW | MT_NS;
+	else
+		attr = 0;
+
+	map_required = MMAP_IMAGE_BUF_EN & attr;
+
+	if (map_required) {
+
+		/* Round up to page size */
+		ns_map_size = (size + PAGE_SIZE - 1) & -PAGE_SIZE;
+
+		/* Map non-secure memory buffer */
+		/* Note that this needs to be page aligned */
+		base_addr = user_buf & mask;
+		/* If user_buf crosses a page boundary, allocate another page */
+		if ((user_buf + size) > (base_addr + ns_map_size)) {
+			ns_map_size += PAGE_SIZE;
+		}
+
+		/* Map Non-secure memory buffer */
+		err = octeontx_mmap_add_dynamic_region_with_sync(base_addr,
+				base_addr, ns_map_size, MMAP_ATTR(attr));
+		if (err) {
+			ERROR("eHSM: mmap failed (%d)\n", err);
+			return -EHSM_MMAP_ERR;
+		}
+	}
+
+	ret = ehsm_initialize(&ehandle);
+	if (ret != SEC_NO_ERROR) {
+		ERROR("Error initializing eHSM (%d)\n", ret);
+		err = -EIO;
+		goto error;
+	}
+
+	ret = ehsm_get_challenge(&ehandle, auth_id, &acmd);
+	if (ret != SEC_NO_ERROR) {
+		WARN("eHSM: Error (%d) forming GET_CHALLENGE with AUTH_CMD_ID 0x%x\n",
+			 ret, auth_cmd_id);
+		err = -EIO;
+		goto error;
+	}
+
+	memcpy((void *)user_buf, (void *)&acmd, sizeof(acmd));
+
+error:
+	/* unmap non-secure memory buffer */
+	if (map_required && base_addr && ns_map_size)
+		octeontx_mmap_remove_dynamic_region_with_sync(base_addr,
+				ns_map_size);
+
+	return err;
+}
