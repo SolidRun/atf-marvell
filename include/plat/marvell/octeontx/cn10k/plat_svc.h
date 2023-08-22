@@ -625,6 +625,7 @@
 
 /*
  * x1 - DRAM address of structure (struct pie_session_key)
+ * x2 - Size of structure in bytes (struct pie_session_key)
  *
  * Return:
  *	x0:
@@ -636,6 +637,7 @@
 
 /*
  * x1 - DRAM address of structure (struct pie_rkek)
+ * x2 - Size of structure in bytes (struct pie_rkek)
  *
  * Return:
  *	x0:

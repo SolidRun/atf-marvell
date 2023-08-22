@@ -611,8 +611,33 @@ PLAT_OCTEONTX_EHSM_READ_CSR
     This SMC call can be used to read specific eHSM CSRs.
   * Supported platforms: CN10K
 
-PLAT_OCTEONTX_READ_EFI_VAR
+PLAT_OCTEONTX_EHSM_SESSION_KEY
   * SMC FID : 0xc2000b17
+  * Input register values:
+    x0: SMC FID
+    x1: DRAM address of structure (struct pie_session_key)
+    x2: Size of structure in bytes (struct pie_session_key)
+  * Return value:
+    x0: 0 on success, negative value for failure
+  * Description;
+    This call is used to get the encrypted session key from eHSM,
+    this session key will be used for rkek provisioning.
+  * Supported platforms: CN10k
+
+PLAT_OCTEONTX_EHSM_RKEK_PROVISION
+  * SMC FID : 0xc2000b18
+  * Input register values:
+    x0: SMC FID
+    x1: DRAM address of structure (struct pie_rkek)
+    x2: Size of structure in bytes (struct pie_rkek)
+  * Return value:
+    x0: 0 on success, negative value for failure
+  * Description;
+    This call is used for eHSM RKEK provisioning
+  * Supported platforms: CN10k
+
+PLAT_OCTEONTX_READ_EFI_VAR
+  * SMC FID : 0xc2000b1d
   * Input register values:
     x0: SMC FID
     x1: Physical address of buffer

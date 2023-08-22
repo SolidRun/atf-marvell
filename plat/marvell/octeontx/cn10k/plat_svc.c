@@ -1136,10 +1136,15 @@ err5:
 	case PLAT_OCTEONTX_EHSM_SESSION_KEY:
 	{
 		user_buf = x1;
-		size = sizeof(struct pie_session_key);
+		size = x2;
 
 		/* Check if NS user_buf is a valid DRAM address */
 		if (NULL == (void *)user_buf) {
+			ret = -1;
+			goto err6;
+		}
+
+		if (size < sizeof(struct pie_session_key)) {
 			ret = -1;
 			goto err6;
 		}
@@ -1169,10 +1174,15 @@ err6:
 	case PLAT_OCTEONTX_EHSM_RKEK_PROVISION:
 	{
 		user_buf = x1;
-		size = sizeof(struct pie_rkek);
+		size = x2;
 
 		/* Check if NS user_buf is a valid DRAM address */
 		if (NULL == (void *)user_buf) {
+			ret = -1;
+			goto err7;
+		}
+
+		if (size < sizeof(struct pie_rkek)) {
 			ret = -1;
 			goto err7;
 		}
