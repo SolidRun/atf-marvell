@@ -664,6 +664,18 @@ PLAT_OCTEONTX_EHSM_GET_CHALLENGE
     This call is used to send ehsm_get_challenge command to eHSM
   * Supported platforms: CN10k
 
+PLAT_OCTEONTX_EHSM_AUTH_CMD
+  * SMC FID : 0xc2000b2f
+  * Input register values:
+    x0: SMC FID
+    x1: DRAM address of structure (struct ehsm_auth_cmd)
+    x2: sizeof structure (struct ehsm_auth_cmd)
+  * Return value:
+    x0: 0 on success, negative value for failure
+  * Description;
+    This call is used to send ehsm_authcmd command to eHSM
+  * Supported platforms: CN10k
+
 PLAT_OCTEONTX_PHY_DBG_PRBS
   * SMC FID: 0xc2000e00
   * Input registers values:

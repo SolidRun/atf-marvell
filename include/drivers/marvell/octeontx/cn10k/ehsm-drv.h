@@ -77,6 +77,13 @@ struct pie_rkek
 	enum ehsm_rkek_key_provision_option provision_opt;
 };
 
+struct ehsm_auth_cmd {
+	uint32_t dsa_scheme;
+	struct ehsm_dsa_key_token_pair key;
+	struct ehsm_authenticated_cmd_with_header acmd;
+	uint8_t signature[TIM_MAX_RSA_DS_SIZE];
+};
+
 /**
  * Verifies an image against the hash stored in the TIM
  *
@@ -196,5 +203,16 @@ int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t s
  */
 int ehsm_smc_get_challenge(enum ehsm_auth_cmd_id auth_cmd_id,
 			   uintptr_t user_buf, bool nsec, uintptr_t size);
+
+/**
+ * eHSM Authentication command
+ *
+ * @param[in]	user_buf DRAM address of structure (struct ehsm_auth_cmd)
+ * @param[in]	nsec	 boolean Non-secure or Secure
+ * @param[in]	size	 size of structure (struct ehsm_auth_cmd)
+ *
+ * @return  0 for success, -EIO for eHSM errors
+ */
+int ehsm_smc_auth_cmd(uintptr_t user_buf, bool nsec, uintptr_t size);
 
 #endif /* __EHSM_H__ */

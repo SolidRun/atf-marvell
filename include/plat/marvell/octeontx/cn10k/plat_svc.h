@@ -740,8 +740,20 @@
  */
 #define PLAT_OCTEONTX_EHSM_GET_CHALLENGE	0xc2000b2e
 
+/*
+ * x1 - DRAM address of structure (struct ehsm_auth_cmd)
+ * x2 - sizeof structure (struct ehsm_auth_cmd)
+ *
+ * Return:
+ *	x0:
+ *	    0 -- Success
+ *	    -5 -- EIO
+ *	    other values are error codes
+ */
+#define PLAT_OCTEONTX_EHSM_AUTH_CMD		0xc2000b2f
+
  /* Number of family specific SMCs */
-#define OTX3_NUM_SMC_CALLS			48
+#define OTX3_NUM_SMC_CALLS			49
 
 
 /* API that allows to define platform specific SMC CALLS */
