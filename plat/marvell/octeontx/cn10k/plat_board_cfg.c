@@ -568,10 +568,11 @@ void plat_octeontx_print_board_variables(void)
 			portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 			if (!lmac->port_enable)
 				continue;
-			debug_dts("RPM%d.LMAC%d: portm mode = %d, mode = %s:%d AN disable=%d sgmii_speed=%d sgmii_duplex=%d\n",
+			debug_dts("RPM%d.LMAC%d: portm mode = %d, short channel = %d, mode = %s:%d AN disable=%d sgmii_speed=%d sgmii_duplex=%d\n",
 					i,
 					j,
 					portm->portm_mode,
+					portm->short_channel,
 					gserm_get_mode_strmap(portm->portm_mode).ebf_str,
 					lmac->mode,
 					lmac->an_disable,
@@ -2644,7 +2645,7 @@ static void cn10k_fill_portm_details(void *fdt)
 	int lane_idx;
 	int baud_rate, flags = 0;
 	gserm_state_lane_t gserm_state;
-	int ret;
+	int ret, usr_mode = 0;
 
 	offset = fdt_path_offset(fdt, "/cavium,bdk");
 	if (offset < 0) {
@@ -2744,6 +2745,23 @@ static void cn10k_fill_portm_details(void *fdt)
 				  portm_idx, cn10k_portm_fec_type_to_str(fec_orig),
 				  cn10k_portm_mode_to_cfg_str(portm_mode),
 				  cn10k_portm_fec_type_to_str(fec));
+
+		/* Read the short channel type from EBF DT */
+		snprintf(prop, sizeof(prop), "PORTM-SCH.P%d", portm_idx);
+		usr_mode = cn10k_fdtebf_get_num(fdt, prop, 10);
+
+		if ((portm_mode != PORTM_MODE_50GAUI_1_C2M) && ((usr_mode == 0) || (usr_mode == 1)))
+			debug_dts("PORTM%d: Short channel request not supported for %s mode\n",
+					portm_idx, cn10k_portm_mode_to_cfg_str(portm_mode));
+
+		if ((usr_mode != -1) && (usr_mode != 0) && (usr_mode != 1))
+			debug_dts("PORTM%d: Invalid Short channel request %d\n",
+				portm_idx, usr_mode);
+		else
+			portm->short_channel = usr_mode;
+
+		debug_dts("PORTM%d portm->short_channel %d\n", portm_idx,
+				portm->short_channel);
 
 		/* Read the Rx Termination type from EBF DT */
 		snprintf(prop, sizeof(prop), "PORTM-RX-TERMINATION.P%d", portm_idx);

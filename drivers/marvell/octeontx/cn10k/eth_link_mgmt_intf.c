@@ -751,7 +751,7 @@ unsigned int ecp_update_phy_link_state(int portm_idx, int lmac_id, rpm_link_stat
 	return 0;
 }
 
-unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
+unsigned int ecp_update_sfp_mod_state(int portm_idx, rpm_lmac_context_t *lmac_ctx)
 {
 	ecp_link_mgmt_sh_data_t *sh_data = ecp_link_get_sh_mem_ptr(portm_idx);
 
@@ -772,9 +772,11 @@ unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat)
 
 	/* If SFP is enabled, update the SFP status in SM */
 	sh_data->link_req.sfp_slot_present = 1;
-	sh_data->link_req.sfp_mod_stat = mod_stat;
-	debug_eth_link_intf("%s: portm_idx %d sfp status %d\n", __func__, portm_idx,
-				sh_data->link_req.sfp_mod_stat);
+	sh_data->link_req.sfp_mod_stat = lmac_ctx->s.mod_stats;
+	sh_data->link_req.sfp_optical = lmac_ctx->s.sfp_optical;
+	debug_eth_link_intf("%s: portm_idx %d sfp status %d sfp_optical %d\n", __func__, portm_idx,
+				sh_data->link_req.sfp_mod_stat,
+				sh_data->link_req.sfp_optical);
 
 	sh_data->lock = LINK_OWN_NONE;
 

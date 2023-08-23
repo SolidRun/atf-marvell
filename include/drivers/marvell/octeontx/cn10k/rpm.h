@@ -178,7 +178,9 @@ typedef union rpm_lmac_context {
 		uint64_t fec:2;
 		/* prev module status:2 */
 		uint64_t mod_stats:2;
-		uint64_t reserved:40;
+		/* SFP module status as optical/copper copper : 0, optical : 1 */
+		uint64_t sfp_optical:1;
+		uint64_t reserved:39;
 	} s;
 } rpm_lmac_context_t;
 

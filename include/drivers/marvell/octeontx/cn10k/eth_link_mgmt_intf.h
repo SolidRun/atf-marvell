@@ -223,6 +223,8 @@ typedef struct ecp_link_req {
 	uint32_t sfp_mod_stat:2;    /* Indicates if QSFP/SFP module is present */
 	uint32_t phy_present:1;     /* Indicates if PHY is present */
 	uint32_t rx_tx_dis:1;       /* Indicates if Rx/Tx not to be enabled during link up config */
+	uint32_t sfp_optical:1;    /* Indicates if QSFP/SFP module is optical */
+	uint32_t reserved:20;
 	uint32_t req_args;        /* TODO */
 	/* PHY mgmt is handled by ATF. ATF will update phy_link_stat reading
 	 * from PHY and update SM. Relevant fields of ecp_link_state_t
@@ -336,7 +338,7 @@ unsigned int ecp_get_req_in_prog(int portm_idx, int lmac_id);
 
 unsigned int ecp_get_link_state(int portm_idx, int lmac_id, ecp_link_state_t *link_state, int *sig_detect);
 unsigned int ecp_update_phy_link_state(int portm, int lmac_id, rpm_link_state_t *phy_link_state);
-unsigned int ecp_update_sfp_mod_state(int portm_idx, int mod_stat);
+unsigned int ecp_update_sfp_mod_state(int portm_idx, rpm_lmac_context_t *lmac_ctx);
 /**
  * Updates Rx/Tx disable arg passed via link bring up argument
  *

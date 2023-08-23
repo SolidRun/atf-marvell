@@ -237,6 +237,8 @@ static int rpm_check_sfp_mod_stat(int rpm_id, int lmac_id)
 			ret = rpm_sfp_obtain_capabilities(rpm_id, lmac_id);
 			if (ret != 1)
 				return -1;
+
+			lmac_ctx->s.sfp_optical = sfp_is_transceiver_optical(lmac->portm_idx);
 			return 1; /* Valid */
 		} else if (mod_status == SFP_MOD_STATE_ABSENT) {
 			debug_rpm_intf("%s: %d:%d user has un-plugged cable\n",
@@ -255,6 +257,7 @@ static int rpm_check_sfp_mod_stat(int rpm_id, int lmac_id)
 	if (mod_status == SFP_MOD_STATE_EEPROM_UPDATED) {
 		lmac_ctx->s.mod_stats = mod_status;
 		sfp_parse_eeprom_data(lmac->portm_idx);
+		lmac_ctx->s.sfp_optical = sfp_is_transceiver_optical(lmac->portm_idx);
 		return 1; /* Valid */
 	}
 	return 0;
@@ -375,7 +378,7 @@ static int rpm_handle_link_in_progress(int rpm_id, int lmac_id)
 					   ETH_ERR_MODULE_NOT_PRESENT);
 		}
 		/* Update SFP mod status in ECP SM */
-		ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
+		ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx);
 	}
 
 	rpm_get_link_status(rpm_id, lmac_id, &link_sts);
@@ -469,7 +472,7 @@ retry_mod_stat:
 				}
 			}
 			/* Update SFP mod status in ECP SM */
-			ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
+			ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx);
 
 			rpm_set_link_state(rpm_id, lmac_id, &link_sts,
 					rpm_get_error_type(rpm_id, lmac_id));
@@ -529,7 +532,7 @@ retry_mod_stat1:
 				}
 			}
 			/* Update SFP mod status in ECP SM */
-			ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
+			ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx);
 
 			goto retry_link1;
 		}
@@ -2383,7 +2386,7 @@ static int rpm_poll_for_link_cb(int timer)
 				if ((lmac_cfg->sfp_slot) && (!lmac_ctx->s.lbk1_enable)) {
 					rpm_check_sfp_mod_stat(rpm_id, lmac_id);
 					/* Update SFP mod status in ECP SM */
-					ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx->s.mod_stats);
+					ecp_update_sfp_mod_state(lmac_cfg->portm_idx, lmac_ctx);
 				}
 
 				/* Get the link status */
