@@ -73,12 +73,13 @@
 #define AAPL_ALLOW_ANSI_COLORS         1  /**< Set to 1 to enable ANSI color codes in log messages */
 
 /* Set value to 0 to disable corresponding feature support: */
-#define AAPL_ENABLE_DIAG               1  /**< Enable diagnostics. */
+#define AAPL_ENABLE_DIAG               0  /**< Enable diagnostics. */
 #define AAPL_ENABLE_FILE_IO            0  /**< Enable use of file IO and the FILE type. */
 #define AAPL_ENABLE_C_LINKING          1  /**< Set to 0 if library and callers all are C++ compiled. */
 #define AAPL_ENABLE_AACS_SERVER        0  /**< Enable the AACS server. */
 
-#define AAPL_ENABLE_EYE_MEASUREMENT    1  /**< Enable eye measurement support. */
+/**< Enable eye measurement support. */
+#define AAPL_ENABLE_EYE_MEASUREMENT    0
 #define AAPL_ENABLE_SERDES_AUTO_NEG    1 /**< Enable SerDes Auto-negotiation */
 
 #define AAPL_ENABLE_AVSP_5410          0  /**< Enable AVSP 5410 support. */
@@ -270,7 +271,7 @@ typedef enum
  **
  ** @see AAPL_STREAM_ERR
  **/
-#define AAPL_STREAM stdout
+//#define AAPL_STREAM stdout
 
 /** Sets the stdio stream to write warning and error messages.
  ** @see aapl_log_printf().
@@ -280,22 +281,22 @@ typedef enum
  **
  ** @see AAPL_STREAM
  **/
-#define AAPL_STREAM_ERR stderr
+//#define AAPL_STREAM_ERR stderr
 
 /** @brief Default value for Aapl_t::enable_debug_logging.
  ** This value also can be changed at run time.
  **/
-#define AAPL_DEFAULT_ENABLE_DEBUG_LOGGING    1
+#define AAPL_DEFAULT_ENABLE_DEBUG_LOGGING    0
 
 /** @brief Default value for Aapl_t::enable_stream_logging.
  ** This value also can be changed at run time.
  **/
-#define AAPL_DEFAULT_ENABLE_STREAM_LOGGING       1
+#define AAPL_DEFAULT_ENABLE_STREAM_LOGGING       0
 
 /** @brief Default value for Aapl_t::enable_stream_err_logging.
  ** This value also can be changed at run time.
  **/
-#define AAPL_DEFAULT_ENABLE_STREAM_ERR_LOGGING   1
+#define AAPL_DEFAULT_ENABLE_STREAM_ERR_LOGGING   0
 
 /** Default for Aapl_t::log_time_stamps.
  ** If defined, this value also can be changed at run time.
@@ -304,7 +305,7 @@ typedef enum
  ** Set to 0 to compile in with a disabled default.
  ** Set to 1 to compile in with an enabled default.
  **/
-#define AAPL_LOG_TIME_STAMPS 1
+#define AAPL_LOG_TIME_STAMPS 0
 
 
 /** Only used when calling the aacs_server() function */
@@ -371,9 +372,16 @@ static inline long aapl_strtol(char *nptr, char **endptr, int base) {long val; i
 #define AAPL_EXIT(val)       exit(val)          /**< AAPL uses this for exit. */
 
 /* All malloc/realloc/free calls make use of these macros: */
-#define AAPL_MALLOC(sz)      malloc(sz)         /**< AAPL uses this for malloc. */
-#define AAPL_REALLOC(ptr,sz) realloc(ptr,sz)    /**< AAPL uses this for realloc. */
-#define AAPL_FREE(ptr)       free(ptr)          /**< AAPL uses this for free. */
+#include <stddef.h>
+void *dlmalloc(size_t sz);
+void  dlfree(void *ptr);
+void *dlrealloc(void *ptr, size_t sz);
+/**< AAPL uses this for malloc. */
+#define AAPL_MALLOC(sz)      dlmalloc(sz)
+/**< AAPL uses this for realloc. */
+#define AAPL_REALLOC(ptr, sz) dlrealloc(ptr, sz)
+/**< AAPL uses this for free. */
+#define AAPL_FREE(ptr)       dlfree(ptr)
 
 #define aapl_strtoul(nptr,endptr,base) strtoul(nptr,endptr,base)
 #define aapl_strtol( nptr,endptr,base) strtol( nptr,endptr,base)
@@ -433,5 +441,11 @@ static inline long aapl_strtol(char *nptr, char **endptr, int base) {long val; i
 #include "meas.h"
 #include "eye_math.h"
 #include "avsp.h"
+
+// Don't want to use clib version - replace with inline macro
+#if defined(tolower)
+#undef tolower
+#define tolower(c)      ((c) + 0x20 * (((c) >= 'A') && ((c) <= 'Z')))
+#endif
 
 #endif

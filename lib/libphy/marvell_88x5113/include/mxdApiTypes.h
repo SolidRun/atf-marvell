@@ -16,7 +16,7 @@ X5113 API driver (MXD).
                               /* set to 1 to build sample code */
                               /* to interface to Marvell DB via SMI board */
 
-#define MXD_ENABLE_SERDES_API 0 /* Set to 1 to include the SERDES API.
+#define MXD_ENABLE_SERDES_API 1 /* Set to 1 to include the SERDES API.
                                    All SERDES source files in the serdes folder
                                    are needed to be in the makefile. Otherwise,
                                    it will generate build errors. */
