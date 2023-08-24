@@ -293,6 +293,38 @@ static int memtest_config_smc_handler(u_register_t x1, u_register_t x2,
 	return r;
 }
 
+/*
+ * Sanity check if user_buf is valid address or not and also
+ * check whether "user_buf + size" is greather than DRAM memory
+ * end address or not
+ */
+static int check_dram_boundary(uintptr_t user_buf, uintptr_t size)
+{
+	uint64_t dram_end = 0;
+	int ret = 0;
+
+	/* Check if NS user_buf is a valid DRAM address */
+	if (NULL == (void *)user_buf) {
+		return -1;
+	}
+
+	dram_end = octeontx_dram_size();
+	/*
+	 * Sanity check
+	 *
+	 * NOTE: the size check may need to change for future
+	 * versions
+	 */
+	if ((user_buf < NS_IMAGE_BASE) ||
+		((user_buf + size) > (dram_end - 1))
+	   ) {
+		ERROR("Invalid descriptor address or size\n");
+		ret = -1;
+	}
+
+	return ret;
+}
+
 uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 					u_register_t x1,
 					u_register_t x2,
@@ -421,22 +453,9 @@ err1:
 			uret = SPI_ALREADY_IN_PROGRESS;
 			ret = -1;
 		} else {
-			/* Check if NS user_buf is a valid DRAM address */
-			if (NULL == (void *)user_buf) {
-				ret = -1;
-				goto err;
-			}
+			ret = check_dram_boundary(user_buf, size);
 
-			dram_end = octeontx_dram_size();
-			/*
-			 * Sanity check
-			 *
-			 * NOTE: the size check may need to change for future
-			 * versions
-			 */
-			if ((user_buf < NS_IMAGE_BASE) ||
-			    (user_buf > (dram_end - 1)) ||
-			    ((user_buf + size) > (dram_end - 1)) ||
+			if (ret ||
 			    ((size != sizeof(struct smc_update_descriptor)) &&
 			    (size != sizeof(struct smc_update_descriptor_prev)))
 			    ) {
@@ -951,11 +970,8 @@ err3:
 		user_buf = x1;
 		size = x2;
 
-		dram_end = octeontx_dram_size();
-		if (((void *)user_buf == NULL) ||
-		    (user_buf < NS_IMAGE_BASE) ||
-		    ((user_buf + size) > dram_end) ||
-		    (user_buf % 8)) {
+		ret = check_dram_boundary(user_buf, size);
+		if (ret || (user_buf % 8)) {
 			ERROR("Error: invalid descriptor address 0x%lx, size: 0x%lx\n",
 			      user_buf, size);
 			SMC_RET2(handle, -1, 0);
@@ -1141,36 +1157,19 @@ err5:
 		user_buf = x1;
 		size = x2;
 
-		/* Check if NS user_buf is a valid DRAM address */
-		if (NULL == (void *)user_buf) {
-			ret = -1;
-			goto err6;
-		}
-
 		if (size < sizeof(struct pie_session_key)) {
 			ret = -1;
 			goto err6;
 		}
 
-		dram_end = octeontx_dram_size();
-		/*
-		 * Sanity check
-		 *
-		 * NOTE: the size check may need to change for future
-		 * versions
-		 */
-		if ((user_buf < NS_IMAGE_BASE) ||
-		    (user_buf > (dram_end - 1)) ||
-		    ((user_buf + size) > (dram_end - 1))
-		   ) {
-			ERROR("Invalid descriptor address or size\n");
-			ret = -1;
-			goto err6;
-		}
+		ret = check_dram_boundary(user_buf, size);
 
-		spin_lock(&ehsm_lock);
-		ret = ehsm_pie_get_session_key(user_buf, NSEC_BUF, size);
-		spin_unlock(&ehsm_lock);
+		if (!ret) {
+			spin_lock(&ehsm_lock);
+			ret = ehsm_pie_get_session_key(user_buf,
+					NSEC_BUF, size);
+			spin_unlock(&ehsm_lock);
+		}
 err6:
 		SMC_RET1(handle, ret);
 	}
@@ -1181,36 +1180,19 @@ err6:
 		user_buf = x1;
 		size = x2;
 
-		/* Check if NS user_buf is a valid DRAM address */
-		if (NULL == (void *)user_buf) {
-			ret = -1;
-			goto err7;
-		}
-
 		if (size < sizeof(struct pie_rkek)) {
 			ret = -1;
 			goto err7;
 		}
 
-		dram_end = octeontx_dram_size();
-		/*
-		 * Sanity check
-		 *
-		 * NOTE: the size check may need to change for future
-		 * versions
-		 */
-		if ((user_buf < NS_IMAGE_BASE) ||
-		    (user_buf > (dram_end - 1)) ||
-		    ((user_buf + size) > (dram_end - 1))
-		   ) {
-			ERROR("Invalid descriptor address or size\n");
-			ret = -1;
-			goto err7;
-		}
+		ret = check_dram_boundary(user_buf, size);
 
-		spin_lock(&ehsm_lock);
-		ret = ehsm_pie_rkek_protected_provision(user_buf, NSEC_BUF, size);
-		spin_unlock(&ehsm_lock);
+		if (!ret) {
+			spin_lock(&ehsm_lock);
+			ret = ehsm_pie_rkek_protected_provision(user_buf,
+					NSEC_BUF, size);
+			spin_unlock(&ehsm_lock);
+		}
 err7:
 		SMC_RET1(handle, ret);
 	}
@@ -1239,37 +1221,19 @@ err7:
 		user_buf = x2;
 		size = x3;
 
-		/* Check if NS user_buf is a valid DRAM address */
-		if (NULL == (void *)user_buf) {
-			ret = -1;
-			goto err8;
-		}
-
 		if (size < sizeof(struct ehsm_authenticated_cmd_package)) {
 			ret = -1;
 			goto err8;
 		}
 
-		dram_end = octeontx_dram_size();
-		/*
-		 * Sanity check
-		 *
-		 * NOTE: the size check may need to change for future
-		 * versions
-		 */
-		if ((user_buf < NS_IMAGE_BASE) ||
-		    (user_buf > (dram_end - 1)) ||
-		    ((user_buf + size) > (dram_end - 1))
-		   ) {
-			ERROR("Invalid descriptor address or size\n");
-			ret = -1;
-			goto err8;
-		}
+		ret = check_dram_boundary(user_buf, size);
 
-		spin_lock(&ehsm_lock);
-		ret = ehsm_smc_get_challenge(auth_cmd_id, user_buf,
-				NSEC_BUF, size);
-		spin_unlock(&ehsm_lock);
+		if (!ret) {
+			spin_lock(&ehsm_lock);
+			ret = ehsm_smc_get_challenge(auth_cmd_id,
+					user_buf, NSEC_BUF, size);
+			spin_unlock(&ehsm_lock);
+		}
 err8:
 		SMC_RET1(handle, ret);
 	}
@@ -1280,36 +1244,18 @@ err8:
 		user_buf = x1;
 		size = x2;
 
-		/* Check if NS user_buf is a valid DRAM address */
-		if (NULL == (void *)user_buf) {
-			ret = -1;
-			goto err9;
-		}
-
 		if (size < sizeof(struct ehsm_auth_cmd)) {
 			ret = -1;
 			goto err9;
 		}
 
-		dram_end = octeontx_dram_size();
-		/*
-		 * Sanity check
-		 *
-		 * NOTE: the size check may need to change for future
-		 * versions
-		 */
-		if ((user_buf < NS_IMAGE_BASE) ||
-		    (user_buf > (dram_end - 1)) ||
-		    ((user_buf + size) > (dram_end - 1))
-		   ) {
-			ERROR("Invalid descriptor address or size\n");
-			ret = -1;
-			goto err9;
-		}
+		ret = check_dram_boundary(user_buf, size);
 
-		spin_lock(&ehsm_lock);
-		ret = ehsm_smc_auth_cmd(user_buf, NSEC_BUF, size);
-		spin_unlock(&ehsm_lock);
+		if (!ret) {
+			spin_lock(&ehsm_lock);
+			ret = ehsm_smc_auth_cmd(user_buf, NSEC_BUF, size);
+			spin_unlock(&ehsm_lock);
+		}
 err9:
 		SMC_RET1(handle, ret);
 	}
