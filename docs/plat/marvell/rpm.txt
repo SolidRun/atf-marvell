@@ -1516,3 +1516,55 @@ Ethernet modes currently supported by software for which FEC is by default enabl
 
 FEC type updated (from EBF setup menu/U-boot/Linux) are persistent and will take effect in next reboot as well.
 To ignore persistent settings and restore DT settings, "Restore factory defaults" from EBF setup menu can be used.
+
+4.7 Configure short channel (USR)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+USR mode can be enabled/disabled by the user from EBF setup menu for 50GAUI_C2M mode.
+By default, this mode is enabled for 50GAUI_C2M mode if user has not specified any
+config option and SFP mgmt is not enabled. If SFP mgmt is enabled, based on the
+SFP/QSFP transceiver type, USR mode is enabled in firmware.
+
+4.7.1 Configure short channel via EBF DTS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+The below config option in board DTS allows user to disable/enable
+USR mode for 50GAUI-C2M mode
+
+.. code-block:: bash
+
+     PORTM-SCH.P%d = "0";
+     PORTM-SCH.P%d = "1";
+
+4.7.2 Configure short channel via EBF setup menu
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+User can choose to configure USR mode from EBF setup menu when
+selecting 50GAUI-C2M mode
+
+.. code-block:: bash
+
+=================================
+Setup - PORTM0 Configuration
+=================================
+1) SGMII, Serdes Speed: 1.25G, Data Speed: 1*1 MAC (10M..1G)
+2) 1000BASE-X, Serdes Speed: 1.25G, Data Speed: 1*1G
+3) SFI_1G, Serdes Speed: 1.25G, Data Speed: 1*1G
+4) XFI, Serdes Speed: 10.3125G, Data Speed: 1*10G
+5) SFI, Serdes Speed: 10.3125G, Data Speed: 1*10G
+6) 10GBASE-KR, Serdes Speed: 10.3125G, Data Speed: 1*10G
+7) 25GAUI_C2C, Serdes Speed: 25.78125G, Data Speed: 1*25G
+8) 25GAUI_C2M, Serdes Speed: 25.78125G, Data Speed: 1*25G
+9) 25GBASE-CR, Serdes Speed: 25.78125G, Data Speed: 1*25G
+A) 25GBASE-KR, Serdes Speed: 25.78125G, Data Speed: 1*25G
+B) 25GBASE-CR Cons, Serdes Speed: 25.78125G, Data Speed: 1*25G
+C) 25GBASE-KR Cons, Serdes Speed: 25.78125G, Data Speed: 1*25G
+D) 50GAUI-1_C2C, Serdes Speed: 26.5625G, Data Speed: 1*51.51G
+E) 50GAUI-1_C2M, Serdes Speed: 26.5625G, Data Speed: 1*51.51G
+F) 50GBASE-CR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G
+G) 50GBASE-KR, Serdes Speed: 26.5625G, Data Speed: 1*51.51G
+H) 10G-SXGMII, Serdes speed: 10.3125G, Data Speed: 1*1 MAC (10M..1
+I) Disabled
+Z) Return to main menu
+
+Choice: E
+
+(INS)SHORT CHANNEL request (Default = -1, DISABLE = 0, ENABLE = 1):
