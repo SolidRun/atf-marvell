@@ -503,25 +503,11 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 #if debug_gserm
 	comphy_firmware_info_t firmware_info;
 #endif
-	bool update_firmware = 0;
 
 	if (!data || !size) {
 		ERROR("Image size is larger than memory size\n");
 		return -1;
 	}
-
-	/* Verify the firmware update is needed */
-	for (index = 0; index < (int)size / 4; index++) {
-		pmem.u = CSR_READ(CAVM_GSERMX_PMEMX(cfg->gserm_idx, index));
-		if (pmem.s.data != user_buffer[index]) {
-			debug_gserm("GSERM%d: Serdes firmware doesn't match, will be updated\n", cfg->gserm_idx);
-			update_firmware = 1;
-			break;
-		}
-	}
-
-	if (!update_firmware)
-		return 0;
 
 	/* Load firmware sequence */
 	/* Clear firmware-ready bit and enable download mode */
@@ -533,6 +519,8 @@ static int gserm_download_firmware(struct gserm_config *cfg, void *data,
 	/* Program firmware into PMEM */
 	for (index = 0; index < (int)size / 4; index++)
 		CSR_WRITE(CAVM_GSERMX_PMEMX(cfg->gserm_idx, index), user_buffer[index]);
+
+	debug_gserm("GSERM%d: Updated Serdes firmware\n", cfg->gserm_idx);
 
 	/* Verify the firmware matches what we loaded */
 	for (index = 0; index < (int)size / 4; index++) {
