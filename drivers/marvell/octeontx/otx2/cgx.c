@@ -2676,6 +2676,50 @@ static void cgx_fill_lmac_attributes(int cgx_idx, int lmac_idx)
 	}
 }
 
+int cgx_update_lane_sds(int cgx_id, int lmac_id)
+{
+	cgx_config_t *cgx;
+	int lane_to_sds = 0x0;
+	cavm_cgxx_spux_br_status1_t br_status1;
+	cavm_cgxx_spux_br_algn_status_t br_algn_status;
+
+	cgx = &plat_octeontx_bcfg->cgx_cfg[cgx_id];
+
+	br_algn_status.u = CSR_READ(CAVM_CGXX_SPUX_BR_ALGN_STATUS(cgx_id, lmac_id));
+
+	if (br_algn_status.s.block_lock == 0xF) {
+		br_status1.u = CSR_READ(CAVM_CGXX_SPUX_BR_STATUS1(cgx_id, lmac_id));
+		if (br_status1.s.rcv_lnk != 1) {
+			/* Add workaround - disable LMAC,
+			 * configure lane_to_sds in the
+			 * swizzled lane order, enable LMAC
+			 */
+			debug_cgx("%s: %d:%d Add SW workaround for 100G RS-FEC\n",
+					__func__, cgx_id, lmac_id);
+
+			/* Disable LMAC */
+			CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
+					CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), enable, 0);
+
+			/* Swizzle the lane_to_sds */
+			lane_to_sds = ((((cgx->network_lane_order) & 3) << 6) |
+				(((cgx->network_lane_order >> 4) & 3) << 4) |
+				(((cgx->network_lane_order >> 8) & 3) << 2) |
+				(((cgx->network_lane_order >> 12) & 3)));
+
+			CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
+				CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), lane_to_sds,
+				lane_to_sds);
+
+			/* Enable LMAC */
+			CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
+						CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), enable, 1);
+
+		}
+	}
+	return -1;
+}
+
 /* This API brings up SGMII/QSGMII link. This function to be called
  * after the PHY is up (only when link is up).
  */
@@ -3084,6 +3128,7 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 	cavm_cgxx_spux_control1_t spux_control1;
 	cavm_cgxx_smux_rx_ctl_t	smux_rx_ctl;
 	cavm_cgxx_spux_int_t spux_int;
+
 	bool is_gsern = 0;
 
 	debug_cgx("%s %d:%d\n", __func__, cgx_id, lmac_id);
@@ -3290,10 +3335,16 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 				smux_rx_ctl.u = CSR_READ(CAVM_CGXX_SMUX_RX_CTL(
 						cgx_id, lmac_id));
 
-				if (spux_status1.s.rcv_lnk != 1)
+				if (spux_status1.s.rcv_lnk != 1) {
 					debug_cgx("%s: %d:%d RCV_LNK timeout\n",
 						__func__, cgx_id, lmac_id);
-				else if (smux_rx_ctl.s.status == 1)
+					if (((lmac->mode_idx == QLM_MODE_CAUI_4_C2M) ||
+							(lmac->mode_idx == QLM_MODE_CAUI_4_C2C))
+						&& (lmac->fec == CGX_FEC_RS)) {
+						/* SW workaround for 100G with RS-FEC */
+						return cgx_update_lane_sds(cgx_id, lmac_id);
+					}
+				} else if (smux_rx_ctl.s.status == 1)
 					debug_cgx("%s: %d:%d Local fault\n",
 						__func__, cgx_id, lmac_id);
 				else if (smux_rx_ctl.s.status == 2)
