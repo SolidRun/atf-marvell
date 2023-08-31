@@ -134,6 +134,9 @@ static void phy_marvell_1780_probe(int eth_id, int lmac_id)
 		return;
 	}
 
+	/* Set TX_CONFIG to follow SGMII spec (to match what RPM does) */
+	mdUSGMIISelectCiscoMode(&priv->mdev, 0, MAD_USGMII_SGMII_SPEC);
+
 	phy->init = 1;
 	phy->priv = (void *)priv;
 	priv->initialized = 1;
