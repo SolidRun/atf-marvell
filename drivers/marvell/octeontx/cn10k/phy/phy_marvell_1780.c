@@ -134,9 +134,6 @@ static void phy_marvell_1780_probe(int eth_id, int lmac_id)
 		return;
 	}
 
-	mdUSGMIIEnableScrambler(&priv->mdev, 0, 0);
-	mdUSGMIIEnableDescrambler(&priv->mdev, 0, 0);
-
 	phy->init = 1;
 	phy->priv = (void *)priv;
 	priv->initialized = 1;
