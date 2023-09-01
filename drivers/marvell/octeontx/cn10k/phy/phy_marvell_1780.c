@@ -104,6 +104,12 @@ static MAD_SYS_CONFIG mad_sys_cfg = {
 	},
 };
 
+enum pcs_mode {
+	PCS_MODE_SGMII = 0,
+	PCS_MODE_Q_USGMII = 1,
+	PCS_MODE_O_USGMII = 3,
+};
+
 
 /* One time initialization for the PHY if required */
 static void phy_marvell_1780_probe(int eth_id, int lmac_id)
@@ -111,6 +117,8 @@ static void phy_marvell_1780_probe(int eth_id, int lmac_id)
 	phy_1780_priv_t *priv;
 	phy_config_t *phy;
 	MAD_STATUS ret;
+	cn10k_portm_modes_t portm_mode;
+	MAD_U32 data;
 
 	priv = &phy_1780_priv[eth_id];
 
@@ -136,6 +144,30 @@ static void phy_marvell_1780_probe(int eth_id, int lmac_id)
 
 	/* Set TX_CONFIG to follow SGMII spec (to match what RPM does) */
 	mdUSGMIISelectCiscoMode(&priv->mdev, 0, MAD_USGMII_SGMII_SPEC);
+
+	portm_mode = plat_eth_get_portm_cfg(
+		plat_eth_get_lmac_cfg(eth_id, lmac_id)->portm_idx)->portm_mode;
+
+	mdSysGetPagedPhyReg(&priv->mdev, 0, 30, 26, &data);
+	data &= 0xff9f;
+
+	switch (portm_mode) {
+	case PORTM_MODE_SGMII:
+		data |= ((1 << 15) | (PCS_MODE_SGMII << 5));
+		break;
+	case PORTM_MODE_Q_USGMII:
+		data |= ((1 << 15) | (PCS_MODE_Q_USGMII << 5));
+		break;
+	case PORTM_MODE_O_USGMII:
+		data |= ((1 << 15) | (PCS_MODE_O_USGMII << 5));
+		break;
+	default:
+		debug_phy_driver("%s: %d:%d unsupported portm_mode: %d\n",
+			__func__, eth_id, lmac_id, portm_mode);
+		return;
+	}
+
+	mdSysSetPagedPhyReg(&priv->mdev, 0, 30, 26, data);
 
 	phy->init = 1;
 	phy->priv = (void *)priv;
