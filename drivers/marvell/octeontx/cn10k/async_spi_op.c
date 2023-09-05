@@ -306,8 +306,8 @@ static int async_tim_handler(int tim)
 	}
 
 	if (async_handler_time_total > SPI_OP_CRITICAL_DURATION_US) {
-		UERROR("This handler operation (op[%d] type %d) takes too much time %" PRId64 "us\n",
-		       spi_op_cnt_saved, type_saved, async_handler_time_total);
+		UWARN("This handler operation (op[%d] type %d) takes too much time %" PRId64 "us\n",
+		      spi_op_cnt_saved, type_saved, async_handler_time_total);
 	} else if (async_handler_time_total > SPI_OP_MAX_DURATION_US) {
 		UWARN("This handler operation (op[%d] type %d) takes more than %dus: %" PRId64 "us\n",
 		      spi_op_cnt_saved, type_saved, SPI_OP_MAX_DURATION_US, async_handler_time_total);
