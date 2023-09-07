@@ -53,6 +53,7 @@ octeontx_ctr_sem_t octeontx_smc_spi_lock;
 static spinlock_t octeontx_smc_rvu_lock;
 static spinlock_t mdio_lock;
 static spinlock_t serdes_lock;
+static spinlock_t ehsm_lock;
 
 /* Octeon have 2 SPI buses*/
 enum GPIO_STATE {
@@ -1128,7 +1129,9 @@ err5:
 		uint32_t reg_val;
 		int reg_off = x1 & 0xfff;
 
+		spin_lock(&ehsm_lock);
 		ret = ehsm_csr_read(reg_off, &reg_val);
+		spin_unlock(&ehsm_lock);
 		SMC_RET2(handle, ret, reg_val);
 	}
 	break;
@@ -1165,7 +1168,9 @@ err5:
 			goto err6;
 		}
 
+		spin_lock(&ehsm_lock);
 		ret = ehsm_pie_get_session_key(user_buf, NSEC_BUF, size);
+		spin_unlock(&ehsm_lock);
 err6:
 		SMC_RET1(handle, ret);
 	}
@@ -1203,7 +1208,9 @@ err6:
 			goto err7;
 		}
 
+		spin_lock(&ehsm_lock);
 		ret = ehsm_pie_rkek_protected_provision(user_buf, NSEC_BUF, size);
+		spin_unlock(&ehsm_lock);
 err7:
 		SMC_RET1(handle, ret);
 	}
