@@ -670,6 +670,11 @@ void plat_octeontx_cpu_setup(void)
 	__asm__ volatile ("mrs %0, S3_0_C15_C1_1" : "=&r"(val));
 	val |= (1ULL << 0);
 	__asm__ volatile ("msr S3_0_C15_C1_1, %0" : : "r"(val));
+
+#if DBG_ALLOW_SYST_REG_AC
+	plat_octeontx_dbg_sysreg_set();
+#endif
+
 }
 
 static int ts_valid;
@@ -1418,3 +1423,17 @@ exit:
 	if (fail)
 		ERROR("Coresight presrv region not available or unable to set DT property\n");
 }
+
+#if DBG_ALLOW_SYST_REG_AC
+void plat_octeontx_dbg_sysreg_set(void)
+{
+	uint64_t val;
+
+	__asm__ volatile ("mrs %0, actlr_el3" : "=&r"(val));
+	val |= ACTLR_EL3_ACTLREN_BIT | ACTLR_EL3_ECTLREN_BIT |
+		ACTLR_EL3_PWREN_BIT | ACTLR_EL3_TSIDEN_BIT |
+		ACTLR_EL3_SMEN_BIT | ACTLR_EL3_CLUSTERPMUEN_BIT;
+	VERBOSE("SEC_ACCESS : ACTLR_EL3 0x%" PRIx64 "\n", val);
+	__asm__ volatile ("msr actlr_el3, %0" : : "r"(val));
+}
+#endif

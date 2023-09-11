@@ -31,6 +31,16 @@ else
        BUILD_XSPI=0
 endif
 
+# Secure Access Flag :
+#   - EL3(Secure) Regn Access Control for NS World
+#   - Setup per core system regs for NS World during primary & secondary core boot
+ifeq (${PLAT},$(filter ${PLAT}, ${CN10K_PLATS}))
+DBG_ALLOW_SEC_REGN_AC_SMC ?= 0
+$(eval $(call add_define,DBG_ALLOW_SEC_REGN_AC_SMC))
+DBG_ALLOW_SYST_REG_AC ?= 0
+$(eval $(call add_define,DBG_ALLOW_SYST_REG_AC))
+endif
+
 ifeq (${BUILD_TYPE}, release)
 	# Use LOG_LEVEL_WARN in release builds
         LOG_LEVEL	:=	30
@@ -121,6 +131,12 @@ endif
 
 ifeq (${SDEI_SUPPORT},1)
 BL31_SOURCES		+=	plat/marvell/octeontx/octeontx_sdei.c
+endif
+
+ifeq (${PLAT},$(filter ${PLAT}, ${CN10K_PLATS}))
+    ifeq (${DBG_ALLOW_SEC_REGN_AC_SMC},1)
+        BL31_SOURCES		+=	plat/marvell/octeontx/octeontx_dbg_sec_access.c
+    endif
 endif
 
 ENABLE_PLAT_COMPAT	:=	0

@@ -337,11 +337,22 @@ uintptr_t plat_octeontx_svc_smc_handler(uint32_t smc_fid,
 	uintptr_t size, user_buf, user_buf1;
 	uint64_t dram_end = 0, img_size = 0;
 	uint64_t reg_addr = 0, reg_size = 0;
+#if DBG_ALLOW_SEC_REGN_AC_SMC
+	uint64_t secure_reg_val  = 0;
+#endif
 	int ret = 0;
 
 	VERBOSE("%s: smc_fid = 0x%x\n", __func__, smc_fid);
 
 	switch (smc_fid) {
+#if DBG_ALLOW_SEC_REGN_AC_SMC
+	case DBG_PLAT_OCTEONTX_ACCESS_REG:
+		secure_reg_val = x1;
+		reg_addr = x2;
+		ret = octeontx_access_mapping(reg_addr, &secure_reg_val, x3, x4);
+		SMC_RET2(handle, ret, secure_reg_val);
+		break;
+#endif
 	case PLAT_OCTEONTX_DISABLE_RVU_LFS:
 		spin_lock(&octeontx_smc_rvu_lock);
 		ret = octeontx_clear_lf_to_pf_mapping();

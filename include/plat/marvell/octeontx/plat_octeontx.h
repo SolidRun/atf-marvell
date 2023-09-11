@@ -17,4 +17,8 @@ unsigned int plat_get_rom_t_cnt();
 
 void plat_octeontx_cpu_setup(void);
 
+#if DBG_ALLOW_SYST_REG_AC
+void plat_octeontx_dbg_sysreg_set(void);
+#endif
+
 #endif /* __PLAT_OCTEONTX_H__ */

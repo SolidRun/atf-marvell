@@ -275,6 +275,9 @@ void octeontx_apa_wdog_init(void)
  ******************************************************************************/
 void bl31_platform_setup()
 {
+#if DBG_ALLOW_SYST_REG_AC
+	plat_octeontx_dbg_sysreg_set();
+#endif
 	/*
 	 * In order to keep MMC functional in non-secure world, we must
 	 * make the device have access to non-secure memory. It is safe to

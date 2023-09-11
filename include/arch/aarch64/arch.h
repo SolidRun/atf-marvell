@@ -1320,4 +1320,12 @@
 #define CPUMPMMCR_EL3_MPMM_EN_SHIFT	UINT64_C(0)
 #define CPUMPMMCR_EL3_MPMM_EN_MASK	UINT64_C(0x1)
 
+/* ACTLR_EL3 definitions */
+#define ACTLR_EL3_ACTLREN_BIT		(ULL(1) << 0)
+#define ACTLR_EL3_ECTLREN_BIT		(ULL(1) << 1)
+#define ACTLR_EL3_PWREN_BIT		(ULL(1) << 7)
+#define ACTLR_EL3_TSIDEN_BIT		(ULL(1) << 10)
+#define ACTLR_EL3_SMEN_BIT		(ULL(1) << 11)
+#define ACTLR_EL3_CLUSTERPMUEN_BIT	(ULL(1) << 12)
+
 #endif /* ARCH_H */
