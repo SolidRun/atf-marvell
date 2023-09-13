@@ -85,6 +85,8 @@ void phy_marvell_2540_probe(int eth_id, int lmac_id)
 	if (!phy_cfg)
 		return;
 
+	priv->mtd_dev.appData = (void *)phy_cfg;
+
 	printf("%s: Initializing Marvell 88x2540 PHY...\n", __func__);
 
 	/* Will be set to MTD_TRUE by mtdLoadDriver() if successful */
@@ -97,18 +99,8 @@ void phy_marvell_2540_probe(int eth_id, int lmac_id)
 		return;
 	}
 
-	priv->mtd_dev.appData = (void *)phy_cfg;
-
-	/* Make the PHY initialized on other LMACs too */
-	for (int id = 0; id < MAX_LMAC_PER_RPM; id++) {
-		phy_cfg = plat_eth_get_phy_cfg(eth_id, id);
-		if (!phy_cfg)
-			continue;
-
-		phy_cfg->init = 1;
-		phy_cfg->priv = (void *)priv;
-	}
-
+	phy_cfg->init = 1;
+	phy_cfg->priv = (void *)priv;
 	priv->initialized = 1;
 }
 
@@ -116,13 +108,19 @@ void phy_marvell_2540_probe(int eth_id, int lmac_id)
 void phy_marvell_2540_config(int eth_id, int lmac_id)
 {
 	cn10k_portm_modes_t portm_mode;
+	rpm_lmac_config_t *lmac;
 	phy_config_t *phy_cfg;
 	phy_2540_priv_t *priv;
 	MTD_U16 mac_mode, port;
 	MTD_U16 forced_speed = 0;
 	int usxgmii_mp = 0;
+	MTD_U16 avail_speeds = MTD_ALL_SPEEDS_AVAILABLE;
 
-	phy_cfg = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	lmac = plat_eth_get_lmac_cfg(eth_id, lmac_id);
+	if (!lmac)
+		return;
+
+	phy_cfg = lmac->phy_config;
 	if (!phy_cfg)
 		return;
 
@@ -137,7 +135,7 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 			 __func__, eth_id, lmac_id,
 			 portm_mode, phy_cfg->req_an);
 
-	port = phy_cfg->port;
+	port = lmac->phy_port;
 	if (port > 3) {
 		ERROR("%s %d:%d requested port: %u is invalid\n",
 		       __func__, eth_id, lmac_id, port);
@@ -153,9 +151,14 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 
 	case PORTM_MODE_SGMII:
 		mac_mode = MTD_MAC_TYPE_10GR_SGMII_AN_EN;
+		avail_speeds =
+			MTD_SPEED_10M_HD | MTD_SPEED_10M_FD |
+			MTD_SPEED_100M_HD | MTD_SPEED_100M_FD |
+			MTD_SPEED_1GIG_HD | MTD_SPEED_1GIG_FD;
 
-		if (phy_cfg->forceconfig && !phy_cfg->req_an) {
-			switch (phy_cfg->req_speed) {
+
+		if (lmac->an_disable) {
+			switch (lmac->sgmii_speed) {
 			case ETH_LINK_10M:
 				forced_speed = (phy_cfg->duplex) ?
 					MTD_SPEED_10M_HD_AN_DIS : MTD_SPEED_10M_FD_AN_DIS;
@@ -179,11 +182,19 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 	case PORTM_MODE_10G_DXGMII:
 		mac_mode = MTD_MAC_TYPE_10G_DXGMII;
 		usxgmii_mp = 1;
+		avail_speeds =  MTD_SPEED_10M_HD | MTD_SPEED_10M_FD |
+				MTD_SPEED_100M_HD | MTD_SPEED_100M_FD |
+				MTD_SPEED_1GIG_HD | MTD_SPEED_1GIG_FD |
+				MTD_SPEED_2P5GIG_FD | MTD_SPEED_5GIG_FD;
 		break;
 
 	case PORTM_MODE_10G_QXGMII:
 		mac_mode = MTD_MAC_TYPE_10G_QXGMII;
 		usxgmii_mp = 1;
+		avail_speeds =  MTD_SPEED_10M_HD | MTD_SPEED_10M_FD |
+				MTD_SPEED_100M_HD | MTD_SPEED_100M_FD |
+				MTD_SPEED_1GIG_HD | MTD_SPEED_1GIG_FD |
+				MTD_SPEED_2P5GIG_FD;
 		break;
 
 	default:
@@ -193,8 +204,8 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 	}
 
 	if (!usxgmii_mp ||
-		(mac_mode == PORTM_MODE_10G_DXGMII && (port == 0 || port == 2)) ||
-		(mac_mode == PORTM_MODE_10G_QXGMII && port == 0)) {
+		(mac_mode == MTD_MAC_TYPE_10G_DXGMII && (port == 0 || port == 2)) ||
+		(mac_mode == MTD_MAC_TYPE_10G_QXGMII && port == 0)) {
 
 		MTD_API_CALL(eth_id, lmac_id, mtdSetMacInterfaceCopperOnlyPhy,
 			     &priv->mtd_dev, port, mac_mode,
@@ -207,7 +218,7 @@ void phy_marvell_2540_config(int eth_id, int lmac_id)
 			     &priv->mtd_dev, port, forced_speed);
 	else
 		MTD_API_CALL(eth_id, lmac_id, mtdEnableSpeeds,
-			     &priv->mtd_dev, port, MTD_ALL_SPEEDS_AVAILABLE, MTD_TRUE);
+			     &priv->mtd_dev, port, avail_speeds, MTD_TRUE);
 }
 
 /* To enable/disable AN */
@@ -220,6 +231,7 @@ void phy_marvell_2540_set_an(int eth_id, int lmac_id)
 void phy_marvell_2540_get_link_status(int eth_id, int lmac_id,
 					link_state_t *link)
 {
+	rpm_lmac_config_t *lmac;
 	phy_config_t *phy_cfg;
 	phy_2540_priv_t *priv;
 	MTD_U16 port;
@@ -230,7 +242,11 @@ void phy_marvell_2540_get_link_status(int eth_id, int lmac_id,
 	MTD_BOOL mac_if_pd;
 	int speed, duplex;
 
-	phy_cfg = plat_eth_get_phy_cfg(eth_id, lmac_id);
+	lmac = plat_eth_get_lmac_cfg(eth_id, lmac_id);
+	if (!lmac)
+		return;
+
+	phy_cfg = lmac->phy_config;
 	if (!phy_cfg)
 		return;
 
@@ -238,7 +254,7 @@ void phy_marvell_2540_get_link_status(int eth_id, int lmac_id,
 	if (!priv)
 		return;
 
-	port = phy_cfg->port;
+	port = lmac->phy_port;
 	if (port > 3) {
 		ERROR("%s %d:%d requested port: %u is invalid\n",
 		       __func__, eth_id, lmac_id, port);
