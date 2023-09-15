@@ -645,33 +645,36 @@ static void print_stat(void)
 	if (!(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR))
 		return;
 
-	if (spi_dev_lock(bus)) {
-		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
-		return;
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s: SPI_%d: SW Lock failed\n", __func__, bus);
+		goto err;
 	}
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0)
+	if (spi_dev_lock(bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
 		goto err;
+	}
 
 	ret = spi_flash_config();
 	if (ret < 0)
-		goto err;
+		goto err1;
 
 	ret = ppr_mrr_read_header();
 	if (ret < 0)
-		goto err;
+		goto err1;
 
 	if (ppr_mrr.signature     != SIGNATURE ||
 			ppr_mrr.head_mrr  == FLASH_ERASE_MARK ||
 			ppr_mrr.head_ppr  == FLASH_ERASE_MARK)
-		goto err;
+		goto err1;
 
 	print_ppr();
 
-err:
-
-	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+err1:
 	spi_dev_unlock(bus);
+
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 }
 
 static int32_t ppr_mrr_clear_flash(void)
@@ -792,15 +795,16 @@ static int ppr_timer_cb(int hd)
     reg_MSTR0.u = CSR_READ(CAVM_DSSX_DDRCTL_REGB_DDRC_CH0_MSTR0(ch));
     int dev_width = (reg_MSTR0.s.device_config == 1) ? 8 : 16;/*need to chenge that for odyseey for X4 devices*/
 
-	if (spi_dev_lock(bus)) {
-		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
-		return -1;
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s Failed to get SW lock\n", __func__);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		return -2;
 	}
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
-		ERROR("%s Failed to get lock\n", __func__);
-		ret = -2;
-		goto err1;
+	if (spi_dev_lock(bus)) {
+		ERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		ret = -1;
+		goto err;
 	}
 
 	ret = spi_flash_config();
@@ -968,8 +972,9 @@ static int ppr_timer_cb(int hd)
 
 err1:
 	debug("%s exit\n", __func__);
-	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 	spi_dev_unlock(bus);
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 
 	return ret;
 }
@@ -1000,15 +1005,17 @@ void ppr_fw_init(void)
 
 	debug("%s Setup PPR timer\n", __func__);
 
-	if (plat_octeontx_bcfg->ppr_config.stat_enable == 2)
-		if (!spi_dev_lock(bus)) {
-			if (!octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock)) {
-				if (!spi_flash_config())
+	if (plat_octeontx_bcfg->ppr_config.stat_enable == 2) {
+		if (!octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock)) {
+			if (!spi_dev_lock(bus)) {
+				if (!spi_flash_config()) {
 					ppr_mrr_clear_flash();
-				octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+				}
+				spi_dev_unlock(bus);
 			}
-			spi_dev_unlock(bus);
 		}
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+	}
 
 	/* Start timer to handle MRR statistics collection */
 	timer_hd = timer_create(TM_PERIODIC, MRR_POLL_INTERVAL, ppr_timer_cb);

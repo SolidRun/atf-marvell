@@ -239,16 +239,18 @@ static int async_tim_handler(int tim)
 	int spi_op_cnt_saved = spi_op_cnt;
 	enum delayed_spi_op_type type_saved = spi_ops[spi_op_cnt].type;
 
-	//In error case try to lock bus later
-	if (spi_dev_lock(bus)) {
-		UERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+	//Try lock SW lock
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		UERROR("%s: SPI_%d: Sem Lock failed\n", __func__, bus);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 		timer_start(timer_hd);
 		return 0;
 	}
 
-	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
-		UERROR("%s: SPI_%d: Sem Lock failed\n", __func__, bus);
-		spi_dev_unlock(bus);
+	//Try lock HW lock
+	if (spi_dev_lock(bus)) {
+		UERROR("%s: SPI_%d: Lock failed\n", __func__, bus);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 		timer_start(timer_hd);
 		return 0;
 	}
@@ -315,8 +317,8 @@ static int async_tim_handler(int tim)
 
 	spi_async_update_time_stats(async_handler_time_total);
 
-	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 	spi_dev_unlock(bus);
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 
 	return 0;
 }

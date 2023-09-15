@@ -925,24 +925,27 @@ uint32_t spi_dev_lock(int spi_con)
 	uint32_t val = 0;
 	int timeout = 0xFF;
 
-	while (timeout-- >= 0) {
+	while (timeout >= 0) {
 		val = *spi_lock[spi_con];
 		if (val == 0 || val == ATF_OWN) {
 			*spi_lock[spi_con] = ATF_OWN;
 			break;
 		}
+		timeout--;
 	}
 
-	if (timeout <= 0)
+	if (timeout < 0)
 		goto fail;
 
 	timeout = 3;
-	while (timeout-- >= 0) {
+	while (timeout >= 0) {
 		if (*spi_lock[spi_con] != ATF_OWN)
 			break;
+
+		timeout--;
 	}
 
-	if (timeout > 0) {
+	if (timeout != -1) {
 		val = *spi_lock[spi_con];
 		goto fail;
 	}

@@ -22,6 +22,7 @@
 #include <ehsm-drv.h>
 #include <spi_ops.h>
 #include <plat_mem_alloc.h>
+#include <octeontx_semaphore.h>
 
 #undef DEBUG_SPI_NOR
 
@@ -80,6 +81,7 @@
 #define MAX_EFI_VAR_SIZE	0x4000
 #define MAX_EFI_STORAGE		0x10000
 
+extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
 static struct tim_handle tim_handle;
 static struct tim_header_info tim_header_info;
 static struct tim_load_info tim_load_info;
@@ -745,8 +747,15 @@ int spi_update_ethernet_persistent_data(uintptr_t log_entry, size_t sz)
 
 	offset = cfg->offset + PERSIST_NETWORK_SETTINGS_OFFSET;
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
+		return -1;
+	}
+
 	if (spi_dev_lock(cfg->bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
+		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 		return -1;
 	}
 
@@ -757,8 +766,10 @@ int spi_update_ethernet_persistent_data(uintptr_t log_entry, size_t sz)
 
 	if (spi_dev_unlock(cfg->bus)) {
 		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
 	}
+
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 
 	return ret;
 }
@@ -774,17 +785,27 @@ int spi_read_ethernet_persistent_data(uintptr_t log_entry, uint64_t *sz)
 
 	offset = cfg->offset + PERSIST_NETWORK_SETTINGS_OFFSET;
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
+		ret = -1;
+		goto err;
+	}
+
 	if (spi_dev_lock(cfg->bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
+		goto err;
 	}
 
 	ret = cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs);
 
 	if (spi_dev_unlock(cfg->bus)) {
 		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
 	}
+
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 
 	return ret;
 }
@@ -940,17 +961,27 @@ int spi_read_retimer_persistent_data(uintptr_t log_entry, uint64_t *sz)
 
 	offset = cfg->offset + PERSIST_RETIMER_CONFIG_OFFSET;
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
+		ret = -1;
+		goto err;
+	}
+
 	if (spi_dev_lock(cfg->bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
+		goto err;
 	}
 
 	ret = cn10k_spi_dev_read(log_entry, (uint64_t *)sz, offset, cfg->bus, cfg->cs);
 
 	if (spi_dev_unlock(cfg->bus)) {
 		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
 	}
+
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 
 	return ret;
 }
@@ -966,9 +997,16 @@ int spi_update_retimer_persistent_data(uintptr_t log_entry, size_t sz)
 
 	offset = cfg->offset + PERSIST_RETIMER_CONFIG_OFFSET;
 
+	if (octeontx_ctr_sem_try_lock(&octeontx_smc_spi_lock) != 0) {
+		ERROR("%s: SPI_%d: Sem Lock failed\n", __func__, cfg->bus);
+		ret = -1;
+		goto err;
+	}
+
 	if (spi_dev_lock(cfg->bus)) {
 		ERROR("%s: SPI_%d: Lock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
+		goto err;
 	}
 
 	ret = cn10k_spi_dev_erase(offset, sz, cfg->bus, cfg->cs);
@@ -978,8 +1016,11 @@ int spi_update_retimer_persistent_data(uintptr_t log_entry, size_t sz)
 
 	if (spi_dev_unlock(cfg->bus)) {
 		WARN("%s: SPI_%d: Unlock failed\n", __func__, cfg->bus);
-		return -1;
+		ret = -1;
 	}
+
+err:
+	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 
 	return ret;
 }
