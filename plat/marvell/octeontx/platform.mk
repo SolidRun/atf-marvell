@@ -165,7 +165,10 @@ ifeq (${TRUSTED_BOARD_BOOT},1)
         CRYPTO_BOARD_BOOT	   := 0
     endif
 
+    $(eval $(call assert_boolean,CRYPTO_BOARD_BOOT))
+    $(eval $(call add_define,CRYPTO_BOARD_BOOT))
     $(eval $(call add_define,ARM_ROTPK_LOCATION_ID))
+
     PLAT_BL_COMMON_SOURCES += drivers/auth/auth_mod.c                              \
                               drivers/auth/crypto_mod.c                            \
                               drivers/auth/img_parser_mod.c                        \
