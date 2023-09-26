@@ -1548,7 +1548,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	cn10k_portm_fec_t fec_orig;
 	cn10k_portm_fec_t fec;
 	int switch_from_cpri = 0;
-	int current_lc, new_lc, req_an;
+	int current_lc, new_lc, req_an, an;
 	rpm_lmac_bringup_context_t *bringup_ctx;
 	int speed_valid = 0;
 
@@ -1578,6 +1578,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	mode_group = args->mode_group_idx;
 	req_duplex = args->duplex;
 	req_an = args->an;
+	an = !lmac->an_disable;
 
 	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%lx mode_group %d req_an %d\n",
 				__func__, portm_idx, lmac_ctx->s.speed,
@@ -1637,7 +1638,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		if ((lmac->mode == CAVM_RPM_LMAC_TYPES_E_USGMII) ||
 			(lmac->mode == CAVM_RPM_LMAC_TYPES_E_USXGMII)) {
 			/* Check if speed/an/duplex is requested to be changed are valid
-			 * and applicable to this mode and update
+			 * and applicable to this mode and update PHY or
 			 * ecp_link_update_sgmii_speed_dplx()
 			 */
 			speed_valid = check_if_speed_is_valid_for_mode_group1(portm_mode, req_speed);
@@ -1646,12 +1647,43 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 						__func__, portm_idx);
 				goto mode_err;
 			}
-			/* Update LMAC config with the requested speed, AN, duplex */
-			lmac->an_disable = !req_an;
-			lmac->sgmii_speed = req_speed;
-			lmac->sgmii_duplex = req_duplex;
 
-			ecp_link_update_sgmii_speed_dplx(portm_idx, lmac_id);
+			if (lmac->phy_present) {
+				if (lmac->phy_config->init) { // Confirm initialization is completed
+					lmac->phy_config->forceconfig = 1;
+					if (req_speed != ETH_LINK_NONE)
+						lmac->sgmii_speed = req_speed;
+					if (req_an != an)
+						lmac->an_disable = !req_an;
+					lmac->sgmii_duplex = req_duplex;
+					phy_config(rpm_id, lmac_id);
+					/* After re-configuration of PHY, read the current PHY link
+					 * status and set the link status accordingly so the poll
+					 * timer CB can handle the link change event
+					 */
+					phy_get_link_status(rpm_id, lmac_id, &link);
+
+					/* Append the line side FEC to link status in PHY case */
+					link.s.fec = lmac_ctx->s.fec = portm->line_fec;
+
+					lmac_ctx->s.link_up = link.s.link_up;
+					lmac_ctx->s.full_duplex = link.s.full_duplex;
+					lmac_ctx->s.speed = link.s.speed;
+					if (link.s.link_up)
+						rpm_set_link_state(rpm_id, lmac_id, &link, 0);
+					else
+						rpm_set_link_state(rpm_id, lmac_id, &link, ETH_ERR_PHY_LINK_DOWN);
+					return 0;
+				}
+
+			} else {
+				/* Update LMAC config with the requested speed, AN, duplex */
+				lmac->an_disable = !req_an;
+				lmac->sgmii_speed = req_speed;
+				lmac->sgmii_duplex = req_duplex;
+
+				ecp_link_update_sgmii_speed_dplx(portm_idx, lmac_id);
+			}
 		} else {
 			WARN("%s: PORTM%d Requested mode is same as current mode, Ignore request\n",
 				__func__, portm_idx);
