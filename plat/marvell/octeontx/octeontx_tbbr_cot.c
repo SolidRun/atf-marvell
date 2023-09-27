@@ -499,17 +499,17 @@ static const crypto_img_desc_t crypto_params_desc [] = {
 	[BL2_IMAGE_ID] = {
 		.img_id = BL2_IMAGE_ID,
 		.img_type = IMG_RAW,
-		.tbbr_cipher_type_id = TBBR_AES_128_CBC,
+		.tbbr_cipher_type_id = CRYPTO_AES_128_CBC,
 	},
 	[BL31_IMAGE_ID] = {
 		.img_id = BL31_IMAGE_ID,
 		.img_type = IMG_RAW,
-		.tbbr_cipher_type_id = TBBR_AES_128_CBC,
+		.tbbr_cipher_type_id = CRYPTO_AES_128_CBC,
 	},
 	[BL33_IMAGE_ID] = {
 		.img_id = BL33_IMAGE_ID,
 		.img_type = IMG_RAW,
-		.tbbr_cipher_type_id = TBBR_AES_128_CBC,
+		.tbbr_cipher_type_id = CRYPTO_AES_128_CBC,
 	}
 };
 

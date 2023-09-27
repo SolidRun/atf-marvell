@@ -21,7 +21,7 @@
 #include <common/debug.h>
 #include <drivers/auth/crypto_mod.h>
 #include <drivers/auth/mbedtls/mbedtls_common.h>
-#include <drivers/auth/mbedtls/mbedtls_config.h>
+#include MBEDTLS_CONFIG_FILE
 #include <plat/common/platform.h>
 
 #define LIB_NAME		"mbed TLS"
@@ -390,7 +390,6 @@ static int auth_decrypt(enum crypto_dec_algo dec_algo, void *data_ptr,
 }
 #endif /* TF_MBEDTLS_USE_AES_GCM */
 
-//#if (TBBR_CIPHER_TYPE_ID == TBBR_AES_128_CBC)
 #if CRYPTO_BOARD_BOOT
 static int aes_cbc_decrypt_image(void *data_ptr, unsigned int data_len,
 				 unsigned int cipher_type, unsigned char **key,
@@ -402,7 +401,7 @@ static int aes_cbc_decrypt_image(void *data_ptr, unsigned int data_len,
 	int rc;
 
 	switch (cipher_type) {
-	case TBBR_AES_128_CBC:
+	case CRYPTO_AES_128_CBC:
 		mbedtls_aes_init(&ctx);
 
 		rc = mbedtls_aes_setkey_dec(&ctx, *key, (*key_len) * 8);

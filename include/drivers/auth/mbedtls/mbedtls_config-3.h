@@ -99,6 +99,11 @@
 #define MBEDTLS_GCM_C
 #endif
 
+#if (TBBR_CIPHER_TYPE_ID == CRYPTO_AES_128_CBC)
+#define MBEDTLS_AES_C
+#define MBEDTLS_CIPHER_MODE_CBC
+#endif
+
 /* MPI / BIGNUM options */
 #define MBEDTLS_MPI_WINDOW_SIZE			2
 

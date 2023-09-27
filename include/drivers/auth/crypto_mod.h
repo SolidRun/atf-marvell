@@ -13,7 +13,7 @@
 #include <drivers/auth/img_parser_mod.h>
 
 #if TRUSTED_BOARD_BOOT == 1
-#include <drivers/auth/mbedtls/mbedtls_config.h>
+#include MBEDTLS_CONFIG_FILE
 #endif
 
 /* Return values */
