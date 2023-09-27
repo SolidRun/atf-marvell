@@ -103,6 +103,13 @@
 		CSR_WRITE(csr, c.u);			\
 	} while (0)
 
+/* API to extract the bits set from requested mode bitmask */
+#define FOR_EACH_BIT(bit_pos, req_mode)			\
+	for (bit_pos = __builtin_ctzll(req_mode);	\
+	req_mode;					\
+	req_mode &= ~(1ULL << (bit_pos)),		\
+	bit_pos = __builtin_ctzll(req_mode))
+
 /* Macros to define BIT masks for polling */
 #define CGX_GMP_TX_IDLE_MASK		1ULL << 13
 #define CGX_GMP_RX_IDLE_MASK		1ULL << 12
@@ -274,6 +281,7 @@ typedef struct cgx_speed_mode_map_s {
 	int fec_cap;
 	int baud_rate;
 	uint64_t mode_bitmask;
+	int speed; /* eth_link_speed enum */
 } cgx_speed_mode_map;
 
 typedef struct cgx_prbs_errors {

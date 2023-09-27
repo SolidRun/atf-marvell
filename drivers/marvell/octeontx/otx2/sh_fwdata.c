@@ -166,7 +166,7 @@ void sh_fwdata_update_supported_fec(int cgx_id, int lmac_id)
 	if (fwdata->phy.misc.mod_type == PHY_MOD_TYPE_PAM4)
 		val = CGX_FEC_RS; /* PAM4 requires RS-FEC */
 
-	fwdata->supported_fec = val;
+	fwdata->advertised_fec = fwdata->supported_fec = val;
 	fwdata->rw_valid = 1;
 	debug_shmem_mgmt("%s: %d:%d fwdata->supported_fec %" PRIx64 "\n", __func__,
 						cgx_id,
@@ -225,6 +225,28 @@ void sh_fwdata_set_supported_link_modes(int cgx_id, int lmac_id)
 	debug_shmem_mgmt("%s: %d:%d supported link mode 0x%" PRIx64 "\n", __func__,
 			cgx_id, lmac_id,
 			fwdata->supported_link_modes);
+}
+
+uint64_t sh_fwdata_get_advertised_link_modes(int cgx_id, int lmac_id)
+{
+	struct eth_lmac_fwdata_s *fwdata;
+	uint64_t advertise_mode = 0;
+
+	fwdata = get_sh_cgx_fwdata_ptr(cgx_id, lmac_id);
+	if (fwdata->advertised_link_modes_own == ETH_OWN_FIRMWARE) {
+		debug_shmem_mgmt("%s: %d:%d own %d\n", __func__,
+				cgx_id, lmac_id,
+				fwdata->advertised_link_modes_own);
+
+		advertise_mode = fwdata->advertised_link_modes;
+		fwdata->advertised_link_modes_own = ETH_OWN_NON_SECURE_SW;
+		/* When advertise link mode is read, need to clear the shared mem */
+		fwdata->advertised_link_modes = 0;
+		return advertise_mode;
+	}
+	debug_shmem_mgmt("%s: %d:%d Ownership not available to read advertised_link_modes own %d\n",
+			       __func__, cgx_id, lmac_id, fwdata->advertised_link_modes_own);
+	return 0;
 }
 
 void sh_fwdata_update_mac_addr(uint64_t mac, int pf_id)

@@ -185,6 +185,8 @@ typedef enum {
 	ETH_MODE_SFI_1G_BIT,		/* = 35 */
 	ETH_MODE_25GBASE_CR_C_BIT,
 	ETH_MODE_25GBASE_KR_C_BIT,	/* = 37 */
+	ETH_MODE_SGMII_10M_BIT,
+	ETH_MODE_SGMII_100M_BIT,	/* = 39 */
 	/* Add new ethernet modes here */
 	ETH_MODE_MAX_BIT = 41,       /* = 41 */
 	/* The below modes are applicable only for T103/T102 */

@@ -12,6 +12,7 @@
 #include <cgx.h>
 #include <qlm/qlm.h>
 #include <sfp_mgmt.h>
+#include <eth_intf.h>
 #include <phy_mgmt.h>
 #include <platform_scfg.h>
 #include <octeontx_board_cfg.h>

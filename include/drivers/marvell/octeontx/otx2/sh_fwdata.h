@@ -45,7 +45,8 @@ struct eth_lmac_fwdata_s {
 	uint64_t supported_link_modes;
 	/* only applicable if AN is supported */
 	uint64_t advertised_fec;
-	uint64_t advertised_link_modes;
+	uint64_t advertised_link_modes_own:1; /* eth_cmd_own */
+	uint64_t advertised_link_modes:63; /* RO to firmware */
 	/* Only applicable if SFP/QSFP slot is present */
 	struct sfp_eeprom_s sfp_eeprom;
 	struct phy_s phy;
@@ -106,6 +107,7 @@ void sh_fwdata_set_supported_link_modes(int cgx_id, int lmac_id);
 void sh_fwdata_set_lmac_type(int rpm_id, int lmac_id, int mac_type);
 void sh_fwdata_set_supported_an(int rpm_id, int lmac_id);
 int sh_fwdata_get_sfp_info_offset(int eth_id, int lmac_id);
+uint64_t sh_fwdata_get_advertised_link_modes(int cgx_id, int lmac_id);
 
 static inline uint64_t get_sh_fwdata_base(void)
 {

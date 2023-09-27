@@ -290,6 +290,10 @@ typedef struct phy_config {
 	int duplex;
 	int link_speed; /* Speed to which PHY negotiated to, reported by PHY */
 	int link_duplex; /* Speed to which PHY negotiated to, reported by PHY */
+#ifdef PLAT_OTX2_FAMILY
+	int adv_speed;  /* To indicate PHY driver that this is not mode/speed change but only to advertise speed */
+	int advertised_speed[ETH_LINK_MAX];
+#endif
 #ifdef MARVELL_PHY_3310
 	int media_copper; /* Set to 1 if the media type is copper, if not 0 */
 #endif

@@ -59,35 +59,68 @@ static cgx_lmac_timers_t
 		lmac_timers[MAX_CGX][MAX_LMAC_PER_CGX];
 
 static const cgx_speed_mode_map speed_mode_map[] = {
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_SGMII_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_SGMII_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_SGMII_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_1G_X, CGX_FEC_NONE, 1250, (1 << ETH_MODE_1000_BASEX_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_QSGMII, 0, QLM_MODE_QSGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_QSGMII_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_SFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_XFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 1, QLM_MODE_10G_KR, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_KR_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_20GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 20625, (1 << ETH_MODE_20G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_25GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << ETH_MODE_25G_2_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25GAUI_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 1, QLM_MODE_25G_CR, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_CR_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 1, QLM_MODE_25G_KR, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_KR_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_XLAUI, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_XLAUI_C2M, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 1, QLM_MODE_40G_CR4, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_CR4_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 1, QLM_MODE_40G_KR4, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_KR4_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_40GAUI_2_C2C, (CGX_FEC_BASE_R), 20625, (1 << ETH_MODE_40GAUI_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GAUI_2_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GAUI_2_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_CR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GBASE_CR2_C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_KR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GBASE_KR2_C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_50GAUI_4_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << ETH_MODE_50G_4_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_80GAUI_4_C2C, (CGX_FEC_RS), 20625, (1 << ETH_MODE_80GAUI_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2C, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_C2C_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2M, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_C2M_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 1, QLM_MODE_100G_CR4, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_CR4_BIT)},
-	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 1, QLM_MODE_100G_KR4, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_KR4_BIT)},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_SGMII_BIT), ETH_LINK_1G},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_1G_X, CGX_FEC_NONE, 1250, (1 << ETH_MODE_1000_BASEX_BIT), ETH_LINK_1G},
+	{CAVM_CGX_LMAC_TYPES_E_QSGMII, 0, QLM_MODE_QSGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_QSGMII_BIT), ETH_LINK_1G},
+	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_SFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2M_BIT), ETH_LINK_10G},
+	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_XFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2C_BIT), ETH_LINK_10G},
+	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 1, QLM_MODE_10G_KR, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_KR_BIT), ETH_LINK_10G},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_20GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 20625,
+					(1 << ETH_MODE_20G_C2C_BIT), ETH_LINK_20G},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_25GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << ETH_MODE_25G_2_C2C_BIT),
+					ETH_LINK_25G},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_C2C_BIT),
+					ETH_LINK_25G},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_25GAUI_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_C2M_BIT),
+					ETH_LINK_25G},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 1, QLM_MODE_25G_CR, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_CR_BIT),
+					ETH_LINK_25G},
+	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 1, QLM_MODE_25G_KR, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_25G_KR_BIT),
+					ETH_LINK_25G},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_XLAUI, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_C2C_BIT),
+					ETH_LINK_40G},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_XLAUI_C2M, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_C2M_BIT),
+					ETH_LINK_40G},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 1, QLM_MODE_40G_CR4, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_CR4_BIT),
+					ETH_LINK_40G},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 1, QLM_MODE_40G_KR4, (CGX_FEC_BASE_R), 10312, (1 << ETH_MODE_40G_KR4_BIT),
+					ETH_LINK_40G},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_40GAUI_2_C2C, (CGX_FEC_BASE_R), 20625, (1 << ETH_MODE_40GAUI_C2C_BIT),
+					ETH_LINK_40G},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GAUI_2_C2C_BIT), ETH_LINK_50G},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 0, QLM_MODE_50GAUI_2_C2M, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GAUI_2_C2M_BIT), ETH_LINK_50G},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_CR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GBASE_CR2_C_BIT),
+					ETH_LINK_50G},
+	{CAVM_CGX_LMAC_TYPES_E_FIFTYG_R, 1, QLM_MODE_50G_KR2, (CGX_FEC_BASE_R | CGX_FEC_RS), 25781, (1 << ETH_MODE_50GBASE_KR2_C_BIT),
+					ETH_LINK_50G},
+	{CAVM_CGX_LMAC_TYPES_E_FORTYG_R, 0, QLM_MODE_50GAUI_4_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 12890, (1 << ETH_MODE_50G_4_C2C_BIT),
+					ETH_LINK_50G},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_80GAUI_4_C2C, (CGX_FEC_RS), 20625, (1 << ETH_MODE_80GAUI_C2C_BIT),
+					ETH_LINK_80G},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2C, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_C2C_BIT),
+					ETH_LINK_100G},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 0, QLM_MODE_CAUI_4_C2M, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_C2M_BIT),
+					ETH_LINK_100G},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 1, QLM_MODE_100G_CR4, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_CR4_BIT),
+					ETH_LINK_100G},
+	{CAVM_CGX_LMAC_TYPES_E_HUNDREDG_R, 1, QLM_MODE_100G_KR4, (CGX_FEC_RS), 25781, (1 << ETH_MODE_100G_KR4_BIT),
+					ETH_LINK_100G},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1ULL << ETH_MODE_SGMII_10M_BIT), ETH_LINK_10M},
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1ULL << ETH_MODE_SGMII_100M_BIT), ETH_LINK_100M},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
+	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},  /* Mode group 0 ends */
+	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 3125, (1ULL << ETH_MODE_2500_BASEX_BIT), ETH_LINK_2HG},
 	/* add new modes here */
 	{ETH_LINK_MAX, 0, 0, QLM_MODE_DISABLED, 0, CGX_FEC_NONE},
 };
@@ -922,6 +955,37 @@ static int cgx_get_training_for_mode(uint64_t req_mode)
 	return use_training;
 }
 
+static void cgx_update_phy_advertise_speed(int cgx_id, int lmac_id, uint64_t req_mode)
+{
+	cgx_lmac_config_t *lmac;
+	uint64_t mode_bitmask = 0;
+	int bit_pos = 0, j = 0;
+
+	lmac = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
+
+	debug_cgx_intf("%s: %d:%d req_mode 0x%" PRIx64 "\n", __func__,
+		cgx_id, lmac_id, req_mode);
+
+	/* Clear advertised_speed everytime new speed is advertised */
+	memset(&lmac->phy_config.advertised_speed[0], 0, (ETH_LINK_MAX * sizeof(int)));
+
+	FOR_EACH_BIT(bit_pos, req_mode) {
+		mode_bitmask = 1ULL << bit_pos;
+		debug_cgx_intf("%s: bit_pos %d mode_bitmask 0x%" PRIx64 "\n", __func__,
+				bit_pos, mode_bitmask);
+
+		for (int i = 0; i < ARRAY_SIZE(speed_mode_map) && j < ETH_LINK_MAX; i++) {
+			if (mode_bitmask == speed_mode_map[i].mode_bitmask)	{
+				lmac->phy_config.advertised_speed[j] = speed_mode_map[i].speed;
+				debug_cgx_intf("%s: %d: %d req_mode 0x%" PRIx64 ", i %d j %d advertise speed %d\n",
+					__func__, cgx_id, lmac_id, req_mode, i, j,
+					lmac->phy_config.advertised_speed[j]);
+				j++;
+			}
+		}
+	}
+}
+
 static int cgx_is_req_mode_valid(uint64_t req_mode)
 {
 	int valid = 0;
@@ -1333,10 +1397,11 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 	cgx_lmac_context_t *lmac_ctx;
 	cgx_config_t *cgx;
 	int qlm_mode = 0, baud_mhz, req_an = 0, flags = 0;
-	int req_duplex = 0;
+	int req_duplex = 0, mode_group = 0;
 	int an = 0, invalid_req = 0;
 	link_state_t link;
 	uint64_t req_mode;
+	uint64_t advertise_mode = 0;
 	int req_train_en;
 	bool is_gsern = false;
 	bool gserx_all_ln_rst = false;
@@ -1347,10 +1412,14 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 	lmac = &cgx->lmac_cfg[lmac_id];
 	req_speed = args->speed;
 	req_an = args->an;
-	/* For CN9XXX, ignore mode_base_idx as it is always zero as the mode IDs
-	 * are in the range of 0 - 41 for the mode IDs
+	/* mode_group_idx categorizes the mode ID range to accommodate more modes.
+	 * To specify mode ID range of 0 - 41, this field will be 0.
+	 * To specify mode ID range of 42 - 83, this field will be 1 and so.
+	 * mode ID will be still mentioned as 1 << (0 - 41). Obtain mode accordingly
+	 * using mode_group_idx
 	 */
 	req_mode = args->mode;
+	mode_group = args->mode_group_idx;
 	req_duplex = args->duplex;
 
 	if (lmac->phy_present)
@@ -1362,9 +1431,9 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 		(IS_OCTEONTX_VAR(read_midr(), F95PARTNUM, 1)))
 		is_gsern = true;
 
-	debug_cgx_intf("%s: %d:%d speed %d req_speed %d req_an %d req_duplex %d req_mode 0x%" PRIx64 "\n",
+	debug_cgx_intf("%s: %d:%d speed %d req_speed %d req_an %d req_duplex %d req_mode 0x%" PRIx64 " mode_group %d\n",
 				__func__, cgx_id, lmac_id, lmac_ctx->s.speed,
-					req_speed, req_an, req_duplex, req_mode);
+					req_speed, req_an, req_duplex, req_mode, mode_group);
 
 	if ((!req_mode) && (req_speed == ETH_LINK_NONE)) {
 		invalid_req = 1;
@@ -1389,17 +1458,66 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 			goto mode_err;
 		}
 	}
+
+	if (mode_group == 1)
+		req_mode = (1ULL << ((__builtin_ffsl(req_mode) - 1) + 41));
+
+	/* Ignore req_an for fixed modes - need to add condition
+	 * req_an will be always passed with advertise command
+	 */
+	if ((req_mode == 0x3ffffffffff) && (!lmac->phy_present) && (!req_an)) {
+		debug_cgx_intf("%s: %d: %d Advertising multiple modes supported only when\n"
+				"PHY is present and AN is enabled\n",
+				 __func__, cgx_id, lmac_id);
+		cgx_set_error_type(cgx_id, lmac_id,
+				ETH_ERR_SPEED_CHANGE_INVALID);
+		goto mode_err;
+	}
+
 	/* If req_mode is non-zero, validate if it is one of
 	 * the valid mode bit masks.
 	 * If the request is to change to CPRI, CPRI_MODE_CHANGE
 	 * command needs to be used
 	 */
-	if (!cgx_is_req_mode_valid(req_mode)) {
-		debug_cgx_intf("%s: %d: %d Invalid speed/AN/mode request\n",
-				 __func__, cgx_id, lmac_id);
+	if ((req_mode != 0x3ffffffffff) && (!cgx_is_req_mode_valid(req_mode))) {
+		debug_cgx_intf("%s: %d: %d Req mode not valid 0x%" PRIx64 "\n",
+				 __func__, cgx_id, lmac_id, req_mode);
 		cgx_set_error_type(cgx_id, lmac_id,
 				ETH_ERR_SPEED_CHANGE_INVALID);
 		goto mode_err;
+	}
+
+	if (lmac->phy_present) {
+		/* If PHY is present and requested mode is 0x3ffffffffff, multiple speeds
+		 * need to be advertised. Kernel driver updates advertise link modes in SM
+		 * To advertise single mode, requested mode is updated with the speed
+		 * to be advertised with req_an being set
+		 */
+		if (req_mode == 0x3ffffffffff) {
+			advertise_mode = sh_fwdata_get_advertised_link_modes(cgx_id, lmac_id);
+			debug_cgx_intf("%s: %d:%d Advertised_link_modes 0x%" PRIx64 "\n", __func__,
+						cgx_id, lmac_id, advertise_mode);
+		} else {
+			if (req_an)
+				advertise_mode = req_mode;
+		}
+
+		/* Map the advertised bitmask modes to speed enum to be
+		 * passed to PHY driver
+		 */
+		lmac->phy_config.adv_speed = 1;
+		cgx_update_phy_advertise_speed(cgx_id, lmac_id, advertise_mode);
+		reconfig_phy = 1;
+		goto phy_config;
+
+		/* If req_mode is zero, and with PHY present and AN not enabled,
+		 * do a speed change, update PHY config with the required speed
+		 */
+		if (!req_mode) {
+			lmac->phy_config.adv_speed = 0;
+			reconfig_phy = 1;
+			goto phy_config;
+		}
 	}
 
 	req_train_en = cgx_get_training_for_mode(req_mode);
@@ -1528,19 +1646,22 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 phy_config:
 			if ((lmac->phy_present) && (lmac->phy_config.init)) {
 				lmac->phy_config.forceconfig = 1;
-				if (req_speed != ETH_LINK_NONE)
-					lmac->phy_config.req_speed = req_speed;
-				lmac->phy_config.duplex = req_duplex;
-				if (req_an != an)
-					lmac->phy_config.req_an = req_an;
-				if (lmac->phy_config.mod_type
-					== PHY_MOD_TYPE_PAM4 &&
-				    qlm_mode != QLM_MODE_50GAUI_4_C2C &&
-				    qlm_mode != QLM_MODE_50GAUI_2_C2C) {
-					WARN("%s: %d:%d Setting PHY modulation type to NRZ because new speed does not support PAM4.\n",
-					     __func__, cgx_id, lmac_id);
-					cgx_set_phy_mod_type(cgx_id, lmac_id,
-							     PHY_MOD_TYPE_NRZ);
+				if (!advertise_mode) {
+					if (req_speed != ETH_LINK_NONE)
+						lmac->phy_config.req_speed = req_speed;
+					lmac->phy_config.duplex = req_duplex;
+					if (req_an != an)
+						lmac->phy_config.req_an = req_an;
+					if (lmac->phy_config.mod_type
+						== PHY_MOD_TYPE_PAM4 &&
+					    qlm_mode != QLM_MODE_50GAUI_4_C2C &&
+					    qlm_mode != QLM_MODE_50GAUI_2_C2C) {
+						WARN("%s: %d:%d Setting PHY modulation type to NRZ because\n"
+								"new speed does not support PAM4.\n",
+							     __func__, cgx_id, lmac_id);
+						cgx_set_phy_mod_type(cgx_id, lmac_id,
+								     PHY_MOD_TYPE_NRZ);
+					}
 				}
 				/* In few cases, CGX doesn't need to be re-init
 				 * and hence configure PHY only without calling
@@ -2221,8 +2342,16 @@ static int cgx_process_requests(int cgx_id, int lmac_id)
 							cgx_id, lmac_id, 1));
 				ret = cgx_handle_mode_change(cgx_id, lmac_id,
 						&scratchx1.s.mode_change_args);
-				mode = cgx_get_lmac_type_for_req_mode(scratchx1.s.mode_change_args.mode);
+				uint64_t req_mode;
+
 				if (!cgx_get_error_type(cgx_id, lmac_id)) {
+					if (!scratchx1.s.mode_change_args.mode)
+						req_mode = lmac->mode;
+					else
+						req_mode = scratchx1.s.mode_change_args.mode;
+					mode = cgx_get_lmac_type_for_req_mode(req_mode);
+					printf("%s: %d:%d mode %d req_mode 0x%" PRIx64 "\n", __func__,
+							cgx_id, lmac_id, mode, req_mode);
 					if (cgx_update_flash_mode_param(cgx_id,
 					    lmac_id, mode))
 						debug_cgx_intf(
@@ -2706,6 +2835,9 @@ void cgx_set_supported_link_modes(int cgx_id, int lmac_id)
 						 (1 << ETH_MODE_25G_C2M_BIT) |
 						 (1 << ETH_MODE_20G_C2C_BIT) |
 						 (1 << ETH_MODE_SGMII_BIT) |
+						 (1ULL << ETH_MODE_SGMII_10M_BIT) |
+						 (1ULL << ETH_MODE_SGMII_100M_BIT) |
+						 (1ULL << ETH_MODE_2500_BASEX_BIT) |
 						 (1 << ETH_MODE_10G_C2C_BIT) |
 						 (1 << ETH_MODE_10G_C2M_BIT) |
 						 (1 << ETH_MODE_10G_KR_BIT) |
