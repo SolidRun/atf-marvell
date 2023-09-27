@@ -999,7 +999,7 @@ parameter passed via LINK_BRINGUP command.
 3.2.4.15 SerDes Tx Tuning
 """""""""""""""""""""""""
 This command ETH_CMD_TUNE_SERDES is used to tune SerDes TX parameters (tx_pre2, tx_pre, tx_main and tx_post). The tx tuning parameters are applied to all lanes in the specified portm_idx.
-Non-zero values provided for tx_pre2, tx_pre or tx_post will be threated as negative as only negative or zero values are valid as pre2, pre and post Tx Eq settings.
+Non-zero values provided for tx_pre2, tx_pre or tx_post will be treated as negative as only negative or zero values are valid as pre2, pre and post Tx Eq settings.
 
 Following are the parameters expected:
 
@@ -1048,7 +1048,7 @@ Parameters to be sent:
 
       * ``GET_FW_VER`` - ``eth_ver_s`` struct
 
-* ATF generetes interrupt for every command that has been processed with the status updated as stated above.
+* ATF generates interrupt for every command that has been processed with the status updated as stated above.
 
 4 User interface commands
 -------------------------
@@ -1489,7 +1489,7 @@ Use 'ethlist' command to display network interface names
 Supported FEC type: FEC_BASE_R FEC_RS
 Active FEC type: FEC_NONE
 
-Note: get_fec (Active FEC type) of the specific ethernet port will be displayed corrrectly only after the link
+Note: get_fec (Active FEC type) of the specific ethernet port will be displayed correctly only after the link
 is brought UP (invoked either via dhcp or link command in u-boot)
 
 4.6 Change FEC via ethtool(Linux)

@@ -692,7 +692,7 @@ different speed. Following are the parameters expected:
         uint64_t speed:4; /* eth_link_speed enum */
         uint64_t duplex:1; /* 0 - full duplex, 1 - half duplex */
         uint64_t an:1;  /* 0 - disable AN, 1 - enable AN */
-	/* This field categorize the mode ID range to accomodate more modes.
+	/* This field categorize the mode ID range to accommodate more modes.
 	* To specify mode ID range of 0 - 41, this field will be 0.
 	* To specify mode ID range of 42 - 83, this field will be 1 and so.
 	* mode ID will be still mentioned as 1 << (0 - 41). But the mode_base_idx
@@ -1019,7 +1019,7 @@ asynchronously based on the result of reconfiguration.
   * If status is ``ETH_STAT_SUCCESS``\ , error_type will be ``ETH_ERR_NONE`` and
     current status will be set in ``eth_lnk_sts_s`` struct
 
-* Once the structure is fillied, the ack bit of ``SCRATCHX(0)`` register is set.
+* Once the structure is filled, the ack bit of ``SCRATCHX(0)`` register is set.
 
 * Interrupt is then triggered by setting overflow bit of ``CAVM_CGXX_CMRX_INT_W1S(0..2)(0..3)``
 
@@ -1578,7 +1578,7 @@ Ex:
 6.3.2 PHY SDK Library
 ~~~~~~~~~~~~~~~~~~~~~
 
-If a PHY has its own SDK, it should be built as a library and copied to atf/lib/libphy path alongwith the header files.
+If a PHY has its own SDK, it should be built as a library and copied to atf/lib/libphy path along with the header files.
 
 Library should be included in the build as below in platform makefile along
 with the include path.

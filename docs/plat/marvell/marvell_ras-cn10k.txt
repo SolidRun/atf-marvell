@@ -1,4 +1,4 @@
-Mavell CN10K RAS implementation
+Marvell CN10K RAS implementation
 ===============================
 
 Marvell CN10K implements the ARMv8 RAS (Reliability, Availability & Serviceability) specification.
@@ -80,7 +80,7 @@ RAS EDAC Error injection DSS
 EDAC based interface for error injection from sysfs
 /sys/devices/system/edac/mc/mc0
 
-EDAC SMC based interface for error injection exemple:
+EDAC SMC based interface for error injection example:
 	ls -l /sys/devices/system/edac/mc/mc0
 	address              - Physical Address to corrupt
 	ce_count             - CE error counter
@@ -116,10 +116,10 @@ EDAC MC0: 1 CE on (single-bit ECC status:0x103 addr: 0x2ffff0000 rank:0 bank:3 r
 		BG2          - Bank Group 2
 		bank:3       - Bank Address 3
 		row:49151    - DRAM row 49151
-		col:0        - DRAM collumn 0
-		bit_pos:3    - DRAM bit positionin row
+		col:0        - DRAM column 0
+		bit_pos:3    - DRAM bit position in row
 		page:0x2ffff - Physical page
-		offset:0x0   - page + offset make physicall address 0x2ffff0000, in current test system page offset 16 bits long.
+		offset:0x0   - page + offset make physical address 0x2ffff0000, in current test system page offset 16 bits long.
 		status:0x103 - Raw value from register ddrc_ch0_eccstat
 
 Flip two bits at address 0x2ffff0000

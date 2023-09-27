@@ -78,7 +78,7 @@ OcteonTX2 RAS EDAC Error injection LMC/MCC
 LMC EDAC based interface
 cd /sys/devices/system/edac/mc/mc0
 
-EDAC SMC based interface for error injection exemple:
+EDAC SMC based interface for error injection example:
 -rw-r--r--    1 root     root         65536 Apr 19 20:15 address
 -rw-r--r--    1 root     root         65536 Apr 19 20:15 error_type
 --w-------    1 root     root         65536 Apr 19 20:17 inject
@@ -89,7 +89,7 @@ echo 0x1        > inject
 
 address - identify 'physical address' inject error at specified address
 			Recommended to use addresses from ASC0 secure region
-			1,3,5,7 - spesial case addresses
+			1,3,5,7 - special case addresses
 			1 - predefined kernel data vma virtual address
 			5 - predefined kernel code virtual address
 			3 - predefined EL3 code address
