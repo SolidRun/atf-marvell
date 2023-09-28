@@ -14,6 +14,7 @@
 #include <qlm_cn10k.h>
 #include <platform_scfg.h>
 #include <sfp_mgmt.h>
+#include <eth_intf.h>
 #include <phy_mgmt.h>
 #include <octeontx_board_cfg.h>
 #include <plat_portm_cfg.h>
@@ -146,6 +147,8 @@ typedef struct rpm_lmac_config {
 	int phy_mode;		/* MAC or PHY mode for SGMII */
 	int phy_port;
 	phy_config_t *phy_config;
+	int phy_adv_speed; /* To indicate PHY driver that this is not mode/speed change but only to advertise speed */
+	int phy_advertised_speed[ETH_LINK_MAX];
 	bool sfp_slot;
 	sfp_slot_info_t *sfp_info;
 	lmac_mode_info_t lmac_mode_info[CAVM_RPM_LMAC_TYPES_E_MAX];

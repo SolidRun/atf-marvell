@@ -101,7 +101,7 @@ void sh_fwdata_update_supported_fec(int rpm_id, int lmac_id)
 	if ((val == PORTM_FEC_RS_528_ONLY) || (val == PORTM_FEC_RS_544_ONLY))
 		val = PORTM_FEC_RS;
 
-	fwdata->supported_fec = val;
+	fwdata->advertised_fec = fwdata->supported_fec = val;
 	fwdata->rw_valid = 1;
 	debug_shmem_mgmt("%s: %d:%d fwdata->supported_fec %llx\n", __func__,
 						rpm_id,
@@ -267,6 +267,28 @@ void sh_fwdata_set_supported_an(int rpm_id, int lmac_id)
 	debug_shmem_mgmt("%s: %d:%d supported AN %lld\n", __func__,
 			rpm_id, lmac_id,
 			fwdata->supported_an);
+}
+
+uint64_t sh_fwdata_get_advertised_link_modes(int rpm_id, int lmac_id)
+{
+	struct eth_lmac_fwdata_s *fwdata;
+	uint64_t advertise_mode = 0;
+
+	fwdata = get_sh_rpm_fwdata_ptr(rpm_id, lmac_id);
+	if (fwdata->advertised_link_modes_own == ETH_OWN_FIRMWARE) {
+		debug_shmem_mgmt("%s: %d:%d own %d\n", __func__,
+				rpm_id, lmac_id,
+				fwdata->advertised_link_modes_own);
+
+		advertise_mode = fwdata->advertised_link_modes;
+		fwdata->advertised_link_modes_own = ETH_OWN_NON_SECURE_SW;
+		/* When advertise link mode is read, need to clear the shared mem */
+		fwdata->advertised_link_modes = 0;
+		return advertise_mode;
+	}
+	debug_shmem_mgmt("%s: %d:%d Ownership not available to read advertised_link_modes own %d\n",
+			       __func__, rpm_id, lmac_id, fwdata->advertised_link_modes_own);
+	return 0;
 }
 
 void sh_fwdata_update_eeprom_data(int portm_idx, uint16_t sff_id)

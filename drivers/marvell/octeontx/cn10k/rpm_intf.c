@@ -849,58 +849,60 @@ static int rpm_set_serdes_tx_tune(int portm_idx, int tx_main, int tx_pre1, int t
 }
 
 static speed_mode_map_s rpm_speed_mode_map[] = {
-	{(1ULL << ETH_MODE_SGMII_BIT), PORTM_MODE_SGMII},
-	{(1ULL << ETH_MODE_1000_BASEX_BIT), PORTM_MODE_1000BASE_X},
-	{(1ULL << ETH_MODE_SFI_1G_BIT), PORTM_MODE_SFI_1G},
-	{(1ULL << ETH_MODE_QSGMII_BIT), PORTM_MODE_QSGMII},
-	{(1ULL << ETH_MODE_10G_C2C_BIT), PORTM_MODE_XFI},
-	{(1ULL << ETH_MODE_10G_C2M_BIT), PORTM_MODE_SFI},
-	{(1ULL << ETH_MODE_10G_KR_BIT), PORTM_MODE_10GBASE_KR},
+	{(1ULL << ETH_MODE_SGMII_BIT), PORTM_MODE_SGMII, ETH_LINK_1G},
+	{(1ULL << ETH_MODE_1000_BASEX_BIT), PORTM_MODE_1000BASE_X, ETH_LINK_1G},
+	{(1ULL << ETH_MODE_SFI_1G_BIT), PORTM_MODE_SFI_1G, ETH_LINK_1G},
+	{(1ULL << ETH_MODE_QSGMII_BIT), PORTM_MODE_QSGMII, ETH_LINK_1G},
+	{(1ULL << ETH_MODE_10G_C2C_BIT), PORTM_MODE_XFI, ETH_LINK_10G},
+	{(1ULL << ETH_MODE_10G_C2M_BIT), PORTM_MODE_SFI, ETH_LINK_10G},
+	{(1ULL << ETH_MODE_10G_KR_BIT), PORTM_MODE_10GBASE_KR, ETH_LINK_10G},
 	/* ETH_MODE_20G_C2C_BIT not supported for CN10K family */
 	/* ETH_MODE_25G_2_C2C_BIT not supported for CN10K family */
-	{(1ULL << ETH_MODE_25G_C2C_BIT), PORTM_MODE_25GAUI_C2C},
-	{(1ULL << ETH_MODE_25G_C2M_BIT), PORTM_MODE_25GAUI_C2M},
-	{(1ULL << ETH_MODE_25G_CR_BIT), PORTM_MODE_25GBASE_CR},
-	{(1ULL << ETH_MODE_25G_KR_BIT), PORTM_MODE_25GBASE_KR},
-	{(1ULL << ETH_MODE_25GBASE_CR_C_BIT), PORTM_MODE_25GBASE_CR_C},
-	{(1ULL << ETH_MODE_25GBASE_KR_C_BIT), PORTM_MODE_25GBASE_KR_C},
-	{(1ULL << ETH_MODE_40G_C2C_BIT), PORTM_MODE_XLAUI},
-	{(1ULL << ETH_MODE_40G_C2M_BIT), PORTM_MODE_XLAUI_C2M},
-	{(1ULL << ETH_MODE_40G_CR4_BIT), PORTM_MODE_40GBASE_CR4},
-	{(1ULL << ETH_MODE_40G_KR4_BIT), PORTM_MODE_40GBASE_KR4},
+	{(1ULL << ETH_MODE_25G_C2C_BIT), PORTM_MODE_25GAUI_C2C, ETH_LINK_25G},
+	{(1ULL << ETH_MODE_25G_C2M_BIT), PORTM_MODE_25GAUI_C2M, ETH_LINK_25G},
+	{(1ULL << ETH_MODE_25G_CR_BIT), PORTM_MODE_25GBASE_CR, ETH_LINK_25G},
+	{(1ULL << ETH_MODE_25G_KR_BIT), PORTM_MODE_25GBASE_KR, ETH_LINK_25G},
+	{(1ULL << ETH_MODE_25GBASE_CR_C_BIT), PORTM_MODE_25GBASE_CR_C, ETH_LINK_25G},
+	{(1ULL << ETH_MODE_25GBASE_KR_C_BIT), PORTM_MODE_25GBASE_KR_C, ETH_LINK_25G},
+	{(1ULL << ETH_MODE_40G_C2C_BIT), PORTM_MODE_XLAUI, ETH_LINK_40G},
+	{(1ULL << ETH_MODE_40G_C2M_BIT), PORTM_MODE_XLAUI_C2M, ETH_LINK_40G},
+	{(1ULL << ETH_MODE_40G_CR4_BIT), PORTM_MODE_40GBASE_CR4, ETH_LINK_40G},
+	{(1ULL << ETH_MODE_40G_KR4_BIT), PORTM_MODE_40GBASE_KR4, ETH_LINK_40G},
 	/* ETH_MODE_40GAUI_C2C_BIT not supported for CN10K family */
-	{(1ULL << ETH_MODE_50GAUI_2_C2C_BIT), PORTM_MODE_LAUI_2_C2C},
-	{(1ULL << ETH_MODE_50GAUI_2_C2M_BIT), PORTM_MODE_LAUI_2_C2M},
-	{(1ULL << ETH_MODE_50GBASE_CR2_C_BIT), PORTM_MODE_50GBASE_CR2_C},
-	{(1ULL << ETH_MODE_50GBASE_KR2_C_BIT), PORTM_MODE_50GBASE_KR2_C},
-	{(1ULL << ETH_MODE_50G_C2C_BIT), PORTM_MODE_50GAUI_1_C2C},
-	{(1ULL << ETH_MODE_50G_C2M_BIT), PORTM_MODE_50GAUI_1_C2M},
-	{(1ULL << ETH_MODE_MAX_BIT), PORTM_MODE_50GBASE_USR},
+	{(1ULL << ETH_MODE_50GAUI_2_C2C_BIT), PORTM_MODE_LAUI_2_C2C, ETH_LINK_50G},
+	{(1ULL << ETH_MODE_50GAUI_2_C2M_BIT), PORTM_MODE_LAUI_2_C2M, ETH_LINK_50G},
+	{(1ULL << ETH_MODE_50GBASE_CR2_C_BIT), PORTM_MODE_50GBASE_CR2_C, ETH_LINK_50G},
+	{(1ULL << ETH_MODE_50GBASE_KR2_C_BIT), PORTM_MODE_50GBASE_KR2_C, ETH_LINK_50G},
+	{(1ULL << ETH_MODE_50G_C2C_BIT), PORTM_MODE_50GAUI_1_C2C, ETH_LINK_50G},
+	{(1ULL << ETH_MODE_50G_C2M_BIT), PORTM_MODE_50GAUI_1_C2M, ETH_LINK_50G},
+	{(1ULL << ETH_MODE_MAX_BIT), PORTM_MODE_50GBASE_USR, ETH_LINK_50G},
 	/* ETH_MODE_50G_4_C2C_BIT not supported for CN10K family */
-	{(1ULL << ETH_MODE_50G_CR_BIT), PORTM_MODE_50GBASE_CR},
-	{(1ULL << ETH_MODE_50G_KR_BIT), PORTM_MODE_50GBASE_KR},
+	{(1ULL << ETH_MODE_50G_CR_BIT), PORTM_MODE_50GBASE_CR, ETH_LINK_50G},
+	{(1ULL << ETH_MODE_50G_KR_BIT), PORTM_MODE_50GBASE_KR, ETH_LINK_50G},
 	/* ETH_MODE_80GAUI_C2C_BIT not supported for CN10K family */
-	{(1ULL << ETH_MODE_100G_C2C_BIT), PORTM_MODE_CAUI_4_C2C},
-	{(1ULL << ETH_MODE_100G_C2M_BIT), PORTM_MODE_CAUI_4_C2M},
-	{(1ULL << ETH_MODE_100G_CR4_BIT), PORTM_MODE_100GBASE_CR4},
-	{(1ULL << ETH_MODE_100G_KR4_BIT), PORTM_MODE_100GBASE_KR4},
-	{(1ULL << ETH_MODE_100GAUI_2_C2C_BIT), PORTM_MODE_100GAUI_2_C2C},
-	{(1ULL << ETH_MODE_100GAUI_2_C2M_BIT), PORTM_MODE_100GAUI_2_C2M},
-	{(1ULL << ETH_MODE_MAX_BIT), PORTM_MODE_100GBASE_USR2},
-	{(1ULL << ETH_MODE_100GBASE_CR2_BIT), PORTM_MODE_100GBASE_CR2},
-	{(1ULL << ETH_MODE_100GBASE_KR2_BIT), PORTM_MODE_100GBASE_KR2},
+	{(1ULL << ETH_MODE_100G_C2C_BIT), PORTM_MODE_CAUI_4_C2C, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_100G_C2M_BIT), PORTM_MODE_CAUI_4_C2M, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_100G_CR4_BIT), PORTM_MODE_100GBASE_CR4, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_100G_KR4_BIT), PORTM_MODE_100GBASE_KR4, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_100GAUI_2_C2C_BIT), PORTM_MODE_100GAUI_2_C2C, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_100GAUI_2_C2M_BIT), PORTM_MODE_100GAUI_2_C2M, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_MAX_BIT), PORTM_MODE_100GBASE_USR2, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_100GBASE_CR2_BIT), PORTM_MODE_100GBASE_CR2, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_100GBASE_KR2_BIT), PORTM_MODE_100GBASE_KR2, ETH_LINK_100G},
+	{(1ULL << ETH_MODE_SGMII_10M_BIT), PORTM_MODE_SGMII, ETH_LINK_10M},
+	{(1ULL << ETH_MODE_SGMII_100M_BIT), PORTM_MODE_SGMII, ETH_LINK_100M},
 };
 
 static speed_mode_map_s rpm_group1_speed_mode_map[] = {
-	{(1ULL << ETH_MODE_2500_BASEX_BIT), PORTM_MODE_2500BASE_X},
-	{(1ULL << ETH_MODE_5000_BASEX_BIT), PORTM_MODE_5000BASE_X},
-	{(1ULL << ETH_MODE_O_USGMII_BIT), PORTM_MODE_O_USGMII},
-	{(1ULL << ETH_MODE_Q_USGMII_BIT), PORTM_MODE_Q_USGMII},
-	{(1ULL << ETH_MODE_2_5G_USXGMII_BIT), PORTM_MODE_2_5G_SXGMII},
-	{(1ULL << ETH_MODE_5G_USXGMII_BIT), PORTM_MODE_5G_SXGMII},
-	{(1ULL << ETH_MODE_10G_SXGMII_BIT), PORTM_MODE_10G_SXGMII},
-	{(1ULL << ETH_MODE_10G_DXGMII_BIT), PORTM_MODE_10G_DXGMII},
-	{(1ULL << ETH_MODE_10G_QXGMII_BIT), PORTM_MODE_10G_QXGMII},
+	{(1ULL << ETH_MODE_2500_BASEX_BIT), PORTM_MODE_2500BASE_X, ETH_LINK_2HG},
+	{(1ULL << ETH_MODE_5000_BASEX_BIT), PORTM_MODE_5000BASE_X, ETH_LINK_5G},
+	{(1ULL << ETH_MODE_O_USGMII_BIT), PORTM_MODE_O_USGMII, ETH_LINK_1G},
+	{(1ULL << ETH_MODE_Q_USGMII_BIT), PORTM_MODE_Q_USGMII, ETH_LINK_1G},
+	{(1ULL << ETH_MODE_2_5G_USXGMII_BIT), PORTM_MODE_2_5G_SXGMII, ETH_LINK_2HG},
+	{(1ULL << ETH_MODE_5G_USXGMII_BIT), PORTM_MODE_5G_SXGMII, ETH_LINK_5G},
+	{(1ULL << ETH_MODE_10G_SXGMII_BIT), PORTM_MODE_10G_SXGMII, ETH_LINK_10G},
+	{(1ULL << ETH_MODE_10G_DXGMII_BIT), PORTM_MODE_10G_DXGMII, ETH_LINK_5G},
+	{(1ULL << ETH_MODE_10G_QXGMII_BIT), PORTM_MODE_10G_QXGMII, ETH_LINK_2HG},
 };
 
 static rpm_lmac_speed_list_s rpm_group1_speed_list[] = {
@@ -937,6 +939,7 @@ static speed_mode_map_s cpri_test_speed_mode_map[] = {
 static uint64_t rpm_get_eth_mode_bitmask(cn10k_portm_modes_t portm_mode, int *group)
 {
 	int mode_group = 0;
+	uint64_t bitmask = 0;
 	speed_mode_map_s *map;
 	size_t len;
 
@@ -964,11 +967,11 @@ static uint64_t rpm_get_eth_mode_bitmask(cn10k_portm_modes_t portm_mode, int *gr
 	for (int i = 0; i < len; i++) {
 		if (map[i].portm_mode == portm_mode) {
 			*group = mode_group;
-			return map[i].mode_bitmask;
+			bitmask |= map[i].mode_bitmask;
 		}
 	}
 
-	return 0;
+	return bitmask;
 }
 
 static int rpm_obtain_mode_and_group(cn10k_portm_modes_t portm_mode, int *mode, int *group)
@@ -1183,6 +1186,9 @@ void rpm_set_supported_link_modes(int rpm_id, int lmac_id)
 			modes_allowed =
 				(BIT_64(ETH_MODE_1000_BASEX_BIT) |
 				BIT_64(ETH_MODE_SGMII_BIT) |
+				BIT_64(ETH_MODE_SGMII_10M_BIT) |
+				BIT_64(ETH_MODE_SGMII_100M_BIT) |
+				BIT_64(ETH_MODE_2500_BASEX_BIT) |
 				BIT_64(ETH_MODE_SFI_1G_BIT) |
 				BIT_64(ETH_MODE_10G_C2C_BIT) |
 				BIT_64(ETH_MODE_10G_C2M_BIT) |
@@ -1240,7 +1246,7 @@ static int rpm_check_mode_change_allowed(rpm_lmac_config_t *lmac_cfg, uint64_t m
 		mode_bitmask1 = (1ULL << ((__builtin_ffsl(mode_bitmask) - 1) + 41));
 
 	/* Check if mode is in the supported link modes */
-	if (!(mode_bitmask & lmac_cfg->supported_link_modes)) {
+	if (!(mode_bitmask1 & lmac_cfg->supported_link_modes)) {
 		debug_rpm_intf("%s: Not supported link mode bitmask 0x%" PRIx64 " link_mode 0x%" PRIx64 "\n",
 			__func__, mode_bitmask1,
 			lmac_cfg->supported_link_modes);
@@ -1406,6 +1412,39 @@ static int rpm_get_validated_portm_mode(int portm_idx, uint64_t req_mode,
 	return portm_mode;
 }
 
+static void rpm_update_phy_advertise_speed(int rpm_id, int lmac_id, uint64_t req_mode)
+{
+	rpm_lmac_config_t *lmac;
+	int j = 0;
+
+	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	debug_rpm_intf("%s: %d:%d req_mode 0x%" PRIx64 "\n", __func__,
+		rpm_id, lmac_id, req_mode);
+
+	/* Clear advertised_speed everytime new speed is advertised */
+	memset(&lmac->phy_advertised_speed[0], 0, (ETH_LINK_MAX * sizeof(int)));
+
+	for (int i = 0; i < ARRAY_SIZE(rpm_speed_mode_map) && j < ETH_LINK_MAX; i++) {
+		if (req_mode & rpm_speed_mode_map[i].mode_bitmask)	{
+			lmac->phy_advertised_speed[j] = rpm_speed_mode_map[i].speed;
+			debug_rpm_intf("%s: %d: %d req_mode 0x%" PRIx64 ", i %d j %d advertise speed %d\n",
+				__func__, rpm_id, lmac_id, req_mode, i, j,
+				lmac->phy_advertised_speed[j]);
+			j++;
+		}
+	}
+	for (int i = 0; i < ARRAY_SIZE(rpm_group1_speed_mode_map) && j < ETH_LINK_MAX; i++) {
+		if (req_mode & rpm_group1_speed_mode_map[i].mode_bitmask)	{
+			lmac->phy_advertised_speed[j] = rpm_group1_speed_mode_map[i].speed;
+			debug_rpm_intf("%s: %d: %d req_mode 0x%" PRIx64 ", i %d j %d advertise speed %d\n",
+				__func__, rpm_id, lmac_id, req_mode, i, j,
+				lmac->phy_advertised_speed[j]);
+			j++;
+		}
+	}
+}
+
 static void update_gserm_scratch_reg(int portm_idx)
 {
 	portm_config_t *portm;
@@ -1547,6 +1586,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	int req_duplex;
 	int invalid_req = 0, portm_mode = 0, mode_group = 0;
 	uint64_t req_mode = 0;
+	uint64_t advertise_mode = 0;
 	int ret = 0;
 	ecp_link_state_t link_state;
 	int rpm_id, lmac_id;
@@ -1555,9 +1595,10 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	cn10k_portm_fec_t fec_orig;
 	cn10k_portm_fec_t fec;
 	int switch_from_cpri = 0;
-	int current_lc, new_lc, req_an, an;
+	int current_lc, new_lc, req_an;
 	rpm_lmac_bringup_context_t *bringup_ctx;
 	int speed_valid = 0;
+	int reconfig_phy = 0;
 
 	portm = &plat_octeontx_bcfg->portm_cfg[portm_idx];
 
@@ -1585,7 +1626,6 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	mode_group = args->mode_group_idx;
 	req_duplex = args->duplex;
 	req_an = args->an;
-	an = !lmac->an_disable;
 
 	debug_rpm_intf("%s: PORTM%d speed %d req_speed %d req_duplex %d req_mode 0x%lx mode_group %d req_an %d\n",
 				__func__, portm_idx, lmac_ctx->s.speed,
@@ -1615,17 +1655,31 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		}
 	}
 
-	portm_mode = rpm_get_validated_portm_mode(portm_idx, req_mode, mode_group);
-	if (portm_mode == -1) {
+	/* Ignore req_an for fixed modes - need to add condition
+	 * req_an will be always passed with advertise command
+	 */
+	if ((req_mode == 0x3ffffffffff) && ((!lmac->phy_present) || (!req_an))) {
+		debug_rpm_intf("%s: PORTM%d: %d Advertising multiple modes supported only when"
+				" PHY is present and AN is enabled\n",
+				__func__, portm_idx, lmac_id);
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
-		return -1;
+		goto mode_err;
+	}
+
+	if (req_mode != 0x3ffffffffff) {
+		portm_mode = rpm_get_validated_portm_mode(portm_idx, req_mode, mode_group);
+		if (portm_mode == -1) {
+			rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
+			return -1;
+		}
 	}
 
 	/* Validate against supported link modes */
 	if (portm->mac_type == PORTM_ETH &&
+		(req_mode != 0x3ffffffffff) &&
 		rpm_check_mode_change_allowed(lmac, req_mode, mode_group)) {
-		debug_rpm_intf("%s: PORTM%d Invalid speed/AN/mode request\n",
-			__func__, portm_idx);
+		debug_rpm_intf("%s: PORTM%d Req mode not valid 0x%" PRIx64 "\n",
+			__func__, portm_idx, req_mode);
 		rpm_set_error_type(rpm_id, lmac_id,
 			ETH_ERR_SPEED_CHANGE_INVALID);
 		goto mode_err;
@@ -1639,6 +1693,33 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		goto mode_err;
 	}
 #endif
+
+	if (lmac->phy_present) {
+		/* If PHY is present and requested mode is 0x3ffffffffff, multiple speeds
+		 * need to be advertised. Kernel driver updates advertise link modes in SM
+		 * To advertise single mode, requested mode is updated with the speed
+		 * to be advertised with req_an being set
+		 */
+		if ((req_mode == 0x3ffffffffff) || (req_an)) {
+			if (req_an)
+				advertise_mode = req_mode;
+			else
+				advertise_mode = sh_fwdata_get_advertised_link_modes(rpm_id, lmac_id);
+
+			/* Map the advertised bitmask modes to speed enum to be
+			 * passed to PHY driver
+			 */
+			lmac->phy_adv_speed = 1;
+			rpm_update_phy_advertise_speed(rpm_id, lmac_id, advertise_mode);
+		} else {
+			/* If req_mode is zero, and with PHY present and AN not enabled,
+			 * do a speed change, update PHY config with the required speed
+			 */
+			lmac->phy_adv_speed = 0;
+		}
+		reconfig_phy = 1;
+		goto phy_config;
+	}
 
 	/* If PORTM mode is same, check for the requested speed, AN and duplex */
 	if (portm->portm_mode == portm_mode) {
@@ -1655,42 +1736,12 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 				goto mode_err;
 			}
 
-			if (lmac->phy_present) {
-				if (lmac->phy_config->init) { // Confirm initialization is completed
-					lmac->phy_config->forceconfig = 1;
-					if (req_speed != ETH_LINK_NONE)
-						lmac->sgmii_speed = req_speed;
-					if (req_an != an)
-						lmac->an_disable = !req_an;
-					lmac->sgmii_duplex = req_duplex;
-					phy_config(rpm_id, lmac_id);
-					/* After re-configuration of PHY, read the current PHY link
-					 * status and set the link status accordingly so the poll
-					 * timer CB can handle the link change event
-					 */
-					phy_get_link_status(rpm_id, lmac_id, &link);
+			/* Update LMAC config with the requested speed, AN, duplex */
+			lmac->an_disable = !req_an;
+			lmac->sgmii_speed = req_speed;
+			lmac->sgmii_duplex = req_duplex;
 
-					/* Append the line side FEC to link status in PHY case */
-					link.s.fec = lmac_ctx->s.fec = portm->line_fec;
-
-					lmac_ctx->s.link_up = link.s.link_up;
-					lmac_ctx->s.full_duplex = link.s.full_duplex;
-					lmac_ctx->s.speed = link.s.speed;
-					if (link.s.link_up)
-						rpm_set_link_state(rpm_id, lmac_id, &link, 0);
-					else
-						rpm_set_link_state(rpm_id, lmac_id, &link, ETH_ERR_PHY_LINK_DOWN);
-					return 0;
-				}
-
-			} else {
-				/* Update LMAC config with the requested speed, AN, duplex */
-				lmac->an_disable = !req_an;
-				lmac->sgmii_speed = req_speed;
-				lmac->sgmii_duplex = req_duplex;
-
-				ecp_link_update_sgmii_speed_dplx(portm_idx, lmac_id);
-			}
+			ecp_link_update_sgmii_speed_dplx(portm_idx, lmac_id);
 		} else {
 			WARN("%s: PORTM%d Requested mode is same as current mode, Ignore request\n",
 				__func__, portm_idx);
@@ -1835,6 +1886,43 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	/* Update GSERM scratchpad register with port config */
 	update_gserm_scratch_reg(portm_idx);
 
+	return 0;
+phy_config:
+	if ((lmac->phy_present) && (lmac->phy_config->init)) { // Confirm initialization is completed
+		lmac->phy_config->forceconfig = 1;
+		if (!advertise_mode) {
+			if (req_speed != ETH_LINK_NONE)
+				lmac->sgmii_speed = req_speed;
+			lmac->sgmii_duplex = req_duplex;
+			lmac->an_disable = !req_an;
+		}
+
+		/* In few cases, RPM doesn't need to be re-init
+		 * and hence configure PHY only without calling
+		 * cgx init function
+		 */
+		if (reconfig_phy) {
+			phy_config(rpm_id, lmac_id);
+			/* After re-configuration of PHY, read the current PHY link
+			 * status and set the link status accordingly so the poll
+			 * timer CB can handle the link change event
+			 */
+			phy_get_link_status(rpm_id, lmac_id, &link);
+
+			/* Append the line side FEC to link status in PHY case */
+			link.s.fec = lmac_ctx->s.fec = portm->line_fec;
+
+			lmac_ctx->s.link_up = link.s.link_up;
+			lmac_ctx->s.full_duplex = link.s.full_duplex;
+			lmac_ctx->s.speed = link.s.speed;
+			if (link.s.link_up)
+				rpm_set_link_state(rpm_id, lmac_id, &link, 0);
+			else
+				rpm_set_link_state(rpm_id, lmac_id, &link, ETH_ERR_PHY_LINK_DOWN);
+		}
+	} else {
+		debug_rpm_intf("phy_config called on phy that is not initialized...\n");
+	}
 	return 0;
 mode_err:
 	/* In case of not performing MODE change, update the link as saved status */

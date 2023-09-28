@@ -1722,3 +1722,30 @@ with the include path.
 
   BL31_LIBS               +=      lib/libphy/libphy_88x1780.a     \
                                   lib/libphy/libphy_88x2540.a     \
+
+5.3.3 To advertise speeds
+~~~~~~~~~~~~~~~~~~~~~~~~
+PHY driver (.config API) has to be updated to support advertising speeds by the user. RPM framework updates the below bitfields in
+RPM LMAC config struct.
+
+typedef struct rpm_lmac_config {
+	...
+	int phy_adv_speed;  /* To indicate PHY driver that this is not mode/speed change but only to advertise speed */
+	int phy_advertised_speed[ETH_LINK_MAX];
+};
+
+Also, supported link modes need to be updated with all the speeds supported. For example,
+if PHY is supporting 10G, 2.5G, 1G, 100M, 10M speeds
+
+
+.set_supported_modes	= phy_marvell_3310_supported_modes,
+
+void phy_marvell_3310_supported_modes(int eth_id, int lmac_id) {
+	phy->supported_link_modes =
+			((1ULL << ETH_MODE_10G_C2C_BIT) |
+			(1ULL << ETH_MODE_10G_C2M_BIT) |
+			(1ULL << ETH_MODE_2500_BASEX_BIT) |
+			(1ULL << ETH_MODE_SGMII_BIT) |
+			(1ULL << ETH_MODE_SGMII_10M_BIT) |
+			(1ULL << ETH_MODE_SGMII_100M_BIT));
+}

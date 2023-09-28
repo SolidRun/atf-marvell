@@ -202,6 +202,7 @@ typedef struct rpm_lmac_bringup_context_s {
 typedef struct speed_mode_map {
 	uint64_t mode_bitmask;
 	cn10k_portm_modes_t portm_mode;
+	int speed; /* eth_link_speed enum */
 } speed_mode_map_s;
 
 /* Applicable to speed change for group1 modes- USXGMII/USGMII */
