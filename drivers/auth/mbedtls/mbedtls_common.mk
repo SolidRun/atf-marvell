@@ -37,11 +37,9 @@ LIBMBEDTLS_SRCS			+= $(addprefix ${MBEDTLS_DIR}/library/,		\
 						asn1write.c			\
 						cipher.c			\
 						cipher_wrap.c			\
-						constant_time.c			\
 						memory_buffer_alloc.c		\
 						oid.c				\
 						platform.c			\
-						platform_util.c			\
 						bignum.c			\
 						gcm.c				\
 						md.c				\
@@ -61,10 +59,12 @@ LIBMBEDTLS_SRCS			+= $(addprefix ${MBEDTLS_DIR}/library/,		\
 
 ifeq (${MBEDTLS_MAJOR}, 2)
 	LIBMBEDTLS_SRCS +=  $(addprefix ${MBEDTLS_DIR}/library/,	\
-						rsa_internal.c		\
+						md_wrap.c		\
 						)
 else ifeq (${MBEDTLS_MAJOR}, 3)
 	LIBMBEDTLS_SRCS +=  $(addprefix ${MBEDTLS_DIR}/library/,	\
+						constant_time.c		\
+						platform_util.c		\
 						bignum_core.c		\
 						rsa_alt_helpers.c	\
 						hash_info.c		\
