@@ -458,6 +458,10 @@ else ifneq ($(findstring gcc,$(notdir $(LD))),)
 # Pass ld options with Wl or Xlinker switches
 TF_LDFLAGS		+=	-Wl,--fatal-warnings -O1
 TF_LDFLAGS		+=	-Wl,--gc-sections
+
+TF_LDFLAGS		+=	-Wl,-z,common-page-size=4096 # Configure page size constants
+TF_LDFLAGS		+=	-Wl,-z,max-page-size=4096
+
 ifeq ($(ENABLE_LTO),1)
 	ifeq (${ARCH},aarch64)
 		TF_LDFLAGS	+=	-flto -fuse-linker-plugin
@@ -478,6 +482,9 @@ else
 	TF_LDFLAGS		+=	$(call ld_option, --no-warn-rwx-segments)
 	TF_LDFLAGS		+=	-O1
 	TF_LDFLAGS		+=	--gc-sections
+
+	TF_LDFLAGS		+=	-z common-page-size=4096 # Configure page size constants
+	TF_LDFLAGS		+=	-z max-page-size=4096
 
 # ld.lld doesn't recognize the errata flags,
 # therefore don't add those in that case.
