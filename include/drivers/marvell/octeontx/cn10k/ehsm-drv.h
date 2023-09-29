@@ -201,7 +201,7 @@ int ehsm_pie_rkek_protected_provision(uintptr_t user_buf, bool nsec, uintptr_t s
  *
  * @return  0 for success, -EIO for eHSM errors
  */
-int ehsm_smc_get_challenge(enum ehsm_auth_cmd_id auth_cmd_id,
+int ehsm_smc_get_challenge(uint32_t auth_cmd_id,
 			   uintptr_t user_buf, bool nsec, uintptr_t size);
 
 /**
