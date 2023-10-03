@@ -463,6 +463,7 @@ err1:
 				ret = -1;
 				goto err;
 			}
+			dram_end = octeontx_dram_size();
 			ret = spi_smc_update(user_buf, size, dram_end, &uret);
 		}
 err:
@@ -982,6 +983,7 @@ err3:
 			ret = -2;
 			goto err4;
 		}
+		dram_end = octeontx_dram_size();
 		ret = smc_check_versions(user_buf, size, dram_end, &uret);
 err4:
 		octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
