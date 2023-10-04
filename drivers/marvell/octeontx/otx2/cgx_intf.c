@@ -958,8 +958,7 @@ static int cgx_get_training_for_mode(uint64_t req_mode)
 static void cgx_update_phy_advertise_speed(int cgx_id, int lmac_id, uint64_t req_mode)
 {
 	cgx_lmac_config_t *lmac;
-	uint64_t mode_bitmask = 0;
-	int bit_pos = 0, j = 0;
+	int j = 0;
 
 	lmac = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
 
@@ -969,19 +968,13 @@ static void cgx_update_phy_advertise_speed(int cgx_id, int lmac_id, uint64_t req
 	/* Clear advertised_speed everytime new speed is advertised */
 	memset(&lmac->phy_config.advertised_speed[0], 0, (ETH_LINK_MAX * sizeof(int)));
 
-	FOR_EACH_BIT(bit_pos, req_mode) {
-		mode_bitmask = 1ULL << bit_pos;
-		debug_cgx_intf("%s: bit_pos %d mode_bitmask 0x%" PRIx64 "\n", __func__,
-				bit_pos, mode_bitmask);
-
-		for (int i = 0; i < ARRAY_SIZE(speed_mode_map) && j < ETH_LINK_MAX; i++) {
-			if (mode_bitmask == speed_mode_map[i].mode_bitmask)	{
-				lmac->phy_config.advertised_speed[j] = speed_mode_map[i].speed;
-				debug_cgx_intf("%s: %d: %d req_mode 0x%" PRIx64 ", i %d j %d advertise speed %d\n",
-					__func__, cgx_id, lmac_id, req_mode, i, j,
-					lmac->phy_config.advertised_speed[j]);
-				j++;
-			}
+	for (int i = 0; i < ARRAY_SIZE(speed_mode_map) && j < ETH_LINK_MAX; i++) {
+		if (req_mode & speed_mode_map[i].mode_bitmask)	{
+			lmac->phy_config.advertised_speed[j] = speed_mode_map[i].speed;
+			debug_cgx_intf("%s: %d: %d req_mode 0x%" PRIx64 ", i %d j %d advertise speed %d\n",
+				__func__, cgx_id, lmac_id, req_mode, i, j,
+				lmac->phy_config.advertised_speed[j]);
+			j++;
 		}
 	}
 }
@@ -1493,27 +1486,25 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 		 * To advertise single mode, requested mode is updated with the speed
 		 * to be advertised with req_an being set
 		 */
-		if (req_mode == 0x3ffffffffff) {
-			advertise_mode = sh_fwdata_get_advertised_link_modes(cgx_id, lmac_id);
-			debug_cgx_intf("%s: %d:%d Advertised_link_modes 0x%" PRIx64 "\n", __func__,
-						cgx_id, lmac_id, advertise_mode);
-		} else {
+		if ((req_mode == 0x3ffffffffff) || (req_an)) {
 			if (req_an)
 				advertise_mode = req_mode;
-		}
+			else
+				advertise_mode = sh_fwdata_get_advertised_link_modes(cgx_id, lmac_id);
 
-		/* Map the advertised bitmask modes to speed enum to be
-		 * passed to PHY driver
-		 */
-		lmac->phy_config.adv_speed = 1;
-		cgx_update_phy_advertise_speed(cgx_id, lmac_id, advertise_mode);
-		reconfig_phy = 1;
-		goto phy_config;
-
-		/* If req_mode is zero, and with PHY present and AN not enabled,
-		 * do a speed change, update PHY config with the required speed
-		 */
-		if (!req_mode) {
+			debug_cgx_intf("%s: %d:%d Advertised_link_modes 0x%" PRIx64 "\n", __func__,
+						cgx_id, lmac_id, advertise_mode);
+			/* Map the advertised bitmask modes to speed enum to be
+			 * passed to PHY driver
+			 */
+			lmac->phy_config.adv_speed = 1;
+			cgx_update_phy_advertise_speed(cgx_id, lmac_id, advertise_mode);
+			reconfig_phy = 1;
+			goto phy_config;
+		} else {
+			/* If PHY present and AN not enabled,
+			 * do a speed change, update PHY config with the required speed
+			 */
 			lmac->phy_config.adv_speed = 0;
 			reconfig_phy = 1;
 			goto phy_config;
