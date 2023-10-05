@@ -3196,13 +3196,13 @@ int plat_octeontx_fill_board_details(void)
 	str = fdt_getprop(fdt, offset, "GPIO-SHUTDOWN-CTL-IN", NULL);
 	if (str) {
 		plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_in = strtol(str, NULL, 0);
-		printf("SHUTIN: %s\n", str);
+		VERBOSE("SHUTIN: %s\n", str);
 	}
 
 	str = fdt_getprop(fdt, offset, "GPIO-SHUTDOWN-CTL-OUT", NULL);
 	if (str) {
 		plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_out = strtol(str, NULL, 0);
-		printf("SHUTOUT: %s\n", str);
+		VERBOSE("SHUTOUT: %s\n", str);
 	}
 
 	fdt_cpu_node_refresh(fdt);
