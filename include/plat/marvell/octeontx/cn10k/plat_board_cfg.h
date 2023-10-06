@@ -249,6 +249,7 @@ typedef struct plat_octeontx_board_cfg {
 	int timer2_ms;		/* RPM timer 2 callback frequency */
 	spi_config_t spi_cfg[MAX_SPI_BUS];
 	persist_data_cfg_t persist_cfg;
+	int ignore_eth_persist_data;
 	int rvu_rsvd_reg_index; /* ASC region index for RVU MEM and LMTLINES */
 	int do_switch_reset; /* Flag to Save EBF SWITCH_MICROINIT dt prop */
 	int reserved_os_memory_size;

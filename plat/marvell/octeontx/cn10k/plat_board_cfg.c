@@ -3015,9 +3015,13 @@ static void cn10k_get_persist_data_config(const void *fdt)
 	plat_octeontx_bcfg->persist_cfg.bus = PERSIST_DATA_SPI_BUS;
 	plat_octeontx_bcfg->persist_cfg.cs = PERSIST_DATA_SPI_CS;
 	plat_octeontx_bcfg->persist_cfg.valid = 1;
+	plat_octeontx_bcfg->ignore_eth_persist_data = 0;
 
 	if (!fdt)
 		return;
+
+	if (cn10k_fdtebf_get_num(fdt, "ETHERNET-PERSIST-SETTINGS-IGNORE", 10) == 1)
+		plat_octeontx_bcfg->ignore_eth_persist_data = 1;
 
 	/* override the default persist data config if the
 	entry 'spi-flash' is in fdt*/

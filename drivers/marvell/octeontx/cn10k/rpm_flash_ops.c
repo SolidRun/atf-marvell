@@ -102,6 +102,12 @@ static int rpm_update_flash_lmac_params(int portm_idx, int cmd,
 
 int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode)
 {
+	if (plat_octeontx_bcfg->ignore_eth_persist_data) {
+		debug_rpm_flash("%s: PORTM%d ignoring persistent data update\n",
+				__func__, portm_idx);
+		return 0;
+	}
+
 	return rpm_update_flash_lmac_params(portm_idx, PORTM_MODE,
 		portm_mode);
 }
@@ -342,6 +348,12 @@ int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode)
 	rpm_lmac_config_t *lmac;
 	int portm_idx;
 
+	if (plat_octeontx_bcfg->ignore_eth_persist_data) {
+		debug_rpm_flash("%s: RPM%d.LMAC%d ignoring persistent data update\n",
+				__func__, rpm_id, lmac_id);
+		return 0;
+	}
+
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm_idx = lmac->portm_idx;
 
@@ -353,6 +365,12 @@ int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec)
 {
 	rpm_lmac_config_t *lmac;
 	int portm_idx;
+
+	if (plat_octeontx_bcfg->ignore_eth_persist_data) {
+		debug_rpm_flash("%s: RPM%d.LMAC%d ignoring persistent data update\n",
+				__func__, rpm_id, lmac_id);
+		return 0;
+	}
 
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 	portm_idx = lmac->portm_idx;
