@@ -2474,13 +2474,11 @@ int gserm_rx_training_stop(int portm_idx, int lane_idx)
 }
 
 static inline int _wait_ecp_request_compl(int portm_idx,
-					  ecp_link_state_enum_t req,
 					  int timeout_ms)
 {
 	uint64_t init_time, gserm_timeout;
 	unsigned int state;
-	int sig_detect = 0, lmac_id;
-	ecp_link_state_t link_state;
+	int lmac_id;
 	portm_config_t *cfg;
 
 	cfg = gserm_get_portm_cfg(portm_idx);
@@ -2495,9 +2493,9 @@ static inline int _wait_ecp_request_compl(int portm_idx,
 		clock_get_rate(GSER_CLOCK_TIME)/1000;
 
 	while (clock_get_count(GSER_CLOCK_TIME) < gserm_timeout) {
-		state = ecp_get_link_state(portm_idx, lmac_id, &link_state, &sig_detect);
+		state = ecp_get_req_in_prog(portm_idx, lmac_id);
 		/* Check if past the requested state */
-		if (state != req)
+		if (state == 0)
 			return 0;
 
 		udelay(100);
@@ -2539,7 +2537,6 @@ int gserm_ecp_update_prbs_mode(int portm_idx, int gen, int check)
 
 		/* Wait for ECP to complete PRBS State Change */
 		if (_wait_ecp_request_compl(portm_idx,
-					    ETH_LINK_STATE_PRBS_CHANGE,
 					    GSERM_PRBS_COMP_TIMEOUT_MS)) {
 			ERROR("Timeout waiting for ECP to complete PRBS state change.\n");
 			return -1;
@@ -2571,7 +2568,6 @@ int gserm_ecp_update_loopback_mode(int portm_idx, int lpbk_mode)
 
 	/* Wait for ECP to complete Loopback State Change */
 	if (_wait_ecp_request_compl(portm_idx,
-				    ETH_LINK_STATE_LBCK_CHANGE,
 				    GSERM_LPBK_COMP_TIMEOUT_MS)) {
 		ERROR("Timeout waiting for ECP to complete Loopback state change.\n");
 		return -1;
