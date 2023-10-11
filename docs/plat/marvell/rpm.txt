@@ -1769,7 +1769,7 @@ Ex:
 5.3.2 PHY SDK Library
 ~~~~~~~~~~~~~~~~~~~~~
 
-If a PHY has its own SDK, it should be built as a library and copied to atf/lib/libphy path alongwith the header files.
+If a PHY has its own SDK, it should be built as a library and copied to atf/lib/libphy path along with the header files.
 
 Library should be included in the build as below in platform makefile along
 with the include path.
