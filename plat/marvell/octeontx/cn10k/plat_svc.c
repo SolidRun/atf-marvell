@@ -1275,6 +1275,14 @@ err9:
 	break;
 
 
+#if DBG_ALLOW_SYST_REG_AC
+	case PLAT_OCTEONTX_ADV_DBG:
+	{
+		return octeontx_adbg(handle, x1, x2, x3, x4);
+	}
+	break;
+#endif
+
 	default:
 		return cn10k_svc_smc_handler(smc_fid, x1, x2, x3, x4,
 					    cookie, handle, flags);

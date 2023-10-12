@@ -88,6 +88,9 @@ DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS		:=	1
 ifdef DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS
     $(eval $(call add_define,DEBUG_ATF_ENABLE_PHY_DIAGNOSTIC_CMDS))
 endif
+ifeq (${DBG_ALLOW_SYST_REG_AC},1)
+PLAT_BL_COMMON_SOURCES		+=	plat/marvell/octeontx/cn10k/plat_adbg.c
+endif
 
 #LIBMCESD_SOURCES	:=	$(shell find ${LIBMCESD_DIR} -type f -name "*.c")
 #LIBMCESD_INCLUDES	:=	$(foreach file, $(shell find ${LIBMCESD_DIR} -type d), -I$(file))

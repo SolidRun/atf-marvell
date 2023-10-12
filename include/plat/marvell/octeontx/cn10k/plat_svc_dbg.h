@@ -34,7 +34,7 @@
 #ifndef __PLAT_SVC_DBG_H__
 #define __PLAT_SVC_DBG_H__
 
-#if DBG_ALLOW_SEC_REGN_AC_SMC
+#if DBG_ALLOW_SYST_REG_AC
  /*
   * Debug Specific SMC, used for Accessing Regions for NS world
   * x1 - data to read/write
@@ -50,12 +50,30 @@
   */
 #define DBG_PLAT_OCTEONTX_ACCESS_REG        0xc2000fff
 
+/*
+ * SMC Call ID
+ * x0 - PLAT_OCTEONTX_ADV_DBG
+ * x1 - Subsys + Op
+ * x2 - Subsys Op Specific Argument
+ * x3 - Subsys Op Specific Argument
+ *
+ * Return:
+ *	x0:
+ *		0 -- Success
+ *		-1 -- Failure
+ */
+
+#define PLAT_OCTEONTX_ADV_DBG		0xc2000ffe
+
 /* Number of Debug specific SMCs */
-#define DBG_OTX3_NUM_SMC_CALLS 1
+#define DBG_OTX3_NUM_SMC_CALLS 2
 
 int octeontx_access_mapping(uint64_t address, uint64_t *val,
 		uint64_t write, uint64_t bits_32);
-#endif /* DBG_ALLOW_SEC_REGN_AC_SMC */
+
+int octeontx_adbg(void *handle, uint64_t x1, uint64_t x2, uint64_t x3,
+		  uint64_t x4);
+#endif /* DBG_ALLOW_SYST_REG_AC */
 
 #ifndef DBG_OTX3_NUM_SMC_CALLS
 #define DBG_OTX3_NUM_SMC_CALLS 0

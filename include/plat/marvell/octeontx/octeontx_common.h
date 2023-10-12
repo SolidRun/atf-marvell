@@ -198,4 +198,13 @@ int octeontx_fdt_get_pem_secure(void);
 uint32_t octeontx_fdt_get_next_strmid(void **prop, void **prop_end);
 int octeontx_fdt_get_strmid_ptrs(int pem, void **prop, void **prop_end);
 
+#if DBG_ALLOW_SYST_REG_AC
+#if defined(PLAT_CN10K_FAMILY)
+void adbg_init(void);
+void adbg_mmap_setup(void);
+uint64_t adbg_dram_region_base(void);
+uint64_t adbg_dram_region_size(void);
+#endif
+#endif
+
 #endif /* __OCTEONTX_COMMON_H__ */

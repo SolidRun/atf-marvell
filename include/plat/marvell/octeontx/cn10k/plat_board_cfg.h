@@ -256,6 +256,7 @@ typedef struct plat_octeontx_board_cfg {
 	int asym_mem_config;
 	usb_config_t usb_cfg[MAX_USB_BUS];
 	ras_config_t ras_config;
+	uint64_t adbg_dram_region_base;
 	ppr_config_t ppr_config;
 } plat_octeontx_board_cfg_t;
 

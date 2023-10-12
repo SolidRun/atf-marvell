@@ -100,6 +100,12 @@ static void plat_add_mmio_common(void)
 	mmap_add_region(NS_IMAGE_BASE, NS_IMAGE_BASE, NS_IMAGE_MAX_SIZE, attr);
 #endif
 
+#if DBG_ALLOW_SYST_REG_AC
+#if defined(IMAGE_BL31) && defined(PLAT_CN10K_FAMILY)
+	/* Setting up the adbg memory mapping */
+	adbg_mmap_setup();
+#endif
+#endif
 	plat_initialize_boot_error_data_area(attr);
 }
 

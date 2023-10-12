@@ -627,6 +627,10 @@ void bl2_platform_setup(void)
 	/* Reserve RAS memory after RVU */
 	plat_initialize_ghes_hest_area();
 
+#if DBG_ALLOW_SYST_REG_AC
+	/* Reserve memory for adbg just above RAS memory */
+	adbg_init();
+#endif
 	dump_ccs_region_config();
 
 	/* Update metadata memory region for coresight DT nodes */
