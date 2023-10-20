@@ -191,7 +191,7 @@ struct file_entry {
 	struct object_entry	*object;
 	struct file_entry	*next;
 	struct file_entry	*prev;
-	bool file_written:1;		/** True if file written successfully */
+	unsigned int		file_written:1;	/** True if file written successfully */
 };
 
 struct hash_data {
@@ -209,7 +209,9 @@ struct hash_data {
 struct object_group_entry {
 	const char *tim_filename;
 	const char *data_filename;
+	const char *dts_filename;
 	bool optional;			/** Not required for complete update */
+	bool skip_version_check;	/** Do not check the version of this entry */
 };
 
 struct object_group {
@@ -272,6 +274,7 @@ struct object_alt_layout {
 	uint64_t new_addr;
 	uint64_t new_size;
 };
+
 static const struct object_alt_layout alt_layout[] = {
 	{
 		.objname = "bl31.bin",
@@ -296,6 +299,7 @@ static const struct object_alt_layout alt_layout[] = {
 	},
 	{NULL, 0, 0, 0, 0},
 };
+
 static uint8_t uboot_obj_ventry_counter;
 static uint8_t npc_obj_ventry_counter;
 static uint8_t use_alt_layout;
@@ -318,27 +322,30 @@ static const struct object_group_entry cpc_grp[] = {
 	{
 		.tim_filename = "tim0.timb",
 		.data_filename = "scp_bl1.bin",
+		.dts_filename = "tim0",
 		.optional = false,
-	},
-	{
-		.tim_filename = "ep_script-cn10xx.timb",
-		.data_filename = NULL,
-		.optional = false,
+		.skip_version_check = false,
 	},
 	{
 		.tim_filename = "scp_bl1.timb",
 		.data_filename = "scp_bl1.bin",
+		.dts_filename = "scp_bl1.bin",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{
 		.tim_filename = "mcp_bl1.timb",
 		.data_filename = "mcp_bl1.bin",
+		.dts_filename = "mcp_bl1.bin",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{
 		.tim_filename = "ecp_bl1.timb",
 		.data_filename = "ecp_bl1.bin",
+		.dts_filename = "ecp_bl1.bin",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{ NULL, NULL },
 };
@@ -347,7 +354,23 @@ static const struct object_group_entry ap_bl1_grp[] = {
 	{
 		.tim_filename = "init.timb",
 		.data_filename = "init.bin",
+		.dts_filename = "init.bin",
 		.optional = false,
+		.skip_version_check = false,
+	},
+	{
+		.tim_filename = "ep_script-cn10xx.timb",
+		.data_filename = NULL,
+		.dts_filename = "rom-script0.fw",
+		.optional = false,
+		.skip_version_check = false,
+	},
+	{
+		.tim_filename = "gserp-cn10xx.timb",
+		.data_filename = "gserp-cn10xx.fw",
+		.dts_filename = "gserp-cn10xx.fw",
+		.optional = false,
+		.skip_version_check = false,
 	},
 	{ NULL, NULL },
 };
@@ -356,36 +379,48 @@ static const struct object_group_entry gserm_fw_grp[] = {
 	{
 		.tim_filename = "gserm-cn10xx.timb",
 		.data_filename = "gserm-cn10xx.fw",
+		.dts_filename = "gserm-cn10xx.fw",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{ NULL, NULL },
 };
 
+#if 0 /* This is now part of AP BL1 */
 static const struct object_group_entry gserp_fw_grp[] = {
 	{
 		.tim_filename = "gserp-cn10xx.timb",
 		.data_filename = "gserp-cn10xx.fw",
+		.dts_filename = "gserp-cn10xx.fw",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{ NULL, NULL },
 };
+#endif
 
 static const struct object_group_entry ap_atf_grp[] = {
 	{
 		.tim_filename = "bl2.timb",
 		.data_filename = "bl2.bin",
+		.dts_filename = "bl2.bin",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{
 		.tim_filename = "bl31.timb",
 		.data_filename = "bl31.bin",
+		.dts_filename = "bl31.bin",
 		.optional = false,
+		.skip_version_check = false,
 	},
 #if defined(INCLUDE_OPTEE)
 	{
 		.tim_filename = "tee.timb",
 		.data_filename = "tee.bin",
+		.dts_filename = "tee.bin",
 		.optional = false,
+		.skip_version_check = false,
 	},
 #endif
 	{ NULL, NULL },
@@ -396,12 +431,14 @@ static const struct object_group_entry uboot_grp[] = {
 #if defined(BUILD_UEFI)
 		.tim_filename = "uefi.timb",
 		.data_filename = "uefi.bin",
-		.optional = false,
+		.dts_filename = "uefi.bin",
 #else
 		.tim_filename = "u-boot-nodtb.timb",
 		.data_filename = "u-boot-nodtb.bin",
-		.optional = false,
+		.dts_filename = "u-boot-nodtb.bin",
 #endif
+		.optional = false,
+		.skip_version_check = false,
 	},
 	{ NULL, NULL },
 };
@@ -411,7 +448,9 @@ static const struct object_group_entry efi1_grp[] = {
 	{
 		.tim_filename = "efi_app1.timb",
 		.data_filename = "efi_app1.efi",
+		.dts_filename = "efi_app1.efi",
 		.optional = true,
+		.skip_version_check = false,
 	},
 	{ NULL, NULL },
 };
@@ -421,7 +460,9 @@ static const struct object_group_entry mkex_fw_grp[] = {
 	{
 		.tim_filename = "npc_mkex-cn10xx.timb",
 		.data_filename = "npc_mkex-cn10xx.fw",
+		.dts_filename = "npc_mkex-cn10xx.fw",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{ NULL, NULL },
 };
@@ -431,12 +472,16 @@ static const struct object_group_entry switch_fw_grp[] = {
 	{
 		.tim_filename = "switch_fw_super.timb",
 		.data_filename = "switch_fw_super.fw",
+		.dts_filename = "switch_fw_super.fw",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{
 		.tim_filename = "switch_fw_ap.timb",
 		.data_filename = "switch_fw_ap.fw",
+		.dts_filename = "switch_fw_ap.fw",
 		.optional = false,
+		.skip_version_check = false,
 	},
 	{ NULL, NULL },
 };
@@ -460,7 +505,6 @@ static const struct object_group file_groups_cn10k[] = {
 	OBJECT_GROUP_CREATE_ENTRY(&cpc_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&ap_bl1_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&gserm_fw_grp[0], false),
-	OBJECT_GROUP_CREATE_ENTRY(&gserp_fw_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&ap_atf_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&uboot_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&efi1_grp[0], false),
@@ -477,7 +521,6 @@ static const struct object_group file_groups_cnf10k[] = {
 #endif
 	OBJECT_GROUP_CREATE_ENTRY(&cpc_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&ap_bl1_grp[0], false),
-	OBJECT_GROUP_CREATE_ENTRY(&gserp_fw_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&gserm_fw_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&ap_atf_grp[0], false),
 	OBJECT_GROUP_CREATE_ENTRY(&uboot_grp[0], false),
@@ -649,17 +692,47 @@ int __marvell_cust_check_version(const struct smc_update_descriptor *desc,
 				 const struct object_entry *object,
 				 struct tim_opaque_data_version_info *vinfo)
 {
+	char v1_str[sizeof(*vinfo) * 2 + 1];
+	char v2_str[sizeof(*vinfo) * 2 + 1];
+	unsigned i;
+	const uint8_t *b;
+	char *s;
+	const char hex_str[16] = "0123456789abcdef";
+
 	if (desc->update_flags & UPDATE_FLAG_IGNORE_VERSION) {
 		UINFO("Ignoring version information for %s\n",
 		     object->tim_file->filename);
 		return 0;
 	}
-	if (!vinfo || object->no_version)
+	if (!vinfo || object->no_version) {
+		UINFO("No version data for %s, forcing update.\n",
+		      object->tim_file->filename);
 		return 0;
+	}
 	if (!memcmp(vinfo, &object->version, sizeof(*vinfo))) {
 		UINFO("TIM %s version matches flash, skipping\n",
 		     object->tim_file->filename);
 		return 1;
+	} else {
+		UINFO("TIM %s version mismatch\n", object->tim_file->filename);
+		s = v1_str;
+		b = (uint8_t *)&object->version;
+		for (i = 0; i < sizeof(*vinfo); i++) {
+			*s++ = hex_str[(*b >> 4) & 0xf];
+			*s++ = hex_str[*b & 0xf];
+			b++;
+		}
+		*s = '\0';
+		s = v2_str;
+		b = (uint8_t *)vinfo;
+		for (i = 0; i < sizeof(*vinfo); i++) {
+			*s++ = hex_str[(*b >> 4) & 0xf];
+			*s++ = hex_str[*b & 0xf];
+			b++;
+		}
+		*s = '\0';
+		UINFO("Obj version: %s\n", v1_str);
+		UINFO("TIM version: %s\n", v2_str);
 	}
 	UINFO("Versions differ for %s\n", object->tim_file->filename);
 	return 0;
@@ -1084,10 +1157,12 @@ static enum update_ret update_process_tims(void)
 				return UPDATE_TIM_ERROR;
 			}
 			li = &oentry->li;
-			debug_fw_update("Getting version info\n");
+			debug_fw_update("Getting version info for %s\n", fentry->filename);
 			err = tim_get_version_info(thandle, &oentry->version);
-			if (err)
+			if (err) {
+				debug_fw_update("%s contains no version data\n", fentry->filename);
 				oentry->no_version = 1;
+			}
 
 			if (!no_load_info) {
 				if (!li->hshi_parsed || !li->tim_src_loc_parsed ||
@@ -1149,11 +1224,9 @@ static enum update_ret update_process_tims(void)
 				uint64_t src_addr;
 
 				debug_fw_update("No data file present\n");
-				tret = tim_get_version_info(thandle,
-							    &oentry->version);
 				oentry->data_file = NULL;
 				oentry->no_data_file = 1;
-				if (tret != TIM_NO_ERROR) {
+				if (oentry->no_version) {
 					debug_fw_update("%s: %s does not load any image file\n",
 							__func__,
 							fentry->filename);
@@ -1454,14 +1527,19 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	int ret;
 	enum update_ret uret;
 	enum tim_return tret;
+	const char *t_filename = object->tim_file->filename;
+	const char *d_filename = object->data_file ? object->data_file->filename : "NONE";
+	const char *dts_name = object->group->dts_filename;
+	bool data_present = object->data_file != NULL;
 
-	ret = get_object_info_from_fdt(object->data_file->filename,
+	UINFO("Checking object %s/%s\n", t_filename, d_filename);
+	ret = get_object_info_from_fdt(dts_name,
 				       &offset, &max_size,
 				       &is_root_tim, &root_obj_name);
 	if (ret == -ENODEV) {
 		/* It's possible this is a new object.  If new, validate it */
-		UINFO("%s not found in device tree, assuming new object\n",
-		      object->data_file->filename);
+		UINFO("%s/%s not found in device tree, assuming new object\n",
+		      t_filename, d_filename);
 		object->update_all = true;
 		uret = UPDATE_OK;
 		goto done;
@@ -1469,20 +1547,21 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 
 	object->is_root_tim_obj = is_root_tim;
 	/* Read existing TIM from flash */
+	UINFO("Reading TIM at offset 0x%lx\n", offset);
 	uret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, fl_hdl,
 				 NULL);
 	if (uret == UPDATE_MISSING_TIM) {
-		UINFO("%sTIM for %s missing in flash at offset 0x%" PRIx64 "\n",
+		UINFO("%sTIM %s for %s missing in flash at offset 0x%" PRIx64 "\n",
 		      is_root_tim ? "Root " : "",
-		      object->data_file->filename, offset);
+		      t_filename, d_filename, offset);
 		object->update_all = true;
 		uret = UPDATE_OK;
 		goto done;
 	}
 	if (uret == UPDATE_TIM_ERROR) {
 		/* If not found then we definitely want to overwrite it */
-		UWARN("Could not load TIM for %s from flash\n",
-		      object->data_file->filename);
+		UWARN("Could not load TIM %s for %s from flash\n",
+		      t_filename, d_filename);
 		object->update_all = true;
 		uret = UPDATE_OK;
 		goto done;
@@ -1491,18 +1570,40 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		goto done;
 	}
 
+	if (!data_present) {
+		/* When there is no data present we still need to check the version data */
+		UINFO("No data for TIM %s\n", t_filename);
+		uret = UPDATE_OK;
+		tret = tim_get_version_info(fl_hdl, &fl_vinfo);
+		if (tret == TIM_NO_ERROR) {
+			ret = marvell_cust_check_version(desc, object, &fl_vinfo);
+			if (ret > 0) {
+				UINFO("Skipping install of TIM %s due to version match\n",
+				      t_filename);
+				object->skip_install = 1;
+			} else if (ret < 0) {
+				UWARN("TIM %s version check fails with error code %d\n",
+				      t_filename, ret);
+				uret = UPDATE_OK;
+			} else {
+				UINFO("Version check for %s passed\n",
+				      t_filename);
+			}
+			goto done;
+		}
+	}
 	tret = tim_get_load_info(fl_hdl, fl_li);
 	if (tret != TIM_NO_ERROR) {
 		/* Bad TIM, we want to overwrite it */
 		object->update_all = true;
 		UWARN("Could not get load info from TIM %s, ret: %d\n",
-		      object->tim_file->filename, tret);
+		      t_filename, tret);
 		uret = UPDATE_OK;
 		goto done;
 	}
-	if (strcmp(fl_li->data_filename, object->data_file->filename)) {
-		UWARN("Update TIM filename %s does not match flash TIM filename %s\n",
-		      object->data_file->filename, fl_li->data_filename);
+	if (strcmp(fl_li->data_filename, d_filename)) {
+		UWARN("Update TIM %s filename %s does not match flash TIM filename %s\n",
+		      t_filename, d_filename, fl_li->data_filename);
 		object->update_all = 1;
 		uret = UPDATE_OK;
 		goto done;
@@ -1511,7 +1612,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	if (!async_operation) {
 		uret = verify_hash(desc, fl_li, NULL, NULL);
 		if (uret == UPDATE_AUTH_ERROR) {
-			UERROR("Hash mismatch for %s\n", object->data_file->filename);
+			UERROR("Hash mismatch for %s/%s\n", t_filename, d_filename);
 			uret = UPDATE_OK;
 			goto done;
 		} else if (uret != UPDATE_OK) {
@@ -1522,27 +1623,33 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 			goto done;
 		}
 
-		if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)) {
+		if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION) &&
+		    !(object->group->skip_version_check)) {
+			UINFO("Getting version info for %s\n", object->tim_file->filename);
 			tret = tim_get_version_info(fl_hdl, &fl_vinfo);
 			if (tret != TIM_NO_ERROR) {
-				UWARN("TIM %s version info is missing in flash\n",
-				      object->tim_file->filename);
+				UWARN("TIM %s version info is missing in flash\n", t_filename);
 				uret = UPDATE_OK;
 				goto done;
 			}
 			/* If we're here we have the version information */
 			ret = marvell_cust_check_version(desc, object, &fl_vinfo);
 			if (ret > 0) {
+				UINFO("Skipping install of %s due to version match\n", t_filename);
 				object->skip_install = 1;
 				uret = UPDATE_OK;
 				goto done;
 			} else if (ret < 0) {
 				UWARN("TIM %s version check fails with error %d\n",
-				      object->tim_file->filename, ret);
+				      t_filename, ret);
 				uret = UPDATE_OK;
 				goto done;
+			} else {
+				UINFO("Version check for %s passed\n", t_filename);
 			}
 		}
+	} else {
+		UINFO("Performing update asynchronously\n");
 	}
 
 done:
@@ -1568,6 +1675,7 @@ static void update_flash_group_flags(const struct object_group_entry *group,
 	struct file_entry *fentry;
 
 	if (update_all) {
+		UINFO("Group with TIM %s marked as update all\n", group->tim_filename);
 		/*
 		 * If update all is set then we clear the skip flag for all
 		 * group members and set the update_all for all group members.
@@ -1589,6 +1697,8 @@ static void update_flash_group_flags(const struct object_group_entry *group,
 		if (fentry) {
 			if (!fentry->object->skip_install) {
 				skip_install = false;
+				UINFO("%s: Not skipping install for %s\n",
+				      __func__, fentry->filename);
 			} else {
 				skip_set = true;
 			}
@@ -1602,8 +1712,11 @@ static void update_flash_group_flags(const struct object_group_entry *group,
 		 */
 		for (gentry = group; gentry->data_filename; gentry++) {
 			fentry = find_file(gentry->data_filename);
-			if (fentry)
+			if (fentry) {
+				UINFO("Setting group entry %s to not skip\n",
+				      gentry->data_filename);
 				fentry->object->skip_install = false;
+			}
 		}
 	}
 }
@@ -1664,10 +1777,15 @@ static int verify_hash_version_block(void *ptr)
 			/* If we're here we have the version information */
 			ret = marvell_cust_check_version(obj->hash.io.desc, obj, &fl_vinfo);
 			if (ret > 0) {
+				UINFO("Version check for %s matches, skipping\n",
+				      obj->tim_file->filename);
 				obj->skip_install = 1;
 			} else if (ret < 0) {
 				UERROR("TIM %s version check fails with error %d\n",
 				      obj->tim_file->filename, ret);
+			} else {
+				UINFO("Version check indicates %s should be updated\n",
+				      obj->tim_file->filename);
 			}
 		}
 	}
@@ -1705,22 +1823,23 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 	struct object_entry *obj;
 	bool update_all = false;
 	enum update_ret ret;
+	const char *d_filename;
 
 	UINFO("Checking files in flash\n");
 	for_each_object(obj) {
-		if (obj->data_file != NULL) {
-			ret = check_flash_object(desc, obj, false);
-			if (ret != UPDATE_OK)
-				return ret;
-			if (obj->update_all)
-				update_all = true;
-			if (update_all && !all_present) {
-				UERROR("Flash inconsistencies found.  A complete update image is required\n");
-				return -EINVAL;
-			}
-			UINFO("TIM %s and Object %s OK\n", obj->data_file->filename,
-			      obj->data_file->filename);
+		UINFO("Checking object in TIM %s\n", obj->tim_file->filename);
+		ret = check_flash_object(desc, obj, false);
+		if (ret != UPDATE_OK)
+			return ret;
+		if (obj->update_all)
+			update_all = true;
+		if (update_all && !all_present) {
+			UERROR("Flash inconsistencies found.  A complete update image is required\n");
+			return -EINVAL;
 		}
+
+		d_filename = obj->data_file != NULL ? obj->data_file->filename : "NONE";
+		UINFO("TIM %s and Object %s OK\n", obj->tim_file->filename, d_filename);
 	}
 
 	/*
@@ -1772,6 +1891,8 @@ check_flash_files_async(struct async_update_data *data)
 			}
 			UINFO("TIM %s and Object %s OK\n", data->obj->data_file->filename,
 			      data->obj->data_file->filename);
+		} else {
+			UINFO("Not checking %s, no data file\n", data->obj->tim_file->filename);
 		}
 		data->obj = data->obj->next;
 		spi_async_start(async_update_callback, &aupdate_data);
@@ -2311,11 +2432,11 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	struct tim_header_info hinfo;
 	int i;
 
-	UINFO("Reading TIM header from offset 0x%" PRIx64 "\n", offset);
+	UINFO("Reading TIM header from offset 0x%lx\n", offset);
 	zeromem(buffer, max_size);
 	ret = octeontx_read_data(desc, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
-		UERROR("Failed to read TIM from address 0x%" PRIx64 " (%d)\n",
+		UERROR("Failed to read TIM from address 0x%lx (%d)\n",
 		      offset, ret);
 		goto done;
 	}
@@ -2336,18 +2457,20 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 			}
 		}
 		if (ret != UPDATE_MISSING_TIM) {
-			UWARN("Could not parse TIM header at offset 0x%" PRIx64 " (%d) ret (%d)\n",
+			UWARN("Could not parse TIM header at offset 0x%lx (%d) ret (%d)\n",
 			      offset, tret, ret);
 			UWARN("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
 		} else {
-			UINFO("TIM not found at offset 0x%" PRIx64 ", tret: %d\n",
+			UINFO("TIM not found at offset 0x%lx, tret: %d\n",
 			      offset, tret);
 		}
 		goto done;
 	}
 
+	UINFO("TIM at offset 0x%lx trust mode: 0x%x\n", offset, hinfo.trust_mode);
+
 	if (hinfo.signed_tim_size > max_size) {
-		UERROR("TIM at offset 0x%" PRIx64 " is too large\n", offset);
+		UERROR("TIM at offset 0x%lx is too large\n", offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
@@ -2364,14 +2487,15 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	/* Validate TIM */
 	tret = tim_load(hdr, offset, handle);
 	if (tret != TIM_NO_ERROR) {
-		UERROR("Error %d parsing TIM at 0x%" PRIx64 "\n", ret, offset);
+		UERROR("Error %d parsing TIM at 0x%lx\n", ret, offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
+	INFO("Verifying TIM\n");
 	ret = ehsm_verify_tim_digital_signature(handle, &hinfo, (uint8_t *)hdr);
 	if (ret != 0) {
-		UERROR("TIM signature verification failed for TIM at offset 0x%" PRIx64 "\n",
-		       offset);
+		UERROR("TIM signature verification failed with %d for TIM at offset 0x%lx\n",
+		       ret, offset);
 		ret = UPDATE_AUTH_ERROR;
 		goto done;
 	}
@@ -2397,12 +2521,12 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 	const struct smc_update_descriptor *desc = io->desc;
 	int i;
 
-	UINFO("Reading TIM header from offset 0x%" PRIx64 "\n", offset);
+	UINFO("Reading TIM header from offset 0x%lx\n", offset);
 	zeromem(buffer, max_size);
 	ret = octeontx_io_data_read(io, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
-		UERROR("Failed to read TIM from address 0x%" PRIx64 " (%d)\n",
-		      offset, ret);
+		UERROR("Failed to read TIM from address 0x%lx (%d)\n",
+		       offset, ret);
 		goto done;
 	}
 
@@ -2753,10 +2877,12 @@ octeontx_write_files(const struct smc_update_descriptor *desc,
 	spi_async_init_delayed(debug_flag);
 
 	for_each_file(fentry) {
-		if (fentry->object->update_all ||
-		    !fentry->object->skip_install) {
-			if (strcmp(fentry->filename, TIM0_FILENAME) ||
-			    tim0_size == 0) {
+		if (fentry->object->update_all || !fentry->object->skip_install) {
+			if (!fentry->object->skip_install)
+				UINFO("Not skipping %s\n", fentry->filename);
+			if (fentry->object->update_all)
+				UINFO("Updating %s with all files in group\n", fentry->filename);
+			if (strcmp(fentry->filename, TIM0_FILENAME) || tim0_size == 0) {
 				UINFO("Writing file %s: location: 0x%" PRIx64 ", size: 0x%lx\n",
 				      fentry->filename, fentry->file_loc,
 				      fentry->file_size);
