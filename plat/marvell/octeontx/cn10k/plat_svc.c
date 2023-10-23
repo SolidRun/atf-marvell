@@ -468,6 +468,7 @@ err1:
 
 			if (ret ||
 			    ((size != sizeof(struct smc_update_descriptor)) &&
+			     (size != sizeof(struct smc_update_descriptor_0100)) &&
 			    (size != sizeof(struct smc_update_descriptor_prev)))
 			    ) {
 				ERROR("Invalid descriptor address or size\n");

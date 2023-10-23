@@ -187,6 +187,7 @@ struct file_entry {
 	const void		*file_cpio;
 	size_t			file_size;
 	uint64_t		file_loc;
+	uint64_t		bytes_written;
 	const void		*data;
 	struct object_entry	*object;
 	struct file_entry	*next;
@@ -202,6 +203,7 @@ struct hash_data {
 	int  hashret;
 	uint8_t digest[EHSM_MAX_HASH_SIZE_BYTES];
 	int hash_size;
+	enum object_hash_type hash_type;
 	struct io_handle io;
 	bool ignore_version;
 };
@@ -225,16 +227,19 @@ struct object_entry {
 
 	struct tim_load_info li;
 	struct tim_opaque_data_version_info version;
+	struct tim_opaque_data_version_info orig_version;
 	const struct object_group_entry *group;
 	struct object_entry *next;
 	struct object_entry *prev;
+	struct hash_data hash;
+	enum tim_object_update_retcode update_retcode;
 	/* Various flags */
 	unsigned int no_version:1;	/** No version data */
 	unsigned int skip_install:1;	/** Don't install this object */
 	unsigned int update_all:1;	/** Require ALL files be updated */
 	unsigned int is_root_tim_obj:1;	/** Set if root TIM object */
 	unsigned int no_data_file:1;	/** Set if no data file */
-	struct hash_data hash;
+	unsigned int ret_code_processed:1;/** Return code processed */
 };
 
 struct verification_data {
@@ -1076,6 +1081,48 @@ static enum update_ret firm_update_init(const void *data, size_t size)
 	return ret;
 }
 
+#if 0
+static enum update_ret update_descr_retcodes(struct smc_update_descriptor *desc)
+{
+	struct object_entry *oentry;
+	struct file_entry *fentry;
+	struct smc_update_obj_info *obj_info;
+	unsigned i;
+
+	if (desc->version < UPDATE_OBJ_RETCODE_VERSION)
+		return UPDATE_OK;
+
+	i = 0;
+	for_each_file(fentry) {
+		if (i == SMC_MAX_OBJECTS) {
+			WARN("Object count exceeds %u\n", SMC_MAX_OBJECTS);
+			return UPDATE_TOO_MANY_OBJECTS;
+		}
+		oentry = fentry->object;
+		if (oentry->ret_code_processed)
+			continue;
+
+		obj_info = &desc->object_retinfo[i++];
+		strlcpy((char *)obj_info->tim_name, oentry->tim_file->filename,
+			VER_MAX_NAME_LENGTH);
+		obj_info->tim_address = oentry->tim_file->file_loc;
+		obj_info->tim_size = oentry->tim_file->bytes_written;
+		memcpy(&obj_info->old_version_data, &oentry->orig_version,
+		       sizeof(obj_info->old_version_data));
+		memcpy(&obj_info->new_version_data, &oentry->version,
+		       sizeof(obj_info->new_version_data));
+
+		if (oentry->data_file != NULL) {
+			strlcpy((char *)obj_info->object_name, oentry->data_file->filename,
+				VER_MAX_NAME_LENGTH);
+			obj_info->media_address = oentry->data_file->file_loc;
+			obj_info->bytes_written = oentry->data_file->bytes_written;
+		}
+		oentry->ret_code_processed = 1;
+	}
+}
+#endif
+
 /**
  * Processes all of the TIMs in an update file
  */
@@ -1576,18 +1623,23 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		uret = UPDATE_OK;
 		tret = tim_get_version_info(fl_hdl, &fl_vinfo);
 		if (tret == TIM_NO_ERROR) {
+			memcpy(&object->orig_version, &fl_vinfo,
+			       sizeof(object->orig_version));
 			ret = marvell_cust_check_version(desc, object, &fl_vinfo);
 			if (ret > 0) {
 				UINFO("Skipping install of TIM %s due to version match\n",
 				      t_filename);
 				object->skip_install = 1;
+				object->update_retcode = OBJ_UPDATE_SKIP_VERSION_MATCH;
 			} else if (ret < 0) {
 				UWARN("TIM %s version check fails with error code %d\n",
 				      t_filename, ret);
 				uret = UPDATE_OK;
+				object->update_retcode = OBJ_UPDATE_INVALID_VERSION;
 			} else {
 				UINFO("Version check for %s passed\n",
 				      t_filename);
+				object->update_retcode = OBJ_UPDATE_OK;
 			}
 			goto done;
 		}
@@ -1596,15 +1648,17 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	if (tret != TIM_NO_ERROR) {
 		/* Bad TIM, we want to overwrite it */
 		object->update_all = true;
+		object->update_retcode = OBJ_UPDATE_FORCED;
 		UWARN("Could not get load info from TIM %s, ret: %d\n",
 		      t_filename, tret);
 		uret = UPDATE_OK;
 		goto done;
 	}
-	if (strcmp(fl_li->data_filename, d_filename)) {
+	if (strcmp(fl_li->data_filename, d_filename) != 0) {
 		UWARN("Update TIM %s filename %s does not match flash TIM filename %s\n",
 		      t_filename, d_filename, fl_li->data_filename);
 		object->update_all = 1;
+		object->update_retcode = OBJ_UPDATE_FORCED;
 		uret = UPDATE_OK;
 		goto done;
 	}
@@ -1614,11 +1668,13 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 		if (uret == UPDATE_AUTH_ERROR) {
 			UERROR("Hash mismatch for %s/%s\n", t_filename, d_filename);
 			uret = UPDATE_OK;
+			object->update_retcode = OBJ_UPDATE_SRC_FLASH_HASH_FAIL;
 			goto done;
 		} else if (uret != UPDATE_OK) {
 			/* Something else went wrong */
 			UERROR("Error %d finalizing verification for %s\n",
 			       uret, object->data_file->filename);
+			object->update_retcode = OBJ_UPDATE_SRC_FLASH_VERIFICATION_FAIL;
 			uret = UPDATE_OK;
 			goto done;
 		}
@@ -1629,23 +1685,30 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 			tret = tim_get_version_info(fl_hdl, &fl_vinfo);
 			if (tret != TIM_NO_ERROR) {
 				UWARN("TIM %s version info is missing in flash\n", t_filename);
+				object->update_retcode = OBJ_UPDATE_VERSION_DATA_MISSING;
 				uret = UPDATE_OK;
 				goto done;
 			}
 			/* If we're here we have the version information */
+			memcpy(&object->orig_version, &fl_vinfo,
+			       sizeof(object->orig_version));
 			ret = marvell_cust_check_version(desc, object, &fl_vinfo);
 			if (ret > 0) {
 				UINFO("Skipping install of %s due to version match\n", t_filename);
 				object->skip_install = 1;
+				object->update_retcode = OBJ_UPDATE_SKIP_VERSION_MATCH;
 				uret = UPDATE_OK;
 				goto done;
 			} else if (ret < 0) {
 				UWARN("TIM %s version check fails with error %d\n",
 				      t_filename, ret);
+				object->update_retcode = OBJ_UPDATE_SRC_FLASH_VERIFICATION_FAIL;
 				uret = UPDATE_OK;
 				goto done;
 			} else {
+
 				UINFO("Version check for %s passed\n", t_filename);
+				object->update_retcode = OBJ_UPDATE_OK;
 			}
 		}
 	} else {
@@ -1734,6 +1797,7 @@ static int verify_hash_version_block(void *ptr)
 	if (!obj->hash.hash_started) {
 		obj->hash.read_offset = fl_li->src_address;
 		obj->hash.size = fl_li->image_length;
+		obj->hash.hash_type = fl_li->hash;
 		ret = ehsm_verify_init(fl_li, &obj->hash.ehdl);
 		if (ret) {
 			UERROR("Error initializing hash verification: %d\n", ret);
@@ -1775,6 +1839,7 @@ static int verify_hash_version_block(void *ptr)
 				      obj->tim_file->filename);
 			}
 			/* If we're here we have the version information */
+			memcpy(&obj->orig_version, &fl_vinfo, sizeof(obj->orig_version));
 			ret = marvell_cust_check_version(obj->hash.io.desc, obj, &fl_vinfo);
 			if (ret > 0) {
 				UINFO("Version check for %s matches, skipping\n",
@@ -2851,6 +2916,7 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 						      rd_buffer[i]);
 				break;
 			}
+			fentry->bytes_written += xfer_len;
 			offset += xfer_len;
 			user_buffer += xfer_len;
 			size -= xfer_len;
@@ -2903,7 +2969,7 @@ octeontx_write_files(const struct smc_update_descriptor *desc,
 
 void prepare_mapping_storage(struct unmap_params *param)
 {
-	memset(param, 0x00, sizeof(struct unmap_params));
+	zeromem(param, sizeof(struct unmap_params));
 }
 
 void add_mapped_region(struct unmap_params *param, uint64_t base_addr, int map_size)
@@ -3411,7 +3477,6 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	bool old_tim0_saved = false;
 	bool tim0_updated = false;
 	bool use_full_async = true;
-
 	debug_fw_update("%s(%" PRIx64 ", %" PRIx64 ", 0x%x, 0x%x)\n",
 			__func__, desc->image_addr,
 			desc->image_size, desc->bus, desc->cs);
@@ -3428,7 +3493,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 
 	if (desc->async_operation && use_full_async) {
 		UINFO("Full async update\n");
-		memset(&aupdate_data, 0x00, sizeof(aupdate_data));
+		zeromem(&aupdate_data, sizeof(aupdate_data));
 		aupdate_data.desc = desc;
 		aupdate_data.state = AUPDATE_VERIF_IMAGE;
 		aupdate_data.cust_verify_count = 0;
@@ -3522,6 +3587,8 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	if (async_operation) {
 		spi_async_clear_time_stats();
 		spi_async_start(done_callback, p);
+	} else {
+
 	}
 
 	UINFO("Firmware update done.\n");
@@ -3544,6 +3611,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	uintptr_t console_base_addr = 0;
 	size_t console_map_size = 0;
 	bool spi_unlock = false;
+	size_t copy_size = desc_size;
 
 	assert(uret);
 	prepare_mapping_storage(&uParams);
@@ -3582,8 +3650,12 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 
 	debug_fw_update("Copying descriptor from 0x%lx to 0x%p\n",
 			desc_buf, &update_desc);
+
 	update_desc_async_ptr = (struct smc_update_descriptor *) desc_buf;
-	memcpy(&update_desc, (const void *)desc_buf, sizeof(update_desc));
+	zeromem(&update_desc, sizeof(update_desc));
+	if (copy_size > sizeof(update_desc))
+		copy_size = sizeof(update_desc);
+	memcpy(&update_desc, (const void *)desc_buf, copy_size);
 
 	/* Currently the update flags are not used so we don't save them.
 	 * We store the update error code in them, however, so we zero it here.
@@ -3611,7 +3683,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	 * backwards compatibility, etc.
 	 */
 	if (update_desc.version != UPDATE_VERSION) {
-		UWARN("Version 0x%x mistmatch (expected 0x%x). Some features could be not available",
+		UWARN("Version 0x%x mistmatch (expected 0x%x or 0x0100). Some features could be not available",
 		      update_desc.version, UPDATE_VERSION);
 	}
 	if (update_desc.version < UPDATE_MIN_VERSION) {
@@ -5192,7 +5264,8 @@ static int flash_smc_get_versions(struct smc_version_info *vinfo, struct verific
 	return 0;
 }
 
-static void flash_smc_verify_backup_image(struct smc_version_info_entry *image_to_verify, struct smc_version_info *copy_source)
+static void flash_smc_verify_backup_image(struct smc_version_info_entry *image_to_verify,
+					  struct smc_version_info *copy_source)
 {
 	int i;
 	int src_image_found = 0;
@@ -5234,7 +5307,7 @@ static int flash_smc_mark_copy(struct smc_version_info *clone_config)
 	int i;
 	int reflash_needed = 0;
 
-	memset(&clone_destination, 0, sizeof(struct smc_version_info));
+	zeromem(&clone_destination, sizeof(struct smc_version_info));
 
 	clone_destination.magic_number = clone_config->magic_number;
 	clone_destination.version = clone_config->version;
@@ -5389,7 +5462,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		async_operation = true;
 
 		/* prepare data for async clone */
-		memset(&clone_destination, 0, sizeof(struct smc_version_info));
+		zeromem(&clone_destination, sizeof(struct smc_version_info));
 
 		clone_destination.magic_number = vinfo->magic_number;
 		clone_destination.version = vinfo->version;

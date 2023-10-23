@@ -19,6 +19,7 @@
 #define SPI_ALREADY_IN_PROGRESS	8
 #define VER_MAX_NAME_LENGTH	32
 #define SMC_MAX_OBJECTS		32
+#define VERSION_DATA_LENGTH	32
 
 #ifndef BIT
 # define BIT(x)	(1UL << (x)))
@@ -99,12 +100,59 @@ enum update_ret {
 	UPDATE_IO_DEV_OPEN_ERROR = -24,
 	/** Error initializing IO device */
 	UPDATE_IO_DEV_INIT_ERROR = -25,
+	/** Object count exceeds SMC_MAX_OBJECTS */
+	UPDATE_TOO_MANY_OBJECTS = -26,
 	/** Unknown error */
 	UPDATE_UNKNOWN_ERROR = -1000,
 };
 
-struct smc_update_obj_info {
+enum tim_object_update_retcode {
+	OBJ_UPDATE_OK = 0,
+	OBJ_UPDATE_SKIP_VERSION_MATCH = 1,
+	OBJ_UPDATE_SKIP_DATA_MATCH = 2,
+	OBJ_UPDATE_FORCED = 3,
+	OBJ_UPDATE_GROUP_FORCED = 4,
+	OBJ_UPDATE_INVALID_TIM = 128,
+	OBJ_UPDATE_INVALID_VERSION = 129,
+	/** Old flash image source hash does not match TIM */
+	OBJ_UPDATE_SRC_FLASH_HASH_FAIL = 130,
+	OBJ_UPDATE_SRC_FLASH_VERIFICATION_FAIL = 131,
+	OBJ_UPDATE_VERSION_DATA_MISSING = 132,
+};
 
+enum object_hash_type {
+	HASH_NONE = 0,
+	HASH_SHA256 = 0x20,
+	HASH_SHA3_256 = 0x23,
+	HASH_SHA384 = 0x30,
+	HASH_SHA3_384 = 0x33,
+	HASH_SHA512 = 0x40,
+	HASH_SHA3_512 = 0x43
+};
+
+/**
+ * Output data for updating each object in the update file.  Each entry
+ * should be 256 bytes.
+ */
+struct smc_update_obj_info {
+	uint8_t		tim_name[VER_MAX_NAME_LENGTH];/** TIM binary name */
+	uint8_t		object_name[VER_MAX_NAME_LENGTH];/** Object name */
+	uint8_t		old_version_data[VERSION_DATA_LENGTH];
+	uint8_t		new_version_data[VERSION_DATA_LENGTH];
+	uint8_t		object_hash[512 / 8];		/** Hash of object */
+	union {
+		uint32_t : 32;
+		enum object_hash_type hash_type;	/** Hash type */
+	};
+	union {
+		uint32_t : 32;
+		enum tim_object_update_retcode	retcode;/** Return code */
+	};
+	uint64_t	tim_address;			/** Media address of TIM */
+	uint64_t	tim_size;			/** Size of TIM in bytes */
+	uint64_t	media_address;			/** Object media address */
+	uint64_t	bytes_written;			/** Object size in bytes */
+	uint64_t	reserved[3];			/** Reserved for future growth */
 };
 
 /**
@@ -116,8 +164,13 @@ struct smc_update_obj_info {
 #define UPDATE_MIN_VERSION		0x0001
 /** Minimum version that includes log support */
 #define UPDATE_LOG_VERSION		0x0100
+/** Minimum version with per-object return data */
+#define UPDATE_OBJ_RETCODE_VERSION	0x0200
 /** Current smc_update_descriptor version */
-#define UPDATE_VERSION			0x0100
+#define UPDATE_VERSION			0x0200
+
+#define UPDATE_VERSION_0100_size	sizeof(struct smc_update_0100_descriptor)
+#define UPDATE_VERSION_0200_size	sizeof(struct smc_update_descriptor)
 /** Set to update secondary location */
 #define UPDATE_FLAG_BACKUP		BIT(0)
 /** Set to update eMMC instead of SPI */
@@ -144,6 +197,30 @@ struct smc_update_obj_info {
 
 #define SIZE_SMC_UPDATE_DESCRIPTOR_0	80
 #define SIZE_SMC_UPDATE_DESCRIPTOR_1	160
+
+/**
+ * This descriptor is passed by U-Boot or other software performing an update
+ */
+struct smc_update_descriptor_0100 {
+	uint32_t	magic;		/** UPDATE_MAGIC */
+	uint16_t	version;	/** Version of descriptor */
+	uint16_t	update_flags;	/** Flags passed to update process */
+	uint64_t	image_addr;	/** Address of image (CPIO file) */
+	uint64_t	image_size;	/** Size of image (CPIO file) */
+	uint32_t	bus;		/** SPI BUS number */
+	uint32_t	cs;		/** SPI chip select number */
+	uint32_t	async_operation; /** use asynchronus SPI operations */
+	uint32_t	retcode;	/** Return code for async operations */
+	uint64_t	user_addr;	/** Passed to customer function */
+	uint64_t	user_size;	/** Passed to customer function */
+	uint64_t	user_flags;	/** Passed to customer function */
+	uintptr_t	work_buffer;	/** Used for compressed objects */
+	uint64_t	work_buffer_size;/** Size of work buffer */
+	uintptr_t	output_console;	/** Text output console for update info */
+	uint32_t	output_console_size;/** Console buffer size in bytes */
+	uint32_t	output_console_end;/** Not used yet */
+	uint64_t	reserved2[8];
+};
 
 /**
  * This descriptor is passed by U-Boot or other software performing an update
@@ -257,7 +334,7 @@ enum smc_version_entry_retcode {
 	RET_IMAGE_TOO_BIG = 10,
 	RET_DEVICE_TREE_ENTRY_ERROR = 11,
 	/** I/O error occurred during the copy operation */
-	RET_BACKUP_IO_ERROR = 12,
+	RET_BACKUP_IO_ERROR = 12
 };
 
 struct smc_version_info_entry {
