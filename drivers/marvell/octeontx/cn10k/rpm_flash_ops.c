@@ -43,75 +43,6 @@ static int rpm_read_flash_lmac_params(uint8_t *buf, uint64_t *buflen)
 	return spi_read_ethernet_persistent_data((uintptr_t) buf, buflen);
 }
 
-static int rpm_update_flash_lmac_params(int portm_idx, int cmd,
-					int arg)
-{
-	rpm_lmac_flash_ctx_t fctx[MAX_PORTM];
-	rpm_lmac_flash_ctx_t *ptr;
-	int err;
-	uint64_t buf_size = sizeof(fctx);
-	portm_config_t *portm;
-
-	portm = &(plat_octeontx_bcfg->portm_cfg[portm_idx]);
-
-	err = rpm_read_flash_lmac_params((uint8_t *)fctx, &buf_size);
-	if (err < 0) {
-		debug_rpm_flash("%s: PORTM%d Read flash failed for lmac params\n", __func__,
-				portm_idx);
-		return -1;
-	}
-	ptr = &fctx[portm_idx];
-	/* As flash erase sets all bits to 1, use 0x2 to mark
-	 * param as valid, using 0 makes lmac mode read success for
-	 * PORTM0 if previous status of flash has all 0's. To avoid
-	 * such corner cases, change name from invalid to status with
-	 * size increase 1-bit to 2-bit and use only 0x2 as valid and
-	 * others as invalid.
-	 */
-	ptr->s.status = 0x2;
-	ptr->s.portm_idx = portm_idx;
-	if (cmd == FEC) {
-		ptr->s.fec_type = arg & 0x3;
-		/* As flash erase sets all bits to 1, use 0 to mark
-		 * param fec_invalid as valid.
-		 */
-		ptr->s.fec_invalid = 0;
-		ptr->s.portm_mode = portm->portm_mode;
-	}
-	if (cmd == PORTM_MODE) {
-		ptr->s.portm_mode = arg;
-		ptr->s.fec_invalid = 0;
-		/* FIXME for line FEC when support is available */
-		ptr->s.fec_type = portm->fec;
-	}
-
-	debug_rpm_flash("%s PORTM%d flash status %d portm %d portm mode %x\n",
-			__func__, portm_idx, ptr->s.status, ptr->s.portm_idx,
-			ptr->s.portm_mode);
-	debug_rpm_flash("%s PORTM%d fec invalid %d type %x\n",
-			__func__, portm_idx, ptr->s.fec_invalid, ptr->s.fec_type);
-
-	err = spi_update_ethernet_persistent_data((uintptr_t)fctx, sizeof(fctx));
-	if (err < 0) {
-		debug_rpm_flash("Write flash failed for PORTM params\n");
-		return -1;
-	}
-
-	return 0;
-}
-
-int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode)
-{
-	if (plat_octeontx_bcfg->ignore_eth_persist_data) {
-		debug_rpm_flash("%s: PORTM%d ignoring persistent data update\n",
-				__func__, portm_idx);
-		return 0;
-	}
-
-	return rpm_update_flash_lmac_params(portm_idx, PORTM_MODE,
-		portm_mode);
-}
-
 #ifdef PLAT_cnf10kb
 /* These functions are added to support retimer MUX config via SMC call (sysfs)
  * interface for VRAN NIC Thor board
@@ -343,37 +274,50 @@ error:
 }
 #endif
 
-int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode)
+int rpm_flash_collective_update(uint64_t portm_mask)
 {
-	rpm_lmac_config_t *lmac;
-	int portm_idx;
+	rpm_lmac_flash_ctx_t fctx[MAX_PORTM];
+	rpm_lmac_flash_ctx_t *ptr;
+	int err;
+	portm_config_t *portm;
+	uint64_t fctx_sz = sizeof(fctx);
 
 	if (plat_octeontx_bcfg->ignore_eth_persist_data) {
-		debug_rpm_flash("%s: RPM%d.LMAC%d ignoring persistent data update\n",
-				__func__, rpm_id, lmac_id);
+		debug_rpm_flash("%s: ignoring eth persistent data update\n", __func__);
 		return 0;
 	}
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
-
-	return rpm_update_flash_lmac_params(portm_idx, PORTM_MODE,
-					    portm_mode);
-}
-
-int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec)
-{
-	rpm_lmac_config_t *lmac;
-	int portm_idx;
-
-	if (plat_octeontx_bcfg->ignore_eth_persist_data) {
-		debug_rpm_flash("%s: RPM%d.LMAC%d ignoring persistent data update\n",
-				__func__, rpm_id, lmac_id);
-		return 0;
+	err = rpm_read_flash_lmac_params((uint8_t *)fctx, &fctx_sz);
+	if (err < 0) {
+		debug_rpm_flash("%s: Flash read failed\n", __func__);
+		return -1;
 	}
 
-	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
-	portm_idx = lmac->portm_idx;
+	debug_rpm_flash("%s:\n", __func__);
 
-	return rpm_update_flash_lmac_params(portm_idx, FEC, fec);
+	for (int idx = 0; idx < MAX_PORTM && portm_mask; idx++) {
+		if (portm_mask & (1 << idx)) {
+			portm = &(plat_octeontx_bcfg->portm_cfg[idx]);
+			ptr = &fctx[idx];
+
+			ptr->s.status = 0x2;
+			ptr->s.portm_idx = idx;
+			ptr->s.portm_mode = portm->portm_mode;
+			ptr->s.fec_invalid = 0;
+			ptr->s.fec_type = portm->fec;
+
+			debug_rpm_flash("\tPORTM%d flash status %d portm mode %d fec type %d\n",
+					idx, ptr->s.status, ptr->s.portm_mode, ptr->s.fec_type);
+
+			portm_mask &= ~(1 << idx);
+		}
+	}
+
+	err = spi_update_ethernet_persistent_data((uintptr_t)fctx, sizeof(fctx));
+	if (err < 0) {
+		debug_rpm_flash("%s: Flash write failed\n", __func__);
+		return -1;
+	}
+
+	return 0;
 }

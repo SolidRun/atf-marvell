@@ -646,7 +646,8 @@ link_down_fail:
 	return -1;
 }
 
-int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
+static int rpm_set_fec_type(int rpm_id, int lmac_id,
+			    int req_fec, uint64_t *eth_flash_update_req_mask)
 {
 	rpm_link_state_t link_sts = {0};
 	rpm_lmac_config_t *lmac;
@@ -659,6 +660,10 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 	bringup_ctx = &bringup_context[rpm_id][lmac_id];
 	lmac_ctx = &lmac_context[rpm_id][lmac_id];
 	lmac = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
+
+	if (!lmac->lmac_enable)
+		return -1;
+
 	portm = &(plat_octeontx_bcfg->portm_cfg[lmac->portm_idx]);
 	ap_adv = &portm->ap_802_3_adv;
 
@@ -730,6 +735,8 @@ int rpm_set_fec_type(int rpm_id, int lmac_id, int req_fec)
 		rpm_set_link_state(rpm_id, lmac_id, &link_sts,
 				rpm_get_error_type(rpm_id, lmac_id));
 	}
+
+	*eth_flash_update_req_mask |= (1 << lmac->portm_idx);
 
 	return 0;
 
@@ -1415,7 +1422,8 @@ static void update_gserm_scratch_reg(int portm_idx)
 }
 
 static int rpm_handle_cpri_mode_change(int portm_idx,
-				struct eth_mode_change_args *args)
+				       struct eth_mode_change_args *args,
+				       uint64_t *eth_flash_update_req_mask)
 {
 	portm_config_t *portm;
 	ecp_link_state_t link_state;
@@ -1494,9 +1502,7 @@ static int rpm_handle_cpri_mode_change(int portm_idx,
 		sh_fwdata_set_lmac_type(rpm_id, lmac_id, PORTM_CPRI);
 	}
 
-	if (rpm_update_flash_mode_param_by_portm_idx(portm_idx, portm->portm_mode))
-		debug_rpm_intf("%s: PORTM%d Flash update mode failed\n",
-			__func__, portm_idx);
+	*eth_flash_update_req_mask |= (1 << portm_idx);
 
 	/* Update GSERM scratchpad register with port config */
 	update_gserm_scratch_reg(portm_idx);
@@ -1530,7 +1536,8 @@ static int check_if_speed_is_valid_for_mode_group1(int portm_mode, int req_speed
 }
 
 static int rpm_handle_eth_mode_change(int portm_idx,
-				struct eth_mode_change_args *args)
+				      struct eth_mode_change_args *args,
+				      uint64_t *eth_flash_update_req_mask)
 {
 	rpm_link_state_t link;
 	rpm_lmac_context_t *lmac_ctx;
@@ -1823,9 +1830,7 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 	/* Update new LMAC mode to shared memory */
 	sh_fwdata_set_lmac_type(rpm_id, lmac_id, PORTM_ETH);
 
-	if (rpm_update_flash_mode_param(rpm_id, lmac_id, portm->portm_mode))
-		debug_rpm_intf("%s: %d:%d Flash update mode failed\n", __func__,
-			rpm_id, lmac_id);
+	*eth_flash_update_req_mask |= (1 << portm_idx);
 
 	/* Update GSERM scratchpad register with port config */
 	update_gserm_scratch_reg(portm_idx);
@@ -1942,8 +1947,9 @@ static int rpm_dump_ecp_state(int rpm_id, int lmac_id,
 }
 
 static int rpm_handle_mode_change(int rpm_id, int lmac_id,
-				struct eth_mode_change_args *args,
-				rpm_lmac_bringup_context_t **bringup_ctx)
+				  struct eth_mode_change_args *args,
+				  rpm_lmac_bringup_context_t **bringup_ctx,
+				  uint64_t *eth_flash_update_req_mask)
 {
 	portm_config_t *portm;
 	int ret = -1, portm_idx;
@@ -1983,7 +1989,7 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 
 	switch (dest_mode_grp) {
 	case MODE_GROUP_CPRI:
-		ret = rpm_handle_cpri_mode_change(portm_idx, args);
+		ret = rpm_handle_cpri_mode_change(portm_idx, args, eth_flash_update_req_mask);
 		break;
 
 	case MODE_GROUP_ETH0:
@@ -2000,7 +2006,7 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 		if ((*bringup_ctx)->link_bringup_status == LINK_BRINGUP_IN_PROGRESS)
 			ret = rpm_handle_link_in_progress(rpm_id, lmac_id);
 		else
-			ret = rpm_handle_eth_mode_change(portm_idx, args);
+			ret = rpm_handle_eth_mode_change(portm_idx, args, eth_flash_update_req_mask);
 		break;
 
 	default:
@@ -2011,7 +2017,8 @@ static int rpm_handle_mode_change(int rpm_id, int lmac_id,
 }
 
 /* Note : this function executes with lock acquired */
-static int rpm_process_requests(int rpm_id, int lmac_id)
+static int rpm_process_requests(int rpm_id, int lmac_id,
+				uint64_t *eth_flash_update_req_mask)
 {
 	int ret = 0, enable = 0, val = 0;
 	int request_id = 0, err_type = 0, req_fec = 0;
@@ -2113,7 +2120,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 						rpm_id, lmac_id, 1));
 			ret = rpm_handle_mode_change(rpm_id, lmac_id,
 					&scratchx1.s.mode_change_args,
-					&bringup_ctx);
+					&bringup_ctx, eth_flash_update_req_mask);
 			break;
 		case ETH_CMD_GET_PORT_MODE:
 			/* Read the command arguments from SCRATCH(1) */
@@ -2229,14 +2236,7 @@ static int rpm_process_requests(int rpm_id, int lmac_id)
 					__func__,
 					rpm_id, lmac_id, req_fec);
 				ret = rpm_set_fec_type(rpm_id, lmac_id,
-							req_fec);
-				if (!rpm_get_error_type(rpm_id, lmac_id)) {
-					/* Update the FEC in flash */
-					if (rpm_update_flash_fec_param(rpm_id, lmac_id,
-							req_fec))
-						debug_rpm_intf("%s: %d:%d Flash update fec failed\n", __func__,
-								rpm_id, lmac_id);
-				}
+						       req_fec, eth_flash_update_req_mask);
 			break;
 			case ETH_CMD_SET_PTP_MODE:
 				ret = rpm_set_ptp_mode(rpm_id, lmac_id, enable);
@@ -2342,6 +2342,7 @@ static int rpm_handle_requests_cb(int timer)
 	union eth_scratchx1 scratch1;
 	union eth_scratchx0 scratch0;
 	int ret = 0;
+	uint64_t eth_flash_update_req_mask = 0;
 
 	/* Go through all active LMACs and check
 	 * if there are any new message requests by reading
@@ -2379,7 +2380,7 @@ static int rpm_handle_requests_cb(int timer)
 					continue;
 				}
 
-				ret = rpm_process_requests(rpm, lmac);
+				ret = rpm_process_requests(rpm, lmac, &eth_flash_update_req_mask);
 
 				/* trigger an interrupt before ret */
 				if (ret != 1) {
@@ -2392,6 +2393,10 @@ static int rpm_handle_requests_cb(int timer)
 			rpm_release_csr_lock(rpm, lmac);
 		}
 	}
+
+	if (eth_flash_update_req_mask)
+		rpm_flash_collective_update(eth_flash_update_req_mask);
+
 	return 0;
 }
 

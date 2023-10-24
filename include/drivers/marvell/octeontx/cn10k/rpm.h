@@ -228,9 +228,7 @@ void rpm_set_external_loopback(int rpm_id, int lmac_id, int enable);
 int rpm_lmac_port_enable(int rpm_id, int lmac_id, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts, uint64_t bringup_timeout);
 int rpm_fec_change(int rpm_id, int lmac_id, int fec, rpm_lmac_context_t *lmac_ctx, rpm_link_state_t *lnk_sts);
 
-int rpm_update_flash_fec_param(int rpm_id, int lmac_id, int fec);
-int rpm_update_flash_mode_param(int rpm_id, int lmac_id, int portm_mode);
-int rpm_update_flash_mode_param_by_portm_idx(int portm_idx, int portm_mode);
+int rpm_flash_collective_update(uint64_t portm_mask);
 #ifdef PLAT_cnf10kb
 int rpm_update_flash_retimer_params(struct retimer_mux_cfg *mux_cfgs, int num_cfgs);
 #endif
