@@ -26,8 +26,10 @@
 #include <eth_link_mgmt_intf.h>
 #include <qlm_cn10k.h>
 #include <octeontx_utils.h>
+#include <gpio_octeontx.h>
 
 #include "cavm-csrs-rpm.h"
+#include "cavm-csrs-gpio.h"
 
 /* define DEBUG_ATF_RPM to enable debug logs */
 #undef DEBUG_ATF_RPM
@@ -563,5 +565,93 @@ void rpm_cfg(int rpm_id)
 					cn10ka, lmac_exist, 0x0);
 		}
 
+	}
+}
+
+void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_up)
+{
+	led_gpio_info_t *led_info;
+	uint64_t unblinked_pkts = 0;
+	uint64_t cur_rx_pkt_cnt = 0;
+	uint64_t cur_tx_pkt_cnt = 0;
+	sfp_shared_data_t *sh_data;
+
+	sh_data = sfp_get_sh_mem_ptr(portm_idx);
+	led_info = &sh_data->led_info;
+
+	if (led_info->is_link_supported) {
+		bool led_state = false;
+		bool update_led = false;
+
+		if (link_up && (!led_info->link_status)) {
+			if (led_info->link.flags & GPIO_ACTIVE_HIGH)
+				led_state = true;
+			else
+				led_state = false;
+			led_info->link_status = 1;
+			update_led = true;
+		} else if (!link_up && (led_info->link_status)) {
+			if (led_info->link.flags & GPIO_ACTIVE_HIGH)
+				led_state = false;
+			else
+				led_state = true;
+			update_led = true;
+			led_info->link_status = 0;
+		}
+		if (update_led) {
+			if (led_info->link.type == GPIO_PIN_DEFAULT) {
+				if (led_state)
+					gpio_set_out(led_info->link.pin);
+				else
+					gpio_clr_out(led_info->link.pin);
+			} else {
+				led_info->link_update = 1;
+			}
+		}
+	}
+
+	if (led_info->is_act_supported) {
+		uint32_t cnt;
+
+		cur_rx_pkt_cnt = CSR_READ(CAVM_RPMX_CMRX_RX_STAT0(rpm_id, lmac_id));
+		cur_tx_pkt_cnt = CSR_READ(CAVM_RPMX_MTI_STAT_TX_STAT_PAGES_COUNTERX(rpm_id, ETHER_TX_STATS_PKTS_PAGE));
+		cnt = CSR_READ(CAVM_RPMX_MTI_STAT_DATA_HI_CDC(rpm_id));
+		cur_tx_pkt_cnt |= (((uint64_t)cnt) << 32);
+
+		/* Handle for counter wraps && for lmac disabled to enabled */
+		if (cur_rx_pkt_cnt < led_info->prev_rx_pkt_cnt)
+			led_info->prev_rx_pkt_cnt = 0;
+		if (cur_tx_pkt_cnt < led_info->prev_tx_pkt_cnt)
+			led_info->prev_tx_pkt_cnt = 0;
+
+		unblinked_pkts = (cur_rx_pkt_cnt - led_info->prev_rx_pkt_cnt)
+				+ (cur_tx_pkt_cnt - led_info->prev_tx_pkt_cnt);
+
+		if (led_info->link.type == GPIO_PIN_DEFAULT) {
+			CSR_INIT(ledact, CAVM_GPIO_BIT_CFGX(
+				led_info->activity.pin));
+			if (!unblinked_pkts && (ledact.s.pin_sel != 0))
+				CSR_MODIFY(c, CAVM_GPIO_BIT_CFGX(
+					led_info->activity.pin),
+					c.s.tx_oe = 0; c.s.pin_sel = 0);
+			else if (unblinked_pkts && (ledact.s.pin_sel == 0))
+				CSR_MODIFY(c, CAVM_GPIO_BIT_CFGX(
+					led_info->activity.pin),
+					c.s.tx_oe = 1; c.s.pin_sel =
+					CAVM_GPIO_PIN_SEL_E_GPIO_CLKX(0));
+		} else {
+			if (unblinked_pkts && !led_info->act_state) {
+				led_info->act_status = 1;
+				led_info->act_update = 1;
+				led_info->act_state = 1;
+			} else if (!unblinked_pkts && led_info->act_state) {
+				led_info->act_status = 0;
+				led_info->act_update = 1;
+				led_info->act_state = 0;
+			}
+		}
+
+		led_info->prev_tx_pkt_cnt = cur_tx_pkt_cnt;
+		led_info->prev_rx_pkt_cnt = cur_rx_pkt_cnt;
 	}
 }

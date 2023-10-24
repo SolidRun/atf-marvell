@@ -186,6 +186,20 @@ typedef struct sfp_slot_info {
 	uint32_t  qsfp_modsel_output;
 } sfp_slot_info_t;
 
+typedef struct led_gpio_info {
+	gpio_info_t link;
+	gpio_info_t activity;
+	uint64_t prev_tx_pkt_cnt;
+	uint64_t prev_rx_pkt_cnt;
+	uint8_t  link_status:1;
+	uint8_t  act_status:1;
+	uint8_t  is_link_supported:1;
+	uint8_t  is_act_supported:1;
+	uint8_t  link_update:1;
+	uint8_t  act_update:1;
+	uint8_t  act_state:1;
+} led_gpio_info_t;
+
 /* Ownership of shared memory */
 typedef enum sfp_own {
 	SFP_OWN_NONE = 0,
@@ -236,6 +250,8 @@ typedef struct sfp_shared_data {
 	char board_model[64];
 	/* Module info from DT based on board */
 	sfp_slot_info_t sfp_slot;
+	/* LED information from DT based on board*/
+	led_gpio_info_t led_info;
 	/* State machine for SFP/QSFP state */
 	sfp_context_t sfp_ctx;
 	uint32_t portm_idx;

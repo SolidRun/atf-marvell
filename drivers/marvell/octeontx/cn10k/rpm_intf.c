@@ -2498,11 +2498,13 @@ static int rpm_poll_for_link_cb(int timer)
 	rpm_lmac_config_t *lmac_cfg;
 	rpm_link_state_t link;
 	union eth_scratchx0 scratchx0;
+	led_gpio_info_t *led_info;
 
 	for (int rpm_id = 0; rpm_id < plat_octeontx_scfg->rpm_count; rpm_id++) {
 		for (int lmac_id = 0; lmac_id < MAX_LMAC_PER_RPM; lmac_id++) {
 			lmac_cfg = &plat_octeontx_bcfg->rpm_cfg[rpm_id].lmac_cfg[lmac_id];
 			lmac_ctx = &lmac_context[rpm_id][lmac_id];
+			led_info = &plat_octeontx_bcfg->led_info[lmac_cfg->portm_idx];
 
 			link.u64 = 0;
 
@@ -2561,6 +2563,10 @@ static int rpm_poll_for_link_cb(int timer)
 
 					/* Release firmware internal lock */
 					rpm_release_csr_lock(rpm_id, lmac_id);
+				}
+				if (led_info->is_link_supported ||
+					led_info->is_act_supported) {
+					rpm_gpio_led_handle(rpm_id, lmac_id, lmac_cfg->portm_idx, link.s.link_up);
 				}
 			}
 		}

@@ -245,6 +245,7 @@ typedef struct plat_octeontx_board_cfg {
 	portm_config_t portm_cfg[MAX_PORTM];
 	gserm_plat_config_t gserm_plat_cfg[MAX_GSERM];
 	sfp_slot_info_t sfp_slots[MAX_PORTM];
+	led_gpio_info_t led_info[MAX_PORTM];
 	phy_config_t phys[MAX_PORTM];
 	uint64_t pf_macs[MAX_RVU_PFS]; /* PF MAC Address */
 	int pf_mac_num;

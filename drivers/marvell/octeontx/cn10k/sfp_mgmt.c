@@ -61,6 +61,7 @@ void sfp_init_shmem(void)
 
 	for (portm_idx = 0; portm_idx < PORTM_MAX; portm_idx++) {
 		sfp_slot_info_t *sfp;
+		led_gpio_info_t *led;
 		sfp_shared_data_t *sh_data;
 
 		sh_data = sfp_get_sh_mem_ptr(portm_idx);
@@ -85,6 +86,15 @@ void sfp_init_shmem(void)
 			memcpy(&sh_data->sfp_slot, sfp,
 				sizeof(sfp_slot_info_t));
 			sh_data->sfp_ctx.valid = 1;
+		}
+
+		led = &plat_octeontx_bcfg->led_info[portm_idx];
+		if (led->is_link_supported || led->is_act_supported) {
+			debug_sfp_mgmt("%s: PORTM%d: copying LED INFO\n",
+				__func__, portm_idx);
+
+			memcpy(&sh_data->led_info, led,
+				sizeof(led_gpio_info_t));
 		}
 
 		/* Assign RPM/LMAC IDs */

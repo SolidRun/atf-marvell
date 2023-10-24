@@ -51,6 +51,10 @@
 #define RPM_POLL_LINK_FECCHANGE_STATUS	4000000		/* 4 second */
 #define ECP_TX_EQ_CHANGE_WAIT_MS	50		/* 50 ms */
 
+#define GPIO_ACTIVE_HIGH 1
+/* MAC Statistics page for TX packets */
+#define ETHER_TX_STATS_PKTS_PAGE 33
+
 typedef struct rpm_tsu_config {
 	int tsu_rx_mode;
 	int tsu_tx_mode;
@@ -236,5 +240,7 @@ int rpm_update_flash_retimer_params(struct retimer_mux_cfg *mux_cfgs, int num_cf
 /* Returns 1 if debug enabled, 0 if disabled */
 int rpm_debug_log_state(void);
 int rpm_set_ptp_mode(int rpm_id, int lmac_id, int enable);
+
+void rpm_gpio_led_handle(int rpm_id, int lmac_id, int portm_idx, uint64_t link_up);
 
 #endif

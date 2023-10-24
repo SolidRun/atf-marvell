@@ -2031,6 +2031,7 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 	lmac_offset = fdt_first_subnode(fdt, rpm_offset);
 	while (lmac_offset > 0) {
 		int lmac_type;
+		int led_offset;
 		int phy_offset;
 		int sfp_offset;
 		bool is_sfp;
@@ -2098,6 +2099,46 @@ static void cn10k_rpm_lmacs_check_linux(void *fdt,
 				lmac->phy_config = phy;
 				lmac->phy_present = 1;
 				lmac->phy_port = cn10k_fdt_get_int32(fdt, "port", phy_offset);
+			}
+		}
+
+		led_offset = cn10k_fdt_lookup_phandle(fdt, lmac_offset, "led-port");
+		if (led_offset > 0) {
+			led_gpio_info_t *led_info;
+
+			led_info = &plat_octeontx_bcfg->led_info[portm_idx];
+			/* Update GPIO LED information in LMAC config */
+			if (cn10k_fdt_gpio_get_info_by_phandle(fdt, led_offset, "act-gpios",
+				&led_info->activity, dbg_prefix) >= 0) {
+
+				led_info->is_act_supported = 1;
+
+				debug_dts("%s: act:  pin: %02d - num_pins: %02d - i2c_addr: 0x%02x - i2c_bus: %d - dir_out: %d - dir_in: %d - type: %d - flags: 0x%x\n",
+					dbg_prefix,
+					led_info->activity.pin,
+					led_info->activity.num_pins,
+					led_info->activity.i2c_addr,
+					led_info->activity.i2c_bus,
+					led_info->activity.dir_out,
+					led_info->activity.dir_in,
+					led_info->activity.type,
+					led_info->activity.flags);
+			}
+			if (cn10k_fdt_gpio_get_info_by_phandle(fdt, led_offset, "link-gpios",
+				&led_info->link, dbg_prefix) >= 0) {
+				led_info->link_status = 0;
+				led_info->is_link_supported = 1;
+
+				debug_dts("%s: link: pin: %02d - num_pins: %02d - i2c_addr: 0x%02x - i2c_bus: %d - dir_out: %d - dir_in: %d - type: %d - flags: 0x%x\n",
+					dbg_prefix,
+					led_info->link.pin,
+					led_info->link.num_pins,
+					led_info->link.i2c_addr,
+					led_info->link.i2c_bus,
+					led_info->link.dir_out,
+					led_info->link.dir_in,
+					led_info->link.type,
+					led_info->link.flags);
 			}
 		}
 
