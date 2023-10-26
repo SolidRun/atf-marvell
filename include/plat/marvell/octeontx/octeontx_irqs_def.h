@@ -112,4 +112,9 @@
 #define TAD_SPI_IRQS		0
 #define TAD_SPI_IRQ(irq)	(-1)
 #endif
+
+#ifndef RAS_GIC_SPI_IRQ
+#define RAS_GIC_SPI_IRQS	0
+#define RAS_GIC_SPI_IRQ(irq)	(-1)
+#endif
 #endif /* __OCTEONTX_IRQS_DEF_H__ */

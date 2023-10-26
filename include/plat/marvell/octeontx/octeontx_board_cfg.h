@@ -72,7 +72,7 @@ struct fdt_ghes {
 };
 
 #if defined(PLAT_CN10K_FAMILY)
-	#define MAX_GHES_OBJ	27
+	#define MAX_GHES_OBJ	28
 	typedef struct ras_config {
 		struct fdt_ghes fdt_ghes[MAX_GHES_OBJ];
 		int nr_ghes;

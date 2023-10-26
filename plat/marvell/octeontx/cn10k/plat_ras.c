@@ -380,6 +380,19 @@ static int plat_ras_dss_handler(const struct err_record_info *info,
 	return ret;
 }
 
+static int plat_ras_gic_handler(const struct err_record_info *info,
+		int probe_data, const struct err_handler_data *const data)
+{
+	int ret;
+
+	ret = cn10k_ras_gic_isr(data->interrupt, data->flags, data->cookie);
+
+	if (data->interrupt)
+		plat_ic_end_of_interrupt(data->interrupt);
+
+	return ret;
+}
+
 struct err_record_info cn10k_err_records[RAS_HANDLERS] = {
 	[RAS_CORE_HANDLER] = ERR_RECORD_SYSREG_V1(ERR_RECORD_START_IDX, ERR_RECORD_NUM_IDX,
 			cn10k_core_ras_probe_sysreg, cn10k_core_ras_ext_handler, NULL),
@@ -394,6 +407,10 @@ struct err_record_info cn10k_err_records[RAS_HANDLERS] = {
 	[RAS_DSS_HANDLER] = {
 		.probe = cn10k_ras_dss_probe,
 		.handler = plat_ras_dss_handler,
+	},
+	[RAS_GIC_HANDLER] = {
+		.probe = cn10k_ras_gic_probe,
+		.handler = plat_ras_gic_handler,
 	},
 };
 
@@ -555,6 +572,13 @@ int cn10k_ras_init(void)
 		idx++;
 	}
 
+	/* GIC RAS interrupt */
+	for (irq = 0; irq < RAS_GIC_SPI_IRQS; irq++) {
+		cn10k_ras_interrupts[idx].intr_number = RAS_GIC_SPI_IRQ(irq);
+		cn10k_ras_interrupts[idx].err_record = &cn10k_err_records[RAS_GIC_HANDLER];
+		idx++;
+	}
+
 	ras_init();
 	plat_set_apa_msix_vectors();
 
@@ -570,6 +594,9 @@ int cn10k_ras_init(void)
 	/* DSS RAS init */
 	cn10k_ras_enable_dss();
 
+	/* GIC RAS init */
+	cn10k_ras_enable_gic();
+
 	plat_ras_intr_init();
 
 	cfg = &plat_octeontx_bcfg->ras_config;
@@ -583,6 +610,8 @@ int cn10k_ras_init(void)
 		ring_len = cfg->fdt_ghes[i].size[GHES_PTR_RING];
 		if (!strncmp("core", cfg->fdt_ghes[i].name, 4))
 			type = REC_CORE;
+		else if(!strncmp("gic", cfg->fdt_ghes[i].name, 3))
+			type = REC_PLAT;
 		else
 			type = REC_MEM;
 

@@ -87,6 +87,10 @@ typedef struct {
 	GUID_INIT(0xA5BC1114, 0x6F64, 0x4EDE, 0xB8, 0x63, 0x3E, 0x83,	\
 		  0xED, 0x7C, 0x83, 0xB1)
 
+#define CPER_SEC_PLATFORM_GIC						\
+	GUID_INIT(0xA81E6BBD, 0xD441, 0x4B8A, 0x8C, 0xDB, 0xAC, 0x61,	\
+		0x01, 0xCD, 0x39, 0x11)
+
 /*
  * Severity definition for error_severity in struct cper_record_header
  * and section_severity in struct cper_section_descriptor
@@ -217,9 +221,41 @@ struct acpi_hest_generic_data {
 
 #define OTX2_GHES_ERR_REC_FRU_TEXT_LEN 32
 
+#define CPER_GICERR_ERRTYPE_VALID	(0x1)
+#define CPER_GICERR_ERRSEV_VALID	(0x2)
+
+/* Platform error id */
+#define CPER_PLAT_ERR_CN10K_GIC		3
+
 enum otx2_ghes_rec_type {
 	REC_MEM = 1,
 	REC_CORE = 2,
+	REC_PLAT = 3,
+};
+
+/* Firmware Error Record Reference, UEFI v2.7 sec N.2.10  */
+struct cper_sec_fw_err_rec_ref {
+	uint8_t record_type;
+	uint8_t revision;
+	uint8_t reserved[6];
+	uint64_t record_identifier;
+	guid_t record_identifier_guid;
+};
+
+struct cper_sec_ody_gic {
+	uint8_t validation_bits;
+	uint8_t error_type;
+	uint8_t error_sev;
+	uint32_t error_code;
+};
+
+struct cper_sec_platform_err {
+	struct cper_sec_fw_err_rec_ref fwrec;
+	uint32_t module_id;
+	uint32_t reserved0;
+	union {
+		struct cper_sec_ody_gic gic;
+	} perr;
 };
 
 struct otx2_ghes_err_mem_rec {
@@ -240,6 +276,7 @@ struct octeontx_estatus_record {
 	union {
 		struct cper_sec_mem_err mc_cper;
 		struct processor_error core_cper;
+		struct cper_sec_platform_err gic;
 	} u;
 };
 
@@ -251,6 +288,7 @@ struct otx2_ghes_err_record {
 		struct cper_sec_mem_err lmc;
 		struct cper_sec_mem_err dss;
 		struct cper_sec_mem_err tad;
+		struct cper_sec_platform_err gic;
 	} u;
 	uint32_t error_severity; /* CPER_SEV_xxx */
 	char fru_text[OTX2_GHES_ERR_REC_FRU_TEXT_LEN];

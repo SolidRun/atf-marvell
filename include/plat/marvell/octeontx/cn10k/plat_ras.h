@@ -18,7 +18,8 @@
 #define NUMBER_OF_RAS_INTERRUPTS	(RAS_CORE_SPI_IRQS+ \
 					MDC_SPI_IRQS + \
 					TAD_SPI_IRQS + \
-					DSS_SPI_IRQS)
+					DSS_SPI_IRQS + \
+					RAS_GIC_SPI_IRQS)
 
 /*
  * CN10K core RAS:
@@ -81,6 +82,7 @@ enum {
 	RAS_MDC_HANDLER = 1,
 	RAS_TAD_HANDLER = 2,
 	RAS_DSS_HANDLER = 3,
+	RAS_GIC_HANDLER = 4,
 	RAS_HANDLERS,
 };
 
@@ -321,6 +323,9 @@ extern int64_t plat_ras_smc_op(u_register_t x1, u_register_t x2,
 extern int cn10k_ras_mdc_probe(const struct err_record_info *info, int *probe_data);
 extern int cn10k_ras_mdc_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_mdc(void);
+extern int cn10k_ras_enable_gic(void);
+extern int cn10k_ras_gic_probe(const struct err_record_info *info, int *probe_data);
+extern int cn10k_ras_gic_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_tad_probe(const struct err_record_info *info, int *probe_data);
 extern int cn10k_ras_tad_isr(uint32_t id, uint32_t flags, void *cookie);
 extern int cn10k_ras_enable_tad(void);
