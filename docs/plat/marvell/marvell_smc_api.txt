@@ -655,7 +655,15 @@ PLAT_OCTEONTX_EHSM_GET_CHALLENGE
   * SMC FID : 0xc2000b2e
   * Input register values:
     x0: SMC FID
-    x1: Auth cmd id
+    x1: Auth cmd id, Following enum defines the Auth cmd id
+        enum auth_cmd_id {
+            AUTH_CMD_ID_LOAD_UDS            = 0x1,
+            AUTH_CMD_ID_ADV_FA_LCS          = 0x2,
+            AUTH_CMD_ID_ADV_KAK_REVOCATION  = 0x3,
+            AUTH_CMD_ID_ADV_KM_VERSION      = 0x4,
+            AUTH_CMD_ID_ADV_LOADER_FW_VERSION   = 0x5,
+            AUTH_CMD_ID_ADV_MAIN_FW_VERSION     = 0x6,
+        };
     x2: DRAM address of structure (struct ehsm_authenticated_cmd_package)
     x3: sizeof structure (struct ehsm_authenticated_cmd_package)
   * Return value:
