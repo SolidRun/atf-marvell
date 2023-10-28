@@ -160,10 +160,8 @@ int ehsm_verify_image(const void *image, const struct tim_load_info *li,
 	 * Treat unaligned images as nonsecure so they get copied to an
 	 * aligned buffer.
 	 */
-	if (ehsm_check_alignment(image)) {
-		INFO("Image is not aligned, using copy buffer.\n");
+	if (ehsm_check_alignment(image))
 		nonsecure = true;
-	}
 
 	/* Make sure that a secure image doesn't become non-secure */
 	if (!nonsecure &&

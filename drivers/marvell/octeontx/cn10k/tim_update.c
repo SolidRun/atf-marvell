@@ -213,7 +213,8 @@ struct object_group_entry {
 	const char *data_filename;
 	const char *dts_filename;
 	bool optional;			/** Not required for complete update */
-	bool skip_version_check;	/** Do not check the version of this entry */
+	bool skip_version_check;	/** Do not check the version of this entry if missing */
+	bool no_load;			/** Does not load an object */
 };
 
 struct object_group {
@@ -326,10 +327,11 @@ static const struct object_group_entry rom_script_grp[] = {
 static const struct object_group_entry cpc_grp[] = {
 	{
 		.tim_filename = "tim0.timb",
-		.data_filename = "scp_bl1.bin",
+		.data_filename = NULL,
 		.dts_filename = "tim0",
 		.optional = false,
-		.skip_version_check = false,
+		.skip_version_check = true,
+		.no_load = true,
 	},
 	{
 		.tim_filename = "scp_bl1.timb",
@@ -337,6 +339,7 @@ static const struct object_group_entry cpc_grp[] = {
 		.dts_filename = "scp_bl1.bin",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{
 		.tim_filename = "mcp_bl1.timb",
@@ -344,6 +347,7 @@ static const struct object_group_entry cpc_grp[] = {
 		.dts_filename = "mcp_bl1.bin",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{
 		.tim_filename = "ecp_bl1.timb",
@@ -351,6 +355,7 @@ static const struct object_group_entry cpc_grp[] = {
 		.dts_filename = "ecp_bl1.bin",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{ NULL, NULL },
 };
@@ -362,6 +367,7 @@ static const struct object_group_entry ap_bl1_grp[] = {
 		.dts_filename = "init.bin",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{
 		.tim_filename = "ep_script-cn10xx.timb",
@@ -369,6 +375,7 @@ static const struct object_group_entry ap_bl1_grp[] = {
 		.dts_filename = "rom-script0.fw",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = true,
 	},
 	{
 		.tim_filename = "gserp-cn10xx.timb",
@@ -376,6 +383,7 @@ static const struct object_group_entry ap_bl1_grp[] = {
 		.dts_filename = "gserp-cn10xx.fw",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{ NULL, NULL },
 };
@@ -387,6 +395,7 @@ static const struct object_group_entry gserm_fw_grp[] = {
 		.dts_filename = "gserm-cn10xx.fw",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{ NULL, NULL },
 };
@@ -399,6 +408,7 @@ static const struct object_group_entry gserp_fw_grp[] = {
 		.dts_filename = "gserp-cn10xx.fw",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{ NULL, NULL },
 };
@@ -411,6 +421,7 @@ static const struct object_group_entry ap_atf_grp[] = {
 		.dts_filename = "bl2.bin",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{
 		.tim_filename = "bl31.timb",
@@ -418,6 +429,7 @@ static const struct object_group_entry ap_atf_grp[] = {
 		.dts_filename = "bl31.bin",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 #if defined(INCLUDE_OPTEE)
 	{
@@ -426,6 +438,7 @@ static const struct object_group_entry ap_atf_grp[] = {
 		.dts_filename = "tee.bin",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 #endif
 	{ NULL, NULL },
@@ -444,6 +457,7 @@ static const struct object_group_entry uboot_grp[] = {
 #endif
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{ NULL, NULL },
 };
@@ -456,6 +470,7 @@ static const struct object_group_entry efi1_grp[] = {
 		.dts_filename = "efi_app1.efi",
 		.optional = true,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{ NULL, NULL },
 };
@@ -468,6 +483,7 @@ static const struct object_group_entry mkex_fw_grp[] = {
 		.dts_filename = "npc_mkex-cn10xx.fw",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{ NULL, NULL },
 };
@@ -480,6 +496,7 @@ static const struct object_group_entry switch_fw_grp[] = {
 		.dts_filename = "switch_fw_super.fw",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{
 		.tim_filename = "switch_fw_ap.timb",
@@ -487,6 +504,7 @@ static const struct object_group_entry switch_fw_grp[] = {
 		.dts_filename = "switch_fw_ap.fw",
 		.optional = false,
 		.skip_version_check = false,
+		.no_load = false,
 	},
 	{ NULL, NULL },
 };
@@ -609,6 +627,20 @@ enum async_file_check_ret marvell_cust_verify_fw_update_image_async(struct smc_u
 	return ASYNC_CHECK_DONE;
 }
 
+static void print_version_data(const char *str,
+			       const char *name,
+			       const struct tim_opaque_data_version_info *vinfo)
+{
+	ULOG("%s %s: %d.%d.%d.%d %4d-%2d-%2d %02d:%02d 0x%04x 0x%08x\n%32s\n",
+	     str, name,
+	     vinfo->major_version, vinfo->minor_version,
+	     vinfo->revision_number, vinfo->revision_type,
+	     vinfo->year, vinfo->month, vinfo->day,
+	     vinfo->hour, vinfo->minute,
+	     vinfo->flags, vinfo->customer_version,
+	     vinfo->version_string);
+}
+
 /**
  * Extract location and maximum size for object in the firmware-layout
  *
@@ -669,7 +701,7 @@ static int get_object_info_from_fdt(const char *name,
 		*offset = loffset;
 	if (max_size)
 		*max_size = lmax_size;
-	debug_fw_update("Found %s in firmware layout at address 0x%" PRIx64 ", max size: 0x%lx\n",
+	debug_fw_update("Found %s in firmware layout at address 0x%lx, max size: 0x%lx\n",
 			name, loffset, lmax_size);
 	return 0;
 }
@@ -705,21 +737,22 @@ int __marvell_cust_check_version(const struct smc_update_descriptor *desc,
 	const char hex_str[16] = "0123456789abcdef";
 
 	if (desc->update_flags & UPDATE_FLAG_IGNORE_VERSION) {
-		UINFO("Ignoring version information for %s\n",
-		     object->tim_file->filename);
+		debug_fw_update("Ignoring version information for %s\n",
+				object->tim_file->filename);
 		return 0;
 	}
 	if (!vinfo || object->no_version) {
-		UINFO("No version data for %s, forcing update.\n",
-		      object->tim_file->filename);
+		debug_fw_update("No version data for %s, forcing update.\n",
+				object->tim_file->filename);
 		return 0;
 	}
 	if (!memcmp(vinfo, &object->version, sizeof(*vinfo))) {
-		UINFO("TIM %s version matches flash, skipping\n",
-		     object->tim_file->filename);
+		debug_fw_update("TIM %s version matches flash, skipping\n",
+				object->tim_file->filename);
 		return 1;
 	} else {
-		UINFO("TIM %s version mismatch\n", object->tim_file->filename);
+		debug_fw_update("TIM %s version mismatch\n",
+				object->tim_file->filename);
 		s = v1_str;
 		b = (uint8_t *)&object->version;
 		for (i = 0; i < sizeof(*vinfo); i++) {
@@ -739,7 +772,8 @@ int __marvell_cust_check_version(const struct smc_update_descriptor *desc,
 		UINFO("Obj version: %s\n", v1_str);
 		UINFO("TIM version: %s\n", v2_str);
 	}
-	UINFO("Versions differ for %s\n", object->tim_file->filename);
+	debug_fw_update("Versions differ for %s\n",
+			object->tim_file->filename);
 	return 0;
 }
 
@@ -1146,15 +1180,13 @@ static enum update_ret update_process_tims(void)
 	for_each_file(fentry) {
 		int offset;
 
-		debug_fw_update("fentry: %p, filename: %p\n", fentry,
-				fentry->filename);
-
 		offset = strlen(fentry->filename) - tim_ext_len;
 
 		debug_fw_update("%s: file: %s, update filename ext offset: 0x%x\n",
 				__func__, fentry->filename, offset);
 		if (!strcmp(fentry->filename + offset, tim_ext)) {
-			UINFO("Allocating object for %s\n", fentry->filename);
+			debug_fw_update("Allocating object for %s\n",
+					fentry->filename);
 			oentry = alloc_object();
 			if (!oentry) {
 				UWARN("Out of objects!!!\n");
@@ -1164,12 +1196,10 @@ static enum update_ret update_process_tims(void)
 			fentry->object = oentry;
 			zeromem(thandle, sizeof(*thandle));
 			hdr = (union tim_headers *)fentry->data;
-			debug_fw_update("Parsing TIM header at %p\n", hdr);
 			/*
 			 * We don't know the source address from which the
 			 * TIM is loaded so we use the DATO location field
 			 */
-			UINFO("Parsing TIM@%p\n", hdr);
 			tret = tim_load(hdr, TIM_SRC_ADDRESS_UNKNOWN, thandle);
 			if (tret != TIM_NO_ERROR) {
 				UWARN("Error %d processing TIM %s\n",
@@ -1220,7 +1250,7 @@ static enum update_ret update_process_tims(void)
 				}
 				debug_fw_update("%s: TIM associated with %s\n",
 						__func__, li->data_filename);
-				debug_fw_update("%s: img len: 0x%x, src addr: 0x%" PRIx64 ", load addr: 0x%" PRIx64 ", tim src addr: 0x%" PRIx64 "\n",
+				debug_fw_update("%s: img len: 0x%x, src addr: 0x%lx, load addr: 0x%lx, tim src addr: 0x%lx\n",
 						__func__, li->image_length,
 						li->src_address, li->load_address,
 						li->tim_src_address);
@@ -1234,14 +1264,14 @@ static enum update_ret update_process_tims(void)
 					if (err)
 						UWARN("tim0 not detected as root TIM in firmware layout\n");
 					dfile = find_file(root_obj_name);
-					UINFO("%s %s associated with %s in update file\n",
-					     dfile ? "Found" : "Did not find",
-					     root_obj_name, TIM0_FDT_NAME);
+					debug_fw_update("%s %s associated with %s in update file\n",
+							dfile ? "Found" : "Did not find",
+							root_obj_name, TIM0_FDT_NAME);
 				} else {
 					dfile = find_file(li->data_filename);
-					UINFO("%s %s in update file\n",
-					     dfile ? "Found" : "Did not find",
-					     li->data_filename);
+					debug_fw_update("%s %s in update file\n",
+							dfile ? "Found" : "Did not find",
+							li->data_filename);
 				}
 				if (dfile == NULL) {
 					UWARN("Error: could not find %s in update file\n",
@@ -1263,7 +1293,7 @@ static enum update_ret update_process_tims(void)
 				oentry->data_file = dfile;
 				oentry->no_data_file = 0;
 				dfile->object = oentry;
-				debug_fw_update("%s: %s starts at 0x%" PRIx64 ", %s starts at 0x%" PRIx64 "\n",
+				debug_fw_update("%s: %s starts at 0x%lx, %s starts at 0x%lx\n",
 						__func__,
 						fentry->filename, fentry->file_loc,
 						dfile->filename, dfile->file_loc);
@@ -1285,7 +1315,7 @@ static enum update_ret update_process_tims(void)
 								 &src_addr);
 				fentry->file_loc = src_addr;
 				if (tret == TIM_NO_ERROR)
-					debug_fw_update("%s: Tim address 0x%" PRIx64 "\n",
+					debug_fw_update("%s: Tim address 0x%lx\n",
 							__func__, src_addr);
 				else
 					UWARN("%s: Tim address unknown for %s!\n",
@@ -1310,61 +1340,70 @@ static int check_group(const struct object_group_entry *group)
 	struct file_entry *fentry;
 	bool complete = true;
 	bool none = true;
+	const char *t_filename;
+	const char *d_filename;
 
 	UINFO("Verifying all files are present in available groups\n");
 	for (gentry = group; gentry->tim_filename || gentry->data_filename;
 	     gentry++) {
+		t_filename = gentry->tim_filename != NULL ?
+			gentry->tim_filename : "none";
+		d_filename = gentry->data_filename != NULL ?
+			gentry->data_filename : "none";
 		debug_fw_update("%s: Checking %s, %s\n", __func__,
-				gentry->tim_filename ? gentry->tim_filename : "none",
-				gentry->data_filename ? gentry->data_filename : "none");
+				t_filename, d_filename);
 		if (gentry->tim_filename) {
 			fentry = find_file(gentry->tim_filename);
 			if (!fentry) {
 				if (!gentry->optional) {
-					UINFO("Update file not complete, missing required TIM file %s\n",
-					     gentry->tim_filename);
+					UWARN("Update file not complete, missing required TIM file %s\n",
+					      t_filename);
 					complete = false;
+				} else {
+					UINFO("No TIM found for %s\n", gentry->tim_filename);
 				}
 			} else {
 				assert(fentry->object != NULL);
-				fentry->object->group = group;
+				fentry->object->group = gentry;
 				none = false;
-				INFO("Found TIM %s\n", gentry->tim_filename);
+				UINFO("Found TIM %s, dts: %s\n",
+				      gentry->tim_filename, gentry->dts_filename);
 			}
 		}
 		if (gentry->data_filename) {
 			fentry = find_file(gentry->data_filename);
 			if (!fentry) {
 				if (!gentry->optional) {
-					UINFO("Update file not complete, missing required data file %s\n",
-					     gentry->data_filename);
+					UWARN("Update file not complete, missing required data file %s\n",
+					     d_filename);
 					complete = false;
 				}
 			} else {
 				assert(fentry->object != NULL);
-				fentry->object->group = group;
+				fentry->object->group = gentry;
 				none = false;
-				INFO("Found data file %s\n", gentry->data_filename);
+				UINFO("Found data file %s, dts: %s\n",
+				      d_filename, gentry->dts_filename);
 			}
 		}
 	}
+
 	if (complete) {
-		UINFO("Group containing %s is complete.\n",
-		     group[0].data_filename);
+		UINFO("Group containing TIM %s is complete.\n",
+		      group[0].tim_filename);
 		debug_fw_update("Group containing %s is complete.\n",
-				group[0].data_filename);
+				group[0].tim_filename);
 		return 1;
 	}
 	if (none) {
-		UINFO("Group containing %s is missing (OK)\n",
-		     group[0].data_filename);
+		UINFO("Group containing TIM %s is missing (OK)\n",
+		      group[0].tim_filename);
 		debug_fw_update("Group containing %s is missing (OK)\n",
-				group[0].data_filename);
+				group[0].tim_filename);
 		return 0;
 	}
-	UWARN("Error: Group containing %s is incomplete\n",
-	      group[0].data_filename ? group[0].data_filename :
-		group[0].tim_filename ? group[0].tim_filename : "UNKNOWN");
+	UWARN("Error: Group containing TIM %s is incomplete\n",
+	      group[0].tim_filename);
 	return UPDATE_GROUP_ERROR;
 }
 
@@ -1445,7 +1484,7 @@ static int check_file_loc_size(const struct file_entry *entry)
 			UERROR("File %s address overlaps %s\n",
 			       entry->filename,
 			       file->filename);
-			UERROR("%s start: 0x%" PRIx64 ", size: 0x%lx, %s start: 0x%" PRIx64 ", size: 0x%lx\n",
+			UERROR("%s start: 0x%lx, size: 0x%lx, %s start: 0x%lx, size: 0x%lx\n",
 			       entry->filename, entry->file_loc,
 			       entry->file_size, file->filename,
 			       file->file_loc, file->file_size);
@@ -1504,7 +1543,7 @@ static enum update_ret verify_hash(const struct smc_update_descriptor *desc,
 		return UPDATE_EHSM_ERROR;
 	}
 
-	debug_fw_update("Verifying 0x%lx bytes starting at offset 0x%" PRIx64 "\n",
+	debug_fw_update("Verifying 0x%lx bytes starting at offset 0x%lx\n",
 			size, offset);
 	blk_size = sizeof(tim_buffer);
 	while (size > blk_size) {
@@ -1578,8 +1617,9 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	const char *d_filename = object->data_file ? object->data_file->filename : "NONE";
 	const char *dts_name = object->group->dts_filename;
 	bool data_present = object->data_file != NULL;
+	bool no_load = object->group->no_load;
 
-	UINFO("Checking object %s/%s\n", t_filename, d_filename);
+	UINFO("Checking object %s/%s, dts: %s\n", t_filename, d_filename, dts_name);
 	ret = get_object_info_from_fdt(dts_name,
 				       &offset, &max_size,
 				       &is_root_tim, &root_obj_name);
@@ -1594,11 +1634,11 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 
 	object->is_root_tim_obj = is_root_tim;
 	/* Read existing TIM from flash */
-	UINFO("Reading TIM at offset 0x%lx\n", offset);
+	UINFO("Reading TIM %s at offset 0x%lx\n", t_filename, offset);
 	uret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, fl_hdl,
 				 NULL);
 	if (uret == UPDATE_MISSING_TIM) {
-		UINFO("%sTIM %s for %s missing in flash at offset 0x%" PRIx64 "\n",
+		UINFO("%sTIM %s for %s missing in flash at offset 0x%lx\n",
 		      is_root_tim ? "Root " : "",
 		      t_filename, d_filename, offset);
 		object->update_all = true;
@@ -1619,13 +1659,19 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 
 	if (!data_present) {
 		/* When there is no data present we still need to check the version data */
-		UINFO("No data for TIM %s\n", t_filename);
+		UINFO("No data component for TIM %s\n", t_filename);
 		uret = UPDATE_OK;
 		tret = tim_get_version_info(fl_hdl, &fl_vinfo);
 		if (tret == TIM_NO_ERROR) {
 			memcpy(&object->orig_version, &fl_vinfo,
 			       sizeof(object->orig_version));
 			ret = marvell_cust_check_version(desc, object, &fl_vinfo);
+			if (ret >= 0) {
+				print_version_data("Old version:", t_filename,
+						   &fl_vinfo);
+				print_version_data("New version:", t_filename,
+						   &object->version);
+			}
 			if (ret > 0) {
 				UINFO("Skipping install of TIM %s due to version match\n",
 				      t_filename);
@@ -1642,28 +1688,36 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 				object->update_retcode = OBJ_UPDATE_OK;
 			}
 			goto done;
+		} else {
+			UINFO("No version info or error for TIM %s\n", t_filename);
+			if (object->group->skip_version_check) {
+				UINFO("Missing version OK\n");
+				object->skip_install = true;
+			}
 		}
 	}
-	tret = tim_get_load_info(fl_hdl, fl_li);
-	if (tret != TIM_NO_ERROR) {
-		/* Bad TIM, we want to overwrite it */
-		object->update_all = true;
-		object->update_retcode = OBJ_UPDATE_FORCED;
-		UWARN("Could not get load info from TIM %s, ret: %d\n",
-		      t_filename, tret);
-		uret = UPDATE_OK;
-		goto done;
+	if (!no_load) {
+		tret = tim_get_load_info(fl_hdl, fl_li);
+		if (tret != TIM_NO_ERROR) {
+			/* Bad TIM, we want to overwrite it */
+			object->update_all = true;
+			object->update_retcode = OBJ_UPDATE_FORCED;
+			UWARN("Could not get load info from TIM %s, ret: %d\n",
+			t_filename, tret);
+			uret = UPDATE_OK;
+			goto done;
+		}
+		if (object->data_file != NULL &&
+		    strcmp(fl_li->data_filename, d_filename) != 0) {
+			UWARN("Update TIM %s filename %s does not match flash TIM filename %s\n",
+			t_filename, d_filename, fl_li->data_filename);
+			object->update_all = 1;
+			object->update_retcode = OBJ_UPDATE_FORCED;
+			uret = UPDATE_OK;
+			goto done;
+		}
 	}
-	if (strcmp(fl_li->data_filename, d_filename) != 0) {
-		UWARN("Update TIM %s filename %s does not match flash TIM filename %s\n",
-		      t_filename, d_filename, fl_li->data_filename);
-		object->update_all = 1;
-		object->update_retcode = OBJ_UPDATE_FORCED;
-		uret = UPDATE_OK;
-		goto done;
-	}
-
-	if (!async_operation) {
+	if (!async_operation && !no_load) {
 		uret = verify_hash(desc, fl_li, NULL, NULL);
 		if (uret == UPDATE_AUTH_ERROR) {
 			UERROR("Hash mismatch for %s/%s\n", t_filename, d_filename);
@@ -1679,13 +1733,19 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 			goto done;
 		}
 
-		if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION) &&
-		    !(object->group->skip_version_check)) {
+		if (!(desc->update_flags & UPDATE_FLAG_IGNORE_VERSION)) {
 			UINFO("Getting version info for %s\n", object->tim_file->filename);
 			tret = tim_get_version_info(fl_hdl, &fl_vinfo);
 			if (tret != TIM_NO_ERROR) {
+				if (object->group->skip_version_check) {
+					UINFO("Missing version OK for %s\n", t_filename);
+					object->skip_install = true;
+					uret = UPDATE_OK;
+					goto done;
+				}
 				UWARN("TIM %s version info is missing in flash\n", t_filename);
 				object->update_retcode = OBJ_UPDATE_VERSION_DATA_MISSING;
+				object->skip_install = false;
 				uret = UPDATE_OK;
 				goto done;
 			}
@@ -1711,12 +1771,12 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 				object->update_retcode = OBJ_UPDATE_OK;
 			}
 		}
-	} else {
+	} else if (!no_load) {
 		UINFO("Performing update asynchronously\n");
 	}
 
 done:
-	if (!async_operation) {
+	if (!async_operation && !no_load) {
 		zeromem(fl_hdl, sizeof(*fl_hdl));
 		zeromem(fl_li, sizeof(*fl_li));
 	}
@@ -1764,11 +1824,14 @@ static void update_flash_group_flags(const struct object_group_entry *group,
 				      __func__, fentry->filename);
 			} else {
 				skip_set = true;
+				UINFO("%s: Skipping %s\n", __func__, fentry->filename);
 			}
 		}
 	}
 
 	if (!skip_install && skip_set) {
+		UINFO("At least one object in group containing TIM %s marked for installation\n",
+		      group->tim_filename);
 		/*
 		 * At least one object was marked to skip but not all of them.
 		 * In this case we mark all objects as not being skipped.
@@ -1879,16 +1942,22 @@ static int init_hash_version_check(void *ptr)
  *
  * @param[in]	desc		descriptor used for media
  * @param[in]	all_present	True if all groups are present
+ * @param[out]	update_any	Set to TRUE if any item is marked for updating,
+ *				can be NULL
  *
  * @return	0 for success, -EINVAL or -EIO on error.
  */
 static enum update_ret
-check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
+check_flash_files(const struct smc_update_descriptor *desc,
+		  bool all_present, bool *update_any)
 {
 	struct object_entry *obj;
-	bool update_all = false;
 	enum update_ret ret;
 	const char *d_filename;
+	bool update_all = false;
+
+	if (update_any != NULL)
+		*update_any = false;
 
 	UINFO("Checking files in flash\n");
 	for_each_object(obj) {
@@ -1896,8 +1965,17 @@ check_flash_files(const struct smc_update_descriptor *desc, bool all_present)
 		ret = check_flash_object(desc, obj, false);
 		if (ret != UPDATE_OK)
 			return ret;
-		if (obj->update_all)
+		if (obj->update_all) {
+			UINFO("Flash TIM %s marked as update all\n", obj->tim_file->filename);
 			update_all = true;
+			if (update_any != NULL)
+				*update_any = true;
+		}
+		if (!obj->skip_install) {
+			UINFO("Flash TIM %s marked for installation\n", obj->tim_file->filename);
+			if (update_any != NULL)
+				*update_any = true;
+		}
 		if (update_all && !all_present) {
 			UERROR("Flash inconsistencies found.  A complete update image is required\n");
 			return -EINVAL;
@@ -2081,8 +2159,6 @@ static enum update_ret setup_media(struct io_handle *io_handle,
 		if (emmc_dev_con == NULL) {
 			debug_fw_update("Registering eMMC IO device connector\n");
 			ret = register_io_dev_emmc(&emmc_dev_con);
-			debug_fw_update("eMMC IO device connector: 0x%p\n",
-					emmc_dev_con);
 			if (ret != 0) {
 				UWARN("Error registering connection to eMMC driver (%d)\n", ret);
 				uret = UPDATE_IO_DEV_REGISTER_ERROR;
@@ -2191,21 +2267,19 @@ octeontx_io_data_read(struct io_handle *io_handle, uint64_t offset,
 
 	gti_wdog_pet();
 
-	debug_fw_update("%s: Reading 0x%lx bytes from media offset 0x%" PRIx64 "\n",
-			__func__, size, offset);
 	if (*io_handle->io_handle == (uintptr_t)NULL) {
 		UWARN("%s: Media block device not initialized\n", __func__);
 		return UPDATE_IO_DEV_INIT_ERROR;
 	}
 	ret = io_seek(*io_handle->io_handle, IO_SEEK_SET, offset);
 	if (ret != 0) {
-		UWARN("Media seek to offset 0x%" PRIx64 " failed: %d\n", offset, ret);
+		UWARN("Media seek to offset 0x%lx failed: %d\n", offset, ret);
 		return UPDATE_IO_ERROR;
 	}
 	ret = io_read(*io_handle->io_handle, (uintptr_t)buffer, size,
 		      &bytes_read);
 	if (ret != 0) {
-		UWARN("IO error reading 0x%lx bytes from offset 0x%" PRIx64 " (%d)\n",
+		UWARN("IO error reading 0x%lx bytes from offset 0x%lx (%d)\n",
 		      size, offset, ret);
 		return UPDATE_IO_ERROR;
 	}
@@ -2260,7 +2334,7 @@ octeontx_io_data_write(struct io_handle *io_handle, uint64_t offset,
 
 	gti_wdog_pet();
 
-	debug_fw_update("%s: Writing 0x%lx bytes to media offset 0x%" PRIx64 "\n",
+	debug_fw_update("%s: Writing 0x%lx bytes to media offset 0x%lx\n",
 			__func__, size, offset);
 	if (*io_handle->io_handle == (uintptr_t)NULL) {
 		UWARN("Media block device not initialized\n");
@@ -2268,13 +2342,13 @@ octeontx_io_data_write(struct io_handle *io_handle, uint64_t offset,
 	}
 	ret = io_seek(*io_handle->io_handle, IO_SEEK_SET, offset);
 	if (ret != 0) {
-		UWARN("Media seek to offset 0x%" PRIx64 " failed: %d\n", offset, ret);
+		UWARN("Media seek to offset 0x%lx failed: %d\n", offset, ret);
 		return UPDATE_IO_ERROR;
 	}
 	ret = io_write(*io_handle->io_handle, (uintptr_t)buffer, size,
 		       &bytes_written);
 	if (ret != 0) {
-		UWARN("Media IO writing 0x%lx bytes to offset 0x%" PRIx64 " (%d)\n",
+		UWARN("Media IO writing 0x%lx bytes to offset 0x%lx (%d)\n",
 		      size, offset, ret);
 		return UPDATE_IO_ERROR;
 	}
@@ -2358,7 +2432,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 			uret = octeontx_write_data(desc, offset, start_size,
 						   wr_buffer);
 			if (uret != UPDATE_OK) {
-				UWARN("Error erasing 0x%x bytes at offset 0x%" PRIx64 "\n",
+				UWARN("Error erasing 0x%x bytes at offset 0x%lx\n",
 				      start_size, offset + erase_adj);
 				return uret;
 			}
@@ -2376,7 +2450,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 			uret = octeontx_write_data(desc, offset, wr_size,
 						   wr_buffer);
 			if (uret != UPDATE_OK) {
-				UWARN("Error erasing 0x%x bytes at offset 0x%" PRIx64 "\n",
+				UWARN("Error erasing 0x%x bytes at offset 0x%lx\n",
 				      wr_size, offset + erase_adj);
 				return uret;
 			}
@@ -2399,7 +2473,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 			uret = octeontx_write_data(desc, offset, start_size,
 						   wr_buffer);
 			if (uret != UPDATE_OK) {
-				UWARN("Error erasing 0x%x bytes at offset 0x%" PRIx64 "\n",
+				UWARN("Error erasing 0x%x bytes at offset 0x%lx\n",
 				      start_size, offset + erase_adj);
 				return uret;
 			}
@@ -2412,7 +2486,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 		ret = spi_nor_erase(offset + erase_adj, erase_blk_cnt,
 				    desc->bus, desc->cs);
 		if (ret != 0) {
-			UWARN("Error erasing SPI block at offset 0x%" PRIx64 "\n",
+			UWARN("Error erasing SPI block at offset 0x%lx\n",
 			      offset + erase_adj);
 			return UPDATE_IO_ERROR;
 		}
@@ -2425,7 +2499,7 @@ octeontx_erase_data(const struct smc_update_descriptor *desc,
 			uret = octeontx_write_data(desc, offset, size,
 						   wr_buffer);
 			if (uret != UPDATE_OK) {
-				UWARN("Error erasing 0x%x bytes at offset 0x%" PRIx64 "\n",
+				UWARN("Error erasing 0x%x bytes at offset 0x%lx\n",
 				      size, offset);
 				return uret;
 			}
@@ -2497,7 +2571,7 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 	struct tim_header_info hinfo;
 	int i;
 
-	UINFO("Reading TIM header from offset 0x%lx\n", offset);
+	debug_fw_update("Reading TIM header from offset 0x%lx\n", offset);
 	zeromem(buffer, max_size);
 	ret = octeontx_read_data(desc, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
@@ -2540,6 +2614,7 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 		goto done;
 	}
 
+	UINFO("Signed TIM size: 0x%x bytes\n", hinfo.signed_tim_size);
 	/* Read the rest of the TIM */
 	ret = octeontx_read_data(desc, offset + TIM_TIMH_SIZE,
 				 hinfo.signed_tim_size - TIM_TIMH_SIZE,
@@ -2572,8 +2647,6 @@ done:
 	return ret;
 }
 
-
-
 static enum update_ret
 octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 		  size_t max_size, uint8_t *buffer, struct tim_handle *handle,
@@ -2586,7 +2659,8 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 	const struct smc_update_descriptor *desc = io->desc;
 	int i;
 
-	UINFO("Reading TIM header from offset 0x%lx\n", offset);
+	debug_fw_update("Reading TIM header from offset 0x%lx, size: 0x%lx\n",
+			offset, TIM_TIMH_SIZE);
 	zeromem(buffer, max_size);
 	ret = octeontx_io_data_read(io, offset, TIM_TIMH_SIZE, (void *)hdr);
 	if (ret != UPDATE_OK) {
@@ -2611,23 +2685,25 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 			}
 		}
 		if (ret != UPDATE_MISSING_TIM) {
-			UWARN("Could not parse TIM header at offset 0x%" PRIx64 " (%d) ret (%d)\n",
+			UWARN("Could not parse TIM header at offset 0x%lx (%d) ret (%d)\n",
 			      offset, tret, ret);
 			UWARN("SPI bus: %d, cs: %d\n", desc->bus, desc->cs);
 		} else {
-			UINFO("TIM not found at offset 0x%" PRIx64 ", tret: %d\n",
+			UINFO("TIM not found at offset 0x%lx, tret: %d\n",
 			      offset, tret);
 		}
 		goto done;
 	}
 
 	if (hinfo.signed_tim_size > max_size) {
-		UERROR("TIM at offset 0x%" PRIx64 " is too large\n", offset);
+		UERROR("TIM at offset 0x%lx is too large\n", offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
 
 	/* Read the rest of the TIM */
+	debug_fw_update("Reading rest of TIM from offset 0x%lx, total size: 0x%x\n",
+			offset + TIM_TIMH_SIZE, hinfo.signed_tim_size);
 	ret = octeontx_io_data_read(io, offset + TIM_TIMH_SIZE,
 				 hinfo.signed_tim_size - TIM_TIMH_SIZE,
 				 buffer + TIM_TIMH_SIZE);
@@ -2639,13 +2715,13 @@ octeontx_read_tim_io(struct io_handle *io, uint64_t offset,
 	/* Validate TIM */
 	tret = tim_load(hdr, offset, handle);
 	if (tret != TIM_NO_ERROR) {
-		UERROR("Error %d parsing TIM at 0x%" PRIx64 "\n", ret, offset);
+		UERROR("Error %d parsing TIM at 0x%lx\n", ret, offset);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
 	ret = ehsm_verify_tim_digital_signature(handle, &hinfo, (uint8_t *)hdr);
 	if (ret != 0) {
-		UERROR("TIM signature verification failed for TIM at offset 0x%" PRIx64 "\n",
+		UERROR("TIM signature verification failed for TIM at offset 0x%lx\n",
 		       offset);
 		ret = UPDATE_AUTH_ERROR;
 		goto done;
@@ -2669,7 +2745,7 @@ static enum update_ret get_tim0_from_update(void)
 	struct object_entry *oentry;
 	enum update_ret uret = UPDATE_TIM_MISSING;
 
-	UINFO("Looking for tim0 in update objects\n");
+	debug_fw_update("Looking for tim0 in update objects\n");
 	for_each_object(oentry) {
 		if (oentry->tim_file != NULL) {
 			fentry = oentry->tim_file;
@@ -2765,13 +2841,13 @@ static enum update_ret save_tim0(const struct smc_update_descriptor *desc)
 		return uret;
 	}
 
-	UINFO("Saving TIM0 from offset 0x%" PRIx64 " size 0x%" PRIx64 "\n", offset, size);
+	UINFO("Saving TIM0 from offset 0x%lx size 0x%lx\n", offset, size);
 	uret = octeontx_read_tim(desc, offset, sizeof(tim0_buffer),
 				 tim0_buffer, thdl, &size);
 	tim0_size = size;
 	tim0_offset = offset;
 	if (uret != UPDATE_OK) {
-		UWARN("Reading TIM0 failed with %d at offset 0x%" PRIx64 ", not erasing\n",
+		UWARN("Reading TIM0 failed with %d at offset 0x%lx, not erasing\n",
 		       uret, offset);
 		tim0_offset = 0;
 		tim0_size = 0;
@@ -2874,7 +2950,7 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 				ret =  octeontx_read_data(desc, offset, xfer_len,
 							  rd_buffer);
 				if (ret != UPDATE_OK) {
-					UWARN("Read flash failed for offset: 0x%" PRIx64 ", file: %s\n",
+					UWARN("Read flash failed for offset: 0x%lx, file: %s\n",
 					     offset, fentry->filename);
 					break;
 				}
@@ -2891,26 +2967,26 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 			/* Write new data */
 			ret = octeontx_write_data(desc, offset, xfer_len, wr_buffer);
 			if (ret != UPDATE_OK) {
-				UWARN(" Write flash failed for offset: 0x%" PRIx64 ", file: %s\n",
-				offset, fentry->filename);
+				UWARN(" Write flash failed for offset: 0x%lx, file: %s\n",
+				      offset, fentry->filename);
 				break;
 			}
 
 			/* Read it back and compare it */
 			ret = octeontx_read_data(desc, offset, xfer_len, rd_buffer);
 			if (ret != UPDATE_OK) {
-				UWARN("Read flash failed for offset: 0x%" PRIx64 ", file: %s\n",
+				UWARN("Read flash failed for offset: 0x%lx, file: %s\n",
 				offset, fentry->filename);
 				break;
 			}
 			if (memcmp(rd_buffer, wr_buffer, xfer_len)) {
 				int i;
-				UWARN("Compare data failed for file: %s at offset 0x%" PRIx64 ", compare len: 0x%" PRIx64 "\n",
+				UWARN("Compare data failed for file: %s at offset 0x%lx, compare len: 0x%lx\n",
 				     fentry->filename, offset, xfer_len);
 				ret = UPDATE_IO_ERROR;
 				for (i = 0; i < xfer_len; i++)
 					if (wr_buffer[i] != rd_buffer[i])
-						UWARN("offset 0x%" PRIx64 ": w 0x%02x != r 0x%02x\n",
+						UWARN("offset 0x%lx: w 0x%02x != r 0x%02x\n",
 						      offset + i,
 						      wr_buffer[i],
 						      rd_buffer[i]);
@@ -2949,7 +3025,7 @@ octeontx_write_files(const struct smc_update_descriptor *desc,
 			if (fentry->object->update_all)
 				UINFO("Updating %s with all files in group\n", fentry->filename);
 			if (strcmp(fentry->filename, TIM0_FILENAME) || tim0_size == 0) {
-				UINFO("Writing file %s: location: 0x%" PRIx64 ", size: 0x%lx\n",
+				UINFO("Writing file %s: location: 0x%lx, size: 0x%lx\n",
 				      fentry->filename, fentry->file_loc,
 				      fentry->file_size);
 				ret = octeontx_update_fw_file(desc, fentry,
@@ -2976,7 +3052,7 @@ void add_mapped_region(struct unmap_params *param, uint64_t base_addr, int map_s
 {
 	int param_cnt = param->count;
 
-	UINFO("Saving mapping: id: %d, base_addr: 0x%" PRIx64 ", size: 0x%x\n",
+	UINFO("Saving mapping: id: %d, base_addr: 0x%lx, size: 0x%x\n",
 		param_cnt, base_addr, map_size);
 
 	param->p[param_cnt].base_addr = base_addr;
@@ -3004,7 +3080,7 @@ enum spi_dc_ret done_callback(void *p)
 
 	for (i = 0; i < param->count; i++) {
 		if (param->p[i].base_addr && param->p[i].ns_map_size) {
-			INFO("Unmapping: id: %d, base_addr: 0x%" PRIx64 ", size: 0x%x\n",
+			INFO("Unmapping: id: %d, base_addr: 0x%lx, size: 0x%x\n",
 				i, param->p[i].base_addr, param->p[i].ns_map_size);
 			octeontx_mmap_remove_dynamic_region_with_sync(param->p[i].base_addr,
 								param->p[i].ns_map_size);
@@ -3034,32 +3110,46 @@ void async_mark_copy_images(struct async_clone_data *param) {
 			param->clone_needed = true;
 		} else {
 			for (j = 0 ; j < dst->num_objects ; j++) {
-				if (!strncmp(src->objects[i].name, dst->objects[j].name, VER_MAX_NAME_LENGTH)) {
+				if (!strncmp(src->objects[i].name,
+					     dst->objects[j].name,
+					     VER_MAX_NAME_LENGTH)) {
 					if (dst->objects[j].retcode != RET_OK) {
-						UINFO("%s perform clone: TIM error\n", dst->objects[j].name);
+						UINFO("%s perform clone: TIM error\n",
+						      dst->objects[j].name);
 						src->objects[i].perform_clone = 1;
 						param->clone_needed = true;
-					} else if (memcmp(&dst->objects[j].version, &src->objects[i].version, sizeof(struct tim_opaque_data_version_info))) {
-						UINFO("%s perform clone: version mismatch\n", dst->objects[j].name);
+					} else if (memcmp(&dst->objects[j].version,
+							  &src->objects[i].version,
+							  sizeof(struct tim_opaque_data_version_info))) {
+						UINFO("%s perform clone: version mismatch\n",
+						      dst->objects[j].name);
 						src->objects[i].perform_clone = 1;
 						param->clone_needed = true;
 					} else if (dst->objects[j].hash_size != src->objects[i].hash_size) {
-						UINFO("%s perform clone: hash size mismatch\n", dst->objects[j].name);
+						UINFO("%s perform clone: hash size mismatch\n",
+						      dst->objects[j].name);
 						src->objects[i].perform_clone = 1;
 						param->clone_needed = true;
-					} else if (memcmp(&dst->objects[j].tim_hash, &src->objects[i].tim_hash, dst->objects[j].hash_size)) {
-						UINFO("%s perform clone: tim hash mismatch\n", dst->objects[j].name);
+					} else if (memcmp(&dst->objects[j].tim_hash,
+							  &src->objects[i].tim_hash,
+							  dst->objects[j].hash_size)) {
+						UINFO("%s perform clone: tim hash mismatch\n",
+						      dst->objects[j].name);
 						src->objects[i].perform_clone = 1;
 						param->clone_needed = true;
-					} else if (memcmp(&dst->objects[j].obj_hash, &src->objects[i].obj_hash, dst->objects[j].hash_size)) {
-						UINFO("%s perform clone: obj hash mismatch\n", dst->objects[j].name);
+					} else if (memcmp(&dst->objects[j].obj_hash,
+							  &src->objects[i].obj_hash,
+							  dst->objects[j].hash_size)) {
+						UINFO("%s perform clone: obj hash mismatch\n",
+						      dst->objects[j].name);
 						src->objects[i].perform_clone = 1;
 						param->clone_needed = true;
 					}
 				}
 			}
 		}
-		UINFO("File: %s, clone status: %" PRId64 "\n", src->objects[i].name, src->objects[i].perform_clone);
+		UINFO("File: %s, clone status: 0x%lx\n", src->objects[i].name,
+		      src->objects[i].perform_clone);
 	}
 
 	/* Check if we can skip clone - if not mark tim0 for update */
@@ -3088,7 +3178,7 @@ int async_prepare_copy_operation(void *p)
 	clone_cfg->copy_params.src_tim_size = clone_cfg->vinfo_source->objects[obj_id].tim_size;
 	clone_cfg->copy_params.read_or_write = READ_OPERATION;
 
-	UINFO("Name: %s, obj 0x%" PRIx64 ":0x%" PRIx64 ", tim: 0x%" PRIx64 ":0x%" PRIx64 " SRC:%d:%d DST:%d:%d\n",
+	UINFO("Name: %s, obj 0x%lx:0x%lx, tim: 0x%lx:0x%lx SRC:%d:%d DST:%d:%d\n",
 			clone_cfg->vinfo_source->objects[obj_id].name,
 			clone_cfg->copy_params.src_object_addr,
 			clone_cfg->copy_params.src_object_size,
@@ -3477,7 +3567,9 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	bool old_tim0_saved = false;
 	bool tim0_updated = false;
 	bool use_full_async = true;
-	debug_fw_update("%s(%" PRIx64 ", %" PRIx64 ", 0x%x, 0x%x)\n",
+	bool update_any = false;
+
+	debug_fw_update("%s(%lx, %lx, 0x%x, 0x%x)\n",
 			__func__, desc->image_addr,
 			desc->image_size, desc->bus, desc->cs);
 	debug_fw_update("%s: Updating %s flash\n", __func__,
@@ -3550,10 +3642,15 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 
 	gti_wdog_pet();
 	UINFO("Checking existing flash objects...\n");
-	ret = check_flash_files(desc, all_present);
+	ret = check_flash_files(desc, all_present, &update_any);
 	if (ret != UPDATE_OK)
 		goto error;
 
+	if (!update_any) {
+		UINFO("No components marked for updating\n");
+		ret = UPDATE_OK;
+		goto done;
+	}
 	gti_wdog_pet();
 	UINFO("Reading and erasing existing TIM0\n");
 	ret = save_tim0(desc);
@@ -3590,7 +3687,7 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	} else {
 
 	}
-
+done:
 	UINFO("Firmware update done.\n");
 error:
 	return ret;
@@ -3615,7 +3712,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 
 	assert(uret);
 	prepare_mapping_storage(&uParams);
-	debug_fw_update("desc: 0x%lx, desc size: 0x%" PRIx64 ", dram size: 0x%" PRIx64 "\n",
+	debug_fw_update("desc: 0x%lx, desc size: 0x%lx, dram size: 0x%lx\n",
 			desc_buf, desc_size, dram_end);
 	/* Round up to page size */
 	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
@@ -3625,19 +3722,19 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	base_addr = desc_buf & mask;
 	/* If descriptor crosses a page boundary, allocate another page */
 	if ((desc_buf + desc_size) > (base_addr + ns_map_size)) {
-		debug_fw_update("0x%" PRIx64 " > 0x%" PRIx64 ", increasing map size by 0x%lx\n",
+		debug_fw_update("0x%lx > 0x%lx, increasing map size by 0x%lx\n",
 				desc_buf + desc_size, base_addr + ns_map_size,
 				PAGE_SIZE);
 		ns_map_size += PAGE_SIZE;
 	}
 	/* Do one final check */
 	if (base_addr + ns_map_size >= dram_end) {
-		UERROR("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
+		UERROR("Invalid descriptor address 0x%lx or size 0x%x\n",
 		     base_addr, ns_map_size);
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
-	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%" PRIx64 ", map size: 0x%x\n",
+	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%lx, map size: 0x%x\n",
 			desc_buf, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
@@ -3647,9 +3744,6 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
-
-	debug_fw_update("Copying descriptor from 0x%lx to 0x%p\n",
-			desc_buf, &update_desc);
 
 	update_desc_async_ptr = (struct smc_update_descriptor *) desc_buf;
 	zeromem(&update_desc, sizeof(update_desc));
@@ -3765,7 +3859,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		*uret = UPDATE_MMAP_ERROR;
 		return -SPI_MMAP_ERR;
 	}
-	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%" PRIx64 ", map size: 0x%x\n",
+	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%lx, map size: 0x%x\n",
 			addr, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
@@ -3881,14 +3975,13 @@ static int cn10k_read_flash(struct smc_read_flash_descriptor *desc,
 	void *buffer;
 	size_t size;
 
-	debug_fw_update("%s(%" PRIx64 ", %" PRIx64 ", %" PRIx64 ", 0x%x, 0x%x)\n",
+	debug_fw_update("%s(%lx, %lx, %lx, 0x%x, 0x%x)\n",
 			__func__, desc->addr,
 			desc->length, desc->offset, desc->bus, desc->cs);
 	buffer = (void *)desc->addr;
 	size = desc->length;
 
 	gti_wdog_pet();
-	INFO("Reading Data\n");
 	err = spi_async_init_delayed(debug_flag);
 
 	gti_wdog_pet();
@@ -3899,7 +3992,6 @@ static int cn10k_read_flash(struct smc_read_flash_descriptor *desc,
 		spi_async_start(done_callback, p);
 	}
 
-	INFO("Done.\n");
 	return err;
 }
 
@@ -3915,7 +4007,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	uintptr_t console_base_addr = 0;
 	size_t console_map_size = 0;
 
-	debug_fw_update("desc: 0x%lx, desc size: 0x%" PRIx64 "\n",
+	debug_fw_update("desc: 0x%lx, desc size: 0x%lx\n",
 			desc_buf, desc_size);
 	/* Round up to page size */
 	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
@@ -3925,12 +4017,12 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	base_addr = desc_buf & mask;
 	/* If descriptor crosses a page boundary, allocate another page */
 	if ((desc_buf + desc_size) > (base_addr + ns_map_size)) {
-		debug_fw_update("0x%" PRIx64 " > 0x%" PRIx64 ", increasing map size by 0x%lx\n",
+		debug_fw_update("0x%lx > 0x%lx, increasing map size by 0x%lx\n",
 				desc_buf + desc_size, base_addr + ns_map_size,
 				PAGE_SIZE);
 		ns_map_size += PAGE_SIZE;
 	}
-	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%" PRIx64 ", map size: 0x%x\n",
+	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%lx, map size: 0x%x\n",
 			desc_buf, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
@@ -3941,8 +4033,6 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 		goto error;
 	}
 
-	debug_fw_update("Copying descriptor from 0x%lx to 0x%p\n",
-			desc_buf, &read_desc);
 	memcpy(&read_desc, (const void *)desc_buf, sizeof(read_desc));
 
 	octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
@@ -3986,7 +4076,7 @@ int spi_smc_read_flash(uintptr_t desc_buf, uint64_t desc_size)
 	/* Add an extra page if this now exceeds the map size */
 	if ((addr + size) > (base_addr + ns_map_size))
 		ns_map_size += PAGE_SIZE;
-	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%" PRIx64 ", map size: 0x%x\n",
+	debug_fw_update("Adding image mapping, address: 0x%lx, base: 0x%lx, map size: 0x%x\n",
 			addr, base_addr, ns_map_size);
 	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
 							 ns_map_size,
@@ -4100,13 +4190,13 @@ static int check_get_version(struct smc_version_info *vinfo,
 	if (uret == UPDATE_MISSING_TIM) {
 		ventry->retcode = RET_NOT_FOUND;
 		VLOG(ventry, "TIM not found.");
-		UWARN("TIM not found at %" PRIx64 "\n", flash_addr);
+		UWARN("TIM not found at %lx\n", flash_addr);
 		return RET_NOT_FOUND;
 	}
 	if (uret != UPDATE_OK) {
 		ventry->retcode = RET_TIM_INVALID;
-		VLOG(ventry, "Invalid TIM found for object at %" PRIx64 "", flash_addr);
-		UWARN("Invalid TIM found for object at %" PRIx64 "\n", flash_addr);
+		VLOG(ventry, "Invalid TIM found for object at %lx", flash_addr);
+		UWARN("Invalid TIM found for object at %lx\n", flash_addr);
 		return RET_TIM_INVALID;
 	}
 	if (tim_size)
@@ -4164,9 +4254,9 @@ static int check_get_version(struct smc_version_info *vinfo,
 	if (vinfo->version_flags & SMC_VERSION_CHECK_SPECIFIC_OBJECTS) {
 		if (strcmp(ventry->name, tli->data_filename)) {
 			VLOG(ventry,
-			     "TIM name %s does not match passed name %s",
+			     "TIM version name %s does not match passed object name %s",
 			     ventry->name, tli->data_filename);
-			UWARN("TIM name %s does not match passed name %s\n",
+			UWARN("TIM version name %s does not match passed object name %s\n",
 			     ventry->name, tli->data_filename);
 			ventry->retcode = RET_NAME_MISMATCH;
 			strlcpy(ventry->name, tli->data_filename,
@@ -4186,7 +4276,7 @@ static int check_get_version(struct smc_version_info *vinfo,
 	}
 
 	if (vinfo->version_flags & SMC_VERSION_CHECK_VALIDATE_HASH) {
-		UINFO("Validating hash for %s at  offset 0x%" PRIx64 "\n",
+		UINFO("Validating hash for %s at  offset 0x%lx\n",
 		     ventry->name, ventry->object_address);
 		if (!tli->hshi_parsed) {
 			ventry->retcode = RET_TIM_NO_HASH;
@@ -4241,6 +4331,8 @@ flash_copy_object(struct io_handle *src_handle, struct io_handle *dst_handle,
 	offset = src_object_addr;
 
 	/* Copy object first */
+	UINFO("Copying object from offset 0x%lx, 0x%lx bytes to target media\n",
+	      offset, src_object_size);
 	while (bytes_left) {
 		read_size = (bytes_left < sizeof(tim_buffer)) ?
 						bytes_left : sizeof(tim_buffer);
@@ -4265,6 +4357,8 @@ flash_copy_object(struct io_handle *src_handle, struct io_handle *dst_handle,
 	bytes_left = src_tim_size;
 	offset = src_tim_addr;
 
+	UINFO("Copying TIM from offset 0x%lx, 0x%lx bytes to target media\n",
+	      offset, src_tim_size);
 	while (bytes_left) {
 		read_size = (bytes_left < sizeof(tim_buffer)) ?
 						bytes_left : sizeof(tim_buffer);
@@ -4464,7 +4558,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 
 		/* Skip writing TIM0 (object OK) for now. */
 		if (strcmp(ventry->name, TIM0_FDT_NAME)) {
-			UINFO("Copying %s from %s %u:%u TIM offset 0x%" PRIx64 ", offset 0x%" PRIx64 " to %s %u:%u TIM offset 0x%" PRIx64 ", offset 0x%" PRIx64 "\n",
+			UINFO("Copying %s from %s %u:%u TIM offset 0x%lx, offset 0x%lx to %s %u:%u TIM offset 0x%lx, offset 0x%lx\n",
 				ventry->name,
 				src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 				src_desc.bus, src_desc.cs,
@@ -4484,7 +4578,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 			 * For tim0 we only copy the data object.  The TIM
 			 * will be copied last.
 			 */
-			UINFO("Copying %s from %s %u:%u, offset 0x%" PRIx64 " to %s %u:%u, offset 0x%" PRIx64 "\n",
+			UINFO("Copying %s from %s %u:%u, offset 0x%lx to %s %u:%u, offset 0x%lx\n",
 				ventry->name,
 				src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 				src_desc.bus, src_desc.cs,
@@ -4509,7 +4603,7 @@ flash_smc_copy_objects(struct smc_version_info *vinfo)
 	}
 
 	if (tim0_ventry) {
-		UINFO("Copying %s from %s %u:%u TIM0 offset 0x%" PRIx64 " to %s %u:%u TIM0 offset 0x%" PRIx64 "\n",
+		UINFO("Copying %s from %s %u:%u TIM0 offset 0x%lx to %s %u:%u TIM0 offset 0x%lx\n",
 			tim0_ventry->name,
 			src_desc.update_flags & UPDATE_FLAG_EMMC ? "eMMC" : "SPI NOR",
 			src_desc.bus, src_desc.cs,
@@ -4546,7 +4640,7 @@ dest_io_error:
 	if (err == BACKUP_IO_DST_ERROR || err == BACKUP_IO_ERASE_ERROR) {
 		for (i = 0; i < vinfo->num_objects; i++) {
 			ventry = &vinfo->objects[i];
-			UWARN("Erasing backup target TIM %s at offset 0x%" PRIx64 "\n",
+			UWARN("Erasing backup target TIM %s at offset 0x%lx\n",
 			     ventry->name, ventry->tim_address);
 			octeontx_erase_data(&dst_desc,
 					    ventry->tim_address,
@@ -4574,7 +4668,7 @@ static int get_object_alt_layout(struct smc_version_info_entry *ventry)
 				ventry->tim_address = alt_layout[i].old_addr;
 				ventry->max_size = alt_layout[i].old_size;
 			}
-			WARN("TIM %s : try with another layout\n", ventry->name);
+			UWARN("TIM %s : try with another layout\n", ventry->name);
 			return 1;
 		}
 	}
@@ -4620,7 +4714,7 @@ static int update_vinfo(struct verification_data *hash_data)
 	if (err == RET_IMAGE_TOO_BIG &&
 	    !strcmp(ventry->name, "u-boot-nodtb.bin") &&
 	    ventry->tim_address == 0x600000) {
-		WARN("U-Boot size too big, change layout for SDK12\n");
+		UWARN("U-Boot size too big, change layout for SDK12\n");
 		ventry->max_size = 0x200000;
 		err = check_get_version(hash_data->vinfo, ventry,
 					&hash_data->udesc,
@@ -4634,7 +4728,7 @@ static int update_vinfo(struct verification_data *hash_data)
 			 * as it is far enough in new layout to get corrupted when
 			 * downgraded
 			 */
-			WARN("U-Boot size too big, recheck NPC TIM\n");
+			UWARN("U-Boot size too big, recheck NPC TIM\n");
 			ventry = &(hash_data->vinfo->objects[npc_obj_ventry_counter]);
 			ventry->tim_address = 0x800000;
 			err = check_get_version(hash_data->vinfo, ventry,
@@ -4647,7 +4741,7 @@ static int update_vinfo(struct verification_data *hash_data)
 		}
 	} else if (err == RET_NOT_FOUND || err == RET_TIM_INVALID) {
 		if (use_alt_layout) {
-			WARN("TIM %s : cannot change layout when already done\n", ventry->name);
+			UWARN("TIM %s : cannot change layout when already done\n", ventry->name);
 		} else if (get_object_alt_layout(ventry)) {
 			use_alt_layout = 1;
 			err = check_get_version(hash_data->vinfo, ventry,
@@ -4661,7 +4755,7 @@ static int update_vinfo(struct verification_data *hash_data)
 			if (err == RET_IMAGE_TOO_BIG &&
 			    !strcmp(ventry->name, "u-boot-nodtb.bin") &&
 			    ventry->tim_address == 0x600000) {
-				WARN("U-Boot size too big, change layout for SDK12\n");
+				UWARN("U-Boot size too big, change layout for SDK12\n");
 				ventry->max_size = 0x200000;
 				err = check_get_version(hash_data->vinfo, ventry,
 							&hash_data->udesc,
@@ -4675,7 +4769,7 @@ static int update_vinfo(struct verification_data *hash_data)
 					 * as it is far enough in new layout to get corrupted when
 					 * downgraded
 					 */
-					WARN("U-Boot size too big, recheck NPC TIM\n");
+					UWARN("U-Boot size too big, recheck NPC TIM\n");
 					ventry = &(hash_data->vinfo->objects[npc_obj_ventry_counter]);
 					ventry->tim_address = 0x800000;
 					err = check_get_version(hash_data->vinfo, ventry,
@@ -4688,7 +4782,7 @@ static int update_vinfo(struct verification_data *hash_data)
 				}
 			} else if (!strcmp(ventry->name, "u-boot-nodtb.bin") &&
 				   npc_obj_ventry_counter) {
-				WARN("U-Boot layout change, recheck NPC TIM\n");
+				UWARN("U-Boot layout change, recheck NPC TIM\n");
 				uboot_tim_addr = ventry->tim_address;
 				ventry = &(hash_data->vinfo->objects[npc_obj_ventry_counter]);
 				if (uboot_tim_addr == 0x600000) {
@@ -4705,7 +4799,7 @@ static int update_vinfo(struct verification_data *hash_data)
 				ventry->retcode = err;
 			} else if (!strcmp(ventry->name, "npc_mkex-cn10xx.fw") &&
 				   uboot_obj_ventry_counter) {
-				WARN("NPC layout change, recheck U-Boot TIM\n");
+				UWARN("NPC layout change, recheck U-Boot TIM\n");
 				npc_tim_addr = ventry->tim_address;
 				ventry = &(hash_data->vinfo->objects[uboot_obj_ventry_counter]);
 				if (npc_tim_addr == 0x700000) {
@@ -4750,13 +4844,13 @@ static int check_tim(struct smc_version_info *vinfo,
 	if (uret == UPDATE_MISSING_TIM) {
 		ventry->retcode = RET_NOT_FOUND;
 		VLOG(ventry, "TIM not found.");
-		UWARN("TIM not found at %" PRIx64 "\n", flash_addr);
+		UWARN("TIM not found at %lx\n", flash_addr);
 		return RET_NOT_FOUND;
 	}
 	if (uret != UPDATE_OK) {
 		ventry->retcode = RET_TIM_INVALID;
-		VLOG(ventry, "Invalid TIM found for object at %" PRIx64 "", flash_addr);
-		UWARN("Invalid TIM found for object at %" PRIx64 "\n", flash_addr);
+		VLOG(ventry, "Invalid TIM found for object at %lx", flash_addr);
+		UWARN("Invalid TIM found for object at %lx\n", flash_addr);
 		return RET_TIM_INVALID;
 	}
 	if (tim_size)
@@ -5093,7 +5187,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 			if (err == -ENODEV) {
 				ventry->retcode = RET_NOT_FOUND;
 				VLOG(ventry,
-				     "Could not find %s at address %" PRIx64 "",
+				     "Could not find %s at address %lx",
 				     ventry->name, ventry->tim_address);
 				continue;
 			} else if (err != 0) {
@@ -5158,7 +5252,7 @@ static int prepare_vinfo(struct smc_version_info *vinfo, struct verification_dat
 			ventry->max_size = osize;
 			if (err == -ENODEV) {
 				ventry->retcode = RET_NOT_FOUND;
-				VLOG(ventry, "Could not find %s at address %" PRIx64 "",
+				VLOG(ventry, "Could not find %s at address %lx",
 				ventry->name, ventry->tim_address);
 				return 0;
 			} else if (err != 0) {
@@ -5375,7 +5469,7 @@ int smc_check_versions(uint64_t desc_buf, uint64_t desc_size,
 		ns_map_size += PAGE_SIZE;
 
 	if (base_addr + ns_map_size > dram_end) {
-		UERROR("Invalid descriptor address 0x%" PRIx64 " or size 0x%x\n",
+		UERROR("Invalid descriptor address 0x%lx or size 0x%x\n",
 		     base_addr, ns_map_size);
 		*uret = -SPI_MMAP_ERR;
 		err = -EFAULT;
