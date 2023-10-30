@@ -47,7 +47,7 @@ Uncorrected errors from all other modules are treated as fatal in the current fi
 
 The firmware enables exceptions in relevant CN10K hardware units
 CORE (ARM processor), DSS (DRAM subsystem, DRAM Controller),
-TAD (LLC, Cache Tag And Data), MDC (Memory Diagnostic Controller)
+TAD (LLC, Cache Tag And Data), MDC (Memory Diagnostic Controller), GIC (Generic interrupt control)
 and performs the following actions:
 - Capture hardware description of the error
 - Convert the hardware description of the error to CPER (Common Platform Error Record) and GHES format
@@ -204,6 +204,12 @@ EDAC-based interface for AP cores percent for each CPU core
 
 EDAC DEVICE2: UE: core instance: cpu5 block: core0 'UEL1D(0,0,0,0) midr=0x410fd490 mpidr=0x81050000 paddr=0x0 info=0x5'
 
+RAS EDAC Interface GIC (Generic Interrupt Control unit)
+=============================================
+
+EDAC based interface
+
+/sys/devices/system/edac/gic/
 
 RAS APEI GHES Error injection DSS
 =================================
