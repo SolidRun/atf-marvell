@@ -1458,7 +1458,7 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 	/* Ignore req_an for fixed modes - need to add condition
 	 * req_an will be always passed with advertise command
 	 */
-	if ((req_mode == 0x3ffffffffff) && (!lmac->phy_present) && (!req_an)) {
+	if ((req_mode == 0x3ffffffffff) && ((!lmac->phy_present) || (!req_an))) {
 		debug_cgx_intf("%s: %d: %d Advertising multiple modes supported only when\n"
 				"PHY is present and AN is enabled\n",
 				 __func__, cgx_id, lmac_id);
