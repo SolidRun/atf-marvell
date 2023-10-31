@@ -1115,47 +1115,65 @@ static enum update_ret firm_update_init(const void *data, size_t size)
 	return ret;
 }
 
-#if 0
-static enum update_ret update_descr_retcodes(struct smc_update_descriptor *desc)
+/**
+ * Fill in information to return to the update caller
+ *
+ * @param[in,out]	desc	SMC call descriptor
+ *
+ * @return	status of operation
+ */
+void update_descr_retcodes(struct smc_update_descriptor *desc)
 {
 	struct object_entry *oentry;
-	struct file_entry *fentry;
+	struct file_entry *tfile;
+	struct file_entry *dfile;
 	struct smc_update_obj_info *obj_info;
 	unsigned i;
 
-	if (desc->version < UPDATE_OBJ_RETCODE_VERSION)
-		return UPDATE_OK;
+	if (desc->version < UPDATE_OBJ_RETCODE_VERSION) {
+		UINFO("Descriptor version 0x%x too old for return data\n",
+		      desc->version);
+		return;
+	}
 
 	i = 0;
-	for_each_file(fentry) {
-		if (i == SMC_MAX_OBJECTS) {
-			WARN("Object count exceeds %u\n", SMC_MAX_OBJECTS);
-			return UPDATE_TOO_MANY_OBJECTS;
-		}
-		oentry = fentry->object;
-		if (oentry->ret_code_processed)
-			continue;
-
-		obj_info = &desc->object_retinfo[i++];
-		strlcpy((char *)obj_info->tim_name, oentry->tim_file->filename,
+	for_each_object(oentry) {
+		obj_info = &desc->object_retinfo[i];
+		tfile = oentry->tim_file;
+		dfile = oentry->data_file;
+		UINFO("Object %d with TIM %.32s return code set\n",
+		      i, tfile->filename);
+		strlcpy((char *)obj_info->tim_name, tfile->filename,
 			VER_MAX_NAME_LENGTH);
-		obj_info->tim_address = oentry->tim_file->file_loc;
-		obj_info->tim_size = oentry->tim_file->bytes_written;
+		obj_info->tim_address = tfile->file_loc;
+		obj_info->tim_size = tfile->file_written;
+		obj_info->bytes_written = tfile->bytes_written;
 		memcpy(&obj_info->old_version_data, &oentry->orig_version,
 		       sizeof(obj_info->old_version_data));
 		memcpy(&obj_info->new_version_data, &oentry->version,
 		       sizeof(obj_info->new_version_data));
 
-		if (oentry->data_file != NULL) {
-			strlcpy((char *)obj_info->object_name, oentry->data_file->filename,
+		if (dfile != NULL) {
+			UINFO("Object %d with file %.32s return code set\n",
+			      i, dfile->filename);
+			strlcpy((char *)obj_info->object_name, dfile->filename,
 				VER_MAX_NAME_LENGTH);
-			obj_info->media_address = oentry->data_file->file_loc;
-			obj_info->bytes_written = oentry->data_file->bytes_written;
+			obj_info->data_address = dfile->file_loc;
+			obj_info->data_size = dfile->file_size;
+			obj_info->bytes_written += dfile->bytes_written;
+		} else {
+			UINFO("No data object for %.32s\n", tfile->filename);
 		}
 		oentry->ret_code_processed = 1;
+		i++;
+		if (i == SMC_MAX_OBJECTS) {
+			WARN("Object count exceeds %u\n", SMC_MAX_OBJECTS);
+			return;
+		}
+		INFO("TIM size: 0x%lx, data size: 0x%lx\n",
+		     obj_info->tim_size, obj_info->bytes_written);
 	}
 }
-#endif
 
 /**
  * Processes all of the TIMs in an update file
@@ -3696,48 +3714,53 @@ error:
 int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		   uint64_t dram_end, enum update_ret *uret)
 {
-	int err = 0, ns_map_size;
+	int err = 0, ns_map_size = 0;
+	int desc_ns_map_size = 0;
 	struct smc_update_descriptor update_desc;
 	struct smc_update_descriptor *update_desc_async_ptr;
 	uintptr_t addr = 0, size = 0;
 	uint32_t bus = 0, cs;
 	uint64_t base_addr = 0;
+	uint64_t desc_base_addr = 0;
 	const uint64_t mask = ~((uint64_t)PAGE_SIZE_MASK);
 	bool async_operation = false;
 	struct io_handle io_handle;
 	uintptr_t console_base_addr = 0;
 	size_t console_map_size = 0;
-	bool spi_unlock = false;
 	size_t copy_size = desc_size;
+	bool spi_unlock = false;
+	bool desc_response_required = false;
 
 	assert(uret);
 	prepare_mapping_storage(&uParams);
 	debug_fw_update("desc: 0x%lx, desc size: 0x%lx, dram size: 0x%lx\n",
 			desc_buf, desc_size, dram_end);
 	/* Round up to page size */
-	ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
+	desc_ns_map_size = (desc_size + PAGE_SIZE - 1) & -PAGE_SIZE;
 
 	/* Map non-secure memory buffer */
 	/* Note that this needs to be page aligned */
-	base_addr = desc_buf & mask;
+	desc_base_addr = desc_buf & mask;
 	/* If descriptor crosses a page boundary, allocate another page */
-	if ((desc_buf + desc_size) > (base_addr + ns_map_size)) {
+	if ((desc_buf + desc_size) > (desc_base_addr + desc_ns_map_size)) {
 		debug_fw_update("0x%lx > 0x%lx, increasing map size by 0x%lx\n",
-				desc_buf + desc_size, base_addr + ns_map_size,
+				desc_buf + desc_size,
+				desc_base_addr + desc_ns_map_size,
 				PAGE_SIZE);
-		ns_map_size += PAGE_SIZE;
+		desc_ns_map_size += PAGE_SIZE;
 	}
 	/* Do one final check */
-	if (base_addr + ns_map_size >= dram_end) {
+	if (desc_base_addr + desc_ns_map_size >= dram_end) {
 		UERROR("Invalid descriptor address 0x%lx or size 0x%x\n",
-		     base_addr, ns_map_size);
+		     desc_base_addr, desc_ns_map_size);
 		err = -SPI_MMAP_ERR;
 		goto error;
 	}
 	debug_fw_update("Adding descriptor mapping, address: 0x%lx, base: 0x%lx, map size: 0x%x\n",
-			desc_buf, base_addr, ns_map_size);
-	err = octeontx_mmap_add_dynamic_region_with_sync(base_addr, base_addr,
-							 ns_map_size,
+			desc_buf, desc_base_addr, desc_ns_map_size);
+	err = octeontx_mmap_add_dynamic_region_with_sync(desc_base_addr,
+							 desc_base_addr,
+							 desc_ns_map_size,
 							 MT_RW | MT_NS);
 	if (err) {
 		UERROR("FW Update: descriptor mmap failed (%d)\n", err);
@@ -3751,15 +3774,25 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 		copy_size = sizeof(update_desc);
 	memcpy(&update_desc, (const void *)desc_buf, copy_size);
 
+	zeromem(&update_desc.object_retinfo,
+		sizeof(update_desc.object_retinfo));
+	desc_response_required = update_desc.version >= UPDATE_OBJ_RETCODE_VERSION &&
+		desc_size >= sizeof(struct smc_update_descr_obj_retcode);
 	/* Currently the update flags are not used so we don't save them.
 	 * We store the update error code in them, however, so we zero it here.
 	 */
 	*uret = UPDATE_OK;
 	uParams.count = 0;
-	if (!update_desc.async_operation)
-		octeontx_mmap_remove_dynamic_region_with_sync(base_addr, ns_map_size);
-	else
-		add_mapped_region(&uParams, base_addr, ns_map_size);
+	if (!update_desc.async_operation) {
+		if (!desc_response_required) {
+			octeontx_mmap_remove_dynamic_region_with_sync(desc_base_addr,
+								      desc_ns_map_size);
+			desc_base_addr = 0;
+			desc_ns_map_size = 0;
+		}
+	} else {
+		add_mapped_region(&uParams, desc_base_addr, desc_ns_map_size);
+	}
 
 	base_addr = 0;
 	ns_map_size = 0;
@@ -3777,7 +3810,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	 * backwards compatibility, etc.
 	 */
 	if (update_desc.version != UPDATE_VERSION) {
-		UWARN("Version 0x%x mistmatch (expected 0x%x or 0x0100). Some features could be not available",
+		UWARN("Version 0x%x out of date (expected 0x%x). Some features could be not available",
 		      update_desc.version, UPDATE_VERSION);
 	}
 	if (update_desc.version < UPDATE_MIN_VERSION) {
@@ -3790,6 +3823,8 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	    update_desc.output_console != 0 &&
 	    update_desc.output_console_size > 0 &&
 	    update_desc.update_flags & UPDATE_FLAG_LOG_PROGRESS) {
+		UINFO("Mapping console at 0x%lx, size 0x%x\n",
+		      update_desc.output_console, update_desc.output_console_size);
 		console_base_addr = update_desc.output_console & mask;
 		console_map_size = (update_desc.output_console_size + PAGE_SIZE - 1) & mask;
 		err = octeontx_mmap_add_dynamic_region_with_sync(console_base_addr,
@@ -3931,7 +3966,14 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	}
 
 error:
-	/* unmap non-secure memory buffer */
+	if (desc_response_required && !update_desc.async_operation && !err) {
+		INFO("Filling in descriptor return codes\n");
+		update_descr_retcodes(&update_desc);
+		memcpy((void *)desc_buf, &update_desc,
+		       sizeof(struct smc_update_descr_obj_retcode));
+		octeontx_mmap_remove_dynamic_region_with_sync(desc_base_addr,
+							      desc_ns_map_size);
+	}
 	if (err) {
 		media_done(&io_handle);
 		if (base_addr && ns_map_size)
@@ -3951,7 +3993,7 @@ error:
 		if (console_base_addr != 0 && console_map_size != 0) {
 			log_info.update_log[log_info.log_size_bytes - 1] = '\0';
 			octeontx_mmap_remove_dynamic_region_with_sync(console_base_addr,
-							      console_map_size);
+								      console_map_size);
 		}
 		log_info.update_log = NULL;
 		log_info.log_bytes_used = 0;

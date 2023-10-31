@@ -150,9 +150,10 @@ struct smc_update_obj_info {
 	};
 	uint64_t	tim_address;			/** Media address of TIM */
 	uint64_t	tim_size;			/** Size of TIM in bytes */
-	uint64_t	media_address;			/** Object media address */
-	uint64_t	bytes_written;			/** Object size in bytes */
-	uint64_t	reserved[3];			/** Reserved for future growth */
+	uint64_t	data_address;			/** Object media address */
+	uint64_t	data_size;			/** Object size in bytes */
+	uint64_t	bytes_written;			/** Number of bytes written */
+	uint64_t	reserved[2];			/** Reserved for future growth */
 };
 
 /**
@@ -188,7 +189,7 @@ struct smc_update_obj_info {
 /** Don't perform hash verification */
 #define UPDATE_FLAG_IGNORE_HASH		BIT(7)
 /** Debug */
-#define UPDATE_FLAG_DEBUG			BIT(8)
+#define UPDATE_FLAG_DEBUG		BIT(8)
 /** Set when user parameters are passed */
 #define UPDATE_FLAG_USER_PARMS		BIT(15)
 
@@ -246,6 +247,8 @@ struct smc_update_descriptor {
 	uint64_t	reserved2[8];
 	struct smc_update_obj_info object_retinfo[SMC_MAX_OBJECTS];
 };
+
+#define smc_update_descr_obj_retcode smc_update_descriptor
 
 struct smc_update_descriptor_prev {
 	uint32_t	magic;		/** UPDATE_MAGIC */
