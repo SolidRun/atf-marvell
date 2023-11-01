@@ -2679,44 +2679,63 @@ static void cgx_fill_lmac_attributes(int cgx_idx, int lmac_idx)
 int cgx_update_lane_sds(int cgx_id, int lmac_id)
 {
 	cgx_config_t *cgx;
-	int lane_to_sds = 0x0;
-	cavm_cgxx_spux_br_status1_t br_status1;
-	cavm_cgxx_spux_br_algn_status_t br_algn_status;
+	cavm_cgxx_cmrx_config_t cmr_config;
+	cavm_cgxx_spux_rsfec_status_t rs_fec;
+	bool change_lanes = false;
+	int def_lane_to_sds = 0x0, new_lane_to_sds = 0x0;
 
 	cgx = &plat_octeontx_bcfg->cgx_cfg[cgx_id];
+	cmr_config.u = CSR_READ( CAVM_CGXX_CMRX_CONFIG(
+				cgx_id, lmac_id));
+	rs_fec.u = CSR_READ(CAVM_CGXX_SPUX_RSFEC_STATUS(
+				cgx_id, lmac_id));
 
-	br_algn_status.u = CSR_READ(CAVM_CGXX_SPUX_BR_ALGN_STATUS(cgx_id, lmac_id));
+	/* Default Lane mapping */
+	def_lane_to_sds = ((((cgx->network_lane_order) & 3)) |
+			(((cgx->network_lane_order >> 4) & 3) << 2) |
+			(((cgx->network_lane_order >> 8) & 3) << 4) |
+			(((cgx->network_lane_order >> 12) & 3) << 6));
 
-	if (br_algn_status.s.block_lock == 0xF) {
-		br_status1.u = CSR_READ(CAVM_CGXX_SPUX_BR_STATUS1(cgx_id, lmac_id));
-		if (br_status1.s.rcv_lnk != 1) {
-			/* Add workaround - disable LMAC,
-			 * configure lane_to_sds in the
-			 * swizzled lane order, enable LMAC
-			 */
-			debug_cgx("%s: %d:%d Add SW workaround for 100G RS-FEC\n",
-					__func__, cgx_id, lmac_id);
+	/* Reverse Lane mapping */
+	new_lane_to_sds = ((((cgx->network_lane_order) & 3) << 6) |
+			(((cgx->network_lane_order >> 4) & 3) << 4) |
+			(((cgx->network_lane_order >> 8) & 3) << 2) |
+			(((cgx->network_lane_order >> 12) & 3)));
 
-			/* Disable LMAC */
-			CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
-					CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), enable, 0);
-
-			/* Swizzle the lane_to_sds */
-			lane_to_sds = ((((cgx->network_lane_order) & 3) << 6) |
-				(((cgx->network_lane_order >> 4) & 3) << 4) |
-				(((cgx->network_lane_order >> 8) & 3) << 2) |
-				(((cgx->network_lane_order >> 12) & 3)));
-
-			CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
-				CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), lane_to_sds,
-				lane_to_sds);
-
-			/* Enable LMAC */
-			CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
-						CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), enable, 1);
-
-		}
+	/**
+	 * Lane change condition
+	 *
+	 * Only change lane mapping if the RSFEC
+	 * lane mapping is not 0xE4, as this is required
+	 * for correct RSFEC operation.
+	 *
+	 * Change back if mapping is still not correct
+	 * with new lane mapping.
+	 */
+	if ((rs_fec.s.fec_lane_mapping != 0xE4)) {
+		change_lanes = true;
+		if (cmr_config.s.lane_to_sds == new_lane_to_sds)
+			new_lane_to_sds = def_lane_to_sds;
 	}
+
+	/* Do not reconfigure if no change */
+	if (cmr_config.s.lane_to_sds == new_lane_to_sds)
+		change_lanes = false;
+
+	if (change_lanes) {
+		/* Disable LMAC */
+		CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
+			CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), enable, 0);
+
+		CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
+				CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), lane_to_sds,
+				new_lane_to_sds);
+
+		/* Enable LMAC */
+		CAVM_MODIFY_CGX_CSR(cavm_cgxx_cmrx_config_t,
+			CAVM_CGXX_CMRX_CONFIG(cgx_id, lmac_id), enable, 1);
+	}
+
 	return -1;
 }
 
@@ -3128,6 +3147,8 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 	cavm_cgxx_spux_control1_t spux_control1;
 	cavm_cgxx_smux_rx_ctl_t	smux_rx_ctl;
 	cavm_cgxx_spux_int_t spux_int;
+	cavm_cgxx_spux_br_status1_t br_status1;
+	cavm_cgxx_spux_br_algn_status_t br_algn_status;
 
 	bool is_gsern = 0;
 
@@ -3342,7 +3363,14 @@ int cgx_xaui_set_link_up(int cgx_id, int lmac_id, cgx_lmac_context_t *lmac_ctx)
 							(lmac->mode_idx == QLM_MODE_CAUI_4_C2C))
 						&& (lmac->fec == CGX_FEC_RS)) {
 						/* SW workaround for 100G with RS-FEC */
-						return cgx_update_lane_sds(cgx_id, lmac_id);
+						br_algn_status.u = CSR_READ(CAVM_CGXX_SPUX_BR_ALGN_STATUS(cgx_id, lmac_id));
+						if (br_algn_status.s.block_lock == 0xF) {
+							br_status1.u = CSR_READ(CAVM_CGXX_SPUX_BR_STATUS1(cgx_id, lmac_id));
+							if (br_status1.s.rcv_lnk == 1)
+								return -1;
+							else
+								return cgx_update_lane_sds(cgx_id, lmac_id);
+						}
 					}
 				} else if (smux_rx_ctl.s.status == 1)
 					debug_cgx("%s: %d:%d Local fault\n",
