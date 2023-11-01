@@ -1131,8 +1131,8 @@ void update_descr_retcodes(struct smc_update_descriptor *desc)
 	unsigned i;
 
 	if (desc->version < UPDATE_OBJ_RETCODE_VERSION) {
-		UINFO("Descriptor version 0x%x too old for return data\n",
-		      desc->version);
+		debug_fw_update("Descriptor version 0x%x too old for return data\n",
+				desc->version);
 		return;
 	}
 
@@ -1141,28 +1141,31 @@ void update_descr_retcodes(struct smc_update_descriptor *desc)
 		obj_info = &desc->object_retinfo[i];
 		tfile = oentry->tim_file;
 		dfile = oentry->data_file;
-		UINFO("Object %d with TIM %.32s return code set\n",
-		      i, tfile->filename);
+		debug_fw_update("Object %d with TIM %32s return code set\n",
+				i, tfile->filename);
 		strlcpy((char *)obj_info->tim_name, tfile->filename,
 			VER_MAX_NAME_LENGTH);
 		obj_info->tim_address = tfile->file_loc;
-		obj_info->tim_size = tfile->file_written;
+		obj_info->tim_size = tfile->file_size;
 		obj_info->bytes_written = tfile->bytes_written;
+		obj_info->retcode = oentry->update_retcode;
 		memcpy(&obj_info->old_version_data, &oentry->orig_version,
 		       sizeof(obj_info->old_version_data));
 		memcpy(&obj_info->new_version_data, &oentry->version,
 		       sizeof(obj_info->new_version_data));
 
 		if (dfile != NULL) {
-			UINFO("Object %d with file %.32s return code set\n",
-			      i, dfile->filename);
-			strlcpy((char *)obj_info->object_name, dfile->filename,
+			debug_fw_update("Object %d with file %32s return code set\n",
+					i, dfile->filename);
+			strlcpy((char *)obj_info->object_name,
+				dfile->filename,
 				VER_MAX_NAME_LENGTH);
 			obj_info->data_address = dfile->file_loc;
 			obj_info->data_size = dfile->file_size;
 			obj_info->bytes_written += dfile->bytes_written;
 		} else {
-			UINFO("No data object for %.32s\n", tfile->filename);
+			debug_fw_update("No data object for %32s\n",
+					tfile->filename);
 		}
 		oentry->ret_code_processed = 1;
 		i++;
@@ -1701,7 +1704,7 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 				uret = UPDATE_OK;
 				object->update_retcode = OBJ_UPDATE_INVALID_VERSION;
 			} else {
-				UINFO("Version check for %s passed\n",
+				UINFO("Version check for %s passed, updating\n",
 				      t_filename);
 				object->update_retcode = OBJ_UPDATE_OK;
 			}
@@ -2924,6 +2927,22 @@ static enum update_ret restore_tim0(const struct smc_update_descriptor *desc,
 }
 
 /**
+ * Mark TIM0 to be skipped for install
+ */
+static enum update_ret skip_tim0(void)
+{
+	struct file_entry *fentry;
+	struct object_entry *oentry;
+
+	fentry = find_file("tim0.timb");
+	if (fentry == NULL)
+		return UPDATE_TIM_MISSING;
+	oentry = fentry->object;
+	oentry->update_retcode = OBJ_UPDATE_SKIP_DATA_MATCH;
+	return UPDATE_OK;
+}
+
+/**
  * Writes a firmware file to the flash and verifies it
  *
  * @param[in]	desc	Media descriptor
@@ -3022,6 +3041,20 @@ octeontx_update_fw_file(const struct smc_update_descriptor *desc,
 		fentry->file_written = true;
 
 	return ret;
+}
+
+/**
+ * Return true if one or more files need to be installed.
+ */
+static bool check_for_install(void)
+{
+	const struct object_entry *oentry;
+
+	for_each_object(oentry) {
+		if (oentry->update_all || !oentry->skip_install)
+			return true;
+	}
+	return false;
 }
 
 /**
@@ -3664,9 +3697,12 @@ static int octeontx_cn10k_update_fw(struct smc_update_descriptor *desc,
 	if (ret != UPDATE_OK)
 		goto error;
 
-	if (!update_any) {
+	if (!update_any || !check_for_install()) {
 		UINFO("No components marked for updating\n");
-		ret = UPDATE_OK;
+		/* TIM0 is a special case.  We need to make sure it's marked
+		 * as skipped when no components are being updated.
+		 */
+		ret = skip_tim0();
 		goto done;
 	}
 	gti_wdog_pet();
@@ -3810,7 +3846,7 @@ int spi_smc_update(uintptr_t desc_buf, uint64_t desc_size,
 	 * backwards compatibility, etc.
 	 */
 	if (update_desc.version != UPDATE_VERSION) {
-		UWARN("Version 0x%x out of date (expected 0x%x). Some features could be not available",
+		UWARN("Version 0x%x out of date (expected 0x%x).  Some features might not be available",
 		      update_desc.version, UPDATE_VERSION);
 	}
 	if (update_desc.version < UPDATE_MIN_VERSION) {
