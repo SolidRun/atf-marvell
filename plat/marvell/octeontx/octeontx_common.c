@@ -13,6 +13,7 @@
 #include <octeontx_utils.h>
 #include <octeontx_common.h>
 #include <octeontx_mmap_utils.h>
+#include <octeontx_dram.h>
 #include <plat_board_cfg.h>
 #include <lib/smccc.h>
 #include <services/arm_arch_svc.h>
@@ -50,6 +51,16 @@ unsigned long plat_get_ns_image_entrypoint(void)
 {
 	return NS_IMAGE_BASE;
 }
+
+#if defined(PLAT_CN10K_FAMILY)
+unsigned long plat_get_ext_secure_base(uint64_t *start)
+{
+	uint64_t size;
+
+	size = memory_region_get_info(SEC_REGION_1, start);
+	return size;
+}
+#endif
 
 uint64_t plat_get_syscnt_freq2(void)
 {

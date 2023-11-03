@@ -80,6 +80,11 @@ struct ccs_region ccs_map[MAX_ASC_REGIONS] = {
 		.free = 1,
 		.attr = 0,
 		},
+	/* Additional Secure-Non preserve memory used by optee */
+	[SEC_REGION_1] = {
+		.free = 0,
+		.attr = CCS_ATTR_SEC_BIT_MASK | CCS_ATTR_MAND_BIT_MASK | CCS_ATTR_FIXD_BIT_MASK,
+		},
 };
 
 void dump_ccs_region_config(void)
@@ -136,6 +141,11 @@ void dump_ccs_region_config(void)
 				break;
 			case NSECURE_NONPRESERVE_1:
 				NOTICE("Non-Secure Non Preserve Memory Region 1: "
+				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
+				((end - start + 1) >> 20));
+				break;
+			case SEC_REGION_1:
+				NOTICE("Secure Non Preserve Memory Region 1: "
 				"0x%" PRIx64 " to 0x%" PRIx64 " (%" PRId64 "MB)\n", start, end,
 				((end - start + 1) >> 20));
 				break;

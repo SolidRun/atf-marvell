@@ -175,8 +175,14 @@ void bl31_early_platform_setup(void *from_bl2,
 	 * They are stored in Secure RAM, in BL2's address space.
 	 */
 	while (bl_params) {
-		if (bl_params->image_id == BL32_IMAGE_ID)
+		if (bl_params->image_id == BL32_IMAGE_ID) {
 			bl32_image_ep_info = *bl_params->ep_info;
+#if defined(PLAT_CN10K_FAMILY)
+			bl32_image_ep_info.args.arg5 =
+				plat_get_ext_secure_base(&bl32_image_ep_info.args.arg4);
+#endif
+		}
+
 
 		if (bl_params->image_id == BL33_IMAGE_ID)
 			bl33_image_ep_info = *bl_params->ep_info;

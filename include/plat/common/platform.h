@@ -72,6 +72,9 @@ unsigned int plat_my_core_pos(void);
 int plat_core_pos_by_mpidr(u_register_t mpidr);
 int plat_get_mbedtls_heap(void **heap_addr, size_t *heap_size);
 
+#if defined(PLAT_CN10K_FAMILY)
+unsigned long plat_get_ext_secure_base(uint64_t *start);
+#endif
 #if STACK_PROTECTOR_ENABLED
 /*
  * Return a new value to be used for the stack protection's canary.
