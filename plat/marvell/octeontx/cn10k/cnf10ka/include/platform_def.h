@@ -56,7 +56,7 @@
 |	4 KB	      |
 |---------------------|
 |	Board Config  |
-|       32 KB         |
+|       36 KB         |
 |---------------------|
 |	FDT	      |
 |      128 KB	      |
@@ -116,7 +116,7 @@
 #define FDT_BASE			(TZDRAM_BASE + TZDRAM_SIZE - FDT_MAX_SIZE)
 
 #define BOARD_CFG_LIMIT			FDT_BASE
-#define BOARD_CFG_MAX_SIZE		0x8000
+#define BOARD_CFG_MAX_SIZE		0x9000
 #define BOARD_CFG_BASE			(BOARD_CFG_LIMIT - BOARD_CFG_MAX_SIZE)
 
 #define MAILBOX_LIMIT			BOARD_CFG_BASE
