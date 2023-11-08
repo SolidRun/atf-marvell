@@ -31,6 +31,7 @@
 
 #include "cavm-csrs-ecam.h"
 #include "cavm-csrs-gpio.h"
+#include "cavm-csrs-mio_tws.h"
 #include "cavm-csrs-rst.h"
 #include "cavm-csrs-tad.h"
 
@@ -1792,10 +1793,33 @@ static void cn10k_fill_twsi_details(const void *fdt)
 
 	for (twssl_bus = 0; twssl_bus < TWSI_NUM; twssl_bus++) {
 		snprintf(prop, sizeof(prop),
-			"TWSI%d-HIDE-NSEC", twssl_bus);
+			 "TWSI%d-HIDE-NSEC", twssl_bus);
 		state = cn10k_fdtebf_get_num(fdt, prop, 10);
 		if (state == 1)
 			plat_octeontx_bcfg->bcfg.atf_managed_twsi[twssl_bus] = 1;
+	}
+}
+
+void fdt_twsi_node_refresh(const void *fdt)
+{
+	const uint32_t *reg;
+	uint32_t addr;
+	int node, bus = 0;
+
+	/* Delete based on EBF property in devicetree */
+	node = fdt_node_offset_by_compatible(fdt, -1, "cavium,thunderx-i2c");
+	while (node > 0) {
+		reg = fdt_getprop(fdt, node, "reg", NULL);
+		if (reg) {
+			addr = fdt32_to_cpu(*reg);
+			bus = (addr >> 8) & 0xf;
+			if (plat_octeontx_bcfg->bcfg.atf_managed_twsi[bus] == 1) {
+				debug_dts("TWSI_%d Delete\n", bus);
+				CSR_WRITE(CAVM_MIO_TWSX_ACCESS_WDOG(bus), 0x0);
+				fdt_del_node((void *)fdt, node);
+			}
+		}
+		node = fdt_node_offset_by_compatible(fdt, node, "cavium,thunderx-i2c");
 	}
 }
 
@@ -3249,6 +3273,8 @@ int plat_octeontx_fill_board_details(void)
 		plat_octeontx_bcfg->bcfg.gpio_shutdown_ctl_out = strtol(str, NULL, 0);
 		VERBOSE("SHUTOUT: %s\n", str);
 	}
+
+	fdt_twsi_node_refresh(fdt);
 
 	fdt_cpu_node_refresh(fdt);
 
