@@ -27,7 +27,9 @@ typedef enum ccs_region_id {
 	NSEC_LMT_REGION,
 	NSEC_PRESERVE_REGION_0,
 	USER_PRESERVE_REGION_0,
+#if defined(INCLUDE_OPTEE)
 	SEC_REGION_1,
+#endif
 	NSECURE_NONPRESERVE_1,
 	CCS_REGION_IDX_MAX,
 } ccs_region_index_t;

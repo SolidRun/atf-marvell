@@ -52,7 +52,7 @@ unsigned long plat_get_ns_image_entrypoint(void)
 	return NS_IMAGE_BASE;
 }
 
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) && defined(INCLUDE_OPTEE)
 unsigned long plat_get_ext_secure_base(uint64_t *start)
 {
 	uint64_t size;

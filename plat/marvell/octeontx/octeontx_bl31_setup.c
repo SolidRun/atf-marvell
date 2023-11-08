@@ -177,7 +177,7 @@ void bl31_early_platform_setup(void *from_bl2,
 	while (bl_params) {
 		if (bl_params->image_id == BL32_IMAGE_ID) {
 			bl32_image_ep_info = *bl_params->ep_info;
-#if defined(PLAT_CN10K_FAMILY)
+#if defined(PLAT_CN10K_FAMILY) && defined(INCLUDE_OPTEE)
 			bl32_image_ep_info.args.arg5 =
 				plat_get_ext_secure_base(&bl32_image_ep_info.args.arg4);
 #endif
