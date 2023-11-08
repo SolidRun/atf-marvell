@@ -75,6 +75,8 @@
   #define debug_fw_update(...)	ULOG("DEBUG: " __VA_ARGS__)
 #endif
 
+#define EP_TIM_MAX_SIZE		0x10000	/* 64K */
+
 /** Buffer used for copying data */
 #define DATA_BUFFER_SIZE	4096
 
@@ -114,8 +116,8 @@ static uintptr_t target_handle;
 
 static struct tim_handle _tim_handle;
 static struct tim_load_info _tim_load_info;
-__aligned(8) static uint8_t tim_buffer[TIM_MAX_SIZE];
-__aligned(8) static uint8_t tim0_buffer[TIM_MAX_SIZE];
+__aligned(8) static uint8_t tim_buffer[EP_TIM_MAX_SIZE];
+__aligned(8) static uint8_t tim0_buffer[EP_TIM_MAX_SIZE];
 static size_t tim0_size;
 static uint64_t tim0_offset;
 static struct smc_version_info clone_destination;
@@ -1656,8 +1658,8 @@ enum update_ret check_flash_object(const struct smc_update_descriptor *desc,
 	object->is_root_tim_obj = is_root_tim;
 	/* Read existing TIM from flash */
 	UINFO("Reading TIM %s at offset 0x%lx\n", t_filename, offset);
-	uret = octeontx_read_tim(desc, offset, BUF_SIZE, rd_buffer, fl_hdl,
-				 NULL);
+	uret = octeontx_read_tim(desc, offset, sizeof(tim_buffer), tim_buffer,
+				 fl_hdl, NULL);
 	if (uret == UPDATE_MISSING_TIM) {
 		UINFO("%sTIM %s for %s missing in flash at offset 0x%lx\n",
 		      is_root_tim ? "Root " : "",
@@ -2631,6 +2633,8 @@ octeontx_read_tim(const struct smc_update_descriptor *desc, uint64_t offset,
 
 	if (hinfo.signed_tim_size > max_size) {
 		UERROR("TIM at offset 0x%lx is too large\n", offset);
+		UERROR("TIM size: 0x%x, max size: 0x%lx\n",
+		       hinfo.signed_tim_size, max_size);
 		ret = UPDATE_TIM_ERROR;
 		goto done;
 	}
@@ -4259,9 +4263,9 @@ static int check_get_version(struct smc_version_info *vinfo,
 	int ret;
 	uint8_t digest[EHSM_MAX_HASH_SIZE_BYTES];
 	int hash_size = 0;
-	size_t max_read_size = size ? TIM_MAX_SIZE : sizeof(tim_buffer);
+	size_t max_read_size = size ? EP_TIM_MAX_SIZE : sizeof(tim_buffer);
 
-	assert(sizeof(tim_buffer) >= TIM_MAX_SIZE);
+	assert(sizeof(tim_buffer) >= EP_TIM_MAX_SIZE);
 	ventry->retcode = RET_OK;
 	uret = octeontx_read_tim(udesc, flash_addr, max_read_size,
 				 tim_buffer, thdl, NULL);
@@ -4913,9 +4917,9 @@ static int check_tim(struct smc_version_info *vinfo,
 	struct tim_load_info *tli = &_tim_load_info;
 	enum tim_return tret;
 	enum update_ret uret;
-	size_t max_read_size = size ? TIM_MAX_SIZE : sizeof(tim_buffer);
+	size_t max_read_size = size ? EP_TIM_MAX_SIZE : sizeof(tim_buffer);
 
-	assert(sizeof(tim_buffer) >= TIM_MAX_SIZE);
+	assert(sizeof(tim_buffer) >= EP_TIM_MAX_SIZE);
 	ventry->retcode = RET_OK;
 	uret = octeontx_read_tim_io(io, flash_addr, max_read_size,
 				tim_buffer, thdl, NULL);
