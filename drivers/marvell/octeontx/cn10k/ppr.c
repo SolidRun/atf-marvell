@@ -48,6 +48,7 @@ static uint32_t MRR_REGION_ADDR;
 static uint32_t MRR_REGION_END;
 static uint32_t PPR_REGION_ADDR;
 static uint32_t PPR_REGION_END;
+static uint32_t ERASE_SIZE;
 
 static uint32_t timer_hd;
 extern octeontx_ctr_sem_t octeontx_smc_spi_lock;
@@ -65,13 +66,11 @@ static struct ppr_mrr_header ppr_mrr = {
 static uint32_t bus;
 static uint32_t cs;
 static uint32_t mode;
+#define ERASE_SIZE_64K			(64*1024)
+#define ERASE_SIZE_4K			(4096)
+#define MRR_REC_PER_BLK		(ERASE_SIZE_4K / sizeof(struct mrr))
+#define PPR_REC_PER_BLK		(ERASE_SIZE_4K / sizeof(struct ppr))
 
-#define ERASE_SIZE			4096
-#define MRR_REC_PER_BLK		(ERASE_SIZE / sizeof(struct mrr))
-#define PPR_REC_PER_BLK		(ERASE_SIZE / sizeof(struct ppr))
-
-__aligned(8) static uint8_t buffer[ERASE_SIZE] = {0};
-__aligned(8) static uint8_t wr_buffer[ERASE_SIZE] = {0};
 static mrr_t buf_m[MRR_REGION_SIZE / sizeof(mrr_t)];
 static ppr_t buf_p[PPR_REC_PER_BLK];
 
@@ -347,6 +346,9 @@ static inline int32_t spi_flash_config(void)
  */
 static int32_t spi_flash_write(void *in, int length, int loc)
 {
+	__aligned(8) static uint8_t cmp_buf[ERASE_SIZE_64K] = {0};
+	__aligned(8) static uint8_t wr_buf[ERASE_SIZE_64K] = {0};
+
 	int bytes_remain = length;
 	int sector_addr = 0;
 	int sector_offset = 0;
@@ -372,8 +374,8 @@ static int32_t spi_flash_write(void *in, int length, int loc)
 			  sector_addr, sector_offset, chunk);
 
 		if (sector_offset || (chunk < ERASE_SIZE)) {
-			wr = wr_buffer;
-			memset(wr, 0, ERASE_SIZE);
+			wr = wr_buf;
+			memset(wr, 0, sizeof(wr_buf));
 			if (spi_nor_read(wr, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
 				ERROR("Failed read flash offset: 0x%x\n", sector_addr);
 				return length - bytes_remain;
@@ -396,12 +398,12 @@ static int32_t spi_flash_write(void *in, int length, int loc)
 		if (cavm_is_platform(PLATFORM_ASIM))
 			continue;
 
-		memset(buffer, 0, ERASE_SIZE);
-		if (spi_nor_read(buffer, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
+		memset(cmp_buf, 0, sizeof(cmp_buf));
+		if (spi_nor_read(cmp_buf, ERASE_SIZE, sector_addr, mode, bus, cs) < 0) {
 			ERROR("Failed read flash offset 0x%x\n", sector_addr);
 			return length - bytes_remain;
 		}
-		ret = memcmp(buffer, wr, ERASE_SIZE);
+		ret = memcmp(cmp_buf, wr, ERASE_SIZE);
 		if (ret) {
 			ERROR("Failed compare flash data failed 0x%x %d\n", sector_addr, ret);
 			return length - bytes_remain;
@@ -573,30 +575,6 @@ static int32_t ppr_write_record(ppr_t *record, uint32_t number)
 	return 0;
 }
 
-static int32_t mrr_clear_region(void)
-{
-	uint32_t offset = MRR_REGION_ADDR;
-
-	debug("%s\n", __func__);
-
-	memset(wr_buffer, 0, ERASE_SIZE);
-
-	while (offset < MRR_REGION_END) {
-		if (spi_nor_erase(offset, mode, bus, cs)) {
-			ERROR("Unable erase MRR region 0x%x, 0x%x\n", offset,
-				  MRR_OFFSET(ppr_mrr.head_mrr));
-			return -1;
-		}
-		if (spi_nor_write(wr_buffer, ERASE_SIZE, offset, mode, bus, cs) < 0) {
-			ERROR("Write flash failed offset: 0x%x\n", offset);
-			return -1;
-		}
-		offset += ERASE_SIZE;
-	}
-
-	return 0;
-}
-
 __attribute__((unused))
 static void print_mrr(void)
 {
@@ -619,7 +597,7 @@ static void print_ppr(void)
 	struct ppr *ppr_p;
 	uint32_t i = 0;
 
-	memset(buf_p, 0, ERASE_SIZE);
+	memset(buf_p, 0, sizeof(buf_p));
 
 	debug_ppr("%s [%u - %u] 0x%x - 0x%x\n", __func__, 0,
 			ppr_mrr.head_ppr, PPR_OFFSET(0), PPR_OFFSET(ppr_mrr.head_ppr));
@@ -677,26 +655,27 @@ err:
 	octeontx_ctr_sem_unlock(&octeontx_smc_spi_lock);
 }
 
+static void clear_flash(uint32_t start, uint32_t end)
+{
+	int len;
+
+	memset(buf_m, 0x0, sizeof(buf_m));
+
+	while (start < end) {
+		len = (end-start) < sizeof(buf_m) ? (end-start) : sizeof(buf_m);
+		start += spi_flash_write(buf_m, len, start);
+	}
+}
+
+static int32_t mrr_clear_region(void)
+{
+	clear_flash(MRR_REGION_ADDR, MRR_REGION_END);
+	return 0;
+}
+
 static int32_t ppr_mrr_clear_flash(void)
 {
-	uint32_t offset = PPR_MRR_HEADER_ADDR;
-
-	debug("%s\n", __func__);
-
-	memset(wr_buffer, 0x0, ERASE_SIZE);
-
-	while (offset < PPR_REGION_END) {
-		if (spi_nor_erase(offset, mode, bus, cs)) {
-			ERROR("%s Unable erase MRR region offset=0x%x\n", __func__, offset);
-			return -1;
-		}
-		if (spi_nor_write(wr_buffer, ERASE_SIZE, offset, mode, bus, cs) < 0) {
-			ERROR("Write flash failed offset: 0x%x\n", offset);
-			return -1;
-		}
-		offset += ERASE_SIZE;
-	}
-
+	clear_flash(PPR_MRR_HEADER_ADDR, PPR_REGION_END);
 	return 0;
 }
 
@@ -713,8 +692,8 @@ static int32_t ppr_make_statistic(void)
 
 	struct ppr ppr_rec;
 
-	memset(buf_m, 0, MRR_REGION_SIZE);
-	memset(buf_p, 0, ERASE_SIZE);
+	memset(buf_m, 0, sizeof(buf_m));
+	memset(buf_p, 0, sizeof(buf_p));
 
 	if (ppr_mrr.head_mrr == 0) {
 		debug("%s mrr empty\n", __func__);
@@ -770,7 +749,7 @@ static int32_t ppr_make_statistic(void)
 			debug("%s %d %d\n", __func__, k, i);
 			ppr_write_record(buf_p, k);
 			k = 0;
-			memset(buf_p, 0, ERASE_SIZE);
+			memset(buf_p, 0, sizeof(buf_p));
 		}
 	}
 
@@ -998,6 +977,10 @@ void ppr_fw_init(void)
 	PPR_REGION_ADDR     = MRR_REGION_END;
 	PPR_REGION_END      = PPR_REGION_ADDR + PPR_REGION_SIZE;
 
+	ERASE_SIZE = ERASE_SIZE_4K;
+	if (plat_octeontx_bcfg->spi_cfg[bus].erase_64k[cs] == 1)
+		ERASE_SIZE = ERASE_SIZE_64K;
+
 	print_stat();
 
 	if (!plat_octeontx_bcfg->ppr_config.stat_enable)
@@ -1022,7 +1005,7 @@ void ppr_fw_init(void)
 	if (timer_hd < 0) {
 		ERROR("PPR: can't create new timer\n");
 	} else {
-		debug("PPR: timer id = %d created successfully\n", timer_hd);
+		VERBOSE("PPR: timer id = %d created successfully bus=%d cs=%d mode=%d\n", timer_hd, bus, cs, mode);
 		timer_start(timer_hd);
 	}
 }
