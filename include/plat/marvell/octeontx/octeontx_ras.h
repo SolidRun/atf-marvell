@@ -246,7 +246,11 @@ struct cper_sec_ody_gic {
 	uint8_t validation_bits;
 	uint8_t error_type;
 	uint8_t error_sev;
+	uint8_t reserved0;
 	uint32_t error_code;
+	uint64_t misc0;
+	uint64_t misc1;
+	uint64_t erraddr;
 };
 
 struct cper_sec_platform_err {

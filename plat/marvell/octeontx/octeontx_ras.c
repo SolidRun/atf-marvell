@@ -133,6 +133,9 @@ struct otx2_ghes_err_record *otx2_begin_ghes(ras_config_t *rc, const char *name,
 		return NULL;
 	}
 
+	if (!sdei_event_is_enable(gh->id))
+		return NULL;
+
 	head = err_ring->head;
 	dsbsy();
 

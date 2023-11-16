@@ -28,6 +28,7 @@ struct gic_err_info {
 	uint64_t status;
 	uint64_t misc0;
 	uint64_t misc1;
+	uint64_t erraddr;
 	uint32_t sev;
 	uint32_t recnum;
 };
@@ -96,11 +97,12 @@ void cn10k_ras_gic_notify(struct gic_err_info *errinfo, int sev)
 			"gic", &err_ring);
 	if (!err_rec)
 		return;
+
 #if SDEI_SUPPORT
 	cm_el1_sysregs_context_save(NON_SECURE);
 #endif
+
 	cper_rec = &err_rec->u.gic;
-	memset(cper_rec, 0, sizeof(struct cper_sec_platform_err));
 
 	err_rec->error_severity = sev;
 	/* Set the firmware record type to 2 for platform errors */
@@ -114,7 +116,11 @@ void cn10k_ras_gic_notify(struct gic_err_info *errinfo, int sev)
 	cper_rec->perr.gic.error_type = gic_err_types[errinfo->recnum];
 	cper_rec->perr.gic.validation_bits = CPER_GICERR_ERRTYPE_VALID |
 					CPER_GICERR_ERRSEV_VALID;
-	fr = snprintf((char *)err_rec->fru_text, sizeof(err_rec->fru_text),
+	cper_rec->perr.gic.misc0 = errinfo->misc0;
+	cper_rec->perr.gic.misc1 = errinfo->misc1;
+	cper_rec->perr.gic.erraddr = errinfo->erraddr;
+
+	fr = snprintf((char *)err_rec->fru_text, OTX2_GHES_ERR_REC_FRU_TEXT_LEN - fr,
 			"GIC %d.%d Sev %d", errinfo->recnum,
 			gic_err_types[errinfo->recnum], sev);
 	err_rec->fru_text[fr] = '\0';
@@ -134,8 +140,8 @@ int cn10k_ras_gic_probe(const struct err_record_info *info, int *probe_data)
 
 	for (idx = 0; idx < gic_nerr_recs; idx++) {
 		status.u = octeontx_read64(CAVM_GICT_ERRX_STATUS(idx));
-		VERBOSE("RAS GIC[%d] 0x%lx\n", idx, (long) status.u);
 		if (status.s.v) {
+			VERBOSE("RAS GIC[%d] 0x%lx\n", idx, (long) status.u);
 			*probe_data = idx;
 			return 1;
 		}
@@ -176,6 +182,7 @@ void cavm_gic_ras_enable(void)
 	errirq.s.spiid = RAS_GIC_SPI_IRQ(0);
 	octeontx_write64(CAVM_GICT_ERRIRQCRX(0), errirq.u);
 }
+
 /* Handler to check the RAS interrupt status and report the erros */
 int cn10k_ras_gic_isr(uint32_t id, uint32_t flag, void *cookie)
 {
@@ -184,12 +191,14 @@ int cn10k_ras_gic_isr(uint32_t id, uint32_t flag, void *cookie)
 	struct gic_err_info errinfo;
 	int severity;
 
+	memset(&errinfo, 0, sizeof(struct gic_err_info));
+
 	for (idx = 0; idx < gic_nerr_recs; idx++) {
 		status.u = octeontx_read64(CAVM_GICT_ERRX_STATUS(idx));
 		if (!status.s.v)
 			continue;
 
-		debug_ras("GIC RAS intr: errx_status%d: 0x%lx\n", idx, (long) status.u);
+		ERROR("GIC RAS intr: errx_status%d: 0x%lx\n", idx, (long) status.u);
 		if (status.s.ce & status.s.of)
 			severity = CPER_SEV_CORRECTED;
 		else if (status.s.ue)
@@ -202,8 +211,15 @@ int cn10k_ras_gic_isr(uint32_t id, uint32_t flag, void *cookie)
 		errinfo.status = status.u;
 		errinfo.misc0 = octeontx_read64(CAVM_GICT_ERRX_MISC0_A(idx));
 		errinfo.misc1 = octeontx_read64(CAVM_GICT_ERRX_MISC1_B(idx));
+		errinfo.erraddr = octeontx_read64(CAVM_GICT_ERRX_ADDR(idx));
 		errinfo.sev = severity;
 		errinfo.recnum = idx;
+
+		status.u = octeontx_read64(CAVM_GICT_ERRX_STATUS(idx));
+		ERROR("GIC RAS[%d]: Addr 0x%lx Misc0 0x%lx Misc1 0x%lx\n", idx,
+				(long) errinfo.erraddr,
+				(long) errinfo.misc0,
+				(long) errinfo.misc1);
 		cn10k_ras_gic_notify(&errinfo, severity);
 	}
 

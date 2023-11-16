@@ -346,7 +346,9 @@ static int plat_ras_mdc_handler(const struct err_record_info *info,
 {
 	int ret;
 
+	ras_lock();
 	ret = cn10k_ras_mdc_isr(data->interrupt, data->flags, data->cookie);
+	ras_unlock();
 
 	if (data->interrupt)
 		plat_ic_end_of_interrupt(data->interrupt);
@@ -359,7 +361,9 @@ static int plat_ras_tad_handler(const struct err_record_info *info,
 {
 	int ret;
 
+	ras_lock();
 	ret = cn10k_ras_tad_isr(data->interrupt, data->flags, data->cookie);
+	ras_unlock();
 
 	if (data->interrupt)
 		plat_ic_end_of_interrupt(data->interrupt);
@@ -372,7 +376,9 @@ static int plat_ras_dss_handler(const struct err_record_info *info,
 {
 	int ret;
 
+	ras_lock();
 	ret = cn10k_ras_dss_isr(data->interrupt, data->flags, data->cookie);
+	ras_unlock();
 
 	if (data->interrupt)
 		plat_ic_end_of_interrupt(data->interrupt);
@@ -385,7 +391,9 @@ static int plat_ras_gic_handler(const struct err_record_info *info,
 {
 	int ret;
 
+	ras_lock();
 	ret = cn10k_ras_gic_isr(data->interrupt, data->flags, data->cookie);
+	ras_unlock();
 
 	if (data->interrupt)
 		plat_ic_end_of_interrupt(data->interrupt);
