@@ -2566,7 +2566,16 @@ static int rpm_poll_for_link_cb(int timer)
 				}
 				if (led_info->is_link_supported ||
 					led_info->is_act_supported) {
-					rpm_gpio_led_handle(rpm_id, lmac_id, lmac_cfg->portm_idx, link.s.link_up);
+					/* Look at RPM link state but also look at RX_ENA/TX_ENA since this is what
+					 * Linux ethtool / ifconfig use for link status
+					 */
+					uint64_t link_status = link.s.link_up;
+					union cavm_rpmx_mti_mac100x_command_config mac_config;
+
+					mac_config.u = CSR_READ(CAVM_RPMX_MTI_MAC100X_COMMAND_CONFIG(rpm_id, lmac_id));
+					link_status &= mac_config.s.rx_ena;
+					link_status &= mac_config.s.tx_ena;
+					rpm_gpio_led_handle(rpm_id, lmac_id, lmac_cfg->portm_idx, link_status);
 				}
 			}
 		}
