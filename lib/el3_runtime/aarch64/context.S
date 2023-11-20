@@ -1084,6 +1084,10 @@ func el3_exit
 	msr	spsr_el3, x16
 	msr	elr_el3, x17
 
+#if ERRATA_N2_EEL2
+	bl	errata_n2_eel2_wa
+#endif
+
 #if IMAGE_BL31
 	/* ----------------------------------------------------------
 	 * Restore CPTR_EL3.
