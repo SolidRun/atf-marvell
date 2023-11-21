@@ -339,6 +339,33 @@ static inline int32_t spi_flash_config(void)
 	return 0;
 }
 
+static void flash_dump(uint32_t addr, void *buf, void *reference_buf, uint32_t length)
+{
+	if (!(mrvl_tf_log_modules & MRVL_TF_LOG_MODULE_PPR))
+		return;
+
+	uint32_t *_buf = (uint32_t *)buf;
+	uint32_t _addr = addr;
+	uint32_t _length = length;
+
+	printf("\nSaved Data:");
+	for (int i = 0; i < _length/4; i++, _addr += 4) {
+		if (i == 0 || (i > 15 && i%16 == 0))
+			printf("\n0x%08x: ", _addr);
+		printf("%08x ", _buf[i]);
+	}
+
+	_buf = (uint32_t *)reference_buf;
+	_addr = addr;
+	printf("\nReference Data:");
+	for (int i = 0; i < _length/4; i++, _addr += 4) {
+		if (i == 0 || (i > 15 && i%16 == 0))
+			printf("\n0x%08x: ", _addr);
+		printf("%08x ", _buf[i]);
+	}
+	printf("\n");
+}
+
 /*
  * spi_flash_write - read block of memory starting from aligned address
  * (erase block size aligned), modify any chunk of data from block
@@ -405,7 +432,8 @@ static int32_t spi_flash_write(void *in, int length, int loc)
 		}
 		ret = memcmp(cmp_buf, wr, ERASE_SIZE);
 		if (ret) {
-			ERROR("Failed compare flash data failed 0x%x %d\n", sector_addr, ret);
+			ERROR("Failed to compare flash data at 0x%x %d, %d (For dump enable PPR statistics & Verbosity)\n", sector_addr, ret, bytes_remain);
+			flash_dump(sector_addr, wr, cmp_buf, ERASE_SIZE);
 			return length - bytes_remain;
 		}
 	}
