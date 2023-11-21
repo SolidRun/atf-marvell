@@ -240,6 +240,7 @@ static void plat_cn10k_apply_workaround(void)
 	cavm_iobnx_rperf_cntrx_t iobn_rperf_cntr;
 	cavm_ncbx_arbidx_ctl_t ncb_ctl;
 	uint32_t i, j;
+	int ncb_pem_id = 4;
 
 	/* Add workaround for ipbuanb-485 */
 	iobn_cfg0.u = CSR_READ(CAVM_IOBNX_CFG0(0));
@@ -330,6 +331,15 @@ static void plat_cn10k_apply_workaround(void)
 		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(0, 8));
 		ncb_ctl.s.crppr_ena = CAVM_IOBN_NCBI_RO_MOD_E_OFF;
 		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(0, 8), ncb_ctl.u);
+
+		ncb_pem_id = 2;
+	}
+
+	/* Enable relaxed ordering for devices connected to PEM */
+	for (i = 0; i < plat_octeontx_get_pem_count(); i++) {
+		ncb_ctl.u = CSR_READ(CAVM_NCBX_ARBIDX_CTL(ncb_pem_id, i));
+		ncb_ctl.s.pr_iova_dis = 1;
+		CSR_WRITE(CAVM_NCBX_ARBIDX_CTL(ncb_pem_id, i), ncb_ctl.u);
 	}
 }
 
