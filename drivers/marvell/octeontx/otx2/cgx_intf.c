@@ -62,8 +62,8 @@ static const cgx_speed_mode_map speed_mode_map[] = {
 	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_SGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_SGMII_BIT), ETH_LINK_1G},
 	{CAVM_CGX_LMAC_TYPES_E_SGMII, 0, QLM_MODE_1G_X, CGX_FEC_NONE, 1250, (1 << ETH_MODE_1000_BASEX_BIT), ETH_LINK_1G},
 	{CAVM_CGX_LMAC_TYPES_E_QSGMII, 0, QLM_MODE_QSGMII, CGX_FEC_NONE, 1250, (1 << ETH_MODE_QSGMII_BIT), ETH_LINK_1G},
-	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_SFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2M_BIT), ETH_LINK_10G},
 	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_XFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2C_BIT), ETH_LINK_10G},
+	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 0, QLM_MODE_SFI, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_C2M_BIT), ETH_LINK_10G},
 	{CAVM_CGX_LMAC_TYPES_E_TENG_R, 1, QLM_MODE_10G_KR, CGX_FEC_BASE_R, 10312, (1 << ETH_MODE_10G_KR_BIT), ETH_LINK_10G},
 	{CAVM_CGX_LMAC_TYPES_E_TWENTYFIVEG_R, 0, QLM_MODE_20GAUI_C2C, (CGX_FEC_BASE_R | CGX_FEC_RS), 20625,
 					(1 << ETH_MODE_20G_C2C_BIT), ETH_LINK_20G},
@@ -992,14 +992,28 @@ static int cgx_is_req_mode_valid(uint64_t req_mode)
 	return valid;
 }
 
-static int cgx_get_qlm_mode_for_req_mode(uint64_t req_mode)
+static int cgx_get_qlm_mode_for_req_mode(uint64_t req_mode, int cgx_id, int lmac_id)
 {
 	int qlm_mode = 0;
+	cgx_lmac_config_t *lmac_cfg;
 
-	for (int i = 0; i < ARRAY_SIZE(speed_mode_map); i++) {
-		if (req_mode == speed_mode_map[i].mode_bitmask) {
-			qlm_mode = speed_mode_map[i].qlm_mode;
-			break;
+	lmac_cfg = &plat_octeontx_bcfg->cgx_cfg[cgx_id].lmac_cfg[lmac_id];
+
+	if ((req_mode == (1ULL << ETH_MODE_SGMII_10M_BIT)) ||
+	       (req_mode == (1ULL << ETH_MODE_SGMII_100M_BIT))) {
+		/* SGMII_10M/100M bitmask doesn't have the corresponding
+		 * QLM mode. These bitmasks are mapped to SGMII. During
+		 * speed change to 10M/100M, requested mode might be
+		 * passed as SGMII_10M/100M bitmask and in this case,
+		 * current QLM mode should be considered for speed change
+		 */
+		qlm_mode = lmac_cfg->mode_idx;
+	} else {
+		for (int i = 0; i < ARRAY_SIZE(speed_mode_map); i++) {
+			if (req_mode == speed_mode_map[i].mode_bitmask) {
+				qlm_mode = speed_mode_map[i].qlm_mode;
+				break;
+			}
 		}
 	}
 	debug_cgx_intf("%s: req_mode 0x%" PRIx64 " qlm_mode %d\n", __func__,
@@ -1455,12 +1469,10 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 	if (mode_group == 1)
 		req_mode = (1ULL << ((__builtin_ffsl(req_mode) - 1) + 41));
 
-	/* Ignore req_an for fixed modes - need to add condition
-	 * req_an will be always passed with advertise command
-	 */
-	if ((req_mode == 0x3ffffffffff) && ((!lmac->phy_present) || (!req_an))) {
+	/* Add condition check for advertising multiple speeds */
+	if ((req_mode == 0x3ffffffffff) && (!lmac->phy_present)) {
 		debug_cgx_intf("%s: %d: %d Advertising multiple modes supported only when\n"
-				"PHY is present and AN is enabled\n",
+				"PHY is present\n",
 				 __func__, cgx_id, lmac_id);
 		cgx_set_error_type(cgx_id, lmac_id,
 				ETH_ERR_SPEED_CHANGE_INVALID);
@@ -1480,6 +1492,19 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 		goto mode_err;
 	}
 
+	/* Get the QLM mode for the current mode */
+	qlm_mode = cgx_get_qlm_mode_for_req_mode(req_mode, cgx_id, lmac_id);
+	debug_cgx_intf("%s: lmac->mode_idx %d an %d qlm_mode %d\n", __func__,
+			lmac->mode_idx, an, qlm_mode);
+
+	req_train_en = cgx_get_training_for_mode(req_mode);
+	if (is_gsern) {
+		if ((req_an && req_train_en) || lmac->use_training) {
+			debug_cgx_intf("%s:%d:%d: Changing mode to/from AN to AN/non-AN is not allowed\n",
+				       __func__, cgx_id, lmac_id);
+			goto mode_err;
+		}
+	}
 	if (lmac->phy_present) {
 		/* If PHY is present and requested mode is 0x3ffffffffff, multiple speeds
 		 * need to be advertised. Kernel driver updates advertise link modes in SM
@@ -1502,31 +1527,23 @@ int cgx_handle_mode_change(int cgx_id, int lmac_id,
 			reconfig_phy = 1;
 			goto phy_config;
 		} else {
-			/* If PHY present and AN not enabled,
-			 * do a speed change, update PHY config with the required speed
+			/* If PHY present and AN not enabled and if the requested mode
+			 * is same as the current mode, do a speed change, update PHY
+			 * config with the required speed.
+			 * If the requested mode is not same as current mode, do a mode
+			 * change
 			 */
-			lmac->phy_config.adv_speed = 0;
-			reconfig_phy = 1;
-			goto phy_config;
-		}
-	}
-
-	req_train_en = cgx_get_training_for_mode(req_mode);
-	if (is_gsern) {
-		if ((req_an && req_train_en) || lmac->use_training) {
-			debug_cgx_intf("%s:%d:%d: Changing mode to/from AN to AN/non-AN is not allowed\n",
-				       __func__, cgx_id, lmac_id);
-			goto mode_err;
+			if (lmac->mode_idx == qlm_mode)	{
+				lmac->phy_config.adv_speed = 0;
+				reconfig_phy = 1;
+				goto phy_config;
+			}
 		}
 	}
 
 	/* User is requesting for a different speed. Check if
 	 * it is valid to change to user requested speed
 	 */
-	qlm_mode = cgx_get_qlm_mode_for_req_mode(req_mode);
-	debug_cgx_intf("%s: req_an %d an %d qlm_mode %d\n", __func__,
-					req_an, an, qlm_mode);
-
 	if ((lmac->mode_idx != qlm_mode) || (req_an != an) ||
 			(req_speed != lmac_ctx->s.speed) ||
 			(req_duplex != !lmac_ctx->s.full_duplex)) {
@@ -3002,7 +3019,7 @@ void cgx_fw_intf_init(void)
 
 	/*
 	 * CGX will be used for first time on BL31.
-	 * Pointers to qlm_ops needs to be refreashed.
+	 * Pointers to qlm_ops needs to be refreshed.
 	 */
 	for (cgx_idx = 0; cgx_idx < plat_octeontx_scfg->cgx_count; cgx_idx++) {
 		qlm_ops = plat_otx2_get_qlm_ops(cgx_idx);
