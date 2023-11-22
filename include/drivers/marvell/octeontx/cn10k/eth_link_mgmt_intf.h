@@ -167,6 +167,7 @@ typedef enum link_state {
 	ETH_LINK_STATE_CDR_LOCK_READ = 63,
 	ETH_LINK_STATE_CDR_LOCK_READ_DONE = 64,
 	ETH_LINK_STATE_CDR_LOCKED = 65,
+	ETH_LINK_STATE_CDR_LOCK_WAIT = 66,
 } ecp_link_state_enum_t;
 
 typedef enum ecp_aneg_state {
