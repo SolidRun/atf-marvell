@@ -1223,11 +1223,20 @@ Example: BPHY ports: get mode from PORTM#10:
  > get_mode eth0 10
 
 
-4.3 Change mode via ethtool
+4.3 Change mode/speed via ethtool
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For Fixed mdoes like C2C/C2M, below command need to be executed
+
 .. code-block:: bash
 
    ethtool -s ethX advertise 0xXXXXXXX
+
+For KR/CR modes, "autoneg on" needs to be passed along with advertise option
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0xXXXXXXX autoneg on
 
 Replace argument ``0xXXXXXXX`` from the below table for the corresponding mode.
 
@@ -1488,6 +1497,18 @@ To Disable Auto-Neg and set specific speed and duplex
 .. code-block:: bash
 
    ethtool -s ethX advertise 0xXXXXXXX speed 100 autoneg off duplex half phyad 1
+
+With autoneg option, advertising certain speeds is supported as below:
+
+.. code-block:: bash
+
+   ethtool -s ethX advertise 0x802f (Advertising multiple speeds - corresponding mode bitmask to be specified as listed in section 4.3)
+
+.. code-block:: bash
+
+   ethtool -s ethX speed 1000 autoneg on duplex full
+
+As mentioned in 5.3.3 to advertise speed section, PHY driver has to be updated to support the above commands
 
 Replace argument ``0xXXXXXXX`` from the above table for the corresponding mode. Ex: for ETH_MODE_10G_SXGMII_BIT, advertise should be 0x40000000000
 

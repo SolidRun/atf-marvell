@@ -1655,12 +1655,10 @@ static int rpm_handle_eth_mode_change(int portm_idx,
 		}
 	}
 
-	/* Ignore req_an for fixed modes - need to add condition
-	 * req_an will be always passed with advertise command
-	 */
-	if ((req_mode == 0x3ffffffffff) && ((!lmac->phy_present) || (!req_an))) {
+	/* Add condition check for advertising multiple speeds */
+	if ((req_mode == 0x3ffffffffff) && (!lmac->phy_present)) {
 		debug_rpm_intf("%s: PORTM%d: %d Advertising multiple modes supported only when"
-				" PHY is present and AN is enabled\n",
+				" PHY is present\n",
 				__func__, portm_idx, lmac_id);
 		rpm_set_error_type(rpm_id, lmac_id, ETH_ERR_SPEED_CHANGE_INVALID);
 		goto mode_err;
