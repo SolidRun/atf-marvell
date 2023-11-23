@@ -119,6 +119,24 @@ static inline int octeontx_get_msix_for_cpt(void)
 	return cptx_int_cfg.s.msix_size;
 }
 
+#if defined(PLAT_cn10ka)
+static void octeontx_init_rvu_rep(int *hwvf, int rvu)
+{
+	rvu_dev[rvu].enable = TRUE;
+	rvu_dev[rvu].num_vfs = 1;
+	rvu_dev[rvu].first_hwvf = *hwvf;
+	rvu_dev[rvu].pf_num_msix_vec = 256;
+	rvu_dev[rvu].vf_num_msix_vec = 256;
+	rvu_dev[rvu].pf_res_nix_id = 0;
+
+	rvu_dev[rvu].pci.pf_devid = CAVM_PCC_DEV_IDL_E_RVU_REP & DEVID_MASK;
+	rvu_dev[rvu].pci.vf_devid = CAVM_PCC_DEV_IDL_E_RVU_REP_VF & DEVID_MASK;
+	rvu_dev[rvu].pci.class_code = RVU_CLASS_CODE & CLASS_CODE_MASK;
+	/* Increment already allocated HWVFs */
+	*hwvf += rvu_dev[rvu].num_vfs;
+}
+#endif
+
 static void octeontx_init_rvu_af(int *hwvf)
 {
 	rvu_dev[RVU_AF].enable = TRUE;
@@ -557,6 +575,9 @@ static int octeontx_init_rvu_from_fdt(void)
 	}
 #endif
 
+#if defined(PLAT_cn10ka)
+	octeontx_init_rvu_rep(&current_hwvf, RVU_REP);
+#endif
 	/*
 	 * The ETH PFs need to be provisioned.
 	 * However, some of the RVU PFs reserved for ETH can be
